@@ -27,7 +27,6 @@ Output: JSON summary (only if changes detected or errors occurred).
 Usage:
   python3 tools/sync-hermes-skills.py              # Normal sync (commits + pushes)
   python3 tools/sync-hermes-skills.py --dry-run    # Preview changes without committing
-  python3 tools/sync-hermes-skills.py --verbose    # Include unchanged file counts
 """
 
 import argparse
@@ -646,9 +645,7 @@ def main():
         description="Bidirectional sync between Hermes_Skills repo and local Hermes environment."
     )
     parser.add_argument("--dry-run", action="store_true",
-                        help="Show what would be synced without making changes (implies no commit/push)")
-    parser.add_argument("--verbose", action="store_true",
-                        help="Show all output including unchanged files")
+                        help="Preview changes without committing or pushing")
     args = parser.parse_args()
 
     report = {
