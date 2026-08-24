@@ -15,9 +15,7 @@ Skills were imported from three Hermes profiles:
 
 When a skill existed in multiple profiles, the version from the highest-priority profile was used.
 
-> ⚠️ **Known remaining issues** — see [NOTES.md](./NOTES.md) for the full audit. Summary:
-> - **"What This Skill Does" sections:** 67 of 127 skills still lack this section (the section is optional per the authoring guide; it is a recommendation, not a hard requirement).
-> - **Long descriptions:** Some imported skills have descriptions exceeding the 60-char hardline from the in-repo authoring standards. These will be normalized over time.
+> ⚠️ **Known remaining issues** — see [NOTES.md](./NOTES.md) for the full audit.
 
 ### Categories
 
@@ -93,18 +91,82 @@ This repository contains two types of skills:
    - 3 top-level category skills (`doc-coauthoring`, `frontend-design`, `mattpocock-security-review`)
    - `autonomous-repo-cronjob`
 
+## Cron Job Authoring
+
+Skills for writing self-contained, autonomous cronjob prompts that run without session context. The core pattern is documented in `autonomous-repo-cronjob` (for repo-automation tasks) and `cron-job-authoring` (for general scheduling).
+
+### Core Skills
+
+| Skill | Purpose | Key References |
+|-------|---------|-----------------|
+| [`autonomous-repo-cronjob`](./autonomous-ai-agents/autonomous-repo-cronjob/SKILL.md) | Write self-contained cronjob prompts for repos with existing CI pipelines. Embeds the repo's guardrails, dedup logic, and two-agent split (preparer + commit agent). | [prompt-template](./autonomous-ai-agents/autonomous-repo-cronjob/references/prompt-template.md), [drafting-guide](./autonomous-ai-agents/autonomous-repo-cronjob/references/drafting-guide.md), [agent-vs-script-checklist](./autonomous-ai-agents/autonomous-repo-cronjob/references/agent-vs-script-checklist.md), [two-agent-architecture](./autonomous-ai-agents/autonomous-repo-cronjob/references/two-agent-architecture.md) |
+| [`cron-job-authoring`](./autonomous-ai-agents/cron-job-authoring/SKILL.md) | Author autonomous cron prompts with guardrails. Covers `cronjob()` tool usage, schedule formats, delivery targets, and self-contained prompt patterns. | — |
+| [`product-price-monitor`](./productivity/product-price-monitor/SKILL.md) | Price/availability monitoring via cronjob ticks. Uses `cronjob(action="create")` with normalized price alerts. | — |
+| [`competitor-news-monitor`](./research/competitor-news-monitor/SKILL.md) | Company-focused news tracking via cronjob. Loads `blogwatcher` and `parallel-cli` for enrichment. | — |
+| [`apple-reminders`](./apple/apple-reminders/SKILL.md) | Scheduled reminder checks via cronjob. Loads `cron-job-authoring` for automation patterns. | — |
+| [`findmy`](./apple/findmy/SKILL.md) | Ongoing AirTag/device tracking via cronjob. Loads `imessage` for notifications and `cron-job-authoring` for scheduling. | — |
+
+### Related Skills (via `related_skills` or `skill_view` calls)
+
+| Skill | Cronjob Connection |
+|-------|--------------------|
+| [`hermes-agent`](./autonomous-ai-agents/hermes-agent/SKILL.md) | References `autonomous-repo-cronjob` in related_skills |
+| [`mattpocock-yeet`](./github/mattpocheck-yeet/SKILL.md) | References `autonomous-repo-cronjob` in related_skills |
+| [`mattpocock-using-git-worktrees`](./software-development/mattpocock-using-git-worktrees/SKILL.md) | References `autonomous-repo-cronjob` in related_skills |
+
+### Two-Agent Architecture (from AspireCURES pipeline)
+
+The recommended pattern for repo-automation cronjobs uses a **two-agent split**:
+
+1. **Preparer (cronjob)**: Collects data, applies Claude-curate logic, emits a JSON report. Embeds repo guardrails (append-only merge, date-churn signature, dedup keys, spend caps).
+2. **Commit agent**: Consumes the report, merges changes, renders pages, validates against `lint-feed.pl`, commits, and pushes.
+
+This split allows the cronjob to run fully autonomously (no user interaction) while a separate agent handles the repo-write phase that may need to surface edge cases to the user.
+
+### Cron Job Tool API
+
+```python
+# Create a recurring job
+cronjob(action='create',
+  prompt=<self-contained prompt body>,
+  schedule='17 13 * * 1',    # cron expression
+  workdir=<repo_root>,
+  skills=[...],
+  deliver='origin',
+  enabled_toolsets=['web', 'terminal', 'file', 'delegation'],
+  continuity=True)          # carry state across runs
+
+# One-shot
+cronjob(action='create',
+  prompt=<body>,
+  schedule='2026-06-01T09:00:00',
+  workdir=<repo_root>,
+  deliver='origin')
+```
+
 ## Verification
 
 - ✅ No empty skill directories
 - ✅ All SKILL.md files have valid frontmatter with `name` and `description` fields
 - ✅ No duplicate skill names (resolved — `mattpocock-subagent-driven-development` duplicate removed)
-- ✅ All `related_skills` references resolve to existing in-repo skills (9 broken references fixed)
+- ✅ All `related_skills` references resolve to existing in-repo skills (9 broken + 147 self/missing fixed)
 - ✅ All skills have complete frontmatter (`version`, `author`, `platforms`, `metadata.hermes`)
 - ✅ All skill descriptions are ≤ 60 characters (hardline standard)
-- ✅ All 127 skills have either a "What This Skill Does" or "When to Use" section (22 WTD sections added)
+- ✅ All 127 descriptions end with a period
+- ✅ All 127 descriptions are double-quoted YAML strings
+- ✅ All 127 skills have either a "What This Skill Does" or "When to Use" section
+- ✅ All section headers use standard capitalization (`## When to Use`, `## Pitfalls`, `## How to Run`, `## Quick Start`)
+- ✅ All non-standard Pitfalls headers (`## Common Pitfalls`, `## Troubleshooting`) renamed to `## Pitfalls`
+- ✅ No trailing whitespace in any file
+- ✅ All files end with a trailing newline
+- ✅ All YAML frontmatter parses without errors
+- ✅ No CRLF line endings (all LF)
+- ✅ No temp scripts remaining in repo root
+- ✅ `related_skills` network: 287 cross-references across 114 skills (13 standalone skills with none)
 - ✅ No duplicate content (verified via hash comparison)
 - ✅ DEPENDENCY.md relationship mapping audited and updated
 - ✅ Profile documentation transferred to `profile/` directory
+- ✅ Cron Job Authoring section added to README with skill index + tool API reference
 
 ## Usage
 
