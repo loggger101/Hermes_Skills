@@ -12,6 +12,10 @@ metadata:
 
 # Find My (Apple)
 
+## What This Skill Does
+
+Tracks Apple devices and AirTags via the FindMy.app on macOS using AppleScript activation + screen capture for location reading, or `peekaboo` UI automation for more reliable interaction. Analyzes screenshots with `vision_analyze` to extract device locations, addresses, and coordinates. Loads `skill_view(name='imessage')` for notifications and `skill_view(name='cron-job-authoring')` for ongoing AirTag tracking.
+
 Track Apple devices and AirTags via the FindMy.app on macOS. Since Apple doesn't
 provide a CLI for FindMy, this skill uses AppleScript to open the app and
 screen capture to read device locations.

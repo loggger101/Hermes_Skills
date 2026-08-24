@@ -11,6 +11,10 @@ metadata:
     related_skills: [merge-reconciler, systematic-debugging, mattpocock-diagnosing-bugs]
 ---
 
+## What This Skill Does
+
+Resolves git merge conflicts by tracing each side's intent rather than blindly accepting one version. Classifies each conflict hunk as complementary (keep both), overlapping (merge intents), or contradictory (pick one and note the trade-off). Runs automated checks after resolution. Loads `skill_view(name='systematic-debugging')` for diagnosing broken state and `skill_view(name='merge-reconciler')` for conflicts between agent branches.
+
 ## When to Use
 
 Use when the user needs to resolve an in-progress git merge or rebase conflict, or reports a "merge conflict" error. This skill loads `skill_view(name='systematic-debugging')` for diagnosing any broken state that emerges from a poorly resolved merge.
@@ -137,6 +141,15 @@ const cleanEmail = email.trim()
 - **Not testing after** — conflicts can introduce subtle bugs; always run tests
 - **Resolving on the wrong branch** — confirm `git branch` before committing the merge
 - **Forgetting to set merge tool** — `git config merge.tool vimdiff` for in-terminal resolution
+
+## Verification
+
+- [ ] `git status` shows clean merge/commit state
+- [ ] No conflict markers remain (`search_files` pattern `<<<<<<<`)
+- [ ] Automated checks pass (typecheck, tests, format)
+- [ ] Both sides' intents are preserved where possible
+- [ ] Trade-offs for contradictory hunks are documented
+- [ ] Re-test after merging to confirm no regressions
 
 ## AspireCURES Context
 
