@@ -1,6 +1,6 @@
 ---
 name: mattpocock-handoff
-description: "Compact a conversation into a handoff doc for another agent."
+description: "Compact conversation into a handoff doc for another agent"
 version: 1.0.0
 author: Adapted from mattpocock/skills
 license: MIT

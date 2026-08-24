@@ -19,6 +19,11 @@ quality gates, an independent reviewer subagent, and an auto-fix loop.
 
 **Core principle:** No agent should verify its own work. Fresh context finds what you miss.
 
+
+## What This Skill Does
+
+Pre-commit review: security scan, quality gates, auto-fix.
+
 ## When to Use
 
 - After implementing a feature or bug fix, before `git commit` or `git push`

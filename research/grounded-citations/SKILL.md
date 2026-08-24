@@ -30,6 +30,11 @@ slides), and research reports. It does not cover academic BibTeX pipelines —
 for conference papers use the `research-paper-writing` skill, which this skill
 feeds (see `references/citation-formats.md`).
 
+
+## What This Skill Does
+
+Ground answers and documents in cited, verifiable sources.
+
 ## When to Use
 
 Use whenever an answer or artifact rests on information you fetched rather than

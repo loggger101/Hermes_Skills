@@ -14,6 +14,15 @@ metadata:
 
 # lm-evaluation-harness - LLM Benchmarking
 
+
+## What This Skill Does
+
+lm-eval-harness: benchmark LLMs (MMLU, GSM8K, etc.).
+
+## When to Use
+
+Use when the user needs `evaluating-llms-harness`.
+
 ## What's inside
 
 Evaluates LLMs across 60+ academic benchmarks (MMLU, HumanEval, GSM8K, TruthfulQA, HellaSwag). Use when benchmarking model quality, comparing models, reporting academic results, or tracking training progress. Industry standard used by EleutherAI, HuggingFace, and major labs. Supports HuggingFace, vLLM, APIs.

@@ -14,6 +14,11 @@ metadata:
 
 # p5.js Production Pipeline
 
+
+## What This Skill Does
+
+p5.js sketches: gen art, shaders, interactive, 3D.
+
 ## When to Use
 
 Use when users request: p5.js sketches, creative coding, generative art, interactive visualizations, canvas animations, browser-based visual art, data viz, shader effects, or any p5.js project.

@@ -14,6 +14,11 @@ metadata:
 
 # Node.js Inspect Debugger
 
+
+## What This Skill Does
+
+Debug Node.js via --inspect + Chrome DevTools Protocol CLI.
+
 ## Overview
 
 When `console.log` isn't enough, drive Node's built-in V8 inspector programmatically from the terminal. You get real breakpoints, step in/over/out, call-stack walking, local/closure scope dumps, and arbitrary expression evaluation in the paused frame.

@@ -22,6 +22,11 @@ images, headers/footers, `{{token}}` templating, tracked changes
 fields, and package health checks. It does not render documents itself
 (PDF needs LibreOffice — see Converting to PDF) or edit legacy `.doc`.
 
+
+## What This Skill Does
+
+Create, read, edit, template, and review Word .docx files.
+
 ## When to Use
 
 - The user asks to generate a Word document (report, letter, contract).

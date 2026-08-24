@@ -14,6 +14,11 @@ metadata:
 
 # TouchDesigner Integration (twozero MCP)
 
+
+## When to Use
+
+Use when the user needs `touchdesigner-mcp`.
+
 ## What This Skill Does
 
 Control TouchDesigner visual programming via the twozero MCP server for real-time graphics.

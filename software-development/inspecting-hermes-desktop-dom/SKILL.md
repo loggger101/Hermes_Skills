@@ -14,6 +14,11 @@ metadata:
 
 # Inspecting the live Hermes desktop DOM
 
+
+## What This Skill Does
+
+Read the live Hermes desktop DOM/CSS over CDP.
+
 ## Overview
 
 When you are developing `apps/desktop` and the user is running that same app

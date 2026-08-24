@@ -17,6 +17,11 @@ metadata:
 
 Guide for exporting trained models out of the training pipeline and into something that can be loaded, versioned, and run elsewhere. Covers formats, what to export with them, validation on load, versioning, and the common failure modes that only show up after the model leaves the training code.
 
+
+## What This Skill Does
+
+Model export: ONNX, TorchScript, HDF5, NumPy, JSON.
+
 ## When to Use
 
 - Exporting a trained model for inference in a different environment (serving, edge, another language)

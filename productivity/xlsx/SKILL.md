@@ -20,6 +20,11 @@ multi-sheet workbooks with formulas and charts, inspect or dump existing
 files, edit cells and structure, and convert to/from CSV. All helper
 scripts are argparse CLIs that print JSON and use explicit UTF-8 I/O.
 
+
+## What This Skill Does
+
+Create, read, edit Excel .xlsx workbooks and CSVs.
+
 ## When to Use
 
 - Creating .xlsx reports: multiple sheets, number formats, styling,

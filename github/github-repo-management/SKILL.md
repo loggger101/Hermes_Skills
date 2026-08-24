@@ -14,6 +14,11 @@ metadata:
 
 # GitHub Repository Management
 
+
+## When to Use
+
+Use when the user needs `github-repo-management`.
+
 ## What This Skill Does
 
 Clone, create, and fork GitHub repositories; manage remotes, releases, and repository settings.

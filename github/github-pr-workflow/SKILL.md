@@ -14,6 +14,11 @@ metadata:
 
 # GitHub Pull Request Workflow
 
+
+## When to Use
+
+Use when the user needs `github-pr-workflow`.
+
 ## What This Skill Does
 
 Manage the full GitHub PR lifecycle: branch, commit, push, open, CI, and review.

@@ -351,6 +351,28 @@ cronjob(action='create',
 
 ## Verification
 
+The repository includes an automated audit script at [`tools/audit-skills.py`](./tools/audit-skills.py) that validates all skills on a configurable schedule. It checks:
+
+- **YAML frontmatter integrity** — required fields (`name`, `version`, `author`, `platforms`, `metadata.hermes`) parse correctly
+- **Description length** — all `description` fields are ≤59 chars (the routing-signal budget)
+- **`related_skills` resolution** — every cross-reference resolves to an existing in-repo skill (no broken refs, no self-references)
+- **Body section presence** — each skill has `## What This Skill Does` and `## When to Use` sections
+- **`skill_view()` call sync** — every `skill_view("xxx")` call in body text has a corresponding `related_skills` entry
+- **Category `DESCRIPTION.md`** — every category directory with >1 skill has a `DESCRIPTION.md`
+- **Referenced script existence** — scripts listed in frontmatter `script:` fields exist on disk
+
+```bash
+# Run the audit (exit 0 = within thresholds, exit 1 = threshold breached)
+python3 tools/audit-skills.py
+
+# The cron registry at .hermes/cron/active/skill-audit.json
+# runs this weekly (Sunday 3 AM) with no_agent=true
+```
+
+The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a weekly cronjob definition that emits a JSON report via the cronjob system's `deliver: origin` target.
+
+### Verification Status
+
 - ✅ No empty skill directories
 - ✅ All SKILL.md files have valid frontmatter with `name` and `description` fields
 - ✅ No duplicate skill names (resolved — `mattpocock-subagent-driven-development` duplicate removed)

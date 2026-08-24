@@ -17,6 +17,11 @@ metadata:
 
 A practical end-to-end guide for Python-based data science: from raw data to evaluated model, with tracking and reproducibility baked in.
 
+
+## What This Skill Does
+
+Python DS: EDA, cleaning, modeling, eval, viz.
+
 ## When to Use
 
 - Exploratory data analysis on a new dataset

@@ -17,6 +17,11 @@ metadata:
 
 Guide for building and maintaining static sites — generation patterns, SEO fundamentals (titles, descriptions, canonicals, sitemaps, JSON-LD), analytics (GA4, privacy-friendly alternatives), form backends, security headers, and the common mistakes that silently hurt discoverability or user trust.
 
+
+## What This Skill Does
+
+Static site SEO: JSON-LD, meta tags, analytics, CSP.
+
 ## When to Use
 
 - Building or maintaining a static site (hand-authored HTML, generated HTML, or a static site generator)

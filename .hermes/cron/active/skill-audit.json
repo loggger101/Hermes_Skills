@@ -3,7 +3,7 @@
   "description": "Weekly audit of the Hermes_Skills repository: YAML validation, broken ref detection, description checks, header standardization, line-ending verification",
   "schedule": "0 3 * * 0",
   "schedule_human": "Weekly Sunday at 3:00 AM",
-  "workdir": "/path/to/Hermes_Skills",
+  "workdir": ".",
   "skills": [
     "autonomous-ai-agents/cron-job-authoring",
     "software-development/hermes-agent-skill-authoring",

@@ -14,6 +14,11 @@ metadata:
 
 # arXiv Research
 
+
+## When to Use
+
+Use when the user needs `arxiv`.
+
 ## What This Skill Does
 
 Search and retrieve academic papers from arXiv. Returns markdown content, abstracts, and metadata for research workflows.

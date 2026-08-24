@@ -1,6 +1,6 @@
 ---
 name: hermes-agent
-description: "Use, configure, theme, extend, and orchestrate Hermes Agent."
+description: "Use, configure, theme, extend, orchestrate Hermes Agent"
 version: 3.2.0
 author: Hermes Agent + Teknium
 license: MIT
@@ -31,7 +31,13 @@ What makes Hermes different:
 
 **Docs:** https://hermes-agent.nousresearch.com/docs/
 
-## Scope & Verification
+## What This Skill Does
+
+Operates Hermes Agent itself: installation, configuration, model/provider selection, skill management, memory, profiles, spawning additional instances, multi-agent coordination, surfaces (CLI/TUI/desktop/web/IDE), MCP/integration, and hard invariants that must never be violated. This is a hub skill — the body covers identity, quick start, spawning, and invariants; everything else is in reference files that must be loaded before answering domain-specific questions.
+
+## When to Use
+
+Use when the user asks anything about Hermes Agent itself — installation, setup, configuration, troubleshooting, model selection, skill loading, cron scheduling, memory management, multi-agent spawning, or extending Hermes with plugins/themes/widgets. Also use when the user asks \"can Hermes do X?\" — check the docs index first.
 
 This skill is a concise operating guide, not the complete source of truth for every Hermes feature. If a Hermes feature, command, or setting is not mentioned here or in a reference, do not treat that absence as evidence that it does not exist. Check the live repository and official docs before giving a negative answer.
 

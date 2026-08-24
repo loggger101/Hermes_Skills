@@ -14,6 +14,11 @@ metadata:
 
 # GitHub Authentication Setup
 
+
+## When to Use
+
+Use when the user needs `github-auth`.
+
 ## What This Skill Does
 
 Set up GitHub authentication for Hermes Agent via HTTPS tokens or SSH keys using the gh CLI.

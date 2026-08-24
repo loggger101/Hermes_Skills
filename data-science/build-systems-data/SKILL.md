@@ -1,6 +1,6 @@
 ---
 name: build-systems-data
-description: "Data build systems: orchestration, versioning, CSV at scale."
+description: "Data build systems: orchestration, versioning, CSV at scale"
 version: 1.0.0
 author: Hermes Agent
 license: MIT
@@ -16,6 +16,11 @@ metadata:
 # Build Systems for Data and ML Projects
 
 Guide for orchestrating data build pipelines — from small scripts that produce a CSV to multi-module systems that concatenate into a production runner, with version stamping, idempotency, and the patterns that keep large data builds from becoming unmaintainable.
+
+
+## What This Skill Does
+
+Data build systems: orchestration, versioning, CSV at scale
 
 ## When to Use
 

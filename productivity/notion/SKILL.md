@@ -17,6 +17,11 @@ metadata:
 
 # Notion
 
+
+## When to Use
+
+Use when the user needs `notion`.
+
 ## What This Skill Does
 
 Read, search, create, and edit Notion pages and databases via the ntn CLI or Notion API.

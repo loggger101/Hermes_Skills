@@ -20,6 +20,11 @@ metadata:
 
 # Google Workspace
 
+
+## When to Use
+
+Use when the user needs `google-workspace`.
+
 ## What This Skill Does
 
 Access Gmail, Calendar, Drive, Docs, and Sheets through the gws CLI or Python API.

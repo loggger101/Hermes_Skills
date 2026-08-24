@@ -27,6 +27,11 @@ deeply searches the codebase for a single class of problem — reuse, quality,
 efficiency, altitude — without diluting its attention across all four. They
 run concurrently, so you pay the latency of one review, not four.
 
+
+## What This Skill Does
+
+Parallel 4-agent cleanup of recent code changes.
+
 ## When to Use
 
 Trigger this skill when the user says any of:

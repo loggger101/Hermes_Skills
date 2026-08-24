@@ -20,6 +20,11 @@ Identify and remove signs of AI-generated text to make writing sound natural and
 
 **Key insight:** LLMs use statistical algorithms to guess what should come next. The result tends toward the most statistically likely completion, which is how the telltale patterns below get baked in.
 
+
+## What This Skill Does
+
+Humanize text: strip AI-isms and add real voice.
+
 ## When to Use
 
 Load this skill whenever the user asks to:

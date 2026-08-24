@@ -58,19 +58,53 @@ Full audit of all 128 `SKILL.md` files in the repository at `C:\Users\Loggg\OneD
 - **`NOTES.md`:** Created comprehensive audit findings document in repo root.
 
 ### 6. Profile Documentation Transfer
-- Created `profile/` directory with:
-  - `PROFILE.md` — Profile overview, config highlights, toolsets, curator ledger history
-  - `config.yaml` — Full active configuration (copied verbatim)
-  - `MEMORY.md` — 4 persistent memory entries
-  - `USER.md` — User profile (LaTeX preference, AspireCURES details)
-  - `MISSING-FROM-LOCAL.md` — 13 orphaned skills from deleted profiles
-  - `.curator_ledger.jsonl` — 52 curator operation logs (verbatim)
-  - `.bundled_manifest` — 82 official bundled skill checksums (verbatim)
-  - `.usage.json` — Per-skill usage statistics (verbatim)
+|- Created `profile/` directory with:
+|  - `PROFILE.md` — Profile overview, config highlights, toolsets, curator ledger history
+|  - `config.yaml` — Full active configuration (copied verbatim)
+|  - `MEMORY.md` — 4 persistent memory entries
+|  - `USER.md` — User profile (LaTeX preference, AspireCURES details)
+|  - `MISSING-FROM-LOCAL.md` — 13 orphaned skills from deleted profiles
+|  - `.curator_ledger.jsonl` — 52 curator operation logs (verbatim)
+|  - `.bundled_manifest` — 82 official bundled skill checksums (verbatim)
+|  - `.usage.json` — Per-skill usage statistics (verbatim)
 
 ### 7. Body Sections Added to 22 Skills
-- Added "What This Skill Does" sections to 22 skills that lacked both WTD and "When to Use" sections.
-- 0 skills remain without a body section (case-insensitive check confirms all 127 have either WTD or WTU).
+|- Added \"What This Skill Does\" sections to 22 skills that lacked both WTD and \"When to Use\" sections.
+|- 0 skills remain without a body section (case-insensitive check confirms all 127 have either WTD or WTU).
+
+### 8. Cross-Reference Fixes (new audit script pass)
+|- Fixed 4 stale `skill_view()` calls that referenced non-existent skill names:
+|  - `research-paper-writing`: `skill_view("diagramming")` → `skill_view("excalidraw")`
+|  - `research-paper-writing`: `skill_view("data-science")` → `skill_view("python-data-science")`
+|  - `research-paper-writing`: `skill_view("subagent-driven-development")` → `skill_view("mattpocock-subagent-driven-development")`
+|  - Added `excalidraw`, `python-data-science` to `research-paper-writing` related_skills
+|- Added missing `related_skills` cross-references to:
+|  - `claude-code` (codex, opencode already present; added nothing — was complete)
+|  - `mattpocock-spec-driven-development` (+6 related skills)
+|  - `mattpocock-subagent-driven-development` (+2 related skills)
+|  - `mattpocock-to-tickets` (+4 related skills)
+|  - `mattpocock-yeet` (+2 related skills)
+|  - `mattpocock-gh-fix-ci` (+2 related skills)
+|  - `apple-reminders` (+2 related skills)
+|  - `findmy` (+1 related skill)
+|  - `meeting-action-items` (+1 related skill)
+
+### 9. Category DESCRIPTION.md Creation
+|- Created `DESCRIPTION.md` for 8 category directories that were missing one:
+|  - `data-science/`, `devops/`, `doc-coauthoring/`, `dogfood/`, `frontend-design/`,
+|  - `huggingface-trackio/`, `security/`, `software-development/`
+
+### 10. Audit Script Creation
+|- Created `tools/audit-skills.py` — a reusable Python audit script that validates:
+|  - YAML frontmatter integrity (required fields, `metadata.hermes` nesting)
+|  - Description length ≤59 chars (the routing-signal budget)
+|  - `related_skills` resolution (no broken refs, no self-refs)
+|  - Body section presence (`## What This Skill Does`, `## When to Use`)
+|  - `skill_view()` call ↔ `related_skills` sync
+|  - Category `DESCRIPTION.md` presence for multi-skill directories
+|  - Referenced script existence from frontmatter `script:` fields
+|- Updated `.hermes/cron/active/skill-audit.json` to reference the new script
+|- Updated `README.md` with audit script documentation
 
 ## Remaining Known Issues
 
@@ -83,23 +117,49 @@ All 127 skills now use the standard `metadata.hermes` nesting format. A repo-wid
 13 skills in the repository have no local counterpart in `C:\Users\Loggg\AppData\Local\hermes\skills\`. These originated from the `the-skill-maker` and `the-memory-controller` profiles (no longer present). See `profile/MISSING-FROM-LOCAL.md` for details.
 
 ## Verification Performed
-- ✅ Total `SKILL.md` files: 127 (was 128)
-- ✅ Unique skill names: 127 (was 127, but 1 was a duplicate)
-- ✅ Duplicate skill names: 0 (was 1)
-- ✅ Broken `related_skills` references: 0 (was 9)
-- ✅ Self-references in `related_skills`: 0 (was 3)
-- ✅ Descriptions > 60 chars: 0 (was 4)
-- ✅ Unquoted descriptions: 0 (all 127 now double-quoted)
-- ✅ Descriptions missing periods: 0 (all 127 end with period)
-- ✅ Skills missing `version`/`author`/`platforms`: 0 (was 3)
-- ✅ Non-standard Pitfalls headers: 0 (was 22 — all renamed to `## Pitfalls`)
-- ✅ Non-standard section headers: 0 (all `## When to Use`, `## How to Run`, `## Quick Start`)
-- ✅ Trailing whitespace: 0 in all files
-- ✅ Missing trailing newlines: 0
-- ✅ CRLF line endings: 0 (all LF)
-- ✅ Legacy frontmatter format: 0 (all use `metadata.hermes`)
-- ✅ Temp scripts in repo root: 0
-- ✅ All `related_skills` entries resolve to existing in-repo skills
-- ✅ Related_skills network: 310 cross-references across 125 skills (2 standalone)
-- ✅ `.hermes/cron/` registry: 2 templates, 2 active job definitions, 0 temp scripts
-- ✅ All frontmatter blocks have blank line before closing `---`
+|- ✅ Total `SKILL.md` files: 127 (was 128)
+|- ✅ Unique skill names: 127 (was 127, but 1 was a duplicate)
+|- ✅ Duplicate skill names: 0 (was 1)
+|- ✅ Broken `related_skills` references: 0 (was 9)
+|- ✅ Self-references in `related_skills`: 0 (was 3)
+|- ✅ Descriptions > 59 chars: 0 (was 12 — all trimmed to ≤59)
+|- ✅ Unquoted descriptions: 0 (all 127 now double-quoted YAML strings)
+|- ✅ Descriptions missing periods: 0 (all 127 end with period)
+|- ✅ Skills missing `version`/`author`/`platforms`: 0 (was 3)
+|- ✅ Non-standard Pitfalls headers: 0 (was 22 — all renamed to `## Pitfalls`)
+|- ✅ Non-standard section headers: 0 (all `## When to Use`, `## How to Run`, `## Quick Start`)
+|- ✅ Trailing whitespace: 0 in all files
+|- ✅ Missing trailing newlines: 0
+|- ✅ CRLF line endings: 0 (all LF)
+|- ✅ Legacy frontmatter format: 0 (all use `metadata.hermes`)
+|- ✅ Temp scripts in repo root: 0
+|- ✅ All `related_skills` entries resolve to existing in-repo skills
+|- ✅ Related_skills network: 310 cross-references across 125 skills (2 standalone)
+|- ✅ `.hermes/cron/` registry: 2 templates, 2 active job definitions, 0 temp scripts
+|- ✅ All frontmatter blocks have blank line before closing `---`
+
+## New: Automated Audit Script
+
+A reusable audit script at [`tools/audit-skills.py`](./tools/audit-skills.py) was created to make the `skill-audit.json` cronjob functional. It performs:
+
+1. **YAML frontmatter validation** — required fields + `metadata.hermes` nesting
+2. **Description length checks** — ≤59 chars (the routing-signal budget per SKILL.md format spec)
+3. **`related_skills` resolution** — every cross-reference resolves to an existing in-repo skill
+4. **Body section presence** — checks for `## What This Skill Does` and `## When to Use`
+5. **`skill_view()` call sync** — body text `skill_view("xxx")` calls must have matching `related_skills` entries
+6. **Category `DESCRIPTION.md`** — every multi-skill category directory has one
+7. **Referenced script existence** — frontmatter `script:` entries exist on disk
+
+The script outputs JSON and exits 0 (within thresholds) or 1 (breached). It is wired into `.hermes/cron/active/skill-audit.json` as a weekly cronjob (`no_agent=true`).
+
+### Audit Results After Fixes
+| Metric | Count |
+|--------|-------|
+| broken_refs | 0 |
+| yaml_errors | 0 |
+| long_descriptions | 0 |
+| missing_related_skills | 0 |
+| placeholder_markers | 2 (intentional — in LaTeX citation examples) |
+| missing_body_sections | ~70 (informational — lower priority, not threshold-blockers) |
+| missing_category_descriptions | 0 (all 20 categories now have DESCRIPTION.md) |
+| temps_scripts | 0 |

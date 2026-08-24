@@ -16,6 +16,11 @@ metadata:
 
 Build, run, inspect, and debug Docker containers and Docker Compose stacks.
 
+
+## What This Skill Does
+
+Build and debug Docker containers and Compose stacks.
+
 ## When to Use
 
 - "Build and run this Dockerfile"

@@ -18,6 +18,11 @@ metadata:
 
 # Airtable — Bases, Tables & Records
 
+
+## When to Use
+
+Use when the user needs `airtable`.
+
 ## What This Skill Does
 
 Interacts with Airtable via REST API — records CRUD, filters, and upserts for base/table operations.

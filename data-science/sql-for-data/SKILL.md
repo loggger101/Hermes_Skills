@@ -17,6 +17,11 @@ metadata:
 
 Practical SQL for data analysis and preparation — the queries you actually write when pulling data for analysis, not DBA tuning. Covers query patterns, joins, window functions, aggregation, and common pitfalls. Dialect notes where syntax diverges (SQLite vs PostgreSQL vs MySQL).
 
+
+## What This Skill Does
+
+SQL for data: queries, joins, windows, aggregation.
+
 ## When to Use
 
 - Pulling data from a database for analysis in Python (pandas `read_sql`, etc.)

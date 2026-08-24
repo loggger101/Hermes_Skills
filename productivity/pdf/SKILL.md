@@ -17,6 +17,11 @@ metadata:
 
 Create PDFs from structured specs, build and fill AcroForm forms (with layout linting and visual overlays), extract text/tables/metadata, merge/split/rotate/watermark/stamp pages, export page images, manage metadata and attachments, and encrypt/decrypt — using pypdf, reportlab, and pdfplumber. Scanned (image-only) PDFs contain no text layer: OCR is explicitly out of scope here — when a page is image-only, stop and use the `ocr-and-documents` skill instead of pretending to extract text.
 
+
+## What This Skill Does
+
+Create, read, merge, fill, and secure PDF files.
+
 ## When to Use
 
 - Generate a report, invoice, or multi-page document as PDF.

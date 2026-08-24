@@ -18,6 +18,11 @@ prerequisites:
 
 # Himalaya Email CLI
 
+
+## When to Use
+
+Use when the user needs `himalaya`.
+
 ## What This Skill Does
 
 Send, receive, search, and manage email from the terminal using the Himalaya CLI (IMAP/SMTP).

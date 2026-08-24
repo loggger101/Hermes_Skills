@@ -30,6 +30,11 @@ Important expectations:
 - Context chaining with `--previous-interaction-id`
 - Search, extract, research, enrichment, entity discovery, and monitoring in one CLI
 
+
+## What This Skill Does
+
+Agent-native web search, deep research, and enrichment.
+
 ## When to Use
 
 Prefer this skill when:

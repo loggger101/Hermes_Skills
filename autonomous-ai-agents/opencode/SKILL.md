@@ -16,6 +16,11 @@ metadata:
 
 Use [OpenCode](https://opencode.ai) as an autonomous coding worker orchestrated by Hermes terminal/process tools. OpenCode is a provider-agnostic, open-source AI coding agent with a TUI and CLI.
 
+
+## What This Skill Does
+
+Delegate coding to OpenCode CLI (features, PR review).
+
 ## When to Use
 
 - User explicitly asks to use OpenCode

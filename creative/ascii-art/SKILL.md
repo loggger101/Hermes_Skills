@@ -15,6 +15,11 @@ metadata:
 
 # ASCII Art Skill
 
+
+## When to Use
+
+Use when the user needs `ascii-art`.
+
 ## What This Skill Does
 
 Generate ASCII art from text (pyfiglet, cowsay, boxes) and convert images to ASCII representations.

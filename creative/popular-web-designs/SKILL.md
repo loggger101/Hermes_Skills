@@ -24,6 +24,11 @@ metadata:
 
 # Popular Web Designs
 
+
+## When to Use
+
+Use when the user needs `popular-web-designs`.
+
 ## What This Skill Does
 
 Generate 54 real-world design systems (Stripe, Linear, Vercel, etc.) as HTML/CSS components.

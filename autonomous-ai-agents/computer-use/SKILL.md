@@ -15,6 +15,11 @@ metadata:
 
 # Computer Use (universal, any-model, cross-platform)
 
+
+## When to Use
+
+Use when the user needs `computer-use`.
+
 ## What This Skill Does
 
 Drive the Windows desktop in the background without stealing focus. Screenshots, mouse, keyboard, scroll, drag via cua-driver.

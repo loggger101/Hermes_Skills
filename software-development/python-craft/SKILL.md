@@ -17,6 +17,11 @@ metadata:
 
 Guide for writing Python that holds up under review, across engineers, and over time. Covers style, typing, common patterns, testing approach, and packaging. Not a tutorial — assume Python competency; focus on what separates "works" from "good."
 
+
+## What This Skill Does
+
+Python craft: style, typing, patterns, testing, packaging.
+
 ## When to Use
 
 - Starting a new Python project and want a style/pattern baseline

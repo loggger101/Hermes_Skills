@@ -11,7 +11,7 @@ metadata:
   hermes:
     tags: [Research, Paper Writing, Experiments, ML, AI, NeurIPS, ICML, ICLR, ACL, AAAI, COLM, LaTeX, Citations, Statistical Analysis]
     category: research
-    related_skills: [arxiv, mattpocock-subagent-driven-development, plan]
+    related_skills: [arxiv, mattpocock-subagent-driven-development, plan, excalidraw, python-data-science]
     requires_toolsets: [terminal, files]
 
 ---
@@ -42,13 +42,11 @@ This is **not a linear pipeline** — it is an iterative loop. Results trigger n
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
-<!-- ascii-guard-ignore-end -->
+## What This Skill Does
 
----
+End-to-end pipeline for producing publication-ready ML/AI research papers targeting **NeurIPS, ICML, ICLR, ACL, AAAI, and COLM**. Covers the full research lifecycle iteratively: experiment design, execution, monitoring, analysis, paper writing, self-review, revision, and submission. Not a linear pipeline — results trigger new experiments; reviews trigger new analysis.
 
-## When To Use This Skill
-
-Use this skill when:
+## When to Use
 - **Starting a new research paper** from an existing codebase or idea
 - **Designing and running experiments** to support paper claims
 - **Writing or revising** any section of a research paper
@@ -1375,11 +1373,11 @@ Compose this skill with other Hermes skills for specific phases:
 | Skill | When to Use | How to Load |
 |-------|-------------|-------------|
 | **arxiv** | Phase 1 (Literature Review): searching arXiv, generating BibTeX, finding related papers via Semantic Scholar | `skill_view("arxiv")` |
-| **subagent-driven-development** | Phase 5 (Drafting): parallel section writing with 2-stage review (spec compliance then quality) | `skill_view("subagent-driven-development")` |
+| **mattpocock-subagent-driven-development** | Phase 5 (Drafting): parallel section writing with 2-stage review (spec compliance then quality) | `skill_view("mattpocock-subagent-driven-development")` |
 | **plan** | Phase 0 (Setup): creating structured plans before execution. Writes to `.hermes/plans/` | `skill_view("plan")` |
 | **qmd** | Phase 1 (Literature): searching local knowledge bases (notes, transcripts, docs) via hybrid BM25+vector search | Install: `skill_manage("install", "qmd")` |
-| **diagramming** | Phase 4-5: creating Excalidraw-based figures and architecture diagrams | `skill_view("diagramming")` |
-| **data-science** | Phase 4 (Analysis): Jupyter live kernel for interactive analysis and visualization | `skill_view("data-science")` |
+| **excalidraw** | Phase 4-5: creating Excalidraw-based figures and architecture diagrams | `skill_view("excalidraw")` |
+| **python-data-science** | Phase 4 (Analysis): Jupyter live kernel for interactive analysis and visualization | `skill_view("python-data-science")` |
 
 **This skill supersedes `ml-paper-writing`** — it contains all of ml-paper-writing's content plus the full experiment/analysis pipeline and autoreason methodology.
 

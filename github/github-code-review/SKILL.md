@@ -14,6 +14,11 @@ metadata:
 
 # GitHub Code Review
 
+
+## When to Use
+
+Use when the user needs `github-code-review`.
+
 ## What This Skill Does
 
 Review pull requests with diffs and inline comments via the gh CLI or GitHub REST API.

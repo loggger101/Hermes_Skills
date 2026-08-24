@@ -17,6 +17,11 @@ metadata:
 
 Practical guide for building Streamlit dashboards that don't feel like demos — state management, caching, layout, charts, performance, and the common mistakes that make dashboards sluggish or incoherent.
 
+
+## What This Skill Does
+
+Streamlit dashboards: layout, caching, charts, state.
+
 ## When to Use
 
 - Building an internal dashboard for training monitoring, experiment comparison, or data exploration

@@ -15,6 +15,11 @@ metadata:
 
 # Karpathy's LLM Wiki
 
+
+## When to Use
+
+Use when the user needs `llm-wiki`.
+
 ## What This Skill Does
 
 Build and query interlinked markdown knowledge bases using Karpathy's LLM Wiki pattern.

@@ -17,6 +17,11 @@ metadata:
 
 Practical guide for evolutionary approaches to ML — from simple genetic algorithms over fixed-weight vectors to NEAT-style topology evolution and tournament-based evaluation. Covers the patterns that show up repeatedly in evolved-agent projects: genome representation, selection/crossover/mutation, parallel evaluation, Elo tracking, speciation, and the common defects that silently kill learning.
 
+
+## What This Skill Does
+
+Evolutionary ML: GA, NEAT, tournaments, parallel eval.
+
 ## When to Use
 
 - Training agents via evolution rather than gradient descent (game AI, control policies, symbolic regression)

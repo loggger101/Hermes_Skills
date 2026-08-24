@@ -14,6 +14,11 @@ metadata:
 
 # Adversarial UX Test
 
+
+## When to Use
+
+Use when the user needs `adversarial-ux-test`.
+
 ## What This Skill Does
 
 Roleplays a hostile, low-tech user persona to find UX friction in a product, then filters findings through a pragmatism layer to separate real UX problems from "I hate computers" noise. Produces actionable tickets (RED/GREEN findings) only; WHITE items appear in the report but generate no tickets. Loads `skill_view(name='dogfood')` for QA integration.

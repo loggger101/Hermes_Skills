@@ -16,6 +16,11 @@ metadata:
 
 This skill provides a structured workflow for guiding users through collaborative document creation. Act as an active guide, walking users through three stages: Context Gathering, Refinement & Structure, and Reader Testing.
 
+
+## What This Skill Does
+
+Guide structured documentation co-authoring workflows.
+
 ## When to Use
 
 Use when the user mentions: \"write a doc\", \"draft a proposal\", \"create a spec\", \"write up\", \"PRD\", \"design doc\", \"decision doc\", \"RFC\". For agent-specific documentation writing, this workflow complements `skill_view(name='mattpocock-writing-for-agents')`.

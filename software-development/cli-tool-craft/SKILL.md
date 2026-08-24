@@ -1,6 +1,6 @@
 ---
 name: cli-tool-craft
-description: "CLI tools: subcommands, config validation, env substitution."
+description: "CLI tools: subcommands, config validation, env substitution"
 version: 1.0.0
 author: Hermes Agent
 license: MIT
@@ -16,6 +16,11 @@ metadata:
 # CLI Tool Craft
 
 Practical guide for building CLI tools that are pleasant to use and easy to maintain — subcommand patterns, config systems with validation and inheritance, environment variable substitution, output formatting, testing, and the common mistakes that make CLIs frustrating.
+
+
+## What This Skill Does
+
+CLI tools: subcommands, config validation, env substitution
 
 ## When to Use
 

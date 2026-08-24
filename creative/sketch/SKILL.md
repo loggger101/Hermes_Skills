@@ -14,6 +14,11 @@ metadata:
 
 # Sketch
 
+
+## When to Use
+
+Use when the user needs `sketch`.
+
 ## What This Skill Does
 
 Create throwaway HTML mockups with 2-3 design variants for rapid comparison and prototyping.

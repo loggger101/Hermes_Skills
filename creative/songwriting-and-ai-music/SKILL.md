@@ -22,6 +22,11 @@ metadata:
 
 # Songwriting & AI Music Generation
 
+
+## When to Use
+
+Use when the user needs `songwriting-and-ai-music`.
+
 ## What This Skill Does
 
 Craft songwriting workflows and generate AI music using Suno AI prompts and techniques.

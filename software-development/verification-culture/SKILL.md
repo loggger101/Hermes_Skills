@@ -17,6 +17,11 @@ metadata:
 
 Guide for building and maintaining a project's verification culture — the backlog discipline, audit passes, regression capture, health checks, and standing rules that keep a complex project honest over time. Drawn from aspirecures's TODO.md (556-line single-source backlog with per-item status, owner, and verified flags) and CR-pipeline's SESSION_SUMMARY.md (chronological defect history with defect→effect→fix tables).
 
+
+## What This Skill Does
+
+Doc-driven verification: backlog, audits, regression.
+
 ## When to Use
 
 - You have a complex project with many moving parts and want a single source of truth for what's done, what's open, and what's verified.

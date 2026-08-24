@@ -15,6 +15,11 @@ metadata:
 
 # Architecture Diagram Skill
 
+
+## When to Use
+
+Use when the user needs `architecture-diagram`.
+
 ## What This Skill Does
 
 Generates professional, dark-themed technical architecture diagrams as standalone HTML files with inline SVG graphics. Supports software system architecture (frontend/backend/database layers), cloud infrastructure (VPC, regions, managed services), microservice topology, database + API maps, and deployment diagrams.

@@ -14,7 +14,15 @@ metadata:
 
 # Claude Code — Hermes Orchestration Guide
 
+**What This Skill Does:** Orchestrates [Claude Code](https://code.claude.com/docs/en/cli-reference) (Anthropic's autonomous coding agent CLI) through the Hermes terminal. Covers two modes — **print mode** (`-p`, non-interactive one-shot, preferred for most tasks) and **interactive PTY mode** (via tmux for multi-turn sessions). Teaches PTY dialog handling, CLI flag reference, settings hierarchy, custom slash commands, hooks, MCP integration, and monitoring patterns.
+
 Delegate coding tasks to [Claude Code](https://code.claude.com/docs/en/cli-reference) (Anthropic's autonomous coding agent CLI) via the Hermes terminal. Claude Code v2.x can read files, write code, run shell commands, spawn subagents, and manage git workflows autonomously.
+
+## When to Use
+
+Use when the user wants to delegate a coding task to Claude Code — bug fixes, feature additions, refactoring, code reviews, or CI automation.
+
+**Prefer print mode** (`-p`) for single-shot tasks. Use interactive PTY mode (tmux) for multi-turn iterative work, slash commands, or when the task needs Claude's REPL.
 
 ## Prerequisites
 

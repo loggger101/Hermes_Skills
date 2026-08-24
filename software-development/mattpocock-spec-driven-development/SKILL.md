@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [sdd, spec-driven, planning, architecture, quality-gates]
-    related_skills: [mattpocock-to-tickets, mattpocock-codebase-design]
+    related_skills: [mattpocock-to-tickets, mattpocock-codebase-design, mattpocock-code-review, mattpocock-domain-modeling, mattpocock-gh-fix-ci, mattpocock-security-review, mattpocock-tdd, requesting-code-review]
 
 ---
 

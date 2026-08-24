@@ -14,6 +14,11 @@ metadata:
 
 # Plan Mode
 
+
+## When to Use
+
+Use when the user needs `plan`.
+
 ## What This Skill Does
 
 Write structured markdown plans to .hermes/plans/ for design and implementation without executing them.

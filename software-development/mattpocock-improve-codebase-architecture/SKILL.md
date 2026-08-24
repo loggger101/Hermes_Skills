@@ -1,6 +1,6 @@
 ---
 name: mattpocock-improve-codebase-architecture
-description: "Survey code for module deepening opportunities and fix them."
+description: "Survey code for module deepening, fix opportunities"
 version: 1.1.0
 author: Adapted from mattpocock/skills
 license: MIT

@@ -14,6 +14,11 @@ metadata:
 
 # Dogfood: Systematic Web Application QA Testing
 
+
+## When to Use
+
+Use when the user needs `dogfood`.
+
 ## What This Skill Does
 
 Exploratory QA of web apps — find bugs, collect evidence, and generate reports about discovered issues.

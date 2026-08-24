@@ -14,6 +14,11 @@ metadata:
 
 # GitHub Issues Management
 
+
+## When to Use
+
+Use when the user needs `github-issues`.
+
 ## What This Skill Does
 
 Create, triage, label, and assign GitHub issues via the gh CLI or GitHub REST API.

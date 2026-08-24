@@ -14,6 +14,11 @@ metadata:
 
 # Authoring Hermes-Agent Skills (in-repo)
 
+
+## What This Skill Does
+
+Author in-repo SKILL.md files: frontmatter and structure.
+
 ## Overview
 
 There are two places a SKILL.md can live:
@@ -207,6 +212,7 @@ A skill exists to make the agent's process more predictable — the agent reliab
 - [ ] Every `related_skills` entry resolves in-repo
 - [ ] Body follows the modern section order; commands framed through Hermes tools
 - [ ] Section headers use standard capitalization (see `references/section-header-standardization.md`)
+- [ ] Body sections present: `## What This Skill Does` and `## When to Use` (see `references/audit-script-pattern.md` for auto-validation)
 - [ ] No machine-local paths anywhere in the file
 - [ ] Each ordered step has a checkable completion criterion
 - [ ] Tests at `tests/skills/test_<skill>_skill.py` pass under `scripts/run_tests.sh`

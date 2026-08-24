@@ -14,6 +14,11 @@ metadata:
 
 # Blocked-Page Recovery
 
+
+## When to Use
+
+Use when the user needs `blocked-page-recovery`.
+
 ## What This Skill Does
 
 When a page won't fetch (403/429 rate limits, Cloudflare "Just a moment...", paywall, or access restriction), recovers content using fallback methods: alternative fetch libraries, header spoofing, cached/archived versions (Wayback Machine), and paywall bypass detection. Loads `skill_view(name='web_extract')` for extraction and `skill_view(name='parallel-cli')` for parallel deep research.

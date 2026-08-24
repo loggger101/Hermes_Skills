@@ -1,6 +1,6 @@
 ---
 name: orbital-mechanics-data
-description: "Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC."
+description: "Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC"
 version: 1.0.0
 author: Hermes Agent
 license: MIT
@@ -16,6 +16,11 @@ metadata:
 # Orbital Mechanics for Data and ML
 
 Practical orbital mechanics for data-driven and ML projects — the equations, patterns, and common mistakes that show up when you're computing trajectories, delta-v budgets, transfer windows, or interfacing with a simulator (KSP/KRPC, custom orbit sim). Focus on what you actually compute, not orbital mechanics as a physics course.
+
+
+## What This Skill Does
+
+Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC
 
 ## When to Use
 

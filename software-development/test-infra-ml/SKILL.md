@@ -17,6 +17,11 @@ metadata:
 
 Guide for testing ML systems — simulation engines, evolutionary algorithms, tournament evaluation, checkpoints/resume, and the patterns that catch real defects without making tests useless or slow.
 
+
+## What This Skill Does
+
+Testing ML systems: sims, EAs, tournaments, checkpoints.
+
 ## When to Use
 
 - Building or maintaining a simulation engine (game sim, physics sim, environment) and wanting to catch correctness bugs

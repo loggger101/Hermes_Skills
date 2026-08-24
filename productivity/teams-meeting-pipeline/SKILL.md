@@ -23,6 +23,11 @@ metadata:
 
 Use this skill whenever the user asks about Microsoft Teams meeting summaries, transcripts, recordings, action items, Graph subscriptions, or any operational question about the Teams meeting pipeline. Works in any language — the triggers below are examples, not an exhaustive list.
 
+
+## When to Use
+
+Use when the user needs `teams-meeting-pipeline`.
+
 ## What This Skill Does
 
 Retrieves Microsoft Teams meeting artifacts (summaries, transcripts, recordings, action items) using the Microsoft Graph API. Covers the full pipeline from meeting list to action item extraction.

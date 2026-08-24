@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [subagents, delegation, task-review, parallel-agents, planning]
-    related_skills: [mattpocock-to-tickets, mattpocock-multi-agent-code-review, mattpocock-using-git-worktrees, mattpocock-finishing-a-development-branch, requesting-code-review]
+    related_skills: [mattpocock-to-tickets, mattpocock-multi-agent-code-review, mattpocock-using-git-worktrees, mattpocock-finishing-a-development-branch, requesting-code-review, mattpocock-evidence-driven, test-driven-development]
 
 ---
 

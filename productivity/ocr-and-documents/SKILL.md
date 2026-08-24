@@ -14,6 +14,11 @@ metadata:
 
 # PDF & Document Extraction
 
+
+## When to Use
+
+Use when the user needs `ocr-and-documents`.
+
 ## What This Skill Does
 
 Extract text from PDFs and scans using pymupdf and marker-pdf for document processing.

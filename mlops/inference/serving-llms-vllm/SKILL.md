@@ -1,6 +1,6 @@
 ---
 name: serving-llms-vllm
-description: "vLLM: high-throughput LLM serving, OpenAI API, quantization."
+description: "vLLM: LLM serving, OpenAI API, quantization"
 version: 1.0.1
 author: Orchestra Research
 license: MIT
@@ -14,6 +14,11 @@ metadata:
 ---
 
 # vLLM - High-Performance LLM Serving
+
+
+## What This Skill Does
+
+vLLM: LLM serving, OpenAI API, quantization
 
 ## When to Use
 

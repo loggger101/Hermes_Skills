@@ -8,7 +8,7 @@ platforms: [macos]
 metadata:
   hermes:
     tags: [Reminders, tasks, todo, macOS, Apple]
-    related_skills: [apple-notes, findmy, imessage]
+    related_skills: [apple-notes, findmy, imessage, cron-job-authoring, hermes-agent]
 prerequisites:
   commands: [remindctl]
 

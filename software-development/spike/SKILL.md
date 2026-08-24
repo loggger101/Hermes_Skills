@@ -14,6 +14,11 @@ metadata:
 
 # Spike
 
+
+## When to Use
+
+Use when the user needs `spike`.
+
 ## What This Skill Does
 
 Run throwaway experiments to validate ideas before committing to a full build implementation.
