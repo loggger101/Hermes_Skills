@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [REST, API, HTTP, curl, integration]
-    related_skills: [ssh-remote]
+    related_skills: [ssh-remote, docker-containers]
 ---
 
 # REST API Client

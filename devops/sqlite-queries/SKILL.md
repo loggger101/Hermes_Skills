@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [SQLite, SQL, database, query, export]
-    related_skills: []
+    related_skills: [sql-for-data]
 ---
 
 # SQLite Queries

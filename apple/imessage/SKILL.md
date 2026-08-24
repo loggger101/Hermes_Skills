@@ -8,6 +8,7 @@ platforms: [macos]
 metadata:
   hermes:
     tags: [iMessage, SMS, messaging, macOS, Apple]
+    related_skills: [apple-notes, apple-reminders, findmy]
 prerequisites:
   commands: [imsg]
 ---

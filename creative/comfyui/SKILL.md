@@ -23,7 +23,7 @@ metadata:
       - creative
       - generative-ai
       - video-generation
-    related_skills: []
+    related_skills: [baoyu-infographic]
     category: creative
 ---
 

@@ -8,6 +8,7 @@ platforms: [macos]
 metadata:
   hermes:
     tags: [FindMy, AirTag, location, tracking, macOS, Apple]
+    related_skills: [apple-notes, apple-reminders, imessage]
 ---
 
 # Find My (Apple)

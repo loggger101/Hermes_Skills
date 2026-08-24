@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [evidence, testing, validation, pre-merge, gates, aegis]
-    related_skills: [mattpocock-tdd, mattpocock-multi-agent-code-review, requesting-code-review, mattpocock-code-review, mattpocock-security-review]
+    related_skills: [mattpocock-tdd, mattpocock-multi-agent-code-review, requesting-code-review, mattpocock-code-review, mattpocock-security-review, mattpocock-using-git-worktrees]
 ---
 
 ## When to Use

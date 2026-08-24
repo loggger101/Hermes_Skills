@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [Multi-Agent, Git, Merge-Conflict, Kanban, Arbitration]
-    related_skills: [hermes-agent]
+    related_skills: [hermes-agent, mattpocock-resolving-merge-conflicts]
 ---
 
 # Merge Reconciler

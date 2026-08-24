@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [Research, Archives, Wayback, Paywall, WAF, Fallback]
-    related_skills: [grounded-citations]
+    related_skills: [grounded-citations, parallel-cli]
 ---
 
 # Blocked-Page Recovery

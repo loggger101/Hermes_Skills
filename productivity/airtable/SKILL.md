@@ -11,6 +11,7 @@ prerequisites:
 metadata:
   hermes:
     tags: [Airtable, Productivity, Database, API]
+    related_skills: [notion]
     homepage: https://airtable.com/developers/web/api/introduction
 ---
 

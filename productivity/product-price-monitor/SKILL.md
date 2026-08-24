@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [Prices, Availability, Shopping, Travel, Alerts]
-    related_skills: [maps]
+    related_skills: [maps, cron-job-authoring]
 ---
 
 # Product Price Monitor

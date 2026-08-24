@@ -11,6 +11,7 @@ prerequisites:
 metadata:
   hermes:
     tags: [Teams, Microsoft Graph, Meetings, Productivity, Operations]
+    related_skills: [meeting-action-items]
     related_docs:
       - /docs/guides/microsoft-graph-app-registration
       - /docs/user-guide/messaging/teams-meetings

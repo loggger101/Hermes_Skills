@@ -8,6 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [RSS, Blogs, Feed-Reader, Monitoring]
+    related_skills: [competitor-news-monitor, parallel-cli]
     homepage: https://github.com/JulienTant/blogwatcher-cli
 prerequisites:
   commands: [blogwatcher-cli]

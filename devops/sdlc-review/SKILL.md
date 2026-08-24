@@ -10,6 +10,7 @@ metadata:
     tags: [kanban, review, quality, verification]
     category: devops
     requires_toolsets: [kanban]
+    related_skills: [requesting-code-review]
 environments:
   - kanban
 ---

@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [SSH, remote, devops, file-transfer, tunnels]
-    related_skills: []
+    related_skills: [docker-containers]
 ---
 
 # SSH Remote Access
