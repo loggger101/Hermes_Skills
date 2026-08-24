@@ -1,40 +1,42 @@
 # Missing From Local (Skills in Repository but Not in Local Profile)
 
-The following 13 skills exist in this repository but are **not present** in the local
-Hermes skills directory at `C:\Users\Loggg\AppData\Local\hermes\skills\`.
+This document tracks skills that exist in the repository but may not be present
+in the local Hermes skills directory at `C:\Users\Loggg\AppData\Local\hermes\skills\`.
 
-They were imported from the `the-skill-maker` or `the-memory-controller` profiles,
-which are no longer present on this machine (no `profiles/` directory exists under
-`AppData\Local\hermes\`).
+## Sync Status
 
-## Data Science Category (12 skills)
+As of the latest sync, **all 127 skills from the repository are present in the local profile**.
+The 13 skills that were previously missing (12 from `data-science/` and 1 from
+`autonomous-ai-agents/`) have been synced from the repository.
 
-These were all in the `data-science/` category, which has no corresponding directory
-in the local skills tree:
+### Previously Missing (Now Synced)
 
-| # | Skill Name | Local Status | Notes |
-|---|-----------|-------------|-------|
-| 1 | `build-systems-data` | Not local | Data build pipeline skill |
-| 2 | `cli-tool-craft` | Not local | CLI tool development craft |
-| 3 | `evolutionary-ml` | Not local | Evolutionary ML techniques |
-| 4 | `model-export-deploy` | Not local | Model export and deployment |
-| 5 | `orbital-mechanics-data` | Not local | Orbital mechanics data processing |
-| 6 | `python-craft` | Not local | Python development craft |
-| 7 | `python-data-science` | Not local | Python data science workflows |
-| 8 | `sql-for-data` | Not local | SQL for data analysis |
-| 9 | `static-site-seo` | Not local | Static site SEO optimization |
-| 10 | `streamlit-dashboards` | Not local | Streamlit dashboard creation |
-| 11 | `test-infra-ml` | Not local | ML infrastructure testing |
-| 12 | `verification-culture` | Not local | Verification culture practices |
+| # | Category | Skill Name | Notes |
+|---|----------|-----------|-------|
+| 1 | data-science | `build-systems-data` | Data build pipeline skill — now local |
+| 2 | data-science | `cli-tool-craft` | CLI tool development craft — now local |
+| 3 | data-science | `evolutionary-ml` | Evolutionary ML techniques — now local |
+| 4 | data-science | `model-export-deploy` | Model export and deployment — now local |
+| 5 | data-science | `orbital-mechanics-data` | Orbital mechanics data processing — now local |
+| 6 | data-science | `python-craft` | Python development craft — now local |
+| 7 | data-science | `python-data-science` | Python data science workflows — now local |
+| 8 | data-science | `sql-for-data` | SQL for data analysis — now local |
+| 9 | data-science | `static-site-seo` | Static site SEO optimization — now local |
+| 10 | data-science | `streamlit-dashboards` | Streamlit dashboard creation — now local |
+| 11 | data-science | `test-infra-ml` | ML infrastructure testing — now local |
+| 12 | data-science | `verification-culture` | Verification culture practices — now local |
+| 13 | autonomous-ai-agents | `cron-job-authoring` | Cron job authoring patterns — now local |
 
-## Autonomous AI Agents Category (1 skill)
+## Local-Only Skill
 
-| # | Skill Name | Local Status | Notes |
-|---|-----------|-------------|-------|
-| 13 | `cron-job-authoring` | Not local | Cron job authoring patterns; was fixed in this audit (frontmatter normalized) |
+The local profile has **1 skill** that does not exist in the repository:
+
+| # | Skill Name | Local Path | Notes |
+|---|-----------|------------|-------|
+| 1 | `hermes-agent` | `C:\Users\Loggg\AppData\Local\hermes\skills\autonomous-ai-agents\hermes-agent` | Pre-installed by Hermes core; the repo version is a curated copy |
 
 ## Action Items
 
-- [ ] Decide whether to copy these 13 skills back to local from the repository
-- [ ] If the local skills directory was the original source, investigate whether
-      these skills were lost during a profile migration or were never synced locally
+- [x] Sync all 13 missing skills from the repository to local profile
+- [x] Verify all 127 repo skills are present locally
+- [x] Document sync status in this file
