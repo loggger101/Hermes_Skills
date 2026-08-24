@@ -67,23 +67,23 @@ Merge findings from all reviewers into a single report. Deduplicate overlapping 
 
 ```python
 # Bug hunter
-"Review this diff for logic errors, edge cases, off-by-one bugs, null 
-safety issues, and race conditions. For each finding, note the 
+"Review this diff for logic errors, edge cases, off-by-one bugs, null
+safety issues, and race conditions. For each finding, note the
 file:line and explain the failure mode."
 
-# Security auditor  
+# Security auditor
 "Review this diff for security vulnerabilities: injection, XSS, SSRF,
-path traversal, hardcoded secrets, auth bypass. Use the OWASP 
+path traversal, hardcoded secrets, auth bypass. Use the OWASP
 checklist. Flag every security concern with file:line reference."
 
 # Code quality
-"Review this diff for code quality issues: unclear naming, high 
-cyclomatic complexity, missing tests, inconsistency with repo 
+"Review this diff for code quality issues: unclear naming, high
+cyclomatic complexity, missing tests, inconsistency with repo
 conventions. Provide file:line references with suggestions."
 
 # Contracts
-"Review this diff against the originating spec/issue. Verify each 
-change maps to a requirement. Flag any scope creep or unrequested 
+"Review this diff against the originating spec/issue. Verify each
+change maps to a requirement. Flag any scope creep or unrequested
 changes with file:line references."
 ```
 

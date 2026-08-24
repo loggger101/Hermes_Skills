@@ -1,10 +1,9 @@
 ---
 name: popular-web-designs
-description: 54 real design systems (Stripe, Linear, Vercel) as HTML/CSS.
+description: "54 real design systems as HTML/CSS."
 version: 1.0.0
 author: Hermes Agent + Teknium (design systems sourced from VoltAgent/awesome-design-md)
 license: MIT
-tags: [design, css, html, ui, web-development, design-systems, templates]
 platforms: [linux, macos, windows]
 triggers:
   - build a page that looks like
@@ -16,6 +15,10 @@ triggers:
   - landing page
   - dashboard design
   - website styled like
+metadata:
+  hermes:
+    tags: [design, css, html, ui, web-development, design-systems, templates]
+    related_skills: [claude-design, sketch, excalidraw, architecture-diagram, design-md, pretext]
 ---
 
 # Popular Web Designs
