@@ -13,7 +13,11 @@ metadata:
 
 # YouTube Content Tool
 
-Extract transcripts from YouTube videos and convert them into useful formats.
+## What This Skill Does
+
+Extracts transcripts from YouTube videos and transforms them into structured content (chapters, summaries, threads, blog posts, quotes). Uses `youtube-transcript-api` via a helper script to fetch transcripts (auto-generated or manual), validates the output, chunks long transcripts, and formats the result according to the user's request. Loads `skill_view(name='songsee')` for audio analysis and `skill_view(name='blogwatcher')` for RSS monitoring.
+
+Extracts transcripts from YouTube videos and converts them into useful formats.
 
 ## When to Use
 

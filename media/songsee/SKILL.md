@@ -13,6 +13,10 @@ metadata:
 
 # Songsee — Audio Feature Extraction
 
+## What This Skill Does
+
+Generates audio spectrograms, chroma features, MFCCs, and other signal-processing visualizations from local audio files or YouTube URLs. Wraps the `librosa` library and `ffmpeg` into a CLI tool (`songsee`) that handles format conversion, parameter selection, and output rendering. Loads `skill_view(name='youtube-content')` for transcript extraction and `skill_view(name='comfyui')` for AI-generated visual art.
+
 Audio spectrograms and feature extraction via CLI. Generates mel spectrograms, chroma features, MFCCs, and other audio analysis visualizations from audio files or YouTube links.
 
 ## When to Use
