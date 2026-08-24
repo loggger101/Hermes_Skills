@@ -1,6 +1,6 @@
 ---
 name: touchdesigner-mcp
-description: Control TouchDesigner via twozero MCP.
+description: "Control TouchDesigner via twozero MCP."
 version: 1.1.0
 author: kshitijk4poor
 license: MIT

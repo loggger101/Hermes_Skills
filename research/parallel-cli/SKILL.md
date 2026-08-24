@@ -1,6 +1,6 @@
 ---
 name: parallel-cli
-description: Agent-native web search, deep research, and enrichment.
+description: "Agent-native web search, deep research, and enrichment."
 version: 1.1.0
 author: Hermes Agent
 license: MIT
