@@ -17,7 +17,8 @@ cronjob(action='create', prompt=<prompt body>, schedule='...')
 │   └── skill-watchdog.py  # Simple watchdog pattern
 ├── active/
 │   ├── aspirecures-weekly.json  # Example: research pipeline
-│   └── skill-audit.json         # Example: weekly skill audit
+│   ├── skill-audit.json         # Example: weekly skill audit
+│   └── sync-hermes-skills.json  # Bidirectional sync: repo ↔ local Hermes env
 └── archive/
     └── old-jobs/        # Deprecated cronjobs kept for reference
 ```
@@ -34,9 +35,10 @@ See:
 ## Active Cronjobs
 
 | Job | Schedule | Skills Used | Purpose |
-|-----|----------|-------------|---------|
-| [`aspirecures-weekly.json`](./active/aspirecures-weekly.json) | Weekly Mon 1 PM ET | 9 skills (research, mlops, github) | Research pipeline: collect→curate→render→commit disease pages (two-agent split) |
-| [`skill-audit.json`](./active/skill-audit.json) | Weekly Sun 3 AM | 4 skills (cron-job-authoring, skill-authoring, verification) | Self-audit: YAML validation, broken refs, description lengths, line endings |
+||-----|----------|-------------|---------|
+|| [`aspirecures-weekly.json`](./active/aspirecures-weekly.json) | Weekly Mon 1 PM ET | 9 skills (research, mlops, github) | Research pipeline: collect→curate→render→commit disease pages (two-agent split) |
+|| [`skill-audit.json`](./active/skill-audit.json) | Weekly Sun 3 AM | 4 skills (cron-job-authoring, skill-authoring, verification) | Self-audit: YAML validation, broken refs, description lengths, line endings |
+|| [`sync-hermes-skills.json`](./active/sync-hermes-skills.json) | Weekly Sun 2 AM | 4 skills (cron-job-authoring, hermes-agent, skill-authoring, verification) | Bidirectional sync: pull upstream → sync skills/memories/profiles ↔ local → commit → push → audit |
 
 ## Quick Start
 
