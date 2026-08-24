@@ -23,6 +23,10 @@ Use `remindctl` to manage Apple Reminders directly from the terminal. Tasks sync
 - Grant Reminders permission when prompted
 - Check: `remindctl status` / Request: `remindctl authorize`
 
+## What This Skill Does
+
+Uses the `remindctl` CLI to manage Apple Reminders.app via AppleScript. Covers: viewing reminders (today, overdue, all, by date), managing lists, creating reminders with due dates and alarms, completing/deleting reminders, and output formatting. Loads `skill_view(name='hermes-agent')` for cron integration and `skill_view(name='cron-job-authoring')` for scheduled reminder checks.
+
 ## When to Use
 
 - User mentions "reminder" or "Reminders app"
@@ -128,3 +132,22 @@ Accepted by `--due` and date filters:
 1. When user says "remind me", clarify: Apple Reminders (syncs to phone) vs agent cronjob alert
 2. Always confirm reminder content and due date before creating
 3. Use `--json` for programmatic parsing
+
+## Pitfalls
+
+- **Permission denied**: If `remindctl` fails, run `remindctl authorize` and grant reminders permission in System Settings
+- **Due vs alarm confusion**: `--due` sets when it's due; `--alarm` sets when the notification fires. Don't use `--alarm` unless the user specifically wants a notification nudge
+- **Date format parsing**: Natural language like "tomorrow at 3pm" may not parse consistently — use explicit format `YYYY-MM-DD HH:mm`
+- **Duplicate reminders**: `remindctl add` doesn't check for duplicates — search first with `remindctl today -s "query"`
+- **iCloud sync delays**: Changes may take seconds to appear on other devices — don't assume immediate sync
+- **Interactive prompts**: Some operations require interactive selection — use `pty=true` in terminal for these
+- **List names with spaces**: Wrap in quotes — `--list "My List"`
+
+## Verification
+
+- [ ] `remindctl` is installed (`which remindctl`)
+- [ ] Permissions granted (`remindctl status` shows connected)
+- [ ] Reminder created with correct due date and alarm (verify with `--json` output)
+- [ ] List management (create/delete) works
+- [ ] Completion status updates correctly
+- [ ] Date format parsing tested with various inputs

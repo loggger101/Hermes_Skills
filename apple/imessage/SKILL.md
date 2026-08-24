@@ -16,12 +16,17 @@ prerequisites:
 
 Use `imsg` to read and send iMessage/SMS via macOS Messages.app.
 
+## What This Skill Does
+
+Sends and receives iMessages and SMS messages via the `imsg` CLI tool, which interfaces with macOS Messages.app via AppleScript. Supports listing chats, viewing conversation history (with attachments), sending messages (text, attachments, forced iMessage/SMS), and watching for new messages in real-time. Loads `skill_view(name='apple-notes')` for note-taking and `skill_view(name='apple-reminders')` for task management.
+
 ## Prerequisites
 
 - **macOS** with Messages.app signed in
 - Install: `brew install steipete/tap/imsg`
 - Grant Full Disk Access for terminal (System Settings → Privacy → Full Disk Access)
 - Grant Automation permission for Messages.app when prompted
+- `jq` for JSON parsing (standard on macOS via Homebrew)
 
 ## When to Use
 
@@ -98,5 +103,24 @@ imsg chats --limit 20 --json | jq '.[] | select(.displayName | contains("Mom"))'
 # 2. Confirm with user: "Found Mom at +1555123456. Send 'I'll be late' via iMessage?"
 
 # 3. Send after confirmation
-imsg send --to "+1555123456" --text "I'll be late"
+imsg send --to "+155****3456" --text "I'll be late"
 ```
+
+## Pitfalls
+
+- **Permission errors**: If `imsg` fails, ensure Full Disk Access is granted in System Settings → Privacy & Security → Full Disk Access, and Automation permission for Messages.app is enabled
+- **Phone number format**: Use E.164 international format (`+1XXXXXXXXXX`), not local format
+- **iMessage vs SMS**: If the recipient doesn't use iMessage, messages fall back to SMS (green bubble) — use `--service imessage` to force and get an error if they don't have iMessage
+- **Attachments**: File paths must be absolute; verify the file exists before sending
+- **Rate limiting**: Don't send multiple messages in rapid succession — Messages.app may throttle
+- **Chat ID stability**: Chat IDs can change if conversations are deleted and recreated
+- **Large history**: `imsg history --limit` should always be set — omitting it can return thousands of messages
+
+## Verification
+
+- [ ] `imsg` is installed and authenticated (`imsg chats --limit 1` returns results)
+- [ ] Sending test message to own phone number succeeds
+- [ ] Attachment sending works with valid file path
+- [ ] Chat history is retrieved with correct limit
+- [ ] JSON output is valid and parseable by `jq`
+- [ ] Watch mode detects new messages in target chat

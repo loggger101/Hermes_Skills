@@ -15,7 +15,22 @@ metadata:
 
 Use this skill for filesystem-first Obsidian vault work: reading notes, listing notes, searching note files, creating notes, appending content, and adding wikilinks.
 
-## Vault path
+## When to Use
+
+- Reading notes from an Obsidian vault by file path
+- Searching for specific content across all notes
+- Listing all notes in the vault or a specific folder
+- Creating new notes with markdown content
+- Appending content to existing notes
+- Adding wikilinks (`[[Note Name]]`) to connect related notes
+
+**Skip when:** You need graph-view analysis, backlink traversal beyond filesystem links, or plugin-specific features — those belong to the Obsidian GUI, not this skill.
+
+## What This Skill Does
+
+Provides a file-tool-based workflow for interacting with Obsidian vaults stored on disk. Obsidian stores notes as plain Markdown files in a folder structure, so this skill uses `read_file`, `write_file`, `patch`, and `search_files` to manipulate them — no Obsidian API or plugin required.
+
+## Vault Path Resolution
 
 Use a known or resolved vault path before calling file tools.
 
@@ -24,6 +39,12 @@ The documented vault-path convention is the `OBSIDIAN_VAULT_PATH` environment va
 File tools do not expand shell variables. Do not pass paths containing `$OBSIDIAN_VAULT_PATH` to `read_file`, `write_file`, `patch`, or `search_files`; resolve the vault path first and pass a concrete absolute path. Vault paths may contain spaces, which is another reason to prefer file tools over shell commands.
 
 If the vault path is unknown, `terminal` is acceptable for resolving `OBSIDIAN_VAULT_PATH` or checking whether the fallback path exists. Once the path is known, switch back to file tools.
+
+## Prerequisites
+
+- An Obsidian vault existing on disk
+- The vault path (from `OBSIDIAN_VAULT_PATH` env var or `~/Documents/Obsidian Vault` as fallback)
+- No additional software required — file tools handle Markdown natively
 
 ## Read a note
 
@@ -66,3 +87,18 @@ Use `patch` for focused note changes when the current content gives you stable c
 ## Wikilinks
 
 Obsidian links notes with `[[Note Name]]` syntax. When creating notes, use these to link related content.
+
+## Pitfalls
+
+- **Path resolution**: Never pass unresolved `$VAR` paths to file tools — always resolve to absolute paths first
+- **Spaces in vault path**: The default `~/Documents/Obsidian Vault` path contains spaces — use file tools, not shell commands
+- **File encoding**: Obsidian uses UTF-8 — ensure `write_file` saves in UTF-8
+- **Large files**: Reading notes with 2000+ lines requires pagination (`read_file` with offset/limit)
+- **Concurrent edits**: If the user is actively editing in Obsidian, changes may conflict — warn before overwriting
+
+## Verification
+
+- [ ] Vault path was resolved to an absolute path before any file operation
+- [ ] Notes were read back after creation/editing to verify content
+- [ ] Wikilinks point to existing note files (or are intentional forward references)
+- [ ] No shell variable paths were passed to file tools

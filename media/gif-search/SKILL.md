@@ -17,6 +17,10 @@ metadata:
 
 Search and download GIFs directly via the Tenor API using curl. No extra tools needed.
 
+## What This Skill Does
+
+Searches and downloads GIFs from the Tenor API using `curl` and `jq`. The `TENOR_API_KEY` environment variable provides authentication. GIF URLs can be used directly in chat (markdown image syntax) or saved to disk. Loads `skill_view(name='youtube-content')` for video-based GIF creation from YouTube videos.
+
 ## When to use
 
 Useful for finding reaction GIFs, creating visual content, and sending GIFs in chat.
@@ -89,3 +93,21 @@ Each result has multiple formats under `.media_formats`:
 - URL-encode the query: spaces as `+`, special chars as `%XX`
 - For sending in chat, `tinygif` URLs are lighter weight
 - GIF URLs can be used directly in markdown: `![alt](url)`
+
+## Pitfalls
+
+- **Missing API key**: If `TENOR_API_KEY` is not set, all requests return 401 — verify with `echo $TENOR_API_KEY`
+- **Rate limiting**: Tenor API has rate limits — space out requests for bulk operations
+- **GIF not loading**: Some GIFs may be from deleted/suspended accounts — try alternative search terms
+- **Large GIF files**: Full-size GIFs can be 5-10MB — prefer `tinygif` or `mp4` formats for chat
+- **Content filtering**: Use `contentfilter=high` for family-safe searches
+- **URL encoding**: Spaces must be `+` or `%20`, special chars must be URL-encoded
+
+## Verification
+
+- [ ] `TENOR_API_KEY` is set in environment
+- [ ] Search returns results (non-empty JSON response)
+- [ ] GIF URLs are valid and download successfully
+- [ ] Downloaded file is a valid GIF (check file size > 1KB)
+- [ ] Content filter is set appropriately for the context
+- [ ] For chat: GIF URL loads inline (test with markdown syntax)

@@ -65,6 +65,14 @@ Update tasks/projects, create calendar holds, archive processed items, and draft
 6. Proposed updates awaiting approval
 7. Coverage gaps
 
+## Prerequisites
+
+- Access to the user's task management system (Notion, GitHub Issues, Obsidian, etc.)
+- Access to the user's calendar (Google Calendar, Outlook, etc.)
+- Access to the user's email inbox or task inbox
+- A half-open time window for the review period (typically past Monday to next Sunday)
+- Knowledge of which systems are authoritative for tasks vs. notes vs. calendar
+
 ## Pitfalls
 
 - Planning from tasks without calendar capacity.

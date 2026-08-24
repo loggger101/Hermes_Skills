@@ -15,9 +15,20 @@ metadata:
 
 Approach this as the design lead at a small studio known for giving every client a visual identity that could not be mistaken for anyone else's. This client has already rejected proposals that felt templated, and is paying for a distinctive point of view: make deliberate, opinionated choices about palette, typography, and layout that are specific to this brief, and take one real aesthetic risk you can justify.
 
+## What This Skill Does
+
+Makes deliberate, opinionated visual design decisions (palette, typography, layout, motion) that produce distinctive, non-templated output. Approaches design as a studio design lead: pin a concrete subject, make one real aesthetic risk, and execute with restraint. Loads `skill_view(name='sketch')` for throwaway HTML mockups, `skill_view(name='claude-design')` for one-off HTML artifacts, and `skill_view(name='popular-web-designs')` for real design system references.
+
 ## When to Use
 
 Use when the user asks for visual design, UI/UX direction, layout decisions, typography, color palette, motion, or when the design has been "rejected as templated" and needs to feel distinctive. Also use when shaping HTML/CSS for AI-generated pages where the visual identity matters.
+
+## Prerequisites
+
+- A clear design brief (or enough context to form one)
+- Understanding of the subject/product being designed for
+- Knowledge of the audience's needs and preferences
+- Access to design reference materials (`skill_view(name='popular-web-designs')`)
 
 ## Ground it in the subject
 

@@ -13,7 +13,11 @@ metadata:
 
 # Document to Action Items
 
-Turn documents into cited facts and proposed actions. Extraction is not legal advice, and low-confidence OCR or ambiguous language must remain visible. The `ocr-and-documents` / `pdf` / `docx` skills own extraction mechanics; this skill owns what happens to the extracted content.
+Turn documents into cited facts and proposed actions. Extraction is not legal advice, and low-confidence OCR or ambiguous language must remain visible. The `skill_view(name='ocr-and-documents')` / `skill_view(name='pdf')` / `skill_view(name='docx')` skills own extraction mechanics; this skill owns what happens to the extracted content.
+
+## What This Skill Does
+
+Implements a 7-step document-to-action workflow: inventory the document set, extract with provenance (page/section coordinates), classify evidence (parties, dates, money, obligations, approvals, risks, background, ambiguous), validate internally (cross-check totals, dates, defined terms), convert obligations to proposed actions with owners/due dates/dependencies, review before external writes, and create+verify records in the approved destination. Loads `skill_view(name='note-taking/obsidian')` for note storage and `skill_view(name='productivity/xlsx')` for spreadsheet output.
 
 ## When to Use
 

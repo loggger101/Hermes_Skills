@@ -13,20 +13,22 @@ metadata:
 
 # YouTube Content Tool
 
-## When to use
+Extract transcripts from YouTube videos and convert them into useful formats.
+
+## When to Use
 
 Use when the user shares a YouTube URL or video link, asks to summarize a video, requests a transcript, or wants to extract and reformat content from any YouTube video. Transforms transcripts into structured content (chapters, summaries, threads, blog posts).
 
-Extract transcripts from YouTube videos and convert them into useful formats.
-
-## Setup
-
-Use `uv` so the dependency is installed into the same Hermes-managed environment
-that runs the helper script:
+## Prerequisites
 
 ```bash
 uv pip install youtube-transcript-api
 ```
+
+**Requirements:**
+- A working internet connection
+- The video must have transcripts available (auto-generated or manual)
+- `uv` for dependency management (already available in Hermes)
 
 ## Helper Script
 
@@ -67,7 +69,7 @@ After fetching the transcript, format it based on what the user asks for:
 31:55 Q&A — audience questions on scalability and next steps
 ```
 
-## Workflow
+## Process
 
 1. **Fetch** the transcript using the helper script with `--text-only --timestamps` via `uv run python`.
 2. **Validate**: confirm the output is non-empty and in the expected language. If empty, retry without `--language` to get any available transcript. If still empty, tell the user the video likely has transcripts disabled.
@@ -75,9 +77,37 @@ After fetching the transcript, format it based on what the user asks for:
 4. **Transform** into the requested output format. If the user did not specify a format, default to a summary.
 5. **Verify**: re-read the transformed output to check for coherence, correct timestamps, and completeness before presenting.
 
+## Format Selection Guide
+
+| User asks for | Output format |
+|---------------|--------------|
+| "summarize" | Summary — 5-10 bullet points covering all key points |
+| "twitter thread" | Thread — 8-15 numbered posts, each < 280 chars |
+| "blog post" | Blog — title, intro, sections, key takeaways |
+| "chapters" | Timestamps + topic labels, grouped by content shift |
+| "key points" | Bullet list of the 5-7 most important facts |
+| "quotes" | Notable quotes with timestamps for attribution |
+
 ## Error Handling
 
 - **Transcript disabled**: tell the user; suggest they check if subtitles are available on the video page.
 - **Private/unavailable video**: relay the error and ask the user to verify the URL.
 - **No matching language**: retry without `--language` to fetch any available transcript, then note the actual language to the user.
 - **Dependency missing**: run `uv pip install youtube-transcript-api` and retry.
+- **API quota exceeded**: YouTube may rate-limit transcript requests; suggest waiting and retrying.
+
+## Pitfalls
+
+- **Auto-generated vs manual**: Auto-generated transcripts may contain errors — verify factual claims against the video content
+- **Long videos**: Transcripts for videos >30 minutes can be 20K+ characters — always chunk before processing
+- **Multiple languages**: The `--language` flag with fallback chain handles this, but verify the correct language was fetched
+- **Music-only segments**: Transcripts may contain `[Music]` placeholders — handle these gracefully in summaries
+- **Speaker changes**: Transcripts don't clearly mark speaker changes — annotate when creating thread/blog formats
+
+## Verification
+
+- [ ] Transcript was fetched and validated (non-empty, correct language)
+- [ ] Long videos were chunked before processing (if >50K chars)
+- [ ] Output format matches what the user requested
+- [ ] Timestamps in chapter/thread formats are accurate
+- [ ] Key facts are verifiable against the transcript

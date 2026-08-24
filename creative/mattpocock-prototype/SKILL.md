@@ -86,6 +86,31 @@ Write down the answer explicitly. If the answer is "yes, but with caveats," note
 - **Don't skip the question framing** — building without knowing what "success" looks like produces useless code.
 - **Don't over-engineer the prototype's infrastructure** — no CI, no tests, no linting. Just the code that answers the question.
 
+## Prerequisites
+
+- A clear design question to answer
+- Access to the tools/libraries being tested
+- A temporary working directory (e.g., `/tmp/` or `.scratch/`)
+- Time budget for the experiment (typically 15-30 minutes)
+
+## Pitfalls
+
+- **Building the full thing** — a prototype is not a scaled-down product. Resist the urge to polish.
+- **Reusing prototype code** — prototypes are written for clarity, not production quality. Rewriting is cheaper than refactoring a throwaway.
+- **Skipping the question framing** — building without knowing what "success" looks like produces useless code.
+- **Over-engineering the prototype's infrastructure** — no CI, no tests, no linting. Just the code that answers the question.
+- **Not timing it** — a prototype should take 15-30 minutes. If it's taking longer, the question is wrong.
+- **Keeping the prototype around** — don't clutter the repo with throwaway code. Delete it after.
+
+## Verification
+
+- [ ] The design question was stated in one sentence before any code was written
+- [ ] Success criteria were explicitly defined before building
+- [ ] The prototype used the minimal possible tech stack
+- [ ] Only the code needed to answer the question was written (no extra features)
+- [ ] The answer is explicit: YES, NO, or PARTIAL with caveats
+- [ ] The prototype was cleaned up (deleted) after answering the question
+
 ## AspireCURES Context
 
 When evaluating whether a new data source (e.g., ISRCTN, ClinicalTrials.gov) can be integrated into the AspireCURES pipeline, build a throwaway script that fetches one record and attempts to parse it into the standard JSON schema. If the prototype produces a valid record within 30 seconds of code, proceed to full integration. If not, try a different parsing library or API approach.

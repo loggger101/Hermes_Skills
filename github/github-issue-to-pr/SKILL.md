@@ -15,6 +15,10 @@ metadata:
 
 Turn a GitHub issue into a tested, verified PR. This skill owns the end-to-end discipline — premise validation, duplicate sweeps, class-level fixes, and honest CI reporting; the sibling GitHub and development skills own their own mechanics.
 
+## What This Skill Does
+
+Implements a complete issue-to-PR workflow with 8 phases: read the live issue (body + comments), sweep for duplicates, validate the premise against current code, define acceptance criteria, implement the smallest complete fix (+ fix the class), prove the regression test bites via sabotage, run quality gates and open the PR, and shepherd CI honestly. Loads `skill_view(name='github-issues')` for issue tracking, `skill_view(name='github-pr-workflow')` for PR mechanics, and `skill_view(name='requesting-code-review')` for pre-commit verification.
+
 ## When to Use
 
 - "Fix issue #123 and open a PR."
@@ -22,6 +26,13 @@ Turn a GitHub issue into a tested, verified PR. This skill owns the end-to-end d
 - "Take this bug from issue to green CI."
 
 Don't use for: reviewing an existing PR, or answering a code question with no requested change.
+
+## Prerequisites
+
+- `gh` CLI installed and authenticated
+- Write access to the repository
+- A development environment with the project's dependencies installed
+- Familiarity with the project's test framework and CI configuration
 
 ## Procedure
 
