@@ -361,7 +361,7 @@ cronjob(action='create',
 - ✅ All YAML frontmatter parses without errors
 - ✅ No CRLF line endings (all LF)
 - ✅ No temp scripts remaining in repo root
-- ✅ `related_skills` network: 287 cross-references across 114 skills (13 standalone skills with none)
+- ✅ `related_skills` network: 297 cross-references across 114 skills (3 standalone skills with none)
 - ✅ No duplicate content (verified via hash comparison)
 - ✅ DEPENDENCY.md relationship mapping audited and updated
 - ✅ Profile documentation transferred to `profile/` directory
