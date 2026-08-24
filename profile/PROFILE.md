@@ -87,9 +87,13 @@ The `.usage.json` file tracks per-skill usage metadata:
 - `state` (active/archived)
 - `pinned` (whether the skill is pinned)
 
+## Cron Job Authoring
+
+Skills for writing self-contained, autonomous cronjob prompts. The core patterns are in `autonomous-repo-cronjob` (repo automation with two-agent split) and `cron-job-authoring` (general scheduling). See the [README cronjob section](../README.md#cron-job-authoring) in the repo root for the full skill index and tool API reference.
+
 ## Sync Status
 
-The local skills directory at `C:\Users\Loggg\AppData\Local\hermes\skills\` has been synced with this repository. All 114 local skills that exist in both locations are now identical (repo → local sync applied on 2026-08-24).
+The local skills directory at `C:\Users\Loggg\AppData\Local\hermes\skills\` has been synced with this repository. All 114 local skills that exist in both locations are now identical (repo to local syncs applied on 2026-08-24 across multiple standardization passes).
 
 The repository contains 13 additional skills that originated from the `the-skill-maker` and `the-memory-controller` profiles (which are no longer present on this machine) — these are cataloged in [MISSING-FROM-LOCAL.md](./MISSING-FROM-LOCAL.md).
 
