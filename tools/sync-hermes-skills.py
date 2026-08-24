@@ -13,7 +13,7 @@ Designed for autonomous cron execution (no_agent=true):
 
 Direction of flow:
   1. PULL  — git pull upstream → copy new/updated skill files to ~/.hermes/skills/
-  2. PUSH  — copy new/modified local skills back to repo, git add + commit + push
+  2. PUSH  — copy new/modified local skills to repo, delete removed skills, git add + commit + push
   3. MEMORIES — export new/modified memory entries from ~/.hermes/memories/ into the repo
   4. PROFILES — export new/modified profile data into the repo
   5. AUDIT  — run tools/audit-skills.py to validate
@@ -327,8 +327,12 @@ def sync_skills_pull(repo_root: Path, local_dir: Path) -> dict:
 
 
 def sync_skills_push(repo_root: Path, local_dir: Path) -> dict:
-    """Copy skill files from local Hermes environment to repo."""
-    result = {"action": "push_skills", "files_copied": 0, "files_skipped": 0, "files_new": 0, "details": []}
+    """Copy skill files from local Hermes environment to repo.
+
+    Handles new files, updated files, and deleted files (bidirectional sync).
+    """
+    result = {"action": "push_skills", "files_copied": 0, "files_skipped": 0,
+              "files_new": 0, "files_deleted": 0, "details": []}
 
     if not local_dir.exists():
         result["details"].append("Local skills directory does not exist — skipping push")
@@ -336,6 +340,7 @@ def sync_skills_push(repo_root: Path, local_dir: Path) -> dict:
 
     local_files = list_repo_files(local_dir)
 
+    # --- Copy new/modified files (local → repo) ---
     for rel_path, local_path in sorted(local_files.items()):
         # Skip the .hermes/cron/ directory in the local environment —
         # that's the cron config, not user-generated skill content
@@ -376,6 +381,24 @@ def sync_skills_push(repo_root: Path, local_dir: Path) -> dict:
                 result["files_skipped"] += 1
         except Exception as e:
             result["details"].append(f"Error copying {rel_path}: {e}")
+
+    # --- Delete files that were removed locally (repo → delete) ---
+    # Only check skill category directories (not tools, profile, .hermes, etc.)
+    for rel_path, repo_path in sorted(list_repo_files(repo_root).items()):
+        parts = rel_path.split("/")
+        # Skip non-skill files in repo
+        if len(parts) == 1 or parts[0] in ("tools", "profile", ".hermes",
+                                           "memories-export", "profiles-export"):
+            continue
+        # If file no longer exists locally, delete from repo
+        local_path = local_dir / rel_path
+        if not local_path.exists() and repo_path.exists():
+            try:
+                repo_path.unlink()
+                result["files_deleted"] += 1
+                result["details"].append(f"Deleted (removed locally): {rel_path}")
+            except Exception as e:
+                result["details"].append(f"Error deleting {rel_path}: {e}")
 
     return result
 
@@ -452,6 +475,21 @@ def sync_profiles(repo_root: Path, local_profiles_dir: Path) -> dict:
                         result["details"].append(f"Profile {profile_dir.name} memory: {rel}")
 
     return result
+
+
+def cleanup_empty_dirs(directory: Path, base: Path) -> int:
+    """Remove empty directories under `base` within `directory`. Returns count removed."""
+    removed = 0
+    # Walk bottom-up so we can remove parent dirs that become empty
+    for path in sorted(directory.rglob("*"), key=lambda p: len(p.parts), reverse=True):
+        if path.is_dir() and path != base:
+            try:
+                if not any(path.iterdir()):  # Directory is empty
+                    path.rmdir()
+                    removed += 1
+            except OSError:
+                pass  # Directory not empty or in use
+    return removed
 
 
 def generate_dependency_map(repo_root: Path) -> dict:
@@ -650,6 +688,7 @@ def main():
     dep_needs_regen = (
         push_skills["files_copied"] > 0
         or push_skills["files_new"] > 0
+        or push_skills["files_deleted"] > 0
         or not (REPO_ROOT / "DEPENDENCY.md").exists()
     )
     if dep_needs_regen:
@@ -666,20 +705,30 @@ def main():
 
     # Step 7: If there are changes from local env, commit and push
     dep_updated = dep_result.get("updated", False)
+    # Clean up orphaned empty directories in both repo and local
+    repo_empty = cleanup_empty_dirs(REPO_ROOT, REPO_ROOT)
+    local_empty = 0
+    if LOCAL_SKILLS_DIR.exists():
+        local_empty = cleanup_empty_dirs(LOCAL_SKILLS_DIR, LOCAL_SKILLS_DIR)
+
     total_changes = (
         push_skills["files_copied"]
         + push_skills["files_new"]
+        + push_skills["files_deleted"]
         + mem_result["files_synced"]
         + prof_result["files_synced"]
         + (1 if dep_updated else 0)
+        + repo_empty
+        + local_empty
     )
     if total_changes > 0:
         commit_result = git_add_commit_push(
             REPO_ROOT,
             f"chore: sync {total_changes} file(s) from Hermes local env — "
-            f"{push_skills['files_copied']} skills updated, {push_skills['files_new']} new skills, "
-            f"{mem_result['files_synced']} memories, {prof_result['files_synced']} profile files, "
-            f"{1 if dep_updated else 0} dependency map updates",
+            f"{push_skills['files_copied']} updated, {push_skills['files_new']} new, "
+            f"{push_skills['files_deleted']} deleted, "
+            f"{mem_result['files_synced']} memories, {prof_result['files_synced']} profiles, "
+            f"{1 if dep_updated else 0} dep map, {repo_empty + local_empty} empty dirs",
             dry_run=args.dry_run,
         )
         report["steps"].append(commit_result)
@@ -692,6 +741,7 @@ def main():
         "files_skipped_pull": pull_skills["files_skipped"],
         "new_local_files_in_repo": push_skills["files_new"],
         "updated_files_in_repo": push_skills["files_copied"],
+        "deleted_files_in_repo": push_skills["files_deleted"],
         "files_skipped_push": push_skills["files_skipped"],
         "memories_synced": mem_result["files_synced"],
         "profiles_synced": prof_result["files_synced"],
@@ -699,6 +749,7 @@ def main():
         "audit_passed": audit_result.get("success", False),
         "threshold_breached": audit_result.get("threshold_breached", False),
         "dep_map_updated": dep_result.get("updated", False),
+        "empty_dirs_removed": repo_empty + local_empty,
     }
 
     # Silent mode: only output if there are changes, errors, or threshold breach
