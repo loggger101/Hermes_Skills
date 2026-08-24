@@ -1,6 +1,6 @@
 # Skill Dependency Map
 This document maps the relationship network between all **127 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
-**Network stats:** 337 `related_skills` cross-references across 125 skills (2 skills are standalone with no `related_skills` entries).
+**Network stats:** 337 `related_skills` cross-references across 127 skills (2 skills are standalone with no `related_skills` entries).
 ## Hub Skills (referenced by 2+ other skills)
 These are the core skills that serve as building blocks, referenced by many other skills:
 | Skill | Referenced By (count) | Referencing Skills |
