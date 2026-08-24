@@ -380,7 +380,7 @@ Streamlit runs your script in a single thread per session. Spawning a daemon thr
 - **Thread state doesn't survive re-runs.** If the script re-runs, your thread is still running in the background but the session state may have changed — guard with flags in `st.session_state` and check them in the thread.
 - **For production dashboards**, prefer external process management: the training process writes metrics to a file/database, and the dashboard reads them (cached). The dashboard doesn't control the process directly — it observes it. This decouples the dashboard's lifecycles from the training process.
 
-## Common Pitfalls
+## Pitfalls
 
 | Pitfall | Symptom | Fix |
 |---|---|---|

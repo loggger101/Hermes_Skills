@@ -308,7 +308,7 @@ fi
 
 ---
 
-## Troubleshooting
+## Pitfalls
 
 | Problem | Solution |
 |---------|----------|

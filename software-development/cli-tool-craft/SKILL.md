@@ -250,7 +250,7 @@ For CLI tools that run pipelines (training, simulation, data processing), make t
 - Cheap evaluation (a mock environment, or a tiny real one).
 - Assert on structure (files created, output contains expected keys) rather than exact values that might drift.
 
-## Common Pitfalls
+## Pitfalls
 
 | Pitfall | Symptom | Fix |
 |---|---|---|

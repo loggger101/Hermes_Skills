@@ -72,6 +72,53 @@ for ref in sorted(all_refs.keys()):
         print(f"BROKEN: {ref} -> {all_refs[ref]}")
 ```
 
+### 5. Missing related_skills (not broken, just absent)
+
+Many skills simply have no `related_skills` field at all, or have an empty list, even though they clearly reference other skills via `skill_view(name='...')` calls in their body text, or share tags with peer skills. This is not a correctness bug but a discoverability gap.
+
+**Detection methods:**
+
+1. **skill_view() call analysis** — parse the body text for `skill_view(name='X')` calls and check if X is in `related_skills`. If not, it should be added:
+   ```python
+   import re
+   sv_matches = re.findall(r"skill_view\s*\(\s*(?:name\s*=\s*)?['\"]([^'\"]+)['\"]", body)
+   ```
+
+2. **Tag overlap analysis** — skills sharing 2+ tags in `metadata.hermes.tags` should be cross-referenced:
+   ```python
+   my_tags = set(skill_a['tags'])
+   other_tags = set(skill_b['tags'])
+   if len(my_tags & other_tags) >= 2:
+       # skill_a should reference skill_b in related_skills
+   ```
+
+3. **Category proximity** — skills in the same category directory that are thematically related (e.g., all `apple/*` system-integration skills) should cross-reference each other.
+
+**Fix:** Add missing skills to `related_skills` as a YAML list inline:
+```yaml
+    related_skills: [skill-a, skill-b, skill-c]
+```
+Or as a block list for long lists:
+```yaml
+    related_skills:
+      - skill-a
+      - skill-b
+```
+
+**Self-reference trap:** When auto-adding, never add a skill's own name to its `related_skills`. Filter with: `if ref != current_skill_name`.
+
+### 6. Malformed YAML in related_skills
+
+When generating `related_skills` programmatically, a common error is producing `[item1], [item2], [item3]]` instead of `[item1, item2, item3]`. This causes YAML parse errors.
+
+**Detection:** The audit script will catch this as a YAML parse error. Visually, look for nested brackets or stray commas in the `related_skills` line.
+
+**Fix:** Remove extra brackets:
+```diff
+-    related_skills: [apple-notes], [findmy], [imessage]]
++    related_skills: [apple-notes, findmy, imessage]
+```
+
 ## Duplicate Skill Names
 
 A duplicate name means two SKILL.md files share the same `name:` field but live in different directories. Fix by:

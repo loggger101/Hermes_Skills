@@ -199,7 +199,7 @@ For projects that produce data cumulatively (each run adds to a growing dataset)
 - Track what's been incorporated — a manifest or a high-water mark — so you don't double-count.
 - Watch for schema drift across runs (a column appears or changes type). Validate schema on load.
 
-## Common Pitfalls
+## Pitfalls
 
 | Pitfall | Symptom | Fix |
 |---|---|---|

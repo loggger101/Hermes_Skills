@@ -304,7 +304,7 @@ Same pattern — `remote-pdb` with `set_trace()` inside the worker's `exec` path
 ### Gateway (`gateway/run.py`)
 Long-lived. Use `remote-pdb` at a handler, or `debugpy` with `--wait-for-client` if you're restarting the gateway anyway.
 
-## Common Pitfalls
+## Pitfalls
 
 1. **pdb under a parallel/output-capturing runner silently does nothing.** You won't see the prompt, the test just hangs (true of pytest-xdist and of `scripts/run_tests.sh`'s captured per-file subprocesses). Run pytest directly on a single file for interactive debugging.
 

@@ -286,7 +286,7 @@ Test outputs match expected quality:
 - **TensorRT-LLM**: NVIDIA-only, need absolute maximum performance
 - **Text-Generation-Inference**: Already in HuggingFace ecosystem
 
-## Common issues
+## Pitfalls
 
 **Issue: Out of memory during model loading**
 

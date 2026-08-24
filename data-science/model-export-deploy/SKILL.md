@@ -245,7 +245,7 @@ This catches issues that output-comparison on a single input misses — e.g., a 
 }
 ```
 
-## Common Pitfalls
+## Pitfalls
 
 | Pitfall | Symptom | Fix |
 |---|---|---|

@@ -350,7 +350,7 @@ For tests that run the actual pipeline (training, simulation, evolution):
 - Cheap evaluation (tiny sim, mock env, or simplified opponent).
 - Assert on structure and invariants, not on exact fitness values that might drift with code changes.
 
-## Common Pitfalls
+## Pitfalls
 
 | Pitfall | Symptom | Fix |
 |---|---|---|

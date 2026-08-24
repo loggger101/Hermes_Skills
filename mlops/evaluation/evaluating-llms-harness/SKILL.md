@@ -395,7 +395,7 @@ lm_eval --model vllm \
 - **MT-Bench**: Conversational multi-turn evaluation
 - **Custom scripts**: Domain-specific evaluation
 
-## Common issues
+## Pitfalls
 
 **Issue: Evaluation too slow**
 

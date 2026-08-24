@@ -42,7 +42,7 @@ system, shadows, responsive behavior, and practical agent prompts with exact CSS
 - **`design-md`** — use when the deliverable is a formal DESIGN.md token spec
   file, not a rendered artifact.
 
-## How to Use
+## How to Run
 
 1. Pick a design from the catalog below
 2. Load it: `skill_view(name="popular-web-designs", file_path="templates/<site>.md")`

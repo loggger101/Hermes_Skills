@@ -101,7 +101,7 @@ What becomes easier/harder. Include AspireCURES-specific impacts.
 
 Only write an ADR when the decision is real (affects code, tests, or data flow) and non-obvious. Don't write ADRs for trivial choices.
 
-## Common Pitfalls
+## Pitfalls
 
 - **Premature glossary** — defining terms before they're used in at least 2 places
 - **Tautological definitions** — \"A parser is something that parses\" tells you nothing

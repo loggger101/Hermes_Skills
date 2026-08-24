@@ -530,7 +530,7 @@ When an analysis graduates to a pipeline or service:
 
 ---
 
-## Common Pitfalls
+## Pitfalls
 
 | Pitfall | Symptom | Fix |
 |---|---|---|

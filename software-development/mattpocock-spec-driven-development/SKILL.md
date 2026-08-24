@@ -75,7 +75,7 @@ Before marking complete, verify:
 - No new security findings
 - No code smells flagged
 
-## Common Pitfalls
+## Pitfalls
 
 - **Skipping the ticket step** — jumping to architecture without breaking down the spec leads to oversized, untestable implementations
 - **Architecture without seams** — designing modules that expose internals; load `skill_view(name='mattpocock-codebase-design')` first

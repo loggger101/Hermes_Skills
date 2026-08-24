@@ -279,7 +279,7 @@ Watch for:
 - **Reference frame consistency**: position/velocity in one frame, angular momentum in another — make sure everything is in the same frame before computing derived features.
 - **Angles wrap**: true anomaly, phase angle, heading — all wrap at 2π. Use sin/cos of the angle as features, or a wrapped representation, to avoid the discontinuity at the wrap.
 
-## Common Pitfalls
+## Pitfalls
 
 | Pitfall | Symptom | Fix |
 |---|---|---|

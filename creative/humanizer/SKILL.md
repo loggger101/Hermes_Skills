@@ -19,7 +19,7 @@ Identify and remove signs of AI-generated text to make writing sound natural and
 
 **Key insight:** LLMs use statistical algorithms to guess what should come next. The result tends toward the most statistically likely completion, which is how the telltale patterns below get baked in.
 
-## When to use this skill
+## When to Use
 
 Load this skill whenever the user asks to:
 - "humanize", "de-AI", "de-slop", or "un-ChatGPT" a piece of text

@@ -292,7 +292,7 @@ Prevents the page from being embedded in an iframe (clickjacking defense). `DENY
 
 Controls how much referrer information is sent with requests. `strict-origin-when-cross-origin` is a reasonable default — sends the full URL for same-origin, origin only for cross-origin, nothing for downgraded requests.
 
-## Common Pitfalls
+## Pitfalls
 
 | Pitfall | Symptom | Fix |
 |---|---|---|

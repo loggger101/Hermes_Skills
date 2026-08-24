@@ -33,7 +33,7 @@ Most QA finds bugs. This finds **friction**. A technically correct app can still
 
 The **pragmatism filter** (Phase 3) is what makes this useful instead of just entertaining. Without it, you'd add a "print this page" button to every screen because Grandpa can't figure out PDFs.
 
-## How to Use
+## How to Run
 
 Tell the agent:
 ```

@@ -259,7 +259,7 @@ Keeping docs accurate over time, without letting doc maintenance become a burden
 - A doc that's accurate but never read is still useful (it's there when needed) but don't rely on people reading it proactively — encode the important constraints in tooling (health checks, CI gates, regression tests) so they're enforced automatically.
 - A doc that claims something the tooling can verify should be verified by the tooling (the doc says "verify.sh passes" and verify.sh actually passes) — don't rely on doc claims that tooling could check.
 
-## Common Pitfalls
+## Pitfalls
 
 | Pitfall | Symptom | Fix |
 |---|---|---|

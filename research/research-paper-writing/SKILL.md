@@ -1574,7 +1574,7 @@ See [references/reviewer-guidelines.md](references/reviewer-guidelines.md) for d
 
 ---
 
-## Common Issues and Solutions
+## Pitfalls and Solutions
 
 | Issue | Solution |
 |-------|----------|

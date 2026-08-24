@@ -423,7 +423,7 @@ An individual A dominates B if A is at least as good on all objectives and stric
 
 Rank individuals by non-dominated front number (front 0 = Pareto front), then by crowding distance within a front (prefer diverse solutions). Select by rank first, then crowding. This is the most common multi-objective EA and is worth implementing if you have 2–3 objectives.
 
-## Common Pitfalls
+## Pitfalls
 
 | Pitfall | Symptom | Fix |
 |---|---|---|

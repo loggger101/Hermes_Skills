@@ -407,7 +407,7 @@ xurl --app staging /2/users/me             # one-off against staging
 
 ---
 
-## Troubleshooting
+## Pitfalls
 
 | Symptom | Cause | Fix |
 | --- | --- | --- |
