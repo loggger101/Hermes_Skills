@@ -9,6 +9,7 @@ metadata:
   hermes:
     tags: [code-review, cleanup, refactor, delegation, subagent, parallel, simplify]
     related_skills: [requesting-code-review, test-driven-development, plan]
+
 ---
 
 # Simplify Code — Parallel Review & Cleanup

@@ -11,6 +11,7 @@ metadata:
     related_skills: [apple-notes, apple-reminders, findmy]
 prerequisites:
   commands: [imsg]
+
 ---
 
 # iMessage

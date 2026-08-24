@@ -9,6 +9,7 @@ metadata:
   hermes:
     tags: [co-authoring, documentation, proposals, specs, workflow]
     related_skills: [mattpocock-writing-for-agents, hermes-agent-skill-authoring]
+
 ---
 
 # Doc Co-Authoring Workflow

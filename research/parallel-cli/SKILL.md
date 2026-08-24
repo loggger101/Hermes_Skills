@@ -9,6 +9,7 @@ metadata:
   hermes:
     tags: [Research, Web, Search, Deep-Research, Enrichment, CLI]
     related_skills: [grounded-citations]
+
 ---
 
 # Parallel CLI

@@ -9,6 +9,7 @@ metadata:
   hermes:
     tags: [Meetings, Action-Items, Follow-Up, Productivity]
     related_skills: [teams-meeting-pipeline, google-workspace, notion]
+
 ---
 
 # Meeting Action Items

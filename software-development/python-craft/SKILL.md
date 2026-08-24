@@ -10,6 +10,7 @@ metadata:
     tags: [python, coding-style, typing, patterns, testing, packaging, maintainability, best-practices]
     category: software-development
     related_skills: [test-driven-development, requesting-code-review, systematic-debugging, simplify-code]
+
 ---
 
 # Python Craft

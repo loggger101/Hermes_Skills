@@ -10,6 +10,7 @@ metadata:
     tags: [cron, scheduling, autonomous, guardrails, prompt-design, no-interaction]
     category: autonomous-ai-agents
     related_skills: [hermes-agent]
+
 ---
 
 # Cron Job Authoring

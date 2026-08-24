@@ -9,6 +9,7 @@ metadata:
   hermes:
     tags: [sdd, spec-driven, planning, architecture, quality-gates]
     related_skills: [mattpocock-to-tickets, mattpocock-codebase-design]
+
 ---
 
 ## When to Use

@@ -9,6 +9,7 @@ metadata:
   hermes:
     tags: [writing, documentation, agent-docs, skills, AGENTS-md, CLAUDE-md]
     related_skills: [hermes-agent-skill-authoring, mattpocock-handoff, mattpocock-domain-modeling]
+
 ---
 
 ## When to Use

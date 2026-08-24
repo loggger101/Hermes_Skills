@@ -9,6 +9,7 @@ metadata:
   hermes:
     tags: [planning, plan-mode, implementation, workflow, design, documentation]
     related_skills: [mattpocock-subagent-driven-development, test-driven-development, requesting-code-review]
+
 ---
 
 # Plan Mode

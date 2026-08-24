@@ -10,6 +10,7 @@ metadata:
     tags: [documentation, verification, backlog-discipline, audit-passes, regression-capture, todo-management, reconciliation, health-checks, CI-gating]
     category: software-development
     related_skills: [python-craft, test-infra-ml, cli-tool-craft]
+
 ---
 
 # Documentation-Driven Verification Culture

@@ -12,6 +12,7 @@ metadata:
     tags: [Notion, Productivity, Notes, Database, API, CLI, Workers]
     related_skills: [airtable]
     homepage: https://developers.notion.com
+
 ---
 
 # Notion

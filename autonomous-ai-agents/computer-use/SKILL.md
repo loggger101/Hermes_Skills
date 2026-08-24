@@ -10,6 +10,7 @@ metadata:
     tags: [computer-use, desktop, automation, gui, cross-platform]
     category: desktop
     related_skills: [inspecting-hermes-desktop-dom]
+
 ---
 
 # Computer Use (universal, any-model, cross-platform)

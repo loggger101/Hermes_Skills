@@ -13,6 +13,7 @@ metadata:
 prerequisites:
   commands: [blogwatcher-cli]
   setup_verification: "blogwatcher-cli --version prints a version; blogwatcher-cli add with a URL succeeds"
+
 ---
 
 # Blogwatcher

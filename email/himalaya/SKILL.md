@@ -13,6 +13,7 @@ metadata:
 prerequisites:
   commands: [himalaya]
   setup_verification: "himalaya --version prints a version; himalaya account list works with configured account"
+
 ---
 
 # Himalaya Email CLI

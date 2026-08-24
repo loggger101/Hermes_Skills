@@ -11,6 +11,7 @@ metadata:
     related_skills: [apple-notes, findmy, imessage]
 prerequisites:
   commands: [remindctl]
+
 ---
 
 # Apple Reminders

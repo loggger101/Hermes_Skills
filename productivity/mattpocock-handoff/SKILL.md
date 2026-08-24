@@ -9,6 +9,7 @@ metadata:
   hermes:
     tags: [handoff, handoff-doc, continuation, multi-agent, context-transfer]
     related_skills: [mattpocock-to-tickets, mattpocock-writing-for-agents, mattpocock-domain-modeling]
+
 ---
 
 ## When to Use

@@ -9,6 +9,7 @@ metadata:
   hermes:
     tags: [tdd, red-green-refactor, testing, vertical-slices, seams]
     related_skills: [test-driven-development, systematic-debugging, mattpocock-diagnosing-bugs, mattpocock-code-review]
+
 ---
 
 ## When to Use

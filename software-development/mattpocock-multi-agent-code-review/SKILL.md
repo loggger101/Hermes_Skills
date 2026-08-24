@@ -9,6 +9,7 @@ metadata:
   hermes:
     tags: [code-review, multi-agent, bug-hunter, security-auditor, contracts]
     related_skills: [mattpocock-code-review, requesting-code-review, mattpocock-security-review]
+
 ---
 
 ## When to Use

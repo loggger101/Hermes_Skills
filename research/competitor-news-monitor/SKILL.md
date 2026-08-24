@@ -9,6 +9,7 @@ metadata:
   hermes:
     tags: [Competitors, News, Market-Research, Monitoring]
     related_skills: [blogwatcher, parallel-cli]
+
 ---
 
 # Competitor News Monitor

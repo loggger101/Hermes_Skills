@@ -10,6 +10,7 @@ metadata:
     tags: [orbital-mechanics, delta-v, Hohmann-transfer, rendezvous, KSP, KRPC, patched-conics, vis-viva]
     category: data-science
     related_skills: [python-data-science, python-craft]
+
 ---
 
 # Orbital Mechanics for Data and ML

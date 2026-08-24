@@ -9,6 +9,7 @@ metadata:
   hermes:
     tags: [REST, API, HTTP, curl, integration]
     related_skills: [ssh-remote, docker-containers]
+
 ---
 
 # REST API Client

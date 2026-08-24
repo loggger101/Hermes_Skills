@@ -9,6 +9,7 @@ metadata:
   hermes:
     tags: [huggingface, hf, models, datasets, hub, mlops]
     related_skills: [huggingface-trackio, llama-cpp]
+
 ---
 
 # Hugging Face CLI (`hf`) Reference Guide

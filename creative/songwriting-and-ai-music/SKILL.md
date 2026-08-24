@@ -17,6 +17,7 @@ metadata:
   hermes:
     tags: [songwriting, music, suno, parody, lyrics, creative]
     related_skills: [comfyui, claude-design, humanizer]
+
 ---
 
 # Songwriting & AI Music Generation

@@ -13,6 +13,7 @@ metadata:
     tags: [Airtable, Productivity, Database, API]
     related_skills: [notion]
     homepage: https://airtable.com/developers/web/api/introduction
+
 ---
 
 # Airtable — Bases, Tables & Records

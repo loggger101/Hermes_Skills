@@ -9,6 +9,7 @@ metadata:
   hermes:
     tags: [code-review, security, verification, quality, pre-commit, auto-fix]
     related_skills: [mattpocock-subagent-driven-development, plan, test-driven-development, github-code-review]
+
 ---
 
 # Pre-Commit Code Verification

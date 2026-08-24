@@ -12,6 +12,7 @@ metadata:
   hermes:
     tags: [GIF, Media, Search, Tenor, API]
     related_skills: [youtube-content]
+
 ---
 
 # GIF Search (Tenor API)

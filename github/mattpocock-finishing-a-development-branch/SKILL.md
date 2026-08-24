@@ -9,6 +9,7 @@ metadata:
   hermes:
     tags: [git, merge, pr, cleanup, worktrees, branch-management]
     related_skills: [mattpocock-yeet, mattpocock-using-git-worktrees, github-pr-workflow, requesting-code-review]
+
 ---
 
 ## When to Use

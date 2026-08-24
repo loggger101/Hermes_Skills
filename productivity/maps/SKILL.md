@@ -12,6 +12,7 @@ metadata:
     requires_toolsets: [terminal]
     supersedes: [find-nearby]
     related_skills: [findmy]
+
 ---
 
 # Maps Skill
