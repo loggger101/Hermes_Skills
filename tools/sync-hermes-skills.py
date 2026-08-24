@@ -472,7 +472,7 @@ def generate_dependency_map(repo_root: Path) -> dict:
         lines = []
         lines.append("# Skill Dependency Map\n")
         lines.append(f"This document maps the relationship network between all **{len(skills)} Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.\n")
-        lines.append(f"**Network stats:** {result['total_refs']} `related_skills` cross-references across {len([k for k, v in refs.items() if v])} skills ({len(standalone_sorted)} skills are standalone with no `related_skills` entries).\n")
+        lines.append(f"**Network stats:** {result['total_refs']} `related_skills` cross-references across {len(refs)} skills ({len(standalone_sorted)} skills are standalone with no `related_skills` entries).\n")
 
         lines.append("## Hub Skills (referenced by 2+ other skills)\n")
         lines.append("These are the core skills that serve as building blocks, referenced by many other skills:\n")
