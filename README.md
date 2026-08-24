@@ -4,7 +4,7 @@ A comprehensive collection of **127 Hermes Agent skills** compiled from all avai
 
 ## Overview
 
-This repository serves as a centralized database of all Hermes Agent skills, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities.
+This repository serves as a centralized database of all **127 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (287 connections mapped across 114 skills). See [NOTES.md](./NOTES.md) for the full audit details.
 
 ### Source Profiles
 
@@ -111,7 +111,7 @@ Skills for writing self-contained, autonomous cronjob prompts that run without s
 | Skill | Cronjob Connection |
 |-------|--------------------|
 | [`hermes-agent`](./autonomous-ai-agents/hermes-agent/SKILL.md) | References `autonomous-repo-cronjob` in related_skills |
-| [`mattpocock-yeet`](./github/mattpocheck-yeet/SKILL.md) | References `autonomous-repo-cronjob` in related_skills |
+| [`mattpocock-yeet`](./github/mattpocock-yeet/SKILL.md) | References `autonomous-repo-cronjob` in related_skills |
 | [`mattpocock-using-git-worktrees`](./software-development/mattpocock-using-git-worktrees/SKILL.md) | References `autonomous-repo-cronjob` in related_skills |
 
 ### Two-Agent Architecture (from AspireCURES pipeline)

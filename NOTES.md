@@ -44,7 +44,7 @@ Full audit of all 128 `SKILL.md` files in the repository at `C:\Users\Loggg\OneD
 - **`skill-view`** (in `mattpocock-code-review`): Replaced with `hermes-agent-skill-authoring` (the in-repo skill that covers skill loading/viewing).
 - **`stable-diffusion`** (in `comfyui`): Removed — self-referential, no such skill exists.
 - **`web-extract`** (in `competitor-news-monitor`): Removed — core tool name, not a skill.
-- **`subagent-driven-development`** (shortened name in 6 files): Replaced with full name `mattpocheck-subagent-driven-development` in:
+- **`subagent-driven-development`** (shortened name in 6 files): Replaced with full name `mattpocock-subagent-driven-development` in:
   - `research-paper-writing`
   - `plan`
   - `requesting-code-review`
@@ -55,7 +55,7 @@ Full audit of all 128 `SKILL.md` files in the repository at `C:\Users\Loggg\OneD
 ### 5. Documentation Updated
 - **`README.md`:** Updated total to 127, corrected category counts (autonomous-ai-agents 10→9, software-development 29→28), updated verification section to reflect all fixes, updated import/pre-existing counts (99→98 imported, 29 pre-existing).
 - **`DEPENDENCY.md`:** Fully regenerated from live `related_skills` metadata. Expanded hub table from 8 to 58 entries, fixed all broken reference documentation, updated MLOps and other skill chains.
-- **`NOTES.md`:** Created comprehensive audit findings document in `profile/`.
+- **`NOTES.md`:** Created comprehensive audit findings document in repo root.
 
 ### 6. Profile Documentation Transfer
 - Created `profile/` directory with:
@@ -74,9 +74,9 @@ Full audit of all 128 `SKILL.md` files in the repository at `C:\Users\Loggg\OneD
 
 ## Remaining Known Issues
 
-### Old-Style Frontmatter in Some Imported Skills
+### Old-Style Frontmatter (RESOLVED)
 
-Some older imported skills still use the legacy frontmatter format (top-level `category:`, `tags:`, `related_skills:` instead of `metadata.hermes` nesting). The three skills that were checked in this audit (`cron-job-authoring`, `doc-coauthoring`, `huggingface-trackio`) have been normalized. Others may exist but should be checked during future updates.
+All 127 skills now use the standard `metadata.hermes` nesting format. A repo-wide scan confirms zero skills still use the legacy top-level `category:`, `tags:`, or `related_skills:` format. The three skills initially flagged (`cron-job-authoring`, `doc-coauthoring`, `huggingface-trackio`) have been normalized, and no others were found.
 
 ### 13 Orphaned Skills
 
@@ -87,6 +87,17 @@ Some older imported skills still use the legacy frontmatter format (top-level `c
 - ✅ Unique skill names: 127 (was 127, but 1 was a duplicate)
 - ✅ Duplicate skill names: 0 (was 1)
 - ✅ Broken `related_skills` references: 0 (was 9)
+- ✅ Self-references in `related_skills`: 0 (was 3)
 - ✅ Descriptions > 60 chars: 0 (was 4)
+- ✅ Unquoted descriptions: 0 (all 127 now double-quoted)
+- ✅ Descriptions missing periods: 0 (all 127 end with period)
 - ✅ Skills missing `version`/`author`/`platforms`: 0 (was 3)
+- ✅ Non-standard Pitfalls headers: 0 (was 22 — all renamed to `## Pitfalls`)
+- ✅ Non-standard section headers: 0 (all `## When to Use`, `## How to Run`, `## Quick Start`)
+- ✅ Trailing whitespace: 0 in all files
+- ✅ Missing trailing newlines: 0
+- ✅ CRLF line endings: 0 (all LF)
+- ✅ Legacy frontmatter format: 0 (all use `metadata.hermes`)
+- ✅ Temp scripts in repo root: 0
 - ✅ All `related_skills` entries resolve to existing in-repo skills
+- ✅ Related_skills network: 287 cross-references across 114 skills

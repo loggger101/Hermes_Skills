@@ -1,6 +1,8 @@
 # Skill Dependency Map
 
-This document maps the relationship network between all 127 Hermes skills in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+This document maps the relationship network between all **127 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+
+**Network stats:** 287 `related_skills` cross-references across 114 skills (13 skills are standalone with no `related_skills` entries).
 
 ## Hub Skills (referenced by 2+ other skills)
 
@@ -8,7 +10,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 
 | Hub Skill | References | Referenced By |
 ||------------|----------------|------------------------------------------------------------|
-|| [requesting-code-review](productivity/docx/SKILL.md) | 11 | github-issue-to-pr, mattpocock-code-review, mattpocock-finishing-a-development-branch, mattpocock-security-review, hermes-agent-skill-authoring, mattpocock-evidence-driven, mattpocheck-multi-agent-code-review, mattpocock-subagent-driven-development, plan, python-craft, simplify-code |
+|| [requesting-code-review](productivity/docx/SKILL.md) | 11 | github-issue-to-pr, mattpocock-code-review, mattpocock-finishing-a-development-branch, mattpocock-security-review, hermes-agent-skill-authoring, mattpocock-evidence-driven, mattpocock-multi-agent-code-review, mattpocock-subagent-driven-development, plan, python-craft, simplify-code |
 || [systematic-debugging](software-development/systematic-debugging/SKILL.md) | 10 | mattpocock-resolving-merge-conflicts, python-data-science, github-issue-to-pr, inspecting-hermes-desktop-dom, mattpocock-diagnosing-bugs, mattpocock-tdd, node-inspect-debugger, python-craft, python-debugpy, test-driven-development |
 || [python-craft](software-development/python-craft/SKILL.md) | 9 | static-site-seo, build-systems-data, evolutionary-ml, model-export-deploy, orbital-mechanics-data, cli-tool-craft, streamlit-dashboards, test-infra-ml, verification-culture |
 || [test-driven-development](software-development/test-driven-development/SKILL.md) | 9 | python-data-science, github-issue-to-pr, mattpocock-tdd, plan, python-craft, requesting-code-review, simplify-code, systematic-debugging, test-infra-ml |
