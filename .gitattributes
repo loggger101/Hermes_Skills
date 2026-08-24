@@ -1,0 +1,29 @@
+# Auto-convert LF to CRLF for source files
+*.md text=auto
+*.py text=auto
+*.sh text=auto
+*.json text=auto
+*.yaml text=auto
+*.yml text=auto
+*.mjs text=auto
+*.js text=auto
+*.html text=auto
+*.tex text=auto
+*.bst text=auto
+*.sty text=auto
+*.bib text=auto
+*.ini text=auto
+*.cfg text=auto
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.mp3 binary
+*.mp4 binary
+*.webm binary
+
+# Diff settings
+* text=auto
