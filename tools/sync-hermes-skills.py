@@ -23,8 +23,14 @@ Exit codes:
   1 = error occurred or threshold breached
 
 Output: JSON summary (only if changes detected or errors occurred).
+
+Usage:
+  python3 tools/sync-hermes-skills.py              # Normal sync (commits + pushes)
+  python3 tools/sync-hermes-skills.py --dry-run    # Preview changes without committing
+  python3 tools/sync-hermes-skills.py --verbose    # Include unchanged file counts
 """
 
+import argparse
 import hashlib
 import json
 import os
@@ -113,8 +119,11 @@ def list_memory_files(directory: Path):
 # ── Git Operations ───────────────────────────────────────────────
 
 
-def git_pull(repo_path: Path) -> dict:
-    """Pull latest from upstream. Handles unstaged changes gracefully with stash."""
+def git_pull(repo_path: Path, dry_run: bool = False) -> dict:
+    """Pull latest from upstream. Handles unstaged changes gracefully with stash.
+
+    In dry-run mode, reports what would be pulled but doesn't execute.
+    """
     result = {"action": "pull", "success": True, "output": "", "changes": [], "stashed": False}
 
     # Check if there are unstaged changes
@@ -130,6 +139,11 @@ def git_pull(repo_path: Path) -> dict:
     except Exception as e:
         result["success"] = False
         result["output"] = str(e)
+        return result
+
+    if dry_run:
+        result["output"] = "[DRY RUN] Would stash and pull" if has_changes else "[DRY RUN] Would pull"
+        result["stashed"] = has_changes
         return result
 
     if has_changes:
@@ -171,8 +185,14 @@ def git_pull(repo_path: Path) -> dict:
     return result
 
 
-def git_add_commit_push(repo_path: Path, message: str) -> dict:
-    """Stage all changes, commit, and push. Push failure is non-fatal."""
+def git_add_commit_push(repo_path: Path, message: str, max_retries: int = 3, dry_run: bool = False) -> dict:
+    """Stage all changes, commit, and push. Push failure is non-fatal with retries.
+
+    Args:
+        repo_path: Path to the git repository.
+        message: Commit message.
+        max_retries: Number of times to retry git push on failure.
+    """
     result = {"action": "push", "success": True, "output": "", "commit_hash": None, "pushed": False}
 
     try:
@@ -186,6 +206,11 @@ def git_add_commit_push(repo_path: Path, message: str) -> dict:
         )
         if not proc_status.stdout.strip():
             result["output"] = "No changes to commit"
+            return result
+
+        if dry_run:
+            result["output"] = "[DRY RUN] Would commit and push:\n" + proc_status.stdout
+            result["pushed"] = True  # Pretend success
             return result
 
         # Stage all changes
@@ -216,19 +241,35 @@ def git_add_commit_push(repo_path: Path, message: str) -> dict:
             )
             result["commit_hash"] = proc_hash.stdout.strip()[:12]
 
-            # Push (non-fatal if it fails — e.g. no credentials, diverged remote)
-            proc_push = subprocess.run(
-                ["git", "push"],
-                cwd=repo_path,
-                capture_output=True,
-                text=True,
-                timeout=120,
-            )
-            push_output = proc_push.stdout + proc_push.stderr
-            result["pushed"] = proc_push.returncode == 0
-            result["output"] += push_output
+            # Push with retry (non-fatal if it fails — e.g. no credentials, diverged remote)
+            for attempt in range(max_retries):
+                proc_push = subprocess.run(
+                    ["git", "push"],
+                    cwd=repo_path,
+                    capture_output=True,
+                    text=True,
+                    timeout=120,
+                )
+                push_output = proc_push.stdout + proc_push.stderr
+                result["pushed"] = proc_push.returncode == 0
+                result["output"] += push_output
+                result["push_attempts"] = attempt + 1
+
+                if result["pushed"]:
+                    break
+                else:
+                    # Brief delay before retry (only for retry-worthy errors)
+                    if "Could not resolve host" in push_output or "Connection refused" in push_output:
+                        import time
+                        time.sleep(2 * (attempt + 1))  # Exponential backoff: 2s, 4s, 6s
+                    else:
+                        # Non-retryable error (auth, diverged, etc.)
+                        break
+
             if not result["pushed"]:
-                result["output"] += "\nNOTE: git push failed — changes committed locally but not pushed"
+                result["output"] += "\nNOTE: git push failed after {} attempt(s) — changes committed locally but not pushed".format(
+                    result.get("push_attempts", max_retries)
+                )
         else:
             result["success"] = False
             result["output"] += "\nCommit failed"
@@ -262,8 +303,14 @@ def sync_skills_pull(repo_root: Path, local_dir: Path) -> dict:
             # Skip the tools/ directory — scripts are repo infrastructure
             if rel_path.startswith("tools/"):
                 continue
-            # Skip the profile/ directory — handled separately by sync_profiles
+            # Skip the profile/ directory — repo documentation, not user skills
             if rel_path.startswith("profile/"):
+                continue
+            # Skip top-level repo files (README.md, DEPENDENCY.md, NOTES.md, .gitignore)
+            # — these are repo-specific, not agent-environment files
+            parts = rel_path.split("/")
+            if len(parts) == 1:
+                result["files_skipped"] += 1
                 continue
 
             if dest_path.exists() and file_hash(src_path) == file_hash(dest_path):
@@ -557,6 +604,15 @@ def run_audit(repo_root: Path) -> dict:
 
 
 def main():
+    parser = argparse.ArgumentParser(
+        description="Bidirectional sync between Hermes_Skills repo and local Hermes environment."
+    )
+    parser.add_argument("--dry-run", action="store_true",
+                        help="Show what would be synced without making changes (implies no commit/push)")
+    parser.add_argument("--verbose", action="store_true",
+                        help="Show all output including unchanged files")
+    args = parser.parse_args()
+
     report = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "repo_root": str(REPO_ROOT),
@@ -571,7 +627,7 @@ def main():
         sys.exit(1)
 
     # Step 1: Pull from upstream
-    pull_result = git_pull(REPO_ROOT)
+    pull_result = git_pull(REPO_ROOT, dry_run=args.dry_run)
     report["steps"].append(pull_result)
 
     # Step 2: Sync skills from repo → local (PULL direction)
@@ -590,9 +646,19 @@ def main():
     prof_result = sync_profiles(REPO_ROOT, LOCAL_PROFILES_DIR)
     report["steps"].append(prof_result)
 
-    # Step 5.5: Regenerate DEPENDENCY.md from current related_skills frontmatter
-    dep_result = generate_dependency_map(REPO_ROOT)
-    report["steps"].append(dep_result)
+    # Step 5.5: Regenerate DEPENDENCY.md (only if skills changed, or if file doesn't exist)
+    dep_needs_regen = (
+        push_skills["files_copied"] > 0
+        or push_skills["files_new"] > 0
+        or not (REPO_ROOT / "DEPENDENCY.md").exists()
+    )
+    if dep_needs_regen:
+        dep_result = generate_dependency_map(REPO_ROOT)
+        report["steps"].append(dep_result)
+    else:
+        dep_result = {"action": "dependency_map", "success": True, "skipped": True,
+                      "updated": False, "error": "No skill changes — DEPENDENCY.md up to date"}
+        report["steps"].append(dep_result)
 
     # Step 6: Run audit (before commit to catch issues early)
     audit_result = run_audit(REPO_ROOT)
@@ -614,6 +680,7 @@ def main():
             f"{push_skills['files_copied']} skills updated, {push_skills['files_new']} new skills, "
             f"{mem_result['files_synced']} memories, {prof_result['files_synced']} profile files, "
             f"{1 if dep_updated else 0} dependency map updates",
+            dry_run=args.dry_run,
         )
         report["steps"].append(commit_result)
     else:
