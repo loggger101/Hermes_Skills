@@ -294,6 +294,12 @@ This repository contains two types of skills:
 
 Skills for writing self-contained, autonomous cronjob prompts that run without session context. The core pattern is documented in `autonomous-repo-cronjob` (for repo-automation tasks) and `cron-job-authoring` (for general scheduling).
 
+This repository also includes a ready-to-use **cronjob registry** at [`.hermes/cron/`](./.hermes/cron/) with templates and active job definitions:
+
+- **`.hermes/cron/templates/`** — Prompt and script templates for the two most common patterns
+- **`.hermes/cron/active/`** — Active cronjob definitions (JSON config) ready to be loaded via `cronjob()`
+- **`.hermes/cron/archive/`** — Deprecated or old cronjob definitions kept for reference
+
 ### Core Skills
 
 | Skill | Purpose | Key References |
@@ -366,6 +372,7 @@ cronjob(action='create',
 - ✅ DEPENDENCY.md relationship mapping audited and updated
 - ✅ Profile documentation transferred to `profile/` directory
 - ✅ Cron Job Authoring section added to README with skill index + tool API reference
+- ✅ `.hermes/cron/` registry created with templates, active jobs, and archive directory
 
 ## Usage
 

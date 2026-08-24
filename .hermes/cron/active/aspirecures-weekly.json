@@ -1,0 +1,45 @@
+{
+  "name": "aspirecures-weekly-research",
+  "description": "Weekly research pipeline for AspireCURES: collect, curate, render, commit disease pages",
+  "schedule": "0 13 * * 1",
+  "schedule_human": "Weekly Monday at 1:00 PM ET",
+  "workdir": "/path/to/aspirecures",
+  "skills": [
+    "autonomous-ai-agents/autonomous-repo-cronjob",
+    "research/arxiv",
+    "research/mattpocock-research",
+    "research/grounded-citations",
+    "research/parallel-cli",
+    "mlops/evaluation/evaluating-llms-harness",
+    "software-development/mattpocock-evidence-driven",
+    "github/mattpocock-yeet",
+    "github/mattpocock-using-git-worktrees"
+  ],
+  "deliver": "origin",
+  "continuity": true,
+  "enabled_toolsets": ["terminal", "file", "web", "delegation"],
+  "architecture": "two-agent-split",
+  "agents": {
+    "preparer": {
+      "role": "cronjob",
+      "description": "Collects from Europe PMC + PubMed + ClinicalTrials.gov + ISRCTN, applies Claude curation gate, emits JSON report",
+      "prompt_template": "autonomous-repo-cronjob/references/prompt-template.md",
+      "guardrails": "cron-job-authoring/references/guardrail-template.md"
+    },
+    "commit_agent": {
+      "role": "separate_agent",
+      "description": "Consumes JSON report, renders 9 disease pages, validates against lint-feed.pl and verify.sh, commits and pushes",
+      "trigger": "cronjob delivery → user response in chat"
+    }
+  },
+  "key_guardrails": [
+    "No ANTHROPIC_API_KEY needed — the agent IS the model using its own Claude judgments for the curation gate",
+    "Append-only data merges with date-churn signature comparison",
+    "Skip and record if credentials unavailable (Europe PMC API key is free, PubMed is free)",
+    "Never commit unverified output — check lint-feed.pl and verify.sh before committing"
+  ],
+  "output_files": {
+    "preparer": ".hermes/cron/active/research-report.json",
+    "commit_agent": "9 disease pages in /content/disease-pages/"
+  }
+}

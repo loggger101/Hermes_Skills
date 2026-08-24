@@ -1,0 +1,26 @@
+{
+  "name": "hermes-skills-audit",
+  "description": "Weekly audit of the Hermes_Skills repository: YAML validation, broken ref detection, description checks, header standardization, line-ending verification",
+  "schedule": "0 3 * * 0",
+  "schedule_human": "Weekly Sunday at 3:00 AM",
+  "workdir": "/path/to/Hermes_Skills",
+  "skills": [
+    "autonomous-ai-agents/cron-job-authoring",
+    "software-development/hermes-agent-skill-authoring",
+    "software-development/verification-culture",
+    "software-development/requesting-code-review"
+  ],
+  "deliver": "origin",
+  "continuity": true,
+  "enabled_toolsets": ["terminal", "file"],
+  "no_agent": true,
+  "script": "tools/audit-skills.py",
+  "script_description": "Python script that validates all SKILL.md frontmatter, checks description lengths, verifies related_skills resolution, scans for broken YAML, and checks line endings",
+  "output_format": "JSON report delivered via cronjob system",
+  "threshold": {
+    "broken_refs": 0,
+    "yaml_errors": 0,
+    "long_descriptions": 0,
+    "temps_scripts": 0
+  }
+}
