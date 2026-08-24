@@ -32,7 +32,7 @@ skill_view(name='autonomous-repo-cronjob')
 
 ## Overview
 
-This repository serves as a centralized database of all **127 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (287 connections mapped across 114 skills). See [NOTES.md](./NOTES.md) for the full audit details.
+This repository serves as a centralized database of all **127 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (310 connections mapped across 125 skills, 2 standalone). See [NOTES.md](./NOTES.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
 
 ### Source Profiles
 
@@ -361,7 +361,7 @@ cronjob(action='create',
 - ✅ All YAML frontmatter parses without errors
 - ✅ No CRLF line endings (all LF)
 - ✅ No temp scripts remaining in repo root
-- ✅ `related_skills` network: 297 cross-references across 114 skills (3 standalone skills with none)
+- ✅ `related_skills` network: 310 cross-references across 125 skills (2 standalone skills with none)
 - ✅ No duplicate content (verified via hash comparison)
 - ✅ DEPENDENCY.md relationship mapping audited and updated
 - ✅ Profile documentation transferred to `profile/` directory

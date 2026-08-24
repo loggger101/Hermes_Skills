@@ -100,4 +100,4 @@ All 127 skills now use the standard `metadata.hermes` nesting format. A repo-wid
 - ✅ Legacy frontmatter format: 0 (all use `metadata.hermes`)
 - ✅ Temp scripts in repo root: 0
 - ✅ All `related_skills` entries resolve to existing in-repo skills
-- ✅ Related_skills network: 297 cross-references across 114 skills (3 standalone)
+- ✅ Related_skills network: 310 cross-references across 125 skills (2 standalone)
