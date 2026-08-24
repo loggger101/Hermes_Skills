@@ -16,6 +16,11 @@ metadata:
 
 # xurl — X (Twitter) API via the Official CLI
 
+## What This Skill Does
+
+Process social media content and URLs from platforms like Twitter/X using the xurl CLI tool.
+
+
 `xurl` is the X developer platform's official CLI for the X API. It supports shortcut commands for common actions AND raw curl-style access to any v2 endpoint. All commands return JSON to stdout.
 
 Use this skill for:

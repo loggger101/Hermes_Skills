@@ -18,6 +18,11 @@ triggers:
 
 # Songwriting & AI Music Generation
 
+## What This Skill Does
+
+Craft songwriting workflows and generate AI music using Suno AI prompts and techniques.
+
+
 Everything here is a GUIDELINE, not a rule. Art breaks rules on purpose.
 Use what serves the song. Ignore what doesn't.
 

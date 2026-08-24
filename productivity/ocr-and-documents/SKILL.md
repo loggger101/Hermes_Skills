@@ -13,6 +13,11 @@ metadata:
 
 # PDF & Document Extraction
 
+## What This Skill Does
+
+Extract text from PDFs and scans using pymupdf and marker-pdf for document processing.
+
+
 For DOCX: see the `docx` skill (create/edit) or use `python-docx` for structured reads.
 For PPTX: see the `powerpoint` skill (full create/read/edit support).
 For PDF manipulation (merge, split, forms, watermarks, creation): see the `pdf` skill.

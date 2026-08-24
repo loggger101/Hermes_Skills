@@ -16,6 +16,11 @@ metadata:
 
 # Airtable — Bases, Tables & Records
 
+## What This Skill Does
+
+Interacts with Airtable via REST API — records CRUD, filters, and upserts for base/table operations.
+
+
 Work with Airtable's REST API directly via `curl` using the `terminal` tool. No MCP server, no OAuth flow, no Python SDK — just `curl` and a personal access token.
 
 ## Prerequisites

@@ -14,6 +14,11 @@ metadata:
 
 # Computer Use (universal, any-model, cross-platform)
 
+## What This Skill Does
+
+Drive the Windows desktop in the background without stealing focus. Screenshots, mouse, keyboard, scroll, drag via cua-driver.
+
+
 You have a `computer_use` tool that drives the user's desktop in the
 **background** — your actions do NOT move the user's cursor, steal
 keyboard focus, or switch virtual desktops / Spaces. The user can keep

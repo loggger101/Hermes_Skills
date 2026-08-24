@@ -13,6 +13,11 @@ metadata:
 
 # GitHub Repository Management
 
+## What This Skill Does
+
+Clone, create, and fork GitHub repositories; manage remotes, releases, and repository settings.
+
+
 Create, clone, fork, configure, and manage GitHub repositories. Each section shows `gh` first, then the `git` + `curl` fallback.
 
 ## Prerequisites

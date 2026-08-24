@@ -13,6 +13,11 @@ metadata:
 
 # Sketch
 
+## What This Skill Does
+
+Create throwaway HTML mockups with 2-3 design variants for rapid comparison and prototyping.
+
+
 Use this skill when the user wants to **see a design direction before committing** to one — exploring a UI/UX idea as disposable HTML mockups. The point is to generate 2-3 interactive variants so the user can compare visual directions side-by-side, not to produce shippable code.
 
 Load this when the user says things like "sketch this screen", "show me what X could look like", "compare layout A vs B", "give me 2-3 takes on this UI", "let me see some variants", "mockup this before I build".

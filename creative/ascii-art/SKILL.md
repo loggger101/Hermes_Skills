@@ -15,6 +15,11 @@ metadata:
 
 # ASCII Art Skill
 
+## What This Skill Does
+
+Generate ASCII art from text (pyfiglet, cowsay, boxes) and convert images to ASCII representations.
+
+
 Multiple tools for different ASCII art needs. All tools are local CLI programs or free REST APIs — no API keys required.
 
 ## Tool 1: Text Banners (pyfiglet — local)

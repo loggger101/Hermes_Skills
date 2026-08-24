@@ -13,6 +13,11 @@ metadata:
 
 # GitHub Code Review
 
+## What This Skill Does
+
+Review pull requests with diffs and inline comments via the gh CLI or GitHub REST API.
+
+
 Perform code reviews on local changes before pushing, or review open PRs on GitHub. Most of this skill uses plain `git` — the `gh`/`curl` split only matters for PR-level interactions.
 
 ## Prerequisites

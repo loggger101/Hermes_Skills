@@ -8,10 +8,15 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [planning, plan-mode, implementation, workflow, design, documentation]
-    related_skills: [subagent-driven-development, test-driven-development, requesting-code-review]
+    related_skills: [mattpocock-subagent-driven-development, test-driven-development, requesting-code-review]
 ---
 
 # Plan Mode
+
+## What This Skill Does
+
+Write structured markdown plans to .hermes/plans/ for design and implementation without executing them.
+
 
 Use this skill when the user wants a plan instead of execution.
 

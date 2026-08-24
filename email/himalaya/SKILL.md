@@ -16,6 +16,11 @@ prerequisites:
 
 # Himalaya Email CLI
 
+## What This Skill Does
+
+Send, receive, search, and manage email from the terminal using the Himalaya CLI (IMAP/SMTP).
+
+
 Himalaya is a CLI email client that lets you manage emails from the terminal using IMAP, SMTP, Notmuch, or Sendmail backends.
 
 This skill is separate from the Hermes Email gateway adapter. The gateway

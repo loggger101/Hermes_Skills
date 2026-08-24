@@ -14,6 +14,11 @@ metadata:
 
 # TouchDesigner Integration (twozero MCP)
 
+## What This Skill Does
+
+Control TouchDesigner visual programming via the twozero MCP server for real-time graphics.
+
+
 ## CRITICAL RULES
 
 1. **NEVER guess parameter names.** Call `td_get_par_info` for the op type FIRST. Your training data is wrong for TD 2025.32.

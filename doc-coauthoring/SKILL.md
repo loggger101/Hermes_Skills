@@ -1,6 +1,14 @@
 ---
 name: doc-coauthoring
-description: Guide users through a structured workflow for co-authoring documentation. Use when user wants to write documentation, proposals, technical specs, decision docs, or similar structured content. This workflow helps users efficiently transfer context, refine content through iteration, and verify the doc works for readers. Trigger when user mentions writing docs, creating proposals, drafting specs, or similar documentation tasks.
+description: "Guide structured documentation co-authoring workflows."
+version: 1.1.0
+author: Hermes Agent
+license: MIT
+platforms: [linux, macos, windows]
+metadata:
+  hermes:
+    tags: [co-authoring, documentation, proposals, specs, workflow]
+    related_skills: [mattpocock-writing-for-agents, hermes-agent-skill-authoring]
 ---
 
 # Doc Co-Authoring Workflow

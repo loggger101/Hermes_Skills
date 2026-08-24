@@ -19,6 +19,11 @@ metadata:
 
 # Google Workspace
 
+## What This Skill Does
+
+Access Gmail, Calendar, Drive, Docs, and Sheets through the gws CLI or Python API.
+
+
 Gmail, Calendar, Drive, Contacts, Sheets, and Docs — through Hermes-managed OAuth and a thin CLI wrapper. When `gws` is installed, the skill uses it as the execution backend for broader Google Workspace coverage; otherwise it falls back to the bundled Python client implementation.
 
 ## References

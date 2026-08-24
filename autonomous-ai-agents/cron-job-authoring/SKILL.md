@@ -1,10 +1,15 @@
 ---
 name: cron-job-authoring
-description: "cron prompts: autonomous runs, no-interaction guardrails."
+description: "Author autonomous cron prompts with guardrails."
 version: 1.0.0
-category: autonomous-ai-agents
-tags: [cron, scheduling, autonomous, guardrails, prompt-design, no-interaction]
-related_skills: [hermes-agent]
+author: Hermes Agent
+license: MIT
+platforms: [linux, macos, windows]
+metadata:
+  hermes:
+    tags: [cron, scheduling, autonomous, guardrails, prompt-design, no-interaction]
+    category: autonomous-ai-agents
+    related_skills: [hermes-agent]
 ---
 
 # Cron Job Authoring

@@ -13,6 +13,11 @@ metadata:
 
 # GitHub Authentication Setup
 
+## What This Skill Does
+
+Set up GitHub authentication for Hermes Agent via HTTPS tokens or SSH keys using the gh CLI.
+
+
 This skill sets up authentication so the agent can work with GitHub repositories, PRs, issues, and CI. It covers two paths:
 
 - **`git` (always available)** — uses HTTPS personal access tokens or SSH keys

@@ -15,6 +15,11 @@ metadata:
 
 # Notion
 
+## What This Skill Does
+
+Read, search, create, and edit Notion pages and databases via the ntn CLI or Notion API.
+
+
 Talk to Notion two ways. Same integration token works for both — pick by what's available.
 
 ◆ **`ntn` CLI** — Notion's official CLI. Shorter syntax, one-line file uploads, required for Workers. macOS + Linux only as of May 2026 (Windows support "coming soon"). **Default when installed.**

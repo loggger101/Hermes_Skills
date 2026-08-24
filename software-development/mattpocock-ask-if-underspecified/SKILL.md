@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [clarity, questioning, requirements, ambiguity, communication]
-    related_skills: [mattpocock-handoff, mattpocock-writing-for-agents, clarify]
+    related_skills: [mattpocock-handoff, mattpocock-writing-for-agents]
 ---
 
 ## When to Use

@@ -13,6 +13,11 @@ metadata:
 
 # arXiv Research
 
+## What This Skill Does
+
+Search and retrieve academic papers from arXiv. Returns markdown content, abstracts, and metadata for research workflows.
+
+
 Search and retrieve academic papers from arXiv via their free REST API. No API key, no dependencies — just curl.
 
 ## Quick Reference

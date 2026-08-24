@@ -13,6 +13,11 @@ metadata:
 
 # GitHub Pull Request Workflow
 
+## What This Skill Does
+
+Manage the full GitHub PR lifecycle: branch, commit, push, open, CI, and review.
+
+
 Complete guide for managing the PR lifecycle. Each section shows the `gh` way first, then the `git` + `curl` fallback for machines without `gh`.
 
 ## Prerequisites

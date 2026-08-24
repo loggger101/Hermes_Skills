@@ -1,4 +1,4 @@
-# Library Audit Methodology
+## Library Audit Methodology
 
 A systematic approach to auditing a collection of skills (or any artifacts) for quality, consistency, and completeness.
 
@@ -6,7 +6,13 @@ A systematic approach to auditing a collection of skills (or any artifacts) for 
 
 Use when the "bug" is not a code bug but a quality gap across a collection of documents — e.g., all skills in a repository are thin, have inconsistent formatting, missing sections, or broken links.
 
-## The Feedback Loop
+## Two Audit Modes
+
+### Mode A: Scoring Rubric (section-by-section quality)
+Use when you need to assess content depth and structural completeness. Apply the scoring rubric below to rank skills by quality.
+
+### Mode B: Structural Validation (bulk frontmatter checks)
+Use when you suspect systemic issues across the library — broken references, duplicate names, missing frontmatter fields, or descriptions violating formatting rules. Write a one-off Python script that walks all `SKILL.md` files, parses YAML frontmatter, and cross-references the skill name set. This catches data-quality issues a human eyeballing individual files would miss.
 
 Apply the same tight-feedback-loop discipline from `mattpocock-diagnosing-bugs`:
 

@@ -14,6 +14,11 @@ metadata:
 
 # Karpathy's LLM Wiki
 
+## What This Skill Does
+
+Build and query interlinked markdown knowledge bases using Karpathy's LLM Wiki pattern.
+
+
 Build and maintain a persistent, compounding knowledge base as interlinked markdown files.
 Based on [Andrej Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f).
 

@@ -1,6 +1,6 @@
 ---
 name: songsee
-description: "Audio spectrograms and feature extraction (mel, chroma, MFCC) via CLI."
+description: "Audio spectrograms and feature extraction via CLI."
 version: 1.0.0
 author: Hermes Agent
 license: MIT

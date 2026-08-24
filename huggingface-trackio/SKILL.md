@@ -1,6 +1,14 @@
 ---
 name: huggingface-trackio
-description: Track and visualize ML training experiments with Trackio. Use when logging metrics during training (Python API), firing alerts for training diagnostics, or retrieving/analyzing logged metrics (CLI). Supports real-time dashboard visualization, alerts with webhooks, HF Space syncing, and JSON output for automation.
+description: "Log and retrieve ML training experiments with Trackio."
+version: 1.2.0
+author: Hugging Face + Hermes Agent
+license: MIT
+platforms: [linux, macos, windows]
+metadata:
+  hermes:
+    tags: [ml-experiments, trackio, huggingface, metrics, alerts, dashboard]
+    related_skills: [huggingface-hub, python-data-science]
 ---
 
 # Trackio - Experiment Tracking for ML Training

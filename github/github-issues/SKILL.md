@@ -13,6 +13,11 @@ metadata:
 
 # GitHub Issues Management
 
+## What This Skill Does
+
+Create, triage, label, and assign GitHub issues via the gh CLI or GitHub REST API.
+
+
 Create, search, triage, and manage GitHub issues. Each section shows `gh` first, then the `curl` fallback.
 
 ## Prerequisites

@@ -20,6 +20,11 @@ triggers:
 
 # Popular Web Designs
 
+## What This Skill Does
+
+Generate 54 real-world design systems (Stripe, Linear, Vercel, etc.) as HTML/CSS components.
+
+
 54 real-world design systems ready for use when generating HTML/CSS. Each template captures a
 site's complete visual language: color palette, typography hierarchy, component styles, spacing
 system, shadows, responsive behavior, and practical agent prompts with exact CSS values.
