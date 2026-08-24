@@ -9,6 +9,7 @@ metadata:
   hermes:
     tags: [Smart-Home, Hue, Lights, IoT, Automation]
     homepage: https://www.openhue.io/cli
+    related_skills: [computer-use]
 prerequisites:
   commands: [openhue]
 ---

@@ -9,6 +9,7 @@ metadata:
   hermes:
     tags: [Email, IMAP, SMTP, CLI, Communication]
     homepage: https://github.com/pimalaya/himalaya
+    related_skills: [email-inbox-triage, google-workspace]
 prerequisites:
   commands: [himalaya]
   setup_verification: "himalaya --version prints a version; himalaya account list works with configured account"

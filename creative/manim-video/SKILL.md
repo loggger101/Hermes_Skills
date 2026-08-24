@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [Manim, Animation, Math, Video]
-    related_skills: []
+    related_skills: [ascii-video, youtube-content, p5js]
 ---
 
 # Manim Video Production Pipeline

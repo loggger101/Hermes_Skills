@@ -14,6 +14,7 @@ required_commands:
 metadata:
   hermes:
     tags: [MLOps, Weights And Biases, WandB, Experiment Tracking, Hyperparameter Tuning, Model Registry, Collaboration, Real-Time Visualization, PyTorch, TensorFlow, HuggingFace]
+    related_skills: [huggingface-hub, huggingface-trackio, serving-llms-vllm]
 
 ---
 

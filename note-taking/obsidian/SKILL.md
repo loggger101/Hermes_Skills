@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [Obsidian, Notes, Markdown, Vault]
-    related_skills: []
+    related_skills: [apple-notes, notion]
 ---
 
 # Obsidian Vault
