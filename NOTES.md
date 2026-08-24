@@ -152,6 +152,52 @@ A reusable audit script at [`tools/audit-skills.py`](./tools/audit-skills.py) wa
 
 The script outputs JSON and exits 0 (within thresholds) or 1 (breached). It is wired into `.hermes/cron/active/skill-audit.json` as a weekly cronjob (`no_agent=true`).
 
+## New: Bidirectional Sync Cronjob
+
+A new cronjob was created to keep the GitHub Hermes_Skills repo and the local Hermes Agent environment in sync:
+
+- **`tools/sync-hermes-skills.py`** — Python script that performs bidirectional sync:
+  1. **Pull** — `git pull --rebase` from upstream (stashes unstaged changes first, restores after)
+  2. **Pull direction** — copies all repo skill files → `~/.hermes/skills/` (115 files pulled on first run)
+  3. **Push direction** — copies new/modified local skills → repo tree (hash comparison, skips unchanged)
+  4. **Memories** — exports `~/.hermes/memories/` → `memories-export/` directory in repo
+  5. **Profiles** — exports `~/.hermes/profiles/<name>/skills/` and `/memories/` → `profiles-export/` directory
+  6. **Commit + push** — git add + commit with change-count summary + push
+  7. **Audit** — runs `tools/audit-skills.py` after sync to validate
+
+- **`.hermes/cron/active/sync-hermes-skills.json`** — cronjob config: weekly Sunday 2 AM (runs before the audit at 3 AM), `no_agent=true`, uses `terminal` + `file` toolsets only.
+
+- **Sync guards:**
+  - Stashes unstaged changes before pull, restores after
+  - Hash-based change detection (no unnecessary copies)
+  - Skips top-level repo files (README.md, DEPENDENCY.md, NOTES.md) from local→repo push
+  - Runs audit after sync for validation
+  - Handles missing directories gracefully (no crashes if `~/.hermes/memories/` or `profiles/` doesn't exist)
+
+### Sync Report (test run)
+| Metric | Count |
+|--------|-------|
+| files_pulled_to_local | 115 (first run) / 3 (subsequent runs) |
+| files_skipped_pull | 567 (unchanged) |
+| new_local_files_in_repo | 0 |
+| updated_files_in_repo | 0 |
+| files_skipped_push | 570 |
+| memories_synced | 0 |
+| profiles_synced | 0 |
+| total_changes_pushed | 0 |
+| audit_passed | true |
+| threshold_breached | false |
+| git_push_success | true |
+
+### Sync Script Guardrails
+- `GIT_TERMINAL_PROMPT=0` — no interactive git prompts
+- Git user.name/email set to `hermes-cronbot` / `cronbot@hermes.local`
+- `pull.rebase=true` configured to avoid merge commits
+- Git push failure is non-fatal — changes committed locally, error reported
+- Stashes unstaged changes before pull, restores after
+- Hash-based change detection (SHA-256) — no unnecessary copies
+- Silent mode: empty stdout = no delivery (cron watchdog pattern)
+
 ### Audit Results After Fixes
 | Metric | Count |
 |--------|-------|
@@ -160,6 +206,6 @@ The script outputs JSON and exits 0 (within thresholds) or 1 (breached). It is w
 | long_descriptions | 0 |
 | missing_related_skills | 0 |
 | placeholder_markers | 2 (intentional — in LaTeX citation examples) |
-| missing_body_sections | ~70 (informational — lower priority, not threshold-blockers) |
-| missing_category_descriptions | 0 (all 20 categories now have DESCRIPTION.md) |
+| missing_body_sections | 0 (alternative headers recognized: `## What's in this skill`, `## Overview`, `## Creative Standard`, `**What This Skill Does:**`) |
+| missing_category_descriptions | 0 (all 20 categories now have DESCRIPTION.md + root DESCRIPTION.md) |
 | temps_scripts | 0 |

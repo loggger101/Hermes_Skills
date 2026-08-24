@@ -1,0 +1,30 @@
+{
+  "name": "hermes-skills-bidirectional-sync",
+  "description": "Bidirectional sync between GitHub Hermes_Skills repo and local Hermes Agent environment — pulls upstream, syncs skills/memories/profiles to/from local, commits changes, runs audit",
+  "schedule": "0 2 * * 0",
+  "schedule_human": "Weekly Sunday at 2:00 AM (runs before the 3 AM audit)",
+  "workdir": ".",
+  "deliver": "origin",
+  "continuity": true,
+  "enabled_toolsets": ["terminal", "file"],
+  "no_agent": true,
+  "script": "tools/sync-hermes-skills.py",
+  "script_description": "Python script that: (1) git pull upstream with stash/pop for local changes, (2) copies repo skills to ~/.hermes/skills/, (3) copies new/modified local skills back to repo, (4) syncs memories and profiles to repo, (5) commits and pushes changes (gracefully handles push failures), (6) runs audit",
+  "output_format": "JSON report delivered via cronjob system",
+  "threshold": {
+    "threshold_breached": false,
+    "git_pull_success": true,
+    "audit_passed": true
+  },
+  "guardrails": [
+    "no_agent=true — no LLM, no interactive prompts, no clarify calls",
+    "enabled_toolsets restricted to terminal + file only",
+    "Stashes unstaged changes before pull, restores after",
+    "Only commits files that actually changed (hash comparison)",
+    "Skips top-level repo files (README.md, DEPENDENCY.md, NOTES.md) from local→repo push",
+    "Runs audit after sync to catch any issues",
+    "Commit message includes change counts for each file type",
+    "Git push failure is non-fatal — sync still completes and reports the push error",
+    "Empty stdout from script = silent (no delivery) — only fires alert on threshold breach"
+  ]
+}
