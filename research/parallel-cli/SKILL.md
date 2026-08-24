@@ -29,7 +29,7 @@ Important expectations:
 - Context chaining with `--previous-interaction-id`
 - Search, extract, research, enrichment, entity discovery, and monitoring in one CLI
 
-## When to use it
+## When to Use
 
 Prefer this skill when:
 - The user explicitly mentions Parallel or `parallel-cli`
@@ -112,7 +112,7 @@ If auth requires browser interaction, run with `pty=true`.
 6. Use background processes only for genuinely long-running workflows; otherwise run in foreground.
 7. Prefer Hermes native tools unless the user wants Parallel specifically or needs Parallel-only workflows.
 
-## Quick reference
+## Quick Reference
 
 ```text
 parallel-cli
