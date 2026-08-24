@@ -101,3 +101,5 @@ All 127 skills now use the standard `metadata.hermes` nesting format. A repo-wid
 - ✅ Temp scripts in repo root: 0
 - ✅ All `related_skills` entries resolve to existing in-repo skills
 - ✅ Related_skills network: 310 cross-references across 125 skills (2 standalone)
+- ✅ `.hermes/cron/` registry: 2 templates, 2 active job definitions, 0 temp scripts
+- ✅ All frontmatter blocks have blank line before closing `---`

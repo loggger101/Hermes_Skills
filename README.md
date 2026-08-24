@@ -368,6 +368,8 @@ cronjob(action='create',
 - ✅ No CRLF line endings (all LF)
 - ✅ No temp scripts remaining in repo root
 - ✅ `related_skills` network: 310 cross-references across 125 skills (2 standalone skills with none)
+- ✅ `.hermes/cron/` registry: 2 templates, 2 active jobs, 0 temp scripts
+- ✅ All frontmatter blocks have blank line before closing `---`
 - ✅ No duplicate content (verified via hash comparison)
 - ✅ DEPENDENCY.md relationship mapping audited and updated
 - ✅ Profile documentation transferred to `profile/` directory
