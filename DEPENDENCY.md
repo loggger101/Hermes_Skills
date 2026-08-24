@@ -105,7 +105,7 @@ mattpocock-finishing-a-development-branch ─> mattpocock-subagent-driven-develo
 ```
 plan ─> systematic-debugging
 plan ─> test-driven-development
-plan ─> subagent-driven-development
+plan ─> mattpocock-subagent-driven-development
 plan ─> requesting-code-review
 systematic-debugging ─> test-driven-development (mutual)
 test-driven-development ─> systematic-debugging (mutual)
