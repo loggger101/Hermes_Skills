@@ -5,6 +5,10 @@ description: Track and visualize ML training experiments with Trackio. Use when 
 
 # Trackio - Experiment Tracking for ML Training
 
+## What This Skill Does
+
+Logs and retrieves ML training experiment metrics via the Hugging Face Trackio Python API and CLI. Covers three interfaces: logging metrics during training (Python API), firing diagnostic alerts (Python API), and retrieving/analyzing logged metrics and alerts (CLI). Supports real-time dashboard visualization via HF Spaces syncing, webhook alerts to Slack/Discord, and JSON output for LLM agent automation.
+
 Trackio is an experiment tracking library for logging and visualizing ML training metrics. It syncs to Hugging Face Spaces for real-time monitoring dashboards.
 
 ## Three Interfaces

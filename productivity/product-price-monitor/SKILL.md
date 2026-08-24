@@ -15,6 +15,10 @@ metadata:
 
 Monitor a concrete purchasable item and alert on a normalized all-in price or availability condition. Handle variants, taxes, fees, currencies, stock, cancellation terms, and duplicate alerts explicitly. Setup runs once in the foreground; the recurring check runs as a `cronjob` tick (the `price-watch` automation blueprint scaffolds this).
 
+## What This Skill Does
+
+Monitors a concrete purchasable item and alerts when its normalized all-in price reaches a target or its availability changes. Handles variants, shipping, taxes, and historical price comparison. Loads skill_view(name="cron-job-authoring") for recurring price watches.
+
 ## When to Use
 
 - "Alert me when this laptop drops below $1,000."

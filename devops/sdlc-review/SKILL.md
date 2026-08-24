@@ -16,6 +16,10 @@ environments:
 
 # SDLC Review Skill
 
+## What This Skill Does
+
+Independently verifies work handed from a Kanban implementation run to the review lane, then approves it, requests changes, or escalates. Reviews the deliverable and its evidence; does not take over the implementer's work.
+
 Independently verify work handed from a Kanban implementation run to the review lane, then approve it, request changes, or escalate. This skill reviews the deliverable and its evidence; it does not take over the implementer's work.
 
 ## When to Use

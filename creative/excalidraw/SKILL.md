@@ -15,6 +15,10 @@ metadata:
 
 # Excalidraw Diagram Skill
 
+## What This Skill Does
+
+Creates hand-drawn Excalidraw JSON diagrams (architecture, flow, sequence diagrams) by writing standard Excalidraw element JSON and saving as `.excalidraw` files. No accounts, API keys, or rendering libraries required — just write JSON and open in any browser. Loads `skill_view(name='architecture-diagram')` for SVG output as an alternative.
+
 Create diagrams by writing standard Excalidraw element JSON and saving as `.excalidraw` files. These files can be drag-and-dropped onto [excalidraw.com](https://excalidraw.com) for viewing and editing. No accounts, no API keys, no rendering libraries -- just JSON.
 
 ## When to use

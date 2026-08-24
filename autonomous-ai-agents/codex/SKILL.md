@@ -13,6 +13,10 @@ metadata:
 
 # Codex CLI
 
+## What This Skill Does
+
+Delegates coding tasks to the OpenAI Codex CLI. Installs and configures the `codex` CLI, runs it in the working repository, and manages PR creation. Codex is OpenAI's autonomous coding agent CLI. Loads `skill_view(name='hermes-agent')` for setup guidance and `skill_view(name='requesting-code-review')` for quality gates.
+
 Delegate coding tasks to [Codex](https://github.com/openai/codex) via the Hermes terminal. Codex is OpenAI's autonomous coding agent CLI.
 
 ## When to use

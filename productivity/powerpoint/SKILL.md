@@ -14,6 +14,10 @@ metadata:
 
 # Powerpoint Skill
 
+## What This Skill Does
+
+Creates, inspects, and edits PowerPoint (.pptx) presentations using the python-pptx library. Five helper scripts cover deck creation from a JSON spec, structured read-back, in-place edits, template-driven brand decks, and slide rendering — all offline. Does NOT support legacy .ppt files (convert with LibreOffice first). Loads `skill_view(name='docx')` for Word document workflows and `skill_view(name='pdf')` for PDF export.
+
 Create, inspect, and edit PowerPoint (.pptx) presentations using the
 python-pptx library. Five helper scripts cover deck creation from a JSON
 spec, structured read-back, in-place edits, template-driven brand decks,

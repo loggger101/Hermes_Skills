@@ -13,6 +13,10 @@ metadata:
 
 # Merge Reconciler
 
+## What This Skill Does
+
+Resolves git merge conflicts between two agents' branches as an impartial third-party mediator. Receives both diffs and stated intents, produces a merged result with every hunk decision documented, and never favors the side that spawned it. Loads `skill_view(name='mattpocock-resolving-merge-conflicts')` for single-agent conflict resolution.
+
 Resolve a git merge conflict between two AGENTS' branches as an impartial third
 party. Agents resolving conflicts against a peer's work reliably either
 overwrite the peer or abandon their own change — they lack the peer's context

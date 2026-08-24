@@ -14,6 +14,10 @@ metadata:
 
 # Architecture Diagram Skill
 
+## What This Skill Does
+
+Generates professional, dark-themed technical architecture diagrams as standalone HTML files with inline SVG graphics. Supports software system architecture (frontend/backend/database layers), cloud infrastructure (VPC, regions, managed services), microservice topology, database + API maps, and deployment diagrams.
+
 Generate professional, dark-themed technical architecture diagrams as standalone HTML files with inline SVG graphics. No external tools, no API keys, no rendering libraries — just write the HTML file and open it in a browser.
 
 ## Scope

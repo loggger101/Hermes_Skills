@@ -15,6 +15,10 @@ prerequisites:
 
 # Codebase Inspection with pygount
 
+## What This Skill Does
+
+Analyzes repositories for lines of code, language breakdown, file counts, and code-vs-comment ratios using the `pygount` CLI. Produces a complete language inventory (per-file counts, total LOC, comment ratio) for assessing codebase size, composition, and maintainability. Loads `skill_view(name='github-repo-management')` for repo-level metadata.
+
 Analyze repositories for lines of code, language breakdown, file counts, and code-vs-comment ratios using `pygount`.
 
 ## When to Use

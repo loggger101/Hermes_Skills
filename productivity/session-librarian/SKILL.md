@@ -15,6 +15,10 @@ metadata:
 # Session Librarian
 
 Manage the user's session library conversationally: find past sessions about a
+
+## What This Skill Does
+
+Manages the users session library: finding, renaming, archiving, and pruning past sessions. Integrates with the Hermes state database for search.
 topic, summarize what they decided, rename them meaningfully, split work into
 parallel sessions, and propose stale ones for archive or deletion — all from a
 plain-language request like *"find my sessions about Q3 pricing, keep the

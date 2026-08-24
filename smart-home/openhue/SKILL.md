@@ -17,6 +17,10 @@ prerequisites:
 
 Control Philips Hue lights and scenes via a Hue Bridge from the terminal.
 
+## What This Skill Does
+
+Controls Philips Hue lights, scenes, rooms, and zones via a Hue Bridge using the hue CLI. Supports individual light control, scene activation, and live state queries.
+
 ## Prerequisites
 
 ```bash

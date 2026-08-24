@@ -13,6 +13,10 @@ metadata:
 
 # Meeting Action Items
 
+## What This Skill Does
+
+Converts meeting transcripts or notes into cited decisions, assigned action items with owners/due dates, and ticket creation. Uses NLP to extract obligations and decisions from text, classifies them by owner and priority, and creates records in the user's task system. Loads `skill_view(name='teams-meeting-pipeline')` for meeting retrieval and `skill_view(name='document-to-action-items')` for document-based extraction.
+
 Convert an existing transcript or notes set into accountable follow-through. `teams-meeting-pipeline` can retrieve Teams artifacts; this skill begins once notes/transcript content is available, from any source.
 
 ## When to Use

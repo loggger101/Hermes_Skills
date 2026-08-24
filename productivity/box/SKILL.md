@@ -16,6 +16,10 @@ metadata:
 
 # Box
 
+## What This Skill Does
+
+Manages Box cloud files, sharing, search, and metadata. File operations (upload, download, move, delete, version), collaboration (sharing, comments, tasks), searching, and metadata management via the Box CLI or SDK. Loads `skill_view(name='google-workspace')` for Google Drive integration.
+
 Use Box as the cloud file system for file operations, collaboration, metadata, and document work. Run operations with Hermes' `terminal` tool and use the Box CLI; use the SDK guide when building an application.
 
 ## When to Use

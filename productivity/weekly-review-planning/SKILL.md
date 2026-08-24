@@ -15,6 +15,10 @@ metadata:
 
 Run a bounded weekly reset across the user's chosen systems. This is a concrete recurring task, not a generic productivity methodology — the `weekly-review` Automation Blueprint schedules it as a cron job.
 
+## What This Skill Does
+
+Runs a bounded weekly reset across the users chosen systems to review commitments, clear stalled work, and plan the coming week.
+
 ## When to Use
 
 - "Run my weekly review."

@@ -13,6 +13,10 @@ metadata:
 
 # Competitor News Monitor
 
+## What This Skill Does
+
+Tracks a declared company set and reports only material, new developments with primary-source evidence. Monitors company websites, SEC filings, press releases, news articles, and industry publications.
+
 Track a declared company set and report only material, new developments with primary-source evidence. This is not a generic page-diff watcher: it applies company-news categories, source hierarchy, event deduplication, and business significance. Setup runs once in the foreground; the recurring check runs as a `cronjob` tick (the `competitor-watch` automation blueprint scaffolds this). Loads `skill_view(name='blogwatcher')` for feed monitoring and `skill_view(name='parallel-cli')` for web search.
 
 ## When to Use

@@ -16,7 +16,11 @@ prerequisites:
 
 # Blogwatcher
 
-Track blog and RSS/Atom feed updates with the `blogwatcher-cli` tool. Supports automatic feed discovery, HTML scraping fallback, OPML import, and read/unread article management.
+## What This Skill Does
+
+Tracks blog and RSS/Atom feed updates using the `blogwatcher-cli` tool. Supports automatic feed discovery, HTML scraping for non-RSS pages, content formatting, and real-time monitoring via cron. Loads `skill_view(name='competitor-news-monitor')` for company-focused tracking and `skill_view(name='parallel-cli')` for deep research enrichment.
+
+Track blog and RSS/Atom feed updates with the \`blogwatcher-cli\` tool. Supports automatic feed discovery, HTML scraping fallback, OPML import, and read/unread article management.
 
 ## Installation
 
