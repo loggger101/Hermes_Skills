@@ -93,9 +93,11 @@ Skills for writing self-contained, autonomous cronjob prompts. The core patterns
 
 ## Sync Status
 
-The local skills directory at `C:\Users\Loggg\AppData\Local\hermes\skills\` has been synced with this repository. All 114 local skills that exist in both locations are now identical (repo to local syncs applied on 2026-08-24 across multiple standardization passes).
+The local skills directory at `C:\Users\Loggg\AppData\Local\hermes\skills\` has been synced with this repository. **All 127 skills** from the repository are now present and identical in both locations (full sync applied 2026-08-24).
 
-The repository contains 13 additional skills that originated from the `the-skill-maker` and `the-memory-controller` profiles (which are no longer present on this machine) — these are cataloged in [MISSING-FROM-LOCAL.md](./MISSING-FROM-LOCAL.md).
+Previously, 13 skills were missing from local (12 from `data-science/` and 1 `cron-job-authoring`). These have been synced from the repository. The local profile also has 1 pre-installed skill (`hermes-agent`) that is core to Hermes itself — the repository contains a curated copy.
+
+See [MISSING-FROM-LOCAL.md](./MISSING-FROM-LOCAL.md) for the detailed sync history.
 
 ## Files in This Directory
 
@@ -105,7 +107,7 @@ The repository contains 13 additional skills that originated from the `the-skill
 | [config.yaml](./config.yaml) | Full active configuration |
 | [MEMORY.md](./MEMORY.md) | Persistent memory notes (agent-discovered facts) |
 | [USER.md](./USER.md) | User profile (preferences, environment, conventions) |
-| [MISSING-FROM-LOCAL.md](./MISSING-FROM-LOCAL.md) | 13 skills in repo but not in local profile |
+| [MISSING-FROM-LOCAL.md](./MISSING-FROM-LOCAL.md) | Sync status: all 127 repo skills now local (was 13 missing) |
 | [.curator_ledger.jsonl](./.curator_ledger.jsonl) | Curator operation log (verbatim) |
 | [.bundled_manifest](./.bundled_manifest) | Official bundled skill checksums (verbatim) |
 | [.usage.json](./.usage.json) | Per-skill usage statistics (verbatim) |
