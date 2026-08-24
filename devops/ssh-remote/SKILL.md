@@ -15,6 +15,10 @@ metadata:
 
 Run commands on remote machines and transfer files over SSH. Encodes auth patterns and pitfalls so remote work is predictable.
 
+## What This Skill Does
+
+Provides a complete SSH workflow: verify connectivity with key-based auth, choose the right transport (one-off command, interactive shell, file transfer, or port forwarding), handle authentication challenges (key agent, first-time host key acceptance, password fallback), run and verify remote commands, and clean up background sessions/tunnels. Uses `ssh`, `scp`, `rsync` for all operations via `terminal`. Loads `skill_view(name='docker-containers')` for Docker-on-remote workflows.
+
 ## When to Use
 
 - "Run this command on the server"

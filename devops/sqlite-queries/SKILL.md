@@ -15,6 +15,10 @@ metadata:
 
 Query, inspect, and export SQLite databases. Encodes the workflow for database work via the `sqlite3` CLI.
 
+## What This Skill Does
+
+Implements a systematic SQLite workflow: locate and verify the database file, discover the schema (tables, columns, indexes, foreign keys), run queries (one-shot, CSV/JSON export, interactive exploration), handle data modifications with transactions + backups, and verify results by re-querying. Uses `sqlite3` CLI for all operations with `execute_code` (Python/pandas) for complex post-export processing. Loads `skill_view(name='sql-for-data')` for advanced SQL patterns.
+
 ## When to Use
 
 - "What's in this SQLite database?"

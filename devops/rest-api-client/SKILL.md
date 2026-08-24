@@ -15,6 +15,10 @@ metadata:
 
 Call REST APIs with auth, pagination, rate-limit awareness, and structured error handling. Encodes the workflow for integrating with arbitrary HTTP APIs.
 
+## What This Skill Does
+
+Implements a complete REST API client workflow: read the API contract, test connectivity + auth, handle authentication (Bearer, API key, Basic, OAuth2), paginate through results, handle errors gracefully, and parse responses efficiently. Uses `curl` for all HTTP operations and `jq` for JSON parsing, with fallback to `execute_code` (Python) for complex workflows. Loads `skill_view(name='ssh-remote')` for APIs on remote hosts.
+
 ## When to Use
 
 - "Call this API endpoint"

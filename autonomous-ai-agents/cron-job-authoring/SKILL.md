@@ -9,6 +9,10 @@ related_skills: [hermes-agent]
 
 # Cron Job Authoring
 
+## What This Skill Does
+
+Teaches the pattern for writing prompts for cron jobs that run autonomously on a schedule with no human present. Covers the no-interaction guardrail pattern (never use `clarify`, never prompt for credentials, never present interactive UI), credential handling (skip-and-record strategy when credentials are missing), delivery discipline (the cron system auto-delivers the final response; never call `send_message` yourself), and structural conventions (phased prompts, scorecards, blocked-item handling). Includes troubleshooting for common failures like `[drift_skip]` errors and `approvals.cron_mode` blocking.
+
 Writing prompts for cron jobs that run on a schedule with no human present requires different discipline than writing prompts for interactive sessions. The job cannot ask questions, wait for approvals, or pause for credentials. Every decision point that would normally trigger a `clarify` or a prompt must be resolved in the prompt itself — either with a rule ("skip and note"), a fallback, or an explicit blocker record.
 
 This skill covers the guardrail pattern, credential handling, delivery discipline, and the structural conventions that keep scheduled runs finishing instead of stalling.

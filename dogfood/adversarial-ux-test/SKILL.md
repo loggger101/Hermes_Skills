@@ -13,6 +13,10 @@ metadata:
 
 # Adversarial UX Test
 
+## What This Skill Does
+
+Roleplays a hostile, low-tech user persona to find UX friction in a product, then filters findings through a pragmatism layer to separate real UX problems from "I hate computers" noise. Produces actionable tickets (RED/GREEN findings) only; WHITE items appear in the report but generate no tickets. Loads `skill_view(name='dogfood')` for QA integration.
+
 Roleplay the worst-case user for your product — the person who hates technology, doesn't want your software, and will find every reason to complain. Then filter their feedback through a pragmatism layer to separate real UX problems from "I hate computers" noise.
 
 Think of it as an automated "mom test" — but angry.
@@ -189,3 +193,23 @@ These are starting points — customize for your specific product:
 - Max 10 tickets per session
 - Test on staging/deployed app, not local dev
 - One persona, one session, one report
+
+## Pitfalls
+
+- **Skipping the pragmatism filter.** Without Step 4, you produce 20 tickets for "add a print button" instead of 3 actionable fixes.
+- **Testing with a tech-savvy persona.** If the persona has zero complaints, they're too competent — make them older, less patient, more set in their ways.
+- **Feature tour instead of core task.** Don't walk through every menu — test the ONE thing they need to do.
+- **No screenshots.** Without visual evidence, complaints look like speculation.
+- **Over-ticketing.** Max 10 tickets forces you to prioritize — don't file tickets for every WHITE item.
+- **Testing on localhost.** The persona can't reach localhost. Test on deployed/staging URLs.
+- Using admin accounts. Pre-seeded data hides cold-start friction. Register as a new user when possible.
+
+## Verification
+
+- [ ] Persona is specific, aged 55+, non-technical, with a clear ONE task
+- [ ] Screenshots captured for every complaint with browser console checked
+- [ ] The rant is written in the persona's voice (not dry technical notes)
+- [ ] Every complaint has a colored classification (RED/YELLOW/WHITE/GREEN)
+- [ ] Only RED and GREEN items received tickets (max 10)
+- [ ] WHITE items appear in the report only
+- [ ] At least one click-count measurement (steps to complete core task)

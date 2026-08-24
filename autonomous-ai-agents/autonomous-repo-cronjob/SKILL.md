@@ -15,6 +15,8 @@ metadata:
 
 ## Overview
 
+**What This Skill Does:** Teaches the pattern for drafting self-contained cronjob prompts that automate work against existing repositories with their own CI pipelines. The cronjob's prompt body must embed the repository's guardrails, data formats, and conventions so it runs autonomously without session context.
+
 When a Hermes `cronjob` needs to automate work against an existing repository that already
 has its own CI pipeline (GitHub Actions, Makefile, etc.), the cronjob's prompt body must
 be **self-contained** (no session context) and must embed the repository's own guardrails,
