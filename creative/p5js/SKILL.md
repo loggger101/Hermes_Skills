@@ -13,7 +13,7 @@ metadata:
 
 # p5.js Production Pipeline
 
-## When to use
+## When to Use
 
 Use when users request: p5.js sketches, creative coding, generative art, interactive visualizations, canvas animations, browser-based visual art, data viz, shader effects, or any p5.js project.
 

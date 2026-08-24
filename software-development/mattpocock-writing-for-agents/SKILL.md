@@ -62,7 +62,7 @@ metadata:
 
 ### Body Structure
 ```
-## When to Use          (triggers + non-triggers)
+## When to Use
 ## What This Skill Does  (scope + boundaries)
 ## Prerequisites         (auth, tools, setup)
 ## Process               (numbered steps with code)

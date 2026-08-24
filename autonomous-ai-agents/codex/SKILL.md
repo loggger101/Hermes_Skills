@@ -19,7 +19,7 @@ Delegates coding tasks to the OpenAI Codex CLI. Installs and configures the `cod
 
 Delegate coding tasks to [Codex](https://github.com/openai/codex) via the Hermes terminal. Codex is OpenAI's autonomous coding agent CLI.
 
-## When to use
+## When to Use
 
 - Building features
 - Refactoring

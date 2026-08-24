@@ -87,7 +87,7 @@ change maps to a requirement. Flag any scope creep or unrequested
 changes with file:line references."
 ```
 
-## When to Use Multi-Agent vs Single-Agent Review
+## When to Use
 
 | Scenario | Recommendation |
 |----------|---------------|

@@ -115,7 +115,7 @@ POSIX-only signals to search for in `scripts/`: `fcntl`, `termios`, `pty`, `os.f
 # <Skill> Skill
 2-3 sentence intro: what it does, what it doesn't do, dependency stance.
 
-## When to Use          — bulleted triggers (+ "Don't use for:" counter-triggers)
+## When to Use
 ## Prerequisites        — exact env vars, installs, API key sourcing
 ## How to Run           — canonical invocation through the `terminal` tool
 ## Quick Reference      — flat command list, no narration

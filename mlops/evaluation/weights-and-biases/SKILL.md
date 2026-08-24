@@ -19,7 +19,7 @@ metadata:
 
 # Weights & Biases: ML Experiment Tracking & MLOps
 
-## When to Use This Skill
+## When to Use
 
 Use Weights & Biases (W&B) when you need to:
 - **Track ML experiments** with automatic metric logging

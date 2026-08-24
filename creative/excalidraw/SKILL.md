@@ -21,7 +21,7 @@ Creates hand-drawn Excalidraw JSON diagrams (architecture, flow, sequence diagra
 
 Create diagrams by writing standard Excalidraw element JSON and saving as `.excalidraw` files. These files can be drag-and-dropped onto [excalidraw.com](https://excalidraw.com) for viewing and editing. No accounts, no API keys, no rendering libraries -- just JSON.
 
-## When to use
+## When to Use
 
 Generate `.excalidraw` files for architecture diagrams, flowcharts, sequence diagrams, concept maps, and more. Files can be opened at excalidraw.com or uploaded for shareable links.
 

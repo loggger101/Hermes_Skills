@@ -21,7 +21,7 @@ Search and download GIFs directly via the Tenor API using curl. No extra tools n
 
 Searches and downloads GIFs from the Tenor API using `curl` and `jq`. The `TENOR_API_KEY` environment variable provides authentication. GIF URLs can be used directly in chat (markdown image syntax) or saved to disk. Loads `skill_view(name='youtube-content')` for video-based GIF creation from YouTube videos.
 
-## When to use
+## When to Use
 
 Useful for finding reaction GIFs, creating visual content, and sending GIFs in chat.
 

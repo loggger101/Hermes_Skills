@@ -1,6 +1,6 @@
 ---
 name: llama-cpp
-description: llama.cpp local GGUF inference + HF Hub model discovery.
+description: "llama.cpp local GGUF inference + HF Hub model discovery."
 version: 2.1.2
 author: Orchestra Research
 license: MIT
@@ -20,7 +20,7 @@ metadata:
 
 Use this skill for local GGUF inference, quant selection, or Hugging Face repo discovery for llama.cpp.
 
-## When to use
+## When to Use
 
 - Run local models on CPU, Apple Silicon, CUDA, ROCm, or Intel GPUs
 - Find the right GGUF for a specific Hugging Face repo
@@ -57,7 +57,7 @@ Prefer URL workflows before asking for `hf`, Python, or custom scripts.
    - exact-file fallback: `llama-server --hf-repo <repo> --hf-file <filename.gguf>`
 7. Only suggest conversion from Transformers weights if the repo does not already expose GGUF files.
 
-## Quick start
+## Quick Start
 
 ### Install llama.cpp
 
