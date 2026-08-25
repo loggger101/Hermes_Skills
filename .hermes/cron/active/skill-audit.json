@@ -29,14 +29,85 @@
     "yaml_errors": 0,
     "long_descriptions": 0,
     "duplicate_skills": 0,
-    "temps_scripts": 0
+    "temps_scripts": 0,
+    "missing_frontmatter_fields": 0,
+    "missing_body_sections": 0,
+    "missing_category_descriptions": 0,
+    "script_field_missing_scripts": 0,
+    "threshold_breached": false,
+    "exit_code": 0
   },
   "guardrails": [
-    "no_agent=true — no LLM, no interactive prompts, no clarify calls",
-    "enabled_toolsets restricted to terminal + file only",
-    "Threshold-based alerting: broken_refs=0, yaml_errors=0, long_descriptions=0, duplicate_skills=0, temps_scripts=0",
-    "Exit code 0 = pass within thresholds (silent if no issues), exit code 1 = threshold breached",
-    "Empty stdout from script = silent (no delivery) — only fires alert on threshold breach",
-    "Model pinned with fallback: primary=qwen/qwen3.6-35b (provider=qwen), fallback=poolside/laguna-s-2.1:free (provider=nous)"
-  ]
+    "no_agent=true -- no LLM, no interactive prompts, no clarify calls -- script-only watchdog pattern",
+    "enabled_toolsets restricted to terminal + file only -- no web, no delegation, no browser-use",
+    "Threshold-based alerting: 11 checks, all must pass (0 breaches = silent run)",
+    "Exit code 0 = pass within all thresholds, exit code 1 = any threshold breached",
+    "Empty stdout from script = silent (no delivery) -- only fires alert on threshold breach",
+    "Model pinned with fallback: primary=qwen/qwen3.6-35b (provider=qwen), fallback=poolside/laguna-s-2.1:free (provider=nous)",
+    "Script runs in REPO_ROOT (.), REPO_ROOT detection via parents[1] (parent of tools/)",
+    "Windows python detection: uses shutil.which('python') not python3 (python3 is broken Store stub)",
+    "File exclusion order: audit-skills.py excludes .git/, .hermes/, profiles-export/, memories-export/, memories/ before parsing",
+    "Duplicate detection: audit-skills.py uses explicit tracking, not dict overwrite",
+    "Script-field validation: frontmatter script: paths checked against actual file existence"
+  ],
+  "post_run_verification": {
+    "commands": [
+      "python tools/audit-skills.py"
+    ],
+    "expected_results": {
+      "audit-skills.py": "Exit code 0, threshold_breached=False in JSON output"
+    },
+    "validation_matrix": {
+      "broken_refs": "All related_skills resolve to existing in-repo skills (0 = pass)",
+      "yaml_errors": "All SKILL.md frontmatter parses without errors (0 = pass)",
+      "long_descriptions": "All description fields <= 59 chars (0 = pass)",
+      "duplicate_skills": "No duplicate name fields across SKILL.md files (0 = pass)",
+      "temps_scripts": "No temp scripts in repo root (0 = pass)",
+      "missing_frontmatter_fields": "All skills have required fields (0 = pass)",
+      "missing_body_sections": "All skills have body sections (0 = pass)",
+      "missing_category_descriptions": "All categories with >1 skill have DESCRIPTION.md (0 = pass)",
+      "script_field_missing_scripts": "All script: paths exist on disk (0 = pass)"
+    },
+    "self_healing_actions": {
+      "broken_refs_detected": "Audit generates DEPENDENCY.md fix suggestions; alert includes list of broken refs",
+      "yaml_errors_detected": "Audit reports exact file and line number; error details include parse context",
+      "long_descriptions_detected": "Audit flags each offending skill with current length and max (59); suggests trimming",
+      "duplicate_skills_detected": "Audit reports both file paths sharing the name; cannot auto-merge intent"
+    }
+  },
+  "report_template": {
+    "timestamp": "ISO-8601 UTC",
+    "run_type": "audit",
+    "repo": "Hermes_Skills",
+    "summary": {
+      "total_skills": 0,
+      "broken_refs": 0,
+      "yaml_errors": 0,
+      "long_descriptions": 0,
+      "duplicate_skills": 0,
+      "temps_scripts": 0,
+      "missing_frontmatter_fields": 0,
+      "missing_body_sections": 0,
+      "missing_category_descriptions": 0,
+      "script_field_missing_scripts": 0,
+      "threshold_breached": false
+    },
+    "issues": {
+      "broken_refs": [],
+      "yaml_errors": [],
+      "long_descriptions": [],
+      "duplicate_skills": [],
+      "temps_scripts": [],
+      "missing_frontmatter_fields": [],
+      "missing_body_sections": [],
+      "missing_category_descriptions": [],
+      "script_field_missing_scripts": []
+    },
+    "network_stats": {
+      "total_cross_references": 0,
+      "standalone_skills": 0,
+      "top_hubs": []
+    },
+    "actions_taken": []
+  }
 }

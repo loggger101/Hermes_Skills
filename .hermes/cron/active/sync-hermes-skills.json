@@ -22,17 +22,89 @@
     "threshold_breached": false,
     "git_pull_success": true,
     "git_push_success": true,
-    "audit_passed": true
+    "audit_passed": true,
+    "lint_passed": true,
+    "no_merge_conflicts": true,
+    "no_orphaned_files": true,
+    "dependency_map_regenerated": true,
+    "memories_synced": true,
+    "profiles_synced": true
   },
   "guardrails": [
-    "no_agent=true — no LLM, no interactive prompts, no clarify calls",
-    "enabled_toolsets restricted to terminal + file only",
-    "Stashes unstaged changes before pull, restores after",
-    "Only commits files that actually changed (hash comparison)",
-    "Skips top-level repo files (README.md, DEPENDENCY.md, NOTES.md) from local→repo push",
-    "Runs audit after sync to catch any issues",
-    "Commit message includes change counts for each file type",
-    "Git push failure is non-fatal — sync still completes and reports the push error",
-    "Empty stdout from script = silent (no delivery) — only fires alert on threshold breach"
-  ]
+    "no_agent=true -- script-only watchdog pattern, no LLM calls, no interactive prompts",
+    "enabled_toolsets restricted to terminal + file only -- no web, no delegation, no browser-use",
+    "Bidirectional sync: PULL first (github->local), then PUSH (local->github)",
+    "Threshold-based alerting: 10 checks, all must pass (no breaches = silent run)",
+    "Dry-run support: --dry-run flag skips ALL file operations (git_add_commit_push, cleanup, DEPENDENCY.md writes)",
+    "Windows python detection: uses shutil.which('python') not python3 (python3 is broken Store stub, exit 9009)",
+    "Path normalization: str(path) uses backslash separators on Windows -- substring filters fail silently; must normalize",
+    "File exclusions: sync_skills_push AND sync_skills_pull exclude profiles-export/, memories-export/, .hermes/, .git/, tools/, memories/",
+    "Delete safety: sync_skills_push delete phase excludes memories/ directory (CRITICAL FIX -- prevents accidental deletion of tracked memory files)",
+    "Duplicate detection: sync tracks duplicates in LOCAL_SKILLS_DIR and logs them; does NOT silently overwrite",
+    "Model pinned with fallback: primary=qwen/qwen3.6-35b (provider=qwen), fallback=poolside/laguna-s-2.1:free (provider=nous)",
+    "HERMES_HOME environment variable (C:\\Users\\Owner\\AppData\\Local\\hermes) is used for all local paths",
+    "Git operations use commit author hermes-cronbot / cronbot@hermes.local",
+    "memories/ directory is TRACKED in repo (NOT gitignored) -- sync_memories copies to memories/ not memories-export/",
+    "profiles-export/ and memories-export/ directories are ALWAYS gitignored -- runtime data must never be committed",
+    "Git config core.autocrlf=true with .gitattributes text=auto normalizes line endings (CRLF working tree, LF storage)",
+    "OneDrive sync: if git fails with 'mmap failed', files may be cloud-only placeholders"
+  ],
+  "post_run_verification": {
+    "commands": [
+      "python tools/sync-hermes-skills.py --dry-run",
+      "python tools/audit-skills.py"
+    ],
+    "expected_results": {
+      "sync-hermes-skills.py --dry-run": "Exit code 0, threshold_breached=False, deleted_files_in_repo=0",
+      "audit-skills.py": "Exit code 0, 127 skills, 0 threshold breaches"
+    },
+    "validation_matrix": {
+      "git_pull_success": "git pull completes without conflicts",
+      "git_push_success": "git push to origin/main succeeds",
+      "audit_passed": "Post-sync audit reports 0 broken refs, 0 yaml errors, 0 duplicates",
+      "no_orphaned_files": "No files in profiles-export/ or memories-export/ after cleanup",
+      "dependency_map_regenerated": "DEPENDENCY.md has correct xref count matching current skills"
+    },
+    "self_healing_actions": {
+      "git_pull_conflict": "Abort sync, alert user, leave working tree unchanged",
+      "git_push_failure": "Commit locally, record push_error in report, retry on next run",
+      "audit_failure_after_sync": "Revert last sync batch, alert user with details",
+      "orphaned_export_dirs": "Auto-clean profiles-export/ and memories-export/ after sync"
+    }
+  },
+  "report_template": {
+    "timestamp": "ISO-8601 UTC",
+    "run_type": "sync",
+    "summary": {
+      "files_pulled_to_local": 0,
+      "files_skipped_pull": 0,
+      "new_local_files_in_repo": 0,
+      "updated_files_in_repo": 0,
+      "deleted_files_in_repo": 0,
+      "memories_synced": 0,
+      "git_pull_success": false,
+      "git_push_success": false,
+      "audit_passed": false,
+      "lint_passed": false,
+      "threshold_breached": false
+    },
+    "sync_details": {
+      "duplicates_found": [],
+      "conflicts": [],
+      "excluded_dirs": [
+        "profiles-export/",
+        "memories-export/",
+        ".hermes/",
+        ".git/",
+        "tools/",
+        "memories/"
+      ],
+      "cleanup_performed": []
+    },
+    "git_state": {
+      "ahead": 0,
+      "behind": 0,
+      "clean": true
+    }
+  }
 }
