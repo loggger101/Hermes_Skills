@@ -47,7 +47,12 @@
     "memories/ directory is TRACKED in repo (NOT gitignored) -- sync_memories copies to memories/ not memories-export/",
     "profiles-export/ and memories-export/ directories are ALWAYS gitignored -- runtime data must never be committed",
     "Git config core.autocrlf=true with .gitattributes text=auto normalizes line endings (CRLF working tree, LF storage)",
-    "OneDrive sync: if git fails with 'mmap failed', files may be cloud-only placeholders"
+    "OneDrive sync: if git fails with 'mmap failed', files may be cloud-only placeholders",
+    "Conflict resolution: skill_modified_both=PULL wins, memory=MERGE, profile=local wins",
+    "Path normalization: Windows paths use backslash-to-forward-slash normalization before matching",
+    "Git state recovery: mmap_failed, pull_failed, push_rejected, merge_conflict procedures with backup",
+    "Sync verification: 7 post-sync integrity checks (skill/memory counts, export dirs, DEPENDENCY, git state, audit)",
+    "Backup before merge: stash working tree before PULL, restore on any failure"
   ],
   "post_run_verification": {
     "commands": [
@@ -106,5 +111,66 @@
       "behind": 0,
       "clean": true
     }
+  },
+  "conflict_resolution": {
+    "description": "When PULL and PUSH conflict, these rules define the automated resolution path",
+    "conflict_types": {
+      "skill_modified_both": "Skill file changed locally AND upstream -- PULL wins (upstream is canonical), local changes stashed and notified in report",
+      "memory_modified_both": "Memory file changed locally AND upstream -- MERGE: upstream changes applied first, then local additions appended if no key conflicts",
+      "profile_skill_conflict": "Profile-specific skill modified in both -- local wins (profile customizations are user intent), report divergence for manual review",
+      "export_dir_conflict": "profiles-export/ or memories-export/ tracked somehow -- delete from repo (gitignored), re-export from local",
+      "DEPENDENCY_md_conflict": "Generated file -- always overwrite with current, never merge"
+    },
+    "resolution_order": [
+      "1. Stash local changes before PULL",
+      "2. git pull --rebase upstream main",
+      "3. If rebase conflicts: attempt automatic resolution per matrix above",
+      "4. If auto-resolution fails: abort, report conflict details, leave working tree for manual resolution",
+      "5. Apply stashed local changes after successful PULL",
+      "6. Run PUSH: git add -A, commit, push"
+    ],
+    "stash_recovery": "If stash apply fails after successful pull -- restore from stash@{0}, report as conflict, do NOT push"
+  },
+  "path_normalization": {
+    "description": "Windows-specific path handling to prevent silent filter failures",
+    "windows_gotchas": [
+      "str(Path(...)) uses backslash separators on Windows -- substring filters like 'profiles-export/' fail silently",
+      "Fix: always normalize with .replace('\\\\', '/') before substring matching",
+      "MSYS path conversion is disabled for native tools (git, node, perl) -- pass C:/Users/x forward-slash paths",
+      "bash builtin cd supports /c/Users/x but native tools do not -- use cd in bash, then run native tools with $PWD"
+    ],
+    "verification_checks": [
+      "ALL path comparisons normalize with os.path.normpath().replace('\\\\', '/') before substring matching",
+      "list_repo_files() centralizes exclusion: .git/, .hermes/, profiles-export/, memories-export/, memories/",
+      "list_memory_files() normalizes path separators before any filtering",
+      "find_skill_files() in audit-skills.py excludes the same directories",
+      "generate_dependency_map() skips the same excluded directories"
+    ],
+    "normalization_function": "def norm_path(p): return str(p).replace('\\\\', '/').replace('//', '/')"
+  },
+  "git_state_recovery": {
+    "description": "Procedures for recovering from git failures without data loss",
+    "failure_scenarios": {
+      "git_pull_failed": "Working tree may be partially merged. Run: git merge --abort (if merging) or git stash pop (if stashed). Do NOT push.",
+      "git_push_rejected": "Remote has new commits. Run: git pull --rebase, then git push. If local-only changes: git push --force-with-lease (careful -- may overwrite remote history).",
+      "git_merge_conflict": "Manual resolution required. Stash local changes, git reset --hard origin/main, re-apply local changes.",
+      "mmap_failed_error": "OneDrive sync issue -- files are cloud-only placeholders. Pin with: attrib -U +P .git (Windows) or ensure OneDrive is running.",
+      "disk_full": "Free disk space, clear profiles-export/ and memories-export/ temp dirs, clean up old backup files"
+    },
+    "backup_strategy": "Before any destructive operation, create a temp backup: cp -r .hermes /tmp/hermes-pre-sync-backup. Restore with: rm -rf .hermes && cp -r /tmp/hermes-pre-sync-backup .hermes",
+    "safety_net": "If sync_hermes_skills.py exits with code != 0, the cronjob sends a CRITICAL alert with the full error log. Working tree is left unchanged."
+  },
+  "sync_verification": {
+    "description": "Post-sync verification to confirm data integrity after bidirectional sync",
+    "checks": [
+      "Skill count matches: local ~/.hermes/skills/ count == repo skill count (after excluding .hermes/, profiles-export/)",
+      "Memory count matches: ~/.hermes/memories/ count == repo memories/ count",
+      "Profile count matches: ~/.hermes/profiles/*/skills/ count == repo profiles-export/ count (should be 0 if profiles-export is gitignored)",
+      "No orphaned export dirs: profiles-export/ and memories-export/ directories are empty or nonexistent after cleanup",
+      "DEPENDENCY.md regenerated: xref count matches current skill inventory",
+      "Git state clean: git status --porcelain output is empty after successful sync",
+      "Audit passes: python tools/audit-skills.py returns threshold_breached=False"
+    ],
+    "failure_if_not_verified": "If any verification check fails -- halt, do NOT commit, emit verification_failures in report"
   }
 }

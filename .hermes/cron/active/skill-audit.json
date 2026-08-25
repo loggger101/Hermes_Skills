@@ -48,7 +48,11 @@
     "Windows python detection: uses shutil.which('python') not python3 (python3 is broken Store stub)",
     "File exclusion order: audit-skills.py excludes .git/, .hermes/, profiles-export/, memories-export/, memories/ before parsing",
     "Duplicate detection: audit-skills.py uses explicit tracking, not dict overwrite",
-    "Script-field validation: frontmatter script: paths checked against actual file existence"
+    "Script-field validation: frontmatter script: paths checked against actual file existence",
+    "Trend analysis: cross-run comparison of broken_refs, yaml_errors, skill_count, cross_references",
+    "Regression detection: any metric worsening vs last run escalates severity",
+    "Auto-fix suggestions: each issue type includes fix command template",
+    "skill_view() sync: verify every skill_view call has related_skills entry and vice versa"
   ],
   "post_run_verification": {
     "commands": [
@@ -109,5 +113,62 @@
       "top_hubs": []
     },
     "actions_taken": []
+  },
+  "trend_analysis": {
+    "description": "Cross-run trend detection for skill quality metrics",
+    "tracked_metrics": {
+      "skill_count": "Total skill count -- growth rate detection",
+      "broken_refs": "Per-run broken ref count -- regression if > previous run",
+      "yaml_errors": "Per-run YAML error count -- should always be 0",
+      "long_descriptions": "Description length violations",
+      "duplicate_skills": "Name collisions across categories",
+      "missing_body_sections": "Skills missing required body sections",
+      "cross_reference_count": "Total related_skills references -- network health"
+    },
+    "regression_detection": [
+      "broken_refs count increased vs last run -> flag as regression, list new broken refs",
+      "yaml_errors count increased vs last run -> immediate alert (schema regression)",
+      "duplicate_skills appeared -> new duplicate skill name detected, report both paths",
+      "skill_count dropped -> skills were deleted, report which categories lost skills",
+      "cross_reference_count dropped by >5 -> related_skills network shrank, check for removed skills"
+    ],
+    "growth_trend": "If skill_count grows by >5 in a single run -> flag for audit (unexpected import burst)"
+  },
+  "regression_detection": {
+    "description": "Compare current audit results against last run to detect regressions before they compound",
+    "comparison_points": [
+      "broken_refs: previous=0, current=N -> list the N new broken refs with file paths",
+      "yaml_errors: previous=0, current=N -> list the N files with YAML parse errors",
+      "long_descriptions: previous=N, current=N+2 -> identify which 2 descriptions grew too long",
+      "duplicate_skills: previous=0, current=N -> report all N duplicated names + their file paths",
+      "missing_body_sections: previous=N, current=N+3 -> identify newly missing sections"
+    ],
+    "escalation": "If ANY metric worsens vs last run -> severity='warning' in report. If broken_refs or yaml_errors increase -> severity='critical'."
+  },
+  "auto_fix_suggestions": {
+    "description": "When issues are detected, the audit report includes actionable fix suggestions",
+    "fix_templates": {
+      "broken_refs": "Edit SKILL.md frontmatter related_skills list -- remove the dead reference or add the missing skill. Run: python tools/audit-skills.py --fix-broken-refs",
+      "yaml_errors": "Edit SKILL.md frontmatter to fix YAML syntax -- check for unquoted strings with special chars, missing colons, inconsistent indentation",
+      "long_descriptions": "Trim description to <=59 chars. Tip: use abbreviations, remove 'a/an/the' at start. Run: python tools/audit-skills.py --suggest-trims",
+      "duplicate_skills": "Rename one of the duplicate skills. Check both files and decide which name is canonical. Run: python tools/audit-skills.py --list-duplicates",
+      "missing_body_sections": "Add '## What This Skill Does' and '## When to Use' sections to the SKILL.md body"
+    },
+    "auto_fix_commands": {
+      "list_broken_refs": "python tools/audit-skills.py --list-broken-refs",
+      "list_duplicates": "python tools/audit-skills.py --list-duplicates",
+      "suggest_trims": "python tools/audit-skills.py --suggest-trims",
+      "generate_fix_report": "python tools/audit-skills.py --fix-report > .hermes/cron/active/skill-audit-fix-report.json"
+    }
+  },
+  "skill_view_verification": {
+    "description": "Verify that skill_view() calls in body text have matching related_skills entries and vice versa",
+    "checks": [
+      "Every skill_view('xxx') call in SKILL.md body has a corresponding related_skills entry",
+      "Every related_skills entry has at least one skill_view('xxx') reference in the skill's body text",
+      "No skill_view() call references a skill name that does not exist in the repo",
+      "No skill_view() call references itself (self-reference is a bug)"
+    ],
+    "threshold": "0 mismatches allowed"
   }
 }
