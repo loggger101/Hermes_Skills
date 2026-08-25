@@ -21,6 +21,7 @@
   "threshold": {
     "threshold_breached": false,
     "git_pull_success": true,
+    "git_push_success": true,
     "audit_passed": true
   },
   "guardrails": [

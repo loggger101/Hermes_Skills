@@ -34,7 +34,7 @@ THRESHOLDS = {
 def find_skill_files(root):
     """Find all SKILL.md files and map name→path.
 
-    Skips .git/, .hermes/, profiles-export/, and memories-export/ directories —
+    Skips .git/, .hermes/, profiles-export/, memories-export/, and memories/ —
     the latter two are sync-script outputs, not source skill content.
     """
     skills = {}
@@ -43,7 +43,7 @@ def find_skill_files(root):
         path_str = str(path).replace("\\", "/")  # Normalize for cross-platform matching
         if ".git/" in path_str or ".hermes/" in path_str:
             continue
-        if "profiles-export/" in path_str or "memories-export/" in path_str:
+        if "profiles-export/" in path_str or "memories-export/" in path_str or "memories/" in path_str:
             continue
         rel = path.relative_to(root)
         # Extract name from frontmatter

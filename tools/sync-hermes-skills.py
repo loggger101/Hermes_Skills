@@ -90,7 +90,7 @@ def list_repo_files(directory: Path):
     """List all files in the repo tree, skipping hidden dirs, .git, and sync outputs.
 
     Returns paths with forward-slash separators for cross-platform consistency.
-    Excludes: .git/, .hermes/, profiles-export/, memories-export/
+    Excludes: .git/, .hermes/, profiles-export/, memories-export/, memories/
     """
     files = {}
     if not directory.exists():
@@ -410,7 +410,7 @@ def sync_skills_push(repo_root: Path, local_dir: Path, dry_run: bool = False) ->
         parts = rel_path.split("/")
         # Skip non-skill files in repo
         if len(parts) == 1 or parts[0] in ("tools", "profile", ".hermes",
-                                           "memories-export", "profiles-export"):
+                                           "memories", "memories-export", "profiles-export"):
             continue
         # If file no longer exists locally, delete from repo
         local_path = local_dir / rel_path
@@ -569,7 +569,7 @@ def generate_dependency_map(repo_root: Path, dry_run: bool = False) -> dict:
 
         # First pass: collect all skill names
         for path in sorted(repo_root.rglob("SKILL.md")):
-            if '.git' in str(path) or 'profiles-export' in str(path) or 'memories-export' in str(path):
+            if '.git' in str(path) or 'profiles-export' in str(path) or 'memories-export' in str(path) or 'memories' in str(path):
                 continue
             try:
                 text = path.read_text(encoding="utf-8")
