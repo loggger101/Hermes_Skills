@@ -75,7 +75,7 @@ def find_category_dirs(root):
     the latter two are sync-script outputs, not source category directories.
     """
     cats = {}
-    skip_dirs = {".git", ".hermes", "profiles-export", "memories-export"}
+    skip_dirs = {".git", ".hermes", "profiles-export", "memories-export", "profile", "tools"}
     for entry in sorted(root.iterdir()):
         if entry.is_dir() and not entry.name.startswith(".") and entry.name not in skip_dirs:
             desc_path = entry / "DESCRIPTION.md"
