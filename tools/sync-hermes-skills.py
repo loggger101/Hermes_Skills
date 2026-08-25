@@ -111,7 +111,10 @@ def list_repo_files(directory: Path):
 
 
 def list_memory_files(directory: Path):
-    """List all memory files (*.md) in the memories directory."""
+    """List all memory files (*.md) in the memories directory.
+
+    Uses forward-slash separators for cross-platform consistency.
+    """
     files = {}
     if not directory.exists():
         return files
@@ -119,7 +122,7 @@ def list_memory_files(directory: Path):
         if any(part.startswith(".") for part in path.relative_to(directory).parts):
             continue
         rel = path.relative_to(directory)
-        files[str(rel)] = path
+        files[str(rel).replace(os.sep, "/")] = path
     return files
 
 
