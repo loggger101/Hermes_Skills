@@ -13,7 +13,7 @@
     "mlops/evaluation/evaluating-llms-harness",
     "software-development/mattpocock-evidence-driven",
     "github/mattpocock-yeet",
-    "github/mattpocock-using-git-worktrees"
+    "software-development/mattpocock-using-git-worktrees"
   ],
   "deliver": "origin",
   "continuity": true,
