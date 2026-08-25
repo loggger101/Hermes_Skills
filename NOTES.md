@@ -160,7 +160,7 @@ A new cronjob was created to keep the GitHub Hermes_Skills repo and the local He
   1. **Pull** — `git pull --rebase` from upstream (stashes unstaged changes first, restores after)
   2. **Pull direction** — copies all repo skill files → `~/.hermes/skills/` (115 files pulled on first run)
   3. **Push direction** — copies new/modified local skills → repo tree (hash comparison, skips unchanged)
-  4. **Memories** — exports `~/.hermes/memories/` → `memories-export/` directory in repo
+  4. **Memories** — copies `~/.hermes/memories/` → `memories/` directory in repo (trackable)
   5. **Profiles** — exports `~/.hermes/profiles/<name>/skills/` and `/memories/` → `profiles-export/` directory
   6. **Commit + push** — git add + commit with change-count summary + push
   7. **Audit** — runs `tools/audit-skills.py` after sync to validate
