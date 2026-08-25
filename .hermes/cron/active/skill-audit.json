@@ -12,7 +12,12 @@
   ],
   "deliver": "origin",
   "continuity": true,
-  "enabled_toolsets": ["terminal", "file"],
+  "model": "claude-sonnet-4-20250514",
+  "provider": "claude",
+  "enabled_toolsets": [
+    "terminal",
+    "file"
+  ],
   "no_agent": true,
   "script": "tools/audit-skills.py",
   "script_description": "Python script that validates all SKILL.md frontmatter, checks description lengths, verifies related_skills resolution, scans for broken YAML, and checks line endings",
@@ -22,5 +27,13 @@
     "yaml_errors": 0,
     "long_descriptions": 0,
     "temps_scripts": 0
-  }
+  },
+  "guardrails": [
+    "no_agent=true — no LLM, no interactive prompts, no clarify calls",
+    "enabled_toolsets restricted to terminal + file only",
+    "Threshold-based alerting: broken_refs=0, yaml_errors=0, long_descriptions=0, temps_scripts=0",
+    "Exit code 0 = pass within thresholds (silent if no issues), exit code 1 = threshold breached",
+    "Empty stdout from script = silent (no delivery) — only fires alert on threshold breach",
+    "Model pinned to prevent drift-skip: provider=claude, model=claude-sonnet-4-20250514"
+  ]
 }

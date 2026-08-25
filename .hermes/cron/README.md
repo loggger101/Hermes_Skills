@@ -40,6 +40,18 @@ See:
 || [`skill-audit.json`](./active/skill-audit.json) | Weekly Sun 3 AM | 4 skills (cron-job-authoring, skill-authoring, verification) | Self-audit: YAML validation, broken refs, description lengths, line endings |
 || [`sync-hermes-skills.json`](./active/sync-hermes-skills.json) | Weekly Sun 2 AM | 4 skills (cron-job-authoring, hermes-agent, skill-authoring, verification) | Bidirectional sync: pull upstream → sync skills/memories/profiles ↔ local → commit → push → audit |
 
+## Active Cronjobs Detail
+
+### aspirecures-weekly.json
+- **Architecture:** Two-agent split (preparer + commit agent)
+- **Schedule:** Weekly Monday at 1 PM ET
+- **Skills:** 9 skills across research, MLOps, and software-development categories
+- **Guardrails:** Append-only merge, date-churn prevention, dedup by PMID+DOI, safe-fail per entity, spend caps
+- **Credential strategy:** Skip-and-record — Europe PMC and PubMed are free; if any source is unavailable, skip and note as unverified
+- **Threshold:** git_push_success=true, lint_passed=true
+- **Model pin:** provider=claude, model=claude-sonnet-4-20250514 (prevents drift-skip)
+- **Note:** The agent substitutes its own Claude judgments for the ANTHROPIC_API_KEY-gated curation step
+
 ## Quick Start
 
 ```python

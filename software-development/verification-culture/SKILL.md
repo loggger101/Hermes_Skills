@@ -66,6 +66,7 @@ Rules that aren't tasks — they're constraints that, if broken, silently undo s
 3. The rebuild chain is in MAINTENANCE.md step 4 and is the source of truth. Running the generators without `research/render.pl` AND `render-ads.pl` afterwards ships feed-less, rail-less disease pages. `perl tools/dedash.pl *.html` must be called WITH the glob.
 4. `bash tools/verify.sh` must pass before any push. (It runs in CI on every push and gates the weekly research job, so a failure there stops the feed publishing.)
 5. Copy is written in the owner's voice (we/our), never the visitor's. Medical copy is carried verbatim and is not paraphrased without Heidi's sign-off.
+6. Every cronjob JSON config must include `model` and `provider` fields. (Without them, the cron scheduler auto-skips the job with a `[drift_skip]` error when the global inference config changes between job creation and fire. This is a silent failure — the job appears in `jobs.json` as `last_status: error` but produces no delivery.)
 
 **What makes a good standing rule:**
 - It constrains something that, if done wrong, is silent (no error, no warning, just broken).
@@ -147,7 +148,8 @@ Automated checks that run on every push (or on a schedule) and gate deploys. Not
 - Local link resolution (every href/src/data-src resolves to a file that exists; no orphaned assets; no broken internal links).
 - Structural validity (HTML is parseable, JSON is valid, config is valid, markers are intact).
 - Invariant checks (the ad rail matches slots.json; the research feed is present on disease pages; dedash pass has been run).
-- Prohibited content (no Squarespace markup/CSS/JS remaining; no em/en dashes that survived the dedash pass; no unresolved @font-face families).
+|- Prohibited content (no Squarespace markup/CSS/JS remaining; no em/en dashes that survived the dedash pass; no unresolved @font-face families).
+|- Cron job config completeness: every active cronjob JSON includes `model`, `provider`, `threshold`, `guardrails`, `enabled_toolsets`, and `enabled_toolsets` restricted to what the job actually needs (no over-provisioning).
 
 **What a health check does NOT cover:**
 - Things that require a real browser (visual correctness, animation progress, native button activation) — those are audit-pass items, not CI checks.
@@ -279,6 +281,7 @@ Keeping docs accurate over time, without letting doc maintenance become a burden
 | Doc claims aren't verified | Stale docs, wrong guidance | Mark unverifiable claims as such; verify claims against code when found |
 | Verification checklist is vague or unused | Checklist doesn't define "done"; items always green | Make checklist items specific and verifiable; prune always-green items, add items for materialized risks |
 | Documentation burden is too high | Docs go stale because maintaining them is too much work | Reduce doc scope, encode constraints in tooling, mark historical docs as historical |
+| Cron config missing model/provider pin | Job silently skips on fire with `[drift_skip]` error when global inference config changed since creation | Always pin `model` and `provider` in cronjob JSON configs; verify via `cron_job_has_pin()` check |
 
 ## Verification Checklist
 
@@ -298,3 +301,4 @@ Before declaring a project's verification culture healthy:
 - [ ] Historical docs are marked as historical (evidence, not current guidance)
 - [ ] Verification checklists define "done" with specific, verifiable items
 - [ ] Important constraints are encoded in tooling (CI gates, health checks, regression tests) so they're enforced automatically, not just documented
+- [ ] All active cronjob JSON configs include `model`/`provider` pinning, `threshold` block, `guardrails` array, and scoped `enabled_toolsets`

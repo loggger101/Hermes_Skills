@@ -198,6 +198,20 @@ A new cronjob was created to keep the GitHub Hermes_Skills repo and the local He
 - Hash-based change detection (SHA-256) — no unnecessary copies
 - Silent mode: empty stdout = no delivery (cron watchdog pattern)
 
+## AspireCURES Cronjob Refinement
+
+The `aspirecures-weekly.json` cronjob config was refined to align with the two-agent split pattern documented in the `autonomous-repo-cronjob` and `cron-job-authoring` skills:
+
+- **Added `model`/`provider` pinning** — prevents `[drift_skip]` errors when the global inference config changes between job creation and fire (see `references/drift-skip-error.md`)
+- **Added `threshold` block** — `git_push_success: true`, `lint_passed: true` — consistent with `skill-audit.json` and `sync-hermes-skills.json` patterns
+- **Added `guardrails` array** — 13 explicit guardrails covering append-only merge, date-churn prevention, dedup keys, safe-fail, spend caps, country normalization, no-interactive-prompts, model pinning, and cron approval mode
+- **Expanded `key_guardrails`** — added skip-and-record pattern for credential-dependent steps (Europe PMC API key is free, PubMed is free, but if either is unavailable, skip and note as unverified)
+- **Added `output_format` field** — documents the JSON report path consumed by the commit agent
+- **Added `agents` detail** — preparer emits JSON report, commit agent triggered by user response
+- **Corrected `workdir`** — placeholder left as-is (repo-specific path) with note that it must be set per deployment
+- **Added `enabled_toolsets`** — terminal, file, web, delegation (consistent with two-agent split pattern)
+- **Added `notes` field** — explains the agent substitutes its own Claude judgments for the ANTHROPIC_API_KEY-gated curation step (the agent IS the model, not a script calling the API)
+
 ### Audit Results After Fixes
 | Metric | Count |
 |--------|-------|
