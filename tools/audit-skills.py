@@ -18,7 +18,7 @@ import re
 import sys
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
+REPO_ROOT = Path(__file__).resolve().parents[1]
 THRESHOLDS = {
     "broken_refs": 0,
     "yaml_errors": 0,
@@ -29,10 +29,17 @@ THRESHOLDS = {
 # ── Collect all skills ──────────────────────────────────────────────
 
 def find_skill_files(root):
-    """Find all SKILL.md files and map name→path."""
+    """Find all SKILL.md files and map name→path.
+
+    Skips .git/, .hermes/, profiles-export/, and memories-export/ directories —
+    the latter two are sync-script outputs, not source skill content.
+    """
     skills = {}
     for path in root.rglob("SKILL.md"):
-        if ".git/" in str(path) or ".hermes/" in str(path):
+        path_str = str(path)
+        if ".git/" in path_str or ".hermes/" in path_str:
+            continue
+        if "profiles-export/" in path_str or "memories-export/" in path_str:
             continue
         rel = path.relative_to(root)
         # Extract name from frontmatter
@@ -62,10 +69,15 @@ def find_skill_files(root):
 
 
 def find_category_dirs(root):
-    """Find all category directories (top-level dirs with multiple skills)."""
+    """Find all category directories (top-level dirs with multiple skills).
+
+    Skips .git, .hermes, profiles-export, and memories-export —
+    the latter two are sync-script outputs, not source category directories.
+    """
     cats = {}
+    skip_dirs = {".git", ".hermes", "profiles-export", "memories-export"}
     for entry in sorted(root.iterdir()):
-        if entry.is_dir() and not entry.name.startswith(".") and entry.name != ".git":
+        if entry.is_dir() and not entry.name.startswith(".") and entry.name not in skip_dirs:
             desc_path = entry / "DESCRIPTION.md"
             cats[entry.name] = {
                 "has_description": desc_path.exists(),
