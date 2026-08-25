@@ -98,7 +98,14 @@
     "cron_mode approval required for terminal commands — set approvals.cron_mode: approve for git push operations",
     "Preparer self-validates against lint-feed.pl validation matrix BEFORE emitting report",
     "Maintenance-only passes always run (trial status refresh + retraction check) — do NOT skip when no key",
-    "Date-churn signature taken on data AS READ FROM DISK (before maintenance mutations) — critical C8 fix"
+    "Date-churn signature taken on data AS READ FROM DISK (before maintenance mutations) — critical C8 fix",
+    "Pre-flight baseline: check_queries.pl BEFORE curation establishes raw candidate pool size",
+    "Dedup verification: post-merge check no duplicate PMID/DOI/NCT ids in approved_items",
+    "Budget tracking: never exceed max_curations_per_run (200) or max_tokens_per_run (300000)",
+    "Quality scoring: precision/recall/dedup-rate per page, scored excellent|good|needs_attention|critical",
+    "Error-rate monitoring: api_failure_rate, curation_failure_rate, reject_rate_spike tracked",
+    "Rollback procedures: commit agent restores from pre-merge backup on failure",
+    "Cross-run continuity: failure_streak, reject_rate_history, api_health_history tracked"
   ],
   "output_files": {
     "preparer": ".hermes/cron/active/aspirecures-research-report.json",
@@ -194,5 +201,110 @@
         "dedup_effectiveness": 0.0
       }
     }
+  },
+  "pre_flight_baseline": {
+    "description": "Captured BEFORE curation phase begins, establishes expected candidate pool size",
+    "source": "perl tools/research/check_queries.pl output",
+    "fields": {
+      "per_page_raw_counts": "Expected raw candidates per page (before Claude gate)",
+      "baseline_date": "Today's date in UTC (establishes what 'recent' means for this run)",
+      "cutoff_date": "TODAY - recent_days (default 14 days)",
+      "api_response_times": "Per-source response time (Europe PMC, PubMed, CT.gov, ISRCTN)",
+      "api_status_codes": "Per-source HTTP status (200=healthy, 429=rate limited, 5xx=server error)"
+    },
+    "baseline_check_failure": "If a page's raw count drops by >50% vs last run baseline → flag as 'potential_query breakage' in report, do NOT auto-adjust queries"
+  },
+  "dedup_verification": {
+    "description": "Post-merge verification that dedup is working correctly",
+    "checks": [
+      "Within each page: no duplicate PMID: or DOI: ids in articles",
+      "Within each page: no duplicate NCT: or ISRCTN: ids in trials",
+      "No article title appears twice across sources (normalized title comparison)",
+      "No trial appears in both CT.gov and ISRCTN with same NCT id",
+      "Priority author papers are NOT duplicated (same paper from priority search + regular search = 1 entry)"
+    ],
+    "cross_source_dedup_count": "Count of candidates removed by cross-source dedup -- should be > 0 on active pages",
+    "dedup_failure_threshold": "If any duplicate ids survive into approved_items → threshold breach, halt report"
+  },
+  "budget_tracking": {
+    "description": "Real-time monitoring of curation spend against configured caps",
+    "caps": {
+      "max_tokens_per_run": 300000,
+      "max_curations_per_run": 200,
+      "max_priority_per_page": 8
+    },
+    "tracking_fields": {
+      "tokens_consumed_per_page": "Token count for Claude gate calls per page",
+      "curations_done_per_page": "Number of Claude gate calls per page",
+      "priority_candidates_gated": "Number of priority-author candidates gated per page (capped at 8)",
+      "tokens_remaining": "300000 - tokens_consumed_so_far",
+      "curations_remaining": "200 - curations_done_so_far"
+    },
+    "cap_behavior": "Hitting EITHER cap stops curation. Remaining candidates are listed as 'deferred_to_next_run' in the report. NO cap is ever exceeded.",
+    "cost_estimate": "Tokens / 1M * $0.003 (Anthropic Claude 3 Haiku rate) -- reported for transparency"
+  },
+  "error_rate_monitoring": {
+    "thresholds": {
+      "api_failure_rate": 0.5,
+      "curation_failure_rate": 0.3,
+      "reject_rate_spike": 0.95,
+      "duplicate_approval_rate": 0.0
+    },
+    "alert_conditions": [
+      "API failure rate > 50% → log as api_unhealthy, continue with remaining sources",
+      "Curation failure rate > 30% → log as curation_quality_issue, recommend human review of relevance rules",
+      "Reject rate > 95% → log as reject_rate_spike, check for over-tightened relevance rules or API data degradation",
+      "Any duplicate approvals within a page → THRESHOLD BREACH, halt report emission until resolved",
+      "Error count exceeds 5 consecutive pages → stop run, emit error summary"
+    ],
+    "recovery_procedures": [
+      "API failure: retry once with 5s backoff, then skip source for remainder of run",
+      "Curation gate throws: catch exception, mark candidate as skipped_error, continue",
+      "Page processing throws: log SKIPPED, leave existing data untouched, continue to next page",
+      "Budget cap hit: stop curating, emit partial report with cap_hit flag",
+      "Git push failure: commit locally, record push_error in report"
+    ]
+  },
+  "quality_scoring": {
+    "metrics": {
+      "precision": "approved / (approved + rejected) per page -- high precision means strict gate is working",
+      "recall_proxy": "candidates_collected / check_queries.pl_baseline -- low recall means queries need widening",
+      "dedup_rate": "1 - (unique_after_dedup / total_before_dedup) -- effective dedup keeps this > 0.25",
+      "maintenance_efficiency": "maintenance_changes / total_existing_items -- should be < 0.1 on stable feeds",
+      "freshness_score": "fraction of pages where generated date was bumped this run",
+      "country_normalization_rate": "fraction of articles with country badges"
+    },
+    "scoring": {
+      "excellent": "precision >= 0.80 AND recall_proxy >= 0.60 AND dedup_rate >= 0.25",
+      "good": "precision >= 0.70 AND recall_proxy >= 0.40 AND dedup_rate >= 0.15",
+      "needs_attention": "precision < 0.50 OR recall_proxy < 0.20 OR dedup_rate < 0.05",
+      "critical": "precision < 0.30 OR reject_rate > 0.95"
+    },
+    "quality_gate": "If quality score is 'needs_attention' or 'critical' → add 'human_review_recommended: true' to report. Does NOT block commit agent, but surfaces prominently."
+  },
+  "rollback_procedures": {
+    "description": "If the commit agent detects failures after merging, these rollback steps apply",
+    "steps": [
+      "lint-feed.pl FAIL → do NOT commit. Report includes exact file:lineno of each error.",
+      "verify.sh FAIL → do NOT commit. Report includes each failing check by section number.",
+      "Git push failure → commit locally (so progress is not lost), record push_error, retry on next run.",
+      "Date-churn false bump (C6/C8 regression) → abort commit, report signature mismatch details.",
+      "API data corruption detected (invalid ids, missing required fields) → revert data/research/*.json changes, keep local backup",
+      "All failures: the commit agent should git reset --hard to the pre-merge HEAD, then re-run from the report's commit_instructions"
+    ],
+    "backup_before_merge": "Before merging ANY approved items, the commit agent should copy data/research/*.json to a temp dir as backup. If any post-merge check fails, restore from backup."
+  },
+  "cross_run_continuity": {
+    "description": "State carried across weekly runs to detect regressions and trends",
+    "tracked_state": {
+      "last_run_report": "Previous week's report (for trend analysis)",
+      "failure_streak": "Consecutive runs where same page failed -- if > 3, escalate",
+      "reject_rate_history": "7-run rolling average per page -- spike detection",
+      "api_health_history": "Per-source success rate over last 5 runs -- degradation detection",
+      "budget_burn_rate": "Tokens consumed per week -- trend for cost forecasting",
+      "page_freshness": "Which pages got new content each run -- stale pages (>2 weeks no changes) → investigation trigger"
+    },
+    "stale_detection": "Pages with no new approved items for > 3 weeks → flag as 'stale_page' in report, recommend relevance rule review",
+    "regression_detection": "If a page that had approved items last run now has 0 candidates collected → flag as 'possible_query_breakage'"
   }
 }
