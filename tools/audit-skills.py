@@ -8,6 +8,7 @@ Validates all SKILL.md files in the Hermes_Skills repository for:
   3. related_skills resolution (each name resolves to an existing skill)
   4. Body section presence (## What This Skill Does, ## When to Use)
   5. Cross-reference sanity (skill_view calls map to related_skills entries)
+  6. Duplicate skill names (same name in different directories)
 
 Output: JSON report suitable for cronjob delivery.
 Exit codes: 0 = pass within thresholds, 1 = threshold breached.
@@ -23,7 +24,9 @@ THRESHOLDS = {
     "broken_refs": 0,
     "yaml_errors": 0,
     "long_descriptions": 0,
+    "duplicate_skills": 0,
     "temps_scripts": 0,
+    "missing_body_sections": 0,
 }
 
 # ── Collect all skills ──────────────────────────────────────────────
@@ -35,6 +38,7 @@ def find_skill_files(root):
     the latter two are sync-script outputs, not source skill content.
     """
     skills = {}
+    duplicates = []  # (name, path, existing_path)
     for path in root.rglob("SKILL.md"):
         path_str = str(path)
         if ".git/" in path_str or ".hermes/" in path_str:
@@ -50,22 +54,37 @@ def find_skill_files(root):
                 import yaml
                 fm = yaml.safe_load(m.group(1))
                 name = fm.get("name", path.parent.name)
-                skills[name] = {
+                if name in skills:
+                    duplicates.append({
+                        "name": name,
+                        "path": str(rel),
+                        "existing_path": skills[name]["path"],
+                    })
+                else:
+                    skills[name] = {
+                        "path": str(rel),
+                        "path_obj": path,
+                        "frontmatter": fm,
+                        "body_start": m.end(),
+                        "body": text[m.end():].strip(),
+                    }
+        except Exception:
+            fallback_name = path.parent.name
+            if fallback_name in skills:
+                duplicates.append({
+                    "name": fallback_name,
+                    "path": str(rel),
+                    "existing_path": skills[fallback_name]["path"],
+                })
+            else:
+                skills[fallback_name] = {
                     "path": str(rel),
                     "path_obj": path,
-                    "frontmatter": fm,
-                    "body_start": m.end(),
-                    "body": text[m.end():].strip(),
+                    "frontmatter": {},
+                    "body_start": 0,
+                    "body": text if "text" in dir() else "",
                 }
-        except Exception:
-            skills[path.parent.name] = {
-                "path": str(rel),
-                "path_obj": path,
-                "frontmatter": {},
-                "body_start": 0,
-                "body": text if "text" in dir() else "",
-            }
-    return skills
+    return skills, duplicates
 
 
 def find_category_dirs(root):
@@ -205,7 +224,7 @@ def check_stale_placeholders(skill_name, skill_info):
 # ── Main ──────────────────────────────────────────────────────────
 
 def run_audit():
-    all_skills = find_skill_files(REPO_ROOT)
+    all_skills, duplicates = find_skill_files(REPO_ROOT)
     all_skill_names = set(all_skills.keys())
 
     report = {
@@ -216,12 +235,19 @@ def run_audit():
             "broken_refs": [],
             "yaml_errors": [],
             "long_descriptions": [],
+            "duplicate_skills": [],
             "missing_body_sections": [],
             "missing_related_skills": [],
             "placeholder_markers": [],
             "missing_category_descriptions": [],
         },
     }
+
+    # Report duplicate skill names (same name in different directories)
+    for dup in duplicates:
+        report["issues"]["duplicate_skills"].append(
+            f'{dup["name"]}: found at both {dup["path"]} and {dup["existing_path"]}'
+        )
 
     # Check each skill
     for skill_name, skill_info in sorted(all_skills.items()):
