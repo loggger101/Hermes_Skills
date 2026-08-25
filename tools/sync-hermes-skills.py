@@ -25,7 +25,7 @@ Exit codes:
 Output: JSON summary (only if changes detected or errors occurred).
 
 Usage:
-  python3 tools/sync-hermes-skills.py              # Normal sync (commits + pushes)
+  python tools/sync-hermes-skills.py              # Normal sync (commits + pushes)
   python tools/sync-hermes-skills.py --dry-run     # Preview all changes without any file modifications or commits
 
 Note: The sync script auto-detects python3 (Linux/macOS) or python (Windows) for the audit subprocess.
