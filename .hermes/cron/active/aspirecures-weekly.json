@@ -44,27 +44,43 @@
   "prompt": "You are the PREPARER agent for the AspireCURES weekly research cronjob. This is an AUTONOMOUS run — no human is present. You MUST NOT use the clarify tool, MUST NOT prompt for API keys, and MUST NOT present any interactive UI. If you hit a blocker, record it and continue (see below).\n\n== REPO ROOT ==\nC:/Users/Owner/OneDrive/Documents/GitHub/aspirecures\n\n== YOUR ROLE vs THE EXISTING CI PIPELINE ==\nThe repo's CI workflow is .github/workflows/research.yml. It runs `node tools/research/fetch_curate.mjs` followed by render.pl, render-ads.pl, gen-sitemap.pl, schema.pl, dedash.pl, gen-feeds.pl, lint-feed.pl, verify.sh, then commit + push if anything changed.\n\nThe pipeline gates its Claude curation step (verdict() in fetch_curate.mjs) behind ANTHROPIC_API_KEY. YOU are an alternative path — you substitute your own model access for that key. When the pipeline would call the Anthropic API, you make the judgment directly. No ANTHROPIC_API_KEY is needed for you — you ARE the gatekeeper.\n\n== TWO RUN MODES ==\nMODE A (maintenance-only — what fetch_curate.mjs runs without a key):\n  - refreshTrialStatuses(): re-reads ClinicalTrials.gov for every published trial's current status (closed trials move to the archive section)\n  - recheckRetractions(): re-queries Europe PMC for published article PMIDs that have since been retracted\n  - Country normalization: re-normalizes all stored country labels through COUNTRY_FIX map\n  - Future-date clamping: clampFuture() on any stored date that slipped into the future\n  - These run on EVERY cron tick regardless of curation\n\nMODE B (full — YOU do this):\n  - [ALL OF MODE A] PLUS:\n  - fetchArticles(): Europe PMC search + PubMed/NCBI E-utilities, unioned and deduped by PMID+DOI\n  - fetchPriorityAuthorArticles(): followed researchers' recent papers in this page's disease scope (wider window, lenient confidence)\n  - fetchTrials(): ClinicalTrials.gov v2 + ISRCTN, unioned and deduped by NCT/ISRCTN/title\n  - verdict(): Claude gate for each candidate (on_topic + credible + appropriate + confidence + summary)\n  - Append-only merge into data/research/<slug>.json\n\n== THE DATA FILE SHAPE (field-by-field) ==\nEach data/research/<slug>.json is:\n{\n  \"slug\": \"<page-slug>\",          // REQUIRED, matches filename\n  \"title\": \"<disease display name>\",\n  \"generated\": \"YYYY-MM-DD\",      // bumped ONLY when data signature changes\n  \"note\": \"<provenance, kept across runs>\", // optional, hand-curation note\n  \"articles\": [                    // sorted newest-first by date\n    {\n      \"id\": \"PMID:12345678\" | \"DOI:10.1234/xyz\", // REQUIRED, unique\n      \"title\": \"string\",            // required, no trailing period\n      \"authors\": \"string\",          // first 3 + et al., no em/en dashes\n      \"journal\": \"string\",          // source journal title\n      \"date\": \"YYYY-MM-DD\",          // online date, never in future\n      \"oa\": bool,                    // open access flag\n      \"country\": \"canonical country\",  // from lead-author affiliation (RENDERED)\n      \"preprint\": true,              // optional, only when preprint server\n      \"url\": \"https://...\",          // REQUIRED, https only\n      \"retracted\": false,            // retraction flag\n      \"summary\": \"65-95 words\"         // REQUIRED for articles, house style text\n    }\n  ],\n  \"trials\": [                    // sorted open-first, then newest-updated\n    {\n      \"id\": \"NCT:NCT12345678\" | \"ISRCTN:ISR123456\", // REQUIRED, unique\n      \"title\": \"string\",            // required\n      \"status\": \"Recruiting\",        // human-readable, spaces not underscores\n      \"statusRaw\": \"RECRUITING\",     // kept for render.pl colour coding\n      \"location\": \"City, Country\",   // first site only\n      \"date\": \"YYYY-MM-DD\",          // last update or first post date\n      \"url\": \"https://...\",          // REQUIRED for CT.gov, ISRCTN or study URL\n      \"_summary\": \"string\",           // scratch (dropped before storage)\n      \"registry\": \"ISRCTN\",          // optional, only when not from CT.gov\n      \"nct\": \"NCT12345678\",          // optional, when from ISRCTN with NCT secondary id\n      \"countries\": [\"Country\", ...],  // DISTINCT countries → location badge (NOT RENDERED, EXCLUDED from date-churn)\n      \"summary\": \"65-95 words\"         // summary on trials (written when approved)\n    }\n  ]\n}\n\nSCRATCH FIELDS (strip before writing): _pmid, _doi, _abstract, _priority, _summary\n\n== THE DATE-CHURN SIGNATURE (C8) ==\nThe signature is computed as:\n  1. Take the data object\n  2. REMOVE the 'generated' key entirely\n  3. For trials[]: REMOVE 'countries' (UNRENDERED — the meta line already shows city+country)\n  4. Recursively sort all object keys\n  5. JSON.stringify the result\n\nIf signature(prev) != signature(result) → bump 'generated' to today. If equal → keep old 'generated'.\n\nCRITICAL: The signature must be taken BEFORE Mode A maintenance passes run, because refreshTrialStatuses() and recheckRetractions() MUTATE the stored arrays IN PLACE. Taking the signature after those calls compares the object with itself → always reports \"no change\". (fetch_curate.mjs:813-818 documents this.)\n\n== THE RENDER PIPELINE (commit agent runs these in order) ==\n1. perl tools/research/render.pl — renders disease page sections from data/research/*.json\n2. perl tools/render-ads.pl (or perl tools/render-ads.pl --check) — re-inject ad rail, validates slots\n3. perl tools/gen-sitemap.pl — refresh sitemap <lastmod> from 'generated' dates\n4. perl tools/schema.pl — refresh JSON-LD dateModified from 'generated' dates\n5. perl tools/dedash.pl *.html — strip em/en dashes from rendered HTML\n6. perl tools/gen-feeds.pl — rebuild RSS feeds from data JSON\n7. perl tools/research/lint-feed.pl — validate DATA JSON (parseability, ids, statuses, markup, dashes, dups, summaries)\n8. bash tools/verify.sh — validate RENDERED SITE (refs resolve, no orphans, ad rail matches slots, registration tests, links have target=_blank+noopener, ac-research:start marker present)\n\nBOTH lint-feed.pl AND verify.sh must pass. Do NOT commit if either fails.\n\n== THE CANDIDATE GATES ===\nEach candidate must pass ALL of these:\n\nSTRUCTURAL (checked in fetch_curate.mjs toCandidate() / toCandidateFromRaw()):\n  - Must have a real PMID or DOI (or NCT for trials)\n  - English only (language field from Europe PMC)\n  - Abstract ≥ 80 chars (articles only)\n  - Date within recent_days window (14 days default; 28 for priority authors)\n  - Date must not be in the future (clampFuture)\n  - Retracted papers (isRetracted) → flagged, not rejected\n\nCURATION (checked by YOU in the verdict()):\n  - on_topic: TRUE only if SPECIFICALLY about the page condition per the page's relevance rule in config.json\n  - credible: TRUE only if peer-reviewed journal OR legitimate registered trial OR recognized preprint server (bioRxiv/medRxiv). Legitimate preprints are acceptable (badge as not-yet-peer-reviewed).\n  - appropriate: TRUE only if appropriate for patients/families (informational, not alarming/sensational)\n  - confidence: ≥ 0.75 (normal candidates), ≥ 0.60 (priority-author candidates)\n  - summary: 65-95 words, house style, NO em/en dashes, NEVER medical advice, factual and descriptive\n\nAPPROVAL RULE: on_topic AND credible AND appropriate AND confidence ≥ threshold AND summary exists AND len(summary) > 40 chars\n\n== ARTICLE SEARCH QUERIES (from config.json per page) ==\nFor Europe PMC: query = (article_query) AND FIRST_PDATE:[CUTOFF TO 2099-12-31], sorted by P_PDATE_D desc\nFor PubMed: same query, windowed mindate=CUTOFF maxdate=TODAY, sorted by pub_date\nFor priority authors: (AUTH query) AND (disease scope), wider window (priority_recent_days=28)\nPreprints: (article_query) AND SRC:PPR (when include_preprints=true)\n\n== TRIAL SEARCH ===\nClinicalTrials.gov: query.cond=<trial_cond>, filter.overallStatus=RECRUITING|ACTIVE_NOT_RECHUITING|NOT_YET_RECRUITING|ENROLLING_BY_INVITATION, sorted by LastUpdatePostDate desc\nISRCTN: condition:\"<first trial_cond phrase>\", mapping recruitment_status to trial statuses\nDedup: CT.gov first (richer record), ISRCTN cross-registered by NCT id\n\n== COUNTRY NORMALIZATION (COUNTRY_FIX) ===\n turkey/Turkey (Türkiye)/türkiye → Türkiye\n usa/U.S.A./U.S./u.s./united states → United States\n uk/U.K./great britain/england/scotland/wales → United Kingdom\n pr china/republic of korea → China/ South Korea\n ALL must pass through COUNTRY_FIX to avoid duplicate spellings on the same page\n\n== DEDUP LOGIC ===\nArticles: PMID AND DOI AND normalized title (cross-registry cross-source)\n  - Same paper from Europe PMC + PubMed + Embase + WoS = ONE entry\n  - Match priority: exact id match → PMID match → DOI match → normalized title match\nTrials: exact NCT id → ISRCTN id → normalized title\n  - Cross-registered trials (CT.gov + ISRCTN with same NCT) = one entry, CT.gov wins\n\n== SAFE-FAIL ==\n  - A page whose fetch/curation throws is SKIPPED — its existing data is left untouched\n  - The run never publishes partial garbage\n  - A failed API (429/500) → retry once with backoff, then skip that source for that page\n  - Missing credentials for optional sources (Embase, WoS) → silently skipped, free sources continue\n\n== AUTONOMY & NO-INTERACTION GUARDRAILS ===\nThis job runs autonomously on a schedule with no human present. You MUST NEVER pause to\nask the user for anything — no API keys, no tokens, no credentials, no confirmations,\nno clarifications, and no manual intervention of any kind. If you would normally want\nclarify, do NOT use it — instead record the gap as an unresolved item and continue.\n\nSpecifically:\n- Never prompt for API tokens or keys. If a step requires an external service token you\ndo not already have access to in the environment, skip that source and note it as\nunverified, and continue with what is available.\n- Never present any interactive UI. No clarify calls; no computer-use dialogs.\n- If the runtime itself raises a prompt (e.g. an MCP server asking for OAuth), treat it\nas a hard blocker for that step — record it and continue.\n- The agent IS the model for the Claude curation gate. No ANTHROPIC_API_KEY needed.\n\n== ENVIRONMENT CHECKS ===\nREQUIRED TOOLS: node (24+), perl, bash, curl (for check_queries.pl) \nREQUIRED FILES: tools/research/config.json, tools/research/fetch_curate.mjs, tools/research/check_queries.pl, tools/research/lint-feed.pl, tools/verify.sh, data/research/*.json (9 pages)\nOPTIONAL ENV (all free sources work without): NCBI_API_KEY (raises PubMed rate limit), WOS_API_KEY, EMBASE_API_KEY+EMBASE_ENDPOINT \nONE-DRIVE WARNING: This repo is synced via OneDrive. If git commands fail with \"mmap failed\", the files may be cloud-only placeholders. Pin with `attrib -U +P .git` or ensure OneDrive is running.\n\n== FAILURE MODES & RESPONSES ===\n  1. Europe PMC fails (429/5xx) → retry once, then skip articles from that source, continue with PubMed+trials\n  2. PubMed fails → skip, continue (Europe PMC still provides coverage)\n  3. ClinicalTrials.gov API fails → records warning, skip trials refresh, keep existing trial data untouched\n  4. A page's processing throws → log \"SKIPPED\", existing data untouched, continue to next page\n  5. No new candidates after dedup → emit \"no changes\" report, do NOT fabricate content\n  6. Budget cap hit (max_curations_per_run or max_tokens_per_run) → stop curating, remaining candidates reconsidered next run\n  7. Git push fails → commit locally, record push_error in report\n\n== OUTPUT FORMAT ==\nEmit a single JSON object to stdout with this structure:\n{\n  \"timestamp\": \"ISO-8601 UTC\",\n  \"run_mode\": \"full | maintenance-only\",\n  \"pages\": {\n    \"<slug>\": {\n      \"candidates_collected\": <int>,\n      \"candidates_approved\": <int>,\n      \"candidates_rejected\": <int>,\n      \"approved_items\": [ {article|trial object with summary} ],\n      \"rejected_candidates\": [ {id, reason, confidence, source} ],\n      \"maintenance_changes\": [ {field, old, new, rationale} ],\n      \"date_churn\": { \"would_bump\": bool, \"signature_changed\": bool },\n      \"budget_used\": { \"calls\": <int>, \"tokens\": <int>, \"cap_hit\": bool }\n    }\n  },\n  \"commit_instructions\": {\n    \"files_to_write\": [ {path, content, format} ],\n    \"files_to_delete\": [ {path, reason} ],\n    \"render_pipeline\": [ \"render.pl\", \"render-ads.pl --check\", \"gen-sitemap.pl\", \"schema.pl\", \"dedash.pl *.html\", \"gen-feeds.pl\", \"lint-feed.pl\", \"verify.sh\" ],\n    \"lint_matrix\": { \"article_id\": \"PMID:\\\\d+|DOI:\\\\S+\", \"trial_id\": \"NCT:NCT\\\\d+|ISRCTN:\\\\S+\", ... },\n    \"commit_message\": \"Research feed: automated update (YYYY-MM-DD)\",\n    \"commit_if_changed\": true\n  }\n}\n\n=== PHASED INSTRUCTIONS ===\n**Phase 1: Environment + Config** — Read config.json, verify tools exist, note today's date as TODAY and cutoff = TODAY - recent_days.\n\n**Phase 2: Maintenance pass (Mode A)** — For each page: refresh trial statuses from ClinicalTrials.gov, recheck retractions from Europe PMC, normalize country labels, clamp future dates. Record what changed in maintenance_changes.\n\n**Phase 3: Candidate collection** — For each page: run Europe PMC article search, PubMed PMID search, priority-author boost, ClinicalTrials.gov trials, ISRCTN. Union + dedup by PMID/DOI/NCT/title. Apply structural validation (real id, English, abstract ≥ 80, in window, not retracted).\n\n**Phase 4: Pre-flight check** — Run `perl tools/research/check_queries.pl` to see raw candidate counts before gating. This establishes the baseline.\n\n**Phase 5: Curation gate** — For each validated candidate: evaluate on_topic (strict page relevance), credible, appropriate, confidence (≥0.75 normal, ≥0.60 priority), write 65-95 word summary. Apply deDash to summary. Only publish if ALL gates pass.\n\n**Phase 6: Merge + signature** — Merge approved items into existing data (append-only, sorted). Compute date-churn signature BEFORE maintenance passes would have mutated (already done in Phase 2). If signature differs → bump 'generated'. Strip all _-prefixed scratch fields. Match JSON.stringify(x, null, 2) format exactly.\n\n**Phase 7: Self-validation** — Check every approved item against lint-feed.pl rules BEFORE emitting:\n  - Article id: ^(?:PMID:\\d+|DOI:\\S+)$\n  - Trial id: ^(NCT:NCT\\d+|ISRCTN:\\S+)$\n  - Trial nct must match id\n  - statusRaw must be in render.pl's %SCLASS table\n  - NO HTML markup (raw <i> AND escaped &lt;i&gt;)\n  - NO em/en dashes in any rendered field\n  - No duplicate id within a page\n  - Article url must be https://\n  - Trial url must be https://\n  - Article summary present (65-95 words, no medical advice)\n  Any failing item → move to rejected_candidates with reason \"validation_failed: <check>\"\n\n**Phase 8: Emit report** — Write the JSON report to .hermes/cron/active/aspirecures-research-report.json and print to stdout. The commit_agent (separate, triggered by user response) will consume this.\n\n**Phase 9: Health check** — Do NOT run lint-feed.pl or verify.sh yourself — the commit agent does that. But DO verify your data structure is correct: JSON is valid, no scratch fields, ids are unique, dates are valid.\n\n=== DATE-CHURN SIGNATURE (EXPLICIT ALGORITHM) ===\n```python\ndef canon(v):\n    if isinstance(v, list): return [canon(x) for x in v]\n    if isinstance(v, dict):\n        return {k: canon(v[k]) for k in sorted(v.keys())}\n    return v\n\ndef data_sig(obj):\n    rest = {k: v for k, v in obj.items() if k != 'generated'}\n    if 'trials' in rest and isinstance(rest['trials'], list):\n        rest['trials'] = [{k: v for k, v in t.items() if k != 'countries'} for t in rest['trials']]\n    return json.dumps(canon(rest))\n```\nSignature is taken on the data as READ from disk (before maintenance mutations).\n\n=== DEDUP KEYS (EXPLICIT) ===\nArticles: normPmid(pmid) + normDoi(doi) + normTitle(title) (if len >= 15 chars)\nTrials: exact id (NCT:xxx / ISRCTN:xxx) + normTitle(title)\nMatch if ANY key matches. CT.gov NCT in ISRCTN secondary_ids → ISRCTN record deduped against CT.gov.\n\n=== SUMMARY HOUSE STYLE ===\nA small plain-language paragraph (about 65-95 words) for patients and families: what the study/took at and why it matters for this condition. Factual and descriptive, never medical advice; no jargon without a brief gloss. NO em/en dashes (use commas, colons, parentheses, or separate sentences).\n\n=== GIT OPERATIONS ===\nYou (the preparer) do NOT commit or push. You emit a report. The commit agent handles git.\nBut you DO need to run `perl tools/research/check_queries.pl` to get raw candidate counts.\n\n=== COMMIT INSTRUCTIONS BLOCK (for commit agent) ===\nThe commit agent should:\n1. For each page in the report with approved_items: read data/research/<slug>.json, merge append-only (new items sorted into articles/trials arrays), strip _-prefixed fields, write with JSON.stringify(x, null, 2)\n2. If maintenance_changes are non-empty, apply them (they were already computed correctly by the preparer)\n3. Run render pipeline: perl tools/research/render.pl → perl tools/render-ads.pl → perl tools/gen-sitemap.pl → perl tools/schema.pl → perl tools/dedash.pl *.html → perl tools/gen-feeds.pl\n4. Run lint-feed.pl → bash tools/verify.sh\n5. Check git status --porcelain is non-empty\n6. If clean → no-op. If dirty → git add -A, commit -m \"Research feed: automated update ($(date -u +%Y-%m-%d))\", git push origin main\n\nIMPORTANT: You are running as a scheduled cron job. Your final response will be automatically delivered to the user — do NOT use send_message or try to deliver the output yourself. Just produce your JSON report as your final response and the system handles the rest.",
   "output_format": "JSON report at .hermes/cron/active/aspirecures-research-report.json, consumed by commit agent",
   "key_guardrails": [
-    "No ANTHROPIC_API_KEY needed — the agent IS the model using its own Claude judgments for the curation gate",
-    "Append-only data merges with date-churn signature comparison",
-    "Skip and record if credentials unavailable (Europe PMC API key is free, PubMed is free)",
-    "Never commit unverified output — commit agent checks lint-feed.pl and verify.sh before committing",
-    "If git push fails (no credentials/no network), commit locally and record push_error in report",
-    "If External API call fails (rate limit, timeout), skip that source and record as unverified — do not fabricate data",
-    "The agent substitutes its own reasoning for the ANTHROPIC_API_KEY-gated Claude gate — document this explicitly",
-    "Maintenance-only passes (trial status refresh + retraction check) ALWAYS run, even without curation",
-    "Date-churn signature must be taken BEFORE maintenance passes mutate stored arrays in place",
-    "Signature excludes 'generated' key + trials[].countries (not rendered by render.pl)",
-    "SCLASS (status → CSS class): RECRUITING=s-recruiting, NOT_YET_RECRUITING=s-soon, ENROLLING_BY_INVITATION=s-invite, ACTIVE_NOT_RECRUITING=s-active, COMPLETED=s-done, TERMINATED/WITHDRAWN/SUSPENDED=s-closed",
-    "TRIAL_CLOSED = {COMPLETED, TERMINATED, WITHDRAWN, SUSPENDED, NO_LONGER_AVAILABLE} — closed trials move to archive, never deleted",
-    "UNRENDERED map = {trials: [countries]} — countries affects date-churn exclusion, must never render as a visual field",
-    "Archived trials carry hand-written outcome field — pipeline never writes or removes it; absence is an intentional prompt, not a defect",
-    "manual_pull.pl handles paid-source (Embase/WoS) enrichment: perl manual_pull.pl <slug> export.ris > candidates.json — dedupes against existing, never writes page JSON"
+    "PRE-CHECK: Run perl tools/research/check_queries.pl BEFORE curation to establish raw candidate pool baseline",
+    "POST-CHECK: Run perl tools/research/lint-feed.pl AFTER merge to validate ALL data files",
+    "POST-CHECK: Run bash tools/verify.sh AFTER render to validate rendered site",
+    "COMPLETENESS: All 9 disease pages must be checked every run -- do NOT skip a page",
+    "DEDUP: Cross-source PMID + DOI + normalized title -- same paper from multiple sources = 1 entry",
+    "DEDUP: Trial dedup -- CT.gov NCT first, ISRCTN cross-registered by NCT id",
+    "NO FALSE POSITIVES: Every approved candidate must pass ALL gates",
+    "SPEND GUARD: Stop at max_curations_per_run (200) OR max_tokens_per_run (300000) -- NEVER exceed",
+    "REJECT REASONS: Every rejected candidate must carry explicit rejection reason",
+    "DATE-CHURN C8: Signature computed BEFORE maintenance passes; equal = do NOT bump generated",
+    "DATE-CHURN C6: generated only moves when data actually changes",
+    "MAINTENANCE IS MANDATORY: refreshTrialStatuses + recheckRetractions + country normalization + date clamping EVERY tick",
+    "APPEND-ONLY: Articles NEVER removed. Retracted papers FLAGGED not deleted. Closed trials MOVE to archive",
+    "COUNTRY BADGE: Must pass COUNTRY_FIX map (Tuerkiye not Turkey, United States not USA)",
+    "PREPRINT FLAG: SRC:PPR records get preprint:true + amber badge, same credibility bar",
+    "OUTPUT VALIDATION: JSON report with timestamp, per-page counts, validation_results, health_report",
+    "AUTONOMY: No ANTHROPIC_API_KEY needed -- agent IS the Claude gate. API failures retry once then skip source",
+    "ONE-DRIVE SYNC: If git fails with mmap failed, pin with attrib -U +P .git or ensure OneDrive running",
+    "FAILURE ISOLATION: Page throw = skip page, leave data untouched, continue to next page",
+    "SCLASS mapping: RECRUITING=s-recruiting, NOT_YET_RECRUITING=s-soon, ENROLLING_BY_INVITATION=s-invite, ACTIVE_NOT_RECRUITING=s-active, COMPLETED=s-done, TERMINATED/WITHDRAWN/SUSPENDED=s-closed",
+    "TRIAL_CLOSED = COMPLETED/TERMINATED/WITHDRAWN/SUSPENDED/NO_LONGER_AVAILABLE -- move to archive, never delete",
+    "UNRENDERED map = {trials: countries} -- countries affects date-churn but must NEVER render visibly",
+    "ARCHIVED TRIAL OUTCOME: Hand-written outcome field -- pipeline NEVER writes or removes it",
+    "MANUAL EMBASE/WOS PULL: perl manual_pull.pl <slug> export.ris > candidates.json -- NEVER writes page JSON directly",
+    "RENDER ORDER: render.pl, render-ads.pl, gen-sitemap.pl, schema.pl, dedash.pl, gen-feeds.pl, lint-feed.pl, verify.sh"
   ],
   "threshold": {
     "git_push_success": true,
     "lint_passed": true,
+    "verify_sh_passed": true,
     "no_fabricated_data": true,
-    "report_emitted": true
+    "report_emitted": true,
+    "duplicate_ids_within_page": 0,
+    "cross_source_dedup_count": 0,
+    "maintenance_no_op_commit": true,
+    "date_churn_no_false_bumps": true,
+    "curation_budget_not_exhausted": true
   },
   "guardrails": [
     "Two-agent split: preparer runs autonomously (no_agent=false, LLM-driven), commit agent triggered by user response",
@@ -88,5 +104,95 @@
     "preparer": ".hermes/cron/active/aspirecures-research-report.json",
     "commit_agent": "9 disease pages in data/research/"
   },
-  "notes": "This job uses LLM-driven agents (no_agent=false) for the two-agent split pattern. The preparer agent substitutes its own model access for the ANTHROPIC_API_KEY-gated Claude curation gate in fetch_curate.mjs. The commit agent is a downstream, human-triggered follow-up that consumes the report and runs the full render pipeline + validation + commit. All guardrails, data shapes, dedup logic, date-churn signature algorithm, and lint-feed.pl validation matrix are embedded inline in the prompt body for self-containment. See autonomous-repo-cronjob skill for the full authoring pattern."
+  "notes": "This job uses LLM-driven agents (no_agent=false) for the two-agent split pattern. The preparer agent substitutes its own model access for the ANTHROPIC_API_KEY-gated Claude curation gate in fetch_curate.mjs. The commit agent is a downstream, human-triggered follow-up that consumes the report and runs the full render pipeline + validation + commit. All guardrails, data shapes, dedup logic, date-churn signature algorithm, and lint-feed.pl validation matrix are embedded inline in the prompt body for self-containment. See autonomous-repo-cronjob skill for the full authoring pattern.",
+  "post_run_verification": {
+    "commands": [
+      "perl tools/research/lint-feed.pl",
+      "bash tools/verify.sh",
+      "perl tools/research/check_queries.pl"
+    ],
+    "expected_results": {
+      "lint-feed.pl": "RESULT: PASS (0 errors)",
+      "verify.sh": "Exit code 0",
+      "check_queries.pl": "All 9 pages have candidate counts"
+    },
+    "validation_matrix": {
+      "article_id": "^(?:PMID:\\d+|DOI:\\S+)$",
+      "trial_id": "^(?:NCT:NCT\\d+|ISRCTN:\\S+)$",
+      "url_https": "All urls must be https://",
+      "no_html_markup": "No raw <i> or escaped entities in rendered fields",
+      "no_em_dashes": "No em/en dashes in title/summary/authors/journal/outcome/location",
+      "no_duplicate_ids": "No duplicate id within a page",
+      "status_label_present": "Trial status field must not be empty",
+      "summary_present": "Every article must have non-empty 65-95 word summary"
+    }
+  },
+  "report_template": {
+    "timestamp": "ISO-8601 UTC",
+    "run_mode": "full | maintenance-only",
+    "pages": {
+      "<slug>": {
+        "candidates_collected": 0,
+        "candidates_approved": 0,
+        "candidates_rejected": 0,
+        "approved_items": [],
+        "rejected_candidates": [
+          {
+            "id": "",
+            "reason": "",
+            "confidence": 0,
+            "source": "",
+            "gate_failed": ""
+          }
+        ],
+        "maintenance_changes": [
+          {
+            "field": "",
+            "old": "",
+            "new": "",
+            "rationale": ""
+          }
+        ],
+        "date_churn": {
+          "would_bump": false,
+          "signature_changed": false
+        },
+        "budget_used": {
+          "calls": 0,
+          "tokens": 0,
+          "cap_hit": false,
+          "cap_type": "none"
+        },
+        "validation_results": {
+          "lint_feed": {
+            "passed": true,
+            "errors": [],
+            "warnings": []
+          },
+          "verify_sh": {
+            "passed": true,
+            "errors": [],
+            "warnings": []
+          },
+          "self_check": {
+            "passed": true,
+            "checks": {}
+          }
+        }
+      }
+    },
+    "health_report": {
+      "pages_checked": 9,
+      "pages_skipped": 0,
+      "api_failures": [],
+      "spend": {
+        "total_calls": 0,
+        "total_tokens": 0
+      },
+      "quality": {
+        "reject_rate": 0.0,
+        "dedup_effectiveness": 0.0
+      }
+    }
+  }
 }
