@@ -67,7 +67,7 @@ cronjob(
     action='create',
     prompt=prompt,
     schedule='0 9 * * 1',  # Weekly Monday at 9 AM
-    workdir='/path/to/repo',
+    workdir='.'
     skills=['autonomous-ai-agents/autonomous-repo-cronjob'],
     deliver='origin',
     continuity=True
