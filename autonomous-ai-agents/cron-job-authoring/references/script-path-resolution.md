@@ -58,7 +58,7 @@ In any `rglob()` loop, add exclusion checks:
 
 ```python
 for path in root.rglob("SKILL.md"):
-    path_str = str(path)
+    path_str = str(path).replace("\\", "/")  # Normalize for Windows backslash paths
     if ".git/" in path_str or ".hermes/" in path_str:
         continue
     if "profiles-export/" in path_str or "memories-export/" in path_str:
@@ -88,3 +88,21 @@ for entry in sorted(root.iterdir()):
 python tools/audit-skills.py
 # Check that repo_root in the output points to Hermes_Skills, not a parent dir
 ```
+
+## Problem: Model references must be updated across all config files
+
+When a cron job's model changes (e.g. `claude-sonnet-4-20250514` → `qwen/qwen3.6-35b`),
+the model string appears in multiple places that all need updating:
+
+1. **Cron JSON config** — `"model"` and `"provider"` fields in `.hermes/cron/active/*.json`
+2. **Guardrails array** — text strings that mention the model pin for documentation
+3. **README tables** — verification items that list the expected model
+4. **NOTES.md** — any audit notes referencing model versions
+5. **SKILL.md guardrails** — pitfall text mentioning the model
+
+Always grep for the old model string after updating:
+```bash
+grep -rn "claude-sonnet-4-20250514" .hermes/cron/ README.md NOTES.md autonomous-ai-agents/cron-job-authoring/SKILL.md
+```
+This catches stale references that would otherwise cause drift between the documented
+and actual model config.
