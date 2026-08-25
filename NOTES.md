@@ -2,7 +2,7 @@
 
 ## Scope & Methodology
 
-Full audit of all 128 `SKILL.md` files in the repository at `C:\Users\Loggg\OneDrive\Documents\GitHub\Hermes_Skills`. Each file was parsed to extract YAML frontmatter fields (`name`, `description`, `version`, `author`, `license`, `platforms`, `metadata.hermes.tags`, `metadata.hermes.related_skills`), and the `related_skills` references were cross-validated against the set of 127 unique skill names.
+Full audit of all 128 `SKILL.md` files in the repository at `C:\Users\Owner\OneDrive\Documents\GitHub\Hermes_Skills`. Each file was parsed to extract YAML frontmatter fields (`name`, `description`, `version`, `author`, `license`, `platforms`, `metadata.hermes.tags`, `metadata.hermes.related_skills`), and the `related_skills` references were cross-validated against the set of 127 unique skill names.
 
 ## Summary
 
@@ -124,18 +124,18 @@ All 127 skills now use the standard `metadata.hermes` nesting format. A repo-wid
 |- ✅ Self-references in `related_skills`: 0 (was 3)
 |- ✅ Descriptions > 59 chars: 0 (was 12 — all trimmed to ≤59)
 |- ✅ Unquoted descriptions: 0 (all 127 now double-quoted YAML strings)
-|- ✅ Descriptions missing periods: 0 (all 127 end with period)
+|- ✅ Descriptions missing periods: 12 (trimmed to ≤59 chars — period omitted to stay within audit threshold; 115 still have periods)
 |- ✅ Skills missing `version`/`author`/`platforms`: 0 (was 3)
 |- ✅ Non-standard Pitfalls headers: 0 (was 22 — all renamed to `## Pitfalls`)
 |- ✅ Non-standard section headers: 0 (all `## When to Use`, `## How to Run`, `## Quick Start`)
 |- ✅ Trailing whitespace: 0 in all files
 |- ✅ Missing trailing newlines: 0
-|- ✅ CRLF line endings: 0 (all LF)
+|- ✅ Line endings: mixed (73 CRLF in working tree, normalized to LF in git storage via `.gitattributes` `text=auto` + `core.autocrlf=true`)
 |- ✅ Legacy frontmatter format: 0 (all use `metadata.hermes`)
 |- ✅ Temp scripts in repo root: 0
 |- ✅ All `related_skills` entries resolve to existing in-repo skills
-|- ✅ Related_skills network: 310 cross-references across 125 skills (2 standalone)
-|- ✅ `.hermes/cron/` registry: 2 templates, 2 active job definitions, 0 temp scripts
+|- ✅ Related_skills network: 332 cross-references across 127 skills (2 standalone skills with none)
+|- ✅ `.hermes/cron/` registry: 3 templates, 3 active jobs (aspirecures-weekly, skill-audit, sync-hermes-skills), 0 temp scripts
 |- ✅ All frontmatter blocks have blank line before closing `---`
 
 ## New: Automated Audit Script
@@ -177,26 +177,35 @@ A new cronjob was created to keep the GitHub Hermes_Skills repo and the local He
 ### Sync Report (test run)
 | Metric | Count |
 |--------|-------|
-| files_pulled_to_local | 115 (first run) / 3 (subsequent runs) |
-| files_skipped_pull | 567 (unchanged) |
-| new_local_files_in_repo | 0 |
-| updated_files_in_repo | 0 |
-| files_skipped_push | 570 |
-| memories_synced | 0 |
-| profiles_synced | 0 |
-| total_changes_pushed | 0 |
-| audit_passed | true |
-| threshold_breached | false |
-| git_push_success | true |
+| `files_pulled_to_local` | 3 (repo→local, subsequent runs) |
+| `files_skipped_pull` | 124 (unchanged) |
+| `new_local_files_in_repo` | 0 |
+| `updated_files_in_repo` | 0 |
+| `files_skipped_push` | 127 |
+| `files_skipped_push_skills` | 4 |
+| `memories_synced` | 0 |
+| `profiles_synced` | 0 |
+| `total_changes_pushed` | 0 |
+| `audit_passed` | `true` (fixed — was `false` due to `python3` not found on Windows) |
+| `threshold_breached` | `false` |
+| `git_push_success` | `true` |
 
 ### Sync Script Guardrails
-- `GIT_TERMINAL_PROMPT=0` — no interactive git prompts
-- Git user.name/email set to `hermes-cronbot` / `cronbot@hermes.local`
-- `pull.rebase=true` configured to avoid merge commits
-- Git push failure is non-fatal — changes committed locally, error reported
-- Stashes unstaged changes before pull, restores after
-- Hash-based change detection (SHA-256) — no unnecessary copies
-- Silent mode: empty stdout = no delivery (cron watchdog pattern)
+`- GIT_TERMINAL_PROMPT=0` — no interactive git prompts
+`- Git user.name/email set to `hermes-cronbot` / `cronbot@hermes.local`
+`- `pull.rebase=true` configured to avoid merge commits
+`- Git push failure is non-fatal — changes committed locally, error reported
+`- Stashes unstaged changes before pull, restores after
+`- Hash-based change detection (SHA-256) — no unnecessary copies
+`- Silent mode: empty stdout = no delivery (cron watchdog pattern)
+`- Skips export directories (`profiles-export/`, `memories-export/`) from all file scans
+
+### Sync Script Fixes (post-initial-deploy)
+1. **Dry-run mode now actually skips file operations** — Previously `--dry-run` only skipped git pull/push but still copied files to/from `~/.hermes/skills/`. Now `sync_skills_pull()`, `sync_skills_push()`, `sync_memories()`, `sync_profiles()` all accept `dry_run` param and skip actual file writes. DEPENDENCY.md generation and `cleanup_empty_dirs()` also respect dry_run.
+
+2. **Python detection fixed** — `run_audit()` used `python3` which on Windows resolves to the broken Store stub (exit code 49, "Python was not found"). Fixed to use `shutil.which("python")` first (works on Windows), falling back to `python3` (Linux/macOS). This was causing the audit step to always report `success=False`, which blocked the "commit + push" step in normal sync runs.
+
+3. **DEPENDENCY.md regeneration now also respects dry_run** — `generate_dependency_map()` accepts `dry_run` param and skips writing to disk in dry-run mode.
 
 ## AspireCURES Cronjob Refinement
 
@@ -226,8 +235,10 @@ The `aspirecures-weekly.json` cronjob config was refined to align with the two-a
 
 ## Audit Script Fixes
 
-After the initial audit, two bugs were discovered in `tools/audit-skills.py`:
+After the initial audit, three bugs were discovered and fixed in `tools/audit-skills.py`:
 
 1. **REPO_ROOT pointing to wrong directory** — `Path(__file__).resolve().parents[2]` resolved to `C:\Users\Owner\OneDrive\Documents\GitHub` (the parent of the repo) instead of the repo root. This caused the audit to scan multiple repos in the parent directory, producing false negatives when other repos had clean SKILL.md files. Fixed to `parents[1]` to match the sync script's correct usage.
 
 2. **Not excluding sync output directories** — `find_skill_files` and `find_category_dirs` did not skip `profiles-export/` and `memories-export/` directories (generated by `tools/sync-hermes-skills.py`). These directories contain copies of skill files from the local Hermes environment and would cause the audit to report thousands of false issues. Both functions now skip these directories, consistent with the sync script's own exclusion logic.
+
+3. **Silent duplicate skill overwrite** — `find_skill_files` used a dict keyed by skill name, so the second file with the same name silently overwrote the first. The audit reported 127 skills (not 128) and 0 duplicates, when in reality there were 128 files with 1 duplicate. Fixed to return `(skills, duplicates)` tuple and added `duplicate_skills` to THRESHOLDS (threshold = 0). Added `duplicate_skills: 0` to the skill-audit.json threshold block.
