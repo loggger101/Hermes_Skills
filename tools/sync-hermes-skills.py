@@ -14,7 +14,7 @@ Designed for autonomous cron execution (no_agent=true):
 Direction of flow:
   1. PULL  — git pull upstream → copy new/updated skill files to ~/.hermes/skills/
   2. PUSH  — copy new/modified local skills to repo, delete removed skills, git add + commit + push
-  3. MEMORIES — export new/modified memory entries from ~/.hermes/memories/ into the repo
+  3. MEMORIES — copy new/modified memory entries from ~/.hermes/memories/ into repo's memories/ directory
   4. PROFILES — export new/modified profile data into the repo
   5. AUDIT  — run tools/audit-skills.py to validate
 
@@ -103,8 +103,8 @@ def list_repo_files(directory: Path):
                 continue
             # Use forward slashes for consistency across platforms
             rel_path = str(rel).replace(os.sep, "/")
-            # Skip sync output directories
-            if rel_path.startswith("profiles-export/") or rel_path.startswith("memories-export/"):
+            # Skip sync output directories and the memories directory (handled separately)
+            if rel_path.startswith("profiles-export/") or rel_path.startswith("memories-export/") or rel_path.startswith("memories/"):
                 continue
             files[rel_path] = path
     return files
@@ -307,8 +307,8 @@ def sync_skills_pull(repo_root: Path, local_dir: Path, dry_run: bool = False) ->
             # Skip the .hermes/cron/ directory — that's repo metadata, not user skills
             if rel_path.startswith(".hermes/"):
                 continue
-            # Skip export directories — these are sync outputs, not source skills
-            if rel_path.startswith("memories-export/") or rel_path.startswith("profiles-export/"):
+            # Skip export directories and memories/ — these are sync outputs, not source skills
+            if rel_path.startswith("memories-export/") or rel_path.startswith("profiles-export/") or rel_path.startswith("memories/"):
                 continue
             # Skip the tools/ directory — scripts are repo infrastructure
             if rel_path.startswith("tools/"):
@@ -376,8 +376,8 @@ def sync_skills_push(repo_root: Path, local_dir: Path, dry_run: bool = False) ->
         if parts[0] == "profile":
             continue
 
-        # Skip export directories — these are sync outputs from this script
-        if parts[0] == "memories-export" or parts[0] == "profiles-export":
+        # Skip export directories and memories/ — these are sync outputs from this script
+        if parts[0] in ("memories-export", "profiles-export", "memories"):
             continue
 
         repo_path = repo_root / rel_path
@@ -438,17 +438,17 @@ def sync_memories(repo_root: Path, local_memories_dir: Path, dry_run: bool = Fal
         return result
 
     if dry_run:
-        result["details"].append("DRY RUN — would sync memories to memories-export/")
+        result["details"].append("DRY RUN — would sync memories to memories/")
         local_files = list_memory_files(local_memories_dir)
         for rel_path, local_path in sorted(local_files.items()):
-            repo_path = repo_root / "memories-export" / rel_path
+            repo_path = repo_root / "memories" / rel_path
             if not repo_path.exists() or file_hash(local_path) != file_hash(repo_path):
                 result["files_synced"] += 1
                 result["details"].append(f"Would sync memory: {rel_path}")
         return result
 
-    repo_memories_dir = repo_root / "memories-export"
-    repo_memories_dir.mkdir(exist_ok=True)
+    repo_memories_dir = repo_root / "memories"
+    repo_memories_dir.mkdir(parents=True, exist_ok=True)
 
     local_files = list_memory_files(local_memories_dir)
     for rel_path, local_path in sorted(local_files.items()):
