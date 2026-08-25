@@ -43,14 +43,16 @@ See:
 ## Active Cronjobs Detail
 
 ### aspirecures-weekly.json
-- **Architecture:** Two-agent split (preparer + commit agent)
-- **Schedule:** Weekly Monday at 1 PM ET
-- **Skills:** 9 skills across research, MLOps, and software-development categories
-- **Guardrails:** Append-only merge, date-churn prevention, dedup by PMID+DOI, safe-fail per entity, spend caps
-- **Credential strategy:** Skip-and-record — Europe PMC and PubMed are free; if any source is unavailable, skip and note as unverified
-- **Threshold:** git_push_success=true, lint_passed=true
-- **Model:** primary=qwen/qwen3.6-35b (provider=qwen), fallback=poolside/laguna-s-2.1:free (provider=nous)
-- **Note:** The agent substitutes its own Claude judgments for the ANTHROPIC_API_KEY-gated curation step
+|- **Architecture:** Two-agent split (preparer + commit agent). Preparer collects candidates from Europe PMC + PubMed + ClinicalTrials.gov + ISRCTN, applies the Claude curation gate (strict relevance + credibility + patient-appropriateness + confidence threshold + 65-95 word summary), emits a JSON report. Commit agent consumes the report, merges into data/research/*.json, runs the full render pipeline (render.pl → render-ads.pl → gen-sitemap.pl → schema.pl → dedash.pl → gen-feeds.pl), validates with lint-feed.pl + verify.sh, then commits + pushes.
+|- **Schedule:** Weekly Monday at 1 PM ET (cron: `0 13 * * 1`)
+|- **Skills:** 9 skills across research, MLOps, and software-development categories
+|- **Embedded prompt body:** Full self-contained prompt with repo context, two-mode split (maintenance-only vs full), data file shape (field-by-field), date-churn signature algorithm (C8), candidate gates (structural + curation), dedup keys, country normalization map, render pipeline order, lint-feed.pl validation matrix, failure modes & responses, and phased instructions (9 phases)
+|- **Guardrails:** Append-only merge, date-churn prevention (signature excludes `generated` + `trials[].countries`), dedup by PMID+DOI+title, safe-fail per entity, spend caps (max_tokens_per_run=300000, max_curations_per_run=200), country normalization, maintenance-only passes always run even without curation
+|- **Key guardrails:** 10 hard rules including no ANTHROPIC_API_KEY needed (agent IS the model), skip-and-record on missing credentials, signature taken BEFORE maintenance mutations (C8 fix), self-validation against lint-feed.pl before emitting
+|- **Credential strategy:** Skip-and-record — Europe PMC and PubMed are free; ClinicalTrials.gov and ISRCTN are free; Embase and Web of Science need subscription keys but are silently skipped if absent
+|- **Threshold:** git_push_success=true, lint_passed=true, no_fabricated_data=true, report_emitted=true
+|- **Model:** primary=qwen/qwen3.6-35b (provider=qwen), fallback=poolside/laguna-s-2.1:free (provider=nous)
+|- **Note:** The agent substitutes its own Claude judgments for the ANTHROPIC_API_KEY-gated curation step in fetch_curate.mjs. The preparer does NOT touch repo data files — it emits a JSON report that a separate commit agent consumes.
 
 ## Quick Start
 

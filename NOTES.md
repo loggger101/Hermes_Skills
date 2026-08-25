@@ -207,19 +207,37 @@ A new cronjob was created to keep the GitHub Hermes_Skills repo and the local He
 
 3. **DEPENDENCY.md regeneration now also respects dry_run** — `generate_dependency_map()` accepts `dry_run` param and skips writing to disk in dry-run mode.
 
-## AspireCURES Cronjob Refinement
+## AspireCURES Cronjob Enhancement
 
-The `aspirecures-weekly.json` cronjob config was refined to align with the two-agent split pattern documented in the `autonomous-repo-cronjob` and `cron-job-authoring` skills:
+The `aspirecures-weekly.json` cronjob config was significantly enhanced with a comprehensive, self-contained prompt body that embeds all the repo-specific knowledge the preparer agent needs:
 
-- **Added `model`/`provider` pinning** — prevents `[drift_skip]` errors when the global inference config changes between job creation and fire (see `references/drift-skip-error.md`)
-- **Added `threshold` block** — `git_push_success: true`, `lint_passed: true` — consistent with `skill-audit.json` and `sync-hermes-skills.json` patterns
-- **Added `guardrails` array** — 13 explicit guardrails covering append-only merge, date-churn prevention, dedup keys, safe-fail, spend caps, country normalization, no-interactive-prompts, model pinning, and cron approval mode
-- **Expanded `key_guardrails`** — added skip-and-record pattern for credential-dependent steps (Europe PMC API key is free, PubMed is free, but if either is unavailable, skip and note as unverified)
-- **Added `output_format` field** — documents the JSON report path consumed by the commit agent
-- **Added `agents` detail** — preparer emits JSON report, commit agent triggered by user response
-- **Corrected `workdir`** — placeholder left as-is (repo-specific path) with note that it must be set per deployment
-- **Added `enabled_toolsets`** — terminal, file, web, delegation (consistent with two-agent split pattern)
-- **Added `notes` field** — explains the agent substitutes its own Claude judgments for the ANTHROPIC_API_KEY-gated curation step (the agent IS the model, not a script calling the API)
+- **Full prompt body added** — 10KB of inline prompt covering repo context, CI pipeline structure, two-mode operation (maintenance-only vs full curation), field-by-field data file shape, explicit date-churn signature algorithm (C8), dedup logic, country normalization map, render pipeline order, lint-feed.pl validation matrix, failure modes & responses, and 9-phase execution instructions
+- **workdir fixed** — changed from placeholder `/path/to/aspirecures` to actual repo path `C:/Users/Owner/OneDrive/Documents/GitHub/aspirecures`
+- **Threshold expanded** — added `no_fabricated_data: true` and `report_emitted: true` alongside existing `git_push_success` and `lint_passed`
+- **Guardrails expanded** — 16 explicit guardrails covering append-only merge, date-churn prevention (C8 fix — signature taken BEFORE maintenance mutations), dedup, safe-fail, spend caps, country normalization, no-interactive-prompts, model pinning, cron approval mode, self-validation, and maintenance-only passes always running
+- **Key guardrails expanded** — 10 hard rules including "agent IS the model" substitution for ANTHROPIC_API_KEY-gated Claude gate
+- **Output files specified** — preparer emits to `.hermes/cron/active/aspirecures-research-report.json`, commit agent renders 9 disease pages
+- **README.md updated** — enhanced the aspirecures-weekly.json section with full detail on the embedded prompt, guardrails, threshold, and two-agent architecture
+
+### Prompt Body Structure (9 Phases)
+1. **Phase 1: Environment + Config** — Read config.json, verify tools exist
+2. **Phase 2: Maintenance pass (Mode A)** — Refresh trial statuses, recheck retractions, normalize countries, clamp future dates
+3. **Phase 3: Candidate collection** — Europe PMC + PubMed + priority-author boost + ClinicalTrials.gov + ISRCTN
+4. **Phase 4: Pre-flight check** — Run check_queries.pl for raw candidate counts
+5. **Phase 5: Curation gate** — Evaluate on_topic, credible, appropriate, confidence, summary for each candidate
+6. **Phase 6: Merge + signature** — Append-only merge, compute date-churn signature, strip scratch fields
+7. **Phase 7: Self-validation** — Check against lint-feed.pl rules BEFORE emitting
+8. **Phase 8: Emit report** — Write JSON report + print to stdout
+9. **Phase 9: Health check** — Verify data structure is correct
+
+### Embedded Reference Data
+- **Data file shape**: Complete field-by-field specification for articles and trials
+- **Date-churn signature algorithm**: Explicit Python implementation of canon() + dataSig()
+- **Dedup keys**: PMID + DOI + normalized title for articles; NCT + ISRCTN + title for trials
+- **COUNTRY_FIX map**: All country normalization entries (Turkey/Türkiye, USA, UK, etc.)
+- **Render pipeline**: 8-step build order with exact commands
+- **lint-feed.pl validation matrix**: 8 checks with exact regex patterns and lint-feed.pl line references
+| **Failure modes**: 7 specific failure scenarios with response procedures
 
 ### Audit Results After Fixes
 | Metric | Count |
