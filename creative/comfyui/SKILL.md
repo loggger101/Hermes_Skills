@@ -2,7 +2,7 @@
 name: comfyui
 description: "Generate images, video, and audio via diffusion workflows."
 version: 5.1.0
-author: [kshitijk4poor, alt-glitch, purzbeats]
+author: kshitijk4poor, alt-glitch, purzbeats
 license: MIT
 platforms: [macos, linux, windows]
 compatibility: "Requires ComfyUI (local, Comfy Desktop, or Comfy Cloud) and comfy-cli (auto-installed via pipx/uvx by the setup script)."

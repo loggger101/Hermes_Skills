@@ -509,10 +509,11 @@ def generate_dependency_map(repo_root: Path) -> dict:
 
         skills = {}  # slug -> name
         refs = {}    # skill_name -> [list of related_skills]
+        duplicates = []  # list of (name, path)
 
         # First pass: collect all skill names
         for path in sorted(repo_root.rglob("SKILL.md")):
-            if '.git' in str(path):
+            if '.git' in str(path) or 'profiles-export' in str(path) or 'memories-export' in str(path):
                 continue
             try:
                 text = path.read_text(encoding="utf-8")
@@ -531,11 +532,16 @@ def generate_dependency_map(repo_root: Path) -> dict:
                     related = []
 
                 result["files_scanned"] += 1
-                skills[name] = name
-                refs[name] = related
-                result["total_refs"] += len(related)
+                if name in skills:
+                    duplicates.append({"name": name, "path": str(path.relative_to(repo_root))})
+                else:
+                    skills[name] = name
+                    refs[name] = related
+                    result["total_refs"] += len(related)
             except Exception:
                 continue
+
+        result["duplicates"] = duplicates
 
         # Build reverse map: who references each skill
         incoming = {name: [] for name in skills}

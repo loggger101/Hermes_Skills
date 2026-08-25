@@ -33,7 +33,7 @@ skill_view(name='autonomous-repo-cronjob')
 
 ## Overview
 
-This repository serves as a centralized database of all **127 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (337 connections mapped across 127 skills, 2 standalone). See [NOTES.md](./NOTES.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
+This repository serves as a centralized database of all **127 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (332 connections mapped across 127 skills, 2 standalone). See [NOTES.md](./NOTES.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
 
 ### Source Profiles
 
@@ -384,21 +384,21 @@ The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a w
 
 - ✅ No empty skill directories
 - ✅ All SKILL.md files have valid frontmatter with `name` and `description` fields
-- ✅ No duplicate skill names (resolved — `mattpocock-subagent-driven-development` duplicate removed)
+- ✅ No duplicate skill names — audit script now detects duplicates (zero found after removing the `mattpocock-subagent-driven-development` duplicate from `autonomous-ai-agents/`)
 - ✅ All `related_skills` references resolve to existing in-repo skills (9 broken + 147 self/missing fixed)
 - ✅ All skills have complete frontmatter (`version`, `author`, `platforms`, `metadata.hermes`)
-- ✅ All skill descriptions are ≤ 60 characters (hardline standard)
-- ✅ All 127 descriptions end with a period
-- ✅ All 127 descriptions are double-quoted YAML strings
-- ✅ All 127 skills have either a "What This Skill Does" or "When to Use" section
+- ✅ All skill descriptions are ≤ 59 characters (strict audit threshold)
+- ✅ 115 descriptions end with a period; 12 trimmed descriptions omit trailing period to stay within the 59-char limit
+- ✅ All descriptions are double-quoted YAML strings
+- ✅ All 127 skills have a `## What This Skill Does` or `## Overview` section (audit recognizes 5 alternative headers)
 - ✅ All section headers use standard capitalization (`## When to Use`, `## Pitfalls`, `## How to Run`, `## Quick Start`)
 - ✅ All non-standard Pitfalls headers (`## Common Pitfalls`, `## Troubleshooting`) renamed to `## Pitfalls`
-- ✅ No trailing whitespace in any file
+- ✅ No trailing whitespace in any SKILL.md file
 - ✅ All files end with a trailing newline
 - ✅ All YAML frontmatter parses without errors
-- ✅ No CRLF line endings (all LF)
+- ✅ Line endings normalized via `.gitattributes` (`text=auto`) — CRLF in working tree, LF in git storage
 - ✅ No temp scripts remaining in repo root
-- ✅ `related_skills` network: 337 cross-references across 127 skills (2 standalone skills with none)
+- ✅ `related_skills` network: 332 cross-references across 127 skills (2 standalone skills with none)
 - ✅ `.hermes/cron/` registry: 2 templates, 2 active jobs, 0 temp scripts
 - ✅ All frontmatter blocks have blank line before closing `---`
 - ✅ No duplicate content (verified via hash comparison)
