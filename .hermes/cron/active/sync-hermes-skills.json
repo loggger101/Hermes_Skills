@@ -6,8 +6,10 @@
   "workdir": ".",
   "deliver": "origin",
   "continuity": true,
-  "model": "claude-sonnet-4-20250514",
-  "provider": "claude",
+  "model": "qwen/qwen3.6-35b",
+  "provider": "qwen",
+  "fallback_model": "poolside/laguna-s-2.1:free",
+  "fallback_provider": "nous",
   "enabled_toolsets": [
     "terminal",
     "file"

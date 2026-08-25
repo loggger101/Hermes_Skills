@@ -12,8 +12,10 @@
   ],
   "deliver": "origin",
   "continuity": true,
-  "model": "claude-sonnet-4-20250514",
-  "provider": "claude",
+  "model": "qwen/qwen3.6-35b",
+  "provider": "qwen",
+  "fallback_model": "poolside/laguna-s-2.1:free",
+  "fallback_provider": "nous",
   "enabled_toolsets": [
     "terminal",
     "file"
@@ -35,6 +37,6 @@
     "Threshold-based alerting: broken_refs=0, yaml_errors=0, long_descriptions=0, duplicate_skills=0, temps_scripts=0",
     "Exit code 0 = pass within thresholds (silent if no issues), exit code 1 = threshold breached",
     "Empty stdout from script = silent (no delivery) — only fires alert on threshold breach",
-    "Model pinned to prevent drift-skip: provider=claude, model=claude-sonnet-4-20250514"
+    "Model pinned with fallback: primary=qwen/qwen3.6-35b (provider=qwen), fallback=poolside/laguna-s-2.1:free (provider=nous)"
   ]
 }

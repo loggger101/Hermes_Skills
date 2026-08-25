@@ -17,8 +17,10 @@
   ],
   "deliver": "origin",
   "continuity": true,
-  "model": "claude-sonnet-4-20250514",
-  "provider": "claude",
+  "model": "qwen/qwen3.6-35b",
+  "provider": "qwen",
+  "fallback_model": "poolside/laguna-s-2.1:free",
+  "fallback_provider": "nous",
   "enabled_toolsets": [
     "terminal",
     "file",
@@ -64,7 +66,7 @@
     "Country normalization via COUNTRY_FIX map applied to all trial locations",
     "GIT_TERMINAL_PROMPT=0 set in environment — no interactive git prompts",
     "stale execution state (failure_streak > 0) should be cleared before re-firing",
-    "Model pinned to prevent drift-skip: provider=claude, model=claude-sonnet-4-20250514",
+    "Model pinned with fallback: primary=qwen/qwen3.6-35b (provider=qwen), fallback=poolside/laguna-s-2.1:free (provider=nous)",
     "cron_mode approval required for terminal commands — set approvals.cron_mode: approve for git push operations"
   ],
   "output_files": {
