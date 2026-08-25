@@ -814,6 +814,8 @@ def main():
         "total_changes_pushed": total_changes,
         "audit_passed": audit_result.get("success", False),
         "threshold_breached": audit_result.get("threshold_breached", False),
+        "git_pull_success": pull_result.get("success", True),
+        "git_push_success": commit_result.get("pushed", True) if commit_result.get("action") == "push" else True,
         "dep_map_updated": dep_result.get("updated", False),
         "empty_dirs_removed": repo_empty + local_empty,
     }
