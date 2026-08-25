@@ -369,10 +369,11 @@ The repository includes an automated audit script at [`tools/audit-skills.py`](.
 - **`skill_view()` call sync** — every `skill_view("xxx")` call in body text has a corresponding `related_skills` entry
 - **Category `DESCRIPTION.md`** — every category directory with >1 skill has a `DESCRIPTION.md`
 - **Referenced script existence** — scripts listed in frontmatter `script:` fields exist on disk
+- **Duplicate skill name detection** — no two `SKILL.md` files share the same `name` field (threshold = 0)
 
 ```bash
 # Run the audit (exit 0 = within thresholds, exit 1 = threshold breached)
-python3 tools/audit-skills.py
+python tools/audit-skills.py     # or: python3 tools/audit-skills.py on Linux/macOS
 
 # The cron registry at .hermes/cron/active/skill-audit.json
 # runs this weekly (Sunday 3 AM) with no_agent=true
