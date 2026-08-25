@@ -26,7 +26,9 @@ Output: JSON summary (only if changes detected or errors occurred).
 
 Usage:
   python3 tools/sync-hermes-skills.py              # Normal sync (commits + pushes)
-  python3 tools/sync-hermes-skills.py --dry-run    # Preview changes without committing
+  python tools/sync-hermes-skills.py --dry-run     # Preview all changes without any file modifications or commits
+
+Note: The sync script auto-detects python3 (Linux/macOS) or python (Windows) for the audit subprocess.
 """
 
 import argparse
@@ -282,7 +284,7 @@ def git_add_commit_push(repo_path: Path, message: str, max_retries: int = 3, dry
 # ── Sync Functions ───────────────────────────────────────────────
 
 
-def sync_skills_pull(repo_root: Path, local_dir: Path) -> dict:
+def sync_skills_pull(repo_root: Path, local_dir: Path, dry_run: bool = False) -> dict:
     """Copy skill files from repo to local Hermes environment."""
     result = {"action": "pull_skills", "files_copied": 0, "files_skipped": 0, "details": []}
 
@@ -315,6 +317,10 @@ def sync_skills_pull(repo_root: Path, local_dir: Path) -> dict:
             if dest_path.exists() and file_hash(src_path) == file_hash(dest_path):
                 result["files_skipped"] += 1
                 continue
+            if dry_run:
+                result["files_copied"] += 1
+                result["details"].append(f"Would copy: {rel_path}")
+                continue
             dest_path.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(src_path, dest_path)
             result["files_copied"] += 1
@@ -325,7 +331,7 @@ def sync_skills_pull(repo_root: Path, local_dir: Path) -> dict:
     return result
 
 
-def sync_skills_push(repo_root: Path, local_dir: Path) -> dict:
+def sync_skills_push(repo_root: Path, local_dir: Path, dry_run: bool = False) -> dict:
     """Copy skill files from local Hermes environment to repo.
 
     Handles new files, updated files, and deleted files (bidirectional sync).
@@ -368,11 +374,19 @@ def sync_skills_push(repo_root: Path, local_dir: Path) -> dict:
         repo_path = repo_root / rel_path
         try:
             if not repo_path.exists():
+                if dry_run:
+                    result["files_new"] += 1
+                    result["details"].append(f"Would add: {rel_path}")
+                    continue
                 repo_path.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(local_path, repo_path)
                 result["files_new"] += 1
                 result["details"].append(f"New file: {rel_path}")
             elif file_hash(local_path) != file_hash(repo_path):
+                if dry_run:
+                    result["files_copied"] += 1
+                    result["details"].append(f"Would update: {rel_path}")
+                    continue
                 shutil.copy2(local_path, repo_path)
                 result["files_copied"] += 1
                 result["details"].append(f"Updated: {rel_path}")
@@ -393,21 +407,35 @@ def sync_skills_push(repo_root: Path, local_dir: Path) -> dict:
         local_path = local_dir / rel_path
         if not local_path.exists() and repo_path.exists():
             try:
-                repo_path.unlink()
-                result["files_deleted"] += 1
-                result["details"].append(f"Deleted (removed locally): {rel_path}")
+                if dry_run:
+                    result["files_deleted"] += 1
+                    result["details"].append(f"Would delete (removed locally): {rel_path}")
+                else:
+                    repo_path.unlink()
+                    result["files_deleted"] += 1
+                    result["details"].append(f"Deleted (removed locally): {rel_path}")
             except Exception as e:
                 result["details"].append(f"Error deleting {rel_path}: {e}")
 
     return result
 
 
-def sync_memories(repo_root: Path, local_memories_dir: Path) -> dict:
+def sync_memories(repo_root: Path, local_memories_dir: Path, dry_run: bool = False) -> dict:
     """Export new/modified memory files from local to repo."""
     result = {"action": "sync_memories", "files_synced": 0, "details": []}
 
     if not local_memories_dir.exists():
         result["details"].append("No local memories directory — skipping")
+        return result
+
+    if dry_run:
+        result["details"].append("DRY RUN — would sync memories to memories-export/")
+        local_files = list_memory_files(local_memories_dir)
+        for rel_path, local_path in sorted(local_files.items()):
+            repo_path = repo_root / "memories-export" / rel_path
+            if not repo_path.exists() or file_hash(local_path) != file_hash(repo_path):
+                result["files_synced"] += 1
+                result["details"].append(f"Would sync memory: {rel_path}")
         return result
 
     repo_memories_dir = repo_root / "memories-export"
@@ -428,12 +456,31 @@ def sync_memories(repo_root: Path, local_memories_dir: Path) -> dict:
     return result
 
 
-def sync_profiles(repo_root: Path, local_profiles_dir: Path) -> dict:
+def sync_profiles(repo_root: Path, local_profiles_dir: Path, dry_run: bool = False) -> dict:
     """Export profile-specific skills and memories from local to repo."""
     result = {"action": "sync_profiles", "files_synced": 0, "details": []}
 
     if not local_profiles_dir.exists():
         result["details"].append("No local profiles directory — skipping")
+        return result
+
+    if dry_run:
+        result["details"].append("DRY RUN — would sync profiles to profiles-export/")
+        for profile_dir in sorted(local_profiles_dir.iterdir()):
+            if not profile_dir.is_dir() or profile_dir.name.startswith("."):
+                continue
+            profile_skills = profile_dir / "skills"
+            if profile_skills.exists():
+                for src_file in profile_skills.rglob("*"):
+                    if src_file.is_file() and not any(p.startswith(".") for p in src_file.relative_to(profile_skills).parts):
+                        result["files_synced"] += 1
+                        result["details"].append(f"Would sync profile skill: {profile_dir.name}/{src_file.name}")
+            profile_memories = profile_dir / "memories"
+            if profile_memories.exists():
+                for src_file in profile_memories.rglob("*.md"):
+                    if not any(p.startswith(".") for p in src_file.relative_to(profile_memories).parts):
+                        result["files_synced"] += 1
+                        result["details"].append(f"Would sync profile memory: {profile_dir.name}/{src_file.name}")
         return result
 
     repo_profiles_dir = repo_root / "profiles-export"
@@ -491,7 +538,7 @@ def cleanup_empty_dirs(directory: Path, base: Path) -> int:
     return removed
 
 
-def generate_dependency_map(repo_root: Path) -> dict:
+def generate_dependency_map(repo_root: Path, dry_run: bool = False) -> dict:
     """Regenerate DEPENDENCY.md from current related_skills frontmatter.
 
     Scans all SKILL.md files, builds a dependency map, and writes
@@ -596,8 +643,12 @@ def generate_dependency_map(repo_root: Path) -> dict:
         existing = dep_path.read_text(encoding="utf-8") if dep_path.exists() else ""
         new_content = "".join(lines)
         if existing != new_content:
-            dep_path.write_text(new_content, encoding="utf-8")
-            result["updated"] = True
+            if dry_run:
+                result["updated"] = True
+                result["dry_run_unchanged"] = existing == ""
+            else:
+                dep_path.write_text(new_content, encoding="utf-8")
+                result["updated"] = True
         else:
             result["updated"] = False
 
@@ -617,8 +668,11 @@ def run_audit(repo_root: Path) -> dict:
     result = {"action": "audit", "success": True, "error": None}
     if audit_script.exists():
         try:
+            # Find available python executable (python3 on Linux/macOS, python on Windows)
+            # On Windows, prefer 'python' (shutil.which("python3") returns the broken Store stub)
+            python_cmd = shutil.which("python") or shutil.which("python3") or "python"
             proc = subprocess.run(
-                ["python3", str(audit_script)],
+                [python_cmd, str(audit_script)],
                 cwd=repo_root,
                 capture_output=True,
                 text=True,
@@ -672,19 +726,19 @@ def main():
     report["steps"].append(pull_result)
 
     # Step 2: Sync skills from repo → local (PULL direction)
-    pull_skills = sync_skills_pull(REPO_ROOT, LOCAL_SKILLS_DIR)
+    pull_skills = sync_skills_pull(REPO_ROOT, LOCAL_SKILLS_DIR, dry_run=args.dry_run)
     report["steps"].append(pull_skills)
 
     # Step 3: Sync skills from local → repo (PUSH direction)
-    push_skills = sync_skills_push(REPO_ROOT, LOCAL_SKILLS_DIR)
+    push_skills = sync_skills_push(REPO_ROOT, LOCAL_SKILLS_DIR, dry_run=args.dry_run)
     report["steps"].append(push_skills)
 
     # Step 4: Sync memories
-    mem_result = sync_memories(REPO_ROOT, LOCAL_MEMORIES_DIR)
+    mem_result = sync_memories(REPO_ROOT, LOCAL_MEMORIES_DIR, dry_run=args.dry_run)
     report["steps"].append(mem_result)
 
     # Step 5: Sync profiles
-    prof_result = sync_profiles(REPO_ROOT, LOCAL_PROFILES_DIR)
+    prof_result = sync_profiles(REPO_ROOT, LOCAL_PROFILES_DIR, dry_run=args.dry_run)
     report["steps"].append(prof_result)
 
     # Step 5.5: Regenerate DEPENDENCY.md (only if skills changed, or if file doesn't exist)
@@ -694,8 +748,11 @@ def main():
         or push_skills["files_deleted"] > 0
         or not (REPO_ROOT / "DEPENDENCY.md").exists()
     )
-    if dep_needs_regen:
+    if dep_needs_regen and not args.dry_run:
         dep_result = generate_dependency_map(REPO_ROOT)
+        report["steps"].append(dep_result)
+    elif dep_needs_regen and args.dry_run:
+        dep_result = generate_dependency_map(REPO_ROOT, dry_run=True)
         report["steps"].append(dep_result)
     else:
         dep_result = {"action": "dependency_map", "success": True, "skipped": True,
@@ -708,10 +765,10 @@ def main():
 
     # Step 7: If there are changes from local env, commit and push
     dep_updated = dep_result.get("updated", False)
-    # Clean up orphaned empty directories in both repo and local
-    repo_empty = cleanup_empty_dirs(REPO_ROOT, REPO_ROOT)
+    # Clean up orphaned empty directories in both repo and local (skip in dry-run)
+    repo_empty = cleanup_empty_dirs(REPO_ROOT, REPO_ROOT) if not args.dry_run else 0
     local_empty = 0
-    if LOCAL_SKILLS_DIR.exists():
+    if LOCAL_SKILLS_DIR.exists() and not args.dry_run:
         local_empty = cleanup_empty_dirs(LOCAL_SKILLS_DIR, LOCAL_SKILLS_DIR)
 
     total_changes = (
