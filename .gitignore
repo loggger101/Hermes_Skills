@@ -2,6 +2,11 @@
 memories-export/
 profiles-export/
 
+# Ignore .hermes runtime data, but allow .hermes/cron/ (cronjob registry)
+.hermes/*
+!.hermes/cron/
+.hermes/cron/*
+
 # Python
 __pycache__/
 *.pyc
