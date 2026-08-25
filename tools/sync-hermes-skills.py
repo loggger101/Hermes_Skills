@@ -87,20 +87,26 @@ def file_hash(path: Path) -> str:
 
 
 def list_repo_files(directory: Path):
-    """List all files in the repo tree, skipping hidden dirs and .git.
+    """List all files in the repo tree, skipping hidden dirs, .git, and sync outputs.
 
-    Returns paths with forward-slash separators for cross-platform consistency."""
+    Returns paths with forward-slash separators for cross-platform consistency.
+    Excludes: .git/, .hermes/, profiles-export/, memories-export/
+    """
     files = {}
     if not directory.exists():
         return files
     for path in directory.rglob("*"):
         if path.is_file():
-            # Skip hidden directories
-            if any(part.startswith(".") for part in path.relative_to(directory).parts):
-                continue
             rel = path.relative_to(directory)
+            # Skip hidden directories (.git, .hermes, etc.)
+            if any(part.startswith(".") for part in rel.parts):
+                continue
             # Use forward slashes for consistency across platforms
-            files[str(rel).replace(os.sep, "/")] = path
+            rel_path = str(rel).replace(os.sep, "/")
+            # Skip sync output directories
+            if rel_path.startswith("profiles-export/") or rel_path.startswith("memories-export/"):
+                continue
+            files[rel_path] = path
     return files
 
 
