@@ -6,7 +6,12 @@
   "workdir": ".",
   "deliver": "origin",
   "continuity": true,
-  "enabled_toolsets": ["terminal", "file"],
+  "model": "claude-sonnet-4-20250514",
+  "provider": "claude",
+  "enabled_toolsets": [
+    "terminal",
+    "file"
+  ],
   "no_agent": true,
   "script": "tools/sync-hermes-skills.py",
   "script_description": "Python script that: (1) git pull upstream with stash/pop for local changes, (2) copies repo skills to ~/.hermes/skills/, (3) copies new/modified local skills back to repo, (4) syncs memories and profiles to repo, (5) commits and pushes changes (gracefully handles push failures), (6) runs audit",

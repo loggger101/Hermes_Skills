@@ -33,7 +33,7 @@ skill_view(name='autonomous-repo-cronjob')
 
 ## Overview
 
-This repository serves as a centralized database of all **127 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (310 connections mapped across 125 skills, 2 standalone). See [NOTES.md](./NOTES.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
+This repository serves as a centralized database of all **127 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (337 connections mapped across 127 skills, 2 standalone). See [NOTES.md](./NOTES.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
 
 ### Source Profiles
 
@@ -398,7 +398,7 @@ The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a w
 - ✅ All YAML frontmatter parses without errors
 - ✅ No CRLF line endings (all LF)
 - ✅ No temp scripts remaining in repo root
-- ✅ `related_skills` network: 310 cross-references across 125 skills (2 standalone skills with none)
+- ✅ `related_skills` network: 337 cross-references across 127 skills (2 standalone skills with none)
 - ✅ `.hermes/cron/` registry: 2 templates, 2 active jobs, 0 temp scripts
 - ✅ All frontmatter blocks have blank line before closing `---`
 - ✅ No duplicate content (verified via hash comparison)
@@ -408,6 +408,7 @@ The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a w
 - ✅ `.hermes/cron/` registry created with templates, active jobs, and archive directory
 - ✅ `tools/` directory documents audit-skills.py and sync-hermes-skills.py automation scripts
 - ✅ Bidirectional sync cronjob (`sync-hermes-skills.json`) configured for weekly Sunday 2 AM
+- ✅ AspireCURES weekly cronjob (`aspirecures-weekly.json`) refined with two-agent split architecture, threshold block, model pinning (drift-skip prevention), and full guardrail documentation
 
 ## Usage
 

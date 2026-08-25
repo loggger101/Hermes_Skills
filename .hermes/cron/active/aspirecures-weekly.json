@@ -1,8 +1,8 @@
 {
   "name": "aspirecures-weekly-research",
-  "description": "Weekly research pipeline for AspireCURES: collect, curate, render, commit disease pages",
+  "description": "Weekly research pipeline for AspireCURES: collect, curate, render, commit disease pages (two-agent split)",
   "schedule": "0 13 * * 1",
-  "schedule_human": "Weekly Monday at 1:00 PM ET",
+  "schedule_human": "Weekly Monday at 1 PM ET",
   "workdir": "/path/to/aspirecures",
   "skills": [
     "autonomous-ai-agents/autonomous-repo-cronjob",
@@ -17,29 +17,59 @@
   ],
   "deliver": "origin",
   "continuity": true,
-  "enabled_toolsets": ["terminal", "file", "web", "delegation"],
+  "model": "claude-sonnet-4-20250514",
+  "provider": "claude",
+  "enabled_toolsets": [
+    "terminal",
+    "file",
+    "web",
+    "delegation"
+  ],
   "architecture": "two-agent-split",
   "agents": {
     "preparer": {
       "role": "cronjob",
       "description": "Collects from Europe PMC + PubMed + ClinicalTrials.gov + ISRCTN, applies Claude curation gate, emits JSON report",
-      "prompt_template": "autonomous-repo-cronjob/references/prompt-template.md",
-      "guardrails": "cron-job-authoring/references/guardrail-template.md"
+      "prompt_template": "autonomous-ai-agents/autonomous-repo-cronjob/references/prompt-template.md",
+      "guardrails": "autonomous-ai-agents/cron-job-authoring/references/guardrail-template.md"
     },
     "commit_agent": {
       "role": "separate_agent",
       "description": "Consumes JSON report, renders 9 disease pages, validates against lint-feed.pl and verify.sh, commits and pushes",
-      "trigger": "cronjob delivery → user response in chat"
+      "trigger": "cronjob delivery -> user response in chat"
     }
   },
+  "output_format": "JSON report at .hermes/cron/active/aspirecures-research-report.json, consumed by commit agent",
   "key_guardrails": [
     "No ANTHROPIC_API_KEY needed — the agent IS the model using its own Claude judgments for the curation gate",
     "Append-only data merges with date-churn signature comparison",
     "Skip and record if credentials unavailable (Europe PMC API key is free, PubMed is free)",
-    "Never commit unverified output — check lint-feed.pl and verify.sh before committing"
+    "Never commit unverified output — check lint-feed.pl and verify.sh before committing",
+    "If git push fails (no credentials/no network), commit locally and record push_error in report",
+    "If External API call fails (rate limit, timeout), skip that source and record as unverified — do not fabricate data"
+  ],
+  "threshold": {
+    "git_push_success": true,
+    "lint_passed": true
+  },
+  "guardrails": [
+    "Two-agent split: preparer runs autonomously (no_agent=false, LLM-driven), commit agent triggered by user response",
+    "Preparer emits JSON report only — does NOT commit or push",
+    "Commit agent validates against lint-feed.pl and verify.sh before any git operations",
+    "Append-only merge semantics — existing data entries KEPT, new entries added, never removed",
+    "Date churn prevention — signature comparison (canonical JSON excluding 'generated' + unrendered fields) before bumping date stamps",
+    "Dedup by PMID AND DOI (and normalized title for cross-registry) — same paper from multiple DBs = one entry",
+    "Safe-fail per entity — failed entity skipped, existing data untouched",
+    "Spend caps known and enforced — token budget + call budget limits embedded in agent context",
+    "Country normalization via COUNTRY_FIX map applied to all trial locations",
+    "GIT_TERMINAL_PROMPT=0 set in environment — no interactive git prompts",
+    "stale execution state (failure_streak > 0) should be cleared before re-firing",
+    "Model pinned to prevent drift-skip: provider=claude, model=claude-sonnet-4-20250514",
+    "cron_mode approval required for terminal commands — set approvals.cron_mode: approve for git push operations"
   ],
   "output_files": {
-    "preparer": ".hermes/cron/active/research-report.json",
+    "preparer": ".hermes/cron/active/aspirecures-research-report.json",
     "commit_agent": "9 disease pages in /content/disease-pages/"
-  }
+  },
+  "notes": "This job uses LLM-driven agents (no_agent=false) for the two-agent split pattern. The preparer agent substitutes its own Claude judgments for the ANTHROPIC_API_KEY-gated curation step in the repo's CI pipeline. The commit agent is a human-triggered follow-up that consumes the report. See autonomous-repo-cronjob skill for the full pattern."
 }
