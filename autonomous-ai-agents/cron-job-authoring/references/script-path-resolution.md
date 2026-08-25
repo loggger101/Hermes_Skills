@@ -69,7 +69,12 @@ for path in root.rglob("SKILL.md"):
 Also exclude these directories in `find_category_dirs` which uses `root.iterdir()`:
 
 ```python
-SKIP_DIRS = {".git", ".hermes", "profiles-export", "memories-export"}
+# Skip dirs that are not skill categories:
+# - .git, .hermes — internal/git directories
+# - profiles-export, memories-export — sync script outputs
+# - profile — profile state directory (config.yaml, PROFILE.md, etc.)
+# - tools — utility scripts (audit-skills.py, sync-hermes-skills.py)
+SKIP_DIRS = {".git", ".hermes", "profiles-export", "memories-export", "profile", "tools"}
 for entry in sorted(root.iterdir()):
     if entry.is_dir() and entry.name not in SKIP_DIRS:
         ...
