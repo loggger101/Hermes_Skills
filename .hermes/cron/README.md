@@ -49,7 +49,7 @@ See:
 - **Guardrails:** Append-only merge, date-churn prevention, dedup by PMID+DOI, safe-fail per entity, spend caps
 - **Credential strategy:** Skip-and-record — Europe PMC and PubMed are free; if any source is unavailable, skip and note as unverified
 - **Threshold:** git_push_success=true, lint_passed=true
-- **Model pin:** provider=claude, model=claude-sonnet-4-20250514 (prevents drift-skip)
+- **Model:** primary=qwen/qwen3.6-35b (provider=qwen), fallback=poolside/laguna-s-2.1:free (provider=nous)
 - **Note:** The agent substitutes its own Claude judgments for the ANTHROPIC_API_KEY-gated curation step
 
 ## Quick Start
