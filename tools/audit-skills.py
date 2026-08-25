@@ -40,7 +40,7 @@ def find_skill_files(root):
     skills = {}
     duplicates = []  # (name, path, existing_path)
     for path in root.rglob("SKILL.md"):
-        path_str = str(path)
+        path_str = str(path).replace("\\", "/")  # Normalize for cross-platform matching
         if ".git/" in path_str or ".hermes/" in path_str:
             continue
         if "profiles-export/" in path_str or "memories-export/" in path_str:
