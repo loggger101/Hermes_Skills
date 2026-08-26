@@ -161,16 +161,45 @@
     "safety_net": "If sync_hermes_skills.py exits with code != 0, the cronjob sends a CRITICAL alert with the full error log. Working tree is left unchanged."
   },
   "sync_verification": {
-    "description": "Post-sync verification to confirm data integrity after bidirectional sync",
+    "description": "Post-sync verification to confirm data integrity after bidirectional sync. Checks are run AFTER the script completes, using its JSON output + supplementary commands.",
     "checks": [
-      "Skill count matches: local ~/.hermes/skills/ count == repo skill count (after excluding .hermes/, profiles-export/)",
-      "Memory count matches: ~/.hermes/memories/ count == repo memories/ count",
-      "Profile count matches: ~/.hermes/profiles/*/skills/ count == repo profiles-export/ count (should be 0 if profiles-export is gitignored)",
-      "No orphaned export dirs: profiles-export/ and memories-export/ directories are empty or nonexistent after cleanup",
+      "Skill count matches: local ~/.hermes/skills/ count == repo skill count (after excluding .hermes/, profiles-export/, memories-export/, memories/)",
+      "Memory files synced: ~/.hermes/memories/ files match repo memories/ files",
+      "Profile exports tracked: profiles-export/ is empty or nonexistent (gitignored, auto-cleaned)",
       "DEPENDENCY.md regenerated: xref count matches current skill inventory",
       "Git state clean: git status --porcelain output is empty after successful sync",
-      "Audit passes: python tools/audit-skills.py returns threshold_breached=False"
+      "Audit passes: python tools/audit-skills.py returns threshold_breached=False",
+      "No orphaned files: profiles-export/ and memories-export/ directories are empty after cleanup",
+      "No deleted_files_in_repo: sync dry-run confirms 0 unintended deletions"
+    ],
+    "verification_commands": [
+      "git status --porcelain",
+      "git rev-list --count origin/main..main",
+      "python tools/sync-hermes-skills.py --dry-run",
+      "python tools/audit-skills.py"
     ],
     "failure_if_not_verified": "If any verification check fails -- halt, do NOT commit, emit verification_failures in report"
+  },
+  "actual_script_output": {
+    "description": "Exact JSON output fields from sync-hermes-skills.py that the cronjob system evaluates against thresholds",
+    "summary_keys": [
+      "files_pulled_to_local",
+      "files_skipped_pull",
+      "new_local_files_in_repo",
+      "updated_files_in_repo",
+      "deleted_files_in_repo",
+      "memories_synced",
+      "profiles_synced",
+      "profiles_exported",
+      "profiles_skipped",
+      "git_pull_success",
+      "git_push_success",
+      "audit_passed",
+      "lint_passed",
+      "threshold_breached",
+      "push_error"
+    ],
+    "no_agent_compatibility": "no_agent=true so the THRESHOLD dict is evaluated by the cronjob system, not by an LLM",
+    "fields_not_in_threshold": "no_merge_conflicts, no_orphaned_files, dependency_map_regenerated, memories_synced, profiles_synced are VERIFICATION checks (run post-script), not field-based thresholds"
   }
 }
