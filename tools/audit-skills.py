@@ -90,11 +90,11 @@ def find_skill_files(root):
 def find_category_dirs(root):
     """Find all category directories (top-level dirs with multiple skills).
 
-    Skips .git, .hermes, profiles-export, and memories-export —
-    the latter two are sync-script outputs, not source category directories.
+    Skips .git, .hermes, profiles-export, memories-export, memories —
+    the latter three are sync-script outputs, not source category directories.
     """
     cats = {}
-    skip_dirs = {".git", ".hermes", "profiles-export", "memories-export", "profile", "tools"}
+    skip_dirs = {".git", ".hermes", "profiles-export", "memories-export", "memories", "profile", "tools"}
     for entry in sorted(root.iterdir()):
         if entry.is_dir() and not entry.name.startswith(".") and entry.name not in skip_dirs:
             desc_path = entry / "DESCRIPTION.md"

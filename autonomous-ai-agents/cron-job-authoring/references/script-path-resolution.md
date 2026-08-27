@@ -48,9 +48,9 @@ find files in generated output directories:
 
 - `profiles-export/` — copies of skills from local Hermes profiles (created by sync-hermes-skills.py)
 - `memories-export/` — exported memory files (created by sync-hermes-skills.py)
+- `memories/` — tracked memory files synced from local Hermes environment (created by sync-hermes-skills.py)
 
-These directories contain duplicates of source skill files with potentially older content.
-The audit will report them as duplicate skills, broken refs, missing body sections, etc.
+These directories contain files that are NOT skill definitions. `profiles-export/` and `memories-export/` are gitignored runtime outputs containing duplicates of source skill files. `memories/` contains note files (not SKILL.md) that would pollute dependency map cross-references with non-skill content. The audit will report files in `profiles-export/` as duplicate skills.
 
 ### Fix
 
@@ -61,7 +61,7 @@ for path in root.rglob("SKILL.md"):
     path_str = str(path).replace("\\", "/")  # Normalize for Windows backslash paths
     if ".git/" in path_str or ".hermes/" in path_str:
         continue
-    if "profiles-export/" in path_str or "memories-export/" in path_str:
+    if "profiles-export/" in path_str or "memories-export/" in path_str or "memories/" in path_str:
         continue
     # ... process path
 ```
@@ -71,10 +71,11 @@ Also exclude these directories in `find_category_dirs` which uses `root.iterdir(
 ```python
 # Skip dirs that are not skill categories:
 # - .git, .hermes — internal/git directories
-# - profiles-export, memories-export — sync script outputs
+# - profiles-export, memories-export — sync script gitignored outputs
+# - memories — tracked memory files (notes, not skills)
 # - profile — profile state directory (config.yaml, PROFILE.md, etc.)
 # - tools — utility scripts (audit-skills.py, sync-hermes-skills.py)
-SKIP_DIRS = {".git", ".hermes", "profiles-export", "memories-export", "profile", "tools"}
+SKIP_DIRS = {".git", ".hermes", "profiles-export", "memories-export", "memories", "profile", "tools"}
 for entry in sorted(root.iterdir()):
     if entry.is_dir() and entry.name not in SKIP_DIRS:
         ...
