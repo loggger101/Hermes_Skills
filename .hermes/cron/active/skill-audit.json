@@ -30,14 +30,12 @@
     "long_descriptions": 0,
     "duplicate_skills": 0,
     "temps_scripts": 0,
-    "missing_body_sections": 0,
-    "threshold_breached": false,
-    "exit_code": 0
+    "missing_body_sections": 0
   },
   "guardrails": [
     "no_agent=true -- script-only watchdog pattern, no LLM calls, no interactive prompts",
     "enabled_toolsets restricted to terminal + file only -- no web, no delegation, no browser-use",
-    "Threshold-based alerting: 8 checks (6 threshold-based + threshold_breached + exit_code), all must pass",
+    "Threshold-based alerting: 6 threshold checks (matching audit-skills.py THRESHOLDS dict exactly), all must pass (no breaches = silent run)",
     "Exit code 0 = pass within all thresholds, exit code 1 = any threshold breached",
     "Empty stdout from script = silent (no delivery) -- only fires alert on threshold breach",
     "Model pinned with fallback: primary=qwen/qwen3.6-35b (provider=qwen), fallback=poolside/laguna-s-2.1:free (provider=nous)",
@@ -204,7 +202,7 @@
       "placeholder_markers",
       "missing_category_descriptions"
     ],
-    "threshold_evaluation": "Script compares each key in THRESHOLDS dict (6 keys: broken_refs, yaml_errors, long_descriptions, duplicate_skills, temps_scripts, missing_body_sections) against summary counts. If ANY actual > threshold, threshold_breached=True, exit code 1.",
+    "threshold_evaluation": "Script's THRESHOLDS dict (6 keys: broken_refs, yaml_errors, long_descriptions, duplicate_skills, temps_scripts, missing_body_sections) is compared against the summary counts. If ANY actual > threshold, threshold_breached=True, exit code 1. threshold_breached and exit_code are OUTPUT fields (computed by script), not input threshold checks.",
     "no_agent_compatibility": "no_agent=true so the THRESHOLD dict is evaluated by the cronjob system from the JSON summary, not by an LLM",
     "note": "Issues like missing_frontmatter_fields, missing_category_descriptions are REPORTED in the JSON but NOT threshold-gated (not in THRESHOLDS dict). They appear as warnings in the report."
   }

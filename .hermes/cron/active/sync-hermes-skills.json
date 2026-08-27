@@ -24,17 +24,14 @@
     "git_push_success": true,
     "audit_passed": true,
     "lint_passed": true,
-    "no_merge_conflicts": true,
-    "no_orphaned_files": true,
-    "dependency_map_regenerated": true,
-    "memories_synced": true,
-    "profiles_synced": true
+    "deleted_files_in_repo": 0,
+    "push_error": null
   },
   "guardrails": [
     "no_agent=true -- script-only watchdog pattern, no LLM calls, no interactive prompts",
     "enabled_toolsets restricted to terminal + file only -- no web, no delegation, no browser-use",
     "Bidirectional sync: PULL first (github->local), then PUSH (local->github)",
-    "Threshold-based alerting: 10 checks, all must pass (no breaches = silent run)",
+    "Threshold-based alerting: 6 direct script-output checks (git_pull, git_push, audit, lint, deleted_files=0, push_error=null) + 8 post-run verification checks",
     "Dry-run support: --dry-run flag skips ALL file operations (git_add_commit_push, cleanup, DEPENDENCY.md writes)",
     "Windows python detection: uses shutil.which('python') not python3 (python3 is broken Store stub, exit 9009)",
     "Path normalization: str(path) uses backslash separators on Windows -- substring filters fail silently; must normalize",
@@ -200,6 +197,7 @@
       "push_error"
     ],
     "no_agent_compatibility": "no_agent=true so the THRESHOLD dict is evaluated by the cronjob system, not by an LLM",
-    "fields_not_in_threshold": "no_merge_conflicts, no_orphaned_files, dependency_map_regenerated, memories_synced, profiles_synced are VERIFICATION checks (run post-script), not field-based thresholds"
+    "fields_not_in_threshold": "no_merge_conflicts, no_orphaned_files, dependency_map_regenerated, memories_synced, profiles_synced are VERIFICATION checks (run post-script), not field-based thresholds",
+    "threshold_evaluation": "Script outputs boolean fields: git_pull_success, git_push_success, audit_passed, lint_passed, threshold_breached. Plus deleted_files_in_repo (int, must be 0) and push_error (null = success). Post-run verification checks (no_merge_conflicts, no_orphaned_files, dependency_map_regenerated, memories_synced count, profiles_synced count) are evaluated separately via verification_commands, not as script output thresholds."
   }
 }
