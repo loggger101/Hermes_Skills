@@ -1,7 +1,7 @@
 ---
 name: autonomous-repo-cronjob
 description: "Write self-contained cronjob prompts for existing repos."
-version: 0.1.1
+version: 0.1.2
 author: Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
@@ -203,6 +203,24 @@ cronjob(action='create', prompt=<body>, schedule=<cron>, workdir=<repo_root>,
 12. **Not self-validating before emitting.** The preparer should check its approved items
     against lint-feed.pl's rules BEFORE emitting the report, to prevent the commit agent from
     hitting failures. See references/agent-vs-script-checklist.md §Self-Validation.
+
+13. **Threshold keys not aligned with actual script output.** When a cronjob config
+    (`.hermes/cron/active/*.json`) includes a `threshold` block, every key must map to an
+    actual field in the invoked script's JSON output — NOT to a conceptual check. For example,
+    if `audit-skills.py` outputs `summary.broken_refs`, `summary.yaml_errors`, etc., the
+    threshold block should list those exact keys with their numeric thresholds. Adding
+    conceptual keys like `no_merge_conflicts` or `dependency_map_regenerated` that the script
+    never outputs as booleans leads to a config that silently never validates. Always read the
+    script's `main()` and its output dict structure, then grep for each threshold key to
+    confirm the script actually emits it.
+
+14. **Not documenting per-page config fields.** When the repo has a `config.json` with
+    per-page fields like `article_query`, `author_scope`, `trial_cond`, `max_fetch`,
+    `priority_authors`, these must be documented in the prompt body or a `references/`
+    file. The agent needs to know what each field does so it can replicate the script's
+    page iteration logic — skipping pages with empty queries, using `author_scope` as the
+    dedup key scope, respecting `max_fetch` limits, etc. Document not just the field names
+    but what the script does with each one.
 
 ## Verification
 

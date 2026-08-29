@@ -125,6 +125,8 @@ This is especially important for scripts that invoke `audit-skills.py` or other 
 
 - **Assuming the agent needs an API key.** When the cron job's task involves a step that the repository's CI pipeline gates behind an environment variable like `ANTHROPIC_API_KEY` (e.g. `const KEY = process.env.ANTHROPIC_API_KEY;`), do NOT attempt to provide a key or skip the step entirely. The agent **is** the model — it substitutes its own reasoning for the API-key-gated step. Document this substitution explicitly in the prompt body: "When the pipeline checks for `ANTHROPIC_API_KEY`, the agent substitutes its own Claude judgments for the Claude-curate step." Failing to document this leads to the agent either fabricating a fake key or incorrectly skipping the curation step entirely.
 
+- **Threshold keys in cron configs not matching actual script output.** When you define a `threshold` block in `.hermes/cron/active/*.json`, every key must correspond to an actual field in the invoked script's JSON output — not to a conceptual check you wish existed. For example, if `audit-skills.py` outputs `summary.broken_refs` (an integer count), the threshold should be `broken_refs: 0`, not a conceptual `no_broken_refs: true`. Keys that the script never emits as booleans lead to a config that silently never validates. Always read the script's `main()` and its output dict, then grep for each threshold key to confirm the script actually produces it.
+
 ## References
 
 - `references/guardrail-template.md` — annotated copy-paste starter for the no-interaction guardrail block, with notes on each rule's purpose.
