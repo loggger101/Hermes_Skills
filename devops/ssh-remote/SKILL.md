@@ -1,7 +1,7 @@
 ---
 name: ssh-remote
 description: "Commands and file transfer on remote machines over SSH"
-version: 0.1.0
+version: v1.0.0
 author: Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]

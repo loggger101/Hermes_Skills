@@ -1,7 +1,7 @@
 ---
 name: autonomous-repo-cronjob
 description: "Write self-contained cronjob prompts for existing repos."
-version: 0.1.2
+version: v1.0.0
 author: Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]

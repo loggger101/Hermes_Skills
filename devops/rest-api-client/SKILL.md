@@ -1,7 +1,7 @@
 ---
 name: rest-api-client
 description: "Call REST APIs: auth, pagination, rate limits, errors."
-version: 0.1.0
+version: v1.0.0
 author: Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]

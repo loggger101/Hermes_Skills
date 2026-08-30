@@ -299,7 +299,7 @@ This repository also includes a ready-to-use **cronjob registry** at [`.hermes/c
 
 - **`.hermes/cron/templates/`** — Prompt and script templates for the two most common patterns
 - **`.hermes/cron/active/`** — Active cronjob definitions (JSON config) ready to be loaded via `cronjob()`
-- **`.hermes/cron/archive/`** — Deprecated or old cronjob definitions kept for reference
+- **`.hermes/cron/archive/`** — Placeholder (empty; reserved for future archival of deprecated cronjobs)
 
 ### Core Skills
 
