@@ -1,7 +1,7 @@
 ---
 name: docker-containers
 description: "Build and debug Docker containers and Compose stacks."
-version: 0.1.0
+version: v1.0.0
 author: Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]

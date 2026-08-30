@@ -1,7 +1,7 @@
 ---
 name: sqlite-queries
 description: "Query, inspect, and export SQLite databases."
-version: 0.1.0
+version: v1.0.0
 author: Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
