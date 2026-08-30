@@ -69,7 +69,7 @@ When a skill existed in multiple profiles, the version from the highest-priority
 || [security/](./security/) | Security review and auditing | 1 |
 || [smart-home/](./smart-home/) | Smart home device control | 1 |
 || [social-media/](./social-media/) | Social media content | 1 |
-|| [software-development/](./software-development/) | Development tools and workflows | 28 |
+|| [software-development/](./software-development/) | Development tools and workflows | 29 |
 
 **Total: 127 skills across 20 categories**
 
