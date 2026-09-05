@@ -304,7 +304,7 @@ Goal: make everything easy to find and cheap to use for any agent.
 
 **Fixed:**
 - README category table: malformed separator row (`||----|`) broke markdown table rendering; now single-pipe form.
-- Root `DESCRIPTION.md`: was stale ("127 skills") with no navigation pointers; rewritten current (145/20) with a "Start here" lookup ladder (AGENTS.md → SKILLS-INDEX → DEPENDENCY → README).
+- Root `DESCRIPTION.md`: was stale ("127 skills") with no navigation pointers; rewritten current (145/20) with a "Start here" lookup ladder (SKILLS-INDEX → DEPENDENCY → README). Note: an AGENTS.md root doc was drafted but its write is gated behind user approval and not yet created, so the ladder points at existing files only.
 - README: TOC + Quick Start now lead with the grep-the-index path; Tools table lists gen-skills-index.py.
 
 **Cost discipline:** all new tooling is stdlib-only Python, no build step, no network. Index keeps lookups at O(1) grep cost; DEPENDENCY.md stays for relationship questions only.
