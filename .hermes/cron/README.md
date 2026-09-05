@@ -36,9 +36,9 @@ See:
 
 | Job | Schedule | Skills Used | Purpose |
 ||-----|----------|-------------|---------|
-|| [`aspirecures-weekly.json`](./active/aspirecures-weekly.json) | Weekly Mon 1 PM ET | 9 skills (research, mlops, github) | Research pipeline: collect→curate→render→commit disease pages (two-agent split) |
+||| [`aspirecures-weekly.json`](./active/aspirecures-weekly.json) | Weekly Mon 9:17 AM ET (13:17 UTC) | 9 skills (research, mlops, github, software-development) | Research pipeline: collect→curate→render→commit disease pages (two-agent split) |
 || [`skill-audit.json`](./active/skill-audit.json) | Weekly Sun 3 AM | 4 skills (cron-job-authoring, skill-authoring, verification) | Self-audit: YAML validation, broken refs, description lengths, line endings |
-|| [`sync-hermes-skills.json`](./active/sync-hermes-skills.json) | Weekly Sun 2 AM | 4 skills (cron-job-authoring, hermes-agent, skill-authoring, verification) | Bidirectional sync: pull upstream → sync skills/memories/profiles ↔ local → commit → push → audit |
+||| [`sync-hermes-skills.json`](./active/sync-hermes-skills.json) | Weekly Sun 2 AM | 3 skills (cron-job-authoring, verification-culture, hermes-agent-skill-authoring) | Bidirectional sync: pull upstream → sync skills/memories/profiles ↔ local → commit → push → audit |
 
 ## Active Cronjobs Detail
 

@@ -347,6 +347,8 @@ if config_path.exists():
     raw = config_path.read_text()
 ```
 
+**Windows gotcha:** `os.path.relpath` on Windows produces backslash-separated strings that silently fail comparison against forward-slash strings (JSON skill refs, regex patterns, substring filters). Always normalize with `str(p).replace('\\', '/')` before substring matching, or prefer `pathlib.Path` throughout and convert at comparison boundaries. See `references/windows-path-separator-trap.md` for the reproduction recipe and fix.
+
 ## Testing Approach
 
 See `test-driven-development` for RED-GREEN-REFACTOR discipline. This section covers Python-specific testing craft.
@@ -544,6 +546,7 @@ mycli = "myproject.cli:main"
 | Boolean flag param | `def process(data, dry_run=False)` | Split into two functions or use a strategy |
 | Deep nesting | 4-level if/else pyramid | Early returns, guard clauses, extract |
 | Mutable class attributes | `class Foo: items = []` (shared across instances) | Move to `__init__` |
+| Path comparison without normalization | `os.path.relpath` on Windows yields backslashes; comparing against forward-slash strings silently fails | Normalize with `str(p).replace('\\', '/')` before substring matching; prefer `pathlib.Path` throughout |
 | Star import | `from module import *` | Import what you use explicitly |
 | Bare except | `except: pass` | Catch specific exceptions at minimum |
 | No type hints on public API | `def get(x): ...` | Add types to the signature |

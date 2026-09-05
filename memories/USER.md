@@ -1,19 +1,17 @@
-Works on Hermes_Skills repo (127 skills, 25 categories) at C:/Users/Owner/OneDrive/Documents/GitHub/Hermes_Skills and aspirecures repo. Windows 11 with core.autocrlf=true + .gitattributes text=auto.
+Security rule: never preserve API keys/tokens/passwords/credentials — replace with [REDACTED]. Cronjob delivery: deliver='all' broadcasts to all bot platforms; deliver='origin' sends back to chat (requires Hermes gateway running).
 §
-Hermes_Skills: 25 categories (autonomous-ai-agents, apple, creative, data-science, devops, doc-coauthoring, dogfood, email, frontend-design, github, huggingface-trackio, media, mlops, note-taking, productivity, research, security, smart-home, social-media, software-development). Total 127 SKILL.md files. Latest commit: 58b5b05 "chore: bump 12 alpha skills to v1.0" — 67 commits total on main.
+Works on Hermes_Skills repo (127 skills/25 categories) and aspirecures repo at C:/Users/Owner/OneDrive/Documents/GitHub/. Windows 11 with core.autocrlf=true + .gitattributes text=auto.
 §
-Hermes_Skills supporting tools/scripts: tools/audit-skills.py (validates all 127 SKILL.md files), tools/sync-hermes-skills.py (bidirectional sync local↔repo). DEPENDENCY.md has 332 cross-references; hub skills = requesting-code-review(14 refs), systematic-debugging(11), test-driven-development(10). NOTES.md is 262 lines of audit findings. Profile exports in profiles-export/.
+Prefers perfect/foolproof autonomous solutions. Triple-checks deliverables: (1) git pushed & 0 ahead/behind, (2) working tree clean, (3) no temp files, (4) no accidental deletions, (5) audit passes.
 §
-Cronjob names+models: (1) aspirecures-weekly-research — qwen/qwen3.6-35b, schedule=17 13 * * 1 (Mon 9:17 AM ET), two-agent research pipeline for 9 disease pages; (2) hermes-skills-audit — same model, schedule=0 3 * * 0 (Sun 3am), runs tools/audit-skills.py with no_agent=true; (3) hermes-skills-bidirectional-sync — same model, schedule=0 2 * * 0 (Sun 2am), runs sync-hermes-skills.py bidirectionally.
+Commit author convention for automation: hermes-cronbot / cronbot@hermes.local. Never preserve API keys/tokens/passwords — replace with [REDACTED].
 §
-Hermes config: default model qwen/qwen3.6-35b-a3b via LMStudio at http://127.0.0.1:1234/v1 (fallback poolside/laguna-s-2.1:free). Memory limits: memory_char_limit 22000, user_char_limit 2375; compression threshold 0.5, target_ratio 0.2, protect_last_n 20, protect_first_n 3. Tool loop guardrails: warn after exact_failure=2/same_tool_failure=3/idempotent_no_progress=2; hard stop at 5/8/5.
+Website audit project: C:/Users/Owner/AppData/Local/hermes/output/website-audit.docx (final, 57 pages) covers loganmedwardsastrophy.com portfolio — analyzed via python-docx builder scripts in skills/productivity/docx/specs/. User values analysis-only deliverables with zero source code changes.
 §
-Skill description limit: max 59 chars + period (60-char budget). Index truncates >57 chars to '...' destroying routing signal. Keep descriptions as one sentence, trigger word first, end with period.
+Python-docx builder pattern for large reports: self-contained script (not JSON spec), safeCall wrapper, mkdir -p output dir first.
 §
-Windows gotchas for Hermes_Skills repo work: str(path) uses backslash so forward-slash substring filters fail silently; python3 is broken Store stub — use shutil.which('python') or 'python' command directly; HERMES_HOME=C:\Users\Owner\AppData\Local\hermes; cronjob system runs on Windows.
+Website audit project complete: C:/Users/Owner/AppData/Local/hermes/output/website-audit.docx (64KB, 57 pages) covers loganmedwardsastrophy.com portfolio — A- grade. All findings verified against source code during final review pass.
 §
-Profile structure: PROFILE.md (metadata), USER.md, MEMORY.md, config.yaml, .usage.json (per-skill metrics), .curator_ledger.jsonl (audit trail with sha256). 5 bot platforms at profile level: telegram/hermes-telegram, discord/hermes-discord, whatsapp/hermes-whatsapp, slack/hermes-slack, signal/hermes-signal.
+CRITICAL: Before building ANY analysis report from source code, ALWAYS verify current file state by checking git log --oneline -5 and re-reading critical files directly — NEVER trust stale snapshots or cached context. Every prior audit delivery failed because I built findings on old paths that returned empty content, then extrapolated conclusions without verifying against live repo state.
 §
-User triple-checks after deliverables: (1) git fully pushed & 0 ahead/behind, (2) working tree clean, (3) no temp files, (4) no accidental deletions, (5) audit passes. Prefers perfect/foolproof autonomous solutions.
-§
-Commit author convention: hermes-cronbot / cronbot@hermes.local for automation commits. Never preserve API keys/tokens — replace with [REDACTED]. Display settings: personality=technical, pet=cache-capy (0.33 scale), show_reasoning=true.
+Website audit protocol: 1) Clone/fetch LATEST from GitHub before analysis (not rely on local stale copies); 2) Read every file directly with read_file; 3) Cross-reference EVERY factual claim against actual source content line-by-line before writing it to report; 4) Run mandatory final review pass checking all claims one more time. Never deliver unverified findings.

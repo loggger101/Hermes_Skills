@@ -1,6 +1,6 @@
 # Hermes Skills Repository
 
-A comprehensive collection of **127 Hermes Agent skills** compiled from all available profiles into a single, organized repository.
+A comprehensive collection of **128 Hermes Agent skills** compiled from all available profiles into a single, organized repository.
 
 ## Table of Contents
 
@@ -33,7 +33,7 @@ skill_view(name='autonomous-repo-cronjob')
 
 ## Overview
 
-This repository serves as a centralized database of all **127 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (332 connections mapped across 127 skills, 2 standalone). See [NOTES.md](./NOTES.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
+This repository serves as a centralized database of all **145 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (356 cross-references mapped across 145 skills, 6 standalone). See [NOTES.md](./NOTES.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
 
 ### Source Profiles
 
@@ -50,32 +50,35 @@ When a skill existed in multiple profiles, the version from the highest-priority
 
 | Category | Description | Skill Count |
 ||----------|-------------|-------------|
-|| [apple/](./apple/) | Apple platform integrations | 4 |
-|| [autonomous-ai-agents/](./autonomous-ai-agents/) | Multi-agent orchestration and delegation | 9 |
-|| [creative/](./creative/) | Creative content generation and design | 18 |
-|| [data-science/](./data-science/) | Data science workflows and tools | 6 |
-|| [devops/](./devops/) | Infrastructure, containers, and deployment | 5 |
-|| [doc-coauthoring/](./doc-coauthoring/) | Structured document co-authoring workflow | 1 |
-|| [dogfood/](./dogfood/) | Exploratory QA and testing | 1 |
-|| [email/](./email/) | Email management and triage | 2 |
-|| [frontend-design/](./frontend-design/) | Visual design for AI-generated UI | 1 |
-|| [github/](./github/) | GitHub workflow management | 11 |
-|| [huggingface-trackio/](./huggingface-trackio/) | ML experiment tracking with Trackio | 1 |
-|| [media/](./media/) | Media content generation | 3 |
-|| [mlops/](./mlops/) | ML operations: evaluation, inference, models | 5 |
-|| [note-taking/](./note-taking/) | Note-taking and knowledge management | 1 |
-|| [productivity/](./productivity/) | Productivity and document management | 18 |
-|| [research/](./research/) | Research and content discovery | 9 |
-|| [security/](./security/) | Security review and auditing | 1 |
-|| [smart-home/](./smart-home/) | Smart home device control | 1 |
-|| [social-media/](./social-media/) | Social media content | 1 |
-|| [software-development/](./software-development/) | Development tools and workflows | 29 |
+| [apple/](./apple/) | Apple platform integrations | 4 |
+| [autonomous-ai-agents/](./autonomous-ai-agents/) | Multi-agent orchestration and delegation | 10 |
+| [creative/](./creative/) | Creative content generation and design | 23 |
+| [data-science/](./data-science/) | Data science workflows and tools | 11 |
+| [devops/](./devops/) | Infrastructure, containers, and deployment | 5 |
+| [doc-coauthoring/](./doc-coauthoring/) | Structured document co-authoring workflow | 1 |
+| [dogfood/](./dogfood/) | Exploratory QA and testing | 1 |
+| [email/](./email/) | Email management and triage | 2 |
+| [frontend-design/](./frontend-design/) | Visual design for AI-generated UI (incl. Python reactive-UI builders) | 2 |
+| [github/](./github/) | GitHub workflow management | 12 |
+| [huggingface-trackio/](./huggingface-trackio/) | ML experiment tracking with Trackio | 1 |
+| [media/](./media/) | Media content generation | 3 |
+| [mlops/](./mlops/) | ML operations: evaluation, inference, models | 5 |
+| [note-taking/](./note-taking/) | Note-taking and knowledge management | 1 |
+| [productivity/](./productivity/) | Productivity and document management | 19 |
+| [research/](./research/) | Research and content discovery | 9 |
+| [security/](./security/) | Security review and auditing | 1 |
+| [smart-home/](./smart-home/) | Smart home device control | 1 |
+| [social-media/](./social-media/) | Social media content | 1 |
+| [software-development/](./software-development/) | Development tools and workflows | 33 |
 
-**Total: 127 skills across 20 categories**
+**Total: 145 skills across 20 categories**
+**Total: 128 skills across 20 categories**
 
 ### Skill Catalog
 
-All 127 skills organized by category:
+### Skill Catalog
+
+All 145 skills organized by category:
 
 #### Apple
 - [`apple-notes`](./apple/apple-notes) — Manage Apple Notes via memo CLI: create, search, edit.
@@ -88,38 +91,49 @@ All 127 skills organized by category:
 - [`claude-code`](./autonomous-ai-agents/claude-code) — Delegate coding to Claude Code CLI (features, PRs).
 - [`codex`](./autonomous-ai-agents/codex) — Delegate coding to OpenAI Codex CLI (features, PRs).
 - [`computer-use`](./autonomous-ai-agents/computer-use) — Drive the desktop in the background without stealing focus.
+- [`cron-config-authoring`](./autonomous-ai-agents/cron-config-authoring) — Author cronjob JSON configs with structured skills.
 - [`cron-job-authoring`](./autonomous-ai-agents/cron-job-authoring) — Author autonomous cron prompts with guardrails.
-- [`hermes-agent`](./autonomous-ai-agents/hermes-agent) — Use, configure, theme, extend, and orchestrate Hermes Agent.
+- [`hermes-agent`](./autonomous-ai-agents/hermes-agent) — Use, configure, theme, extend, orchestrate Hermes Agent.
 - [`mattpocock-resolving-merge-conflicts`](./autonomous-ai-agents/mattpocock-resolving-merge-conflicts) — Resolve git merge conflicts by tracing each side's intent.
 - [`merge-reconciler`](./autonomous-ai-agents/merge-reconciler) — Neutral third-party resolution of agent merge conflicts.
 - [`opencode`](./autonomous-ai-agents/opencode) — Delegate coding to OpenCode CLI (features, PR review).
 
 #### Creative
 - [`architecture-diagram`](./creative/architecture-diagram) — Dark-themed SVG architecture/cloud/infra diagrams as HTML.
-- [`ascii-art`](./creative/ascii-art) — ASCII art: pyfiglet, cowsay, boxes, image-to-ASCII.
+- [`ascii-art`](./creative/ascii-art) — ASCII art: pyfiglet, cowsay, boxes, image-to-ascii.
 - [`ascii-video`](./creative/ascii-video) — ASCII video: convert video/audio to colored ASCII MP4/GIF.
 - [`baoyu-infographic`](./creative/baoyu-infographic) — Infographics: 21 layouts x 21 styles (信息图, 可视化).
 - [`claude-design`](./creative/claude-design) — Design one-off HTML artifacts (landing, deck, prototype).
 - [`comfyui`](./creative/comfyui) — Generate images, video, and audio via diffusion workflows.
 - [`design-md`](./creative/design-md) — Author/validate/export Google's DESIGN.md token spec files.
+- [`design-taste-frontend`](./creative/design-taste-frontend) — Anti-slop frontend skill: brief-inferred design direction.
+- [`diagram-design`](./creative/diagram-design) — Create 39 diagram types as standalone HTML/SVG/PNG files.
 - [`excalidraw`](./creative/excalidraw) — Hand-drawn Excalidraw JSON diagrams (arch, flow, seq).
+- [`full-output-enforcement`](./creative/full-output-enforcement) — Enforce complete output; ban placeholder patterns.
 - [`humanizer`](./creative/humanizer) — Humanize text: strip AI-isms and add real voice.
 - [`manim-video`](./creative/manim-video) — Manim CE animations: 3Blue1Brown math/algo videos.
 - [`mattpocock-prototype`](./creative/mattpocock-prototype) — Build a throwaway prototype to answer a design question.
 - [`p5js`](./creative/p5js) — p5.js sketches: gen art, shaders, interactive, 3D.
 - [`popular-web-designs`](./creative/popular-web-designs) — 54 real design systems as HTML/CSS.
 - [`pretext`](./creative/pretext) — Build creative browser demos with DOM-free text layout.
+- [`pygame`](./creative/pygame) — Use when building or testing pygame/SDL games.
+- [`redesign-existing-projects`](./creative/redesign-existing-projects) — Audit-first redesign of existing sites to premium quality.
 - [`sketch`](./creative/sketch) — Throwaway HTML mockups: 2-3 design variants to compare.
 - [`songwriting-and-ai-music`](./creative/songwriting-and-ai-music) — Songwriting craft and Suno AI music prompts.
 - [`static-site-seo`](./creative/static-site-seo) — Static site SEO: JSON-LD, meta tags, analytics, CSP.
 - [`touchdesigner-mcp`](./creative/touchdesigner-mcp) — Control TouchDesigner via twozero MCP.
 
 #### Data Science
+- [`astro-toolkit-selection`](./data-science/astro-toolkit-selection) — Choose astrodynamics tools: brahe, nyx, OpenSCvx, skyfield.
+- [`bit-identity-float-pipelines`](./data-science/bit-identity-float-pipelines) — Verify correctness via exact float hashes / bit-identity.
 - [`build-systems-data`](./data-science/build-systems-data) — Data build systems: orchestration, versioning, CSV at scale.
+- [`economicspace-pipeline`](./data-science/economicspace-pipeline) — Use on economicspace (asteroid-mining pipeline).
 - [`evolutionary-ml`](./data-science/evolutionary-ml) — Evolutionary ML: GA, NEAT, tournaments, parallel eval.
 - [`model-export-deploy`](./data-science/model-export-deploy) — Model export: ONNX, TorchScript, HDF5, NumPy, JSON.
 - [`orbital-mechanics-data`](./data-science/orbital-mechanics-data) — Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC.
 - [`python-data-science`](./data-science/python-data-science) — Python DS: EDA, cleaning, modeling, eval, viz.
+- [`space-data-pipelines`](./data-science/space-data-pipelines) — Build space/astro data pipelines with verified API gotchas.
+- [`space-mission-computation-paradigms`](./data-science/space-mission-computation-paradigms) — Choose trajectory method: closed-form vs propagation etc.
 - [`sql-for-data`](./data-science/sql-for-data) — SQL for data: queries, joins, windows, aggregation.
 
 #### Devops
@@ -127,7 +141,7 @@ All 127 skills organized by category:
 - [`rest-api-client`](./devops/rest-api-client) — Call REST APIs: auth, pagination, rate limits, errors.
 - [`sdlc-review`](./devops/sdlc-review) — Review Kanban handoffs and route verified outcomes.
 - [`sqlite-queries`](./devops/sqlite-queries) — Query, inspect, and export SQLite databases.
-- [`ssh-remote`](./devops/ssh-remote) — Run commands and transfer files on remote machines over SSH.
+- [`ssh-remote`](./devops/ssh-remote) — Commands and file transfer on remote machines over SSH.
 
 #### Doc Coauthoring
 - [`doc-coauthoring`](./doc-coauthoring) — Guide structured documentation co-authoring workflows.
@@ -141,6 +155,7 @@ All 127 skills organized by category:
 
 #### Frontend Design
 - [`frontend-design`](./frontend-design) — Distinctive visual design for AI-generated UI.
+- [`nicegui-app-builder`](./frontend-design/nicegui-app-builder) — Build Python reactive web/desktop apps with NiceGUI.
 
 #### Github
 - [`codebase-inspection`](./github/codebase-inspection) — Inspect codebases w/ pygount: LOC, languages, ratios.
@@ -150,6 +165,7 @@ All 127 skills organized by category:
 - [`github-issues`](./github/github-issues) — Create, triage, label, assign GitHub issues via gh or REST.
 - [`github-pr-workflow`](./github/github-pr-workflow) — GitHub PR lifecycle: branch, commit, open, CI, merge.
 - [`github-repo-management`](./github/github-repo-management) — Clone/create/fork repos; manage remotes, releases.
+- [`issue-triage-state-machine`](./github/issue-triage-state-machine) — Triage issues/PRs: categorise, verify, grill, agent briefs.
 - [`mattpocock-code-review`](./github/mattpocock-code-review) — Two-axis code review: Standards and Spec via sub-agents.
 - [`mattpocock-finishing-a-development-branch`](./github/mattpocock-finishing-a-development-branch) — Complete git branches with merge or PR options.
 - [`mattpocock-gh-fix-ci`](./github/mattpocock-gh-fix-ci) — Debug failing GitHub Actions checks on a PR.
@@ -165,10 +181,10 @@ All 127 skills organized by category:
 
 #### Mlops
 - [`evaluating-llms-harness`](./mlops/evaluation/evaluating-llms-harness) — lm-eval-harness: benchmark LLMs (MMLU, GSM8K, etc.).
-- [`huggingface-hub`](./mlops/huggingface-hub) — HuggingFace hf CLI: search/download/upload models, datasets.
+- [`huggingface-hub`](./mlops/huggingface-hub) — HuggingFace hf CLI: search/download/upload models.
 - [`llama-cpp`](./mlops/inference/llama-cpp) — llama.cpp local GGUF inference + HF Hub model discovery.
-- [`serving-llms-vllm`](./mlops/inference/serving-llms-vllm) — vLLM: high-throughput LLM serving, OpenAI API, quantization.
-- [`weights-and-biases`](./mlops/evaluation/weights-and-biases) — W&B: log ML experiments, sweeps, model registry, dashboards.
+- [`serving-llms-vllm`](./mlops/inference/serving-llms-vllm) — vLLM: LLM serving, OpenAI API, quantization.
+- [`weights-and-biases`](./mlops/evaluation/weights-and-biases) — W&B: log ML experiments, sweeps, registry, dashboards.
 
 #### Note Taking
 - [`obsidian`](./note-taking/obsidian) — Read, search, create, and edit notes in the Obsidian vault.
@@ -180,7 +196,7 @@ All 127 skills organized by category:
 - [`docx`](./productivity/docx) — Create, read, edit, template, and review Word .docx files.
 - [`google-workspace`](./productivity/google-workspace) — Gmail, Calendar, Drive, Docs, Sheets via gws CLI or Python.
 - [`maps`](./productivity/maps) — Geocode, POIs, routes, timezones via OpenStreetMap/OSRM.
-- [`mattpocock-handoff`](./productivity/mattpocock-handoff) — Compact a conversation into a handoff doc for another agent.
+- [`mattpocock-handoff`](./productivity/mattpocock-handoff) — Compact conversation into a handoff doc for another agent.
 - [`meeting-action-items`](./productivity/meeting-action-items) — Turn meeting notes into cited decisions, owners, tickets.
 - [`nano-pdf`](./productivity/nano-pdf) — Edit text in existing PDFs via natural-language prompts.
 - [`notion`](./productivity/notion) — Notion API + ntn CLI: pages, databases, markdown, Workers.
@@ -190,6 +206,7 @@ All 127 skills organized by category:
 - [`product-price-monitor`](./productivity/product-price-monitor) — Watch product, flight, or listing prices; alert on target.
 - [`session-librarian`](./productivity/session-librarian) — Organize sessions by prompt: find, rename, archive, prune.
 - [`teams-meeting-pipeline`](./productivity/teams-meeting-pipeline) — Teams meeting summaries, job replay, Graph subscriptions.
+- [`website-audit`](./productivity/website-audit) — Audit websites/codebases into .docx reports; read-only.
 - [`weekly-review-planning`](./productivity/weekly-review-planning) — Weekly reset: commitments, stalled work, next-week plan.
 - [`xlsx`](./productivity/xlsx) — Create, read, edit Excel .xlsx workbooks and CSVs.
 
@@ -211,11 +228,14 @@ All 127 skills organized by category:
 - [`openhue`](./smart-home/openhue) — Control Philips Hue lights, scenes, rooms via OpenHue CLI.
 
 #### Social Media
-- [`xurl`](./social-media/xurl) — X/Twitter via xurl CLI: raw post search, posting, DM, media.
+- [`xurl`](./social-media/xurl) — X/Twitter via xurl CLI: post search, posting, DM, media.
 
 #### Software Development
 - [`cli-tool-craft`](./software-development/cli-tool-craft) — CLI tools: subcommands, config validation, env substitution.
+- [`conversation-to-spec`](./software-development/conversation-to-spec) — Turn a conversation into a publishable spec.
 - [`dogfood`](./software-development/dogfood) — Exploratory QA of web apps: find bugs, evidence, reports.
+- [`github`](./software-development/github) — GitHub via gh CLI: PRs, issues, reviews, repos, auth.
+- [`grilling-interview`](./software-development/grilling-interview) — Stress-test a plan by interviewing in design-tree rounds.
 - [`hermes-agent-skill-authoring`](./software-development/hermes-agent-skill-authoring) — Author in-repo SKILL.md files: frontmatter and structure.
 - [`inspecting-hermes-desktop-dom`](./software-development/inspecting-hermes-desktop-dom) — Read the live Hermes desktop DOM/CSS over CDP.
 - [`mattpocock-ask-if-underspecified`](./software-development/mattpocock-ask-if-underspecified) — Ask clarifying questions when a request is ambiguous.
@@ -223,7 +243,7 @@ All 127 skills organized by category:
 - [`mattpocock-diagnosing-bugs`](./software-development/mattpocock-diagnosing-bugs) — Diagnose hard bugs via tight feedback loops and bisection.
 - [`mattpocock-domain-modeling`](./software-development/mattpocock-domain-modeling) — Sharpen domain terms and update CONTEXT.md and ADRs inline.
 - [`mattpocock-evidence-driven`](./software-development/mattpocock-evidence-driven) — Validate code changes with evidence and testing gates.
-- [`mattpocock-improve-codebase-architecture`](./software-development/mattpocock-improve-codebase-architecture) — Survey code for module deepening opportunities and fix them.
+- [`mattpocock-improve-codebase-architecture`](./software-development/mattpocock-improve-codebase-architecture) — Survey code for module deepening, fix opportunities.
 - [`mattpocock-multi-agent-code-review`](./software-development/mattpocock-multi-agent-code-review) — Multi-agent PR review: bug-hunter, security, contracts.
 - [`mattpocock-spec-driven-development`](./software-development/mattpocock-spec-driven-development) — Spec-driven development with planning and quality gates.
 - [`mattpocock-subagent-driven-development`](./software-development/mattpocock-subagent-driven-development) — Dispatch fresh subagents per task with task review.
@@ -239,10 +259,11 @@ All 127 skills organized by category:
 - [`simplify-code`](./software-development/simplify-code) — Parallel 4-agent cleanup of recent code changes.
 - [`spike`](./software-development/spike) — Throwaway experiments to validate an idea before build.
 - [`streamlit-dashboards`](./software-development/streamlit-dashboards) — Streamlit dashboards: layout, caching, charts, state.
-- [`systematic-debugging`](./software-development/systematic-debugging) — 4-phase root cause debugging: understand bugs before fixing.
+- [`systematic-debugging`](./software-development/systematic-debugging) — 4-phase root cause debugging: understand before fixing.
 - [`test-driven-development`](./software-development/test-driven-development) — TDD: enforce RED-GREEN-REFACTOR, tests before code.
 - [`test-infra-ml`](./software-development/test-infra-ml) — Testing ML systems: sims, EAs, tournaments, checkpoints.
 - [`verification-culture`](./software-development/verification-culture) — Doc-driven verification: backlog, audits, regression.
+- [`wayfinder-map-planning`](./software-development/wayfinder-map-planning) — Plan multi-session work as a map of decision tickets.
 
 ## Skill Structure
 
@@ -285,11 +306,11 @@ metadata:
 This repository contains two types of skills:
 
 1. **Imported skills** (98): Copied from Hermes profiles during import
-2. **Pre-existing skills** (29): Originally populated in this repo by a previous agent / imported from the live Hermes skill set, including:
+2. **Pre-existing skills** (30): Originally populated in this repo by a previous agent / imported from the live Hermes skill set, including:
    - 22 `mattpocock-*` opinionated coding methodology skills
    - 4 devops skills (`docker-containers`, `rest-api-client`, `sdlc-review`, `ssh-remote`)
    - 3 top-level category skills (`doc-coauthoring`, `frontend-design`, `mattpocock-security-review`)
-   - `autonomous-repo-cronjob`
+   - `autonomous-repo-cronjob`, `cron-config-authoring`
 
 ## Cron Job Authoring
 
@@ -299,7 +320,7 @@ This repository also includes a ready-to-use **cronjob registry** at [`.hermes/c
 
 - **`.hermes/cron/templates/`** — Prompt and script templates for the two most common patterns
 - **`.hermes/cron/active/`** — Active cronjob definitions (JSON config) ready to be loaded via `cronjob()`
-- **`.hermes/cron/archive/`** — Placeholder (empty; reserved for future archival of deprecated cronjobs)
+- **`.hermes/cron/archive/`** — Deprecated or old cronjob definitions kept for reference
 
 ### Core Skills
 
@@ -307,6 +328,7 @@ This repository also includes a ready-to-use **cronjob registry** at [`.hermes/c
 |-------|---------|-----------------|
 | [`autonomous-repo-cronjob`](./autonomous-ai-agents/autonomous-repo-cronjob/SKILL.md) | Write self-contained cronjob prompts for repos with existing CI pipelines. Embeds the repo's guardrails, dedup logic, and two-agent split (preparer + commit agent). | [prompt-template](./autonomous-ai-agents/autonomous-repo-cronjob/references/prompt-template.md), [drafting-guide](./autonomous-ai-agents/autonomous-repo-cronjob/references/drafting-guide.md), [agent-vs-script-checklist](./autonomous-ai-agents/autonomous-repo-cronjob/references/agent-vs-script-checklist.md), [two-agent-architecture](./autonomous-ai-agents/autonomous-repo-cronjob/references/two-agent-architecture.md) |
 | [`cron-job-authoring`](./autonomous-ai-agents/cron-job-authoring/SKILL.md) | Author autonomous cron prompts with guardrails. Covers `cronjob()` tool usage, schedule formats, delivery targets, and self-contained prompt patterns. | — |
+| [`cron-config-authoring`](./autonomous-ai-agents/cron-config-authoring/SKILL.md) | Author cronjob JSON configs: structured skills object with per-skill phase + rationale, threshold key alignment with script output, skill reference path resolution, model pinning, and approval-mode configuration. | [cronjob-config-patterns](./autonomous-ai-agents/cron-config-authoring/references/cronjob-config-patterns.md) |
 | [`product-price-monitor`](./productivity/product-price-monitor/SKILL.md) | Price/availability monitoring via cronjob ticks. Uses `cronjob(action="create")` with normalized price alerts. | — |
 | [`competitor-news-monitor`](./research/competitor-news-monitor/SKILL.md) | Company-focused news tracking via cronjob. Loads `blogwatcher` and `parallel-cli` for enrichment. | — |
 | [`apple-reminders`](./apple/apple-reminders/SKILL.md) | Scheduled reminder checks via cronjob. Loads `cron-job-authoring` for automation patterns. | — |
@@ -319,6 +341,7 @@ This repository also includes a ready-to-use **cronjob registry** at [`.hermes/c
 | [`hermes-agent`](./autonomous-ai-agents/hermes-agent/SKILL.md) | References `autonomous-repo-cronjob` in related_skills |
 | [`mattpocock-yeet`](./github/mattpocock-yeet/SKILL.md) | References `autonomous-repo-cronjob` in related_skills |
 | [`mattpocock-using-git-worktrees`](./software-development/mattpocock-using-git-worktrees/SKILL.md) | References `autonomous-repo-cronjob` in related_skills |
+| [`cron-config-authoring`](./autonomous-ai-agents/cron-config-authoring/SKILL.md) | Documents the structured skills object pattern used across all cronjob configs; references `cron-job-authoring` and `hermes-agent-skill-authoring` |
 
 ### Two-Agent Architecture (from AspireCURES pipeline)
 
@@ -355,8 +378,12 @@ This repository includes Python scripts in the `tools/` directory that automate 
 
 | Tool | Purpose | Cron Integration |
 |------|---------|------------------|
-| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 127 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | Weekly Sunday 3 AM via `skill-audit.json` |
+| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 128 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | Weekly Sunday 3 AM via `skill-audit.json` |
 | [`sync-hermes-skills.py`](./tools/sync-hermes-skills.py) | Bidirectional sync between GitHub repo and local Hermes env: git pull, skill/memories/profiles sync, DEPENDENCY.md regeneration, audit, git push | Weekly Sunday 2 AM via `sync-hermes-skills.json` |
+
+| [`regen-dependency-map.py`](./tools/regen-dependency-map.py) | Standalone DEPENDENCY.md regenerator (same format as the sync script's built-in map): scans all SKILL.md frontmatter, rebuilds hub/standalone tables and xref validation line | Manual / after bulk skill additions |
+| [`validate-skill-refs.py`](./.hermes/cron/validate-skill-refs.py) | Validates all skill references in cronjob JSON configs resolve to existing in-repo skill directories | Pre-flight check before scheduling any cronjob |
+| [`validate-cronjobs.py`](./.hermes/cron/validate-cronjobs.py) | Comprehensive cronjob JSON validation: structural schema, skill ref resolution, threshold key alignment, no_agent consistency, enabled_toolsets correctness | Run before committing any cronjob config change |
 
 ## Verification
 
@@ -391,7 +418,7 @@ The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a w
 - ✅ All skill descriptions are ≤ 59 characters (strict audit threshold)
 - ✅ 115 descriptions end with a period; 12 trimmed descriptions omit trailing period to stay within the 59-char limit
 - ✅ All descriptions are double-quoted YAML strings
-- ✅ All 127 skills have a `## What This Skill Does` or `## Overview` section (audit recognizes 5 alternative headers)
+- ✅ All 145 skills have a `## What This Skill Does` or `## Overview` section (audit recognizes 5 alternative headers)
 - ✅ All section headers use standard capitalization (`## When to Use`, `## Pitfalls`, `## How to Run`, `## Quick Start`)
 - ✅ All non-standard Pitfalls headers (`## Common Pitfalls`, `## Troubleshooting`) renamed to `## Pitfalls`
 - ✅ No trailing whitespace in any SKILL.md file
@@ -399,7 +426,7 @@ The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a w
 - ✅ All YAML frontmatter parses without errors
 - ✅ Line endings normalized via `.gitattributes` (`text=auto`) — CRLF in working tree, LF in git storage
 - ✅ No temp scripts remaining in repo root
-- ✅ `related_skills` network: 332 cross-references across 127 skills (2 standalone skills with none)
+- ✅ `related_skills` network: 356 cross-references across 145 skills (6 standalone skills with none)
 - ✅ `.hermes/cron/` registry: 2 templates, 3 active jobs (aspirecures-weekly, skill-audit, sync-hermes-skills), 0 temp scripts
 - ✅ All frontmatter blocks have blank line before closing `---`
 - ✅ No duplicate content (verified via hash comparison)

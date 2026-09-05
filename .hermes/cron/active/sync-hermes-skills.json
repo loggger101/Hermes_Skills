@@ -10,6 +10,29 @@
   "provider": "qwen",
   "fallback_model": "poolside/laguna-s-2.1:free",
   "fallback_provider": "nous",
+  "skills": {
+    "loaded": [
+      {
+        "id": "autonomous-ai-agents/cron-job-authoring",
+        "name": "cron-job-authoring",
+        "phase": "governs the no_agent watchdog pattern + delivery discipline",
+        "rationale": "This job is a pure no_agent script job (no LLM). The cron-job-authoring skill governs the watchdog pattern: git push failures treated as non-fatal, empty stdout = no delivery, threshold-based alerting. Also surfaces the execute_code hard-block (this job must use terminal, not execute_code) and the drift-skip pitfall (model/provider pinned even though no_agent=true, to avoid future confusion if the flag is flipped)."
+      },
+      {
+        "id": "software-development/verification-culture",
+        "name": "verification-culture",
+        "phase": "audit pass embedded as step 6 of the script + post-run verification §6",
+        "rationale": "The sync script's step 6 is 'run audit' (python tools/audit-skills.py). This skill documents the audit-pass standing rules that the script's threshold checks enforce: broken refs = 0, yaml_errors = 0, lint_passed = true. The sync_verification.checks[5] ('Audit passes: audit-skills.py returns threshold_breached=False') is a direct implementation of this skill's health-check-as-gate discipline."
+      },
+      {
+        "id": "software-development/hermes-agent-skill-authoring",
+        "name": "hermes-agent-skill-authoring",
+        "phase": "governs what gets synchronized (frontmatter standards + file layout)",
+        "rationale": "The sync script copies SKILL.md files between repo and ~/.hermes/skills/. This skill defines the authoritative frontmatter shape (--- start, name, description ≤ 59 chars, closing ---) and the in-repo directory structure that the sync_skills_push/pull exclusion logic is built around. The 'files_pulled_to_local' and 'new_local_files_in_repo' counts are meaningless without this skill's authoring standards as the reference frame."
+      }
+    ],
+    "note": "no_agent=true — skills are loaded for documentation/standards reference, NOT for tool access. The script (tools/sync-hermes-skills.py) is pure Python and makes no LLM calls."
+  },
   "enabled_toolsets": [
     "terminal",
     "file"
@@ -39,7 +62,7 @@
     "Delete safety: sync_skills_push delete phase excludes memories/ directory (CRITICAL FIX -- prevents accidental deletion of tracked memory files)",
     "Duplicate detection: sync tracks duplicates in LOCAL_SKILLS_DIR and logs them; does NOT silently overwrite",
     "Model pinned with fallback: primary=qwen/qwen3.6-35b (provider=qwen), fallback=poolside/laguna-s-2.1:free (provider=nous)",
-    "HERMES_HOME environment variable (C:\\Users\\Owner\\AppData\\Local\\hermes) is used for all local paths",
+    "HERMES_HOME environment variable (C:\\Users\\Loggg\\AppData\\Local\\hermes) is used for all local paths",
     "Git operations use commit author hermes-cronbot / cronbot@hermes.local",
     "memories/ directory is TRACKED in repo (NOT gitignored) -- sync_memories copies to memories/ not memories-export/",
     "profiles-export/ and memories-export/ directories are ALWAYS gitignored -- runtime data must never be committed",
