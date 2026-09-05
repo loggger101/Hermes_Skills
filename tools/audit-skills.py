@@ -13,6 +13,7 @@ Validates all SKILL.md files in the Hermes_Skills repository for:
 Output: JSON report suitable for cronjob delivery.
 Exit codes: 0 = pass within thresholds, 1 = threshold breached.
 """
+import datetime
 import json
 import os
 import re
@@ -211,14 +212,56 @@ def validate_cross_references(skill_name, skill_info, all_skill_names):
 
 
 def check_stale_placeholders(skill_name, skill_info):
-    """Check for TODO/FIXME/PLACEHOLDER markers in production files."""
+    """Check for TODO/FIXME/PLACEHOLDER markers in production files.
+
+    Distinguishes between stale/incomplete markers (require fixing) and
+    intentional pedagogical placeholders (e.g. LaTeX \\cite{PLACEHOLDER_...}
+    patterns in research-paper-writing that teach the user how to mark
+    unverified citations). Intentional markers are reported separately so
+    they don't pollute the stale-marker count.
+    """
     body = skill_info["body"]
     flags = []
+    intentional = []
+    # LaTeX citation placeholder pattern: \cite{PLACEHOLDER_...}
+    latex_placeholder_pattern = r'\\cite\{PLACEHOLDER[^}]*\}'
+    intentional_count = len(re.findall(latex_placeholder_pattern, body))
+    if intentional_count:
+        intentional.append(f"Found {intentional_count}x intentional LaTeX \\cite{{PLACEHOLDER}} citation marker(s) — pedagogical, not stale")
+
+    # LaTeX citation TODO comments inside code blocks (e.g. "% TODO: Verify this citation exists")
+    # These are pedagogical — they teach the user how to mark unverified citations
+    latex_todo_pattern = r'% TODO:'
+    latex_todo_count = len(re.findall(latex_todo_pattern, body))
+    if latex_todo_count:
+        intentional.append(f"Found {latex_todo_count}x intentional LaTeX TODO comment(s) — pedagogical citation-verification guidance, not stale")
+
+    # Todo-list titles inside code blocks (e.g. "Research Paper TODO:")
+    # These are template headings in code blocks, not stale development TODOs
+    todo_title_pattern = r'(?:Research Paper|Project|Sprint)\s+TODO:'
+    todo_title_count = len(re.findall(todo_title_pattern, body))
+    if todo_title_count:
+        intentional.append(f"Found {todo_title_count}x intentional TODO-list title(s) in code blocks — pedagogical template headings, not stale")
+
+    # HTML-comment placeholder slots (e.g. "<!-- TODO: hero product photo -->")
+    # Design skills teach agents to leave labeled image-placeholder slots as part of the
+    # output workflow; these are intended example markers, not development debt.
+    html_todo_pattern = r'<!--\s*TODO:'
+    html_todo_count = len(re.findall(html_todo_pattern, body))
+    if html_todo_count:
+        intentional.append(f"Found {html_todo_count}x intentional HTML-comment placeholder slot(s) — pedagogical image-placeholder workflow markers, not stale")
+
+    # Remove intentional placeholders before scanning for stale ones
+    body_clean = re.sub(latex_placeholder_pattern, '', body)
+    body_clean = re.sub(latex_todo_pattern, '', body_clean)
+    body_clean = re.sub(todo_title_pattern, '', body_clean)
+    body_clean = re.sub(html_todo_pattern, '', body_clean)
+
     for marker in ["TODO:", "FIXME:", "PLACEHOLDER"]:
-        if marker in body:
-            count = body.count(marker)
+        if marker in body_clean:
+            count = body_clean.count(marker)
             flags.append(f"Found {count}x '{marker}' marker(s)")
-    return flags
+    return {"stale": flags, "intentional": intentional}
 
 
 # ── Main ──────────────────────────────────────────────────────────
@@ -228,7 +271,7 @@ def run_audit():
     all_skill_names = set(all_skills.keys())
 
     report = {
-        "timestamp": __import__("datetime").datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "repo_root": str(REPO_ROOT),
         "skill_count": len(all_skills),
         "issues": {
@@ -239,6 +282,7 @@ def run_audit():
             "missing_body_sections": [],
             "missing_related_skills": [],
             "placeholder_markers": [],
+            "intentional_placeholders": [],
             "missing_category_descriptions": [],
         },
     }
@@ -277,9 +321,11 @@ def run_audit():
             report["issues"]["missing_related_skills"].append(f"{skill_name}: {err}")
 
         # Placeholders
-        placeholder_errors = check_stale_placeholders(skill_name, skill_info)
-        for err in placeholder_errors:
+        placeholder_result = check_stale_placeholders(skill_name, skill_info)
+        for err in placeholder_result["stale"]:
             report["issues"]["placeholder_markers"].append(f"{skill_name}: {err}")
+        for note in placeholder_result["intentional"]:
+            report["issues"]["intentional_placeholders"].append(f"{skill_name}: {note}")
 
     # Check category DESCRIPTION.md files
     cats = find_category_dirs(REPO_ROOT)
@@ -305,7 +351,7 @@ def run_audit():
     script_issues = find_stale_script_refs(all_skills)
     report["summary"]["temps_scripts"] = len(script_issues)
     if len(script_issues) > THRESHOLDS["temps_scripts"]:
-        breaches.append(f"temps_scripts: {len(script_issues)} > {threshold}")
+        breaches.append(f"temps_scripts: {len(script_issues)} > {THRESHOLDS['temps_scripts']}")
     report["issues"]["temps_scripts"] = script_issues
 
     report["threshold_breached"] = len(breaches) > 0

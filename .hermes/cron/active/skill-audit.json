@@ -4,12 +4,34 @@
   "schedule": "0 3 * * 0",
   "schedule_human": "Weekly Sunday at 3:00 AM",
   "workdir": ".",
-  "skills": [
-    "autonomous-ai-agents/cron-job-authoring",
-    "software-development/hermes-agent-skill-authoring",
-    "software-development/verification-culture",
-    "software-development/requesting-code-review"
-  ],
+  "skills": {
+    "loaded": [
+      {
+        "id": "autonomous-ai-agents/cron-job-authoring",
+        "name": "cron-job-authoring",
+        "phase": "pre-audit (no_interaction guardrail construction + delivery discipline)",
+        "rationale": "Governs the autonomy framing for this no_agent audit job: sets the no-interaction guardrails (never prompt for credentials, treat blocked external checks as unverified), establishes delivery discipline (script stdout delivered verbatim — no send_message calls), and surfaces the cron_approval_mode + drift_skip pitfalls. The audit script is pure Python (no LLM), so the guardrail block is trimmed but the approval-mode guidance still applies to any terminal calls the script makes."
+      },
+      {
+        "id": "software-development/hermes-agent-skill-authoring",
+        "name": "hermes-agent-skill-authoring",
+        "phase": "audit checks §1-3 (frontmatter integrity + description length + body sections)",
+        "rationale": "Source of truth for the validator rules that audit-skills.py enforces: frontmatter must start with '---', name/description required, description ≤ 59 chars (the hardline standard this skill documents), body must contain ## What This Skill Does + ## When to Use. Loaded so the audit agent can cross-reference exact validator expectations rather than guessing."
+      },
+      {
+        "id": "software-development/verification-culture",
+        "name": "verification-culture",
+        "phase": "audit checks §3-4 (related_skills resolution + threshold definition)",
+        "rationale": "Documents the single-source-backlog discipline and audit-pass standing rules that audit-skills.py implements: every related_skills entry must resolve to an existing skill name, broken refs = threshold breach, audit passes are standing health checks that gate future work. Also covers the audit's silent-when-clean delivery discipline."
+      },
+      {
+        "id": "software-development/requesting-code-review",
+        "name": "requesting-code-review",
+        "phase": "post-audit (review findings before acting on them)",
+        "rationale": "When the audit finds issues (long descriptions, broken refs, missing body sections), this skill's verification pipeline (security scan → quality gates → independent reviewer subagent) guides how the findings are triaged. The audit report surfaces issues; this skill governs which get auto-fixable treatment vs. which need a fresh-context review before changes land in the repo."
+      }
+    ]
+  },
   "deliver": "origin",
   "continuity": true,
   "model": "qwen/qwen3.6-35b",
