@@ -308,3 +308,15 @@ Goal: make everything easy to find and cheap to use for any agent.
 - README: TOC + Quick Start now lead with the grep-the-index path; Tools table lists gen-skills-index.py.
 
 **Cost discipline:** all new tooling is stdlib-only Python, no build step, no network. Index keeps lookups at O(1) grep cost; DEPENDENCY.md stays for relationship questions only.
+## Second-Brain Formatting & Discoverability Pass (2026-09-05, part 3)
+
+**Added:**
+- `tools/check-links.py` — broken-link gate for the whole repo: verifies every relative markdown link resolves; skips external URLs, pure anchors, fenced code blocks and inline code spans (docs legitimately show syntax examples such as image links with placeholder targets); skips profiles-export/ + memories-export/ because those are historical per-profile snapshots that may predate later fixes (regenerated from live environments, not hand-maintained). Stdlib only. Exit 1 on any broken link — the second half of a pre-commit pair with audit-skills.py.
+- DESCRIPTION.md "Task → Skill Quick Table" — job-to-skill routing for ~18 common tasks (planning, triage, review, debugging, UI building, diagrams, space pipelines, cronjobs...), so an agent can go from intent to skill without reading the index at all.
+
+**Fixed (broken links found by the new gate on first run — 6 unique):**
+- huggingface-trackio/references/retrieving_metrics.md: two dead `docs/source/*.md` refs pointed at upstream Trackio paths that don't exist in this repo AND no longer exist upstream either (verified via GitHub API tree listing + raw fetch, both 404). Replaced with the live published docs URL https://huggingface.co/docs/trackio/index (verified HTTP 200) plus a note explaining why.
+- profile/PROFILE.md: `./NOTES.md` was one level too deep → `../NOTES.md`.
+- media/gif-search/SKILL.md false positive resolved in the checker itself: the "broken" link is an inline-code markdown syntax example, now stripped before checking.
+
+**Gate results:** 446 relative links checked across all non-snapshot .md files — zero broken after fixes; audit still green (145 skills).
