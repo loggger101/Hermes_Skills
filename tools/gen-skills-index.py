@@ -54,7 +54,7 @@ def main():
     lines += [
         "",
         "---",
-        f"*{len(rows)} skills across {len(cats)} categories. Keep in sync when adding/removing/renaming skills (see AGENTS.md).*",
+        f"*{len(rows)} skills across {len(cats)} categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*",
     ]
 
     out = REPO / "SKILLS-INDEX.md"

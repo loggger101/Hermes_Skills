@@ -7,7 +7,6 @@ description: Hermes Agent second brain — 145 skills across 20 categories, memo
 This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **145 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
 
 ## Start here (cheapest → most thorough)
-- **[AGENTS.md](./AGENTS.md)** — how agents should use this repo: lookup order, skill anatomy, hard conventions, maintenance rules. Read this first.
 - **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 145 skills; `grep -i <term>` is the fastest way to find a capability.
 - **[DEPENDENCY.md](./DEPENDENCY.md)** — relationship map: hub skills, standalone skills, full cross-reference validation.
 - **[README.md](./README.md)** — human-facing overview with the full catalog and verification status.
@@ -78,4 +77,4 @@ python tools/gen-skills-index.py && python tools/regen-dependency-map.py
 
 ## Maintenance rules (summary)
 
-Never break the audit; keep `description` ≤59 chars; regenerate DEPENDENCY.md + SKILLS-INDEX.md after frontmatter changes; log significant changes in [NOTES.md](./NOTES.md); commit author for automation is `hermes-cronbot <cronbot@hermes.local>`; never commit credentials. Full detail in [AGENTS.md](./AGENTS.md).
+Never break the audit; keep `description` ≤59 chars; regenerate DEPENDENCY.md + SKILLS-INDEX.md after frontmatter changes; log significant changes in [NOTES.md](./NOTES.md); commit author for automation is `hermes-cronbot <cronbot@hermes.local>`; never commit credentials. The full convention list is enforced by `tools/audit-skills.py` (see its docstring and the Verification section of README.md); history lives in NOTES.md.

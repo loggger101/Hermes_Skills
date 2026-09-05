@@ -36,7 +36,7 @@ skill_view(name='autonomous-repo-cronjob')
 grep -i "delta-v" SKILLS-INDEX.md   # or: nicegui, triage, diagram...
 ```
 
-**New to the repo?** Start with [AGENTS.md](./AGENTS.md) (how agents should use this second brain), then the [Cron Job Authoring](#cron-job-authoring) section for the two-agent automation pattern, or browse the [Dependency Map](./DEPENDENCY.md) for skill relationships.
+**New to the repo?** Start with the [Skill Structure](#skill-structure) and [Verification](#verification) sections below (they define every convention in this second brain), then the [Cron Job Authoring](#cron-job-authoring) section for the two-agent automation pattern, or browse the [Dependency Map](./DEPENDENCY.md) for skill relationships.
 
 ## Overview
 

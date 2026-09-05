@@ -209,4 +209,4 @@ Format: `- \`skill-name\` — description _(category)_`. Regenerate with `python
 - `wayfinder-map-planning` — Plan multi-session work as a map of decision tickets _(software-development)_
 
 ---
-*145 skills across 20 categories. Keep in sync when adding/removing/renaming skills (see AGENTS.md).*
+*145 skills across 20 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
