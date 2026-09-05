@@ -293,3 +293,18 @@ knowledge was internalized as skills and is now synced into this repo so any age
 **Audit fix:** `check_stale_placeholders` now classifies HTML-comment placeholder slots (`<!-- TODO: ... -->`) as intentional — design skills (design-taste-frontend) teach agents to leave labeled image-placeholder slots; these are workflow examples, not development debt. Audit result after all changes: 145 skills, threshold_breached=False, zero issues in every category.
 
 **Also:** removed stale artifact `README-DESKTOP-PJS73RO.md` (duplicate of README at an older count); repaired a corrupted git index where 9 tracked files had empty blobs staged as deletions while identical content sat on disk (`git reset` — verified byte-identical to HEAD before and after).
+## Second-Brain Formatting & Discoverability Pass (2026-09-05, part 2)
+
+Goal: make everything easy to find and cheap to use for any agent.
+
+**Added:**
+- `SKILLS-INDEX.md` — flat one-line-per-skill index of all 145 skills (`name | description _(category)_`). The cheapest lookup path in the repo: a single grep instead of parsing frontmatter. Grouped by category, sorted within each.
+- `tools/gen-skills-index.py` — stdlib-only regenerator for SKILLS-INDEX.md (no PyYAML dependency; regex extraction is sufficient for an index). Run after any skill add/remove/rename.
+- `profile/DESCRIPTION.md` — documents what the profile snapshot dir is and that it's read-only reference (canonical memories live in top-level `memories/`).
+
+**Fixed:**
+- README category table: malformed separator row (`||----|`) broke markdown table rendering; now single-pipe form.
+- Root `DESCRIPTION.md`: was stale ("127 skills") with no navigation pointers; rewritten current (145/20) with a "Start here" lookup ladder (AGENTS.md → SKILLS-INDEX → DEPENDENCY → README).
+- README: TOC + Quick Start now lead with the grep-the-index path; Tools table lists gen-skills-index.py.
+
+**Cost discipline:** all new tooling is stdlib-only Python, no build step, no network. Index keeps lookups at O(1) grep cost; DEPENDENCY.md stays for relationship questions only.
