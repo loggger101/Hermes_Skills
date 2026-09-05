@@ -246,6 +246,5 @@ All errors exit with non-zero status code and write to stderr.
 
 ## References
 
-- **Complete CLI documentation**: See [docs/source/cli_commands.md](docs/source/cli_commands.md)
-- **API and MCP Server**: See [docs/source/api_mcp_server.md](docs/source/api_mcp_server.md)
+- **Complete Trackio documentation**: https://huggingface.co/docs/trackio/index (CLI, API, MCP server — the upstream `docs/source/*.md` paths referenced here predate the published docs site and no longer exist in-repo)
 
