@@ -5,6 +5,7 @@ A comprehensive collection of **128 Hermes Agent skills** compiled from all avai
 ## Table of Contents
 
 - [Overview](#overview)
+- [Skills Index (flat, grep-friendly)](./SKILLS-INDEX.md)
 - [Quick Start](#quick-start)
 - [Skill Structure](#skill-structure)
 - [Pre-existing vs Imported Skills](#pre-existing-vs-imported-skills)
@@ -29,7 +30,13 @@ hermes skill load software-development/mattpocock-using-git-worktrees
 skill_view(name='autonomous-repo-cronjob')
 ```
 
-**New to the repo?** Start with the [Cron Job Authoring](#cron-job-authoring) section for the two-agent automation pattern, or browse the [Dependency Map](./DEPENDENCY.md) for skill relationships.
+**Looking for a specific capability?** Grep the flat index first — it's one line per skill and costs nothing:
+
+```bash
+grep -i "delta-v" SKILLS-INDEX.md   # or: nicegui, triage, diagram...
+```
+
+**New to the repo?** Start with [AGENTS.md](./AGENTS.md) (how agents should use this second brain), then the [Cron Job Authoring](#cron-job-authoring) section for the two-agent automation pattern, or browse the [Dependency Map](./DEPENDENCY.md) for skill relationships.
 
 ## Overview
 
@@ -49,7 +56,7 @@ When a skill existed in multiple profiles, the version from the highest-priority
 ### Categories
 
 | Category | Description | Skill Count |
-||----------|-------------|-------------|
+|----------|-------------|-------------|
 | [apple/](./apple/) | Apple platform integrations | 4 |
 | [autonomous-ai-agents/](./autonomous-ai-agents/) | Multi-agent orchestration and delegation | 10 |
 | [creative/](./creative/) | Creative content generation and design | 23 |
@@ -381,6 +388,8 @@ This repository includes Python scripts in the `tools/` directory that automate 
 | [`audit-skills.py`](./tools/audit-skills.py) | Validates all 128 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | Weekly Sunday 3 AM via `skill-audit.json` |
 | [`sync-hermes-skills.py`](./tools/sync-hermes-skills.py) | Bidirectional sync between GitHub repo and local Hermes env: git pull, skill/memories/profiles sync, DEPENDENCY.md regeneration, audit, git push | Weekly Sunday 2 AM via `sync-hermes-skills.json` |
 
+
+| [`gen-skills-index.py`](./tools/gen-skills-index.py) | Rebuilds SKILLS-INDEX.md (flat one-line-per-skill index, the cheapest lookup path in the repo); stdlib-only | After adding/removing/renaming skills |
 | [`regen-dependency-map.py`](./tools/regen-dependency-map.py) | Standalone DEPENDENCY.md regenerator (same format as the sync script's built-in map): scans all SKILL.md frontmatter, rebuilds hub/standalone tables and xref validation line | Manual / after bulk skill additions |
 | [`validate-skill-refs.py`](./.hermes/cron/validate-skill-refs.py) | Validates all skill references in cronjob JSON configs resolve to existing in-repo skill directories | Pre-flight check before scheduling any cronjob |
 | [`validate-cronjobs.py`](./.hermes/cron/validate-cronjobs.py) | Comprehensive cronjob JSON validation: structural schema, skill ref resolution, threshold key alignment, no_agent consistency, enabled_toolsets correctness | Run before committing any cronjob config change |
