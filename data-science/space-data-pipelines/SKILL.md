@@ -55,6 +55,14 @@ Returns ~600K asteroids, each with: `profit`, delta-v fields, spectral type (`sp
 - `on: schedule` cron staggered across a UTC window + `workflow_dispatch` for manual runs.
 - After upload, commit+push only the status file with a retry loop (`git pull --rebase`, up to 3 attempts) so concurrent dataset workflows don't clobber each other's status commits.
 
+## Brahe astrodynamics conventions (verified from duncaneddy/brahe AGENTS.md)
+When writing code that will interoperate with brahe (or any SI-first astrodynamics lib):
+- **SI base units in all public APIs: meters, m/s, seconds — never km.** Convert at the boundary.
+- Orbital elements order: `[a, e, i, raan, argp, mean_anomaly]` — degrees by default (radians only with an explicit angle-format flag).
+- Geodetic point order: `(longitude, latitude, altitude)` in degrees.
+- Fully capitalize acronyms in names (`EOP`, `TLE`, `ECI`, `LLA`, `RAAN`, `ARGP`).
+- Prefer library constants over magic numbers (e.g. `R_EARTH + 500e3` for a 500 km orbit).
+
 ## Checklist before shipping a new pipeline
 1. Script passes `python -m py_compile` (no test suite needed — validation lives in-step).
 2. `check_dataset()` runs and PASSES on real fetched data, not just shape.
