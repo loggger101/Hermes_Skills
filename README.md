@@ -40,7 +40,7 @@ grep -i "delta-v" SKILLS-INDEX.md   # or: nicegui, triage, diagram...
 
 ## Overview
 
-This repository serves as a centralized database of all **145 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (356 cross-references mapped across 145 skills, 6 standalone). See [NOTES.md](./NOTES.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
+This repository serves as a centralized database of all **162 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (356 cross-references mapped across 162 skills, 6 standalone). See [NOTES.md](./NOTES.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
 
 ### Source Profiles
 
@@ -78,199 +78,245 @@ When a skill existed in multiple profiles, the version from the highest-priority
 | [social-media/](./social-media/) | Social media content | 1 |
 | [software-development/](./software-development/) | Development tools and workflows | 33 |
 
-**Total: 145 skills across 20 categories**
-**Total: 128 skills across 20 categories**
+**Total: 162 skills across 23 categories**
 
 ### Skill Catalog
 
 ### Skill Catalog
 
-All 145 skills organized by category:
+All 162 skills organized by category:
+
 
 #### Apple
-- [`apple-notes`](./apple/apple-notes) — Manage Apple Notes via memo CLI: create, search, edit.
-- [`apple-reminders`](./apple/apple-reminders) — Apple Reminders via remindctl: add, list, complete.
-- [`findmy`](./apple/findmy) — Track Apple devices/AirTags via FindMy.app on macOS.
-- [`imessage`](./apple/imessage) — Send and receive iMessages/SMS via the imsg CLI on macOS.
+
+- [`apple-notes`](./apple\apple-notes) — Manage Apple Notes via memo CLI: create, search, edit..
+- [`apple-reminders`](./apple\apple-reminders) — Apple Reminders via remindctl: add, list, complete..
+- [`findmy`](./apple\findmy) — Track Apple devices/AirTags via FindMy.app on macOS..
+- [`imessage`](./apple\imessage) — Send and receive iMessages/SMS via the imsg CLI on macOS..
 
 #### Autonomous Ai Agents
-- [`autonomous-repo-cronjob`](./autonomous-ai-agents/autonomous-repo-cronjob) — Write self-contained cronjob prompts for existing repos.
-- [`claude-code`](./autonomous-ai-agents/claude-code) — Delegate coding to Claude Code CLI (features, PRs).
-- [`codex`](./autonomous-ai-agents/codex) — Delegate coding to OpenAI Codex CLI (features, PRs).
-- [`computer-use`](./autonomous-ai-agents/computer-use) — Drive the desktop in the background without stealing focus.
-- [`cron-config-authoring`](./autonomous-ai-agents/cron-config-authoring) — Author cronjob JSON configs with structured skills.
-- [`cron-job-authoring`](./autonomous-ai-agents/cron-job-authoring) — Author autonomous cron prompts with guardrails.
-- [`hermes-agent`](./autonomous-ai-agents/hermes-agent) — Use, configure, theme, extend, orchestrate Hermes Agent.
-- [`mattpocock-resolving-merge-conflicts`](./autonomous-ai-agents/mattpocock-resolving-merge-conflicts) — Resolve git merge conflicts by tracing each side's intent.
-- [`merge-reconciler`](./autonomous-ai-agents/merge-reconciler) — Neutral third-party resolution of agent merge conflicts.
-- [`opencode`](./autonomous-ai-agents/opencode) — Delegate coding to OpenCode CLI (features, PR review).
+
+- [`autonomous-repo-cronjob`](./autonomous-ai-agents\autonomous-repo-cronjob) — Write self-contained cronjob prompts for existing repos..
+- [`claude-code`](./autonomous-ai-agents\claude-code) — Delegate coding to Claude Code CLI (features, PRs)..
+- [`codex`](./autonomous-ai-agents\codex) — Delegate coding to OpenAI Codex CLI (features, PRs)..
+- [`computer-use`](./autonomous-ai-agents\computer-use) — Drive the desktop in the background without stealing focus..
+- [`cron-config-authoring`](./autonomous-ai-agents\cron-config-authoring) — Author cronjob JSON configs with structured skills..
+- [`cron-job-authoring`](./autonomous-ai-agents\cron-job-authoring) — Author autonomous cron prompts with guardrails..
+- [`hermes-agent`](./autonomous-ai-agents\hermes-agent) — Use, configure, theme, extend, orchestrate Hermes Agent.
+- [`mattpocock-resolving-merge-conflicts`](./autonomous-ai-agents\mattpocock-resolving-merge-conflicts) — Resolve git merge conflicts by tracing each side's intent..
+- [`merge-reconciler`](./autonomous-ai-agents\merge-reconciler) — Neutral third-party resolution of agent merge conflicts..
+- [`opencode`](./autonomous-ai-agents\opencode) — Delegate coding to OpenCode CLI (features, PR review)..
+
+#### Communication
+
+- [`one-three-one-rule`](./communication\one-three-one-rule) — 1-3-1 decision briefs: problem, three options, one pick..
 
 #### Creative
-- [`architecture-diagram`](./creative/architecture-diagram) — Dark-themed SVG architecture/cloud/infra diagrams as HTML.
-- [`ascii-art`](./creative/ascii-art) — ASCII art: pyfiglet, cowsay, boxes, image-to-ascii.
-- [`ascii-video`](./creative/ascii-video) — ASCII video: convert video/audio to colored ASCII MP4/GIF.
-- [`baoyu-infographic`](./creative/baoyu-infographic) — Infographics: 21 layouts x 21 styles (信息图, 可视化).
-- [`claude-design`](./creative/claude-design) — Design one-off HTML artifacts (landing, deck, prototype).
-- [`comfyui`](./creative/comfyui) — Generate images, video, and audio via diffusion workflows.
-- [`design-md`](./creative/design-md) — Author/validate/export Google's DESIGN.md token spec files.
-- [`design-taste-frontend`](./creative/design-taste-frontend) — Anti-slop frontend skill: brief-inferred design direction.
-- [`diagram-design`](./creative/diagram-design) — Create 39 diagram types as standalone HTML/SVG/PNG files.
-- [`excalidraw`](./creative/excalidraw) — Hand-drawn Excalidraw JSON diagrams (arch, flow, seq).
-- [`full-output-enforcement`](./creative/full-output-enforcement) — Enforce complete output; ban placeholder patterns.
-- [`humanizer`](./creative/humanizer) — Humanize text: strip AI-isms and add real voice.
-- [`manim-video`](./creative/manim-video) — Manim CE animations: 3Blue1Brown math/algo videos.
-- [`mattpocock-prototype`](./creative/mattpocock-prototype) — Build a throwaway prototype to answer a design question.
-- [`p5js`](./creative/p5js) — p5.js sketches: gen art, shaders, interactive, 3D.
-- [`popular-web-designs`](./creative/popular-web-designs) — 54 real design systems as HTML/CSS.
-- [`pretext`](./creative/pretext) — Build creative browser demos with DOM-free text layout.
-- [`pygame`](./creative/pygame) — Use when building or testing pygame/SDL games.
-- [`redesign-existing-projects`](./creative/redesign-existing-projects) — Audit-first redesign of existing sites to premium quality.
-- [`sketch`](./creative/sketch) — Throwaway HTML mockups: 2-3 design variants to compare.
-- [`songwriting-and-ai-music`](./creative/songwriting-and-ai-music) — Songwriting craft and Suno AI music prompts.
-- [`static-site-seo`](./creative/static-site-seo) — Static site SEO: JSON-LD, meta tags, analytics, CSP.
-- [`touchdesigner-mcp`](./creative/touchdesigner-mcp) — Control TouchDesigner via twozero MCP.
+
+- [`architecture-diagram`](./creative\architecture-diagram) — Dark-themed SVG architecture/cloud/infra diagrams as HTML..
+- [`ascii-art`](./creative\ascii-art) — ASCII art: pyfiglet, cowsay, boxes, image-to-ascii..
+- [`ascii-video`](./creative\ascii-video) — ASCII video: convert video/audio to colored ASCII MP4/GIF..
+- [`baoyu-infographic`](./creative\baoyu-infographic) — Infographics: 21 layouts x 21 styles (信息图, 可视化)..
+- [`claude-design`](./creative\claude-design) — Design one-off HTML artifacts (landing, deck, prototype)..
+- [`comfyui`](./creative\comfyui) — Generate images, video, and audio via diffusion workflows..
+- [`design-md`](./creative\design-md) — Author/validate/export Google's DESIGN.md token spec files..
+- [`design-taste-frontend`](./creative\design-taste-frontend) — Anti-slop frontend skill: brief-inferred design direction..
+- [`diagram-design`](./creative\diagram-design) — Create 39 diagram types as standalone HTML/SVG/PNG files..
+- [`excalidraw`](./creative\excalidraw) — Hand-drawn Excalidraw JSON diagrams (arch, flow, seq)..
+- [`full-output-enforcement`](./creative\full-output-enforcement) — Enforce complete output; ban placeholder patterns..
+- [`humanizer`](./creative\humanizer) — Humanize text: strip AI-isms and add real voice..
+- [`manim-video`](./creative\manim-video) — Manim CE animations: 3Blue1Brown math/algo videos..
+- [`mattpocock-prototype`](./creative\mattpocock-prototype) — Build a throwaway prototype to answer a design question..
+- [`p5js`](./creative\p5js) — p5.js sketches: gen art, shaders, interactive, 3D..
+- [`popular-web-designs`](./creative\popular-web-designs) — 54 real design systems as HTML/CSS..
+- [`pretext`](./creative\pretext) — Build creative browser demos with DOM-free text layout..
+- [`pygame`](./creative\pygame) — Use when building or testing pygame/SDL games..
+- [`redesign-existing-projects`](./creative\redesign-existing-projects) — Audit-first redesign of existing sites to premium quality..
+- [`sketch`](./creative\sketch) — Throwaway HTML mockups: 2-3 design variants to compare..
+- [`songwriting-and-ai-music`](./creative\songwriting-and-ai-music) — Songwriting craft and Suno AI music prompts..
+- [`static-site-seo`](./creative\static-site-seo) — Static site SEO: JSON-LD, meta tags, analytics, CSP..
+- [`touchdesigner-mcp`](./creative\touchdesigner-mcp) — Control TouchDesigner via twozero MCP..
 
 #### Data Science
-- [`astro-toolkit-selection`](./data-science/astro-toolkit-selection) — Choose astrodynamics tools: brahe, nyx, OpenSCvx, skyfield.
-- [`bit-identity-float-pipelines`](./data-science/bit-identity-float-pipelines) — Verify correctness via exact float hashes / bit-identity.
-- [`build-systems-data`](./data-science/build-systems-data) — Data build systems: orchestration, versioning, CSV at scale.
-- [`economicspace-pipeline`](./data-science/economicspace-pipeline) — Use on economicspace (asteroid-mining pipeline).
-- [`evolutionary-ml`](./data-science/evolutionary-ml) — Evolutionary ML: GA, NEAT, tournaments, parallel eval.
-- [`model-export-deploy`](./data-science/model-export-deploy) — Model export: ONNX, TorchScript, HDF5, NumPy, JSON.
-- [`orbital-mechanics-data`](./data-science/orbital-mechanics-data) — Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC.
-- [`python-data-science`](./data-science/python-data-science) — Python DS: EDA, cleaning, modeling, eval, viz.
-- [`space-data-pipelines`](./data-science/space-data-pipelines) — Build space/astro data pipelines with verified API gotchas.
-- [`space-mission-computation-paradigms`](./data-science/space-mission-computation-paradigms) — Choose trajectory method: closed-form vs propagation etc.
-- [`sql-for-data`](./data-science/sql-for-data) — SQL for data: queries, joins, windows, aggregation.
+
+- [`astro-toolkit-selection`](./data-science\astro-toolkit-selection) — Choose astrodynamics tools: brahe, nyx, OpenSCvx, skyfield..
+- [`bit-identity-float-pipelines`](./data-science\bit-identity-float-pipelines) — Verify correctness via exact float hashes / bit-identity..
+- [`build-systems-data`](./data-science\build-systems-data) — Data build systems: orchestration, versioning, CSV at scale.
+- [`duckdb-querying`](./data-science\duckdb-querying) — Query CSV/Parquet/S3 data ad-hoc via DuckDB Friendly SQL..
+- [`economicspace-pipeline`](./data-science\economicspace-pipeline) — Use on economicspace (asteroid-mining pipeline)..
+- [`evolutionary-ml`](./data-science\evolutionary-ml) — Evolutionary ML: GA, NEAT, tournaments, parallel eval..
+- [`jupyter-notebook`](./data-science\jupyter-notebook) — Iterative Python via live Jupyter kernel (hamelnb)..
+- [`model-export-deploy`](./data-science\model-export-deploy) — Model export: ONNX, TorchScript, HDF5, NumPy, JSON..
+- [`orbital-mechanics-data`](./data-science\orbital-mechanics-data) — Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC.
+- [`python-data-science`](./data-science\python-data-science) — Python DS: EDA, cleaning, modeling, eval, viz..
+- [`space-data-pipelines`](./data-science\space-data-pipelines) — Build space/astro data pipelines with verified API gotchas..
+- [`space-mission-computation-paradigms`](./data-science\space-mission-computation-paradigms) — Choose trajectory method: closed-form vs propagation etc..
+- [`sql-for-data`](./data-science\sql-for-data) — SQL for data: queries, joins, windows, aggregation..
 
 #### Devops
-- [`docker-containers`](./devops/docker-containers) — Build and debug Docker containers and Compose stacks.
-- [`rest-api-client`](./devops/rest-api-client) — Call REST APIs: auth, pagination, rate limits, errors.
-- [`sdlc-review`](./devops/sdlc-review) — Review Kanban handoffs and route verified outcomes.
-- [`sqlite-queries`](./devops/sqlite-queries) — Query, inspect, and export SQLite databases.
-- [`ssh-remote`](./devops/ssh-remote) — Commands and file transfer on remote machines over SSH.
+
+- [`docker-containers`](./devops\docker-containers) — Build and debug Docker containers and Compose stacks..
+- [`rest-api-client`](./devops\rest-api-client) — Call REST APIs: auth, pagination, rate limits, errors..
+- [`sdlc-review`](./devops\sdlc-review) — Review Kanban handoffs and route verified outcomes..
+- [`sqlite-queries`](./devops\sqlite-queries) — Query, inspect, and export SQLite databases..
+- [`ssh-remote`](./devops\ssh-remote) — Commands and file transfer on remote machines over SSH.
+- [`watchers`](./devops\watchers) — Poll RSS, JSON APIs, and GitHub with watermark dedup..
 
 #### Doc Coauthoring
-- [`doc-coauthoring`](./doc-coauthoring) — Guide structured documentation co-authoring workflows.
+
+- [`doc-coauthoring`](./doc-coauthoring) — Guide structured documentation co-authoring workflows..
 
 #### Dogfood
-- [`adversarial-ux-test`](./dogfood/adversarial-ux-test) — Roleplay a hostile user to find and triage UX pain points.
+
+- [`adversarial-ux-test`](./dogfood\adversarial-ux-test) — Roleplay a hostile user to find and triage UX pain points..
 
 #### Email
-- [`email-inbox-triage`](./email/email-inbox-triage) — Triage an inbox: prioritize threads, draft replies safely.
-- [`himalaya`](./email/himalaya) — Himalaya CLI: IMAP/SMTP email from terminal.
+
+- [`email-inbox-triage`](./email\email-inbox-triage) — Triage an inbox: prioritize threads, draft replies safely..
+- [`himalaya`](./email\himalaya) — Himalaya CLI: IMAP/SMTP email from terminal..
 
 #### Frontend Design
-- [`frontend-design`](./frontend-design) — Distinctive visual design for AI-generated UI.
-- [`nicegui-app-builder`](./frontend-design/nicegui-app-builder) — Build Python reactive web/desktop apps with NiceGUI.
+
+- [`nicegui-app-builder`](./frontend-design\nicegui-app-builder) — Build Python reactive web/desktop apps with NiceGUI..
+- [`frontend-design`](./frontend-design) — Distinctive visual design for AI-generated UI..
 
 #### Github
-- [`codebase-inspection`](./github/codebase-inspection) — Inspect codebases w/ pygount: LOC, languages, ratios.
-- [`github-auth`](./github/github-auth) — GitHub auth setup: HTTPS tokens, SSH keys, gh CLI login.
-- [`github-code-review`](./github/github-code-review) — Review PRs: diffs, inline comments via gh or REST.
-- [`github-issue-to-pr`](./github/github-issue-to-pr) — Carry a GitHub issue to a verified PR with honest CI state.
-- [`github-issues`](./github/github-issues) — Create, triage, label, assign GitHub issues via gh or REST.
-- [`github-pr-workflow`](./github/github-pr-workflow) — GitHub PR lifecycle: branch, commit, open, CI, merge.
-- [`github-repo-management`](./github/github-repo-management) — Clone/create/fork repos; manage remotes, releases.
-- [`issue-triage-state-machine`](./github/issue-triage-state-machine) — Triage issues/PRs: categorise, verify, grill, agent briefs.
-- [`mattpocock-code-review`](./github/mattpocock-code-review) — Two-axis code review: Standards and Spec via sub-agents.
-- [`mattpocock-finishing-a-development-branch`](./github/mattpocock-finishing-a-development-branch) — Complete git branches with merge or PR options.
-- [`mattpocock-gh-fix-ci`](./github/mattpocock-gh-fix-ci) — Debug failing GitHub Actions checks on a PR.
-- [`mattpocock-yeet`](./github/mattpocock-yeet) — Git workflow: stage, commit, push, open PR.
+
+- [`codebase-inspection`](./github\codebase-inspection) — Inspect codebases w/ pygount: LOC, languages, ratios..
+- [`github-auth`](./github\github-auth) — GitHub auth setup: HTTPS tokens, SSH keys, gh CLI login..
+- [`github-code-review`](./github\github-code-review) — Review PRs: diffs, inline comments via gh or REST..
+- [`github-issue-to-pr`](./github\github-issue-to-pr) — Carry a GitHub issue to a verified PR with honest CI state..
+- [`github-issues`](./github\github-issues) — Create, triage, label, assign GitHub issues via gh or REST..
+- [`github-pr-workflow`](./github\github-pr-workflow) — GitHub PR lifecycle: branch, commit, open, CI, merge..
+- [`github-repo-management`](./github\github-repo-management) — Clone/create/fork repos; manage remotes, releases..
+- [`issue-triage-state-machine`](./github\issue-triage-state-machine) — Triage issues/PRs: categorise, verify, grill, agent briefs..
+- [`mattpocock-code-review`](./github\mattpocock-code-review) — Two-axis code review: Standards and Spec via sub-agents..
+- [`mattpocock-finishing-a-development-branch`](./github\mattpocock-finishing-a-development-branch) — Complete git branches with merge or PR options..
+- [`mattpocock-gh-fix-ci`](./github\mattpocock-gh-fix-ci) — Debug failing GitHub Actions checks on a PR..
+- [`mattpocock-yeet`](./github\mattpocock-yeet) — Git workflow: stage, commit, push, open PR..
 
 #### Huggingface Trackio
-- [`huggingface-trackio`](./huggingface-trackio) — Log and retrieve ML training experiments with Trackio.
+
+- [`huggingface-trackio`](./huggingface-trackio) — Log and retrieve ML training experiments with Trackio..
+
+#### Mcp
+
+- [`fastmcp`](./mcp\fastmcp) — Build, test, and deploy Python MCP servers..
 
 #### Media
-- [`gif-search`](./media/gif-search) — Search/download GIFs from Tenor via curl + jq.
-- [`songsee`](./media/songsee) — Audio spectrograms and feature extraction via CLI.
-- [`youtube-content`](./media/youtube-content) — YouTube transcripts to summaries, threads, blogs.
+
+- [`gif-search`](./media\gif-search) — Search/download GIFs from Tenor via curl + jq..
+- [`songsee`](./media\songsee) — Audio spectrograms and feature extraction via CLI..
+- [`youtube-content`](./media\youtube-content) — YouTube transcripts to summaries, threads, blogs..
 
 #### Mlops
-- [`evaluating-llms-harness`](./mlops/evaluation/evaluating-llms-harness) — lm-eval-harness: benchmark LLMs (MMLU, GSM8K, etc.).
-- [`huggingface-hub`](./mlops/huggingface-hub) — HuggingFace hf CLI: search/download/upload models.
-- [`llama-cpp`](./mlops/inference/llama-cpp) — llama.cpp local GGUF inference + HF Hub model discovery.
-- [`serving-llms-vllm`](./mlops/inference/serving-llms-vllm) — vLLM: LLM serving, OpenAI API, quantization.
-- [`weights-and-biases`](./mlops/evaluation/weights-and-biases) — W&B: log ML experiments, sweeps, registry, dashboards.
+
+- [`evaluating-llms-harness`](./mlops\evaluation\evaluating-llms-harness) — lm-eval-harness: benchmark LLMs (MMLU, GSM8K, etc.)..
+- [`weights-and-biases`](./mlops\evaluation\weights-and-biases) — W&B: log ML experiments, sweeps, registry, dashboards.
+- [`huggingface-hub`](./mlops\huggingface-hub) — HuggingFace hf CLI: search/download/upload models.
+- [`llama-cpp`](./mlops\inference\llama-cpp) — llama.cpp local GGUF inference + HF Hub model discovery..
+- [`serving-llms-vllm`](./mlops\inference\serving-llms-vllm) — vLLM: LLM serving, OpenAI API, quantization.
 
 #### Note Taking
-- [`obsidian`](./note-taking/obsidian) — Read, search, create, and edit notes in the Obsidian vault.
+
+- [`obsidian`](./note-taking\obsidian) — Read, search, create, and edit notes in the Obsidian vault..
 
 #### Productivity
-- [`airtable`](./productivity/airtable) — Airtable REST API via curl. Records CRUD, filters, upserts.
-- [`box`](./productivity/box) — Box manages cloud files, sharing, search, and metadata.
-- [`document-to-action-items`](./productivity/document-to-action-items) — Extract cited obligations, deadlines, tasks from documents.
-- [`docx`](./productivity/docx) — Create, read, edit, template, and review Word .docx files.
-- [`google-workspace`](./productivity/google-workspace) — Gmail, Calendar, Drive, Docs, Sheets via gws CLI or Python.
-- [`maps`](./productivity/maps) — Geocode, POIs, routes, timezones via OpenStreetMap/OSRM.
-- [`mattpocock-handoff`](./productivity/mattpocock-handoff) — Compact conversation into a handoff doc for another agent.
-- [`meeting-action-items`](./productivity/meeting-action-items) — Turn meeting notes into cited decisions, owners, tickets.
-- [`nano-pdf`](./productivity/nano-pdf) — Edit text in existing PDFs via natural-language prompts.
-- [`notion`](./productivity/notion) — Notion API + ntn CLI: pages, databases, markdown, Workers.
-- [`ocr-and-documents`](./productivity/ocr-and-documents) — Extract text from PDFs/scans (pymupdf, marker-pdf).
-- [`pdf`](./productivity/pdf) — Create, read, merge, fill, and secure PDF files.
-- [`powerpoint`](./productivity/powerpoint) — Create, read, edit .pptx decks with python-pptx.
-- [`product-price-monitor`](./productivity/product-price-monitor) — Watch product, flight, or listing prices; alert on target.
-- [`session-librarian`](./productivity/session-librarian) — Organize sessions by prompt: find, rename, archive, prune.
-- [`teams-meeting-pipeline`](./productivity/teams-meeting-pipeline) — Teams meeting summaries, job replay, Graph subscriptions.
-- [`website-audit`](./productivity/website-audit) — Audit websites/codebases into .docx reports; read-only.
-- [`weekly-review-planning`](./productivity/weekly-review-planning) — Weekly reset: commitments, stalled work, next-week plan.
-- [`xlsx`](./productivity/xlsx) — Create, read, edit Excel .xlsx workbooks and CSVs.
+
+- [`airtable`](./productivity\airtable) — Airtable REST API via curl. Records CRUD, filters, upserts..
+- [`box`](./productivity\box) — Box manages cloud files, sharing, search, and metadata..
+- [`decision-questionnaire`](./productivity\decision-questionnaire) — Turn an unanswerable decision into a questionnaire doc..
+- [`document-to-action-items`](./productivity\document-to-action-items) — Extract cited obligations, deadlines, tasks from documents..
+- [`docx`](./productivity\docx) — Create, read, edit, template, and review Word .docx files..
+- [`google-workspace`](./productivity\google-workspace) — Gmail, Calendar, Drive, Docs, Sheets via gws CLI or Python..
+- [`maps`](./productivity\maps) — Geocode, POIs, routes, timezones via OpenStreetMap/OSRM..
+- [`mattpocock-handoff`](./productivity\mattpocock-handoff) — Compact conversation into a handoff doc for another agent.
+- [`meeting-action-items`](./productivity\meeting-action-items) — Turn meeting notes into cited decisions, owners, tickets..
+- [`nano-pdf`](./productivity\nano-pdf) — Edit text in existing PDFs via natural-language prompts..
+- [`notion`](./productivity\notion) — Notion API + ntn CLI: pages, databases, markdown, Workers..
+- [`ocr-and-documents`](./productivity\ocr-and-documents) — Extract text from PDFs/scans (pymupdf, marker-pdf)..
+- [`pdf`](./productivity\pdf) — Create, read, merge, fill, and secure PDF files..
+- [`powerpoint`](./productivity\powerpoint) — Create, read, edit .pptx decks with python-pptx..
+- [`product-price-monitor`](./productivity\product-price-monitor) — Watch product, flight, or listing prices; alert on target..
+- [`session-librarian`](./productivity\session-librarian) — Organize sessions by prompt: find, rename, archive, prune..
+- [`teams-meeting-pipeline`](./productivity\teams-meeting-pipeline) — Teams meeting summaries, job replay, Graph subscriptions..
+- [`website-audit`](./productivity\website-audit) — Audit websites/codebases into .docx reports; read-only..
+- [`weekly-review-planning`](./productivity\weekly-review-planning) — Weekly reset: commitments, stalled work, next-week plan..
+- [`xlsx`](./productivity\xlsx) — Create, read, edit Excel .xlsx workbooks and CSVs..
 
 #### Research
-- [`arxiv`](./research/arxiv) — Search arXiv papers by keyword, author, category, or ID.
-- [`blocked-page-recovery`](./research/blocked-page-recovery) — Recover blocked/paywalled/WAF'd pages via fallbacks.
-- [`blogwatcher`](./research/blogwatcher) — Monitor blogs and RSS/Atom feeds via blogwatcher-cli tool.
-- [`competitor-news-monitor`](./research/competitor-news-monitor) — Watch named companies for material news; cited digests.
-- [`grounded-citations`](./research/grounded-citations) — Ground answers and documents in cited, verifiable sources.
-- [`llm-wiki`](./research/llm-wiki) — Karpathy's LLM Wiki: build/query interlinked markdown KB.
-- [`mattpocock-research`](./research/mattpocock-research) — Research a question against primary sources.
-- [`parallel-cli`](./research/parallel-cli) — Agent-native web search, deep research, and enrichment.
-- [`research-paper-writing`](./research/research-paper-writing) — Write ML papers for NeurIPS/ICML/ICLR: design→submit.
+
+- [`arxiv`](./research\arxiv) — Search arXiv papers by keyword, author, category, or ID..
+- [`blocked-page-recovery`](./research\blocked-page-recovery) — Recover blocked/paywalled/WAF'd pages via fallbacks..
+- [`blogwatcher`](./research\blogwatcher) — Monitor blogs and RSS/Atom feeds via blogwatcher-cli tool..
+- [`competitor-news-monitor`](./research\competitor-news-monitor) — Watch named companies for material news; cited digests..
+- [`grounded-citations`](./research\grounded-citations) — Ground answers and documents in cited, verifiable sources..
+- [`llm-wiki`](./research\llm-wiki) — Karpathy's LLM Wiki: build/query interlinked markdown KB..
+- [`mattpocock-research`](./research\mattpocock-research) — Research a question against primary sources..
+- [`parallel-cli`](./research\parallel-cli) — Agent-native web search, deep research, and enrichment..
+- [`qmd`](./research\qmd) — Hybrid local search over notes, docs, and transcripts..
+- [`research-paper-writing`](./research\research-paper-writing) — Write ML papers for NeurIPS/ICML/ICLR: design→submit..
+- [`scrapling`](./research\scrapling) — Scrape sites with stealth browsing and Cloudflare bypass..
 
 #### Security
-- [`mattpocock-security-review`](./security/mattpocock-security-review) — Review code for security vulnerabilities by language.
+
+- [`mattpocock-security-review`](./security\mattpocock-security-review) — Review code for security vulnerabilities by language..
+- [`oss-forensics`](./security\oss-forensics) — GitHub supply-chain forensics: recovery, IOCs, reporting..
+- [`semgrep-rule-creator`](./security\semgrep-rule-creator) — Create tested Semgrep rules with taint-mode support..
 
 #### Smart Home
-- [`openhue`](./smart-home/openhue) — Control Philips Hue lights, scenes, rooms via OpenHue CLI.
+
+- [`openhue`](./smart-home\openhue) — Control Philips Hue lights, scenes, rooms via OpenHue CLI..
 
 #### Social Media
-- [`xurl`](./social-media/xurl) — X/Twitter via xurl CLI: post search, posting, DM, media.
+
+- [`xurl`](./social-media\xurl) — X/Twitter via xurl CLI: post search, posting, DM, media.
 
 #### Software Development
-- [`cli-tool-craft`](./software-development/cli-tool-craft) — CLI tools: subcommands, config validation, env substitution.
-- [`conversation-to-spec`](./software-development/conversation-to-spec) — Turn a conversation into a publishable spec.
-- [`dogfood`](./software-development/dogfood) — Exploratory QA of web apps: find bugs, evidence, reports.
-- [`github`](./software-development/github) — GitHub via gh CLI: PRs, issues, reviews, repos, auth.
-- [`grilling-interview`](./software-development/grilling-interview) — Stress-test a plan by interviewing in design-tree rounds.
-- [`hermes-agent-skill-authoring`](./software-development/hermes-agent-skill-authoring) — Author in-repo SKILL.md files: frontmatter and structure.
-- [`inspecting-hermes-desktop-dom`](./software-development/inspecting-hermes-desktop-dom) — Read the live Hermes desktop DOM/CSS over CDP.
-- [`mattpocock-ask-if-underspecified`](./software-development/mattpocock-ask-if-underspecified) — Ask clarifying questions when a request is ambiguous.
-- [`mattpocock-codebase-design`](./software-development/mattpocock-codebase-design) — Design deep modules with small interfaces.
-- [`mattpocock-diagnosing-bugs`](./software-development/mattpocock-diagnosing-bugs) — Diagnose hard bugs via tight feedback loops and bisection.
-- [`mattpocock-domain-modeling`](./software-development/mattpocock-domain-modeling) — Sharpen domain terms and update CONTEXT.md and ADRs inline.
-- [`mattpocock-evidence-driven`](./software-development/mattpocock-evidence-driven) — Validate code changes with evidence and testing gates.
-- [`mattpocock-improve-codebase-architecture`](./software-development/mattpocock-improve-codebase-architecture) — Survey code for module deepening, fix opportunities.
-- [`mattpocock-multi-agent-code-review`](./software-development/mattpocock-multi-agent-code-review) — Multi-agent PR review: bug-hunter, security, contracts.
-- [`mattpocock-spec-driven-development`](./software-development/mattpocock-spec-driven-development) — Spec-driven development with planning and quality gates.
-- [`mattpocock-subagent-driven-development`](./software-development/mattpocock-subagent-driven-development) — Dispatch fresh subagents per task with task review.
-- [`mattpocock-tdd`](./software-development/mattpocock-tdd) — TDD red-green-refactor at pre-agreed seams.
-- [`mattpocock-to-tickets`](./software-development/mattpocock-to-tickets) — Break a plan or spec into tracer-bullet tickets with edges.
-- [`mattpocock-using-git-worktrees`](./software-development/mattpocock-using-git-worktrees) — Set up isolated git worktrees for feature work.
-- [`mattpocock-writing-for-agents`](./software-development/mattpocock-writing-for-agents) — Write docs agents can consume: skills, AGENTS.md, specs.
-- [`node-inspect-debugger`](./software-development/node-inspect-debugger) — Debug Node.js via --inspect + Chrome DevTools Protocol CLI.
-- [`plan`](./software-development/plan) — Write a markdown plan to .hermes/plans/; no execution.
-- [`python-craft`](./software-development/python-craft) — Python craft: style, typing, patterns, testing, packaging.
-- [`python-debugpy`](./software-development/python-debugpy) — Debug Python: pdb REPL + debugpy remote (DAP).
-- [`requesting-code-review`](./software-development/requesting-code-review) — Pre-commit review: security scan, quality gates, auto-fix.
-- [`simplify-code`](./software-development/simplify-code) — Parallel 4-agent cleanup of recent code changes.
-- [`spike`](./software-development/spike) — Throwaway experiments to validate an idea before build.
-- [`streamlit-dashboards`](./software-development/streamlit-dashboards) — Streamlit dashboards: layout, caching, charts, state.
-- [`systematic-debugging`](./software-development/systematic-debugging) — 4-phase root cause debugging: understand before fixing.
-- [`test-driven-development`](./software-development/test-driven-development) — TDD: enforce RED-GREEN-REFACTOR, tests before code.
-- [`test-infra-ml`](./software-development/test-infra-ml) — Testing ML systems: sims, EAs, tournaments, checkpoints.
-- [`verification-culture`](./software-development/verification-culture) — Doc-driven verification: backlog, audits, regression.
-- [`wayfinder-map-planning`](./software-development/wayfinder-map-planning) — Plan multi-session work as a map of decision tickets.
+
+- [`ast-grep`](./software-development\ast-grep) — AST-aware structural code search and rewrite via ast-grep..
+- [`cli-tool-craft`](./software-development\cli-tool-craft) — CLI tools: subcommands, config validation, env substitution.
+- [`code-quality-signal`](./software-development\code-quality-signal) — Score Python repos on 5 ungameable structural metrics..
+- [`code-wiki`](./software-development\code-wiki) — Generate wiki docs + Mermaid diagrams for any codebase..
+- [`conversation-to-spec`](./software-development\conversation-to-spec) — Turn a conversation into a publishable spec.
+- [`dogfood`](./software-development\dogfood) — Exploratory QA of web apps: find bugs, evidence, reports..
+- [`github`](./software-development\github) — GitHub via gh CLI: PRs, issues, reviews, repos, auth..
+- [`grilling-interview`](./software-development\grilling-interview) — Stress-test a plan by interviewing in design-tree rounds..
+- [`hermes-agent-skill-authoring`](./software-development\hermes-agent-skill-authoring) — Author in-repo SKILL.md files: frontmatter and structure..
+- [`inspecting-hermes-desktop-dom`](./software-development\inspecting-hermes-desktop-dom) — Read the live Hermes desktop DOM/CSS over CDP..
+- [`mattpocock-ask-if-underspecified`](./software-development\mattpocock-ask-if-underspecified) — Ask clarifying questions when a request is ambiguous..
+- [`mattpocock-codebase-design`](./software-development\mattpocock-codebase-design) — Design deep modules with small interfaces..
+- [`mattpocock-diagnosing-bugs`](./software-development\mattpocock-diagnosing-bugs) — Diagnose hard bugs via tight feedback loops and bisection..
+- [`mattpocock-domain-modeling`](./software-development\mattpocock-domain-modeling) — Sharpen domain terms and update CONTEXT.md and ADRs inline..
+- [`mattpocock-evidence-driven`](./software-development\mattpocock-evidence-driven) — Validate code changes with evidence and testing gates..
+- [`mattpocock-improve-codebase-architecture`](./software-development\mattpocock-improve-codebase-architecture) — Survey code for module deepening, fix opportunities.
+- [`mattpocock-multi-agent-code-review`](./software-development\mattpocock-multi-agent-code-review) — Multi-agent PR review: bug-hunter, security, contracts..
+- [`mattpocock-spec-driven-development`](./software-development\mattpocock-spec-driven-development) — Spec-driven development with planning and quality gates..
+- [`mattpocock-subagent-driven-development`](./software-development\mattpocock-subagent-driven-development) — Dispatch fresh subagents per task with task review..
+- [`mattpocock-tdd`](./software-development\mattpocock-tdd) — TDD red-green-refactor at pre-agreed seams..
+- [`mattpocock-to-tickets`](./software-development\mattpocock-to-tickets) — Break a plan or spec into tracer-bullet tickets with edges..
+- [`mattpocock-using-git-worktrees`](./software-development\mattpocock-using-git-worktrees) — Set up isolated git worktrees for feature work..
+- [`mattpocock-writing-for-agents`](./software-development\mattpocock-writing-for-agents) — Write docs agents can consume: skills, AGENTS.md, specs..
+- [`modern-python-tooling`](./software-development\modern-python-tooling) — Set up Python projects with uv, ruff, ty, PEP 723..
+- [`node-inspect-debugger`](./software-development\node-inspect-debugger) — Debug Node.js via --inspect + Chrome DevTools Protocol CLI..
+- [`plan`](./software-development\plan) — Write a markdown plan to .hermes/plans/; no execution..
+- [`property-based-testing`](./software-development\property-based-testing) — Hypothesis property tests: roundtrip, oracle, invariant.
+- [`python-craft`](./software-development\python-craft) — Python craft: style, typing, patterns, testing, packaging..
+- [`python-debugpy`](./software-development\python-debugpy) — Debug Python: pdb REPL + debugpy remote (DAP)..
+- [`requesting-code-review`](./software-development\requesting-code-review) — Pre-commit review: security scan, quality gates, auto-fix..
+- [`rest-graphql-debug`](./software-development\rest-graphql-debug) — Debug REST and GraphQL APIs: auth, schemas, repro..
+- [`simplify-code`](./software-development\simplify-code) — Parallel 4-agent cleanup of recent code changes..
+- [`spike`](./software-development\spike) — Throwaway experiments to validate an idea before build..
+- [`streamlit-dashboards`](./software-development\streamlit-dashboards) — Streamlit dashboards: layout, caching, charts, state..
+- [`systematic-debugging`](./software-development\systematic-debugging) — 4-phase root cause debugging: understand before fixing.
+- [`test-driven-development`](./software-development\test-driven-development) — TDD: enforce RED-GREEN-REFACTOR, tests before code..
+- [`test-infra-ml`](./software-development\test-infra-ml) — Testing ML systems: sims, EAs, tournaments, checkpoints..
+- [`verification-culture`](./software-development\verification-culture) — Doc-driven verification: backlog, audits, regression..
+- [`wayfinder-map-planning`](./software-development\wayfinder-map-planning) — Plan multi-session work as a map of decision tickets..
+
+#### Web Development
+
+- [`har-derived-api-client`](./web-development\har-derived-api-client) — Record a site's XHR into a HAR, derive an HTTP client..
 
 ## Skill Structure
 
@@ -429,7 +475,7 @@ The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a w
 - ✅ All skill descriptions are ≤ 59 characters (strict audit threshold)
 - ✅ 115 descriptions end with a period; 12 trimmed descriptions omit trailing period to stay within the 59-char limit
 - ✅ All descriptions are double-quoted YAML strings
-- ✅ All 145 skills have a `## What This Skill Does` or `## Overview` section (audit recognizes 5 alternative headers)
+- ✅ All 162 skills have a `## What This Skill Does` or `## Overview` section (audit recognizes 5 alternative headers)
 - ✅ All section headers use standard capitalization (`## When to Use`, `## Pitfalls`, `## How to Run`, `## Quick Start`)
 - ✅ All non-standard Pitfalls headers (`## Common Pitfalls`, `## Troubleshooting`) renamed to `## Pitfalls`
 - ✅ No trailing whitespace in any SKILL.md file
@@ -437,7 +483,7 @@ The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a w
 - ✅ All YAML frontmatter parses without errors
 - ✅ Line endings normalized via `.gitattributes` (`text=auto`) — CRLF in working tree, LF in git storage
 - ✅ No temp scripts remaining in repo root
-- ✅ `related_skills` network: 356 cross-references across 145 skills (6 standalone skills with none)
+- ✅ `related_skills` network: 377 cross-references across 162 skills (see [DEPENDENCY.md](./DEPENDENCY.md))
 - ✅ `.hermes/cron/` registry: 2 templates, 3 active jobs (aspirecures-weekly, skill-audit, sync-hermes-skills), 0 temp scripts
 - ✅ All frontmatter blocks have blank line before closing `---`
 - ✅ No duplicate content (verified via hash comparison)

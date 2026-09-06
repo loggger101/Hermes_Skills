@@ -1,13 +1,13 @@
 ---
-description: Hermes Agent second brain — 145 skills across 20 categories, memories, cron configs.
+description: Hermes Agent second brain — 162 skills across 23 categories, memories, cron configs.
 ---
 
 # Hermes Skills Repository (Second Brain)
 
-This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **145 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
+This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **162 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
 
 ## Start here (cheapest → most thorough)
-- **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 145 skills; `grep -i <term>` is the fastest way to find a capability.
+- **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 162 skills; `grep -i <term>` is the fastest way to find a capability.
 - **[DEPENDENCY.md](./DEPENDENCY.md)** — relationship map: hub skills, standalone skills, full cross-reference validation.
 - **[README.md](./README.md)** — human-facing overview with the full catalog and verification status.
 
@@ -37,7 +37,7 @@ The fastest way from a job you have in mind to the skill that does it:
 
 ## Organization
 
-Skills are organized into 20 categories (each has a `DESCRIPTION.md`):
+Skills are organized into 23 categories (each has a `DESCRIPTION.md`):
 
 | Category | Focus |
 |----------|-------|

@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **145 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **162 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_`. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -22,6 +22,10 @@ Format: `- \`skill-name\` — description _(category)_`. Regenerate with `python
 - `mattpocock-resolving-merge-conflicts` — Resolve git merge conflicts by tracing each side's intent _(autonomous-ai-agents)_
 - `merge-reconciler` — Neutral third-party resolution of agent merge conflicts _(autonomous-ai-agents)_
 - `opencode` — Delegate coding to OpenCode CLI (features, PR review) _(autonomous-ai-agents)_
+
+## communication
+
+- `one-three-one-rule` — 1-3-1 decision briefs: problem, three options, one pick _(communication)_
 
 ## creative
 
@@ -54,8 +58,10 @@ Format: `- \`skill-name\` — description _(category)_`. Regenerate with `python
 - `astro-toolkit-selection` — Choose astrodynamics tools: brahe, nyx, OpenSCvx, skyfield _(data-science)_
 - `bit-identity-float-pipelines` — Verify correctness via exact float hashes / bit-identity _(data-science)_
 - `build-systems-data` — Data build systems: orchestration, versioning, CSV at scale _(data-science)_
+- `duckdb-querying` — Query CSV/Parquet/S3 data ad-hoc via DuckDB Friendly SQL _(data-science)_
 - `economicspace-pipeline` — Use on economicspace (asteroid-mining pipeline) _(data-science)_
 - `evolutionary-ml` — Evolutionary ML: GA, NEAT, tournaments, parallel eval _(data-science)_
+- `jupyter-notebook` — Iterative Python via live Jupyter kernel (hamelnb) _(data-science)_
 - `model-export-deploy` — Model export: ONNX, TorchScript, HDF5, NumPy, JSON _(data-science)_
 - `orbital-mechanics-data` — Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC _(data-science)_
 - `python-data-science` — Python DS: EDA, cleaning, modeling, eval, viz _(data-science)_
@@ -70,6 +76,7 @@ Format: `- \`skill-name\` — description _(category)_`. Regenerate with `python
 - `sdlc-review` — Review Kanban handoffs and route verified outcomes _(devops)_
 - `sqlite-queries` — Query, inspect, and export SQLite databases _(devops)_
 - `ssh-remote` — Commands and file transfer on remote machines over SSH _(devops)_
+- `watchers` — Poll RSS, JSON APIs, and GitHub with watermark dedup _(devops)_
 
 ## doc-coauthoring
 
@@ -108,6 +115,10 @@ Format: `- \`skill-name\` — description _(category)_`. Regenerate with `python
 
 - `huggingface-trackio` — Log and retrieve ML training experiments with Trackio _(huggingface-trackio)_
 
+## mcp
+
+- `fastmcp` — Build, test, and deploy Python MCP servers _(mcp)_
+
 ## media
 
 - `gif-search` — Search/download GIFs from Tenor via curl + jq _(media)_
@@ -130,6 +141,7 @@ Format: `- \`skill-name\` — description _(category)_`. Regenerate with `python
 
 - `airtable` — Airtable REST API via curl. Records CRUD, filters, upserts _(productivity)_
 - `box` — Box manages cloud files, sharing, search, and metadata _(productivity)_
+- `decision-questionnaire` — Turn an unanswerable decision into a questionnaire doc _(productivity)_
 - `document-to-action-items` — Extract cited obligations, deadlines, tasks from documents _(productivity)_
 - `docx` — Create, read, edit, template, and review Word .docx files _(productivity)_
 - `google-workspace` — Gmail, Calendar, Drive, Docs, Sheets via gws CLI or Python _(productivity)_
@@ -158,11 +170,15 @@ Format: `- \`skill-name\` — description _(category)_`. Regenerate with `python
 - `llm-wiki` — Karpathy's LLM Wiki: build/query interlinked markdown KB _(research)_
 - `mattpocock-research` — Research a question against primary sources _(research)_
 - `parallel-cli` — Agent-native web search, deep research, and enrichment _(research)_
+- `qmd` — Hybrid local search over notes, docs, and transcripts _(research)_
 - `research-paper-writing` — Write ML papers for NeurIPS/ICML/ICLR: design→submit _(research)_
+- `scrapling` — Scrape sites with stealth browsing and Cloudflare bypass _(research)_
 
 ## security
 
 - `mattpocock-security-review` — Review code for security vulnerabilities by language _(security)_
+- `oss-forensics` — GitHub supply-chain forensics: recovery, IOCs, reporting _(security)_
+- `semgrep-rule-creator` — Create tested Semgrep rules with taint-mode support _(security)_
 
 ## smart-home
 
@@ -174,7 +190,10 @@ Format: `- \`skill-name\` — description _(category)_`. Regenerate with `python
 
 ## software-development
 
+- `ast-grep` — AST-aware structural code search and rewrite via ast-grep _(software-development)_
 - `cli-tool-craft` — CLI tools: subcommands, config validation, env substitution _(software-development)_
+- `code-quality-signal` — Score Python repos on 5 ungameable structural metrics _(software-development)_
+- `code-wiki` — Generate wiki docs + Mermaid diagrams for any codebase _(software-development)_
 - `conversation-to-spec` — Turn a conversation into a publishable spec _(software-development)_
 - `dogfood` — Exploratory QA of web apps: find bugs, evidence, reports _(software-development)_
 - `github` — GitHub via gh CLI: PRs, issues, reviews, repos, auth _(software-development)_
@@ -194,11 +213,14 @@ Format: `- \`skill-name\` — description _(category)_`. Regenerate with `python
 - `mattpocock-to-tickets` — Break a plan or spec into tracer-bullet tickets with edges _(software-development)_
 - `mattpocock-using-git-worktrees` — Set up isolated git worktrees for feature work _(software-development)_
 - `mattpocock-writing-for-agents` — Write docs agents can consume: skills, AGENTS.md, specs _(software-development)_
+- `modern-python-tooling` — Set up Python projects with uv, ruff, ty, PEP 723 _(software-development)_
 - `node-inspect-debugger` — Debug Node.js via --inspect + Chrome DevTools Protocol CLI _(software-development)_
 - `plan` — Write a markdown plan to .hermes/plans/; no execution _(software-development)_
+- `property-based-testing` — Hypothesis property tests: roundtrip, oracle, invariant _(software-development)_
 - `python-craft` — Python craft: style, typing, patterns, testing, packaging _(software-development)_
 - `python-debugpy` — Debug Python: pdb REPL + debugpy remote (DAP) _(software-development)_
 - `requesting-code-review` — Pre-commit review: security scan, quality gates, auto-fix _(software-development)_
+- `rest-graphql-debug` — Debug REST and GraphQL APIs: auth, schemas, repro _(software-development)_
 - `simplify-code` — Parallel 4-agent cleanup of recent code changes _(software-development)_
 - `spike` — Throwaway experiments to validate an idea before build _(software-development)_
 - `streamlit-dashboards` — Streamlit dashboards: layout, caching, charts, state _(software-development)_
@@ -208,5 +230,9 @@ Format: `- \`skill-name\` — description _(category)_`. Regenerate with `python
 - `verification-culture` — Doc-driven verification: backlog, audits, regression _(software-development)_
 - `wayfinder-map-planning` — Plan multi-session work as a map of decision tickets _(software-development)_
 
+## web-development
+
+- `har-derived-api-client` — Record a site's XHR into a HAR, derive an HTTP client _(web-development)_
+
 ---
-*145 skills across 20 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*162 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
