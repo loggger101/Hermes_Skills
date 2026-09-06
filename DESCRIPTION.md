@@ -9,6 +9,7 @@ This repository is the **second brain** of its owner's Hermes Agent environment:
 ## Start here (cheapest → most thorough)
 - **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 162 skills; `grep -i <term>` is the fastest way to find a capability.
 - **[DEPENDENCY.md](./DEPENDENCY.md)** — relationship map: hub skills, standalone skills, full cross-reference validation.
+- **[docs/](./docs/README.md)** — **knowledge layer**: verified API references + working code patterns from the 41-repo starred deep dive (brahe/skyfield/OpenSCvx space-astro refs with live-run outputs; polars/pymc data-stack refs). Skills say *how to work*; docs say *what exists in these libraries and what breaks*.
 - **[README.md](./README.md)** — human-facing overview with the full catalog and verification status.
 
 ## Task → Skill Quick Table
