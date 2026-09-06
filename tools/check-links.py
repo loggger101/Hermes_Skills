@@ -9,6 +9,11 @@ AGENTS.md pointer) — cheap insurance for a discoverability-focused repo.
 Rules:
 - Skips external URLs (http/https/mailto), pure anchors (#...), absolute paths, and links inside
   fenced code blocks or inline `code` spans (docs show example syntax like ![alt](url)).
+- Skips link targets containing {{TOKEN}} placeholders — skill template files (e.g.
+  software-development/code-wiki/templates/) ship fill-in-the-blank links that only resolve
+  after generation; they are not hand-maintained references. Same rule applies to every file
+  under a <category>/<skill>/templates/ dir: those are scaffolds copied-and-filled at use time,
+  so their relative links (diagrams/, modules/X.md) point at generated output by design.
 - Strips #anchors before checking existence.
 - profiles-export/ is SKIPPED: those are historical per-profile snapshots (see profile/DESCRIPTION.md);
   they may predate later fixes and are regenerated from live environments, not hand-maintained here.
@@ -34,6 +39,9 @@ def main():
         rel_posix = str(p.relative_to(REPO)).replace("\\", "/")
         if rel_posix.startswith(SNAPSHOT_PREFIXES):
             continue  # historical snapshots — not hand-maintained (see module docstring)
+        parts = p.relative_to(REPO).parts
+        if "templates" in parts:
+            continue  # skill template scaffolds — links resolve only after generation
         try:
             text = p.read_text(encoding="utf-8")
         except (UnicodeDecodeError, OSError) as e:

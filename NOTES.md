@@ -320,3 +320,37 @@ Goal: make everything easy to find and cheap to use for any agent.
 - media/gif-search/SKILL.md false positive resolved in the checker itself: the "broken" link is an inline-code markdown syntax example, now stripped before checking.
 
 **Gate results:** 446 relative links checked across all non-snapshot .md files — zero broken after fixes; audit still green (145 skills).
+
+## 2026-09-05 — Starred-repo deep-dive round 2: +17 skills (145 → 162)
+
+Manual pass over all 41 starred repos (no subagents). New value found in corners a README skim misses:
+
+**First-party discovery:** `NousResearch/hermes-agent` ships `optional-skills/` — 137 official
+Hermes skills installable via the built-in hub (`hermes skills install official/<cat>/<name> --yes`).
+Installed 12 matching this environment's stack (qmd, scrapling, code-wiki, rest-graphql-debug,
+ast-grep, watchers, fastmcp, har-derived-api-client, jupyter-notebook, one-three-one-rule,
+decision-questionnaire, oss-forensics). All adapted to repo conventions: real `## What This Skill Does`
+sections added (written from each skill's actual content), broken related_skills refs pointing at
+uninstalled optional skills cleaned up.
+
+**External ports (5):** code-quality-signal (sentrux 5-metric ungameable quality signal — stdlib-only
+implementation written + verified on hermes-agent, 5,562 files: Quality 2387, bottleneck depth),
+duckdb-querying (official DuckDB Friendly SQL idioms + sandboxed ad-hoc pattern), modern-python-tooling
+(trailofbits uv/ruff/ty + PEP 723; CC-BY-SA-4.0 license carried in frontmatter), property-based-testing
+(trailofbits Hypothesis catalog + failure triage; CC-BY-SA-4.0), semgrep-rule-creator (trailofbits,
+references/ verbatim; CC-BY-SA-4.0).
+
+**Enhancements:** space-data-pipelines gained brahe SI-units/element-order conventions section.
+
+**Gate changes:** check-links.py now skips `<skill>/templates/` dirs — template scaffolds ship
+fill-in-the-blank links ({{TOKEN}}, diagrams/) that only resolve after generation; documented in the
+tool docstring. Audit unchanged: all thresholds still zero.
+
+**Docs refreshed:** README Skill Catalog regenerated from live frontmatter (162 skills, 23 categories,
+every bullet target verified on disk); DESCRIPTION.md + README count mentions updated to 162/23;
+DEPENDENCY.md regen'd (377 xrefs). New category dirs: communication/, mcp/, web-development/.
+
+**Not ported (evaluated, rejected):** github-cheat-sheet (2013-era git trivia), repowise skills
+(need the commercial .repowise index to function), z3 agentic-workflow-designer (GitHub Agentic
+Workflows-specific; its DataOps pre-fetch pattern noted in FINDINGS instead).
+
