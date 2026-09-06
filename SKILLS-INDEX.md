@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **162 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **166 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_`. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -77,6 +77,7 @@ Format: `- \`skill-name\` — description _(category)_`. Regenerate with `python
 - `sqlite-queries` — Query, inspect, and export SQLite databases _(devops)_
 - `ssh-remote` — Commands and file transfer on remote machines over SSH _(devops)_
 - `watchers` — Poll RSS, JSON APIs, and GitHub with watermark dedup _(devops)_
+- `wizard` — Bash wizard walking a human through manual-only steps _(devops)_
 
 ## doc-coauthoring
 
@@ -155,6 +156,7 @@ Format: `- \`skill-name\` — description _(category)_`. Regenerate with `python
 - `powerpoint` — Create, read, edit .pptx decks with python-pptx _(productivity)_
 - `product-price-monitor` — Watch product, flight, or listing prices; alert on target _(productivity)_
 - `session-librarian` — Organize sessions by prompt: find, rename, archive, prune _(productivity)_
+- `teach` — Teach a topic across sessions via mission and lessons _(productivity)_
 - `teams-meeting-pipeline` — Teams meeting summaries, job replay, Graph subscriptions _(productivity)_
 - `website-audit` — Audit websites/codebases into .docx reports; read-only _(productivity)_
 - `weekly-review-planning` — Weekly reset: commitments, stalled work, next-week plan _(productivity)_
@@ -221,7 +223,9 @@ Format: `- \`skill-name\` — description _(category)_`. Regenerate with `python
 - `python-debugpy` — Debug Python: pdb REPL + debugpy remote (DAP) _(software-development)_
 - `requesting-code-review` — Pre-commit review: security scan, quality gates, auto-fix _(software-development)_
 - `rest-graphql-debug` — Debug REST and GraphQL APIs: auth, schemas, repro _(software-development)_
+- `retro` — Retrospective on a session proposing environment fixes _(software-development)_
 - `simplify-code` — Parallel 4-agent cleanup of recent code changes _(software-development)_
+- `skill-flow-router` — Route any task through the right skill flow in this brain _(software-development)_
 - `spike` — Throwaway experiments to validate an idea before build _(software-development)_
 - `streamlit-dashboards` — Streamlit dashboards: layout, caching, charts, state _(software-development)_
 - `systematic-debugging` — 4-phase root cause debugging: understand before fixing _(software-development)_
@@ -235,4 +239,4 @@ Format: `- \`skill-name\` — description _(category)_`. Regenerate with `python
 - `har-derived-api-client` — Record a site's XHR into a HAR, derive an HTTP client _(web-development)_
 
 ---
-*162 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*166 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*

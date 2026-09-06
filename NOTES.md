@@ -354,3 +354,28 @@ DEPENDENCY.md regen'd (377 xrefs). New category dirs: communication/, mcp/, web-
 (need the commercial .repowise index to function), z3 agentic-workflow-designer (GitHub Agentic
 Workflows-specific; its DataOps pre-fetch pattern noted in FINDINGS instead).
 
+## 2026-09-06 — Round-3 pass: +4 skills (162 → 166), docs/ knowledge layer expanded to 7 files
+
+**Skills ported from mattpocock/skills (MIT, adapted with Hermes frontmatter):**
+`productivity/teach` (stateful multi-session teaching workspace; MISSION.md + learning-records ADRs +
+HTML lessons; 4 format references under `references/`), `devops/wizard` (+ its `template.sh` bash library —
+human-in-the-loop provisioning: opens URLs, captures secrets, idempotent .env upserts, gh secret writes),
+`software-development/skill-flow-router` (ask-matt adapted: main flow + 3 on-ramps mapped to the skills
+actually installed in this brain), `software-development/retro` (session retrospective → environment fixes).
+
+**docs/ knowledge layer:** added space-astro/catalog-data-sources.md (astroquery async-first API map — SBDB
+covariance flag, Horizons all-43-quantities bloat gotcha; pds4_tools metadata-with-array; cumulus pvl/cmr-client;
+space-map Chebyshev binary ephemeris schema), data-science/optimization-toolkit.md (nyx-py LIVE correction, pygmo2
+UDA contract, mesa v3 two blockers incl. py≥3.12, z3 FPRef/regex sorts, Pyomo dae/gdp/mpec, CamPyRoS ray_alt shim),
+webdev/frontend-tooling.md (nicegui ui.run() = 33 params verified from source — corrects the earlier "71" claim;
+Front-End-Checklist MCP rule package; HTMLHint's 34 rules; gods-eye-view Cesium layout + test-everything discipline),
+devops/git-workflow-recipes.md (fixup+autosquash, PR checkout refspecs, safe revert of merged PRs — distilled from the
+github-cheat-sheet clone that was previously rejected as a *skill*; kept here as reference docs instead). Also fixed:
+docs/README.md index table now lists all 7 files (polars-pymc row had been missing since round 2).
+
+**Corrections to prior notes:** nicegui ui.run() param count 71 → 33 (verified against source this pass);
+github-cheat-sheet is not trivia — its fixup/autosquash + PR-refspec recipes are now in docs/devops/.
+
+**Counts refreshed everywhere live:** DESCRIPTION.md, README.md catalog (+4 entries), SKILLS-INDEX.md (regen: 166/23),
+DEPENDENCY.md (regen: 390 xrefs, broken=0). Gates green at commit time: audit threshold_breached=false; check-links
+503 links / 0 broken. Local live library and repo verified byte-parity on all new files (CRLF-normalized sha256).

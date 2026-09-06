@@ -12,6 +12,11 @@ working code patterns, and gotchas extracted from the owner's starred-repo deep 
 | [space-astro/brahe-api-reference.md](./space-astro/brahe-api-reference.md) | brahe 1.7.0 full module map + working propagation / Horizons-SPK snippets (Ceres recipe for any small body) | live run, Windows py3.11, 2026-09-06 |
 | [space-astro/skyfield-api-reference.md](./space-astro/skyfield-api-reference.md) | skyfield **1.55 breaking changes** (load() contract), de430s.bsp 404 on both JPL mirrors, phase-angle trap with numbers | live run, Windows py3.11, 2026-09-06 |
 | [space-astro/openscvx-patterns.md](./space-astro/openscvx-patterns.md) | OpenSCvx core problem pattern (State/dynamics/Problem.solve), Hohmann example constants, autotuner class map | source-read from cloned repo, 2026-09-05 |
+| [data-science/polars-pymc-api-reference.md](./data-science/polars-pymc-api-reference.md) | polars lazy-first idioms + join `validate=` cardinality checks; pymc sample() nutpie Rust-NUTS auto-select (line-anchored) | source-read from cloned repos, 2026-09-05 |
+| [space-astro/catalog-data-sources.md](./space-astro/catalog-data-sources.md) | astroquery async-first API map (SBDB `covariance=` flag = orbital uncertainty in one call; Horizons all-43-quantities bloat gotcha), pds4_tools metadata-with-array, cumulus pvl/cmr-client, space-map Chebyshev binary ephemeris schema | source-read from cloned repos, 2026-09-06 |
+| [data-science/optimization-toolkit.md](./data-science/optimization-toolkit.md) | nyx-py (LIVE — round-1 correction), pygmo2 UDA contract, mesa v3 two blockers (py≥3.12 + API rewrite), z3 FPRef/regex sorts, Pyomo dae/gdp/mpec, CamPyRoS ray_alt serial shim | source-read from cloned repos, 2026-09-06 |
+| [webdev/frontend-tooling.md](./webdev/frontend-tooling.md) | nicegui `ui.run()` full 33-param list (verified from source — corrects the "71" claim), Front-End-Checklist MCP rule package, HTMLHint's 34 rules, gods-eye-view Cesium layout + test-everything discipline | source-read from cloned repos, 2026-09-06 |
+| [devops/git-workflow-recipes.md](./devops/git-workflow-recipes.md) | fixup+autosquash, PR checkout refspecs, safe revert of merged PRs, bulk-stage deletions; Windows/OneDrive index-churn notes for this machine | distilled from MIT cheat-sheet clone + local git behavior, 2026-09-06 |
 
 ## How these references are maintained
 

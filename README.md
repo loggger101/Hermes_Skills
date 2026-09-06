@@ -40,7 +40,7 @@ grep -i "delta-v" SKILLS-INDEX.md   # or: nicegui, triage, diagram...
 
 ## Overview
 
-This repository serves as a centralized database of all **162 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (356 cross-references mapped across 162 skills, 6 standalone). See [NOTES.md](./NOTES.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
+This repository serves as a centralized database of all **166 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (390 cross-references mapped across 166 skills, 11 standalone). See [NOTES.md](./NOTES.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
 
 ### Source Profiles
 
@@ -78,13 +78,13 @@ When a skill existed in multiple profiles, the version from the highest-priority
 | [social-media/](./social-media/) | Social media content | 1 |
 | [software-development/](./software-development/) | Development tools and workflows | 33 |
 
-**Total: 162 skills across 23 categories**
+**Total: 166 skills across 23 categories**
 
 ### Skill Catalog
 
 ### Skill Catalog
 
-All 162 skills organized by category:
+All 166 skills organized by category:
 
 
 #### Apple
@@ -161,6 +161,7 @@ All 162 skills organized by category:
 - [`sqlite-queries`](./devops\sqlite-queries) — Query, inspect, and export SQLite databases..
 - [`ssh-remote`](./devops\ssh-remote) — Commands and file transfer on remote machines over SSH.
 - [`watchers`](./devops\watchers) — Poll RSS, JSON APIs, and GitHub with watermark dedup..
+- [`wizard`](./devops\wizard) — Bash wizard walking a human through manual-only steps.
 
 #### Doc Coauthoring
 
@@ -239,6 +240,7 @@ All 162 skills organized by category:
 - [`powerpoint`](./productivity\powerpoint) — Create, read, edit .pptx decks with python-pptx..
 - [`product-price-monitor`](./productivity\product-price-monitor) — Watch product, flight, or listing prices; alert on target..
 - [`session-librarian`](./productivity\session-librarian) — Organize sessions by prompt: find, rename, archive, prune..
+- [`teach`](./productivity\teach) — Teach a topic across sessions via mission and lessons.
 - [`teams-meeting-pipeline`](./productivity\teams-meeting-pipeline) — Teams meeting summaries, job replay, Graph subscriptions..
 - [`website-audit`](./productivity\website-audit) — Audit websites/codebases into .docx reports; read-only..
 - [`weekly-review-planning`](./productivity\weekly-review-planning) — Weekly reset: commitments, stalled work, next-week plan..
@@ -305,7 +307,9 @@ All 162 skills organized by category:
 - [`python-debugpy`](./software-development\python-debugpy) — Debug Python: pdb REPL + debugpy remote (DAP)..
 - [`requesting-code-review`](./software-development\requesting-code-review) — Pre-commit review: security scan, quality gates, auto-fix..
 - [`rest-graphql-debug`](./software-development\rest-graphql-debug) — Debug REST and GraphQL APIs: auth, schemas, repro..
+- [`retro`](./software-development\retro) — Retrospective on a session proposing environment fixes.
 - [`simplify-code`](./software-development\simplify-code) — Parallel 4-agent cleanup of recent code changes..
+- [`skill-flow-router`](./software-development\skill-flow-router) — Route any task through the right skill flow in this brain.
 - [`spike`](./software-development\spike) — Throwaway experiments to validate an idea before build..
 - [`streamlit-dashboards`](./software-development\streamlit-dashboards) — Streamlit dashboards: layout, caching, charts, state..
 - [`systematic-debugging`](./software-development\systematic-debugging) — 4-phase root cause debugging: understand before fixing.
@@ -475,7 +479,7 @@ The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a w
 - ✅ All skill descriptions are ≤ 59 characters (strict audit threshold)
 - ✅ 115 descriptions end with a period; 12 trimmed descriptions omit trailing period to stay within the 59-char limit
 - ✅ All descriptions are double-quoted YAML strings
-- ✅ All 162 skills have a `## What This Skill Does` or `## Overview` section (audit recognizes 5 alternative headers)
+- ✅ All 166 skills have a `## What This Skill Does` or `## Overview` section (audit recognizes 5 alternative headers)
 - ✅ All section headers use standard capitalization (`## When to Use`, `## Pitfalls`, `## How to Run`, `## Quick Start`)
 - ✅ All non-standard Pitfalls headers (`## Common Pitfalls`, `## Troubleshooting`) renamed to `## Pitfalls`
 - ✅ No trailing whitespace in any SKILL.md file
@@ -483,7 +487,7 @@ The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a w
 - ✅ All YAML frontmatter parses without errors
 - ✅ Line endings normalized via `.gitattributes` (`text=auto`) — CRLF in working tree, LF in git storage
 - ✅ No temp scripts remaining in repo root
-- ✅ `related_skills` network: 377 cross-references across 162 skills (see [DEPENDENCY.md](./DEPENDENCY.md))
+- ✅ `related_skills` network: 390 cross-references across 166 skills (see [DEPENDENCY.md](./DEPENDENCY.md))
 - ✅ `.hermes/cron/` registry: 2 templates, 3 active jobs (aspirecures-weekly, skill-audit, sync-hermes-skills), 0 temp scripts
 - ✅ All frontmatter blocks have blank line before closing `---`
 - ✅ No duplicate content (verified via hash comparison)

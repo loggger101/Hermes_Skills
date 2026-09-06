@@ -1,5 +1,5 @@
 ---
-description: Hermes Agent second brain — 162 skills across 23 categories, memories, cron configs.
+description: Hermes Agent second brain — 166 skills across 23 categories, memories, cron configs.
 ---
 
 # Hermes Skills Repository (Second Brain)
@@ -7,7 +7,7 @@ description: Hermes Agent second brain — 162 skills across 23 categories, memo
 This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **162 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
 
 ## Start here (cheapest → most thorough)
-- **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 162 skills; `grep -i <term>` is the fastest way to find a capability.
+- **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 166 skills; `grep -i <term>` is the fastest way to find a capability.
 - **[DEPENDENCY.md](./DEPENDENCY.md)** — relationship map: hub skills, standalone skills, full cross-reference validation.
 - **[docs/](./docs/README.md)** — **knowledge layer**: verified API references + working code patterns from the 41-repo starred deep dive (brahe/skyfield/OpenSCvx space-astro refs with live-run outputs; polars/pymc data-stack refs). Skills say *how to work*; docs say *what exists in these libraries and what breaks*.
 - **[README.md](./README.md)** — human-facing overview with the full catalog and verification status.
@@ -19,6 +19,7 @@ The fastest way from a job you have in mind to the skill that does it:
 | You want to… | Start with |
 |---|---|
 | Find any capability in this brain (any task below) | `grep -i <term>` on [SKILLS-INDEX.md](./SKILLS-INDEX.md) — one line per skill, zero parsing cost |
+| Don't know which planning/spec/debug/review flow fits | `skill-flow-router` (main flow + 3 on-ramps mapped to installed skills)
 | Plan a big ambiguous build / stress-test an idea | `grilling-interview` → `wayfinder-map-planning` (multi-session map of decision tickets) |
 | Turn a design discussion into a spec | `conversation-to-spec` |
 | Triage issues/PRs, write agent-ready briefs | `github/issue-triage-state-machine` (+ its AGENT-BRIEF / OUT-OF-SCOPE references) |
