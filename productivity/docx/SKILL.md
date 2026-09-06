@@ -186,6 +186,12 @@ cannot render PDFs, and layout fidelity requires a real renderer.
   python-docx); raw text substitution in `document.xml` corrupts files
   easily. Use `patch`/`write_file` only for the JSON inputs, never on the
   `.docx` itself.
+- **Windows host notes.** On Windows: run scripts with the venv interpreter
+  (e.g. `C:/Users/Owner/AppData/Local/hermes/hermes-agent/venv/Scripts/python.exe`)
+  rather than bare `python`; for complex markdown-like content, write a
+  self-contained python-docx builder script instead of the JSON spec
+  (escaping breaks); and replace Unicode em-dashes in text with ASCII `--`
+  before patching files -- they break the patch tool on Windows.
 
 ## Verification
 

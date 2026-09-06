@@ -430,9 +430,9 @@ The patched-conic approximation in detail — what it gives you, where it breaks
 - When the bodies are close enough that their SOIs overlap or the transition matters (some moons of giant planets, close binaries).
 
 **The economicspace use case:**
-- Cislunar prospecting: which asteroids or lunar positions are profitable to reach from Earth, given delta-v costs, mineral content, and transport economics.
-- Patched conics is the right approximation: the transfer is Earth SOI → heliocentric/translunar → target SOI, with patches at the boundaries. The delta-v cost is computed from the patched-conic transfer.
-- The prospecting model adds economics on top of the orbital mechanics: mineral prices, transport costs, demand, accessibility. The orbital mechanics gives the delta-v; the economics gives the profit.
+- Asteroid-mining profitability across **seven delivery destinations** (earth_surface, leo, geo, cislunar, lunar_surface, mars_orbit, mars_surface): which bodies are profitable to reach from Earth, given delta-v costs, mineral content, and transport economics.
+- Patched conics is the right approximation: the transfer is Earth SOI → heliocentric → target SOI (Mars destinations terminate at 1.524 AU as a separate leg), with patches at the boundaries. The delta-v cost is computed from the patched-conic transfer; which apsis to rendezvous at and whether aerocapture pays are SEARCHED per asteroid, not assumed.
+- The prospecting model adds economics on top of the orbital mechanics: mineral prices (per destination — in-space utility + launch-cost-avoided), transport costs, demand/market saturation, accessibility. The orbital mechanics gives the delta-v; the economics gives the profit.
 
 ## Economic Prospecting with Orbital Mechanics
 
@@ -466,6 +466,7 @@ The economicspace pattern: use orbital mechanics to compute the delta-v cost of 
 
 **Verification:**
 - Check delta-v computations against known references (Hohmann transfer costs for Earth-Moon, Earth-Mars, etc.).
+- For a curated library landscape mapped to the economicspace pipeline stages (which of the user's 17 starred repos are worth wiring in vs. dead ends — brahe/skyfield/astroquery/pymc as candidates; nyx/Celestia/CamPyRoS/pds4_tools as blockers), see `references/economicspace-library-landscape.md`.
 - Check that the delta-v is consistent across the catalog (same target, same starting point → same delta-v; same target from different starting points → plausible differences).
 - Check the economics for sanity (a target that's profitable only because its delta-v is negative, or because its resource content is absurdly high, is a bug).
 
