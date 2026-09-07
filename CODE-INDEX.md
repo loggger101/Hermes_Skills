@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **113 code files** (27,551 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **117 code files** (28,213 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -52,6 +52,15 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 ## creative/touchdesigner-mcp
 
 - `creative/touchdesigner-mcp/scripts/setup.sh` (script, bash, 115 lines) — setup.sh — Automated setup for twozero MCP plugin for TouchDesigner
+
+## data-science/economicspace-pipeline
+
+- `data-science/economicspace-pipeline/scripts/asterank_sigma_probe.py` (script, python, 134 lines) — Asterank orbit-sigma + Shoemaker-Helin dv probe
+- `data-science/economicspace-pipeline/scripts/nhats_rank_crosscheck.py` (script, python, 188 lines) — NHATS rank cross-check for the economicspace closed-form dv estimator
+
+## data-science/space-data-pipelines
+
+- `data-science/space-data-pipelines/scripts/pipeline_skeleton.py` (script, python, 206 lines) — Runnable reference implementation of the space-datasets pipeline pattern
 
 ## devops/watchers
 
@@ -196,9 +205,10 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `tools/audit-skills.py` (repo tooling, python, 388 lines)
 - `tools/check-links.py` (repo tooling, python, 84 lines) — Broken-link checker for this second brain (stdlib only)
 - `tools/gen-code-index.py` (repo tooling, python, 147 lines) — Regenerate CODE-INDEX.md from live code files (flat, grep-friendly)
-- `tools/gen-skills-index.py` (repo tooling, python, 68 lines) — Regenerate SKILLS-INDEX.md from live skill frontmatter (flat, grep-friendly)
+- `tools/gen-references-index.py` (repo tooling, python, 72 lines) — Rebuild REFERENCES-INDEX.md from every skill's references/ directory
+- `tools/gen-skills-index.py` (repo tooling, python, 130 lines) — Regenerate SKILLS-INDEX.md from live skill frontmatter (flat, grep-friendly)
 - `tools/regen-dependency-map.py` (repo tooling, python, 76 lines) — Regenerate DEPENDENCY.md from live related_skills frontmatter (same format as repo convention).
 - `tools/sync-hermes-skills.py` (repo tooling, python, 841 lines)
 
 ---
-*113 code files: 81 scripts, 6 shared helpers, 11 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*117 code files: 84 scripts, 6 shared helpers, 11 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*

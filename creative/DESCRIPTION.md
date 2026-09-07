@@ -4,7 +4,7 @@ description: Creative content generation — ASCII art, hand-drawn style diagram
 
 # creative
 
-Creative content generation — ASCII art, hand-drawn style diagrams, and visual design tools..
+Creative content generation — ASCII art, hand-drawn style diagrams, and visual design tools.
 
 - [`architecture-diagram`](./architecture-diagram/SKILL.md) — Dark-themed SVG architecture/cloud/infra diagrams as HTML
 - [`ascii-art`](./ascii-art/SKILL.md) — ASCII art: pyfiglet, cowsay, boxes, image-to-ascii

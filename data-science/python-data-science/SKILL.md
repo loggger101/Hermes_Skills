@@ -603,3 +603,4 @@ Before reporting results:
 
 ## References (verified API detail lives here)
 - `references/polars-pymc-api-reference.md` — polars lazy-first idioms + join `validate=` cardinality checks; pymc `sample()` with nutpie Rust-NUTS auto-select, ADVI for per-body scale. Line-anchored to cloned sources (2026-09-05); re-check line numbers before quoting them.
+- `references/big-data-patterns.md` — duckdb ad-hoc SQL from CSV/parquet, polars lazy joins with cardinality checks, parquet row-group control, incremental dedup across files. ALL snippets executed live 2026-09-07 on 200k-row fixtures and cross-checked against pandas (duckdb 1.5.5 / polars 1.44.1 / pyarrow 25.0.1 in an isolated venv — not in the default env).

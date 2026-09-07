@@ -4,7 +4,7 @@
 
 # apple
 
-Apple.
+apple.
 
 - [`apple-notes`](./apple-notes/SKILL.md) — Manage Apple Notes via memo CLI: create, search, edit
 - [`apple-reminders`](./apple-reminders/SKILL.md) — Apple Reminders via remindctl: add, list, complete

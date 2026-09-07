@@ -1,5 +1,5 @@
 ---
-description: "External delta-v oracles + soft-assumption data sources — Asterank schema change (2026-09-07), NHATS, per-element sigmas"
+description: "External delta-v oracles + soft-assumption data sources — Asterank two-mode API correction (2026-09-07 re-probe #2), NHATS, per-element sigmas"
 source_repos: juliensimon/space-datasets (~259 scripts read selectively; 14 verified this pass), live asterank.com API re-check
 tested_version: space-datasets clone @ 2026-09-05 + LIVE Asterank API probe 2026-09-07 (this machine, py3.11)
 verified_date: "2026-09-07"
@@ -13,31 +13,26 @@ data sources** — cited, keyless feeds that back the pipeline's softest numbers
 source-read from the clone at `%LOCALAPPDATA%\Temp\starred-dive\space-datasets` or probed live today;
 nothing is carried over unverified.
 
-## ⚠️ Asterank API schema changed since the 2026-09-06 audit (LIVE re-check, this machine)
+## ⚠️ Asterank API has TWO modes — the 2026-09-07 audit misread one as a schema change (CORRECTED, live re-probe #2, this machine)
 
-The economicspace repo's own `research/starred-repos/SECOND-PASS.md` (F6) measured two external Δv
-oracles: JPL NHATS and Asterank's Shoemaker-Helin `dv` column. **Re-probing the live API on
-2026-09-07 shows the second one is gone:**
+The first round-4 pass probed only **bulk-scan projections** (`query={}` at offsets
+0 / 250k / 450k / 500k) and concluded the Shoemaker-Helin `dv` column was removed.
+That is wrong: bulk-scan rows simply never carried a `dv` key — **targeted queries do.**
 
-| fact | verified today |
-|---|---|
-| Endpoint still up, keyless, paginated | `http://www.asterank.com/api/asterank?query={}&limit=N&offset=M` → JSON array; ~600K rows reachable (probed offsets 0 / 250k / 450k / 500k) |
-| **`dv` column no longer exists** | key set has NO `dv`; new keys `two_body`, `DT` — both empty strings on every sampled row, including APO-class NEOs (1566 Icarus, 1620 Geographos, 1685 Toro). The Shoemaker-Helin oracle is **not reproducible from the live API** |
-| Economics partially broken | `price`/`profit` return real values for some bodies (Ceres $8.1T) and garbage for others (Juno 2.7e-44, Eros 6.7e-42). Same failure mode SECOND-PASS flagged (`1e-42`), now more widespread |
-| **NEW: per-element orbit sigmas** | `sigma_a`, `sigma_e`, `sigma_i`, `sigma_om`, `sigma_w`, `sigma_ma`, `sigma_q`, `sigma_ad`, `sigma_per`, `sigma_n`, `sigma_tp` — a free covariance DIAGONAL for ~600K bodies (Eros: σa 4.4e-10 au, σi 2.8e-06). Complements NEODyS's full 6×6 matrix on the top-N |
-| **NEW: observation provenance** | `n_del_obs_used`, `n_dop_obs_used` (deltastation / doppler obs counts) alongside existing `data_arc`, `rms`, `condition_code`, `orbit_id` |
+| mode | query shape | dv present? | verified values (2026-09-07, stable across repeats) |
+|---|---|---|---|
+| Bulk scan | `query={}&limit=N&offset=M` (~600K rows reachable) | **NO `dv` key at all** in the 82-key projection — this is what made it look dead | n/a (key absent on every sampled row incl. offsets 1k+) |
+| Targeted | `query={"name":"Eros"}` or `{"pdes":"1999 AO10"}` | **YES** | Eros 6.112354 · Icarus 15.298098 · Apophis 5.687675 · Itokawa 4.637086 · 2010 PS66 4.425463 |
 
-Consequences for F6-style cross-checks:
-- The **NHATS leg survives and is the only external Δv oracle currently available** (below).
-- Asterank's HF mirror (`juliensimon/asterank-asteroid-mining`) is a frozen snapshot with 50 columns —
-  `estimated_value_usd`, `estimated_profit_usd`, `closeness_score`, `asterank_score` present, but it has
-  **no dv column either** (checked via datasets-server info API today). It remains usable as an
-  independent *economic ranking* prior art, not a Δv oracle.
-- The per-element sigmas are the new prize: orbit-quality uncertainty at population scale with no
-  per-body HTTP calls — a cheap input to any confidence-weighted ranking or pymc layer (see skill
-  `economicspace-pipeline`, open candidates).
+Consequences (corrected):
+- **Asterank remains an external Δv oracle** for targeted bodies, alongside JPL NHATS — but it is a per-body HTTP call at population scale (~600K), so its role stays *spot-check / top-N*, not full-catalog. The `asterank_sigma_probe.py` script (this skill's scripts/) exercises both modes and prints the schema notes automatically.
+- **The query param is a JSON object, not free text** — `query=433` returns HTTP 500; working keys verified: `name` (proper names), `pdes` (MPC designation strings like "1999 AO10"; numeric for numbered bodies). Plain-number lookups must go through `pdes`.
+- **Economics fields are still partially garbage** in both modes (`price`/`profit`: Ceres $8.1T real, Juno 2.7e-44 nonsense — same failure mode SECOND-PASS flagged as `1e-42`). Treat them as order-of-magnitude priors only.
+- **NEW: per-element orbit sigmas** (both modes): `sigma_a`, `sigma_e`, `sigma_i`, `sigma_om`, `sigma_w`, `sigma_ma` + derived `sigma_q/ad/per/n/tp` — a free covariance DIAGONAL for ~600K bodies with zero extra calls in bulk mode (Eros: σa 4.4e-10 au, σi 2.8e-06). Complements NEODyS's full 6×6 matrix on the top-N.
+- **NEW: observation provenance**: `n_del_obs_used`, `n_dop_obs_used` alongside existing `data_arc`, `rms`, `condition_code`, `orbit_id`.
 
-## NHATS — JPL's own Δv oracle (the surviving one) [SRC + HF live]
+
+## NHATS — JPL's population-scale Δv oracle (~7k bodies, keyless single call) [SRC + HF live]
 
 - Source: NASA JPL **NHATS** study via `ssd-api.jpl.nasa.gov/nhats.api`; fetched by
   `space-datasets/scripts/update-nhats.py` through the repo's shared `jpl_api.jpl_query()` helper.
@@ -58,7 +53,7 @@ All are live public feeds; HF mirrors exist for most under `juliensimon/*`.
 | script | source / shape | backs in the pipeline |
 |---|---|---|
 | `update-nhats.py` | JPL NHATS API, 7,033 NEAs (above) | external Δv oracle; accessible-population orbit-quality enrichment (79.5% at U≥5 vs 13.9% catalog — a property of the population, not just selection) |
-| `update-asterank.py` | Asterank API ~600K rows (schema above) | independent economic ranking prior art; per-element orbit sigmas (NEW); ⚠️ dv column dead since 2026-09-07 |
+| `update-asterank.py` | Asterank bulk-scan ~600K rows (two-mode schema above) | independent economic ranking prior art; per-element orbit sigmas (NEW); dv available via targeted queries only — the HF mirror's 50-col snapshot has no dv either |
 | `update-nesvorny-families.py` | PDS SBN zip: Nesvorny HCM families V2.0 — ~170K asteroids in **274 collisional families** (119 from 2015 + 153 new 2024) | family membership = composition evidence (fragments share a parent body); the hierarchical structure a pymc prior over `spectral_type` actually has, vs the flat categorical currently proposed |
 | `update-bus-demeo.py` | PDS SBN fixed-width `.tab`: DeMeo et al. 2009 — **371 reference asteroids**, ~24 classes + PC1–PC5 scores; parsed with exact colspecs (`(0,7),(8,25),(26,36),(37,40),(41,51),(52,55)`) | the *reference* taxonomy that defines the classes `TAXONOMY_COMPOSITION` keys on |
 | `update-sdss-taxonomy.py` | PDS **PDS3** fixed-width (note: pds3 path): Carvano et al. 2010 — 107,466 observation rows + 63,468 asteroid rows with exact colspecs in the script; per-observation u/g/r/i/z log-reflections | turns the manual ~34%-disagreement spot check into a **per-body provenance column** for every body in SDSS footprint (the open "astroquery SDSS cross-survey at scale" candidate) |
@@ -71,8 +66,7 @@ All are live public feeds; HF mirrors exist for most under `juliensimon/*`.
 
 ## Placement in the pipeline's verification stack
 
-1. **Ranking cross-check** (research/ level, never feeds ranking math): NHATS Spearman by orbit-quality
-   band — reproduces F6; re-run when the catalog or estimator changes.
+1. **Ranking cross-check** (research/ level, never feeds ranking math): NHATS Spearman by orbit-quality band — reproduces F6; re-run when the catalog or estimator changes. `scripts/nhats_rank_crosscheck.py` (this skill) runs it end-to-end against a live JPL fetch + any economicspace CSV with a designation column.
 2. **Orbit-quality uncertainty**: NEODyS full 6×6 covariance on top-N (per-body HTTP) + Asterank sigma
    diagonal at population scale → confidence weight feeding `comp_*` instead of a hard U cutoff.
 3. **Soft-number audits** (no model change): launch-cost table diff, lunar geochemistry vs utility

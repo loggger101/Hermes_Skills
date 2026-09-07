@@ -4,7 +4,7 @@ description: Note taking skills, to save information, assist with research, and 
 
 # note-taking
 
-Note taking skills, to save information, assist with research, and collab on multi-session planning and information sharing..
+Note taking skills, to save information, assist with research, and collab on multi-session planning and information sharing.
 
 - [`obsidian`](./obsidian/SKILL.md) — Read, search, create, and edit notes in the Obsidian vault
 

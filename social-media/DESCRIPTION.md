@@ -4,7 +4,7 @@ description: Skills for interacting with social platforms and social-media workf
 
 # social-media
 
-Skills for interacting with social platforms and social-media workflows — posting, reading, monitoring, and account operations..
+Skills for interacting with social platforms and social-media workflows — posting, reading, monitoring, and account operations.
 
 - [`xurl`](./xurl/SKILL.md) — X/Twitter via xurl CLI: post search, posting, DM, media
 

@@ -4,7 +4,7 @@ description: Data science workflows and tools.
 
 # data-science
 
-Data science workflows and tools..
+Data science workflows and tools.
 
 - [`astro-toolkit-selection`](./astro-toolkit-selection/SKILL.md) — Choose astrodynamics tools: brahe, nyx, OpenSCvx, skyfield
 - [`bit-identity-float-pipelines`](./bit-identity-float-pipelines/SKILL.md) — Verify correctness via exact float hashes / bit-identity

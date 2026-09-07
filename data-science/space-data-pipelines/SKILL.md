@@ -33,6 +33,13 @@ Every pipeline is ONE script following the same shape:
 5. **Upload** — HF via huggingface_hub; local test = script fails at upload but parquet is already written to temp dir first.
 6. **Status** — update status.json with date + row count per key.
 
+**Runnable reference implementation:** `scripts/pipeline_skeleton.py` (this skill) carries the three shared helpers
+verbatim-in-spirit from space-datasets — `jpl_query()` (retry/backoff on 5xx), `vizier_query()` (recno-cursor pagination,
+VizieR TAP has no OFFSET), `check_dataset()` (hard-fail row/schema/null gates + truncated-upload guard) — wired to a live
+NHATS fetch as the self-test. Verified end-to-end 2026-09-07: 7,045 rows fetched, validation passed with 0 warnings,
+status.json row-trend written. Two gotchas baked in from that run: JPL returns some numerics as strings (coerce after
+unwrap), and NHATS nests `min_dv`/`min_dur` as `{"dv":…, "dur":…}` dicts.
+
 ## Update strategies
 - Full rebuild: re-fetch entire source (single file or small sources).
 - Incremental: download existing parquet, fetch 7–14 day window, `pd.concat` + `drop_duplicates(keep="last")`; fall back to full rebuild if no prior data exists. Best for append-only streams (TLEs, flares, Kp index).

@@ -4,7 +4,7 @@ description: Skills for document creation, presentations, spreadsheets, and othe
 
 # productivity
 
-Skills for document creation, presentations, spreadsheets, and other productivity workflows..
+Skills for document creation, presentations, spreadsheets, and other productivity workflows.
 
 - [`airtable`](./airtable/SKILL.md) — Airtable REST API via curl. Records CRUD, filters, upserts
 - [`box`](./box/SKILL.md) — Box manages cloud files, sharing, search, and metadata

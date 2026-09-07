@@ -4,7 +4,7 @@ description: Infrastructure, containers, and deployment workflows.
 
 # devops
 
-Infrastructure, containers, and deployment workflows..
+Infrastructure, containers, and deployment workflows.
 
 - [`docker-containers`](./docker-containers/SKILL.md) — Build and debug Docker containers and Compose stacks
 - [`rest-api-client`](./rest-api-client/SKILL.md) — Call REST APIs: auth, pagination, rate limits, errors
