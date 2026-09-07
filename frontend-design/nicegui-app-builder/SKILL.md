@@ -89,3 +89,6 @@ NiceGUI apps are testable with pytest — the in-repo todo_list example ships `t
 - `ui.run()` args mostly apply only after full restart — not with auto-reload (per docstring).
 - Storage without `storage_secret` = unencrypted; set it before using app.storage.user for anything sensitive.
 - Native mode (`native=True`) needs pywebview installed and a display server; headless CI → use browser/websocket testing instead.
+
+## References (verified API detail lives here)
+- `references/frontend-tooling.md` — nicegui `ui.run()` full 33-param list verified from source (corrects the earlier "71 params" claim), Front-End-Checklist MCP rule package, HTMLHint's 34 rules, dashy deployable-dashboard layout. Source-read from cloned repos, 2026-09-05/06.

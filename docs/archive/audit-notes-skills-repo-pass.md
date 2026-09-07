@@ -140,7 +140,7 @@ All 127 skills now use the standard `metadata.hermes` nesting format. A repo-wid
 
 ## New: Automated Audit Script
 
-A reusable audit script at [`tools/audit-skills.py`](./tools/audit-skills.py) was created to make the `skill-audit.json` cronjob functional. It performs:
+A reusable audit script at [`tools/audit-skills.py`](../../tools/audit-skills.py) was created to make the `skill-audit.json` cronjob functional. It performs:
 
 1. **YAML frontmatter validation** — required fields + `metadata.hermes` nesting
 2. **Description length checks** — ≤59 chars (the routing-signal budget per SKILL.md format spec)

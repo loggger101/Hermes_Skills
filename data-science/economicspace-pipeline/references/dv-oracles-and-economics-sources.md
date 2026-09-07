@@ -7,7 +7,7 @@ verified_date: "2026-09-07"
 
 # Delta-v Oracles & Economics Data Sources for the economicspace Pipeline
 
-Companion to [catalog-data-sources.md](./catalog-data-sources.md). This file covers the
+Companion to `catalog-data-sources.md` (now lives with its owning skill at `data-science/astro-toolkit-selection/references/catalog-data-sources.md`). This file covers the
 **external Δv oracles** (independent checks on the closed-form estimator) and the **soft-assumption
 data sources** — cited, keyless feeds that back the pipeline's softest numbers. All facts below were
 source-read from the clone at `%LOCALAPPDATA%\Temp\starred-dive\space-datasets` or probed live today;

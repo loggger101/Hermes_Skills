@@ -98,12 +98,12 @@ the model string appears in multiple places that all need updating:
 1. **Cron JSON config** — `"model"` and `"provider"` fields in `.hermes/cron/active/*.json`
 2. **Guardrails array** — text strings that mention the model pin for documentation
 3. **README tables** — verification items that list the expected model
-4. **NOTES.md** — any audit notes referencing model versions
+4. **Audit notes / docs/** — any historical or reference doc referencing model versions (e.g. `docs/archive/audit-notes-skills-repo-pass.md`)
 5. **SKILL.md guardrails** — pitfall text mentioning the model
 
 Always grep for the old model string after updating:
 ```bash
-grep -rn "claude-sonnet-4-20250514" .hermes/cron/ README.md NOTES.md autonomous-ai-agents/cron-job-authoring/SKILL.md
+grep -rn "claude-sonnet-4-20250514" .hermes/cron/ README.md docs/ autonomous-ai-agents/cron-job-authoring/SKILL.md
 ```
 This catches stale references that would otherwise cause drift between the documented
 and actual model config.
