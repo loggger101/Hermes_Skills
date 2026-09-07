@@ -21,6 +21,21 @@ executed live on 2026-09-06; quoted outputs are real.
 
 ## Verified snippets (run 2026-09-06)
 
+### Osculating elements from state vectors — `skyfield.elementslib.osculating_elements_of` [SRC, verified in clone]
+Pure-Python element solver: takes a position/velocity pair and returns an `OsculatingElements` object with
+**all 15 derived quantities as properties**: `semi_major_axis`, `eccentricity_vector` + scalar,
+`inclination`, `longitude_of_ascending_node`, `argument_of_periapsis`, `mean_anomaly`, `true_anomaly`,
+`periapsis_time`, `period_in_days`, `apoapsis_distance`, `semi_latus_rectum`, ... Signature:
+```python
+from skyfield.elementslib import osculating_elements_of
+oe = osculating_elements_of(position, reference_frame=None, gm_km3_s2=None)  # position/velocity Vector objects at one time
+# oe.semi_major_axis (au), oe.eccentricity, oe.inclination (deg), oe.mean_anomaly (rad), ...
+```
+Use as an **independent check on any element math** in the pipeline (e.g. recompute elements from a
+propagated state and diff against the catalog's stored elements — catches unit/angle-convention drift that
+a same-library round-trip would not). Companion helpers `apoapsis_distance(p, e)`, `eccentricity_vector(...)`,
+`inclination(h_vec)` are exported for single-quantity checks.
+
 ### Load ephemeris + timescale, Sun–Earth distance
 ```python
 from skyfield.api import load
