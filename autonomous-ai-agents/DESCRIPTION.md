@@ -4,7 +4,7 @@ description: Skills for spawning and orchestrating autonomous AI coding agents a
 
 # autonomous-ai-agents
 
-Skills for spawning and orchestrating autonomous AI coding agents and multi-agent workflows — running independent agent processes, delegating tasks, and coordinating parallel workstreams..
+Skills for spawning and orchestrating autonomous AI coding agents and multi-agent workflows — running independent agent processes, delegating tasks, and coordinating parallel workstreams.
 
 - [`autonomous-repo-cronjob`](./autonomous-repo-cronjob/SKILL.md) — Write self-contained cronjob prompts for existing repos
 - [`claude-code`](./claude-code/SKILL.md) — Delegate coding to Claude Code CLI (features, PRs)

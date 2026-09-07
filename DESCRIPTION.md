@@ -9,6 +9,7 @@ This repository is the **second brain** of its owner's Hermes Agent environment:
 ## Start here (cheapest → most thorough)
 - **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 166 skills; `grep -i <term>` is the fastest way to find a capability.
 - **[CODE-INDEX.md](./CODE-INDEX.md)** — flat index of every script, shared helper, test, and template (the executable knowledge layer); `grep -i <term> CODE-INDEX.md` finds runnable code by purpose or owner skill.
+- **[REFERENCES-INDEX.md](./REFERENCES-INDEX.md)** — flat index of all 253 reference docs living inside skills' `references/` dirs; `grep -i <term> REFERENCES-INDEX.md` finds verified API maps / gotchas tables by topic without knowing which skill owns them.
 - **[DEPENDENCY.md](./DEPENDENCY.md)** — relationship map: hub skills, standalone skills, full cross-reference validation.
 - **[docs/](./docs/README.md)** — **knowledge-layer index**: verified API references + working code patterns from the 41-repo starred deep dive, reorganized 2026-09-07 to live inside each owning skill's `references/` dir (astro-toolkit-selection carries brahe/skyfield/OpenSCvx/catalog/optimization refs; economicspace-pipeline carries Δv-oracles + soft-assumption sources; python-data-science carries polars/pymc; nicegui-app-builder carries frontend tooling; github-pr-workflow carries git recipes). Skills say *how to work*; their references say *what exists in these libraries and what breaks*.
 - **[README.md](./README.md)** — human-facing overview with the full catalog and verification status.
@@ -44,31 +45,31 @@ Skills are organized into 23 categories (each has a `DESCRIPTION.md`):
 
 | Category | Focus |
 |----------|-------|
-| [apple/(./apple//SKILL.md) | Apple platform integrations (macOS, iOS) |
-| [autonomous-ai-agents/(./autonomous-ai-agents//SKILL.md) | Multi-agent orchestration, cronjob patterns |
-| [communication/(./communication//SKILL.md) | Decision-brief formats (1-3-1 rule) |
-| [creative/(./creative//SKILL.md) | Creative content generation, design, media, diagrams |
-| [data-science/(./data-science//SKILL.md) | Data science workflows, Python, SQL, orbital mechanics, space pipelines |
-| [devops/(./devops//SKILL.md) | Docker, REST APIs, SSH, SQLite |
-| [doc-coauthoring/(./doc-coauthoring//SKILL.md) | Structured documentation co-authoring |
-| [dogfood/(./dogfood//SKILL.md) | Exploratory QA and adversarial UX testing |
-| [email/(./email//SKILL.md) | Email management and triage |
-| [frontend-design/(./frontend-design//SKILL.md) | Visual design for AI-generated UI + Python reactive-UI builders (NiceGUI) |
-| [github/(./github//SKILL.md) | GitHub workflows, PR review, issues, CI, issue-triage state machine |
-| [huggingface-trackio/(./huggingface-trackio//SKILL.md) | ML experiment tracking |
-| [mcp/(./mcp//SKILL.md) | Model Context Protocol servers (FastMCP) |
-| [media/(./media//SKILL.md) | GIF search, audio analysis, YouTube content |
-| [mlops/(./mlops//SKILL.md) | Evaluation harnesses, HuggingFace Hub, vLLM, W&B |
-| [note-taking/(./note-taking//SKILL.md) | Obsidian vault integration |
-| [productivity/(./productivity//SKILL.md) | Documents, spreadsheets, meetings, calendars, website audits |
-| [research/(./research//SKILL.md) | Paper writing pipeline, citation verification, monitoring |
-| [security/(./security//SKILL.md) | Code security review |
-| [smart-home/(./smart-home//SKILL.md) | Philips Hue control |
-| [social-media/(./social-media//SKILL.md) | X/Twitter via xurl CLI |
-| [software-development/(./software-development//SKILL.md) | TDD, spec-driven dev, debugging, planning (grilling/wayfinder), Python, Node |
-| [web-development/(./web-development//SKILL.md) | Web/API client derivation from HAR recordings |
+| [apple/](./apple/) | Apple platform integrations (macOS, iOS) |
+| [autonomous-ai-agents/](./autonomous-ai-agents/) | Multi-agent orchestration, cronjob patterns |
+| [communication/](./communication/) | Decision-brief formats (1-3-1 rule) |
+| [creative/](./creative/) | Creative content generation, design, media, diagrams |
+| [data-science/](./data-science/) | Data science workflows, Python, SQL, orbital mechanics, space pipelines |
+| [devops/](./devops/) | Docker, REST APIs, SSH, SQLite |
+| [doc-coauthoring/](./doc-coauthoring/) | Structured documentation co-authoring |
+| [dogfood/](./dogfood/) | Exploratory QA and adversarial UX testing |
+| [email/](./email/) | Email management and triage |
+| [frontend-design/](./frontend-design/) | Visual design for AI-generated UI + Python reactive-UI builders (NiceGUI) |
+| [github/](./github/) | GitHub workflows, PR review, issues, CI, issue-triage state machine |
+| [huggingface-trackio/](./huggingface-trackio/) | ML experiment tracking |
+| [mcp/](./mcp/) | Model Context Protocol servers (FastMCP) |
+| [media/](./media/) | GIF search, audio analysis, YouTube content |
+| [mlops/](./mlops/) | Evaluation harnesses, HuggingFace Hub, vLLM, W&B |
+| [note-taking/](./note-taking/) | Obsidian vault integration |
+| [productivity/](./productivity/) | Documents, spreadsheets, meetings, calendars, website audits |
+| [research/](./research/) | Paper writing pipeline, citation verification, monitoring |
+| [security/](./security/) | Code security review |
+| [smart-home/](./smart-home/) | Philips Hue control |
+| [social-media/](./social-media/) | X/Twitter via xurl CLI |
+| [software-development/](./software-development/) | TDD, spec-driven dev, debugging, planning (grilling/wayfinder), Python, Node |
+| [web-development/](./web-development/) | Web/API client derivation from HAR recordings |
 
-Non-skill content: [`memories/`(./memories//SKILL.md) (the agent's persistent notes + user profile — the "brain" part) and [`profile/`(./profile//SKILL.md) (a reference snapshot of one live Hermes profile). See each directory's `DESCRIPTION.md`.
+Non-skill content: [`memories/`](./memories/DESCRIPTION.md) (the agent's persistent notes + user profile — the "brain" part) and [`profile/`](./profile/DESCRIPTION.md) (a reference snapshot of one live Hermes profile). See each directory's `DESCRIPTION.md`.
 
 ## Structure
 
@@ -88,6 +89,7 @@ category/
 - **`check-links.py`** — broken-link gate: every relative markdown link must resolve (skips URLs, code spans, historical `profiles-export/` snapshots). Run alongside the audit before committing doc changes.
 - **`gen-skills-index.py`** — rebuilds `SKILLS-INDEX.md` from live frontmatter (stdlib-only).
 - **`gen-code-index.py`** — rebuilds `CODE-INDEX.md` from every code file in the repo: path, kind (script/helper/test/template), language, size, one-line purpose extracted from its docstring/header comment. Run after adding/removing/renaming scripts.
+- **`gen-references-index.py`** — rebuilds `REFERENCES-INDEX.md` from every skill's `references/*.md`: flat grep index with each doc's frontmatter description and owning skill. Run after adding/removing reference docs.
 - **`regen-dependency-map.py`** — rebuilds `DEPENDENCY.md` from live frontmatter (safe standalone; the sync script's built-in generator can hang on import interactively).
 - **`sync-hermes-skills.py`** — full bidirectional GitHub↔local-Hermes sync, run weekly by cron. Has `--dry-run`. Do not run casually: its delete phase removes repo files that no longer exist locally.
 
@@ -110,4 +112,4 @@ python tools/gen-skills-index.py && python tools/regen-dependency-map.py
 
 ## Maintenance rules (summary)
 
-Never break the audit; keep `description` ≤59 chars; regenerate DEPENDENCY.md + SKILLS-INDEX.md after frontmatter changes and CODE-INDEX.md after code-file changes; log significant changes in [audit notes](docs/archive/audit-notes-skills-repo-pass.md); commit author for automation is `hermes-cronbot <cronbot@hermes.local>`; never commit credentials. The full convention list is enforced by `tools/audit-skills.py` (see its docstring and the Verification section of README.md).
+Never break the audit; keep `description` ≤59 chars; regenerate DEPENDENCY.md + SKILLS-INDEX.md after frontmatter changes, CODE-INDEX.md after code-file changes, and REFERENCES-INDEX.md after reference-doc changes; log significant changes in [audit notes](docs/archive/audit-notes-skills-repo-pass.md); commit author for automation is `hermes-cronbot <cronbot@hermes.local>`; never commit credentials. The full convention list is enforced by `tools/audit-skills.py` (see its docstring and the Verification section of README.md).

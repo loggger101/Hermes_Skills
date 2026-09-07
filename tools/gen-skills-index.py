@@ -43,7 +43,7 @@ def main():
         "# SKILLS-INDEX",
         "",
         f"Flat index of all **{len(rows)} skills** in this second brain — one line each, grep-friendly.",
-        "Format: `- \\`skill-name\\` — description _(category)_`. Regenerate with `python tools/gen-skills-index.py`.",
+        "Format: `- \\`skill-name\\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.",
     ]
     cur = None
     for cat, name, desc in rows:
@@ -62,6 +62,68 @@ def main():
     print(f"wrote SKILLS-INDEX.md: {len(rows)} skills, {len(cats)} categories")
     if missing_desc:
         print("WARNING — skills with empty description:", ", ".join(missing_desc), file=sys.stderr)
+
+    write_category_descriptions(rows, cats)
+
+
+def write_category_descriptions(rows, cats):
+    """Regenerate each category's DESCRIPTION.md skill list from live frontmatter.
+
+    The files claim '*Regenerated from live frontmatter*' but nothing actually wrote them —
+    hand-edited copies drifted (broken links to nonexistent SKILL.md paths for nested or
+    same-named skills). This makes the claim true: every run rewrites each category's list,
+    preserving its existing YAML frontmatter and one-line blurb verbatim.
+
+    Link targets are computed from where the skill ACTUALLY lives on disk:
+      <cat>/<skill>/SKILL.md   -> ./<skill>/SKILL.md
+      <cat>/<sub>/<skill>      -> ./<sub>/<skill>/SKILL.md   (e.g. mlops/evaluation/w-b)
+    """
+    # map skill name -> its real dir relative to the category root
+    by_cat = {}
+    for p in REPO.rglob("SKILL.md"):
+        ps = str(p).replace("\\", "/")
+        if any(s in ps for s in SKIP_PARTS):
+            continue
+        parts = p.relative_to(REPO).parts          # (cat, [sub...], skilldir, SKILL.md) or (cat, SKILL.md)
+        cat = parts[0]
+        if len(parts) == 2:                        # top-level single-skill category: <cat>/SKILL.md
+            by_cat.setdefault(cat, []).append((None, cat))
+            continue
+        name_dir = parts[-2]
+        rel_skill_dir = "/".join(parts[1:-2])      # '' for flat, 'evaluation' etc. for nested
+        by_cat.setdefault(cat, []).append((rel_skill_dir, name_dir))
+
+    written = 0
+    for cat in cats:
+        catdir = REPO / cat
+        if not catdir.is_dir():
+            continue
+        path = catdir / "DESCRIPTION.md"
+        existing = path.read_text(encoding="utf-8") if path.exists() else ""
+        fm_m = re.match(r"^---\n(.*?)\n---", existing, re.DOTALL)
+        frontmatter = (fm_m.group(0).rstrip("\n") + "\n\n") if fm_m else f"---\ndescription: {cat}.\n---\n\n"
+
+        # blurb: derived deterministically from the frontmatter description (the old
+        # hand-typed body lines had drift — doubled periods, stale text). fm_desc + "."
+        desc_m = re.search(r'^description:\s*"?([^"\n]+?)"?\s*$', fm_m.group(1), re.M) if fm_m else None
+        blurb = (desc_m.group(1).strip().rstrip(".") + ".") if desc_m and desc_m.group(1).strip() else f"{cat}."
+
+        items = sorted(by_cat.get(cat, []), key=lambda r: (r[0] or "", r[1].lower()))
+        out = [frontmatter.rstrip("\n"), "", f"# {cat}", "", blurb, ""]
+        for rel_skill_dir, name in items:
+            if rel_skill_dir is None:              # top-level single-skill category
+                target = "./SKILL.md"
+            elif not rel_skill_dir:
+                target = f"./{name}/SKILL.md"
+            else:
+                target = f"./{rel_skill_dir}/{name}/SKILL.md"
+            # description from the live frontmatter rows (rows already carry it)
+            desc = next((d for c2, n2, d in rows if c2 == cat and n2 == name), "")
+            out.append(f"- [`{name}`]({target}) — {desc}")
+        out += ["", "*Regenerated from live frontmatter — keep in sync with `tools/gen-skills-index.py`.*"]
+        path.write_text("\n".join(out) + "\n", encoding="utf-8")
+        written += 1
+    print(f"wrote DESCRIPTION.md for {written} categories (skill lists now match disk)")
 
 
 if __name__ == "__main__":

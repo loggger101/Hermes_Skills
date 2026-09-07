@@ -4,7 +4,7 @@ description: Skills for academic research, paper discovery, literature review, d
 
 # research
 
-Skills for academic research, paper discovery, literature review, domain reconnaissance, market data, content monitoring, and scientific knowledge retrieval..
+Skills for academic research, paper discovery, literature review, domain reconnaissance, market data, content monitoring, and scientific knowledge retrieval.
 
 - [`arxiv`](./arxiv/SKILL.md) — Search arXiv papers by keyword, author, category, or ID
 - [`blocked-page-recovery`](./blocked-page-recovery/SKILL.md) — Recover blocked/paywalled/WAF'd pages via fallbacks

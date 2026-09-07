@@ -4,7 +4,7 @@ description: Skills for controlling smart home devices — lights, switches, sen
 
 # smart-home
 
-Skills for controlling smart home devices — lights, switches, sensors, and home automation systems..
+Skills for controlling smart home devices — lights, switches, sensors, and home automation systems.
 
 - [`openhue`](./openhue/SKILL.md) — Control Philips Hue lights, scenes, rooms via OpenHue CLI
 

@@ -4,7 +4,7 @@ description: GitHub workflow skills for managing repositories, pull requests, co
 
 # github
 
-GitHub workflow skills for managing repositories, pull requests, code reviews, issues, and CI/CD pipelines using the gh CLI and git via terminal..
+GitHub workflow skills for managing repositories, pull requests, code reviews, issues, and CI/CD pipelines using the gh CLI and git via terminal.
 
 - [`codebase-inspection`](./codebase-inspection/SKILL.md) — Inspect codebases w/ pygount: LOC, languages, ratios
 - [`github-auth`](./github-auth/SKILL.md) — GitHub auth setup: HTTPS tokens, SSH keys, gh CLI login

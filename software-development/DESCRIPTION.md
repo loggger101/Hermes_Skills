@@ -4,7 +4,7 @@ description: Development tools and coding workflows.
 
 # software-development
 
-Development tools and coding workflows..
+Development tools and coding workflows.
 
 - [`ast-grep`](./ast-grep/SKILL.md) — AST-aware structural code search and rewrite via ast-grep
 - [`cli-tool-craft`](./cli-tool-craft/SKILL.md) — CLI tools: subcommands, config validation, env substitution
