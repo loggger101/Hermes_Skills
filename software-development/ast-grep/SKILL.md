@@ -291,3 +291,11 @@ When summarizing for the user, **always include the count of files affected**, n
 - **Pattern is code, not regex.** When the pattern would need `|`, `.*`, `\w`, or `[a-z]`, switch to search_files instead. Don't try to force ast-grep into a regex shape.
 - **`--lang` is required for stdin.** When piping with `--stdin`, set `--lang` explicitly; `sg` cannot infer from extension.
 - **Linux: prefer `ast-grep` over `sg`** because `sg` collides with `setgroups` from `util-linux`. The helper handles this; if you call `sg` directly, alias it: `alias sg=ast-grep`.
+
+## Testing the skill itself
+
+`tests/smoke.sh` exercises the helper end-to-end on POSIX (macOS/Linux/WSL/Git Bash) using **only stdlib python3** — no ast-grep binary needed. Run it after touching `scripts/ast_grep_helper.py`:
+
+```bash
+bash tests/smoke.sh   # 11 checks: version, langs, validate exit codes, doctor, install --help, frontmatter shape
+```

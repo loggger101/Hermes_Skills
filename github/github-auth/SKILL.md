@@ -292,7 +292,14 @@ uv run python "${HERMES_HOME:-$HOME/.hermes}/skills/github/github-auth/scripts/g
 
 ### Helper: Detect Auth Method
 
-Use this pattern at the start of any GitHub workflow:
+The bundled `scripts/gh-env.sh` does this detection (plus repo owner/name resolution) — source it at the start of any GitHub workflow instead of re-deriving auth by hand:
+
+```bash
+source "${HERMES_HOME:-$HOME/.hermes}/skills/github/github-auth/scripts/gh-env.sh"
+# exports: GH_AUTH_METHOD (gh|curl|none), GITHUB_TOKEN, GH_USER, GH_OWNER_REPO...
+```
+
+Manual equivalent, if the script isn't available:
 
 ```bash
 # Try gh first, fall back to git + curl
@@ -300,8 +307,8 @@ if command -v gh &>/dev/null && gh auth status &>/dev/null; then
   echo "AUTH_METHOD=gh"
 elif [ -n "$GITHUB_TOKEN" ]; then
   echo "AUTH_METHOD=curl"
-elif _hermes_env="${HERMES_HOME:-$HOME/.hermes}/.env"; [ -f "$_hermes_env" ] && grep -q "^GITHUB_TOKEN=" "$_hermes_env"; then
-  export GITHUB_TOKEN=$(grep "^GITHUB_TOKEN=" "$_hermes_env" | head -1 | cut -d= -f2 | tr -d '\n\r')
+elif [ -f "${HERMES_HOME:-$HOME/.hermes}/.env" ] && grep -q "^GITHUB_TOKEN=" "${HERMES_HOME:-$HOME/.hermes}/.env"; then
+  export GITHUB_TOKEN=$(grep "^GITHUB_TOKEN=" "${HERMES_HOME:-$HOME/.hermes}/.env" | head -1 | cut -d= -f2 | tr -d '\n\r')
   echo "AUTH_METHOD=curl"
 elif grep -q "github.com" ~/.git-credentials 2>/dev/null; then
   export GITHUB_TOKEN=$(uv run python "${HERMES_HOME:-$HOME/.hermes}/skills/github/github-auth/scripts/git-credential-token.py")

@@ -63,6 +63,12 @@ python scripts/docx_comments.py list out.docx
 python scripts/docx_validate.py out.docx
 ```
 
+**Shared helper:** `scripts/docx_common.py` is imported by the edit/revisions/comments/template CLIs — it provides run-preserving text replacement and paragraph iteration across body, tables (recursive), headers, and footers. Don't duplicate that logic in new scripts; import from it.
+
+**Regression tests:** `tests/test_docx_skill.py` covers the CLI surface (`pytest tests/`). Run after touching any script.
+
+**Provenance — `specs/`:** one-off builder scripts used to produce a specific deliverable (the 57-page website-audit .docx for loganmedwardsastrophy.com): `build-audit.py` → `build-audit-v2.py` (append chapters) → `build-audit-v3.py` (full verified rebuild, the pattern of record: every claim backed by a fresh-clone file read before writing), plus `patch-audit.py` for in-place factual fixes. They contain hardcoded output paths — treat them as **reference implementations** of the python-docx builder pattern (styled headings, shaded table cells, section layout), not runnable tools; see also the `website-audit` skill for the audit workflow itself.
+
 ## Quick Reference
 
 | Task | Command |

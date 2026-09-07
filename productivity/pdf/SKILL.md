@@ -67,6 +67,8 @@ python scripts/pdf_meta.py doc.pdf --attach data.csv -o out.pdf
 python scripts/pdf_meta.py doc.pdf --list-attachments | --extract-attachments dir/
 ```
 
+**Shared helper:** `scripts/_raster.py` is the internal page rasterizer (pypdfium2 → pdftoppm fallback chain, returns PIL images) used by `pdf_form_layout.py --render-overlay` and `pdf_page_image.py`. Not a CLI — import it if you need annotated page renders.
+
 ## Quick Reference
 
 | Task | Tool | Command / API |

@@ -41,6 +41,8 @@ Gmail, Calendar, Drive, Contacts, Sheets, and Docs — through Hermes-managed OA
 
 - `scripts/setup.py` — OAuth2 setup (run once to authorize)
 - `scripts/google_api.py` — compatibility wrapper CLI. It prefers `gws` for operations when available, while preserving Hermes' existing JSON output contract.
+- `scripts/gws_bridge.py` — token bridge: refreshes the stored access token if expired, then executes `gws` with a valid one (use when `gws` calls fail on auth).
+- `scripts/_hermes_home.py` — shared helper resolving `$HERMES_HOME` for standalone runs (system Python/CI where `hermes_constants` isn't importable); all scripts in this dir import it instead of re-implementing the env lookup.
 
 ## First-Time Setup
 

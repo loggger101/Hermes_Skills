@@ -6,6 +6,7 @@ A comprehensive collection of **166 Hermes Agent skills** across 23 categories â
 
 - [Overview](#overview)
 - [Skills Index (flat, grep-friendly)](./SKILLS-INDEX.md)
+- [Code Index (scripts/helpers/tests, flat)](./CODE-INDEX.md)
 - [Quick Start](#quick-start)
 - [Skill Structure](#skill-structure)
 - [Provenance](#provenance)
@@ -34,6 +35,8 @@ skill_view(name='autonomous-repo-cronjob')
 
 ```bash
 grep -i "delta-v" SKILLS-INDEX.md   # or: nicegui, triage, diagram...
+# Looking for runnable code (scripts/helpers/tests) instead?
+grep -i "raster\|token bridge" CODE-INDEX.md
 ```
 
 **New to the repo?** Start with the [Skill Structure](#skill-structure) and [Verification](#verification) sections below (they define every convention in this second brain), then the [Cron Job Authoring](#cron-job-authoring) section for the two-agent automation pattern, or browse the [Dependency Map](./DEPENDENCY.md) for skill relationships.
@@ -420,6 +423,7 @@ This repository includes Python scripts in the `tools/` directory that automate 
 
 | [`check-links.py`](./tools/check-links.py) | Broken-link gate: verifies every relative markdown link in the repo resolves (skips URLs, code spans, historical profiles-export snapshots); exit 1 on any broken link | After doc edits; pairs with audit as a pre-commit pair |
 | [`gen-skills-index.py`](./tools/gen-skills-index.py) | Rebuilds SKILLS-INDEX.md (flat one-line-per-skill index, the cheapest lookup path in the repo); stdlib-only | After adding/removing/renaming skills |
+| [`gen-code-index.py`](./tools/gen-code-index.py) | Rebuilds CODE-INDEX.md: every script/helper/test/template with kind, language, size, and a one-line purpose from its docstring/header comment; stdlib-only | After adding/removing/renaming code files |
 | [`regen-dependency-map.py`](./tools/regen-dependency-map.py) | Standalone DEPENDENCY.md regenerator (same format as the sync script's built-in map): scans all SKILL.md frontmatter, rebuilds hub/standalone tables and xref validation line | Manual / after bulk skill additions |
 | [`validate-skill-refs.py`](./.hermes/cron/validate-skill-refs.py) | Validates all skill references in cronjob JSON configs resolve to existing in-repo skill directories | Pre-flight check before scheduling any cronjob |
 | [`validate-cronjobs.py`](./.hermes/cron/validate-cronjobs.py) | Comprehensive cronjob JSON validation: structural schema, skill ref resolution, threshold key alignment, no_agent consistency, enabled_toolsets correctness | Run before committing any cronjob config change |
