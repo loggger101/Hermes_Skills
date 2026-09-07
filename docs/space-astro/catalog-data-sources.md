@@ -50,7 +50,7 @@ vec  = h.vectors_async(aberrations='geometric', delta_T=False)
 | `mpc` | `MPCClass.get_observations_async(targetid)` — ALL reported obs; `get_ephemeris_async`, `query_objects_async(target_type=...)` (mission catalogs), observatory code lookups | raw observation archive, MPC ephemerides |
 | `imcce.miriade` | `MiriadeClass.get_ephemerides_async(targetname, *, objtype='asteroid', epoch_step='1d')` | quick asteroid ephemeris (no auth) |
 | `imcce.skybot` | `SkybotClass.cone_search_async(coo, rad, epoch, *, location='500', position_error=120)` | sky-survey cone search in arcsec |
-| `solarsystem.neodys` | `NEODySClass.query_object(object_id)` | NEO risk/encounter data (ESA) |
+| `solarsystem.neodys` | `NEODySClass.query_object(object_id, *, orbital_element_type="eq"|"ke", epoch_near_present=0)` → dict with **`COV`: full 6×6 covariance matrix**, `COR` correlation (Keplerian), `KEP` + `EQU` state vectors (au/deg; equinoctial = higher precision per docstring), `MAG` H+G, `MJD`. One HTTP call per object — scope to the top-N of a ranking, never 1.5 M rows [SRC] | **orbit-quality uncertainty as an error bar rather than a U cutoff** (the open modelling decision in economicspace); University of Pisa service, not ESA |
 | `solarsystem.pds` | `RMSNodeClass.ephemeris_async(planet)` | PDS Ring-Moon Systems Node — moon/ring ephemerides |
 | `vizier` | `VizierClass.find_catalogs(keywords)`, `query_object_async`, `query_region_async`; builder props `columns/column_filters/ucd/catalog` | any CDS catalog; TAP gotcha: always `SELECT *` + recno pagination (see space-data-pipelines skill) |
 
@@ -77,6 +77,20 @@ Full binary spec captured from the repo's docs/export-format: 24-byte common hea
 **float64 JD segment bounds, float32 Chebyshev coefficients**; Clenshaw evaluation recipe with a parent-chain walk
 to SSB-relative km. Stated precision: sub-km for inner moons. If the pipeline ever needs to *ship* ephemeris data
 instead of fetching it, this is the schema — don't invent one.
+
+Details verified from `docs/export-format/` (2026-09-07):
+- **Validity-window rule**: every file carries `start_jd`/`end_jd` (float64 TDB; ±Infinity = unbounded). Consumers must
+  *hide* bodies outside the window rather than propagate — SGP4 files are bounded to `min(epoch) − 14d … max(epoch) + 14d`;
+  Keplerian/parabolic get Infinity (mathematical solutions); short-arc fits are "not trustworthy far out".
+- **Elements payload** (format byte 0): columnar, zero-copy typed arrays; sub-format `Keplerian|Parabolic|SGP4`; file-level
+  bytes for source provider (`horizons/sbdb/celestrak/spice`) and id type — one provider per zone/part is pipeline-enforced.
+- **Secular-drift columns** `om_dot`/`w_dot` (deg/day): populated by a numerical mean-element fit so small moons capture
+  J2/J4 nodal regression + apsidal precession without shipping Chebyshev coefficients; propagation = linear drift from epoch.
+- **Chebyshev payload** (format byte 1): per-(zone, time-chunk) gzipped `.bin.gz`; zones split into a coarse always-loaded set
+  (`major` planets/dwarfs/barycenters + `major_asteroids` ~15 perturbers incl. Psyche/Vesta/Pallas) and per-parent moon zones with
+  density-scaled chunk cadence (Saturn's shepherds at 0.125 y chunks).
+- **Object IDs**: `{prefix}-{numeric}` (`spkid-`, `naif-`, `norad_satcat-`); compound ids for SBDB moons; per-point flags carry
+  NEO/PHA bits from SBDB.
 
 ## Pipeline placement
 SBDB (`covariance=` + physical params) → brahe Horizons SPK (ephemeris math) → pds4_tools (archive products).

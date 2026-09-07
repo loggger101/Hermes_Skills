@@ -47,9 +47,9 @@ Every pipeline is ONE script following the same shape:
 | GFZ Kp API | Unreliable — prefer NOAA SWPC endpoint. |
 | Space-Track | Authenticated cookie session. Be extremely conservative (a daily pipeline should make exactly 2 requests/day: login + one query). GP history returns only TLEs *generated* that day, not a snapshot — forward-fill for backfills. Accounts get banned for aggressive use. |
 
-## Asterank mining-economics endpoint (verified live)
-`http://www.asterank.com/api/asterank?query={}&limit=<N>&offset=<M>`
-Returns ~600K asteroids, each with: `profit`, delta-v fields, spectral type (`spec`=SMASSII, `spec_B`=Bus-DeMeo, `spec_T`=Tholen), diameter + sigma, albedo, rotation period, GM, full orbital elements (a,e,i,om,w,ma,q,ad,per,n,t_jup,moid). Page it with limit/offset. The single best free source for asteroid *mining economics* — directly feeds a space-economics analysis pipeline.
+## Asterank mining-economics endpoint (re-probed live 2026-09-07)
+`http://www.asterank.com/api/asterank?query={}&limit=<N>&offset=<M>` — keyless, ~600K rows via limit/offset pagination.
+⚠️ **Schema changed since the original audit:** the `dv` (Shoemaker-Helin) column is GONE from the live API (new empty `two_body`/`DT` keys instead); economics fields (`price`/`profit`) are partially garbage (real values for some bodies, 1e-42-scale for others). What IS reliably there: spectral types (`spec`=SMASSII, `spec_B`=Bus-DeMeo, `spec_T`=Tholen), diameter + sigma, albedo, rotation period, GM, full orbital elements, orbit-quality fields (condition_code/data_arc/rms/orbit_id) and — NEW — a **per-element covariance diagonal** (`sigma_a`…`sigma_tp`) plus obs provenance (`n_del_obs_used`, `n_dop_obs_used`). Use it for the sigmas + taxonomy cross-checks; do NOT expect Δv or clean economics. The frozen HF mirror `juliensimon/asterank-asteroid-mining` (50 cols, no dv either) remains usable as an independent economic-ranking prior art only.
 
 ## Scheduling template (GitHub Actions)
 - `on: schedule` cron staggered across a UTC window + `workflow_dispatch` for manual runs.

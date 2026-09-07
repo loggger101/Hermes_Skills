@@ -21,9 +21,10 @@ that re-export via `__all__`. **The authoritative symbol list lives in each modu
 | `integrators` | Generic ODE IVP: `RK4Integrator`, `RKF45Integrator`, `RKF78Integrator`, `DP54Integrator`, `RKN1210Integrator`, `AdaptiveStepResult`, `IntegratorConfig` |
 | `frames` | ECI (J2000/GCRF) ↔ ECEF (ITRF): rotation matrices (bias-precession-nutation, Earth rotation, polar motion), position + state-vector transforms. Dual naming: `rotation_eci_to_ecef` and `rotation_gcrf_to_itrf` |
 | `coordinates` | Cartesian state ↔ osculating Keplerian (`state_inertial_to_koe_for_body` / inverse); geocentric spherical; WGS84 geodetic; topocentric ENZ/SEZ + az/el; RA/Dec incl. proper-motion propagation between epochs |
-| `datasets` | **Data clients**: `sbdb` (JPL Small-Body DB lookup), `horizons` (SPK generation for small bodies, cached under `$BRAHE_CACHE/horizons`), `naif` DE kernels, `gcat` SATCAT/PSATCAT, `star_catalogs` (FK5/Hipparcos/Tycho-2), `icgem` gravity models, `groundstations`, `ssn_sensors` |
+| `datasets` | **Data clients**: `sbdb` (JPL Small-Body DB lookup), `horizons` (SPK generation for small bodies, cached under `$BRAHE_CACHE/horizons`), `naif` DE kernels, `gcat` SATCAT/PSATCAT, `star_catalogs` (FK5/Hipparcos/Tycho-2), `icgem` gravity models, `groundstations`, `ssn_sensors`; **plus a native SPICE reader** (`src/spice/`: DAF + binary PCK + SPK types 2/3 and **type 21 = Extended Modified Difference Array — the segment type Horizons emits for small bodies**; validated against ANISE in `validation.rs`) |
+| `celestrak` (top-level) | TLE/SATCAT client: fluent query builder (`CelestrakQuery.gp()/sup_gp()/satcat()` → `.group("active")`, `.filter(field, op)` with SpaceTrack-compatible operators `>50`, `<>DEBRIS`, `~~STARLINK`, ranges; `.format(CelestrakOutputFormat.CSV/JSON/KVN...)`) + `get_gp() / get_sup_gp(source) / get_satcat()` and **`get_sgp_propagator(catnr, step_size)`** — TLE → ready-to-propagate SGP4 propagator in one call |
+| `estimation` (top-level) | Orbit determination: `ExtendedKalmanFilter(+Builder)`, `UnscentedKalmanFilter(+Builder)`, **`BatchLeastSquares(+Builder)`** with consider-parameter config; sensors incl. simple SSN range/Doppler — STM-based, pairs with the propagators' variational (STM/sensitivity) propagation |
 | `access` | Ground-station access windows: elevation/mask/off-nadir/local-solar-time constraints with AND/OR/NOT composition + custom constraint computers; `LookDirection`, `AscDsc` enums |
-| `estimation` | Orbit determination / state estimation (STM-based) |
 | `relative_motion` | CW-type relative motion tools |
 | `ccsds` | CCSDS OEM messages: build from propagator trajectory, KVN write/read round-trip (`OEM`, `oem.add_segment(...)`, `seg.add_trajectory(prop.trajectory)`) |
 | `spice` / `eop` / `space_weather` / `attitude` | SPICE kernel registry; EOP loading (`bh.initialize_eop()`); space-weather inputs (Kp etc.); attitude tools |
@@ -72,6 +73,7 @@ print(resp.path)
 4. Propagate with point-mass gravity + solar/Jovian third-body + SRP; report states in the custom frame.
 
 ## Gotchas
+- **Install reality on THIS machine (verified 2026-09-07):** Python is **3.11.16** here; brahe 1.7.0 ships a `cp311-cp311-win_amd64` wheel (full matrix cp310–cp314 × win/linux/macos on PyPI), so it installs with no Rust toolchain and no CSPICE build. Note: the economicspace repo's SECOND-PASS.md says "this machine at Python 3.14.6" — that was a different host; don't copy its wheel claim verbatim.
 - **Units are SI at the boundary**: elements take meters (not km), angles via `AngleFormat`; trajectory states come back in m / m·s⁻¹ — divide by 1e3 for km display.
 - EOP data must be initialized before high-fidelity frame transforms: call `bh.initialize_eop()` once per process.
 - The Python layer is a re-export façade; if an attribute "doesn't exist", check the module docstring's bullet list (it enumerates every exported name) rather than guessing from Rust crate names.
