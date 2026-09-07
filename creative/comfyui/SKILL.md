@@ -606,3 +606,5 @@ Use `python scripts/health_check.py` to run the whole list at once. Manual:
 - [ ] `check_deps.py` reports `is_ready: true` (or only `node_check_skipped`
       on cloud free tier)
 - [ ] Test run with a small workflow completes; outputs land in `--output-dir`
+
+**Test suite:** `tests/` holds a pytest suite for the skill's scripts — pure-stdlib unit tests need no setup, cloud integration tests need a Comfy Cloud API key. See `tests/README.md`; run after touching anything under `scripts/`.

@@ -52,7 +52,7 @@ Mention a URL only if the user would plausibly want the link.
 
 ## Prerequisites
 
-None beyond the standard toolset. `scripts/sources.py` is stdlib-only Python 3.
+None beyond the standard toolset. `scripts/sources.py` is stdlib-only Python 3; its sibling `scripts/_hermes_home.py` resolves `$HERMES_HOME` for standalone runs (system Python/CI where `hermes_constants` isn't importable) — both scripts in this dir share it instead of re-implementing the env lookup.
 Retrieval comes from whatever is configured: `web_search`, `web_extract`,
 `browser_navigate`, or `terminal` (curl, CLIs).
 

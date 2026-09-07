@@ -413,3 +413,35 @@ tracked, so a fresh clone would have broken references; both added to git this p
 
 **Regenerated:** SKILLS-INDEX.md (166 skills / 23 categories) and DEPENDENCY.md (390 xrefs, 88 hubs, 11
 standalone, broken=0). Gates: audit threshold_breached=false; check-links clean across the repo.
+## 2026-09-06 — Code & knowledge accessibility pass (round 2 of formatting/organization)
+
+**New: CODE-INDEX.md + `tools/gen-code-index.py`.** The executable-knowledge layer now has its own flat
+index, companion to SKILLS-INDEX: every code file in the repo (113 files / ~27.5k lines across 28 owner
+groups) listed as `- path (kind, lang, N lines) — purpose _(owner)_`, with the one-line purpose extracted
+from each file's docstring/header comment. `grep -i <term> CODE-INDEX.md` finds runnable code by purpose or
+owning skill. Wired into DESCRIPTION.md "Start here" + tooling list and README TOC/Quick Start/tools table;
+maintenance rule updated (regen after any code-file change).
+
+**Orphaned-code documentation sweep.** Inventory found 31 code files not referenced by their owning SKILL.md;
+the genuinely useful ones are now documented in place: `github/github-auth` + `software-development/github`
+(`gh-env.sh` — source it for auth detection, with the manual fallback kept), `creative/p5js` (`setup.sh`
+dependency check), `software-development/ast-grep` (new "Testing the skill itself" section → `tests/smoke.sh`,
+11 stdlib-only checks), `productivity/docx` (`docx_common.py` shared helper + tests + provenance note for the
+one-off website-audit builders in `specs/` — reference implementations, hardcoded paths), `productivity/pdf`
+(`_raster.py` pypdfium2→pdftoppm fallback chain), `productivity/google-workspace` (`gws_bridge.py` token
+bridge + `_hermes_home.py` standalone HERMES_HOME resolver), `research/grounded-citations` (same helper,
+documented in Prerequisites), `creative/comfyui` (test-suite pointer to its own tests/README.md). All synced
+to the local live library.
+
+**Style normalization: gh-env.sh `.env` fallback branch (both copies).** The original used a side-effect
+assignment inside an elif condition (`elif _hermes_env=...; [ -f ... ]`) — verified to *work* under
+`set -euo pipefail`, but non-idiomatic and easy to misread. Rewritten as plain `[ -f ... ] && grep -q ...` in
+both script copies (verified with `bash -n`) and in the github-auth/SKILL.md inline example, which previously
+duplicated the same construct; that section now points agents at the bundled script first.
+
+**De-duplication.** `.hermes/cron/validate-cronjobs.py` was byte-identical to a copy under
+`autonomous-ai-agents/cron-config-authoring/scripts/`; every doc reference points at the `.hermes/cron/` path,
+so the orphaned skill-side copy (and its now-empty scripts dir) was removed — single source of truth.
+
+**Gates:** audit threshold_breached=false; check-links 654 links / 0 broken. All touched SKILL.md + script
+files synced to local library (byte parity).

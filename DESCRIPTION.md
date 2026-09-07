@@ -8,6 +8,7 @@ This repository is the **second brain** of its owner's Hermes Agent environment:
 
 ## Start here (cheapest → most thorough)
 - **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 166 skills; `grep -i <term>` is the fastest way to find a capability.
+- **[CODE-INDEX.md](./CODE-INDEX.md)** — flat index of every script, shared helper, test, and template (the executable knowledge layer); `grep -i <term> CODE-INDEX.md` finds runnable code by purpose or owner skill.
 - **[DEPENDENCY.md](./DEPENDENCY.md)** — relationship map: hub skills, standalone skills, full cross-reference validation.
 - **[docs/](./docs/README.md)** — **knowledge layer**: verified API references + working code patterns from the 41-repo starred deep dive (brahe/skyfield/OpenSCvx space-astro refs with live-run outputs; polars/pymc data-stack refs). Skills say *how to work*; docs say *what exists in these libraries and what breaks*.
 - **[README.md](./README.md)** — human-facing overview with the full catalog and verification status.
@@ -86,6 +87,7 @@ category/
 
 - **`check-links.py`** — broken-link gate: every relative markdown link must resolve (skips URLs, code spans, historical `profiles-export/` snapshots). Run alongside the audit before committing doc changes.
 - **`gen-skills-index.py`** — rebuilds `SKILLS-INDEX.md` from live frontmatter (stdlib-only).
+- **`gen-code-index.py`** — rebuilds `CODE-INDEX.md` from every code file in the repo: path, kind (script/helper/test/template), language, size, one-line purpose extracted from its docstring/header comment. Run after adding/removing/renaming scripts.
 - **`regen-dependency-map.py`** — rebuilds `DEPENDENCY.md` from live frontmatter (safe standalone; the sync script's built-in generator can hang on import interactively).
 - **`sync-hermes-skills.py`** — full bidirectional GitHub↔local-Hermes sync, run weekly by cron. Has `--dry-run`. Do not run casually: its delete phase removes repo files that no longer exist locally.
 
@@ -108,4 +110,4 @@ python tools/gen-skills-index.py && python tools/regen-dependency-map.py
 
 ## Maintenance rules (summary)
 
-Never break the audit; keep `description` ≤59 chars; regenerate DEPENDENCY.md + SKILLS-INDEX.md after frontmatter changes; log significant changes in [NOTES.md](./NOTES.md); commit author for automation is `hermes-cronbot <cronbot@hermes.local>`; never commit credentials. The full convention list is enforced by `tools/audit-skills.py` (see its docstring and the Verification section of README.md); history lives in NOTES.md.
+Never break the audit; keep `description` ≤59 chars; regenerate DEPENDENCY.md + SKILLS-INDEX.md after frontmatter changes and CODE-INDEX.md after code-file changes; log significant changes in [NOTES.md](./NOTES.md); commit author for automation is `hermes-cronbot <cronbot@hermes.local>`; never commit credentials. The full convention list is enforced by `tools/audit-skills.py` (see its docstring and the Verification section of README.md); history lives in NOTES.md.

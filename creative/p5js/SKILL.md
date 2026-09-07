@@ -27,6 +27,8 @@ Use when users request: p5.js sketches, creative coding, generative art, interac
 
 Production pipeline for interactive and generative visual art using p5.js. Creates browser-based sketches, generative art, data visualizations, interactive experiences, 3D scenes, audio-reactive visuals, and motion graphics — exported as HTML, PNG, GIF, MP4, or SVG. Covers: 2D/3D rendering, noise and particle systems, flow fields, shaders (GLSL), pixel manipulation, kinetic typography, WebGL scenes, audio analysis, mouse/keyboard interaction, and headless high-res export.
 
+**Bundled scripts:** `scripts/setup.sh` — dependency check (Node/npm/Puppeteer for headless capture, ffmpeg for MP4, Python3 for local serving; run it before the first export on a new machine). The other pipeline scripts (`serve.sh`, `render.sh`, `export-frames.js`) are documented in [Step 5: Export](#step-5-export) and `references/export-pipeline.md`.
+
 ## Creative Standard
 
 This is visual art rendered in the browser. The canvas is the medium; the algorithm is the brush.
