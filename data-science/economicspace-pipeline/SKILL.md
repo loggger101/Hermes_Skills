@@ -148,7 +148,7 @@ CITATIONS.md is the authority for references, never values. Two sources require 
 
 ## Open candidates — useful, not yet implemented (surveyed 2026-09-04; re-verified against source + live APIs 2026-09-07)
 
-Forward-looking items from the star-list audit that would benefit this repo but are NOT used or noted in its docs. None touches committed floats unless explicitly promoted; anything float-moving goes through baseline → edit → check like everything else, and any new dep lands pinned in BOTH requirements files outside modules/' import path. Full source detail: `docs/space-astro/dv-oracles-and-economics-sources.md` + `catalog-data-sources.md` in the Hermes_Skills second brain.
+Forward-looking items from the star-list audit that would benefit this repo but are NOT used or noted in its docs. None touches committed floats unless explicitly promoted; anything float-moving goes through baseline → edit → check like everything else, and any new dep lands pinned in BOTH requirements files outside modules/' import path. Full source detail: `references/dv-oracles-and-economics-sources.md` (this skill) + `data-science/astro-toolkit-selection/references/catalog-data-sources.md`.
 
 - **NHATS rank cross-check** (research/-level, replaces the dead Asterank dv oracle): JPL NHATS (~7,033 NEAs, round-trip crewed Δv < 12 km/s) is now the ONLY external Δv oracle — Asterank's `dv` column was removed from its live API between 2026-09-06 and 2026-09-07 (verified by re-probe; new empty `two_body`/`DT` keys, economics fields partially garbage). HF mirror `juliensimon/nhats-accessible-asteroids`. Compare Spearman rank by orbit-quality band (F6 baseline: 0.598 overall, 0.659 at U≤4 vs 0.585 at U≥5); transfer the RANK disagreement only — NHATS is round-trip + constrained, an upper bound on a differently-shaped quantity, never a second estimate of the one-way gap magnitude.
 - **Orbit-quality uncertainty as error bars** (supersedes the plain "U cutoff" framing): two verified feeds now make this cheap without any modelling decision about thresholds — NEODyS full 6×6 covariance per body (`astroquery.solarsystem.neodys.NEODySClass.query_object`, one HTTP call each → scope to top-N of ranking) + Asterank's NEW per-element sigma diagonal (σa/σe/σi/... for ~600K bodies, zero extra calls). Push through the Δv estimator → distribution over cost/revenue ratio per body. Winner's-curse context: 79.5% of JPL's own accessible population is at U≥5 vs 13.9% catalog — a property of the accessible population, not just selection; no ranking change removes it.
@@ -174,3 +174,9 @@ Forward-looking items from the star-list audit that would benefit this repo but 
 5. Provenance columns checked before comparing to committed numbers (`spectral_type_source`, `source_*`)
 6. `py verify_docs.py` after touching config fields / reference tables
 7. No stage 1/2/3 re-fetch ran since the baseline (it destroys every `.verify` baseline + overwrites the only frozen-input copies)
+
+## References (verified detail lives here, not in this file)
+- `references/load-bearing-assumptions.md` — model terms that look wrong but are deliberate; read before "fixing" any result.
+- `references/defect-classes-and-traps.md` — the recurring failure shapes (destination trap, sampling rule, NOT-VERIFIED discipline).
+- `references/data-sources-environment-entrypoints.md` — data sources, dirty-tree behavior, cross-host notes, entry points.
+- `references/dv-oracles-and-economics-sources.md` — external Δv oracles (NHATS; Asterank schema change 2026-09-07) + the nine soft-assumption data sources with exact fetch specs. Companion: `data-science/astro-toolkit-selection/references/catalog-data-sources.md`.

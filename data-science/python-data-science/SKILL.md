@@ -600,3 +600,6 @@ Before reporting results:
 - [ ] Versions recorded (Python, pandas, sklearn)
 - [ ] Plots labeled, titled, and legible at target size
 - [ ] Results reproducible from the notebook/script alone
+
+## References (verified API detail lives here)
+- `references/polars-pymc-api-reference.md` — polars lazy-first idioms + join `validate=` cardinality checks; pymc `sample()` with nutpie Rust-NUTS auto-select, ADVI for per-body scale. Line-anchored to cloned sources (2026-09-05); re-check line numbers before quoting them.

@@ -1,8 +1,8 @@
-# Maintaining Repo Documentation (README, DEPENDENCY, NOTES)
+# Maintaining Repo Documentation (README, DEPENDENCY, audit notes)
 
 ## When to Update
 
-Update repo-level documentation (`README.md`, `DEPENDENCY.md`, `NOTES.md`) whenever the skill set changes:
+Update repo-level documentation (`README.md`, `DEPENDENCY.md`, and the historical audit log at `docs/archive/audit-notes-skills-repo-pass.md`) whenever the skill set changes:
 - After adding/removing/reorganizing skills
 - After changing `related_skills` metadata in any SKILL.md
 - After renaming skills or merging duplicates
@@ -39,13 +39,13 @@ This maps `related_skills` cross-references. It degrades quickly — any skill t
 
 **Don't trust the git history** — commits may have changed metadata without updating DEPENDENCY.md.
 
-## NOTES.md
+## Historical audit log (`docs/archive/audit-notes-skills-repo-pass.md`)
 
-This file tracks known data-quality issues that need human review:
+The repo's issue log (formerly root `NOTES.md`, archived 2026-09-07) tracks known data-quality issues that needed human review:
 - Duplicate skill names
 - Broken `related_skills` references
 - Incomplete frontmatter (missing version/author/platforms)
 - Missing "What This Skill Does" sections
 - Stale documentation claims
 
-Update NOTES.md whenever you discover an issue during work, and add a verification status row for any check that doesn't pass.
+It is a point-in-time record of the 127-skill audit pass — do not treat it as current state. For new work: log significant structural changes in the commit message and keep `tools/audit-skills.py` green; append to the archive file only when extending that historical narrative (e.g. another full-repo audit).

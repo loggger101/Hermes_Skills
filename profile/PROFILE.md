@@ -71,7 +71,7 @@ The `.curator_ledger.jsonl` tracks all curator-managed skill operations. Key eve
 | 2026-08-23 | create | mattpocock-subagent-driven-development (autonomous-ai-agents) | agent |
 | 2026-08-23 | patch | mattpocock-subagent-driven-development | agent |
 
-**Note:** `mattpocock-static-analysis` was deleted by curator and absorbed into `mattpocock-security-review` (see [NOTES.md](../NOTES.md) in repo root). The `mattpocock-subagent-driven-development` duplicate in `autonomous-ai-agents/` was removed in favor of the more complete `software-development/` version.
+**Note:** `mattpocock-static-analysis` was deleted by curator and absorbed into `mattpocock-security-review` (see [audit notes](../docs/archive/audit-notes-skills-repo-pass.md) in the repo). The `mattpocock-subagent-driven-development` duplicate in `autonomous-ai-agents/` was removed in favor of the more complete `software-development/` version.
 
 ## Bundled Manifest
 

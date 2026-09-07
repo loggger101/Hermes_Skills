@@ -394,3 +394,8 @@ git push -u origin HEAD
 | Request review | `gh pr edit N --add-reviewer user` | `curl -X POST .../pulls/N/requested_reviewers -d '{"reviewers":["user"]}'` |
 | Close PR | `gh pr close N` | `curl -X PATCH .../pulls/N -d '{"state":"closed"}'` |
 | Check out someone's PR | `gh pr checkout N` | `git fetch origin pull/N/head:pr-N && git checkout pr-N` |
+
+## References (verified detail lives here)
+- `references/git-workflow-recipes.md` — high-value recipes distilled from github-cheat-sheet (MIT): fixup+autosquash, PR checkout refspecs, safe revert of merged PRs (`git revert -m 1 <merge-sha>`), bulk-stage deletions; Windows/OneDrive index-churn notes for this machine.
+- `references/ci-troubleshooting.md` — CI failure triage patterns (gh + curl fallbacks).
+- `references/conventional-commits.md` — commit message conventions used by the automation commits in this repo.

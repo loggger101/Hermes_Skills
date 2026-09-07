@@ -43,7 +43,7 @@ grep -i "raster\|token bridge" CODE-INDEX.md
 
 ## Overview
 
-This repository serves as a centralized database of all **166 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (390 cross-references mapped across 166 skills, 11 standalone). See [NOTES.md](./NOTES.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
+This repository serves as a centralized database of all **166 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (390 cross-references mapped across 166 skills, 11 standalone). See [audit notes](docs/archive/audit-notes-skills-repo-pass.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
 
 ### Source Profiles
 
@@ -54,7 +54,7 @@ Skills were imported from three Hermes profiles:
 
 When a skill existed in multiple profiles, the version from the highest-priority profile was used.
 
-> ⚠️ **Known remaining issues** — see [NOTES.md](./NOTES.md) for the full audit.
+> ⚠️ **Known remaining issues** — see [audit notes](docs/archive/audit-notes-skills-repo-pass.md) for the full audit.
 
 ### Categories
 
@@ -342,13 +342,13 @@ metadata:
 
 ## Provenance
 
-Skills come from three sources (see [NOTES.md](./NOTES.md) for the full history):
+Skills come from three sources (see [audit notes](docs/archive/audit-notes-skills-repo-pass.md) for the full history):
 
 1. **Imported skills** — copied in from live Hermes profiles (`default`, `the-skill-maker`, `the-memory-controller`) during the initial import; where a skill existed in multiple profiles, the highest-priority profile's version was kept.
 2. **Pre-existing repo skills** — authored directly in this repository (e.g. the 22+ `mattpocock-*` methodology skills, devops and top-level category skills).
 3. **Research-harvest ports** — added across three starred-repo deep-dive rounds (145 → 162 → 166), including hub installs (`hermes skills install official/...`) and MIT-licensed external ports with their licenses carried in frontmatter.
 
-The per-skill origin is recorded in [NOTES.md](./NOTES.md) round-by-round; the live set of record is always `SKILLS-INDEX.md` (regenerated from frontmatter).
+The per-skill origin is recorded in [audit notes](docs/archive/audit-notes-skills-repo-pass.md) round-by-round; the live set of record is always `SKILLS-INDEX.md` (regenerated from frontmatter).
 
 ## Cron Job Authoring
 
@@ -462,7 +462,7 @@ The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a w
 - ✅ No trailing whitespace; all files end with a newline; line endings normalized via `.gitattributes` (`text=auto`) — CRLF in working tree, LF in git storage
 - ✅ Broken-link gate: every relative markdown link resolves (`tools/check-links.py`, skips URLs/code spans/`profiles-export/` snapshots)
 
-One-off historical fixes (duplicate removals, ref repairs, header renames, sync setup) are logged round-by-round in [NOTES.md](./NOTES.md).
+One-off historical fixes (duplicate removals, ref repairs, header renames, sync setup) are logged round-by-round in [audit notes](docs/archive/audit-notes-skills-repo-pass.md).
 
 ## Usage
 
