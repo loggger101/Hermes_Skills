@@ -347,7 +347,7 @@ if config_path.exists():
     raw = config_path.read_text()
 ```
 
-**Windows gotcha:** `os.path.relpath` on Windows produces backslash-separated strings that silently fail comparison against forward-slash strings (JSON skill refs, regex patterns, substring filters). Always normalize with `str(p).replace('\\', '/')` before substring matching, or prefer `pathlib.Path` throughout and convert at comparison boundaries. See `references/windows-path-separator-trap.md` for the reproduction recipe and fix.
+**Windows gotcha:** `os.path.relpath` on Windows produces backslash-separated strings that silently fail comparison against forward-slash strings (JSON skill refs, regex patterns, substring filters). Always normalize with `str(p).replace('\\', '/')` before substring matching, or prefer `pathlib.Path` throughout and convert at comparison boundaries. See [references/windows-path-separator-trap.md](references/windows-path-separator-trap.md) for the reproduction recipe and fix.
 
 ## Testing Approach
 
