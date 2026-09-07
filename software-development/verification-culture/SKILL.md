@@ -148,8 +148,8 @@ Automated checks that run on every push (or on a schedule) and gate deploys. Not
 - Local link resolution (every href/src/data-src resolves to a file that exists; no orphaned assets; no broken internal links).
 - Structural validity (HTML is parseable, JSON is valid, config is valid, markers are intact).
 - Invariant checks (the ad rail matches slots.json; the research feed is present on disease pages; dedash pass has been run).
-|- Prohibited content (no Squarespace markup/CSS/JS remaining; no em/en dashes that survived the dedash pass; no unresolved @font-face families).
-|- Cron job config completeness: every active cronjob JSON includes `model`, `provider`, `threshold`, `guardrails`, `enabled_toolsets`, and `enabled_toolsets` restricted to what the job actually needs (no over-provisioning).
+- Prohibited content (no Squarespace markup/CSS/JS remaining; no em/en dashes that survived the dedash pass; no unresolved @font-face families).
+- Cron job config completeness: every active cronjob JSON includes `model`, `provider`, `threshold`, `guardrails`, and `enabled_toolsets` restricted to what the job actually needs (no over-provisioning).
 
 **What a health check does NOT cover:**
 - Things that require a real browser (visual correctness, animation progress, native button activation) — those are audit-pass items, not CI checks.

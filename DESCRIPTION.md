@@ -4,7 +4,7 @@ description: Hermes Agent second brain — 166 skills across 23 categories, memo
 
 # Hermes Skills Repository (Second Brain)
 
-This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **162 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
+This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **166 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
 
 ## Start here (cheapest → most thorough)
 - **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 166 skills; `grep -i <term>` is the fastest way to find a capability.
@@ -43,28 +43,31 @@ Skills are organized into 23 categories (each has a `DESCRIPTION.md`):
 
 | Category | Focus |
 |----------|-------|
-| [apple/](./apple/) | Apple platform integrations (macOS, iOS) |
-| [autonomous-ai-agents/](./autonomous-ai-agents/) | Multi-agent orchestration, cronjob patterns |
-| [creative/](./creative/) | Creative content generation, design, media, diagrams |
-| [data-science/](./data-science/) | Data science workflows, Python, SQL, orbital mechanics, space pipelines |
-| [devops/](./devops/) | Docker, REST APIs, SSH, SQLite |
-| [doc-coauthoring/](./doc-coauthoring/) | Structured documentation co-authoring |
-| [dogfood/](./dogfood/) | Exploratory QA and adversarial UX testing |
-| [email/](./email/) | Email management and triage |
-| [frontend-design/](./frontend-design/) | Visual design for AI-generated UI + Python reactive-UI builders (NiceGUI) |
-| [github/](./github/) | GitHub workflows, PR review, issues, CI, issue-triage state machine |
-| [huggingface-trackio/](./huggingface-trackio/) | ML experiment tracking |
-| [media/](./media/) | GIF search, audio analysis, YouTube content |
-| [mlops/](./mlops/) | Evaluation harnesses, HuggingFace Hub, vLLM, W&B |
-| [note-taking/](./note-taking/) | Obsidian vault integration |
-| [productivity/](./productivity/) | Documents, spreadsheets, meetings, calendars, website audits |
-| [research/](./research/) | Paper writing pipeline, citation verification, monitoring |
-| [security/](./security/) | Code security review |
-| [smart-home/](./smart-home/) | Philips Hue control |
-| [social-media/](./social-media/) | X/Twitter via xurl CLI |
-| [software-development/](./software-development/) | TDD, spec-driven dev, debugging, planning (grilling/wayfinder), Python, Node |
+| [apple/(./apple//SKILL.md) | Apple platform integrations (macOS, iOS) |
+| [autonomous-ai-agents/(./autonomous-ai-agents//SKILL.md) | Multi-agent orchestration, cronjob patterns |
+| [communication/(./communication//SKILL.md) | Decision-brief formats (1-3-1 rule) |
+| [creative/(./creative//SKILL.md) | Creative content generation, design, media, diagrams |
+| [data-science/(./data-science//SKILL.md) | Data science workflows, Python, SQL, orbital mechanics, space pipelines |
+| [devops/(./devops//SKILL.md) | Docker, REST APIs, SSH, SQLite |
+| [doc-coauthoring/(./doc-coauthoring//SKILL.md) | Structured documentation co-authoring |
+| [dogfood/(./dogfood//SKILL.md) | Exploratory QA and adversarial UX testing |
+| [email/(./email//SKILL.md) | Email management and triage |
+| [frontend-design/(./frontend-design//SKILL.md) | Visual design for AI-generated UI + Python reactive-UI builders (NiceGUI) |
+| [github/(./github//SKILL.md) | GitHub workflows, PR review, issues, CI, issue-triage state machine |
+| [huggingface-trackio/(./huggingface-trackio//SKILL.md) | ML experiment tracking |
+| [mcp/(./mcp//SKILL.md) | Model Context Protocol servers (FastMCP) |
+| [media/(./media//SKILL.md) | GIF search, audio analysis, YouTube content |
+| [mlops/(./mlops//SKILL.md) | Evaluation harnesses, HuggingFace Hub, vLLM, W&B |
+| [note-taking/(./note-taking//SKILL.md) | Obsidian vault integration |
+| [productivity/(./productivity//SKILL.md) | Documents, spreadsheets, meetings, calendars, website audits |
+| [research/(./research//SKILL.md) | Paper writing pipeline, citation verification, monitoring |
+| [security/(./security//SKILL.md) | Code security review |
+| [smart-home/(./smart-home//SKILL.md) | Philips Hue control |
+| [social-media/(./social-media//SKILL.md) | X/Twitter via xurl CLI |
+| [software-development/(./software-development//SKILL.md) | TDD, spec-driven dev, debugging, planning (grilling/wayfinder), Python, Node |
+| [web-development/(./web-development//SKILL.md) | Web/API client derivation from HAR recordings |
 
-Non-skill content: [`memories/`](./memories/) (the agent's persistent notes + user profile — the "brain" part) and [`profile/`](./profile/) (a reference snapshot of one live Hermes profile). See each directory's `DESCRIPTION.md`.
+Non-skill content: [`memories/`(./memories//SKILL.md) (the agent's persistent notes + user profile — the "brain" part) and [`profile/`(./profile//SKILL.md) (a reference snapshot of one live Hermes profile). See each directory's `DESCRIPTION.md`.
 
 ## Structure
 

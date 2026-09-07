@@ -58,53 +58,53 @@ Full audit of all 128 `SKILL.md` files in the repository at `C:\Users\Owner\OneD
 - **`NOTES.md`:** Created comprehensive audit findings document in repo root.
 
 ### 6. Profile Documentation Transfer
-|- Created `profile/` directory with:
-|  - `PROFILE.md` — Profile overview, config highlights, toolsets, curator ledger history
-|  - `config.yaml` — Full active configuration (copied verbatim)
-|  - `MEMORY.md` — 4 persistent memory entries
-|  - `USER.md` — User profile (LaTeX preference, AspireCURES details)
-|  - `MISSING-FROM-LOCAL.md` — 13 orphaned skills from deleted profiles
-|  - `.curator_ledger.jsonl` — 52 curator operation logs (verbatim)
-|  - `.bundled_manifest` — 82 official bundled skill checksums (verbatim)
-|  - `.usage.json` — Per-skill usage statistics (verbatim)
+- Created `profile/` directory with:
+  - `PROFILE.md` — Profile overview, config highlights, toolsets, curator ledger history
+  - `config.yaml` — Full active configuration (copied verbatim)
+  - `MEMORY.md` — 4 persistent memory entries
+  - `USER.md` — User profile (LaTeX preference, AspireCURES details)
+  - `MISSING-FROM-LOCAL.md` — 13 orphaned skills from deleted profiles
+  - `.curator_ledger.jsonl` — 52 curator operation logs (verbatim)
+  - `.bundled_manifest` — 82 official bundled skill checksums (verbatim)
+  - `.usage.json` — Per-skill usage statistics (verbatim)
 
 ### 7. Body Sections Added to 22 Skills
-|- Added \"What This Skill Does\" sections to 22 skills that lacked both WTD and \"When to Use\" sections.
-|- 0 skills remain without a body section (case-insensitive check confirms all 127 have either WTD or WTU).
+- Added \"What This Skill Does\" sections to 22 skills that lacked both WTD and \"When to Use\" sections.
+- 0 skills remain without a body section (case-insensitive check confirms all 127 have either WTD or WTU).
 
 ### 8. Cross-Reference Fixes (new audit script pass)
-|- Fixed 4 stale `skill_view()` calls that referenced non-existent skill names:
-|  - `research-paper-writing`: `skill_view("diagramming")` → `skill_view("excalidraw")`
-|  - `research-paper-writing`: `skill_view("data-science")` → `skill_view("python-data-science")`
-|  - `research-paper-writing`: `skill_view("subagent-driven-development")` → `skill_view("mattpocock-subagent-driven-development")`
-|  - Added `excalidraw`, `python-data-science` to `research-paper-writing` related_skills
-|- Added missing `related_skills` cross-references to:
-|  - `claude-code` (codex, opencode already present; added nothing — was complete)
-|  - `mattpocock-spec-driven-development` (+6 related skills)
-|  - `mattpocock-subagent-driven-development` (+2 related skills)
-|  - `mattpocock-to-tickets` (+4 related skills)
-|  - `mattpocock-yeet` (+2 related skills)
-|  - `mattpocock-gh-fix-ci` (+2 related skills)
-|  - `apple-reminders` (+2 related skills)
-|  - `findmy` (+1 related skill)
-|  - `meeting-action-items` (+1 related skill)
+- Fixed 4 stale `skill_view()` calls that referenced non-existent skill names:
+  - `research-paper-writing`: `skill_view("diagramming")` → `skill_view("excalidraw")`
+  - `research-paper-writing`: `skill_view("data-science")` → `skill_view("python-data-science")`
+  - `research-paper-writing`: `skill_view("subagent-driven-development")` → `skill_view("mattpocock-subagent-driven-development")`
+  - Added `excalidraw`, `python-data-science` to `research-paper-writing` related_skills
+- Added missing `related_skills` cross-references to:
+  - `claude-code` (codex, opencode already present; added nothing — was complete)
+  - `mattpocock-spec-driven-development` (+6 related skills)
+  - `mattpocock-subagent-driven-development` (+2 related skills)
+  - `mattpocock-to-tickets` (+4 related skills)
+  - `mattpocock-yeet` (+2 related skills)
+  - `mattpocock-gh-fix-ci` (+2 related skills)
+  - `apple-reminders` (+2 related skills)
+  - `findmy` (+1 related skill)
+  - `meeting-action-items` (+1 related skill)
 
 ### 9. Category DESCRIPTION.md Creation
-|- Created `DESCRIPTION.md` for 8 category directories that were missing one:
-|  - `data-science/`, `devops/`, `doc-coauthoring/`, `dogfood/`, `frontend-design/`,
-|  - `huggingface-trackio/`, `security/`, `software-development/`
+- Created `DESCRIPTION.md` for 8 category directories that were missing one:
+  - `data-science/`, `devops/`, `doc-coauthoring/`, `dogfood/`, `frontend-design/`,
+  - `huggingface-trackio/`, `security/`, `software-development/`
 
 ### 10. Audit Script Creation
-|- Created `tools/audit-skills.py` — a reusable Python audit script that validates:
-|  - YAML frontmatter integrity (required fields, `metadata.hermes` nesting)
-|  - Description length ≤59 chars (the routing-signal budget)
-|  - `related_skills` resolution (no broken refs, no self-refs)
-|  - Body section presence (`## What This Skill Does`, `## When to Use`)
-|  - `skill_view()` call ↔ `related_skills` sync
-|  - Category `DESCRIPTION.md` presence for multi-skill directories
-|  - Referenced script existence from frontmatter `script:` fields
-|- Updated `.hermes/cron/active/skill-audit.json` to reference the new script
-|- Updated `README.md` with audit script documentation
+- Created `tools/audit-skills.py` — a reusable Python audit script that validates:
+  - YAML frontmatter integrity (required fields, `metadata.hermes` nesting)
+  - Description length ≤59 chars (the routing-signal budget)
+  - `related_skills` resolution (no broken refs, no self-refs)
+  - Body section presence (`## What This Skill Does`, `## When to Use`)
+  - `skill_view()` call ↔ `related_skills` sync
+  - Category `DESCRIPTION.md` presence for multi-skill directories
+  - Referenced script existence from frontmatter `script:` fields
+- Updated `.hermes/cron/active/skill-audit.json` to reference the new script
+- Updated `README.md` with audit script documentation
 
 ## Remaining Known Issues
 
@@ -117,26 +117,26 @@ All 127 skills now use the standard `metadata.hermes` nesting format. A repo-wid
 13 skills in the repository have no local counterpart in `C:\Users\Loggg\AppData\Local\hermes\skills\`. These originated from the `the-skill-maker` and `the-memory-controller` profiles (no longer present). See `profile/MISSING-FROM-LOCAL.md` for details.
 
 ## Verification Performed
-|- ✅ Total `SKILL.md` files: 127 (was 128)
-|- ✅ Unique skill names: 127 (was 127, but 1 was a duplicate)
-|- ✅ Duplicate skill names: 0 (was 1)
-|- ✅ Broken `related_skills` references: 0 (was 9)
-|- ✅ Self-references in `related_skills`: 0 (was 3)
-|- ✅ Descriptions > 59 chars: 0 (was 12 — all trimmed to ≤59)
-|- ✅ Unquoted descriptions: 0 (all 127 now double-quoted YAML strings)
-|- ✅ Descriptions missing periods: 12 (trimmed to ≤59 chars — period omitted to stay within audit threshold; 115 still have periods)
-|- ✅ Skills missing `version`/`author`/`platforms`: 0 (was 3)
-|- ✅ Non-standard Pitfalls headers: 0 (was 22 — all renamed to `## Pitfalls`)
-|- ✅ Non-standard section headers: 0 (all `## When to Use`, `## How to Run`, `## Quick Start`)
-|- ✅ Trailing whitespace: 0 in all files
-|- ✅ Missing trailing newlines: 0
-|- ✅ Line endings: mixed (73 CRLF in working tree, normalized to LF in git storage via `.gitattributes` `text=auto` + `core.autocrlf=true`)
-|- ✅ Legacy frontmatter format: 0 (all use `metadata.hermes`)
-|- ✅ Temp scripts in repo root: 0
-|- ✅ All `related_skills` entries resolve to existing in-repo skills
-|- ✅ Related_skills network: 332 cross-references across 127 skills (2 standalone skills with none)
-|- ✅ `.hermes/cron/` registry: 3 templates, 3 active jobs (aspirecures-weekly, skill-audit, sync-hermes-skills), 0 temp scripts
-|- ✅ All frontmatter blocks have blank line before closing `---`
+- ✅ Total `SKILL.md` files: 127 (was 128)
+- ✅ Unique skill names: 127 (was 127, but 1 was a duplicate)
+- ✅ Duplicate skill names: 0 (was 1)
+- ✅ Broken `related_skills` references: 0 (was 9)
+- ✅ Self-references in `related_skills`: 0 (was 3)
+- ✅ Descriptions > 59 chars: 0 (was 12 — all trimmed to ≤59)
+- ✅ Unquoted descriptions: 0 (all 127 now double-quoted YAML strings)
+- ✅ Descriptions missing periods: 12 (trimmed to ≤59 chars — period omitted to stay within audit threshold; 115 still have periods)
+- ✅ Skills missing `version`/`author`/`platforms`: 0 (was 3)
+- ✅ Non-standard Pitfalls headers: 0 (was 22 — all renamed to `## Pitfalls`)
+- ✅ Non-standard section headers: 0 (all `## When to Use`, `## How to Run`, `## Quick Start`)
+- ✅ Trailing whitespace: 0 in all files
+- ✅ Missing trailing newlines: 0
+- ✅ Line endings: mixed (73 CRLF in working tree, normalized to LF in git storage via `.gitattributes` `text=auto` + `core.autocrlf=true`)
+- ✅ Legacy frontmatter format: 0 (all use `metadata.hermes`)
+- ✅ Temp scripts in repo root: 0
+- ✅ All `related_skills` entries resolve to existing in-repo skills
+- ✅ Related_skills network: 332 cross-references across 127 skills (2 standalone skills with none)
+- ✅ `.hermes/cron/` registry: 3 templates, 3 active jobs (aspirecures-weekly, skill-audit, sync-hermes-skills), 0 temp scripts
+- ✅ All frontmatter blocks have blank line before closing `---`
 
 ## New: Automated Audit Script
 
@@ -246,7 +246,7 @@ The `aspirecures-weekly.json` cronjob config was significantly enhanced with a c
 | yaml_errors | 0 |
 | long_descriptions | 0 |
 | missing_related_skills | 0 |
-|| placeholder_markers | 0 (LaTeX citation placeholders reclassified as intentional_placeholders) |
+| placeholder_markers | 0 (LaTeX citation placeholders reclassified as intentional_placeholders) |
 | missing_body_sections | 0 (alternative headers recognized: `## What's in this skill`, `## Overview`, `## Creative Standard`, `**What This Skill Does:**`) |
 | missing_category_descriptions | 0 (all 20 categories now have DESCRIPTION.md + root DESCRIPTION.md) |
 | temps_scripts | 0 |
@@ -379,3 +379,37 @@ github-cheat-sheet is not trivia — its fixup/autosquash + PR-refspec recipes a
 **Counts refreshed everywhere live:** DESCRIPTION.md, README.md catalog (+4 entries), SKILLS-INDEX.md (regen: 166/23),
 DEPENDENCY.md (regen: 390 xrefs, broken=0). Gates green at commit time: audit threshold_breached=false; check-links
 503 links / 0 broken. Local live library and repo verified byte-parity on all new files (CRLF-normalized sha256).
+## 2026-09-06 — Formatting & organization pass (docs-only; no skill content changes)
+
+**README.md:** replaced the hand-maintained Skill Catalog with a live-frontmatter regeneration
+(166 skills, forward-slash links — old entries used Windows backslash paths that render broken on
+GitHub); fixed stale counts in title/Overview/tools table (128 → 166); category table now lists all
+23 categories with correct per-category counts (was missing communication/mcp/web-development and had
+stale data-science/devops/productivity/research/security/software-development numbers); renamed the
+"Pre-existing vs Imported Skills" section to "Provenance" (its 98/30 split was stale — replaced with a
+three-source account pointing at this file for per-round history); TOC anchor updated; "Verification
+Status" reorganized into "Live Invariants" (claims that hold on every audit run) with one-off historical
+fixes moved to the pointer above.
+
+**DESCRIPTION.md:** 162 → 166 in intro; category table now lists all 23 categories (added communication,
+mcp, web-development rows).
+
+**.hermes/cron/README.md:** fixed malformed Active Cronjobs table (`||` doubled pipes) and `|- **X:**`
+list artifacts under aspirecures-weekly.json; tree diagram updated to match disk (validate-cronjobs.py +
+validate-skill-refs.py added, phantom archive/old-jobs removed); missing comma in Quick Start python block.
+
+**NOTES.md / SKILL bodies:** repaired `|- item` list artifacts — NOTES.md sections 6–10 (~59 lines) and one
+table row; software-development/systematic-debugging/SKILL.md (1 line) and verification-culture/SKILL.md
+(2 lines, also removed a duplicated "enabled_toolsets" mention). Both SKILL fixes synced to the local live
+library.
+
+**Organization:** deleted phantom category `mlops/models/` (DESCRIPTION.md only, zero skills — not in any
+index; removed from repo and local library); filled all 21 empty category DESCRIPTION.md stubs with a real
+one-line focus + linked skill list generated from live frontmatter (synced to local).
+
+**Tracking:** `.gitignore` now un-ignores the two cron validator scripts referenced by README/skills
+(`.hermes/cron/validate-cronjobs.py`, `validate-skill-refs.py`) — they were on disk and documented but never
+tracked, so a fresh clone would have broken references; both added to git this pass.
+
+**Regenerated:** SKILLS-INDEX.md (166 skills / 23 categories) and DEPENDENCY.md (390 xrefs, 88 hubs, 11
+standalone, broken=0). Gates: audit threshold_breached=false; check-links clean across the repo.
