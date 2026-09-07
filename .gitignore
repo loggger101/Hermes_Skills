@@ -2,10 +2,13 @@
 # memories now sync directly to memories/ (trackable); profiles-export still intermediate
 profiles-export/
 
-# Ignore .hermes runtime data, but allow .hermes/cron/ (cronjob registry)
+# Ignore .hermes runtime data, but allow .hermes/cron/ (cronjob registry + validators)
 .hermes/*
 !.hermes/cron/
 .hermes/cron/*
+!.hermes/cron/README.md
+!.hermes/cron/validate-cronjobs.py
+!.hermes/cron/validate-skill-refs.py
 
 # Python
 __pycache__/

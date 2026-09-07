@@ -279,7 +279,7 @@ If the user is present, show the ranked list before testing. They may have domai
 - Simplest possible reproduction
 - Automated test if possible
 - MUST have before fixing
-|- Use the `skill_view(name='test-driven-development')` skill
+- Use the `skill_view(name='test-driven-development')` skill
 
 ### 2. Implement Single Fix
 
