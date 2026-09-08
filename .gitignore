@@ -2,13 +2,19 @@
 # memories now sync directly to memories/ (trackable); profiles-export still intermediate
 profiles-export/
 
-# Ignore .hermes runtime data, but allow .hermes/cron/ (cronjob registry + validators)
+# Ignore .hermes runtime data, but allow .hermes/cron/ (cronjob registry + validators).
+# The three content dirs must be re-included explicitly: without them, `.hermes/cron/*`
+# silently swallows every NEW job config, archived job, and template (existing files only
+# survived because they were already tracked, and gitignore does not apply to those).
 .hermes/*
 !.hermes/cron/
 .hermes/cron/*
 !.hermes/cron/README.md
 !.hermes/cron/validate-cronjobs.py
 !.hermes/cron/validate-skill-refs.py
+!.hermes/cron/active/
+!.hermes/cron/archive/
+!.hermes/cron/templates/
 
 # Python
 __pycache__/

@@ -62,7 +62,7 @@
     "Empty stdout from script = silent (no delivery) -- only fires alert on threshold breach",
     "Model pinned with fallback: primary=qwen/qwen3.6-35b (provider=qwen), fallback=poolside/laguna-s-2.1:free (provider=nous)",
     "Script runs in REPO_ROOT (.), REPO_ROOT detection via Path(__file__).resolve().parents[1]",
-    "Windows python detection: uses shutil.which('python') not python3 (python3 is broken Store stub, exit 9009)",
+    "Windows python detection: the audit subprocess uses sys.executable (the interpreter already running the script). BOTH shutil.which('python') and which('python3') resolve to the Microsoft Store alias stub on this box (exits 49, runs nothing); the old which('python') path produced an empty audit that still reported threshold_breached=false. Invoke repo tools with `py` on Windows.",
     "File exclusion order: audit-skills.py find_skill_files() excludes .git/, .hermes/, profiles-export/, memories-export/, memories/ before parsing",
     "Duplicate detection: audit-skills.py uses explicit tracking, not dict overwrite -- catches same-name skills in different categories",
     "Script-field validation: find_stale_script_refs() checks frontmatter script: paths against file existence -- results stored in temps_scripts threshold",
