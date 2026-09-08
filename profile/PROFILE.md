@@ -1,28 +1,30 @@
 # Profile Documentation
 
-This directory documents the current Hermes Agent profile state that this skills repository was compiled from and synced with.
+This directory documents the Hermes Agent profile state that this skills repository was compiled from and synced with.
+
+> **Verified 2026-09-08** against the live profile: model/provider/base-URL, agent + memory + compression + guardrail settings and the CLI toolset list were re-read from `config.yaml` (mirrored here), and the skill counts were re-counted on disk. The Curator Ledger table below is a historical record and is not re-verified per pass.
 
 ## Profile Location
 
 ```
-C:\Users\Loggg\AppData\Local\hermes\
+C:\Users\Owner\AppData\Local\hermes\
 ```
 
-This is the **default** profile (no named profile subdirectory under `profiles/`). The profile root is `C:\Users\Loggg\AppData\Local\hermes\` with skills at `C:\Users\Loggg\AppData\Local\hermes\skills\`.
+This is the **default** profile (no named profile subdirectory under `profiles/`). The profile root is `C:\Users\Owner\AppData\Local\hermes\` with skills at `C:\Users\Owner\AppData\Local\hermes\skills\`.
 
 ## Active Configuration
 
 See [config.yaml](./config.yaml) for the full configuration. Key settings:
 
 ### Model
-- **Default model:** `qwen/qwen3.6-35b-a3b`
+- **Default model:** `qwen3.8-27b@q4_k_xl`
 - **Provider:** `lmstudio`
-- **Base URL:** `http://127.0.0.1:1231/v1`
+- **Base URL:** `http://127.0.0.1:42069/v1`
 
 ### Agent
 - Max turns: 500
 - Verbose: false
-- Reasoning effort: medium
+- Reasoning effort: `ultra` (agent) / `xhigh` (delegation, max_iterations 250)
 
 ### Terminal
 - Backend: `local`
@@ -36,11 +38,11 @@ See [config.yaml](./config.yaml) for the full configuration. Key settings:
 ### Memory
 - Memory enabled: true
 - User profile enabled: true
-- Memory char limit: 22000
-- User char limit: 2375
+- Memory char limit: 80000
+- User char limit: 20000
 
 ### Compression
-- Enabled: true (threshold: 0.5, target ratio: 0.2, protect last 20 messages)
+- Enabled: true (threshold: 0.5, target ratio: 0.2, protect last 5 messages, max 3 attempts)
 
 ### Tool Loop Guardrails
 - Warnings enabled: true, Hard stop enabled: false
@@ -49,8 +51,10 @@ See [config.yaml](./config.yaml) for the full configuration. Key settings:
 
 ## Toolsets
 
-### CLI (active)
-`bfl`, `browser`, `clarify`, `code_execution`, `computer_use`, `cronjob`, `delegation`, `file`, `image_gen`, `memory`, `session_search`, `skills`, `terminal`, `todo`, `tts`, `vision`, `web`
+### CLI (active) — 16 toolsets
+`browser`, `clarify`, `code_execution`, `computer_use`, `cronjob`, `delegation`, `file`, `image_gen`, `memory`, `session_search`, `skills`, `terminal`, `todo`, `tts`, `vision`, `web`
+
+Known plugin toolsets (cli): `a2a`, `spotify`.
 
 ### Builtin (available)
 Same as above plus: `context_engine`, `discord`, `discord_admin`, `homeassistant`, `spotify`, `stt`, `video`, `video_gen`, `x_search`, `yuanbao`
@@ -93,7 +97,7 @@ Skills for writing self-contained, autonomous cronjob prompts. The core patterns
 
 ## Sync Status
 
-The local skills directory at `C:\Users\Loggg\AppData\Local\hermes\skills\` has been synced with this repository. **All 127 skills** from the repository are now present and identical in both locations (full sync applied 2026-08-24).
+The local skills directory is in parity with this repository: **all 167 repo skills are present locally**, plus 2 local-only by design (`research/rss-feeds`, `social-media/reddit-reading`), for 169 local `SKILL.md` files. Verified 2026-09-08 by comparing frontmatter names across both trees.
 
 Previously, 13 skills were missing from local (12 from `data-science/` and 1 `cron-job-authoring`). These have been synced from the repository. The local profile also has 1 pre-installed skill (`hermes-agent`) that is core to Hermes itself — the repository contains a curated copy.
 

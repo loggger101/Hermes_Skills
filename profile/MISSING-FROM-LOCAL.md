@@ -1,13 +1,26 @@
 # Missing From Local (Skills in Repository but Not in Local Profile)
 
 This document tracks skills that exist in the repository but may not be present
-in the local Hermes skills directory at `C:\Users\Loggg\AppData\Local\hermes\skills\`.
+in the local Hermes skills directory at `C:\Users\Owner\AppData\Local\hermes\skills\`.
 
 ## Sync Status
 
-As of the latest sync, **all 127 skills from the repository are present in the local profile**.
-The 13 skills that were previously missing (12 from `data-science/` and 1 from
-`autonomous-ai-agents/`) have been synced from the repository.
+**Verified 2026-09-08.** Nothing in the repository is missing from the local profile: all **167**
+repo skills are present locally. The local tree carries **169** `SKILL.md` files — the two extras are
+local-only by design and are not pushed to the repo:
+
+| Skill | Why local-only |
+|---|---|
+| `research/rss-feeds` | Hub-installed (`hermes skills install official/...`), kept out of the repo catalog |
+| `social-media/reddit-reading` | Same — hub skill, local convenience |
+
+Re-check with a frontmatter-name diff across both trees (the method used above), not a file count:
+skill directories and file counts drift for reasons unrelated to coverage.
+
+## History
+
+The section below is the original 2026-08-24 record, when 13 skills were missing locally and were
+synced in from the repository. It is kept as a historical note; every row has long since been resolved.
 
 ### Previously Missing (Now Synced)
 
@@ -33,7 +46,7 @@ The local profile has **1 skill** that does not exist in the repository:
 
 | # | Skill Name | Local Path | Notes |
 |---|-----------|------------|-------|
-| 1 | `hermes-agent` | `C:\Users\Loggg\AppData\Local\hermes\skills\autonomous-ai-agents\hermes-agent` | Pre-installed by Hermes core; the repo version is a curated copy |
+| 1 | `hermes-agent` | `C:\Users\Owner\AppData\Local\hermes\skills\autonomous-ai-agents\hermes-agent` | Pre-installed by Hermes core; the repo version is a curated copy |
 
 ## Action Items
 
