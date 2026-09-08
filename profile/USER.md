@@ -1,7 +1,15 @@
 # User Profile (USER.md)
 
+> **Historical snapshot, not current state.** This is a point-in-time copy taken when the profile
+> was first mirrored into this repo (2026-08-24). The live files it was copied from have moved on
+> considerably since. For what the agent actually reads and writes today, use
+> [`../memories/`](../memories/) — those are kept byte-identical to the live store by the weekly
+> sync. This file is kept because it preserves early entries that the live memory later condensed
+> into one-line references.
+
+
 This is the user profile from the Hermes profile at:
-`C:\Users\Loggg\AppData\Local\hermes\memories\USER.md`
+`C:\Users\Owner\AppData\Local\hermes\memories\USER.md`
 
 ## Contents
 
