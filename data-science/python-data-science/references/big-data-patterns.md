@@ -22,6 +22,8 @@ uv venv %LOCALAPPDATA%\Temp\star-scan2 --python 3.11
 uv pip install duckdb polars pyarrow pandas requests
 ```
 
+Re-running the whole verification (all five patterns + cross-checks against pandas): `references/big-data-patterns-verify.py` — it writes its own CSV fixtures to a temp dir and prints every output quoted in this doc. Last full run: 2026-09-07, all green.
+
 ## Decision rule (which engine for which job)
 
 | Job | Use | Why |
