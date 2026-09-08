@@ -20,7 +20,39 @@ import re
 import sys
 from pathlib import Path
 
+# ── Environment guard ───────────────────────────────────────────────────────
+# A wrong interpreter or a missing dependency must fail HERE, loudly. This tool
+# is a HEALTH GATE: a run that cannot validate must never look like a clean run.
+# On Windows, bare `python` / `python3` are usually Microsoft Store alias stubs
+# that never execute the script at all; use `py` there (README → Verification).
+if sys.version_info < (3, 8):
+    raise SystemExit(
+        "[FATAL] this tool needs Python 3.8+, got "
+        f"{sys.version.split()[0]} at {sys.executable or '<unknown interpreter>'}"
+    )
+try:  # repo content is UTF-8; a cp1252 console must not abort an otherwise-clean run
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+except (AttributeError, ValueError):
+    pass
+try:
+    import yaml
+except ModuleNotFoundError:
+    # Previously `import yaml` lived inside the per-skill try/except below, so a
+    # missing pyyaml made EVERY skill fall to the name-only fallback path and the
+    # audit reported 0 issues / threshold_breached=false — an unrunnable audit
+    # indistinguishable from a passing one. Fail here instead.
+    raise SystemExit(
+        "[FATAL] pyyaml is required by audit-skills.py but is not installed for "
+        + (sys.executable or "<unknown interpreter>")
+        + " -- install it with:  pip install -r requirements.txt"
+    )
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
+# Floor for the sanity gate below. The repo has 167 skills; anything under this
+# means the scan itself failed, whatever the individual checks say.
+MIN_EXPECTED_SKILLS = 100
+
 THRESHOLDS = {
     "broken_refs": 0,
     "yaml_errors": 0,
@@ -52,7 +84,6 @@ def find_skill_files(root):
             text = path.read_text(encoding="utf-8")
             m = re.match(r'^---\n(.*?)\n---', text, re.DOTALL)
             if m:
-                import yaml
                 fm = yaml.safe_load(m.group(1))
                 name = fm.get("name", path.parent.name)
                 if name in skills:
@@ -353,6 +384,16 @@ def run_audit():
     if len(script_issues) > THRESHOLDS["temps_scripts"]:
         breaches.append(f"temps_scripts: {len(script_issues)} > {THRESHOLDS['temps_scripts']}")
     report["issues"]["temps_scripts"] = script_issues
+
+    # Sanity gate: an audit that scanned nothing is a FAILED audit, not a clean one.
+    # Without this, any condition that empties the skill list (a bad cwd, a moved
+    # repo root, an unreadable tree) yields "0 issues / threshold_breached=false" —
+    # the exact signal the weekly cron treats as a pass.
+    if report["skill_count"] < MIN_EXPECTED_SKILLS:
+        breaches.append(
+            f"skill_count: {report['skill_count']} < {MIN_EXPECTED_SKILLS} "
+            "(audit scanned too few skills to be meaningful — treat as FAILED, not clean)"
+        )
 
     report["threshold_breached"] = len(breaches) > 0
     if breaches:

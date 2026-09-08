@@ -11,7 +11,29 @@ Stdlib only (no PyYAML needed). Run after adding/removing/renaming code files.
 """
 import os
 import re
+import sys
 from pathlib import Path
+
+# Import the sibling helper explicitly rather than relying on sys.path[0] being
+# this script's directory -- that holds for `python tools/x.py` but not for runpy,
+# exec, or an import from elsewhere.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _index_output import emit, wants_check
+
+# ── Environment guard ───────────────────────────────────────────────────────
+# A wrong interpreter must fail HERE, loudly — never half-run and report clean.
+# On Windows, bare `python` / `python3` are usually Microsoft Store alias stubs
+# that never execute the script at all; use `py` there (README → Verification).
+if sys.version_info < (3, 8):
+    raise SystemExit(
+        "[FATAL] this tool needs Python 3.8+, got "
+        f"{sys.version.split()[0]} at {sys.executable or '<unknown interpreter>'}"
+    )
+try:  # repo content is UTF-8; a cp1252 console must not abort an otherwise-clean run
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+except (AttributeError, ValueError):
+    pass
 
 REPO = Path(__file__).resolve().parents[1]
 SKIP_PARTS = (".git", "profiles-export")
@@ -88,6 +110,8 @@ def kind_of(rel: str) -> str:
     return "script"
 
 
+MIN_CODE_FILES = 50  # write-guard floor
+
 def main():
     rows = []  # (owner_name, owner_path, kind, lang, lines, summary, rel)
     for dirpath, _, filenames in os.walk(REPO):
@@ -138,9 +162,11 @@ def main():
         f"*{len(rows)} code files: {n_scripts} scripts, {n_helpers} shared helpers, {n_tests} tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*",
     ]
 
-    out = REPO / "CODE-INDEX.md"
-    out.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(f"wrote CODE-INDEX.md: {len(rows)} code files, {sum(r[4] for r in rows):,} lines, {len(ordered_keys)} owner groups")
+    check = wants_check()
+    emit(REPO / "CODE-INDEX.md", chr(10).join(lines) + chr(10),
+         count=len(rows), floor=MIN_CODE_FILES, label="gen-code-index", check=check)
+    if not check:
+        print(f"wrote CODE-INDEX.md: {len(rows)} code files, {sum(r[4] for r in rows):,} lines, {len(ordered_keys)} owner groups")
 
 
 if __name__ == "__main__":

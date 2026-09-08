@@ -1,1 +1,7 @@
+# Repo tooling (tools/*.py). pyyaml is a HARD dependency of audit-skills.py,
+# regen-dependency-map.py and sync-hermes-skills.py -- without it the audit
+# cannot validate any frontmatter. Install with: pip install -r requirements.txt
+pyyaml>=5.1
+
+# NVIDIA AI Workbench environment (see .project/spec.yaml), not used by tools/
 jupyterlab>3.0

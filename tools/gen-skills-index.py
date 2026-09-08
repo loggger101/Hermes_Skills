@@ -12,6 +12,27 @@ import re
 import sys
 from pathlib import Path
 
+# Import the sibling helper explicitly rather than relying on sys.path[0] being
+# this script's directory -- that holds for `python tools/x.py` but not for runpy,
+# exec, or an import from elsewhere.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _index_output import emit, wants_check
+
+# ── Environment guard ───────────────────────────────────────────────────────
+# A wrong interpreter must fail HERE, loudly — never half-run and report clean.
+# On Windows, bare `python` / `python3` are usually Microsoft Store alias stubs
+# that never execute the script at all; use `py` there (README → Verification).
+if sys.version_info < (3, 8):
+    raise SystemExit(
+        "[FATAL] this tool needs Python 3.8+, got "
+        f"{sys.version.split()[0]} at {sys.executable or '<unknown interpreter>'}"
+    )
+try:  # repo content is UTF-8; a cp1252 console must not abort an otherwise-clean run
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+except (AttributeError, ValueError):
+    pass
+
 REPO = Path(__file__).resolve().parents[1]
 SKIP_PARTS = (".git/", ".hermes/", "profiles-export/", "memories-export/", "memories/")
 
@@ -33,6 +54,8 @@ def collect():
         rows.append((cat, name, desc))
     return sorted(rows, key=lambda r: (r[0], r[1].lower()))
 
+
+MIN_SKILLS = 100  # write-guard floor: fewer means the scan failed
 
 def main():
     rows = collect()
@@ -57,9 +80,12 @@ def main():
         f"*{len(rows)} skills across {len(cats)} categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*",
     ]
 
-    out = REPO / "SKILLS-INDEX.md"
-    out.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(f"wrote SKILLS-INDEX.md: {len(rows)} skills, {len(cats)} categories")
+    lines_out = [ln + chr(10) for ln in lines]
+    check = wants_check()
+    emit(REPO / "SKILLS-INDEX.md", "".join(lines_out),
+         count=len(rows), floor=MIN_SKILLS, label="gen-skills-index", check=check)
+    if not check:
+        print(f"wrote SKILLS-INDEX.md: {len(rows)} skills, {len(cats)} categories")
     if missing_desc:
         print("WARNING — skills with empty description:", ", ".join(missing_desc), file=sys.stderr)
 
@@ -78,6 +104,7 @@ def write_category_descriptions(rows, cats):
       <cat>/<skill>/SKILL.md   -> ./<skill>/SKILL.md
       <cat>/<sub>/<skill>      -> ./<sub>/<skill>/SKILL.md   (e.g. mlops/evaluation/w-b)
     """
+    check = wants_check()
     # map skill name -> its real dir relative to the category root
     by_cat = {}
     for p in REPO.rglob("SKILL.md"):
@@ -121,9 +148,11 @@ def write_category_descriptions(rows, cats):
             desc = next((d for c2, n2, d in rows if c2 == cat and n2 == name), "")
             out.append(f"- [`{name}`]({target}) — {desc}")
         out += ["", "*Regenerated from live frontmatter — keep in sync with `tools/gen-skills-index.py`.*"]
-        path.write_text("\n".join(out) + "\n", encoding="utf-8")
+        emit(path, chr(10).join(out) + chr(10), count=max(len(items), 1), floor=1,
+             label=f"gen-skills-index ({cat}/DESCRIPTION.md)", check=check)
         written += 1
-    print(f"wrote DESCRIPTION.md for {written} categories (skill lists now match disk)")
+    if not check:
+        print(f"wrote DESCRIPTION.md for {written} categories (skill lists now match disk)")
 
 
 if __name__ == "__main__":

@@ -15,6 +15,21 @@ Usage:
 """
 import json, os, sys
 
+if sys.version_info < (3, 8):
+    raise SystemExit(
+        "[FATAL] this validator needs Python 3.8+, got "
+        + sys.version.split()[0] + " at " + (sys.executable or "<unknown interpreter>")
+    )
+
+# Windows consoles default to cp1252: printing any non-ASCII byte (a job description's
+# em dash, a skill name) raises UnicodeEncodeError and aborts validation mid-file.
+# Force UTF-8 on the way out so a config is never left unvalidated by an encoding error.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding='utf-8', errors='replace')
+    except (AttributeError, ValueError):
+        pass
+
 BASE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 JOBS_DIR = os.path.join(BASE, '.hermes', 'cron', 'active')
 
@@ -59,17 +74,17 @@ for job in sorted(os.listdir(JOBS_DIR)):
             print(f'  [MISSING] {field}')
             errors.append(f'{job}: missing {field}')
         else:
-            print(f'  ✓ {field} = {data[field]!r}')
+            print(f'  [OK] {field} = {data[field]!r}')
 
     # No-agent vs LLM-driven consistency
     no_agent = data.get('no_agent', False)
     if no_agent:
-        print(f'  ✓ no_agent=true (script-only watchdog)')
+        print(f'  [OK] no_agent=true (script-only watchdog)')
         if 'script' not in data:
             print(f'  [ERROR] no_agent=true but no "script" field — job has no executable action')
             errors.append(f'{job}: no_agent=true but no script field')
     else:
-        print(f'  ✓ no_agent=false (LLM-driven)')
+        print(f'  [OK] no_agent=false (LLM-driven)')
         if 'prompt' not in data:
             print(f'  [WARN] no_agent=false but no "prompt" field — agent has no instructions')
             warnings.append(f'{job}: no_agent=false without prompt')
@@ -87,7 +102,7 @@ for job in sorted(os.listdir(JOBS_DIR)):
             sid = s if isinstance(s, str) else s.get('id', '?')
             nm = valid_skills.get(sid)
             if nm:
-                print(f'  ✓ skill: {sid} -> name={nm}')
+                print(f'  [OK] skill: {sid} -> name={nm}')
             else:
                 print(f'  [BROKEN] {sid}')
                 errors.append(f'{job}: broken skill ref {sid}')
@@ -95,28 +110,28 @@ for job in sorted(os.listdir(JOBS_DIR)):
     # workdir check
     wd = data.get('workdir', '')
     if wd in ['/', '.', '~/.hermes']:
-        print(f'  ✓ workdir is relative/local: {wd!r}')
+        print(f'  [OK] workdir is relative/local: {wd!r}')
     elif '/path/to/' in wd or '%REPO_PATH%' in wd:
         print(f'  [WARN] workdir is a placeholder: {wd!r}')
         warnings.append(f'{job}: placeholder workdir')
     else:
-        print(f'  ✓ workdir: {wd!r}')
+        print(f'  [OK] workdir: {wd!r}')
 
     # Threshold validation: keys should match script output
     if 'threshold' in data:
         t = data['threshold']
-        print(f'  ✓ threshold keys: {list(t.keys())}')
+        print(f'  [OK] threshold keys: {list(t.keys())}')
 
     # Model pinning check (drift-skip prevention)
     if not no_agent:
         if 'model' in data and 'provider' in data:
-            print(f'  ✓ model pinned: {data["provider"]}/{data["model"]}')
+            print(f'  [OK] model pinned: {data["provider"]}/{data["model"]}')
         else:
             print(f'  [WARN] no_agent=false but model/provider not pinned (drift_skip risk)')
             warnings.append(f'{job}: unpinned model (drift_skip risk)')
     else:
         if 'model' in data:
-            print(f'  ✓ model pinned (for drift safety): {data.get("provider")}/{data.get("model")}')
+            print(f'  [OK] model pinned (for drift safety): {data.get("provider")}/{data.get("model")}')
 
 # 2. Check the audit script itself runs
 print(f'\n=== Audit Script Self-Check ===')
@@ -134,5 +149,5 @@ if warnings:
     for w in warnings:
         print(f'    - {w}')
 if not errors and not warnings:
-    print('  ✓ ALL CHECKS PASSED')
+    print('  [OK] ALL CHECKS PASSED')
 sys.exit(0 if not errors else 1)

@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **254 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **296 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -55,7 +55,49 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 
 - `creative/baoyu-infographic/references/analysis-framework.md` — Infographic Content Analysis Framework
 - `creative/baoyu-infographic/references/base-prompt.md` — (no description)
+- `creative/baoyu-infographic/references/layouts/bento-grid.md` — bento-grid
+- `creative/baoyu-infographic/references/layouts/binary-comparison.md` — binary-comparison
+- `creative/baoyu-infographic/references/layouts/bridge.md` — bridge
+- `creative/baoyu-infographic/references/layouts/circular-flow.md` — circular-flow
+- `creative/baoyu-infographic/references/layouts/comic-strip.md` — comic-strip
+- `creative/baoyu-infographic/references/layouts/comparison-matrix.md` — comparison-matrix
+- `creative/baoyu-infographic/references/layouts/dashboard.md` — dashboard
+- `creative/baoyu-infographic/references/layouts/dense-modules.md` — dense-modules
+- `creative/baoyu-infographic/references/layouts/funnel.md` — funnel
+- `creative/baoyu-infographic/references/layouts/hierarchical-layers.md` — hierarchical-layers
+- `creative/baoyu-infographic/references/layouts/hub-spoke.md` — hub-spoke
+- `creative/baoyu-infographic/references/layouts/iceberg.md` — iceberg
+- `creative/baoyu-infographic/references/layouts/isometric-map.md` — isometric-map
+- `creative/baoyu-infographic/references/layouts/jigsaw.md` — jigsaw
+- `creative/baoyu-infographic/references/layouts/linear-progression.md` — linear-progression
+- `creative/baoyu-infographic/references/layouts/periodic-table.md` — periodic-table
+- `creative/baoyu-infographic/references/layouts/story-mountain.md` — story-mountain
+- `creative/baoyu-infographic/references/layouts/structural-breakdown.md` — structural-breakdown
+- `creative/baoyu-infographic/references/layouts/tree-branching.md` — tree-branching
+- `creative/baoyu-infographic/references/layouts/venn-diagram.md` — venn-diagram
+- `creative/baoyu-infographic/references/layouts/winding-roadmap.md` — winding-roadmap
 - `creative/baoyu-infographic/references/structured-content-template.md` — Structured Content Template
+- `creative/baoyu-infographic/references/styles/aged-academia.md` — aged-academia
+- `creative/baoyu-infographic/references/styles/bold-graphic.md` — bold-graphic
+- `creative/baoyu-infographic/references/styles/chalkboard.md` — chalkboard
+- `creative/baoyu-infographic/references/styles/claymation.md` — claymation
+- `creative/baoyu-infographic/references/styles/corporate-memphis.md` — corporate-memphis
+- `creative/baoyu-infographic/references/styles/craft-handmade.md` — craft-handmade (DEFAULT)
+- `creative/baoyu-infographic/references/styles/cyberpunk-neon.md` — cyberpunk-neon
+- `creative/baoyu-infographic/references/styles/hand-drawn-edu.md` — hand-drawn-edu
+- `creative/baoyu-infographic/references/styles/ikea-manual.md` — ikea-manual
+- `creative/baoyu-infographic/references/styles/kawaii.md` — kawaii
+- `creative/baoyu-infographic/references/styles/knolling.md` — knolling
+- `creative/baoyu-infographic/references/styles/lego-brick.md` — lego-brick
+- `creative/baoyu-infographic/references/styles/morandi-journal.md` — morandi-journal
+- `creative/baoyu-infographic/references/styles/origami.md` — origami
+- `creative/baoyu-infographic/references/styles/pixel-art.md` — pixel-art
+- `creative/baoyu-infographic/references/styles/pop-laboratory.md` — pop-laboratory
+- `creative/baoyu-infographic/references/styles/retro-pop-grid.md` — retro-pop-grid
+- `creative/baoyu-infographic/references/styles/storybook-watercolor.md` — storybook-watercolor
+- `creative/baoyu-infographic/references/styles/subway-map.md` — subway-map
+- `creative/baoyu-infographic/references/styles/technical-schematic.md` — technical-schematic
+- `creative/baoyu-infographic/references/styles/ui-wireframe.md` — ui-wireframe
 ## creative/comfyui
 
 - `creative/comfyui/references/official-cli.md` — comfy-cli Command Reference

@@ -1,6 +1,6 @@
 # Hermes Skills Repository
 
-A comprehensive collection of **166 Hermes Agent skills** across 23 categories — the second brain for its owner's Hermes Agent environment. See [DESCRIPTION.md](./DESCRIPTION.md) for the task-to-skill quick table and lookup ladder.
+A comprehensive collection of **167 Hermes Agent skills** across 23 categories — the second brain for its owner's Hermes Agent environment. See [DESCRIPTION.md](./DESCRIPTION.md) for the task-to-skill quick table and lookup ladder.
 
 ## Table of Contents
 
@@ -43,7 +43,7 @@ grep -i "raster\|token bridge" CODE-INDEX.md
 
 ## Overview
 
-This repository serves as a centralized database of all **166 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (390 cross-references mapped across 166 skills, 11 standalone). See [audit notes](docs/archive/audit-notes-skills-repo-pass.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
+This repository serves as a centralized database of all **167 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (393 cross-references mapped across 167 skills, 10 standalone). See [audit notes](docs/archive/audit-notes-skills-repo-pass.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
 
 ### Source Profiles
 
@@ -82,13 +82,13 @@ When a skill existed in multiple profiles, the version from the highest-priority
 | [smart-home/](./smart-home/) | Smart home device control | 1 |
 | [social-media/](./social-media/) | Social media content | 1 |
 | [software-development/](./software-development/) | Development tools and workflows | 41 |
-| [web-development/](./web-development/) | Web/API client derivation (HAR-based) | 1 |
+| [web-development/](./web-development/) | Web/API client derivation (HAR-based) | 2 |
 
-**Total: 166 skills across 23 categories** — counts below are regenerated from live frontmatter; keep them in sync via `python tools/gen-skills-index.py` and the audit.
+**Total: 167 skills across 23 categories** — counts below are regenerated from live frontmatter; keep them in sync via `python tools/gen-skills-index.py` and the audit.
 
 ### Skill Catalog
 
-All 166 skills organized by category:
+All 167 skills organized by category:
 
 #### Apple
 
@@ -302,6 +302,7 @@ All 166 skills organized by category:
 #### Web Development
 
 - [`har-derived-api-client`](./web-development/har-derived-api-client) — Record a site's XHR into a HAR, derive an HTTP client.
+- [`static-site-patterns`](./web-development/static-site-patterns) — Static-site perf/UX: PWA installability + Core Web Vitals.
 
 
 ## Skill Structure
@@ -346,7 +347,7 @@ Skills come from three sources (see [audit notes](docs/archive/audit-notes-skill
 
 1. **Imported skills** — copied in from live Hermes profiles (`default`, `the-skill-maker`, `the-memory-controller`) during the initial import; where a skill existed in multiple profiles, the highest-priority profile's version was kept.
 2. **Pre-existing repo skills** — authored directly in this repository (e.g. the 22+ `mattpocock-*` methodology skills, devops and top-level category skills).
-3. **Research-harvest ports** — added across three starred-repo deep-dive rounds (145 → 162 → 166), including hub installs (`hermes skills install official/...`) and MIT-licensed external ports with their licenses carried in frontmatter.
+3. **Research-harvest ports** — added across successive starred-repo deep-dive rounds (145 → 162 → 166 → 167), including hub installs (`hermes skills install official/...`) and MIT-licensed external ports with their licenses carried in frontmatter.
 
 The per-skill origin is recorded in [audit notes](docs/archive/audit-notes-skills-repo-pass.md) round-by-round; the live set of record is always `SKILLS-INDEX.md` (regenerated from frontmatter).
 
@@ -416,11 +417,13 @@ This repository includes Python scripts in the `tools/` directory that automate 
 
 | Tool | Purpose | Cron Integration |
 |------|---------|------------------|
-| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 166 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | Weekly Sunday 3 AM via `skill-audit.json` |
+| [`verify-all.py`](./tools/verify-all.py) | **Start here.** Runs every gate in one shot: audit, links, index drift (all four generated indexes), cron validators, and README/DESCRIPTION count consistency. Exit 0 = all 9 gates pass | Manual; run before any commit |
+| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 167 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | Weekly Sunday 3 AM via `skill-audit.json` |
 | [`sync-hermes-skills.py`](./tools/sync-hermes-skills.py) | Bidirectional sync between GitHub repo and local Hermes env: git pull, skill/memories/profiles sync, DEPENDENCY.md regeneration, audit, git push | Weekly Sunday 2 AM via `sync-hermes-skills.json` |
 
 
 
+| [`_index_output.py`](./tools/_index_output.py) | Shared write-guard for the generators: refuses to overwrite an index when the scan came back suspiciously empty, and implements their `--check` (compare-don't-write) drift mode | Imported by the four generators |
 | [`check-links.py`](./tools/check-links.py) | Broken-link gate: verifies every relative markdown link in the repo resolves (skips URLs, code spans, historical profiles-export snapshots); exit 1 on any broken link | After doc edits; pairs with audit as a pre-commit pair |
 | [`gen-skills-index.py`](./tools/gen-skills-index.py) | Rebuilds SKILLS-INDEX.md (flat one-line-per-skill index, the cheapest lookup path in the repo); stdlib-only | After adding/removing/renaming skills |
 | [`gen-code-index.py`](./tools/gen-code-index.py) | Rebuilds CODE-INDEX.md: every script/helper/test/template with kind, language, size, and a one-line purpose from its docstring/header comment; stdlib-only | After adding/removing/renaming code files |
@@ -441,9 +444,23 @@ The repository includes an automated audit script at [`tools/audit-skills.py`](.
 - **Referenced script existence** — scripts listed in frontmatter `script:` fields exist on disk
 - **Duplicate skill name detection** — no two `SKILL.md` files share the same `name` field (threshold = 0)
 
+Requires **pyyaml** (`pip install -r requirements.txt`). Without it the audit refuses to run rather than reporting an empty pass.
+
+The single command that runs everything:
+
 ```bash
-# Run the audit (exit 0 = within thresholds, exit 1 = threshold breached)
-python tools/audit-skills.py     # or: python3 tools/audit-skills.py on Linux/macOS
+py tools/verify-all.py      # 9 gates; exit 0 = all pass
+```
+
+Every tool fails **closed**: a wrong interpreter, a missing pyyaml, an unreadable file, a scan that
+comes back empty, or an index that has drifted all produce a non-zero exit and a `[FATAL]`/`[DRIFT]`
+line -- never a quiet "clean" result. Individually:
+
+```bash
+# Run the audit (exit 0 = within thresholds, exit 1 = threshold breached or scan failed)
+py tools/audit-skills.py         # Windows: use `py`. Bare `python`/`python3` are
+                                 # Microsoft Store alias stubs -- they exit 49 without
+                                 # running the script. Linux/macOS: python3 tools/audit-skills.py
 
 # The cron registry at .hermes/cron/active/skill-audit.json
 # runs this weekly (Sunday 3 AM) with no_agent=true
@@ -451,15 +468,18 @@ python tools/audit-skills.py     # or: python3 tools/audit-skills.py on Linux/ma
 
 The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a weekly cronjob definition that emits a JSON report via the cronjob system's `deliver: origin` target.
 
-### Live Invariants (verified on every audit run)
+### Live Invariants
 
-- ✅ All 166 skills have valid frontmatter (`name`, `version`, `author`, `platforms`, `metadata.hermes`) and parse without errors
+✅ items are checked by `tools/audit-skills.py` / `tools/check-links.py` on every audit run; the threshold-gated subset (a non-zero count fails the run) is `broken_refs`, `yaml_errors`, `long_descriptions`, `duplicate_skills`, `missing_body_sections`, `temps_scripts`. 📎 items are conventions no tool enforces — hold them by hand.
+
+- ✅ All 167 skills have valid frontmatter (`name`, `version`, `author`, `platforms`, `metadata.hermes`) and parse without errors
 - ✅ No duplicate skill names; no empty skill directories
-- ✅ All `related_skills` references resolve to existing in-repo skills — 390 cross-references across 166 skills (see [DEPENDENCY.md](./DEPENDENCY.md))
+- ✅ All `related_skills` references resolve to existing in-repo skills — 393 cross-references across 167 skills (see [DEPENDENCY.md](./DEPENDENCY.md))
 - ✅ All descriptions ≤59 chars, double-quoted YAML strings
 - ✅ Every skill has a body section (`## What This Skill Does` or an audit-recognized alternative) and standard header capitalization
 - ✅ Every multi-skill category directory has a `DESCRIPTION.md` (all 23 do)
-- ✅ No trailing whitespace; all files end with a newline; line endings normalized via `.gitattributes` (`text=auto`) — CRLF in working tree, LF in git storage
+- 🔒 Line endings normalized via `.gitattributes` (`text=auto`) — CRLF in working tree, LF in git storage. Enforced by git itself at checkout/commit, not by the audit
+- 📎 *Convention, not a gate:* repo-authored files end with a newline. Two exceptions are kept byte-for-byte as their source emits them: the vendored conference templates under `research/research-paper-writing/templates/`, and the sync-owned `memories/` + `profile/` files. Trailing whitespace is **not** stripped — in markdown a double trailing space is a hard line break, so a blanket strip would silently reflow docs.
 - ✅ Broken-link gate: every relative markdown link resolves (`tools/check-links.py`, skips URLs/code spans/`profiles-export/` snapshots)
 
 One-off historical fixes (duplicate removals, ref repairs, header renames, sync setup) are logged round-by-round in [audit notes](docs/archive/audit-notes-skills-repo-pass.md).
