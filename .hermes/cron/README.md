@@ -33,15 +33,17 @@ See:
 - [No-interaction guardrail template](../../autonomous-ai-agents/cron-job-authoring/references/guardrail-template.md)
 - [Delivery discipline guide](../../autonomous-ai-agents/cron-job-authoring/references/delivery-discipline.md)
 
-## Active Cronjobs
+## Cronjob Definitions
 
-| Job | Schedule | Skills Used | Purpose |
+> **Registration status (verified 2026-09-08).** These are job *definitions*, not running jobs. The live Hermes scheduler (`%LOCALAPPDATA%/hermes/cron/jobs.json`) currently has one registered job — `aspirecures-weekly-research`, and it is **disabled** — so `skill-audit` and `sync-hermes-skills` have never executed. Load a definition with the `cronjob()` tool to actually schedule it. Until then, run the checks yourself: `py tools/verify-all.py`.
+
+| Job | Defined schedule | Skills Used | Purpose |
 |-----|----------|-------------|---------|
-| [`aspirecures-weekly.json`](./active/aspirecures-weekly.json) | Weekly Mon 9:17 AM ET (13:17 UTC) | 9 skills (research, mlops, github, software-development) | Research pipeline: collect→curate→render→commit disease pages (two-agent split) |
-| [`skill-audit.json`](./active/skill-audit.json) | Weekly Sun 3 AM | 4 skills (cron-job-authoring, skill-authoring, verification) | Self-audit: YAML validation, broken refs, description lengths, line endings |
-| [`sync-hermes-skills.json`](./active/sync-hermes-skills.json) | Weekly Sun 2 AM | 3 skills (cron-job-authoring, verification-culture, hermes-agent-skill-authoring) | Bidirectional sync: pull upstream → sync skills/memories/profiles ↔ local → commit → push → audit |
+| [`aspirecures-weekly.json`](./active/aspirecures-weekly.json) | Weekly Mon 9:17 AM ET (13:17 UTC) — *registered, disabled* | 9 skills (research, mlops, github, software-development) | Research pipeline: collect→curate→render→commit disease pages (two-agent split) |
+| [`skill-audit.json`](./active/skill-audit.json) | Weekly Sun 3 AM — *not registered* | 4 skills (cron-job-authoring, skill-authoring, verification) | Self-audit: YAML validation, broken refs, description lengths, line endings |
+| [`sync-hermes-skills.json`](./active/sync-hermes-skills.json) | Weekly Sun 2 AM — *not registered* | 3 skills (cron-job-authoring, verification-culture, hermes-agent-skill-authoring) | Bidirectional sync: pull upstream → sync skills/memories/profiles ↔ local → commit → push → audit |
 
-## Active Cronjobs Detail
+## Definition Detail
 
 ### aspirecures-weekly.json
 - **Architecture:** Two-agent split (preparer + commit agent). Preparer collects candidates from Europe PMC + PubMed + ClinicalTrials.gov + ISRCTN, applies the Claude curation gate (strict relevance + credibility + patient-appropriateness + confidence threshold + 65-95 word summary), emits a JSON report. Commit agent consumes the report, merges into data/research/*.json, runs the full render pipeline (render.pl → render-ads.pl → gen-sitemap.pl → schema.pl → dedash.pl → gen-feeds.pl), validates with lint-feed.pl + verify.sh, then commits + pushes.
