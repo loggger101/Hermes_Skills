@@ -361,6 +361,8 @@ This repository also includes a ready-to-use **cronjob registry** at [`.hermes/c
 - **`.hermes/cron/active/`** — Active cronjob definitions (JSON config) ready to be loaded via `cronjob()`
 - **`.hermes/cron/archive/`** — Deprecated or old cronjob definitions kept for reference
 
+> **Registration status (verified 2026-09-08).** These are job *definitions*, not running jobs. The live Hermes scheduler (`%LOCALAPPDATA%/hermes/cron/jobs.json`) currently has one registered job — `aspirecures-weekly-research`, and it is **disabled** — so `skill-audit` and `sync-hermes-skills` have never executed. Load a definition with the `cronjob()` tool to actually schedule it. Until then, run the checks yourself: `py tools/verify-all.py`.
+
 ### Core Skills
 
 | Skill | Purpose | Key References |
@@ -418,8 +420,8 @@ This repository includes Python scripts in the `tools/` directory that automate 
 | Tool | Purpose | Cron Integration |
 |------|---------|------------------|
 | [`verify-all.py`](./tools/verify-all.py) | **Start here.** Runs every gate in one shot: audit, links, index drift (all four generated indexes), cron validators, and README/DESCRIPTION count consistency. Exit 0 = all 9 gates pass | Manual; run before any commit |
-| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 167 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | Weekly Sunday 3 AM via `skill-audit.json` |
-| [`sync-hermes-skills.py`](./tools/sync-hermes-skills.py) | Bidirectional sync between GitHub repo and local Hermes env: git pull, skill/memories/profiles sync, DEPENDENCY.md regeneration, audit, git push | Weekly Sunday 2 AM via `sync-hermes-skills.json` |
+| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 167 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | Defined for Sun 3 AM in `skill-audit.json` — **not registered**; run manually |
+| [`sync-hermes-skills.py`](./tools/sync-hermes-skills.py) | Bidirectional sync between GitHub repo and local Hermes env: git pull, skill/memories/profiles sync, DEPENDENCY.md regeneration, audit, git push | Defined for Sun 2 AM in `sync-hermes-skills.json` — **not registered**; run manually |
 
 
 
@@ -462,11 +464,12 @@ py tools/audit-skills.py         # Windows: use `py`. Bare `python`/`python3` ar
                                  # Microsoft Store alias stubs -- they exit 49 without
                                  # running the script. Linux/macOS: python3 tools/audit-skills.py
 
-# The cron registry at .hermes/cron/active/skill-audit.json
-# runs this weekly (Sunday 3 AM) with no_agent=true
+# .hermes/cron/active/skill-audit.json defines a weekly (Sun 3 AM, no_agent=true)
+# job for this -- but that definition is not registered with the scheduler yet,
+# so today the audit only runs when you (or verify-all.py) run it.
 ```
 
-The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a weekly cronjob definition that emits a JSON report via the cronjob system's `deliver: origin` target.
+The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a weekly cronjob definition that would emit a JSON report via the cronjob system's `deliver: origin` target. That definition is **not currently registered** with the live scheduler (see the registration status note in [Cron Job Authoring](#cron-job-authoring)), so the audit runs on demand today.
 
 ### Live Invariants
 
