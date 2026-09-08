@@ -92,7 +92,7 @@ category/
 - **`gen-code-index.py`** — rebuilds `CODE-INDEX.md` from every code file in the repo: path, kind (script/helper/test/template), language, size, one-line purpose extracted from its docstring/header comment. Run after adding/removing/renaming scripts.
 - **`gen-references-index.py`** — rebuilds `REFERENCES-INDEX.md` from every skill's `references/*.md`: flat grep index with each doc's frontmatter description and owning skill. Run after adding/removing reference docs.
 - **`regen-dependency-map.py`** — rebuilds `DEPENDENCY.md` from live frontmatter (safe standalone; the sync script's built-in generator can hang on import interactively).
-- **`sync-hermes-skills.py`** — full bidirectional GitHub↔local-Hermes sync, run weekly by cron. Has `--dry-run`. Its delete phase is capped at `MAX_DELETIONS = 25` files per run (override: `--allow-mass-delete`), and it refuses to commit or push when the audit did not pass.
+- **`sync-hermes-skills.py`** — full bidirectional GitHub↔local-Hermes sync. A weekly cron job is *defined* for it in `.hermes/cron/active/` but is **not registered** with the live scheduler, so today it only runs when invoked. Has `--dry-run`. Its delete phase is capped at `MAX_DELETIONS = 25` files per run (override: `--allow-mass-delete`), and it refuses to commit or push when the audit did not pass.
 - **`_index_output.py`** — shared write-guard behind the four generators: blocks an empty-scan overwrite, and provides their `--check` drift mode (compare against disk, exit 1 if stale, write nothing).
 
 ## Getting Started
