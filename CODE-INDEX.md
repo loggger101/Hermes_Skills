@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **117 code files** (28,213 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **118 code files** (28,338 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -57,6 +57,10 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 
 - `data-science/economicspace-pipeline/scripts/asterank_sigma_probe.py` (script, python, 134 lines) — Asterank orbit-sigma + Shoemaker-Helin dv probe
 - `data-science/economicspace-pipeline/scripts/nhats_rank_crosscheck.py` (script, python, 188 lines) — NHATS rank cross-check for the economicspace closed-form dv estimator
+
+## data-science/python-data-science
+
+- `data-science/python-data-science/references/big-data-patterns-verify.py` (script, python, 125 lines) — Verify the general big-data patterns for python-data-science reference doc
 
 ## data-science/space-data-pipelines
 
@@ -211,4 +215,4 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `tools/sync-hermes-skills.py` (repo tooling, python, 841 lines)
 
 ---
-*117 code files: 84 scripts, 6 shared helpers, 11 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*118 code files: 85 scripts, 6 shared helpers, 11 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
