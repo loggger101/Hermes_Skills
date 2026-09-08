@@ -41,6 +41,31 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+# --- Environment guard ------------------------------------------------------
+# This script runs unattended (weekly cron) and COMMITS + PUSHES. A wrong
+# interpreter or missing dependency must fail here, loudly, before it touches
+# git -- never half-run and report a clean sync.
+if sys.version_info < (3, 8):
+    raise SystemExit(
+        "[FATAL] sync-hermes-skills.py needs Python 3.8+, got "
+        + sys.version.split()[0] + " at " + (sys.executable or "<unknown interpreter>")
+    )
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+except (AttributeError, ValueError):
+    pass
+try:
+    import yaml
+except ModuleNotFoundError:
+    # Was imported inside generate_dependency_map()'s try/except, where a missing
+    # pyyaml silently produced an empty dependency map instead of an error.
+    raise SystemExit(
+        "[FATAL] pyyaml is required by sync-hermes-skills.py but is not installed for "
+        + (sys.executable or "<unknown interpreter>")
+        + " -- install it with:  pip install -r requirements.txt"
+    )
+
 # ── Configuration ─────────────────────────────────────────────────
 
 # This script lives at tools/sync-hermes-skills.py
@@ -54,6 +79,10 @@ else:
     HERMES_HOME = Path.home() / ".hermes"
 
 LOCAL_SKILLS_DIR = HERMES_HOME / "skills"
+
+# Safety cap on the destructive half of the sync. The weekly cron runs unattended;
+# a wrong local tree must not be able to wipe the repo in one pass.
+MAX_DELETIONS = 25
 LOCAL_MEMORIES_DIR = HERMES_HOME / "memories"
 LOCAL_PROFILES_DIR = HERMES_HOME / "profiles"
 
@@ -160,11 +189,17 @@ def git_pull(repo_path: Path, dry_run: bool = False) -> dict:
         # Stash changes, pull, then pop
         result["stashed"] = True
         try:
-            subprocess.run(
+            proc_stash = subprocess.run(
                 ["git", "stash"], cwd=repo_path, capture_output=True, text=True, timeout=30
             )
-        except Exception:
-            pass  # Continue even if stash fails — may have nothing to stash
+            if proc_stash.returncode != 0:
+                # Not fatal (there may be nothing to stash), but the pull below then
+                # runs against a dirty tree -- record it instead of discarding it.
+                result["stashed"] = False
+                result["stash_warning"] = (proc_stash.stderr or proc_stash.stdout).strip()[:300]
+        except Exception as e:
+            result["stashed"] = False
+            result["stash_warning"] = f"git stash failed: {type(e).__name__}: {e}"
 
     try:
         proc = subprocess.run(
@@ -183,11 +218,23 @@ def git_pull(repo_path: Path, dry_run: bool = False) -> dict:
     # Restore stashed changes
     if result["stashed"]:
         try:
-            subprocess.run(
+            proc_pop = subprocess.run(
                 ["git", "stash", "pop"], cwd=repo_path, capture_output=True, text=True, timeout=30
             )
-        except Exception:
-            pass  # Non-fatal — changes may still be in stash
+            if proc_pop.returncode != 0:
+                # Local work is now stranded in the stash. Silently swallowing this
+                # is how changes go missing across an unattended weekly run.
+                result["success"] = False
+                result["stash_pop_failed"] = True
+                result["error"] = (
+                    "git stash pop FAILED - local changes are stranded in the stash; "
+                    "recover with `git stash list` / `git stash pop`: "
+                    + (proc_pop.stderr or proc_pop.stdout).strip()[:300]
+                )
+        except Exception as e:
+            result["success"] = False
+            result["stash_pop_failed"] = True
+            result["error"] = f"git stash pop FAILED - changes stranded in stash: {e}"
 
     if result["success"] and "already up to date" not in result["output"].lower():
         result["changes"] = [l for l in result["output"].splitlines() if l.strip()]
@@ -340,13 +387,14 @@ def sync_skills_pull(repo_root: Path, local_dir: Path, dry_run: bool = False) ->
     return result
 
 
-def sync_skills_push(repo_root: Path, local_dir: Path, dry_run: bool = False) -> dict:
+def sync_skills_push(repo_root: Path, local_dir: Path, dry_run: bool = False,
+                     allow_mass_delete: bool = False) -> dict:
     """Copy skill files from local Hermes environment to repo.
 
     Handles new files, updated files, and deleted files (bidirectional sync).
     """
     result = {"action": "push_skills", "files_copied": 0, "files_skipped": 0,
-              "files_new": 0, "files_deleted": 0, "details": []}
+              "files_new": 0, "files_deleted": 0, "success": True, "details": []}
 
     if not local_dir.exists():
         result["details"].append("Local skills directory does not exist — skipping push")
@@ -404,28 +452,51 @@ def sync_skills_push(repo_root: Path, local_dir: Path, dry_run: bool = False) ->
         except Exception as e:
             result["details"].append(f"Error copying {rel_path}: {e}")
 
-    # --- Delete files that were removed locally (repo → delete) ---
+    # --- Delete files that were removed locally (repo -> delete) ---
+    # Collected first, then capped. Deleting one-by-one inside the scan means a
+    # half-populated local dir (an interrupted copy, a drive still hydrating,
+    # a botched local cleanup) silently erases the repo copy of every skill it
+    # cannot see -- and the next step commits and pushes that.
     # Only check skill category directories (not tools, profile, .hermes, etc.)
+    pending_deletes = []
     for rel_path, repo_path in sorted(list_repo_files(repo_root).items()):
         parts = rel_path.split("/")
         # Skip non-skill files in repo
         if len(parts) == 1 or parts[0] in ("tools", "profile", ".hermes",
                                            "memories", "memories-export", "profiles-export"):
             continue
-        # If file no longer exists locally, delete from repo
         local_path = local_dir / rel_path
         if not local_path.exists() and repo_path.exists():
-            try:
-                if dry_run:
-                    result["files_deleted"] += 1
-                    result["details"].append(f"Would delete (removed locally): {rel_path}")
-                else:
-                    repo_path.unlink()
-                    result["files_deleted"] += 1
-                    result["details"].append(f"Deleted (removed locally): {rel_path}")
-            except Exception as e:
-                result["details"].append(f"Error deleting {rel_path}: {e}")
+            pending_deletes.append((rel_path, repo_path))
 
+    if len(pending_deletes) > MAX_DELETIONS and not allow_mass_delete:
+        result["success"] = False
+        result["mass_delete_blocked"] = True
+        result["pending_deletes"] = len(pending_deletes)
+        result["error"] = (
+            str(len(pending_deletes)) + " files are queued for deletion, over the "
+            + str(MAX_DELETIONS) + "-file safety cap. NOTHING was deleted. This usually means "
+            "the local skills directory is incomplete, not that " + str(len(pending_deletes))
+            + " skills were really removed. Verify the local tree, then re-run with "
+            "--allow-mass-delete if the deletions are genuine."
+        )
+        result["details"].append(result["error"])
+        for rel_path, _ in pending_deletes[:20]:
+            result["details"].append("Would have deleted: " + rel_path)
+        return result
+
+    for rel_path, repo_path in pending_deletes:
+        try:
+            if dry_run:
+                result["files_deleted"] += 1
+                result["details"].append(f"Would delete (removed locally): {rel_path}")
+            else:
+                repo_path.unlink()
+                result["files_deleted"] += 1
+                result["details"].append(f"Deleted (removed locally): {rel_path}")
+        except Exception as e:
+            result["success"] = False
+            result["details"].append(f"Error deleting {rel_path}: {e}")
     return result
 
 
@@ -561,7 +632,8 @@ def generate_dependency_map(repo_root: Path, dry_run: bool = False) -> dict:
 
     try:
         import re as re_mod
-        import yaml as yaml_mod
+        yaml_mod = yaml  # module-level import, guarded at startup
+        unparsed = []    # SKILL.md files that could not be read/parsed
 
         skills = {}  # slug -> name
         refs = {}    # skill_name -> [list of related_skills]
@@ -594,9 +666,19 @@ def generate_dependency_map(repo_root: Path, dry_run: bool = False) -> dict:
                     skills[name] = name
                     refs[name] = related
                     result["total_refs"] += len(related)
-            except Exception:
+            except Exception as e:
+                # Never drop a skill silently: a file that will not parse is a
+                # finding, not a no-op. It stays out of the map but is reported.
+                unparsed.append({
+                    "path": str(path.relative_to(repo_root)),
+                    "error": f"{type(e).__name__}: {e}",
+                })
                 continue
 
+        result["unparsed"] = unparsed
+        if unparsed:
+            result["success"] = False
+            result["error"] = f"{len(unparsed)} SKILL.md file(s) could not be parsed"
         result["duplicates"] = duplicates
 
         # Build reverse map: who references each skill
@@ -677,9 +759,15 @@ def run_audit(repo_root: Path) -> dict:
     result = {"action": "audit", "success": True, "error": None}
     if audit_script.exists():
         try:
-            # Find available python executable (python3 on Linux/macOS, python on Windows)
-            # On Windows, prefer 'python' (shutil.which("python3") returns the broken Store stub)
-            python_cmd = shutil.which("python") or shutil.which("python3") or "python"
+            # Use THIS interpreter. shutil.which("python") / ("python3") both resolve
+            # to the Microsoft Store alias stub on a stock Windows box: the stub never
+            # runs the audit, and the empty stdout used to land in the JSONDecodeError
+            # branch below, which reported threshold_breached=false. sys.executable is
+            # by definition an interpreter that works, since it is running this script.
+            python_cmd = sys.executable or shutil.which("python3") or shutil.which("python")
+            if not python_cmd:
+                raise RuntimeError("no usable Python interpreter found to run the audit")
+            result["interpreter"] = python_cmd
             proc = subprocess.run(
                 [python_cmd, str(audit_script)],
                 cwd=repo_root,
@@ -691,18 +779,28 @@ def run_audit(repo_root: Path) -> dict:
             try:
                 audit_data = json.loads(proc.stdout)
                 result["summary"] = audit_data.get("summary", {})
-                result["threshold_breached"] = audit_data.get("threshold_breached", False)
+                result["threshold_breached"] = audit_data.get("threshold_breached", True)
+                result["skill_count"] = audit_data.get("skill_count")
             except json.JSONDecodeError:
+                # FAIL CLOSED. An audit whose output cannot be parsed did not pass;
+                # reporting threshold_breached=false here is what let a stub
+                # interpreter masquerade as a clean audit.
+                result["success"] = False
                 result["output"] = proc.stdout[:500]
-                result["threshold_breached"] = False
+                result["stderr"] = proc.stderr[:500]
+                result["error"] = (
+                    f"audit produced no parseable JSON (exit {proc.returncode}) "
+                    "-- treating as FAILED, not clean"
+                )
+                result["threshold_breached"] = True
         except Exception as e:
             result["success"] = False
             result["error"] = str(e)
-            result["threshold_breached"] = False
+            result["threshold_breached"] = True
     else:
         result["success"] = False
         result["error"] = f"Audit script not found at {audit_script}"
-        result["threshold_breached"] = False
+        result["threshold_breached"] = True
     return result
 
 
@@ -715,6 +813,8 @@ def main():
     )
     parser.add_argument("--dry-run", action="store_true",
                         help="Preview changes without committing or pushing")
+    parser.add_argument("--allow-mass-delete", action="store_true",
+                        help="Permit more than MAX_DELETIONS repo deletions in one run")
     args = parser.parse_args()
 
     report = {
@@ -739,7 +839,8 @@ def main():
     report["steps"].append(pull_skills)
 
     # Step 3: Sync skills from local → repo (PUSH direction)
-    push_skills = sync_skills_push(REPO_ROOT, LOCAL_SKILLS_DIR, dry_run=args.dry_run)
+    push_skills = sync_skills_push(REPO_ROOT, LOCAL_SKILLS_DIR, dry_run=args.dry_run,
+                                   allow_mass_delete=args.allow_mass_delete)
     report["steps"].append(push_skills)
 
     # Step 4: Sync memories
@@ -790,7 +891,25 @@ def main():
         + repo_empty
         + local_empty
     )
-    if total_changes > 0:
+    # The audit is a GATE, not a report: never publish a tree the audit rejected
+    # (or could not check at all). Without this the push happened regardless and
+    # the run merely exited 1 afterwards -- too late, the commit was already remote.
+    audit_ok = audit_result.get("success", False) and not audit_result.get("threshold_breached", True)
+    push_scan_ok = push_skills.get("success", True)  # false when the delete cap tripped
+    if total_changes > 0 and not (audit_ok and push_scan_ok):
+        commit_result = {
+            "action": "push",
+            "success": False,
+            "pushed": False,
+            "skipped_reason": ("audit did not pass" if not audit_ok else
+                               "skill-delete safety cap tripped") + " -- refusing to commit/push",
+            "push_scan_error": push_skills.get("error"),
+            "audit_error": audit_result.get("error"),
+            "audit_threshold_breached": audit_result.get("threshold_breached"),
+            "pending_changes": total_changes,
+        }
+        report["steps"].append(commit_result)
+    elif total_changes > 0:
         commit_result = git_add_commit_push(
             REPO_ROOT,
             f"chore: sync {total_changes} file(s) from Hermes local env — "
@@ -825,7 +944,7 @@ def main():
 
     # Silent mode: only output if there are changes, errors, or threshold breach
     has_errors = any(
-        not step.get("success", True) for step in report["steps"] if step.get("action") in ("pull", "push", "audit", "dependency_map")
+        not step.get("success", True) for step in report["steps"] if step.get("action") in ("pull", "push", "push_skills", "audit", "dependency_map")
     )
     has_threshold_breach = audit_result.get("threshold_breached", False)
 

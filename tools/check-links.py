@@ -24,7 +24,23 @@ import re
 import sys
 from pathlib import Path
 
+# ── Environment guard ───────────────────────────────────────────────────────
+# A wrong interpreter must fail HERE, loudly — never half-run and report clean.
+# On Windows, bare `python` / `python3` are usually Microsoft Store alias stubs
+# that never execute the script at all; use `py` there (README → Verification).
+if sys.version_info < (3, 8):
+    raise SystemExit(
+        "[FATAL] this tool needs Python 3.8+, got "
+        f"{sys.version.split()[0]} at {sys.executable or '<unknown interpreter>'}"
+    )
+try:  # repo content is UTF-8; a cp1252 console must not abort an otherwise-clean run
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+except (AttributeError, ValueError):
+    pass
+
 REPO = Path(__file__).resolve().parents[1]
+MIN_EXPECTED_LINKS = 200  # floor: below this the scan failed, whatever it reports
 SKIP_DIRS = {".git"}
 SNAPSHOT_PREFIXES = ("profiles-export/", "memories-export/")
 LINK_RE = re.compile(r'\[[^\]]*\]\(([^)\s]+)(?:\s+"[^"]*")?\)')
@@ -32,6 +48,7 @@ LINK_RE = re.compile(r'\[[^\]]*\]\(([^)\s]+)(?:\s+"[^"]*")?\)')
 
 def main():
     broken = []
+    unreadable = []  # files the scan could not open: coverage gaps, not warnings
     checked = 0
     for p in REPO.rglob("*.md"):
         if any(part in SKIP_DIRS for part in p.parts):
@@ -45,7 +62,7 @@ def main():
         try:
             text = p.read_text(encoding="utf-8")
         except (UnicodeDecodeError, OSError) as e:
-            print(f"WARNING — could not read {p}: {e}", file=sys.stderr)
+            unreadable.append(f"{p}: {e}")
             continue
         # strip fenced code blocks so example links in docs don't count,
         # then inline `code` spans (e.g. markdown syntax examples like ![alt](url))
@@ -71,6 +88,20 @@ def main():
                 broken.append(f"{rel_from_repo} -> {target}")
 
     print(f"checked {checked} relative links across repo .md files")
+    if unreadable:
+        print(f"[FATAL] {len(unreadable)} file(s) could not be read -- link coverage is "
+              "incomplete, so a clean result would be meaningless:", file=sys.stderr)
+        for u in unreadable:
+            print("  " + u, file=sys.stderr)
+        sys.exit(2)
+    if checked < MIN_EXPECTED_LINKS:
+        print(
+            f"[FATAL] only {checked} links checked (floor {MIN_EXPECTED_LINKS}) -- the scan "
+            "itself failed. A link checker that found nothing to check has not verified "
+            "anything; treat this as broken, not clean.",
+            file=sys.stderr,
+        )
+        sys.exit(2)
     if broken:
         print(f"BROKEN LINKS ({len(broken)}):")
         for b in sorted(set(broken)):

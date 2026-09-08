@@ -56,7 +56,7 @@
     "Bidirectional sync: PULL first (github->local), then PUSH (local->github)",
     "Threshold-based alerting: 6 direct script-output checks (git_pull, git_push, audit, lint, deleted_files=0, push_error=null) + 8 post-run verification checks",
     "Dry-run support: --dry-run flag skips ALL file operations (git_add_commit_push, cleanup, DEPENDENCY.md writes)",
-    "Windows python detection: uses shutil.which('python') not python3 (python3 is broken Store stub, exit 9009)",
+    "Windows python detection: the audit subprocess uses sys.executable (the interpreter already running the script). BOTH shutil.which('python') and which('python3') resolve to the Microsoft Store alias stub on this box (exits 49, runs nothing); the old which('python') path produced an empty audit that still reported threshold_breached=false. Invoke repo tools with `py` on Windows.",
     "Path normalization: str(path) uses backslash separators on Windows -- substring filters fail silently; must normalize",
     "File exclusions: sync_skills_push AND sync_skills_pull exclude profiles-export/, memories-export/, .hermes/, .git/, tools/, memories/",
     "Delete safety: sync_skills_push delete phase excludes memories/ directory (CRITICAL FIX -- prevents accidental deletion of tracked memory files)",

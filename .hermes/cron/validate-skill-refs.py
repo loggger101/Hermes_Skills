@@ -1,6 +1,21 @@
 #!/usr/bin/env python3
 """Lightweight JSON + skill-ref validator (no_agent-compatible)."""
 import json, os, sys
+
+# ── Environment guard ───────────────────────────────────────────────────────
+# A wrong interpreter must fail HERE, loudly — never half-run and report clean.
+# On Windows, bare `python` / `python3` are usually Microsoft Store alias stubs
+# that never execute the script at all; use `py` there (README → Verification).
+if sys.version_info < (3, 8):
+    raise SystemExit(
+        "[FATAL] this tool needs Python 3.8+, got "
+        f"{sys.version.split()[0]} at {sys.executable or '<unknown interpreter>'}"
+    )
+try:  # repo content is UTF-8; a cp1252 console must not abort an otherwise-clean run
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+except (AttributeError, ValueError):
+    pass
 BASE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 JOBS_DIR = os.path.join(BASE, '.hermes', 'cron', 'active')
 SKIP = ('/.git/', '/.hermes/cron/', 'profiles-export/', 'memories-export/', '/memories/')
