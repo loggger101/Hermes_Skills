@@ -15,6 +15,9 @@ Rules:
   under a <category>/<skill>/templates/ dir: those are scaffolds copied-and-filled at use time,
   so their relative links (diagrams/, modules/X.md) point at generated output by design.
 - Strips #anchors before checking existence.
+- memories/MEMORY.md and memories/USER.md are SKIPPED: one-way exports of the live store (see
+  memories/DESCRIPTION.md). Entries quote markdown-shaped fragments as prose, and the repo cannot
+  fix a link inside a file the next sync overwrites.
 - profiles-export/ is SKIPPED: those are historical per-profile snapshots (see profile/DESCRIPTION.md);
   they may predate later fixes and are regenerated from live environments, not hand-maintained here.
 
@@ -43,6 +46,11 @@ REPO = Path(__file__).resolve().parents[1]
 MIN_EXPECTED_LINKS = 200  # floor: below this the scan failed, whatever it reports
 SKIP_DIRS = {".git"}
 SNAPSHOT_PREFIXES = ("profiles-export/", "memories-export/")
+# One-way exports of the live Hermes memory store: their entries quote markdown-shaped
+# fragments as prose, and the repo cannot fix a link inside a file the next sync overwrites.
+# Deliberately file-scoped, not "memories/" -- the hand-written memories/DESCRIPTION.md
+# stays gated like any other doc.
+EXPORTED_FILES = ("memories/MEMORY.md", "memories/USER.md")
 LINK_RE = re.compile(r'\[[^\]]*\]\(([^)\s]+)(?:\s+"[^"]*")?\)')
 
 
@@ -56,6 +64,8 @@ def main():
         rel_posix = str(p.relative_to(REPO)).replace("\\", "/")
         if rel_posix.startswith(SNAPSHOT_PREFIXES):
             continue  # historical snapshots — not hand-maintained (see module docstring)
+        if rel_posix in EXPORTED_FILES:
+            continue  # live-memory exports — see module docstring
         parts = p.relative_to(REPO).parts
         if "templates" in parts:
             continue  # skill template scaffolds — links resolve only after generation

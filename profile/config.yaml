@@ -1,7 +1,7 @@
 model:
-  default: qwen/qwen3.6-35b-a3b
+  default: qwen3.8-27b@q4_k_xl
   provider: lmstudio
-  base_url: http://127.0.0.1:1234/v1
+  base_url: http://127.0.0.1:42069/v1
 database:
   journal_mode: wal
 runtime:
@@ -9,7 +9,7 @@ runtime:
 agent:
   max_turns: 500
   verbose: false
-  reasoning_effort: medium
+  reasoning_effort: ultra
   personalities: {}
 terminal:
   backend: local
@@ -44,7 +44,7 @@ compression:
   progress_notices: false
   threshold: 0.5
   target_ratio: 0.2
-  protect_last_n: 20
+  protect_last_n: 5
   min_tail_user_messages: 1
   max_attempts: 3
   proactive_prune_tokens: 0
@@ -71,7 +71,6 @@ display:
   pet:
     enabled: true
     slug: cache-capy
-    scale: 0.33
   tool_progress: all
   cleanup_progress: false
   long_running_notifications: true
@@ -84,20 +83,21 @@ stt:
   openai:
     model: whisper-1
     language: ''
-context:
-  engine: compressor
 memory:
   memory_enabled: true
   user_profile_enabled: true
-  memory_char_limit: 22000
-  user_char_limit: 2375
+  memory_char_limit: 80000
+  user_char_limit: 20000
   nudge_interval: 10
   flush_min_turns: 6
 delegation:
   max_iterations: 250
-  reasoning_effort: medium
+  reasoning_effort: xhigh
 skills:
   creation_nudge_interval: 15
+command_allowlist:
+  - script execution via heredoc
+  - script execution via -e/-c flag
 kanban:
   review_dispatch: true
 code_execution:
@@ -112,7 +112,7 @@ updates:
   pre_update_backup: false
   backup_keep: 5
   non_interactive_local_changes: stash
-_config_version: 38
+_config_version: 39
 session_reset:
   mode: none
   idle_minutes: 1440
@@ -120,7 +120,6 @@ session_reset:
 group_sessions_per_user: true
 platform_toolsets:
   cli:
-    - bfl
     - browser
     - clarify
     - code_execution
@@ -163,7 +162,6 @@ known_plugin_toolsets:
     - spotify
 known_builtin_toolsets:
   cli:
-    - bfl
     - browser
     - clarify
     - code_execution

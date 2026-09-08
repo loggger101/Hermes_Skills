@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **120 code files** (28,856 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **120 code files** (28,866 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -208,7 +208,7 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `.hermes/cron/validate-cronjobs.py` (repo tooling, python, 153 lines) — Validate cronjob JSON config files for structural correctness + cross-consistency
 - `.hermes/cron/validate-skill-refs.py` (repo tooling, python, 56 lines) — Lightweight JSON + skill-ref validator (no_agent-compatible).
 - `tools/audit-skills.py` (repo tooling, python, 429 lines)
-- `tools/check-links.py` (repo tooling, python, 115 lines) — Broken-link checker for this second brain (stdlib only)
+- `tools/check-links.py` (repo tooling, python, 125 lines) — Broken-link checker for this second brain (stdlib only)
 - `tools/gen-code-index.py` (repo tooling, python, 173 lines) — Regenerate CODE-INDEX.md from live code files (flat, grep-friendly)
 - `tools/gen-references-index.py` (repo tooling, python, 100 lines) — Rebuild REFERENCES-INDEX.md from every skill's references/ directory
 - `tools/gen-skills-index.py` (repo tooling, python, 159 lines) — Regenerate SKILLS-INDEX.md from live skill frontmatter (flat, grep-friendly)
