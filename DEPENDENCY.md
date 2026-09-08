@@ -1,6 +1,6 @@
 # Skill Dependency Map
-This document maps the relationship network between all **166 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
-**Network stats:** 390 `related_skills` cross-references across 166 skills (13 skills are standalone with no `related_skills` entries).
+This document maps the relationship network between all **167 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+**Network stats:** 393 `related_skills` cross-references across 167 skills (13 skills are standalone with no `related_skills` entries).
 ## Hub Skills (referenced by 2+ other skills)
 These are the core skills that serve as building blocks, referenced by many other skills:
 | Skill | Referenced By (count) | Referencing Skills |
@@ -69,6 +69,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `blogwatcher` | 2 | competitor-news-monitor, youtube-content |
 | `conversation-to-spec` | 2 | grilling-interview, skill-flow-router |
 | `design-md` | 2 | claude-design, popular-web-designs |
+| `design-taste-frontend` | 2 | redesign-existing-projects, static-site-patterns |
 | `docker-containers` | 2 | rest-api-client, ssh-remote |
 | `document-to-action-items` | 2 | decision-questionnaire, meeting-action-items |
 | `dogfood` | 2 | adversarial-ux-test, inspecting-hermes-desktop-dom |
@@ -94,12 +95,11 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `test-infra-ml` | 2 | property-based-testing, verification-culture |
 | `wayfinder-map-planning` | 2 | grilling-interview, skill-flow-router |
 ## Standalone Skills
-The following 11 skills have no `related_skills` entries of their own (they do not reference other skills). These are genuinely standalone — no other skill references them either:
+The following 10 skills have no `related_skills` entries of their own (they do not reference other skills). These are genuinely standalone — no other skill references them either:
 - `bit-identity-float-pipelines`
 - `evaluating-llms-harness`
 - `fastmcp`
 - `full-output-enforcement`
-- `har-derived-api-client`
 - `jupyter-notebook`
 - `one-three-one-rule`
 - `oss-forensics`
@@ -107,8 +107,8 @@ The following 11 skills have no `related_skills` entries of their own (they do n
 - `watchers`
 - `xurl`
 ## Related Skills Validation
-All 390 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 166 unique skill names.
+All 393 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 167 unique skill names.
 
 ---
 
-*Last generated: 2026-09-07 from live frontmatter analysis of all 166 skills.*
+*Last generated: 2026-09-08 from live frontmatter analysis of all 167 skills.*

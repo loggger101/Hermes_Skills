@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **118 code files** (28,338 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **120 code files** (28,856 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -202,17 +202,19 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 
 ## Repo-level tooling (`tools/`, `.hermes/cron/`)
 
+- `tools/_index_output.py` (shared helper, python, 61 lines) — Shared write-guard for the index generators (gen-*.py, regen-dependency-map.py)
 - `.hermes/cron/templates/repo-automation.py` (template, python, 69 lines) — Repo Automation Cronjob Template (Two-Agent Split)
 - `.hermes/cron/templates/skill-watchdog.py` (template, python, 47 lines) — Skill Watchdog Cronjob Template
-- `.hermes/cron/validate-cronjobs.py` (repo tooling, python, 138 lines) — Validate cronjob JSON config files for structural correctness + cross-consistency
-- `.hermes/cron/validate-skill-refs.py` (repo tooling, python, 41 lines) — Lightweight JSON + skill-ref validator (no_agent-compatible).
-- `tools/audit-skills.py` (repo tooling, python, 388 lines)
-- `tools/check-links.py` (repo tooling, python, 84 lines) — Broken-link checker for this second brain (stdlib only)
-- `tools/gen-code-index.py` (repo tooling, python, 147 lines) — Regenerate CODE-INDEX.md from live code files (flat, grep-friendly)
-- `tools/gen-references-index.py` (repo tooling, python, 72 lines) — Rebuild REFERENCES-INDEX.md from every skill's references/ directory
-- `tools/gen-skills-index.py` (repo tooling, python, 130 lines) — Regenerate SKILLS-INDEX.md from live skill frontmatter (flat, grep-friendly)
-- `tools/regen-dependency-map.py` (repo tooling, python, 76 lines) — Regenerate DEPENDENCY.md from live related_skills frontmatter (same format as repo convention).
-- `tools/sync-hermes-skills.py` (repo tooling, python, 841 lines)
+- `.hermes/cron/validate-cronjobs.py` (repo tooling, python, 153 lines) — Validate cronjob JSON config files for structural correctness + cross-consistency
+- `.hermes/cron/validate-skill-refs.py` (repo tooling, python, 56 lines) — Lightweight JSON + skill-ref validator (no_agent-compatible).
+- `tools/audit-skills.py` (repo tooling, python, 429 lines)
+- `tools/check-links.py` (repo tooling, python, 115 lines) — Broken-link checker for this second brain (stdlib only)
+- `tools/gen-code-index.py` (repo tooling, python, 173 lines) — Regenerate CODE-INDEX.md from live code files (flat, grep-friendly)
+- `tools/gen-references-index.py` (repo tooling, python, 100 lines) — Rebuild REFERENCES-INDEX.md from every skill's references/ directory
+- `tools/gen-skills-index.py` (repo tooling, python, 159 lines) — Regenerate SKILLS-INDEX.md from live skill frontmatter (flat, grep-friendly)
+- `tools/regen-dependency-map.py` (repo tooling, python, 101 lines) — Regenerate DEPENDENCY.md from live related_skills frontmatter (same format as repo convention).
+- `tools/sync-hermes-skills.py` (repo tooling, python, 960 lines)
+- `tools/verify-all.py` (repo tooling, python, 128 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*118 code files: 85 scripts, 6 shared helpers, 11 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*120 code files: 85 scripts, 7 shared helpers, 11 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
