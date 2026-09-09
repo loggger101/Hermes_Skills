@@ -1,13 +1,13 @@
 # Skill Dependency Map
-This document maps the relationship network between all **172 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
-**Network stats:** 406 `related_skills` cross-references across 172 skills (13 skills are standalone with no `related_skills` entries).
+This document maps the relationship network between all **173 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+**Network stats:** 407 `related_skills` cross-references across 173 skills (13 skills are standalone with no `related_skills` entries).
 ## Hub Skills (referenced by 2+ other skills)
 These are the core skills that serve as building blocks, referenced by many other skills:
 | Skill | Referenced By (count) | Referencing Skills |
 |-------|-----------------------|---------------------|
 | `requesting-code-review` | 18 | code-quality-signal, codex, github-issue-to-pr, hermes-agent-skill-authoring, mattpocock-code-review, mattpocock-evidence-driven, mattpocock-finishing-a-development-branch, mattpocock-multi-agent-code-review, mattpocock-security-review, mattpocock-spec-driven-development, mattpocock-subagent-driven-development, plan, python-craft, receiving-code-review, sdlc-review, semgrep-rule-creator, simplify-code, skill-flow-router |
+| `test-driven-development` | 15 | github-issue-to-pr, mattpocock-subagent-driven-development, mattpocock-tdd, modern-python-tooling, plan, property-based-testing, python-craft, python-data-science, requesting-code-review, rest-graphql-debug, simplify-code, skill-flow-router, systematic-debugging, test-infra-ml, windows-desktop-e2e |
 | `systematic-debugging` | 14 | ast-grep, github-issue-to-pr, inspecting-hermes-desktop-dom, mattpocock-diagnosing-bugs, mattpocock-gh-fix-ci, mattpocock-resolving-merge-conflicts, mattpocock-tdd, node-inspect-debugger, python-craft, python-data-science, python-debugpy, rest-graphql-debug, skill-flow-router, test-driven-development |
-| `test-driven-development` | 14 | github-issue-to-pr, mattpocock-subagent-driven-development, mattpocock-tdd, modern-python-tooling, plan, property-based-testing, python-craft, python-data-science, requesting-code-review, rest-graphql-debug, simplify-code, skill-flow-router, systematic-debugging, test-infra-ml |
 | `excalidraw` | 10 | architecture-diagram, ascii-art, claude-design, design-md, diagram-design, p5js, popular-web-designs, pretext, research-paper-writing, sketch |
 | `python-craft` | 10 | build-systems-data, cli-tool-craft, evolutionary-ml, model-export-deploy, modern-python-tooling, orbital-mechanics-data, static-site-seo, streamlit-dashboards, test-infra-ml, verification-culture |
 | `github-pr-workflow` | 9 | github-auth, github-code-review, github-issue-to-pr, github-issues, github-repo-management, mattpocock-finishing-a-development-branch, mattpocock-gh-fix-ci, mattpocock-using-git-worktrees, mattpocock-yeet |
@@ -108,8 +108,8 @@ The following 10 skills have no `related_skills` entries of their own (they do n
 - `watchers`
 - `xurl`
 ## Related Skills Validation
-All 406 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 172 unique skill names.
+All 407 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 173 unique skill names.
 
 ---
 
-*Last generated: 2026-09-09 from live frontmatter analysis of all 172 skills.*
+*Last generated: 2026-09-09 from live frontmatter analysis of all 173 skills.*
