@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [floats, verification, bit-identity]
-    related_skills: []
+    related_skills: [build-systems-data, verification-culture]
 ---
 
 ## When to Use

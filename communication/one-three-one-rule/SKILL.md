@@ -9,6 +9,7 @@ category: communication
 metadata:
   hermes:
     tags: [communication, decision-making, proposals, trade-offs]
+    related_skills: [decision-questionnaire, grilling-interview]
 ---
 
 # 1-3-1 Communication Rule

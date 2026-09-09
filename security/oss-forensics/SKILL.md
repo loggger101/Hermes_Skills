@@ -25,7 +25,7 @@ toolsets:
 metadata:
   hermes:
     tags: [Security, Forensics, GitHub, Supply-Chain]
-    related_skills: []
+    related_skills: [semgrep-rule-creator]
 ---
 
 # OSS Security Forensics Skill

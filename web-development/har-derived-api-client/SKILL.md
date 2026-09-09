@@ -9,6 +9,7 @@ metadata:
   hermes:
     tags: [Browser, HAR, API, Reverse-Engineering, Playwright]
     category: web-development
+    related_skills: [rest-graphql-debug]
 ---
 
 # HAR-Derived API Client

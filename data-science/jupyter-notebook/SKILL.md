@@ -9,6 +9,7 @@ metadata:
   hermes:
     tags: [jupyter, notebook, repl, data-science, exploration, iterative]
     category: data-science
+    related_skills: [python-data-science]
 ---
 
 # Jupyter Notebook (hamelnb live kernel)

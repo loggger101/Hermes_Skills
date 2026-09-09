@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [pipelines, parquet, huggingface, api-gotchas]
-    related_skills: []
+    related_skills: [astro-toolkit-selection, orbital-mechanics-data]
 ---
 
 ## When to Use
