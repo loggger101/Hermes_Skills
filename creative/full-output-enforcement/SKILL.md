@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [output-quality, completeness]
-    related_skills: []
+    related_skills: [design-taste-frontend, redesign-existing-projects]
 ---
 
 ## When to Use

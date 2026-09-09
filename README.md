@@ -43,7 +43,7 @@ grep -i "raster\|token bridge" CODE-INDEX.md
 
 ## Overview
 
-This repository serves as a centralized database of all **184 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (425 cross-references mapped across 184 skills, 17 with no outbound `related_skills`). See [audit notes](docs/archive/audit-notes-skills-repo-pass.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
+This repository serves as a centralized database of all **184 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (449 cross-references mapped across 184 skills, 1 with no outbound `related_skills`). See [audit notes](docs/archive/audit-notes-skills-repo-pass.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
 
 ### Source Profiles
 
@@ -496,9 +496,9 @@ The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a w
 
 ✅ items are checked by `tools/audit-skills.py` / `tools/check-links.py` on every audit run; the threshold-gated subset (a non-zero count fails the run) is `broken_refs`, `yaml_errors`, `long_descriptions`, `duplicate_skills`, `missing_body_sections`, `temps_scripts`. 📎 items are conventions no tool enforces — hold them by hand.
 
-- ✅ All 167 skills have valid frontmatter (`name`, `version`, `author`, `platforms`, `metadata.hermes`) and parse without errors
+- ✅ All 184 skills have valid frontmatter (`name`, `version`, `author`, `platforms`, `metadata.hermes`) and parse without errors
 - ✅ No duplicate skill names; no empty skill directories
-- ✅ All `related_skills` references resolve to existing in-repo skills — 393 cross-references across 167 skills (see [DEPENDENCY.md](./DEPENDENCY.md))
+- ✅ All `related_skills` references resolve to existing in-repo skills — 449 cross-references across 184 skills (see [DEPENDENCY.md](./DEPENDENCY.md))
 - ✅ All descriptions ≤59 chars, double-quoted YAML strings
 - ✅ Every skill has a body section (`## What This Skill Does` or an audit-recognized alternative) and standard header capitalization
 - ✅ Every multi-skill category directory has a `DESCRIPTION.md` (all 23 do)

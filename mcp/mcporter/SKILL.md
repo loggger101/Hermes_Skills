@@ -9,6 +9,7 @@ metadata:
   hermes:
     tags: [MCP, Tools, API, Integrations, Interop]
     homepage: https://mcporter.dev
+    related_skills: [fastmcp]
 prerequisites:
   commands: [npx]
 ---

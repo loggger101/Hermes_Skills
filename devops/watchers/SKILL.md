@@ -10,7 +10,7 @@ metadata:
     tags: [cron, polling, rss, github, http, automation, monitoring]
     category: devops
     requires_toolsets: [terminal]
-    related_skills: []
+    related_skills: [blogwatcher, cron-job-authoring]
 ---
 
 # Watchers

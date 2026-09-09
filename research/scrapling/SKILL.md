@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [Web Scraping, Browser, Cloudflare, Stealth, Crawling, Spider]
-    related_skills: []
+    related_skills: [blocked-page-recovery]
     homepage: https://github.com/D4Vinci/Scrapling
 prerequisites:
   commands: [scrapling, python]

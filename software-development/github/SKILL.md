@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [github, gh, git, pull-requests]
-    related_skills: []
+    related_skills: [github-pr-workflow, github-issues]
 ---
 
 ## When to Use

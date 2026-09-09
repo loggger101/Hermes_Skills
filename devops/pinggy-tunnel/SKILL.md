@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [Pinggy, Tunnel, Networking, SSH, Webhook, Localhost]
-    related_skills: []
+    related_skills: [ssh-remote]
 ---
 
 # Pinggy Tunnel Skill
