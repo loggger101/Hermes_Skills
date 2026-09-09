@@ -44,16 +44,11 @@ jobs:
         with:
           python-version: "3.12"
 
-      # Deps are exactly what the shipped tests import (verified 2026-09-09 by
-      # running all five suites in a clean venv): docx/pdf/powerpoint/xlsx need
-      # their office libs; pdf_create also needs reportlab, pdf_read needs
-      # pdfplumber, image fixtures need Pillow, rasterization tests use
-      # pypdfium2 (pure wheel — no poppler binary needed), comfyui's redirect-
-      # header security tests import requests. All pure wheels: fast on ubuntu.
+      # Single source of truth for test deps (see its header comment): created
+      # 2026-09-09 by running all five suites in a clean venv until green. All
+      # pure wheels: fast on ubuntu, no poppler binary needed.
       - name: Install test deps
-        run: |
-          pip install pytest python-docx openpyxl reportlab pdfplumber \
-            Pillow pypdfium2 python-pptx requests
+        run: pip install -r test-requirements.txt
 
       - name: docx tests
         working-directory: productivity/docx/tests

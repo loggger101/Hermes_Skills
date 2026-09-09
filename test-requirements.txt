@@ -1,0 +1,23 @@
+# Test dependencies for the skill test suites that ship in this repo:
+#   productivity/docx/tests        (29 tests)  -> python-docx, pytest
+#   productivity/pdf/tests         (21 tests)  -> reportlab, pdfplumber, pypdf, Pillow, pypdfium2
+#   productivity/powerpoint/tests  (21 tests)  -> python-pptx (+ lxml via it), pytest
+#   productivity/xlsx/tests        (12 tests)  -> openpyxl, pytest
+#   creative/comfyui/tests         (117 tests) -> requests; everything else stdlib
+#
+# Verified complete by running all five suites in a clean venv on 2026-09-09:
+# docx 29 passed / pdf 21 passed / powerpoint 21 passed / xlsx 11+1 skip /
+# comfyui 109 passed + 8 skipped. All pure wheels (no poppler binary needed;
+# pypdfium2 covers the rasterization tests). CI (.github/workflows/ci.yml)
+# installs exactly this file -- keep it in sync when adding test deps.
+
+pytest>=7.0
+python-docx>=1.0
+openpyxl>=3.1
+reportlab>=4.0
+pdfplumber>=0.11
+pypdf>=4.0
+Pillow>=10.0
+pypdfium2>=4.0
+python-pptx>=1.0
+requests>=2.31
