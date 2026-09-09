@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **174 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **177 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -169,13 +169,16 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `blocked-page-recovery` — Recover blocked/paywalled/WAF'd pages via fallbacks _(research)_
 - `blogwatcher` — Monitor blogs and RSS/Atom feeds via blogwatcher-cli tool _(research)_
 - `competitor-news-monitor` — Watch named companies for material news; cited digests _(research)_
+- `gget` — gget CLI/Python: quick genomic DB queries + evidence logs _(research)_
 - `grounded-citations` — Ground answers and documents in cited, verifiable sources _(research)_
 - `literature-review` — Plan, screen, synthesize and cite technical literature _(research)_
 - `llm-wiki` — Karpathy's LLM Wiki: build/query interlinked markdown KB _(research)_
 - `mattpocock-research` — Research a question against primary sources _(research)_
 - `parallel-cli` — Agent-native web search, deep research, and enrichment _(research)_
+- `pubmed-database` — PubMed/NCBI E-utilities: MeSH queries, PMID lookup, API _(research)_
 - `qmd` — Hybrid local search over notes, docs, and transcripts _(research)_
 - `research-paper-writing` — Write ML papers for NeurIPS/ICML/ICLR: design→submit _(research)_
+- `scholar-evaluation` — Scholarly work rubric: papers, proposals, evidence quality _(research)_
 - `scrapling` — Scrape sites with stealth browsing and Cloudflare bypass _(research)_
 
 ## security
@@ -247,4 +250,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*174 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*177 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
