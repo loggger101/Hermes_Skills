@@ -165,6 +165,8 @@ sqlite3 mydb.db "PRAGMA index_list(users);"         # indexes on a table
 - Exports parse correctly (CSV has headers, JSON is valid, row counts match)
 - Destructive changes verified by re-querying and, if appropriate, comparing against the backup
 
+**Regression tests:** `tests/test_sqlite_queries.py` verifies every documented claim against real SQLite behavior — schema discovery, FK cascade/RESTRICT, index usage in query plans, transaction rollback, backup integrity, CSV/JSON round-trips, and the import pitfalls (stdlib-only; four CLI tests skip when no `sqlite3` binary is present). Run after touching anything this skill recommends: `pytest tests/`.
+
 ## Related
 
 For file-level operations on the DB file itself, use `read_file` (won't work on binary DBs), `write_file` (don't write binary DBs via this), `patch`, `search_files`. For big data processing after export, use `execute_code` with pandas or stdlib csv. For other database engines, use the appropriate client (`psql`, `mysql`, etc.) — this skill is SQLite-specific.
