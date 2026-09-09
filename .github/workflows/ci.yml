@@ -1,0 +1,76 @@
+# CI gate for the second brain: every push and pull request runs the full
+# health check (tools/verify-all.py — 9 gates) plus the pytest suites that ship
+# inside skills. This is what makes "the repo always passes its own audit" a
+# property of the remote, not just of local discipline.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-all:
+    name: Health gates (audit + links + index drift)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # audit tools compare against git history in places
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install tooling deps (pyyaml is the hard dependency)
+        run: pip install "pyyaml>=6.0"
+
+      # verify-all.py launches every child gate with sys.executable, so no PATH
+      # games are needed; exit 1 on any failed gate fails this job.
+      - name: Run all health gates
+        run: python tools/verify-all.py
+
+  skill-tests:
+    name: Skill test suites (pytest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Deps are exactly what the shipped tests import (verified 2026-09-09 by
+      # running all five suites in a clean venv): docx/pdf/powerpoint/xlsx need
+      # their office libs; pdf_create also needs reportlab, pdf_read needs
+      # pdfplumber, image fixtures need Pillow, rasterization tests use
+      # pypdfium2 (pure wheel — no poppler binary needed), comfyui's redirect-
+      # header security tests import requests. All pure wheels: fast on ubuntu.
+      - name: Install test deps
+        run: |
+          pip install pytest python-docx openpyxl reportlab pdfplumber \
+            Pillow pypdfium2 python-pptx requests
+
+      - name: docx tests
+        working-directory: productivity/docx/tests
+        run: python -m pytest -q .
+
+      - name: pdf tests
+        working-directory: productivity/pdf/tests
+        run: python -m pytest -q .
+
+      - name: powerpoint tests
+        working-directory: productivity/powerpoint/tests
+        run: python -m pytest -q .
+
+      - name: xlsx tests
+        working-directory: productivity/xlsx/tests
+        run: python -m pytest -q .
+
+      - name: comfyui tests
+        working-directory: creative/comfyui/tests
+        run: python -m pytest -q .
