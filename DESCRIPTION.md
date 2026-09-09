@@ -1,13 +1,13 @@
 ---
-description: Hermes Agent second brain — 177 skills across 23 categories, memories, cron configs.
+description: Hermes Agent second brain — 180 skills across 23 categories, memories, cron configs.
 ---
 
 # Hermes Skills Repository (Second Brain)
 
-This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **177 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
+This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **180 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
 
 ## Start here (cheapest → most thorough)
-- **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 177 skills; `grep -i <term>` is the fastest way to find a capability.
+- **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 180 skills; `grep -i <term>` is the fastest way to find a capability.
 - **[CODE-INDEX.md](./CODE-INDEX.md)** — flat index of every script, shared helper, test, and template (the executable knowledge layer); `grep -i <term> CODE-INDEX.md` finds runnable code by purpose or owner skill.
 - **[REFERENCES-INDEX.md](./REFERENCES-INDEX.md)** — flat index of all 296 reference docs living inside skills' `references/` dirs (nested subdirs included); `grep -i <term> REFERENCES-INDEX.md` finds verified API maps / gotchas tables by topic without knowing which skill owns them.
 - **[DEPENDENCY.md](./DEPENDENCY.md)** — relationship map: hub skills, standalone skills, full cross-reference validation.

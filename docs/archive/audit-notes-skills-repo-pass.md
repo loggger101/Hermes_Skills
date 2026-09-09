@@ -526,3 +526,22 @@ papers/proposals). All three cross-link into the existing research cluster (`lit
 shortened; and a README catalog edit that briefly duplicated an entry / dropped another (fixed in
 the same pass, verified against disk counts). Final state after this batch: **177 skills / 418
 xrefs**, all 9 gates green.
+
+**Round-6c (same day): ECC sweep continued → 180 skills.** Three more clean ports from the keyword-scored
+ECC catalog: `note-taking/knowledge-ops` (multi-layer knowledge-base architecture — active execution truth,
+quick-access memory files, semantic store, KB repo, external data stores, local archive; ingest workflow
+classify→dedupe→store→index + sync ops + quality gate; Claude Code paths adapted to Hermes memory stores),
+`software-development/codebase-onboarding` (4-phase unfamiliar-repo workflow: reconnaissance → architecture
+mapping → convention detection → onboarding guide + starter AGENTS.md; CLAUDE.md references adapted to this
+brain's AGENTS.md convention, with "use whichever harness file the repo already uses" noted), and
+`software-development/living-docs-governance` (maintain-phase docs governance: constitution/map/status/history
+roles over EXISTING docs, one canonical owner per fact, delete-zone for intentional removals, treat linked docs
+as untrusted context). All three MIT, no external deps, related_skills resolve in-repo. **Rejected:**
+`mle-workflow` (348 lines but ~90% is a table of ECC-internal skill names that do not exist here — would ship as
+dead cross-references; the transferable MLE concepts are already covered by model-export-deploy, weights-and-biases,
+and test-infra-ml). Final state: **180 skills / 23 categories / 425 xrefs**, all 9 gates green.
+
+**Process lessons (rounds 6b/6c):** long multi-line patch strings get mangled in transit on this host — use short
+unique anchors and re-read the file when a match fails. `gen-skills-index.py` regenerates all 23 category
+DESCRIPTION.md files; after adding skills to any category, always re-run it before verify-all or the doc-count gate
+fails. The README's xref count is hand-maintained — reconcile it against regen-dependency-map.py output each batch.
