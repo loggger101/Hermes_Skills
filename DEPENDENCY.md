@@ -1,6 +1,6 @@
 # Skill Dependency Map
-This document maps the relationship network between all **183 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
-**Network stats:** 425 `related_skills` cross-references across 183 skills (16 skills are standalone with no `related_skills` entries).
+This document maps the relationship network between all **184 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+**Network stats:** 425 `related_skills` cross-references across 184 skills (17 skills are standalone with no `related_skills` entries).
 ## Hub Skills (referenced by 2+ other skills)
 These are the core skills that serve as building blocks, referenced by many other skills:
 | Skill | Referenced By (count) | Referencing Skills |
@@ -98,7 +98,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `verification-culture` | 2 | retro, verification-before-completion |
 | `wayfinder-map-planning` | 2 | grilling-interview, skill-flow-router |
 ## Standalone Skills
-The following 13 skills have no `related_skills` entries of their own (they do not reference other skills). These are genuinely standalone — no other skill references them either:
+The following 14 skills have no `related_skills` entries of their own (they do not reference other skills). These are genuinely standalone — no other skill references them either:
 - `bioinformatics`
 - `bit-identity-float-pipelines`
 - `evaluating-llms-harness`
@@ -109,12 +109,13 @@ The following 13 skills have no `related_skills` entries of their own (they do n
 - `one-three-one-rule`
 - `oss-forensics`
 - `pinggy-tunnel`
+- `publish-site`
 - `scrapling`
 - `watchers`
 - `xurl`
 ## Related Skills Validation
-All 425 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 183 unique skill names.
+All 425 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 184 unique skill names.
 
 ---
 
-*Last generated: 2026-09-09 from live frontmatter analysis of all 183 skills.*
+*Last generated: 2026-09-09 from live frontmatter analysis of all 184 skills.*
