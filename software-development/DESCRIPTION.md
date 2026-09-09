@@ -11,6 +11,7 @@ Development tools and coding workflows.
 - [`cli-tool-craft`](./cli-tool-craft/SKILL.md) — CLI tools: subcommands, config validation, env substitution
 - [`code-quality-signal`](./code-quality-signal/SKILL.md) — Score Python repos on 5 ungameable structural metrics
 - [`code-wiki`](./code-wiki/SKILL.md) — Generate wiki docs + Mermaid diagrams for any codebase
+- [`codebase-onboarding`](./codebase-onboarding/SKILL.md) — Onboard to a new repo: arch map + starter AGENTS.md
 - [`conversation-to-spec`](./conversation-to-spec/SKILL.md) — Turn a conversation into a publishable spec
 - [`dogfood`](./dogfood/SKILL.md) — Exploratory QA of web apps: find bugs, evidence, reports
 - [`generating-python-installer`](./generating-python-installer/SKILL.md) — Nuitka + Inno Setup: smallest, fastest Windows installers
@@ -18,6 +19,7 @@ Development tools and coding workflows.
 - [`grilling-interview`](./grilling-interview/SKILL.md) — Stress-test a plan by interviewing in design-tree rounds
 - [`hermes-agent-skill-authoring`](./hermes-agent-skill-authoring/SKILL.md) — Author in-repo SKILL.md files: frontmatter and structure
 - [`inspecting-hermes-desktop-dom`](./inspecting-hermes-desktop-dom/SKILL.md) — Read the live Hermes desktop DOM/CSS over CDP
+- [`living-docs-governance`](./living-docs-governance/SKILL.md) — Docs governance: constitution, map, status, history roles
 - [`mattpocock-ask-if-underspecified`](./mattpocock-ask-if-underspecified/SKILL.md) — Ask clarifying questions when a request is ambiguous
 - [`mattpocock-codebase-design`](./mattpocock-codebase-design/SKILL.md) — Design deep modules with small interfaces
 - [`mattpocock-diagnosing-bugs`](./mattpocock-diagnosing-bugs/SKILL.md) — Diagnose hard bugs via tight feedback loops and bisection

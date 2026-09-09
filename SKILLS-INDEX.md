@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **177 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **180 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -137,6 +137,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 
 ## note-taking
 
+- `knowledge-ops` — KB ops: ingest, dedupe, sync, retrieve across stores _(note-taking)_
 - `obsidian` — Read, search, create, and edit notes in the Obsidian vault _(note-taking)_
 
 ## productivity
@@ -202,6 +203,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `cli-tool-craft` — CLI tools: subcommands, config validation, env substitution _(software-development)_
 - `code-quality-signal` — Score Python repos on 5 ungameable structural metrics _(software-development)_
 - `code-wiki` — Generate wiki docs + Mermaid diagrams for any codebase _(software-development)_
+- `codebase-onboarding` — Onboard to a new repo: arch map + starter AGENTS.md _(software-development)_
 - `conversation-to-spec` — Turn a conversation into a publishable spec _(software-development)_
 - `dogfood` — Exploratory QA of web apps: find bugs, evidence, reports _(software-development)_
 - `generating-python-installer` — Nuitka + Inno Setup: smallest, fastest Windows installers _(software-development)_
@@ -209,6 +211,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `grilling-interview` — Stress-test a plan by interviewing in design-tree rounds _(software-development)_
 - `hermes-agent-skill-authoring` — Author in-repo SKILL.md files: frontmatter and structure _(software-development)_
 - `inspecting-hermes-desktop-dom` — Read the live Hermes desktop DOM/CSS over CDP _(software-development)_
+- `living-docs-governance` — Docs governance: constitution, map, status, history roles _(software-development)_
 - `mattpocock-ask-if-underspecified` — Ask clarifying questions when a request is ambiguous _(software-development)_
 - `mattpocock-codebase-design` — Design deep modules with small interfaces _(software-development)_
 - `mattpocock-diagnosing-bugs` — Diagnose hard bugs via tight feedback loops and bisection _(software-development)_
@@ -250,4 +253,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*177 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*180 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
