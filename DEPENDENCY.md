@@ -111,4 +111,4 @@ All 393 `related_skills` references in the repository resolve to existing in-rep
 
 ---
 
-*Last generated: 2026-09-08 from live frontmatter analysis of all 167 skills.*
+*Last generated: 2026-09-09 from live frontmatter analysis of all 167 skills.*
