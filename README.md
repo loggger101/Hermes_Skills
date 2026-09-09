@@ -1,6 +1,6 @@
 # Hermes Skills Repository
 
-A comprehensive collection of **181 Hermes Agent skills** across 23 categories — the second brain for its owner's Hermes Agent environment. See [DESCRIPTION.md](./DESCRIPTION.md) for the task-to-skill...[truncated]
+A comprehensive collection of **183 Hermes Agent skills** across 23 categories — the second brain for its owner's Hermes Agent environment. See [DESCRIPTION.md](./DESCRIPTION.md) for the task-to-skill...[truncated]
 
 ## Table of Contents
 
@@ -43,7 +43,7 @@ grep -i "raster\|token bridge" CODE-INDEX.md
 
 ## Overview
 
-This repository serves as a centralized database of all **181 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (425 cross-references mapped across 181 skills, 14 with no outbound `related_skills`). See [audit notes](docs/archive/audit-notes-skills-repo-pass.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
+This repository serves as a centralized database of all **183 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (425 cross-references mapped across 183 skills, 16 with no outbound `related_skills`). See [audit notes](docs/archive/audit-notes-skills-repo-pass.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
 
 ### Source Profiles
 
@@ -65,14 +65,14 @@ When a skill existed in multiple profiles, the version from the highest-priority
 | [communication/](./communication/) | Decision-brief formats (1-3-1 rule) | 1 |
 | [creative/](./creative/) | Creative content generation and design | 23 |
 | [data-science/](./data-science/) | Data science workflows and tools | 14 |
-| [devops/](./devops/) | Infrastructure, containers, and deployment | 7 |
+| [devops/](./devops/) | Infrastructure, containers, and deployment + zero-install SSH tunnels (Pinggy) | 8 |
 | [doc-coauthoring/](./doc-coauthoring/) | Structured document co-authoring workflow | 1 |
 | [dogfood/](./dogfood/) | Exploratory QA and testing | 1 |
 | [email/](./email/) | Email management and triage | 2 |
 | [frontend-design/](./frontend-design/) | Visual design for AI-generated UI (incl. Python reactive-UI builders) | 2 |
 | [github/](./github/) | GitHub workflow management | 12 |
 | [huggingface-trackio/](./huggingface-trackio/) | ML experiment tracking with Trackio | 1 |
-| [mcp/](./mcp/) | Model Context Protocol servers (FastMCP) | 1 |
+| [mcp/](./mcp/) | MCP: server authoring (FastMCP) + terminal client (mcporter) | 2 |
 | [media/](./media/) | Media content generation | 3 |
 | [mlops/](./mlops/) | ML operations: evaluation, inference, models | 5 |
 | [note-taking/](./note-taking/) | Note-taking and knowledge management | 2 |
@@ -84,11 +84,11 @@ When a skill existed in multiple profiles, the version from the highest-priority
 | [software-development/](./software-development/) | Development tools and workflows | 48 |
 | [web-development/](./web-development/) | Web/API client derivation (HAR-based) | 2 |
 
-**Total: 181 skills across 23 categories** — counts below are regenerated from live frontmatter; keep them in sync via `python tools/gen-skills-index.py` and the audit.
+**Total: 183 skills across 23 categories** — counts below are regenerated from live frontmatter; keep them in sync via `python tools/gen-skills-index.py` and the audit.
 
 ### Skill Catalog
 
-All 181 skills organized by category:
+All 183 skills organized by category:
 
 #### Apple
 
@@ -159,6 +159,7 @@ All 181 skills organized by category:
 - [`sdlc-review`](./devops/sdlc-review) — Review Kanban handoffs and route verified outcomes.
 - [`sqlite-queries`](./devops/sqlite-queries) — Query, inspect, and export SQLite databases.
 - [`ssh-remote`](./devops/ssh-remote) — Commands and file transfer on remote machines over SSH.
+- [`pinggy-tunnel`](./devops/pinggy-tunnel) — Zero-install localhost tunnels over SSH via Pinggy (webhook/MCP/demo recipes).
 - [`watchers`](./devops/watchers) — Poll RSS, JSON APIs, and GitHub with watermark dedup.
 - [`wizard`](./devops/wizard) — Bash wizard walking a human through manual-only steps.
 #### Doc Co-authoring
@@ -195,6 +196,7 @@ All 181 skills organized by category:
 #### MCP
 
 - [`fastmcp`](./mcp/fastmcp) — Build, test, and deploy Python MCP servers.
+- [`mcporter`](./mcp/mcporter) — List, auth, and call MCP servers/tools from the terminal (npx).
 #### Media
 
 - [`gif-search`](./media/gif-search) — Search/download GIFs from Tenor via curl + jq.
@@ -361,7 +363,7 @@ Skills come from three sources (see [audit notes](docs/archive/audit-notes-skill
 
 1. **Imported skills** — copied in from live Hermes profiles (`default`, `the-skill-maker`, `the-memory-controller`) during the initial import; where a skill existed in multiple profiles, the highest-priority profile's version was kept.
 2. **Pre-existing repo skills** — authored directly in this repository (e.g. the 22+ `mattpocock-*` methodology skills, devops and top-level category skills).
-3. **Research-harvest ports** — added across successive starred-repo deep-dive rounds (145 → 162 → 166 → 167 → 172 → 173 → 174 → 177 → 180 → 181), including hub installs (`hermes skills install official/...`) and MIT-licensed external ports with their licenses carried in frontmatter.
+3. **Research-harvest ports** — added across successive starred-repo deep-dive rounds (145 → 162 → 166 → 167 → 172 → 173 → 174 → 177 → 180 → 181 → 183), including hub installs (`hermes skills install official/...`) and MIT-licensed external ports with their licenses carried in frontmatter.
 
 The per-skill origin is recorded in [audit notes](docs/archive/audit-notes-skills-repo-pass.md) round-by-round; the live set of record is always `SKILLS-INDEX.md` (regenerated from frontmatter).
 
@@ -434,7 +436,7 @@ This repository includes Python scripts in the `tools/` directory that automate 
 | Tool | Purpose | Cron Integration |
 |------|---------|------------------|
 | [`verify-all.py`](./tools/verify-all.py) | **Start here.** Runs every gate in one shot: audit, links, index drift (all four generated indexes), cron validators, and README/DESCRIPTION count consistency. Exit 0 = all 9 gates pass | Manual; run before any commit |
-| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 181 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | Defined for Sun 3 AM in `skill-audit.json` — **not registered**; run manually |
+| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 183 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | Defined for Sun 3 AM in `skill-audit.json` — **not registered**; run manually |
 | [`sync-hermes-skills.py`](./tools/sync-hermes-skills.py) | Bidirectional sync between GitHub repo and local Hermes env: git pull, skill/memories/profiles sync, DEPENDENCY.md regeneration, audit, git push | Defined for Sun 2 AM in `sync-hermes-skills.json` — **not registered**; run manually |
 
 
