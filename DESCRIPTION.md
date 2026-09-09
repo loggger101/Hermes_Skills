@@ -37,6 +37,14 @@ The fastest way from a job you have in mind to the skill that does it:
 | Data science: EDA, modeling, SQL at scale | `python-data-science`, `sql-for-data`; exact-float verification → `bit-identity-float-pipelines` |
 | Write docs that agents can actually consume | `mattpocock-writing-for-agents` (skills/AGENTS.md/specs) |
 | Automate a repo with cronjobs | `autonomous-repo-cronjob`, `cron-job-authoring`; two-agent pattern → README "Cron Job Authoring" section |
+| Test a Windows desktop app end-to-end (WPF/WinForms/Qt) | `windows-desktop-e2e` (pywinauto + UIA, page-object skeleton inside) |
+| Ship a Python app as a small fast Windows installer | `generating-python-installer` (Nuitka one-file + Inno Setup; slimming scripts in its scripts/) |
+| Search biomedical literature / genomic databases | `pubmed-database` (NCBI E-utilities), `gget` (Ensembl/BLAST lookups) |
+| Evaluate a paper, proposal, or evidence claim | `scholar-evaluation` (9-dimension rubric); build the review itself → `literature-review` |
+| Save / sync / dedupe knowledge across stores | `knowledge-ops` (6-layer KB architecture + ingest workflow) |
+| Onboard to an unfamiliar repository | `codebase-onboarding` (4-phase recon → arch map → conventions → starter AGENTS.md) |
+| Keep a long-lived project's docs from rotting | `living-docs-governance` (constitution/map/status/history roles, delete-zone) |
+| Triage an ambiguous ask before planning it | `brainstorming`; act on review feedback honestly → `receiving-code-review`, claim done only after proof → `verification-before-completion` |
 | Verify this repo's own health | `py tools/verify-all.py` — all 9 gates in one run (`python` is a Store stub on Windows) |
 
 ## Organization
@@ -60,13 +68,13 @@ Skills are organized into 23 categories (each has a `DESCRIPTION.md`):
 | [mcp/](./mcp/) | Model Context Protocol servers (FastMCP) |
 | [media/](./media/) | GIF search, audio analysis, YouTube content |
 | [mlops/](./mlops/) | Evaluation harnesses, HuggingFace Hub, vLLM, W&B |
-| [note-taking/](./note-taking/) | Obsidian vault integration |
+| [note-taking/](./note-taking/) | Obsidian vault + multi-layer knowledge-base ops (ingest/sync/dedupe/retrieve) |
 | [productivity/](./productivity/) | Documents, spreadsheets, meetings, calendars, website audits |
-| [research/](./research/) | Paper writing pipeline, citation verification, monitoring |
+| [research/](./research/) | Paper writing pipeline, citation verification, monitoring + bioinformatics (PubMed/gget) & scholarly evaluation |
 | [security/](./security/) | Code security review |
 | [smart-home/](./smart-home/) | Philips Hue control |
 | [social-media/](./social-media/) | X/Twitter via xurl CLI |
-| [software-development/](./software-development/) | TDD, spec-driven dev, debugging, planning (grilling/wayfinder), Python, Node |
+| [software-development/](./software-development/) | TDD, spec-driven dev, debugging, planning (grilling/wayfinder), Python, Node + repo onboarding & living-docs governance |
 | [web-development/](./web-development/) | Web/API client derivation from HAR recordings |
 
 Non-skill content: [`memories/`](./memories/DESCRIPTION.md) (the agent's persistent notes + user profile — the "brain" part) and [`profile/`](./profile/DESCRIPTION.md) (a reference snapshot of one live Hermes profile). See each directory's `DESCRIPTION.md`.
