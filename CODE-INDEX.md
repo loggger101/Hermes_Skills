@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **124 code files** (29,463 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **126 code files** (29,770 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -70,6 +70,11 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 ## data-science/space-data-pipelines
 
 - `data-science/space-data-pipelines/scripts/pipeline_skeleton.py` (script, python, 206 lines) — Runnable reference implementation of the space-datasets pipeline pattern
+
+## devops/sqlite-queries
+
+- `devops/sqlite-queries/tests/conftest.py` (test, python, 54 lines) — Shared fixtures: a small deterministic SQLite DB exercising users/orders/FKs.
+- `devops/sqlite-queries/tests/test_sqlite_queries.py` (test, python, 253 lines) — Verify the sqlite-queries skill's documented workflow against real SQLite behavior
 
 ## devops/watchers
 
@@ -227,4 +232,4 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `tools/verify-all.py` (repo tooling, python, 128 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*124 code files: 87 scripts, 7 shared helpers, 12 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*126 code files: 87 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
