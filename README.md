@@ -1,6 +1,6 @@
 # Hermes Skills Repository
 
-A comprehensive collection of **173 Hermes Agent skills** across 23 categories — the second brain for its owner's Hermes Agent environment. See [DESCRIPTION.md](./DESCRIPTION.md) for the task-to-skill quick table and lookup ladder.
+A comprehensive collection of **174 Hermes Agent skills** across 23 categories — the second brain for its owner's Hermes Agent environment. See [DESCRIPTION.md](./DESCRIPTION.md) for the task-to-skill quick table and lookup ladder.
 
 ## Table of Contents
 
@@ -43,7 +43,7 @@ grep -i "raster\|token bridge" CODE-INDEX.md
 
 ## Overview
 
-This repository serves as a centralized database of all **173 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (406 cross-references mapped across 172 skills, 10 standalone). See [audit notes](docs/archive/audit-notes-skills-repo-pass.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
+This repository serves as a centralized database of all **174 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (409 cross-references mapped across 174 skills, 10 standalone). See [audit notes](docs/archive/audit-notes-skills-repo-pass.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
 
 ### Source Profiles
 
@@ -81,14 +81,14 @@ When a skill existed in multiple profiles, the version from the highest-priority
 | [security/](./security/) | Security review and auditing | 3 |
 | [smart-home/](./smart-home/) | Smart home device control | 1 |
 | [social-media/](./social-media/) | Social media content | 1 |
-| [software-development/](./software-development/) | Development tools and workflows | 45 |
+| [software-development/](./software-development/) | Development tools and workflows | 46 |
 | [web-development/](./web-development/) | Web/API client derivation (HAR-based) | 2 |
 
-**Total: 173 skills across 23 categories** — counts below are regenerated from live frontmatter; keep them in sync via `python tools/gen-skills-index.py` and the audit.
+**Total: 174 skills across 23 categories** — counts below are regenerated from live frontmatter; keep them in sync via `python tools/gen-skills-index.py` and the audit.
 
 ### Skill Catalog
 
-All 173 skills organized by category:
+All 174 skills organized by category:
 
 #### Apple
 
@@ -267,6 +267,7 @@ All 173 skills organized by category:
 - [`code-wiki`](./software-development/code-wiki) — Generate wiki docs + Mermaid diagrams for any codebase.
 - [`conversation-to-spec`](./software-development/conversation-to-spec) — Turn a conversation into a publishable spec.
 - [`dogfood`](./software-development/dogfood) — Exploratory QA of web apps: find bugs, evidence, reports.
+- [`generating-python-installer`](./software-development/generating-python-installer) — Nuitka + Inno Setup: smallest, fastest Windows installers.
 - [`github`](./software-development/github) — GitHub via gh CLI: PRs, issues, reviews, repos, auth.
 - [`grilling-interview`](./software-development/grilling-interview) — Stress-test a plan by interviewing in design-tree rounds.
 - [`hermes-agent-skill-authoring`](./software-development/hermes-agent-skill-authoring) — Author in-repo SKILL.md files: frontmatter and structure.
@@ -352,7 +353,7 @@ Skills come from three sources (see [audit notes](docs/archive/audit-notes-skill
 
 1. **Imported skills** — copied in from live Hermes profiles (`default`, `the-skill-maker`, `the-memory-controller`) during the initial import; where a skill existed in multiple profiles, the highest-priority profile's version was kept.
 2. **Pre-existing repo skills** — authored directly in this repository (e.g. the 22+ `mattpocock-*` methodology skills, devops and top-level category skills).
-3. **Research-harvest ports** — added across successive starred-repo deep-dive rounds (145 → 162 → 166 → 167 → 172 → 173), including hub installs (`hermes skills install official/...`) and MIT-licensed external ports with their licenses carried in frontmatter.
+3. **Research-harvest ports** — added across successive starred-repo deep-dive rounds (145 → 162 → 166 → 167 → 172 → 173 → 174), including hub installs (`hermes skills install official/...`) and MIT-licensed external ports with their licenses carried in frontmatter.
 
 The per-skill origin is recorded in [audit notes](docs/archive/audit-notes-skills-repo-pass.md) round-by-round; the live set of record is always `SKILLS-INDEX.md` (regenerated from frontmatter).
 
@@ -425,7 +426,7 @@ This repository includes Python scripts in the `tools/` directory that automate 
 | Tool | Purpose | Cron Integration |
 |------|---------|------------------|
 | [`verify-all.py`](./tools/verify-all.py) | **Start here.** Runs every gate in one shot: audit, links, index drift (all four generated indexes), cron validators, and README/DESCRIPTION count consistency. Exit 0 = all 9 gates pass | Manual; run before any commit |
-| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 173 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | Defined for Sun 3 AM in `skill-audit.json` — **not registered**; run manually |
+| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 174 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | Defined for Sun 3 AM in `skill-audit.json` — **not registered**; run manually |
 | [`sync-hermes-skills.py`](./tools/sync-hermes-skills.py) | Bidirectional sync between GitHub repo and local Hermes env: git pull, skill/memories/profiles sync, DEPENDENCY.md regeneration, audit, git push | Defined for Sun 2 AM in `sync-hermes-skills.json` — **not registered**; run manually |
 
 
