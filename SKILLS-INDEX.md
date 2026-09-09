@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **180 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **181 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -167,6 +167,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 ## research
 
 - `arxiv` — Search arXiv papers by keyword, author, category, or ID _(research)_
+- `bioinformatics` — Gateway to 400+ genomics and computational biology skills _(research)_
 - `blocked-page-recovery` — Recover blocked/paywalled/WAF'd pages via fallbacks _(research)_
 - `blogwatcher` — Monitor blogs and RSS/Atom feeds via blogwatcher-cli tool _(research)_
 - `competitor-news-monitor` — Watch named companies for material news; cited digests _(research)_
@@ -253,4 +254,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*180 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*181 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
