@@ -186,6 +186,7 @@ A skill exists to make the agent's process more predictable — the agent reliab
 - **Major rewrite:** `write_file` the whole SKILL.md.
 - **Supporting files:** `write_file` to `references/`, `templates/`, or `scripts/` under the skill dir.
 - **Always commit** — in-repo skills are source, not runtime state. Re-run the docs generator when frontmatter changed.
+- **Measurably underperforming skill?** Don't hand-tweak blindly — see `references/skill-evolution-pipeline.md` (DSPy+GEPA: evolve the text against a scored eval set, then re-run this repo's gates). Requires an evaluator; never replaces verify-all or the test suite.
 
 ## Pitfalls
 

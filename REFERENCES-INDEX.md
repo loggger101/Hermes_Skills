@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **297 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **298 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -388,6 +388,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `software-development/hermes-agent-skill-authoring/references/frontmatter-audit-pattern.md` — Frontmatter Audit Pattern
 - `software-development/hermes-agent-skill-authoring/references/related-skills-audit.md` — Auditing and Fixing `related_skills` References
 - `software-development/hermes-agent-skill-authoring/references/section-header-standardization.md` — Section Header Standardization
+- `software-development/hermes-agent-skill-authoring/references/skill-evolution-pipeline.md` — DSPy+GEPA skill-evolution pipeline (NousResearch/hermes-agent-self-evolution) — verified CLI, requirements, when NOT to use
 ## software-development/mattpocock-diagnosing-bugs
 
 - `software-development/mattpocock-diagnosing-bugs/references/library-audit-methodology.md` — (no description)
