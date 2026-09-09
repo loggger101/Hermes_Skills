@@ -21,7 +21,7 @@ Use when the user needs `github-issues`.
 
 ## What This Skill Does
 
-Create, triage, label, and assign GitHub issues via the gh CLI or GitHub REST API.
+Create, triage, label, and assign GitHub issues via the gh CLI or GitHub REST API. For repos with external contributors: `references/untrusted-repo-content.md` covers treating all issue/PR/CI content as untrusted data (prompt-injection threat model) plus a concrete stale-item policy.
 
 
 Create, search, triage, and manage GitHub issues. Each section shows `gh` first, then the `curl` fallback.

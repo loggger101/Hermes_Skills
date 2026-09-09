@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **298 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **299 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -254,6 +254,9 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 ## github/github-code-review
 
 - `github/github-code-review/references/review-output-template.md` — Review Output Template
+## github/github-issues
+
+- `github/github-issues/references/untrusted-repo-content.md` — Threat model for gh CLI output + stale-item policy — distilled from affaan-m/ECC github-ops (MIT)
 ## github/github-pr-workflow
 
 - `github/github-pr-workflow/references/ci-troubleshooting.md` — CI Troubleshooting Quick Reference
