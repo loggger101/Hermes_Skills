@@ -50,5 +50,6 @@ Development tools and coding workflows.
 - [`verification-before-completion`](./verification-before-completion/SKILL.md) — No completion claims without fresh verification evidence
 - [`verification-culture`](./verification-culture/SKILL.md) — Doc-driven verification: backlog, audits, regression
 - [`wayfinder-map-planning`](./wayfinder-map-planning/SKILL.md) — Plan multi-session work as a map of decision tickets
+- [`windows-desktop-e2e`](./windows-desktop-e2e/SKILL.md) — Windows desktop E2E testing with pywinauto + UI Automation
 
 *Regenerated from live frontmatter — keep in sync with `tools/gen-skills-index.py`.*
