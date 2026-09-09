@@ -16,6 +16,7 @@ Data science workflows and tools.
 - [`model-export-deploy`](./model-export-deploy/SKILL.md) — Model export: ONNX, TorchScript, HDF5, NumPy, JSON
 - [`orbital-mechanics-data`](./orbital-mechanics-data/SKILL.md) — Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC
 - [`python-data-science`](./python-data-science/SKILL.md) — Python DS: EDA, cleaning, modeling, eval, viz
+- [`regex-vs-llm-structured-text`](./regex-vs-llm-structured-text/SKILL.md) — Regex-first parsing; LLM only for flagged edge cases
 - [`space-data-pipelines`](./space-data-pipelines/SKILL.md) — Build space/astro data pipelines with verified API gotchas
 - [`space-mission-computation-paradigms`](./space-mission-computation-paradigms/SKILL.md) — Choose trajectory method: closed-form vs propagation etc
 - [`sql-for-data`](./sql-for-data/SKILL.md) — SQL for data: queries, joins, windows, aggregation

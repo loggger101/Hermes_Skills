@@ -11,6 +11,7 @@ Skills for academic research, paper discovery, literature review, domain reconna
 - [`blogwatcher`](./blogwatcher/SKILL.md) — Monitor blogs and RSS/Atom feeds via blogwatcher-cli tool
 - [`competitor-news-monitor`](./competitor-news-monitor/SKILL.md) — Watch named companies for material news; cited digests
 - [`grounded-citations`](./grounded-citations/SKILL.md) — Ground answers and documents in cited, verifiable sources
+- [`literature-review`](./literature-review/SKILL.md) — Plan, screen, synthesize and cite technical literature
 - [`llm-wiki`](./llm-wiki/SKILL.md) — Karpathy's LLM Wiki: build/query interlinked markdown KB
 - [`mattpocock-research`](./mattpocock-research/SKILL.md) — Research a question against primary sources
 - [`parallel-cli`](./parallel-cli/SKILL.md) — Agent-native web search, deep research, and enrichment

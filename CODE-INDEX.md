@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **121 code files** (28,991 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **123 code files** (29,327 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -61,6 +61,11 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 ## data-science/python-data-science
 
 - `data-science/python-data-science/references/big-data-patterns-verify.py` (script, python, 125 lines) — Verify the general big-data patterns for python-data-science reference doc
+
+## data-science/regex-vs-llm-structured-text
+
+- `data-science/regex-vs-llm-structured-text/scripts/hybrid_parser.py` (script, python, 176 lines) — Hybrid structured-text parser: regex first, LLM only for flagged edge cases
+- `data-science/regex-vs-llm-structured-text/tests/test_hybrid_parser.py` (test, python, 160 lines) — Tests for the hybrid regex/LLM structured-text parser
 
 ## data-science/space-data-pipelines
 
@@ -218,4 +223,4 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `tools/verify-all.py` (repo tooling, python, 128 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*121 code files: 85 scripts, 7 shared helpers, 11 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*123 code files: 86 scripts, 7 shared helpers, 12 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*

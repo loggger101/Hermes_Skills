@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **167 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **172 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -65,6 +65,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `model-export-deploy` — Model export: ONNX, TorchScript, HDF5, NumPy, JSON _(data-science)_
 - `orbital-mechanics-data` — Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC _(data-science)_
 - `python-data-science` — Python DS: EDA, cleaning, modeling, eval, viz _(data-science)_
+- `regex-vs-llm-structured-text` — Regex-first parsing; LLM only for flagged edge cases _(data-science)_
 - `space-data-pipelines` — Build space/astro data pipelines with verified API gotchas _(data-science)_
 - `space-mission-computation-paradigms` — Choose trajectory method: closed-form vs propagation etc _(data-science)_
 - `sql-for-data` — SQL for data: queries, joins, windows, aggregation _(data-science)_
@@ -169,6 +170,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `blogwatcher` — Monitor blogs and RSS/Atom feeds via blogwatcher-cli tool _(research)_
 - `competitor-news-monitor` — Watch named companies for material news; cited digests _(research)_
 - `grounded-citations` — Ground answers and documents in cited, verifiable sources _(research)_
+- `literature-review` — Plan, screen, synthesize and cite technical literature _(research)_
 - `llm-wiki` — Karpathy's LLM Wiki: build/query interlinked markdown KB _(research)_
 - `mattpocock-research` — Research a question against primary sources _(research)_
 - `parallel-cli` — Agent-native web search, deep research, and enrichment _(research)_
@@ -193,6 +195,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 ## software-development
 
 - `ast-grep` — AST-aware structural code search and rewrite via ast-grep _(software-development)_
+- `brainstorming` — Triage as spike/bounded/architectural; approve first _(software-development)_
 - `cli-tool-craft` — CLI tools: subcommands, config validation, env substitution _(software-development)_
 - `code-quality-signal` — Score Python repos on 5 ungameable structural metrics _(software-development)_
 - `code-wiki` — Generate wiki docs + Mermaid diagrams for any codebase _(software-development)_
@@ -221,6 +224,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `property-based-testing` — Hypothesis property tests: roundtrip, oracle, invariant _(software-development)_
 - `python-craft` — Python craft: style, typing, patterns, testing, packaging _(software-development)_
 - `python-debugpy` — Debug Python: pdb REPL + debugpy remote (DAP) _(software-development)_
+- `receiving-code-review` — Verify review feedback against the codebase before acting _(software-development)_
 - `requesting-code-review` — Pre-commit review: security scan, quality gates, auto-fix _(software-development)_
 - `rest-graphql-debug` — Debug REST and GraphQL APIs: auth, schemas, repro _(software-development)_
 - `retro` — Retrospective on a session proposing environment fixes _(software-development)_
@@ -231,6 +235,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `systematic-debugging` — 4-phase root cause debugging: understand before fixing _(software-development)_
 - `test-driven-development` — TDD: enforce RED-GREEN-REFACTOR, tests before code _(software-development)_
 - `test-infra-ml` — Testing ML systems: sims, EAs, tournaments, checkpoints _(software-development)_
+- `verification-before-completion` — No completion claims without fresh verification evidence _(software-development)_
 - `verification-culture` — Doc-driven verification: backlog, audits, regression _(software-development)_
 - `wayfinder-map-planning` — Plan multi-session work as a map of decision tickets _(software-development)_
 
@@ -240,4 +245,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*167 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*172 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
