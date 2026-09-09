@@ -13,6 +13,7 @@ Development tools and coding workflows.
 - [`code-wiki`](./code-wiki/SKILL.md) — Generate wiki docs + Mermaid diagrams for any codebase
 - [`conversation-to-spec`](./conversation-to-spec/SKILL.md) — Turn a conversation into a publishable spec
 - [`dogfood`](./dogfood/SKILL.md) — Exploratory QA of web apps: find bugs, evidence, reports
+- [`generating-python-installer`](./generating-python-installer/SKILL.md) — Nuitka + Inno Setup: smallest, fastest Windows installers
 - [`github`](./github/SKILL.md) — GitHub via gh CLI: PRs, issues, reviews, repos, auth
 - [`grilling-interview`](./grilling-interview/SKILL.md) — Stress-test a plan by interviewing in design-tree rounds
 - [`hermes-agent-skill-authoring`](./hermes-agent-skill-authoring/SKILL.md) — Author in-repo SKILL.md files: frontmatter and structure

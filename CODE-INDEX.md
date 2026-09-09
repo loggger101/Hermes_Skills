@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **123 code files** (29,327 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **124 code files** (29,463 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -194,6 +194,10 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 
 - `software-development/code-quality-signal/scripts/quality_signal.py` (script, python, 366 lines) — Code quality signal: 5 ungameable root-cause metrics on a Python codebase
 
+## software-development/generating-python-installer
+
+- `software-development/generating-python-installer/scripts/analyze_dlls.py` (script, python, 136 lines) — DLL dependency footprint analyzer for a Nuitka standalone dist folder
+
 ## software-development/github
 
 - `software-development/github/scripts/gh-env.sh` (script, bash, 66 lines) — GitHub environment detection helper for Hermes Agent skills
@@ -223,4 +227,4 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `tools/verify-all.py` (repo tooling, python, 128 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*123 code files: 86 scripts, 7 shared helpers, 12 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*124 code files: 87 scripts, 7 shared helpers, 12 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
