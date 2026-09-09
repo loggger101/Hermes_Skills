@@ -94,6 +94,7 @@ category/
 - **`regen-dependency-map.py`** — rebuilds `DEPENDENCY.md` from live frontmatter (safe standalone; the sync script's built-in generator can hang on import interactively).
 - **`sync-hermes-skills.py`** — full bidirectional GitHub↔local-Hermes sync. A weekly cron job is *defined* for it in `.hermes/cron/active/` but is **not registered** with the live scheduler, so today it only runs when invoked. Has `--dry-run`. Its delete phase is capped at `MAX_DELETIONS = 25` files per run (override: `--allow-mass-delete`), and it refuses to commit or push when the audit did not pass.
 - **`_index_output.py`** — shared write-guard behind the four generators: blocks an empty-scan overwrite, and provides their `--check` drift mode (compare against disk, exit 1 if stale, write nothing).
+- **CI ([`.github/workflows/ci.yml`](./.github/workflows/ci.yml))** — runs all 9 gates plus the five skill pytest suites on every push/PR; test deps from [`test-requirements.txt`](./test-requirements.txt) (single source of truth — update it when adding suite dependencies).
 
 ## Getting Started
 
@@ -115,4 +116,4 @@ py tools/gen-skills-index.py && py tools/regen-dependency-map.py
 
 ## Maintenance rules (summary)
 
-Run `py tools/verify-all.py` before every commit; never break the audit; keep `description` ≤59 chars; regenerate DEPENDENCY.md + SKILLS-INDEX.md after frontmatter changes, CODE-INDEX.md after code-file changes, and REFERENCES-INDEX.md after reference-doc changes; log significant changes in [audit notes](docs/archive/audit-notes-skills-repo-pass.md); commit author for automation is `hermes-cronbot <cronbot@hermes.local>`; never commit credentials. The full convention list is enforced by `tools/audit-skills.py` (see its docstring and the Verification section of README.md).
+Run `py tools/verify-all.py` before every commit (CI re-runs it on every push); never break the audit; keep `description` ≤59 chars; regenerate DEPENDENCY.md + SKILLS-INDEX.md after frontmatter changes, CODE-INDEX.md after code-file changes, and REFERENCES-INDEX.md after reference-doc changes; update `test-requirements.txt` when adding test dependencies to a skill's suite; log significant changes in [audit notes](docs/archive/audit-notes-skills-repo-pass.md); commit author for automation is `hermes-cronbot <cronbot@hermes.local>`; never commit credentials. The full convention list is enforced by `tools/audit-skills.py` (see its docstring and the Verification section of README.md).
