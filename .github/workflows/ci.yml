@@ -50,22 +50,9 @@ jobs:
       - name: Install test deps
         run: pip install -r test-requirements.txt
 
-      - name: docx tests
-        working-directory: productivity/docx/tests
-        run: python -m pytest -q .
-
-      - name: pdf tests
-        working-directory: productivity/pdf/tests
-        run: python -m pytest -q .
-
-      - name: powerpoint tests
-        working-directory: productivity/powerpoint/tests
-        run: python -m pytest -q .
-
-      - name: xlsx tests
-        working-directory: productivity/xlsx/tests
-        run: python -m pytest -q .
-
-      - name: comfyui tests
-        working-directory: creative/comfyui/tests
-        run: python -m pytest -q .
+      # Discovery-based runner: finds every <skill>/tests/ dir with test files
+      # (currently docx/pdf/powerpoint/xlsx/comfyui) and runs each — so the next
+      # skill that ships a tests/ dir is in CI automatically, no YAML edit.
+      # Exit 1 on any failed suite; an empty scan is FATAL by design.
+      - name: Run all discovered skill test suites
+        run: python tools/run-skill-tests.py
