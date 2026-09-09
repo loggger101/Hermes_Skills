@@ -7,6 +7,7 @@ description: Development tools and coding workflows.
 Development tools and coding workflows.
 
 - [`ast-grep`](./ast-grep/SKILL.md) — AST-aware structural code search and rewrite via ast-grep
+- [`brainstorming`](./brainstorming/SKILL.md) — Triage as spike/bounded/architectural; approve first
 - [`cli-tool-craft`](./cli-tool-craft/SKILL.md) — CLI tools: subcommands, config validation, env substitution
 - [`code-quality-signal`](./code-quality-signal/SKILL.md) — Score Python repos on 5 ungameable structural metrics
 - [`code-wiki`](./code-wiki/SKILL.md) — Generate wiki docs + Mermaid diagrams for any codebase
@@ -35,6 +36,7 @@ Development tools and coding workflows.
 - [`property-based-testing`](./property-based-testing/SKILL.md) — Hypothesis property tests: roundtrip, oracle, invariant
 - [`python-craft`](./python-craft/SKILL.md) — Python craft: style, typing, patterns, testing, packaging
 - [`python-debugpy`](./python-debugpy/SKILL.md) — Debug Python: pdb REPL + debugpy remote (DAP)
+- [`receiving-code-review`](./receiving-code-review/SKILL.md) — Verify review feedback against the codebase before acting
 - [`requesting-code-review`](./requesting-code-review/SKILL.md) — Pre-commit review: security scan, quality gates, auto-fix
 - [`rest-graphql-debug`](./rest-graphql-debug/SKILL.md) — Debug REST and GraphQL APIs: auth, schemas, repro
 - [`retro`](./retro/SKILL.md) — Retrospective on a session proposing environment fixes
@@ -45,6 +47,7 @@ Development tools and coding workflows.
 - [`systematic-debugging`](./systematic-debugging/SKILL.md) — 4-phase root cause debugging: understand before fixing
 - [`test-driven-development`](./test-driven-development/SKILL.md) — TDD: enforce RED-GREEN-REFACTOR, tests before code
 - [`test-infra-ml`](./test-infra-ml/SKILL.md) — Testing ML systems: sims, EAs, tournaments, checkpoints
+- [`verification-before-completion`](./verification-before-completion/SKILL.md) — No completion claims without fresh verification evidence
 - [`verification-culture`](./verification-culture/SKILL.md) — Doc-driven verification: backlog, audits, regression
 - [`wayfinder-map-planning`](./wayfinder-map-planning/SKILL.md) — Plan multi-session work as a map of decision tickets
 
