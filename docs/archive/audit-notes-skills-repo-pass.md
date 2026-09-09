@@ -445,3 +445,27 @@ so the orphaned skill-side copy (and its now-empty scripts dir) was removed — 
 
 **Gates:** audit threshold_breached=false; check-links 654 links / 0 broken. All touched SKILL.md + script
 files synced to local library (byte parity).
+
+## 2026-09-09 — CI pass: GitHub Actions gate + skill test suites wired (commits 6f2ab7f, d64251e)
+
+**New: `.github/workflows/ci.yml`.** The repo's health gates previously ran only by local
+discipline; nothing enforced them on the remote. Two jobs run on every push to `main` and
+every PR (permissions: contents read-only): **Health gates** — `pip install "pyyaml>=6.0"` then
+`python tools/verify-all.py` (all 9 gates); **Skill test suites** — pytest over the five shipped
+suites, one step per suite so a failure names the skill in the log: docx 29 / pdf 21 /
+powerpoint 21 / xlsx 11+1 skip / comfyui 109 passed + 8 skipped.
+
+**New: `test-requirements.txt`.** Single source of truth for suite deps (pytest, python-docx,
+openpyxl, reportlab, pdfplumber, pypdf, Pillow, pypdfium2, python-pptx, requests — all pure
+wheels). Created by running every suite in a clean uv venv until green. `pypdfium2` covers the
+pdf rasterization tests without poppler's pdftoppm binary.
+
+**Lesson (measured twice this pass):** (1) an unquoted version pin (`pip install pyyaml>=6.0`)
+is a bash redirection, not a constraint — quote it; (2) my local venv had `pypdf` from an
+earlier manual install, so the first CI run failed on exactly that missing dep while every suite
+passed locally — deps must live in one tracked file both environments read. First CI run
+(34354327580): health gates PASSED on GitHub runners; pdf suite 15F/6P (missing pypdf). Second
+run after d64251e (34354875418) fully green in 57s: both jobs success.
+
+**Docs:** README.md gained a "CI (GitHub Actions)" subsection under Verification; DESCRIPTION.md
+tooling list + maintenance rules reference the workflow and test-requirements.txt.

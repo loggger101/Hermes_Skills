@@ -471,6 +471,10 @@ py tools/audit-skills.py         # Windows: use `py`. Bare `python`/`python3` ar
 
 The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a weekly cronjob definition that would emit a JSON report via the cronjob system's `deliver: origin` target. That definition is **not currently registered** with the live scheduler (see the registration status note in [Cron Job Authoring](#cron-job-authoring)), so the audit runs on demand today.
 
+### CI (GitHub Actions)
+
+[`.github/workflows/ci.yml`](./.github/workflows/ci.yml) makes "the repo passes its own gates" a property of the remote, not just local discipline: every push to `main` and every PR runs two jobs — **Health gates** (`pip install pyyaml`, then `python tools/verify-all.py`) and **Skill test suites** (pytest over the five shipped suites: docx 29 / pdf 21 / powerpoint 21 / xlsx 12 / comfyui 117 tests). Test deps come from [`test-requirements.txt`](./test-requirements.txt) — a single source of truth created by running all five suites in a clean venv until green (verified 2026-09-09: all pass, pure wheels only, no poppler binary needed because `pypdfium2` covers rasterization). When you add test dependencies to any skill's suite, update that file too.
+
 ### Live Invariants
 
 ✅ items are checked by `tools/audit-skills.py` / `tools/check-links.py` on every audit run; the threshold-gated subset (a non-zero count fails the run) is `broken_refs`, `yaml_errors`, `long_descriptions`, `duplicate_skills`, `missing_body_sections`, `temps_scripts`. 📎 items are conventions no tool enforces — hold them by hand.
