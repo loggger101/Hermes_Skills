@@ -469,3 +469,49 @@ run after d64251e (34354875418) fully green in 57s: both jobs success.
 
 **Docs:** README.md gained a "CI (GitHub Actions)" subsection under Verification; DESCRIPTION.md
 tooling list + maintenance rules reference the workflow and test-requirements.txt.
+
+## 2026-09-09 — Round-6 starred-repo pass: discovery CI runner + 7 ports (167 → 174 skills)
+
+**Starred repos grew 41 → 47.** Set-diff against the round-5 baseline identified exactly six new
+stars; all cloned and surveyed. `affaan-m/ECC` was the major find: **286 curated skills**, MIT
+licensed, with a native `.hermes/` integration folder documenting its install path — now the
+primary port source for this brain. `obra/superpowers`: 14 skills, most already ported in earlier
+rounds; three new process-skills identified. `Imbad0202/academic-research-skills` excluded:
+CC-BY-NC license violates the portable-license convention (MIT/Apache/BSD only).
+
+**New CI runner: `tools/run-skill-tests.py`.** The skill-tests job previously hard-coded five
+pytest steps in YAML — a new skill shipping tests would silently never run on GitHub. Replaced by
+a discovery-based runner: filesystem walk finds every `<skill>/tests/` suite, runs each with the
+current interpreter, aggregates results, exits non-zero on any failure; `--list` dry-run for
+discovery inspection. ci.yml now invokes it once. Fail-loud path verified with a temporary broken
+suite (correctly reported + non-zero exit). Run 34360610204 green at commit 711ad71.
+
+**Seven ports, all license-verified and convention-adapted** (frontmatter name/version/author/
+platforms/metadata.hermes; description ≤59 chars; `## What This Skill Does` + `## When to Use`;
+related_skills resolving in-repo; source-attribution comment):
+
+| Skill | Source | Notes |
+|-------|--------|-------|
+| software-development/brainstorming | obra/superpowers | spike/bounded/architectural triage, approval gate |
+| software-development/receiving-code-review | obra/superpowers | verify feedback against codebase before acting |
+| software-development/verification-before-completion | obra/superpowers | no completion claims without fresh evidence; complements verification-culture |
+| data-science/regex-vs-llm-structured-text | affaan-m/ECC (MIT) | ships stdlib-only `scripts/hybrid_parser.py` + 14-test suite, green under both pytest and unittest |
+| research/literature-review | affaan-m/ECC community skill | plan/screen/synthesize/cite workflow |
+| software-development/windows-desktop-e2e | affaan-m/ECC (MIT) | pywinauto/UI Automation E2E for WPF/WinForms/Qt — directly relevant to this Windows environment |
+| software-development/generating-python-installer | affaan-m/ECC (MIT) | 820-line Chinese original translated with all commands verbatim: Nuitka standalone + Inno Setup commercial packaging; ships `scripts/build_optimized.bat` (%NUMBER_OF_PROCESSORS% — wmic removed in Win11 22H2+), `slim_dist.ps1` (7-pass, keeps METADATA/entry_points.txt for importlib.metadata), `analyze_dlls.py` (stdlib-only, live-tested against a synthetic dist fixture) |
+
+**Rejected candidates with reasons:** cost-tracking (Claude Code infra dependency — non-functional
+here); benchmark-methodology (marketing/benchmarking-sprint skill, not performance methodology);
+search-first + safety-guard (depend on Claude Code PreToolUse hooks / researcher-agent plumbing).
+
+**Parity re-verified after every port batch.** One drift class found and fixed: three files with
+trailing-newline/EOL differences only — repo copies copied over local byte-for-byte; final parity
+= 905 shared files identical, two expected local-only skills (rss-feeds, reddit-reading).
+
+**Gates:** all 9 gates passed at every commit of this pass. CI runs green: 34368525888 (4601172),
+34375349043 (40a0342), 34383783922 (23dbb92). Final state: **174 skills / 409 xrefs / 124 code
+files**, origin/main...main = 0/0.
+
+**Process lesson:** large multi-file writes via the execute_code kernel did not persist to the
+OneDrive-backed repo path (dirs created, files absent) while `write_file` + bash `cp` with per-file
+sha256 verification worked reliably — for OneDrive paths, write locally then copy-and-verify.
