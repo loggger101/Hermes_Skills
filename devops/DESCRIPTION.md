@@ -7,6 +7,7 @@ description: Infrastructure, containers, and deployment workflows.
 Infrastructure, containers, and deployment workflows.
 
 - [`docker-containers`](./docker-containers/SKILL.md) — Build and debug Docker containers and Compose stacks
+- [`pinggy-tunnel`](./pinggy-tunnel/SKILL.md) — Zero-install localhost tunnels over SSH via Pinggy
 - [`rest-api-client`](./rest-api-client/SKILL.md) — Call REST APIs: auth, pagination, rate limits, errors
 - [`sdlc-review`](./sdlc-review/SKILL.md) — Review Kanban handoffs and route verified outcomes
 - [`sqlite-queries`](./sqlite-queries/SKILL.md) — Query, inspect, and export SQLite databases

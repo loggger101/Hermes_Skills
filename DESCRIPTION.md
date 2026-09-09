@@ -1,13 +1,13 @@
 ---
-description: Hermes Agent second brain — 181 skills across 23 categories, memories, cron configs.
+description: Hermes Agent second brain — 183 skills across 23 categories, memories, cron configs.
 ---
 
 # Hermes Skills Repository (Second Brain)
 
-This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **181 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
+This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **183 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
 
 ## Start here (cheapest → most thorough)
-- **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 181 skills; `grep -i <term>` is the fastest way to find a capability.
+- **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 183 skills; `grep -i <term>` is the fastest way to find a capability.
 - **[CODE-INDEX.md](./CODE-INDEX.md)** — flat index of every script, shared helper, test, and template (the executable knowledge layer); `grep -i <term> CODE-INDEX.md` finds runnable code by purpose or owner skill.
 - **[REFERENCES-INDEX.md](./REFERENCES-INDEX.md)** — flat index of all 296 reference docs living inside skills' `references/` dirs (nested subdirs included); `grep -i <term> REFERENCES-INDEX.md` finds verified API maps / gotchas tables by topic without knowing which skill owns them.
 - **[DEPENDENCY.md](./DEPENDENCY.md)** — relationship map: hub skills, standalone skills, full cross-reference validation.
@@ -45,6 +45,8 @@ The fastest way from a job you have in mind to the skill that does it:
 | Onboard to an unfamiliar repository | `codebase-onboarding` (4-phase recon → arch map → conventions → starter AGENTS.md) |
 | Keep a long-lived project's docs from rotting | `living-docs-governance` (constitution/map/status/history roles, delete-zone) |
 | Triage an ambiguous ask before planning it | `brainstorming`; act on review feedback honestly → `receiving-code-review`, claim done only after proof → `verification-before-completion` |
+| Expose a local service / receive webhooks with no extra install | `pinggy-tunnel` (SSH reverse tunnel, webhook + MCP + LLM-endpoint recipes inside) |
+| Call tools on an MCP server from the terminal | `mcporter` (npx; list/call/auth/daemon); authoring servers → `fastmcp` |
 | Verify this repo's own health | `py tools/verify-all.py` — all 9 gates in one run (`python` is a Store stub on Windows) |
 
 ## Organization
