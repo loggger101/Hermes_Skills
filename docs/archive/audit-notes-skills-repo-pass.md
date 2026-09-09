@@ -545,3 +545,24 @@ and test-infra-ml). Final state: **180 skills / 23 categories / 425 xrefs**, all
 unique anchors and re-read the file when a match fails. `gen-skills-index.py` regenerates all 23 category
 DESCRIPTION.md files; after adding skills to any category, always re-run it before verify-all or the doc-count gate
 fails. The README's xref count is hand-maintained — reconcile it against regen-dependency-map.py output each batch.
+
+**Round-6d (same day): upstream hermes-agent optional-skills sweep → 181 skills.** Pulled the live `optional-skills/`
+tree from NousResearch/hermes-agent (`gh api .../git/trees/main?recursive=1`) and diffed it against the local install:
+**140 upstream, 29 already installed locally (the hub-installed set), 111 not present.** Most of the uninstalled ones are
+niche or infra-specific (blockchain/gaming/payments/health/smart-home/MLOps frameworks) and do not fit this brain's
+domains. One strong general-purpose port: `research/bioinformatics` — a **gateway** skill that indexes two open-source
+bioinformatics libraries (**GPTomics/bioSkills**, 1,199★ MIT = 385 reference skills; **ClawBio/ClawBio**, 1,129★ permissive
+custom license = 33 runnable pipeline skills) and fetches the specific one on demand, rather than bundling hundreds of
+domain skills. Both source repos verified live + licensed before porting (a gateway that points at dead/unlicensed repos
+would be worse than useless). Ported to `research/bioinformatics`, adapted to repo conventions: description double-quoted,
+added required `## What This Skill Does` + `## When to Use` sections, cross-linked into the existing research cluster. Also
+in this round: **DESCRIPTION.md Task→Skill Quick Table completed** — it was missing every skill added in rounds 6b/6c (the
+lookup ladder's first rung pointed at nothing for ~13 new skills); added rows for windows-desktop-e2e, generating-python-installer,
+pubmed-database/gget/bioinformatics, scholar-evaluation/literature-review, knowledge-ops, codebase-onboarding, living-docs-governance,
+and the superpowers trio; and updated three stale category-focus lines (note-taking no longer Obsidian-only, research gained
+bioinformatics + scholarly evaluation, software-development gained onboarding + docs governance). Final state: **181 skills / 23
+categories / 425 xrefs**, all 9 gates green.
+
+**Process lesson (round-6d):** a large `write_file` of ~13KB was silently truncated to 262 bytes in transit on this host — the
+same class of failure as long patch strings. For any payload over a few KB, write it to a temp file via a real script or copy it
+from an already-on-disk source and verify with sha256 before trusting it; never assume a big `write_file` landed whole.

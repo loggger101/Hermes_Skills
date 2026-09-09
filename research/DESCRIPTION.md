@@ -7,6 +7,7 @@ description: Skills for academic research, paper discovery, literature review, d
 Skills for academic research, paper discovery, literature review, domain reconnaissance, market data, content monitoring, and scientific knowledge retrieval.
 
 - [`arxiv`](./arxiv/SKILL.md) — Search arXiv papers by keyword, author, category, or ID
+- [`bioinformatics`](./bioinformatics/SKILL.md) — Gateway to 400+ genomics and computational biology skills
 - [`blocked-page-recovery`](./blocked-page-recovery/SKILL.md) — Recover blocked/paywalled/WAF'd pages via fallbacks
 - [`blogwatcher`](./blogwatcher/SKILL.md) — Monitor blogs and RSS/Atom feeds via blogwatcher-cli tool
 - [`competitor-news-monitor`](./competitor-news-monitor/SKILL.md) — Watch named companies for material news; cited digests
