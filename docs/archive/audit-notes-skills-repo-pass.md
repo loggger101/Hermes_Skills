@@ -515,3 +515,14 @@ files**, origin/main...main = 0/0.
 **Process lesson:** large multi-file writes via the execute_code kernel did not persist to the
 OneDrive-backed repo path (dirs created, files absent) while `write_file` + bash `cp` with per-file
 sha256 verification worked reliably — for OneDrive paths, write locally then copy-and-verify.
+
+**Follow-on batch same day: 3 research ports → 177 skills.** ECC catalog sweep (keyword-scored
+against this brain's domains) surfaced three clean community-skill fits in the biomedical/research
+cluster: `research/pubmed-database` (NCBI E-utilities + MeSH query construction; example code
+converted to stdlib urllib — no third-party deps), `research/gget` (quick genomic DB lookups with
+reproducibility logging), and `research/scholar-evaluation` (9-dimension rubric for evaluating
+papers/proposals). All three cross-link into the existing research cluster (`literature-review`,
+`arxiv`, `grounded-citations`). Caught before commit: one description at 63 chars (>59 limit) —
+shortened; and a README catalog edit that briefly duplicated an entry / dropped another (fixed in
+the same pass, verified against disk counts). Final state after this batch: **177 skills / 418
+xrefs**, all 9 gates green.
