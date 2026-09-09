@@ -94,6 +94,8 @@ Common selectors:
 
 Bounding on parent re-draw (cap the number of attempts to get distinct parents) prevents hangs on tiny populations.
 
+**Softmax selection over raw scores is a trap.** If you draw parents by softmaxing fitness values, use *z-scored* standings at a real temperature — never raw scores scaled near zero. Measured (CR-pipeline): tournament points-per-match × 0.1 as the exponent gave an effective temperature of ~0.001, which is de-facto argmax: one agent took nearly all parent draws and the population collapsed to its clones within a few generations. Z-scoring gives the top agent a strong but finite share while mid-field agents still breed — selection pressure without premature convergence.
+
 ### Crossover
 
 For real-valued genomes:
@@ -131,6 +133,8 @@ def adaptive_mutation(genome, fitness, population_fitness, rate_base=0.1, sigma_
 ```
 
 Mutation rate and sigma are themselves hyperparameters. Adaptive schemes (raise mutation when fitness stagnates, lower when improving) help on hard problems.
+
+**Per-weight mutation rates scale with genome size — cap the expected load.** If `mutation_rate` is a probability *per weight*, then expected mutations per child = rate × genome_size, which grows with the network even at an unchanged rate. Measured (CR-pipeline): doubling parameters from 9,207 → 20,071 pushed ~1,381 → ~3,011 expected mutations/child and made selection *worse* (mean-fitness trend flipped positive → negative across seeds); capping the rate back down restored improvement. The working pattern: a `max_expected_mutations` cap that scales the per-weight rate at run start — a no-op for small/low-rate configs, and exactly what makes bigger genomes beneficial instead of silently degrading evolution.
 
 ### The main loop
 
@@ -468,6 +472,10 @@ For a population of N agents where fitness comes from matches:
 - Carry past champions across generations as non-reproducing benchmarks.
 - Without a hall of fame, the population can drift/cycle without anything actually improving — fitness rises while the champion can't beat its own ancestor.
 - Track best agent by ELO (comparable across generations) not fitness (not comparable between fields).
+
+**Champion refinement (the exploitation channel).** Each generation, generate a few offspring (`champion_refinements`, default 2) as *gentle mutations of the run's best genome so far* — not just recombination of this generation's field. This is the direct "improve from the last" path: the current champion's genes enter every future population and get refined in place instead of being left to chance recombination. Pair it with tempered selection (above) or refinement offspring drown under clone pressure; set `champion_refinements=0` to disable when you want pure exploration.
+
+**Early stopping is a feature, not a failure.** A run that climbs fast then plateaus into early stopping has told you the field stopped being hard — measured: population 64 Swiss reached its best ELO at generation 26 and was cleanly stopped by patience at gen 55/250. The fix is a larger population or harder opponents so improvement continues before patience fires, not more generations on the same field.
 
 ### Common random numbers
 

@@ -166,6 +166,20 @@ Automated checks that run on every push (or on a schedule) and gate deploys. Not
 - A health check that fails for the wrong reason (a flaky network check, a transient timeout) erodes trust — fix the flakiness or remove the check from CI.
 - A health check that catches a real problem is the ideal — record the catch, add a regression test if applicable, and keep the check.
 
+### Fail-loud validators: a PASS must mean something
+
+A validator's worst failure mode isn't crashing — it's reporting **PASS while validating nothing**. Measured example (Hermes_Skills tooling pass): `import yaml` sat inside a per-skill `try/except Exception`, so with pyyaml missing every skill fell to the name-only fallback and the audit printed exit 0, all counters zero. The green check was pure fiction.
+
+Rules that make validators honest:
+- **Hoist environment-critical imports to module scope behind fatal guards.** If a dependency is optional in principle but essential for this tool's verdict, its absence must abort with an error message — never degrade into a weaker pass silently.
+- **Breach on implausible counts, not just errors.** A scan that found 0 skills in a repo known to hold 167 is broken even if every per-item check "passed". Add floor checks (`skill_count < expected_floor → FAIL`) so an empty or half-populated surface can't produce a clean report.
+- **Unreadable input is FATAL for coverage-style checks.** A link checker that skips files it can't read (a transient file lock, a sync race) silently shrinks its own coverage and still prints "no broken links". Fail on the unreadable file; retry or re-run later rather than reporting over reduced scope.
+- **Generators must refuse to overwrite an index from an empty scan**, and should offer a `--check` drift mode (regenerate in memory, diff against disk) so CI can gate on "index matches source" without writing anything.
+- **Gate side effects on the verdict.** A sync script that commits/pushes *before* checking its own audit result ships whatever it just did and exits 1 afterwards — too late. Order: validate → act → report, with push gated on pass.
+- **Cap destructive phases.** Any delete/cleanup phase needs a hard cap (e.g. `MAX_DELETIONS=25` with an explicit override flag) so a half-populated working tree cannot erase the whole surface and push the deletion away as "normal sync".
+
+**Measurement discipline for anyone reading validator output:** never trust `$?` after a pipe or after a `$(...)` substitution — both report the wrong command's status (measured twice mis-reporting an interpreter stub as exit 0). Check statuses of bare commands, and verify that the tool you think ran actually ran (`which python` on Windows can return a Microsoft Store alias stub that exits 49 without executing anything; use `py`).
+
 ## Reconciliation
 
 The act of scanning the whole repo and confirming that the backlog, the docs, and the code all agree with each other and with reality.

@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **296 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **297 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -231,6 +231,9 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `data-science/economicspace-pipeline/references/defect-classes-and-traps.md` — Defect classes, code traps & performance (economicspace)
 - `data-science/economicspace-pipeline/references/dv-oracles-and-economics-sources.md` — External delta-v oracles + soft-assumption data sources — Asterank two-mode API correction (2026-09-07 re-probe #2), NHATS, per-element sigmas
 - `data-science/economicspace-pipeline/references/load-bearing-assumptions.md` — Load-bearing model assumptions (economicspace)
+## data-science/evolutionary-ml
+
+- `data-science/evolutionary-ml/references/ga-tuning-measured.md` — GA Tuning — Measured Lessons (CR-pipeline, 2026-09)
 ## data-science/orbital-mechanics-data
 
 - `data-science/orbital-mechanics-data/references/economicspace-library-landscape.md` — Library landscape for the economicspace pipeline
