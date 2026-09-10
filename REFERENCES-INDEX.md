@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **301 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **304 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -107,6 +107,9 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `creative/comfyui/references/rest-api.md` — ComfyUI REST + WebSocket API Reference
 - `creative/comfyui/references/template-integrity.md` — ComfyUI Workflow-Template Integrity
 - `creative/comfyui/references/workflow-format.md` — ComfyUI Workflow JSON Format
+## creative/design-taste-frontend
+
+- `creative/design-taste-frontend/references/image-first-workflow.md` — Image-first web design-to-code workflow distilled from taste-skill's imagegen/image-to-code/brandkit skills - generate, analyze, implement; per-section frames; consistency rules
 ## creative/diagram-design
 
 - `creative/diagram-design/references/animation.md` — Optional animation
@@ -167,6 +170,9 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `creative/excalidraw/references/colors.md` — Excalidraw Color Palette
 - `creative/excalidraw/references/dark-mode.md` — Excalidraw Dark Mode Diagrams
 - `creative/excalidraw/references/examples.md` — Excalidraw Diagram Examples
+## creative/full-output-enforcement
+
+- `creative/full-output-enforcement/references/llm-truncation-remediation.md` — Why models truncate/lazily answer and how to force complete outputs — root causes, parameter tuning, prompt templates; claims verified against primary sources where possible
 ## creative/manim-video
 
 - `creative/manim-video/references/animation-design-thinking.md` — Animation Design Thinking
@@ -198,6 +204,9 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 ## creative/pretext
 
 - `creative/pretext/references/patterns.md` — Pretext Patterns
+## creative/stitch
+
+- `creative/stitch/references/taste-standard-design-system.md` — Worked example of the Stitch DESIGN.md output format - the Taste Standard design system
 ## creative/touchdesigner-mcp
 
 - `creative/touchdesigner-mcp/references/3d-scene.md` — 3D Scene Reference

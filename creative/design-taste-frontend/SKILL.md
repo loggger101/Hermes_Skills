@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [design, frontend, anti-slop]
-    related_skills: [redesign-existing-projects]
+    related_skills: [redesign-existing-projects, stitch, soft-premium-ui, editorial-minimalism-ui]
 ---
 
 ## When to Use
@@ -18,6 +18,8 @@ metadata:
 ## What This Skill Does
 
 > Landing pages, portfolios, and redesigns. Not dashboards, not data tables, not multi-step product UI. > Every rule below is **contextual**. None of it fires automatically. First read the brief, then pull only what fits.
+
+**Image-first variant:** for visually important tasks where a design reference should exist before any code (landing heroes, marketing sites, premium multi-section pages), load `references/image-first-workflow.md` — generate section-specific frames first, analyze them deeply, implement third; per-frame consistency contract and anti-slop lists included.
 
 
 # tasteskill: Anti-Slop Frontend Skill

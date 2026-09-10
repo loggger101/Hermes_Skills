@@ -64,3 +64,7 @@ Before finalizing any response, verify:
 - Every item the user requested is present and finished
 - Code blocks contain actual runnable code, not descriptions of what code would do
 - Nothing was shortened to save space
+
+## The Why (and how to fight it) — reference
+
+`references/llm-truncation-remediation.md`: root causes of placeholder output (RLHF brevity bias + stopping pressure, training-data placeholder propagation, cognitive shortcuts/LazyBench with scope correction, context-window asymmetry + consumer middleware), the remediation ladder (parameter → prompt → architecture) including verified Gemini `thinking_level` vs `thinking_budget` facts and a corrected EmotionPrompt summary, plus ready-to-use enforcement templates. Load it when an agent keeps truncating despite this skill's rules — or when choosing model parameters for long deliverables.

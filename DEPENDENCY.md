@@ -1,6 +1,6 @@
 # Skill Dependency Map
-This document maps the relationship network between all **185 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
-**Network stats:** 456 `related_skills` cross-references across 185 skills (1 skills are standalone with no `related_skills` entries).
+This document maps the relationship network between all **190 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+**Network stats:** 470 `related_skills` cross-references across 190 skills (1 skills are standalone with no `related_skills` entries).
 ## Hub Skills (referenced by 2+ other skills)
 These are the core skills that serve as building blocks, referenced by many other skills:
 | Skill | Referenced By (count) | Referencing Skills |
@@ -8,16 +8,17 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `requesting-code-review` | 18 | code-quality-signal, codex, github-issue-to-pr, hermes-agent-skill-authoring, mattpocock-code-review, mattpocock-evidence-driven, mattpocock-finishing-a-development-branch, mattpocock-multi-agent-code-review, mattpocock-security-review, mattpocock-spec-driven-development, mattpocock-subagent-driven-development, plan, python-craft, receiving-code-review, sdlc-review, semgrep-rule-creator, simplify-code, skill-flow-router |
 | `test-driven-development` | 16 | generating-python-installer, github-issue-to-pr, mattpocock-subagent-driven-development, mattpocock-tdd, modern-python-tooling, plan, property-based-testing, python-craft, python-data-science, requesting-code-review, rest-graphql-debug, simplify-code, skill-flow-router, systematic-debugging, test-infra-ml, windows-desktop-e2e |
 | `systematic-debugging` | 14 | ast-grep, github-issue-to-pr, inspecting-hermes-desktop-dom, mattpocock-diagnosing-bugs, mattpocock-gh-fix-ci, mattpocock-resolving-merge-conflicts, mattpocock-tdd, node-inspect-debugger, python-craft, python-data-science, python-debugpy, rest-graphql-debug, skill-flow-router, test-driven-development |
+| `claude-design` | 12 | awwwards-gsap-motion, design-md, editorial-minimalism-ui, frontend-design, industrial-brutalist-ui, popular-web-designs, pretext, sketch, soft-premium-ui, songwriting-and-ai-music, stitch, teach |
 | `excalidraw` | 10 | architecture-diagram, ascii-art, claude-design, design-md, diagram-design, p5js, popular-web-designs, pretext, research-paper-writing, sketch |
 | `github-pr-workflow` | 10 | github, github-auth, github-code-review, github-issue-to-pr, github-issues, github-repo-management, mattpocock-finishing-a-development-branch, mattpocock-gh-fix-ci, mattpocock-using-git-worktrees, mattpocock-yeet |
 | `hermes-agent` | 10 | apple-reminders, autonomous-repo-cronjob, claude-code, codex, cron-job-authoring, mattpocock-to-tickets, merge-reconciler, opencode, qmd, repowise |
 | `python-craft` | 10 | build-systems-data, cli-tool-craft, evolutionary-ml, model-export-deploy, modern-python-tooling, orbital-mechanics-data, static-site-seo, streamlit-dashboards, test-infra-ml, verification-culture |
 | `python-data-science` | 9 | build-systems-data, evolutionary-ml, gget, huggingface-trackio, jupyter-notebook, orbital-mechanics-data, regex-vs-llm-structured-text, research-paper-writing, sql-for-data |
+| `design-taste-frontend` | 8 | awwwards-gsap-motion, editorial-minimalism-ui, full-output-enforcement, industrial-brutalist-ui, redesign-existing-projects, soft-premium-ui, static-site-patterns, stitch |
 | `mattpocock-code-review` | 8 | mattpocock-diagnosing-bugs, mattpocock-evidence-driven, mattpocock-multi-agent-code-review, mattpocock-security-review, mattpocock-spec-driven-development, mattpocock-tdd, mattpocock-to-tickets, receiving-code-review |
 | `plan` | 8 | brainstorming, hermes-agent-skill-authoring, requesting-code-review, research-paper-writing, simplify-code, spike, systematic-debugging, test-driven-development |
 | `architecture-diagram` | 7 | claude-design, design-md, diagram-design, excalidraw, popular-web-designs, pretext, sketch |
 | `arxiv` | 7 | grounded-citations, literature-review, llm-wiki, mattpocock-research, pubmed-database, qmd, research-paper-writing |
-| `claude-design` | 7 | design-md, frontend-design, popular-web-designs, pretext, sketch, songwriting-and-ai-music, teach |
 | `github-auth` | 7 | github-code-review, github-issues, github-pr-workflow, github-repo-management, mattpocock-gh-fix-ci, mattpocock-yeet, wizard |
 | `mattpocock-domain-modeling` | 7 | issue-triage-state-machine, living-docs-governance, mattpocock-handoff, mattpocock-improve-codebase-architecture, mattpocock-spec-driven-development, mattpocock-to-tickets, mattpocock-writing-for-agents |
 | `mattpocock-subagent-driven-development` | 7 | mattpocock-to-tickets, plan, requesting-code-review, research-paper-writing, spike, systematic-debugging, test-driven-development |
@@ -55,7 +56,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `codex` | 3 | claude-code, hermes-agent, opencode |
 | `comfyui` | 3 | baoyu-infographic, songsee, songwriting-and-ai-music |
 | `conversation-to-spec` | 3 | brainstorming, grilling-interview, skill-flow-router |
-| `design-taste-frontend` | 3 | full-output-enforcement, redesign-existing-projects, static-site-patterns |
+| `design-md` | 3 | claude-design, popular-web-designs, stitch |
 | `findmy` | 3 | apple-reminders, imessage, maps |
 | `huggingface-hub` | 3 | huggingface-trackio, llama-cpp, weights-and-biases |
 | `huggingface-trackio` | 3 | huggingface-hub, python-data-science, weights-and-biases |
@@ -75,7 +76,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `ascii-art` | 2 | ascii-video, pretext |
 | `autonomous-repo-cronjob` | 2 | mattpocock-using-git-worktrees, mattpocock-yeet |
 | `codebase-onboarding` | 2 | living-docs-governance, repowise |
-| `design-md` | 2 | claude-design, popular-web-designs |
 | `docker-containers` | 2 | rest-api-client, ssh-remote |
 | `document-to-action-items` | 2 | decision-questionnaire, meeting-action-items |
 | `dogfood` | 2 | adversarial-ux-test, inspecting-hermes-desktop-dom |
@@ -109,6 +109,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 The following 1 skills have no `related_skills` entries of their own (they do not reference other skills). These are genuinely standalone — no other skill references them either:
 - `xurl`
 ## Related Skills Validation
-All 456 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 185 unique skill names.
+All 470 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 190 unique skill names.
 
 ---
