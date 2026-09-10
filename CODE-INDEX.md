@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **126 code files** (29,770 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **126 code files** (29,783 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -74,7 +74,7 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 ## devops/sqlite-queries
 
 - `devops/sqlite-queries/tests/conftest.py` (test, python, 54 lines) — Shared fixtures: a small deterministic SQLite DB exercising users/orders/FKs.
-- `devops/sqlite-queries/tests/test_sqlite_queries.py` (test, python, 253 lines) — Verify the sqlite-queries skill's documented workflow against real SQLite behavior
+- `devops/sqlite-queries/tests/test_sqlite_queries.py` (test, python, 258 lines) — Verify the sqlite-queries skill's documented workflow against real SQLite behavior
 
 ## devops/watchers
 
@@ -227,7 +227,7 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `tools/gen-references-index.py` (repo tooling, python, 100 lines) — Rebuild REFERENCES-INDEX.md from every skill's references/ directory
 - `tools/gen-skills-index.py` (repo tooling, python, 159 lines) — Regenerate SKILLS-INDEX.md from live skill frontmatter (flat, grep-friendly)
 - `tools/regen-dependency-map.py` (repo tooling, python, 101 lines) — Regenerate DEPENDENCY.md from live related_skills frontmatter (same format as repo convention).
-- `tools/run-skill-tests.py` (repo tooling, python, 125 lines) — Discover and run every pytest suite that ships inside a skill, one command
+- `tools/run-skill-tests.py` (repo tooling, python, 133 lines) — Discover and run every pytest suite that ships inside a skill, one command
 - `tools/sync-hermes-skills.py` (repo tooling, python, 960 lines)
 - `tools/verify-all.py` (repo tooling, python, 128 lines) — Run every health gate in this repo and report one verdict
 
