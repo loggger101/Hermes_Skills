@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **185 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **190 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -33,15 +33,18 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `architecture-diagram` — Dark-themed SVG architecture/cloud/infra diagrams as HTML _(creative)_
 - `ascii-art` — ASCII art: pyfiglet, cowsay, boxes, image-to-ascii _(creative)_
 - `ascii-video` — ASCII video: convert video/audio to colored ASCII MP4/GIF _(creative)_
+- `awwwards-gsap-motion` — Awwwards-level GSAP motion + deterministic layout RNG _(creative)_
 - `baoyu-infographic` — Infographics: 21 layouts x 21 styles (信息图, 可视化) _(creative)_
 - `claude-design` — Design one-off HTML artifacts (landing, deck, prototype) _(creative)_
 - `comfyui` — Generate images, video, and audio via diffusion workflows _(creative)_
 - `design-md` — Author/validate/export Google's DESIGN.md token spec files _(creative)_
 - `design-taste-frontend` — Anti-slop frontend skill: brief-inferred design direction _(creative)_
 - `diagram-design` — Create 39 diagram types as standalone HTML/SVG/PNG files _(creative)_
+- `editorial-minimalism-ui` — Editorial monochrome minimalism, Notion/Linear-tier UI _(creative)_
 - `excalidraw` — Hand-drawn Excalidraw JSON diagrams (arch, flow, seq) _(creative)_
 - `full-output-enforcement` — Enforce complete output; ban placeholder patterns _(creative)_
 - `humanizer` — Humanize text: strip AI-isms and add real voice _(creative)_
+- `industrial-brutalist-ui` — Swiss-print + CRT-terminal brutalist UI engineering _(creative)_
 - `manim-video` — Manim CE animations: 3Blue1Brown math/algo videos _(creative)_
 - `mattpocock-prototype` — Build a throwaway prototype to answer a design question _(creative)_
 - `p5js` — p5.js sketches: gen art, shaders, interactive, 3D _(creative)_
@@ -50,8 +53,10 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `pygame` — Use when building or testing pygame/SDL games _(creative)_
 - `redesign-existing-projects` — Audit-first redesign of existing sites to premium quality _(creative)_
 - `sketch` — Throwaway HTML mockups: 2-3 design variants to compare _(creative)_
+- `soft-premium-ui` — $150k-agency soft UI: double-bezel cards, spring motion _(creative)_
 - `songwriting-and-ai-music` — Songwriting craft and Suno AI music prompts _(creative)_
 - `static-site-seo` — Static site SEO: JSON-LD, meta tags, analytics, CSP _(creative)_
+- `stitch` — Generate premium anti-generic DESIGN.md files for Stitch _(creative)_
 - `touchdesigner-mcp` — Control TouchDesigner via twozero MCP _(creative)_
 
 ## data-science
@@ -258,4 +263,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*185 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*190 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
