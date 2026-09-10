@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **299 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **300 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -262,6 +262,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `github/github-pr-workflow/references/ci-troubleshooting.md` — CI Troubleshooting Quick Reference
 - `github/github-pr-workflow/references/conventional-commits.md` — Conventional Commits Quick Reference
 - `github/github-pr-workflow/references/git-workflow-recipes.md` — High-value git recipes distilled from tiimgreen/github-cheat-sheet (MIT) — fixup/autosquash, PR checkout, revert
+- `github/github-pr-workflow/references/github-web-ui-tricks.md` — Verified GitHub web-UI + URL tricks from tiimgreen/github-cheat-sheet (MIT) — diff params, compare URLs, gists-as-repos, templates
 ## github/github-repo-management
 
 - `github/github-repo-management/references/github-api-cheatsheet.md` — GitHub REST API Cheatsheet

@@ -65,6 +65,9 @@ gh issue list --state open --label "bug"
 gh issue list --assignee @me
 gh issue list --search "authentication error" --state all
 gh issue view 42
+# Search qualifiers (same string works in gh and the web UI search box — verified live against rails/rails):
+gh pr list --search "is:pr is:merged status:success"     # merged PRs whose checks are green
+gh issue list --search "label:bug -label:wontfix"        # negation with a leading dash
 ```
 
 **With curl:**
@@ -293,6 +296,11 @@ Closes #42
 Fixes #42
 Resolves #42
 ```
+
+**Closing-keyword semantics (verified against current docs, 2026-09-10):**
+- Works from commit messages too — but closes **only when the commit lands on the default branch**; on a feature branch it merely *references* the issue. Open status deliberately tracks what's actually shipped.
+- Closing multiple issues requires the keyword before **each** number: `Closes #4, closes #5` ✓; `Closes #4, #5` only closes #4 (the comma-list form no longer works).
+- Cross-repo closing works: `fixes user/repo#45` in a commit message closes the issue in another repo if you have push permission there.
 
 To create a branch from an issue:
 

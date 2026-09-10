@@ -396,6 +396,7 @@ git push -u origin HEAD
 | Check out someone's PR | `gh pr checkout N` | `git fetch origin pull/N/head:pr-N && git checkout pr-N` |
 
 ## References (verified detail lives here)
-- `references/git-workflow-recipes.md` — high-value recipes distilled from github-cheat-sheet (MIT): fixup+autosquash, PR checkout refspecs, safe revert of merged PRs (`git revert -m 1 <merge-sha>`), bulk-stage deletions; Windows/OneDrive index-churn notes for this machine.
+- `references/git-workflow-recipes.md` — high-value recipes distilled from github-cheat-sheet (MIT): fixup+autosquash, PR checkout refspecs, safe revert of merged PRs (`git revert -m 1 <merge-sha>`), bulk-stage deletions; plus commit-message search (`git show :/query`), boolean `git grep`, branch --merged/--no-merged, empty commits, verified aliases. Windows/OneDrive index-churn notes for this machine.
+- `references/github-web-ui-tricks.md` — the cheat sheet's GitHub.com half, re-verified live 2026-09-10: diff URL params (`?w=1`, `?ts=N`), compare URLs incl. time travel + cross-fork, gists-as-repos, `.keys`/`.png` endpoints, current keyboard shortcuts, closing-keyword gotchas, search qualifiers; stale items flagged (git.io creation dead, hub in maintenance).
 - `references/ci-troubleshooting.md` — CI failure triage patterns (gh + curl fallbacks).
 - `references/conventional-commits.md` — commit message conventions used by the automation commits in this repo.
