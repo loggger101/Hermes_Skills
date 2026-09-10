@@ -76,7 +76,7 @@ def discover_suites() -> list[tuple[str, Path]]:
 
 def run_suite(label: str, tests_dir: Path) -> tuple[str, bool, str]:
     proc = subprocess.run(
-        [PY, "-m", "pytest", "--tb=short", "-q", "."],
+        [PY, "-m", "pytest", "--tb=line", "-q", "."],
         cwd=str(tests_dir), capture_output=True, text=True, timeout=900,
     )
     out = (proc.stdout or "") + "\n" + (proc.stderr or "")
@@ -84,6 +84,14 @@ def run_suite(label: str, tests_dir: Path) -> tuple[str, bool, str]:
     # printed bare, without === separators; fall back to a failure count if present
     m = re.search(r"^(\d+ failed(?:, \d+ (?:passed|skipped|xfailed))?|\d+ passed(?:, \d+ skipped)?) in [\d.]+s", out, re.M)
     note = (m.group(1).strip()[:140] if m else "no summary line").replace("\n", " ")
+
+    # Fail loud: on failure the runner must say WHICH tests failed — a bare
+    # "1 failed" in CI forces a log dig every time. --tb=line gives one line per
+    # FAILED test (file::test - reason); cap so one pathological suite can't flood.
+    if proc.returncode != 0:
+        failed_lines = [ln.strip() for ln in out.splitlines() if ln.startswith("FAILED ")]
+        detail = "\n".join(f"      {ln[:300]}" for ln in failed_lines[:25]) or "      (no FAILED lines parsed — see CI log)"
+        note += f"\n{detail}"
     return label, proc.returncode == 0, note
 
 
