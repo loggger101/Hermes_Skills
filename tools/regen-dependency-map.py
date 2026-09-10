@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Regenerate DEPENDENCY.md from live related_skills frontmatter (same format as repo convention)."""
-import datetime, re, sys
+import re, sys
 from pathlib import Path
 
 # --- Environment guard: a wrong interpreter must fail here, not half-run -----
@@ -90,9 +90,9 @@ else:
     lines.append(f"All {total_refs} `related_skills` references in the repository resolve to existing in-repo skills. Verified against {len(names)} unique skill names.")
 lines.append("")
 lines.append("---")
-lines.append("")
-today = datetime.date.today().isoformat()
-lines.append(f"*Last generated: {today} from live frontmatter analysis of all {len(skills)} skills.*")
+# NOTE: no generation-date stamp — it made DEPENDENCY.md non-idempotent across UTC-midnight
+# boundaries, so the drift gate failed in CI whenever a commit landed after midnight.
+# Content is fully determined by frontmatter; git history records when each version was written.
 
 _check = wants_check()
 emit(REPO / "DEPENDENCY.md", chr(10).join(lines) + chr(10),

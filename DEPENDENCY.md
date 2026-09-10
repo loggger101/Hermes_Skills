@@ -108,5 +108,3 @@ The following 1 skills have no `related_skills` entries of their own (they do no
 All 449 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 184 unique skill names.
 
 ---
-
-*Last generated: 2026-09-09 from live frontmatter analysis of all 184 skills.*

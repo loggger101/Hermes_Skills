@@ -728,7 +728,8 @@ def generate_dependency_map(repo_root: Path, dry_run: bool = False) -> dict:
             lines.append(f"All {result['total_refs']} `related_skills` references in the repository resolve to existing in-repo skills. Verified against {len(skills)} unique skill names.\n")
 
         lines.append("\n---\n")
-        lines.append(f"\n*Last generated: {datetime.now(timezone.utc).strftime('%Y-%m-%d')} from live frontmatter analysis of all {len(skills)} skills.*\n")
+        # NOTE: no generation-date stamp (see regen-dependency-map.py) — a date in the output
+# made DEPENDENCY.md non-idempotent and broke the drift gate across UTC-midnight boundaries.
 
         dep_path = repo_root / "DEPENDENCY.md"
         existing = dep_path.read_text(encoding="utf-8") if dep_path.exists() else ""
