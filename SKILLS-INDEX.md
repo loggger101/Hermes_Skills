@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **184 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **185 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -22,6 +22,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `mattpocock-resolving-merge-conflicts` — Resolve git merge conflicts by tracing each side's intent _(autonomous-ai-agents)_
 - `merge-reconciler` — Neutral third-party resolution of agent merge conflicts _(autonomous-ai-agents)_
 - `opencode` — Delegate coding to OpenCode CLI (features, PR review) _(autonomous-ai-agents)_
+- `repowise` — Index a repo once; the agent reads answers, not grep loops _(autonomous-ai-agents)_
 
 ## communication
 
@@ -257,4 +258,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*184 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*185 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*

@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [code-quality, architecture, refactoring, graph-metrics, stdlib-only]
-    related_skills: [mattpocock-improve-codebase-architecture, requesting-code-review]
+    related_skills: [mattpocock-improve-codebase-architecture, requesting-code-review, repowise]
 ---
 
 <!-- source: sentrux/sentrux docs/quality-signal-design.md (starred repo deep-dive 2026-09-05); implementation written and verified against hermes-agent (5,562 files) + synthetic cycle/dup fixtures -->
@@ -43,6 +43,8 @@ god functions without actually distributing complexity; dead/duplicate code is c
 - Before/after a refactor: compare signal + per-metric deltas (trend matters more than absolute)
 - Deciding whether an agent's iterative changes are converging or churning (signal plateau = done)
 - NOT for behavior verification (tests do that), non-Python codebases, or single-file scripts
+
+Complement: the `repowise` skill scores per-file maintainability + defect risk *with git-history inputs* and ships concrete refactoring plans; use this one for "is the architecture structurally healthy", repowise for "which files will hurt me first".
 
 ## Usage
 
