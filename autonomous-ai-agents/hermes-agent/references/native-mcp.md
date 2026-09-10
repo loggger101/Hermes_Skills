@@ -115,9 +115,13 @@ Examples:
 - Server `github`, tool `list-issues` → `mcp_github_list_issues`
 - Server `my-api`, tool `fetch.data` → `mcp_my_api_fetch_data`
 
-### Auto-Injection
+### Auto-Injection — and the allowlist caveat
 
-After discovery, MCP tools are automatically injected into all `hermes-*` platform toolsets (CLI, Discord, Telegram, etc.). This means MCP tools are available in every conversation without any additional configuration.
+MCP tools are auto-injected into platform toolsets **only when the platform has no saved `platform_toolsets.<platform>` list naming MCP servers, or its name appears in that list**. Verified against this install's source (`hermes_cli/tools_config.py::_merge_mcp_servers`): if a platform's explicit toolset list contains *any configured+enabled* MCP server names, those form an allowlist and all other configured servers are excluded for that platform; with none listed, every globally enabled server is included (on surfaces where `include_default_mcp_servers=True`, the default). The `no_mcp` sentinel in the list disables all MCP on that platform (the tools UI clears it when you save via the picker). Caveat: some internal call sites resolve toolsets with `include_default_mcp_servers=False` (api_server platform, CLI completion/summary paths) — there only explicitly listed servers count even without a saved list.
+
+So: if your agent "can't see" a newly added MCP server and another platform sees it fine — check whether this platform has a hand-saved toolset list missing the server name. Example: `platform_toolsets.cli` saved as `[terminal, web, ...]` without an MCP entry will still get all servers (no explicit names → open), but adding one server name to that same list silently drops every other configured server on cli until you add them too.
+
+The CLI flag `-t/--toolsets mcp_<server>` works the same way for one-shot runs: `hermes_cli/mcp_startup.py` derives a process-wide MCP spawn allowlist from it, so `hermes -t terminal ...` never cold-starts an MCP subprocess it can't use (`all`/`*` or empty clears the filter).
 
 ### Connection Lifecycle
 

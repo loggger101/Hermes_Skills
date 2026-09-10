@@ -16,5 +16,6 @@ Skills for spawning and orchestrating autonomous AI coding agents and multi-agen
 - [`mattpocock-resolving-merge-conflicts`](./mattpocock-resolving-merge-conflicts/SKILL.md) — Resolve git merge conflicts by tracing each side's intent
 - [`merge-reconciler`](./merge-reconciler/SKILL.md) — Neutral third-party resolution of agent merge conflicts
 - [`opencode`](./opencode/SKILL.md) — Delegate coding to OpenCode CLI (features, PR review)
+- [`repowise`](./repowise/SKILL.md) — Index a repo once; the agent reads answers, not grep loops
 
 *Regenerated from live frontmatter — keep in sync with `tools/gen-skills-index.py`.*
