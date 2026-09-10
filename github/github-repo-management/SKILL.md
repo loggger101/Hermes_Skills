@@ -512,6 +512,25 @@ for g in json.load(sys.stdin):
     print(f\"  {g['id']}  {g['description'] or '(no desc)':40}  {files}\")"
 ```
 
+**Gists are real git repositories (verified live, 2026-09-10):** `git clone https://gist.github.com/{user}/{id}` works — then commit and push to update the gist in place. Limits: all files must sit at the repo root (**no directories**), and appending `.pibb` to a gist URL returns an HTML-only embeddable version (200 OK live).
+
+## 11. Contribution Templates & Contributor UX Files
+
+Files that shape what contributors see when they open issues/PRs:
+
+| File | Placement (verified current, 2026-09-10) | Effect |
+|---|---|---|
+| `CONTRIBUTING.md` | repo root or `.github/` | GitHub shows a link to it in the issue/PR composer sidebar |
+| Issue templates | **`.github/ISSUE_TEMPLATE/*.yml\|*.yaml\|*.md`** (modern) — legacy: single `ISSUE_TEMPLATE(.md)` at root or `.github/` | Pre-populates new issues; multiple files → GitHub shows a template picker. Add `config.yml` in that dir for the "contact maintainers / about" options and to hide default forms |
+| PR templates | **`.github/PULL_REQUEST_TEMPLATE.md`** (or `/mdx`, `/txt`) — legacy: root-level file | Pre-populates every new PR body |
+
+Placement evidence: `github/docs` itself ships `.github/ISSUE_TEMPLATE/config.yml` + per-type YAML forms, and `rust-lang/rust` has the same dir (both 200 via contents API). The cheat sheet's "root or .github" wording is still technically honored for legacy single-file templates, but new repos should use the `.github/ISSUE_TEMPLATE/` directory form — it supports multiple named forms with titles/description/validation.
+
+Quick local check of what a repo offers:
+```bash
+curl -s https://api.github.com/repos/$OWNER/$REPO/issues/templates | python -c "import json,sys; print([t.get('name') for t in json.load(sys.stdin)])"
+```
+
 ## Quick Reference Table
 
 | Action | gh | git + curl |
