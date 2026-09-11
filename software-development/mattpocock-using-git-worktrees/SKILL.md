@@ -44,13 +44,22 @@ GIT_COMMON=$(cd "$(git rev-parse --git-common-dir)" 2>/dev/null && pwd -P)
 BRANCH=$(git branch --show-current)
 ```
 
-If `GIT_DIR != GIT_COMMON` (and not a submodule): You are already in a linked worktree — skip creation.
+**Submodule guard:** `GIT_DIR != GIT_COMMON` is ALSO true inside git submodules. Before concluding "already in a worktree," verify you are not in one:
 
-If `GIT_DIR == GIT_COMMON` (or in a submodule): You are in a normal repo checkout.
+```bash
+# If this returns a path, you're in a submodule, NOT a worktree — treat as normal repo
+git rev-parse --show-superproject-working-tree 2>/dev/null
+```
+
+If `GIT_DIR != GIT_COMMON` (and not a submodule): You are already in a linked worktree — skip creation. Report with branch state: on a branch -> "Already in isolated workspace at `<path>` on branch `<name>`"; detached HEAD -> "(detached HEAD, externally managed)". If the user has no declared preference yet, ask consent before creating anything new; honor any existing declared preference without asking.
+
+If `GIT_DIR == GIT_COMMON` (or in a submodule): You are in a normal repo checkout — proceed to Step 1.
 
 ### Step 1: Create Isolated Workspace
 
-Prefer your platform's native worktree tools. Fall back to `git worktree add` only when no native tool is available.
+Prefer your platform's native worktree tools (see table below). Fall back to `git worktree add` only when no native tool is available — using raw git when a native tool exists creates phantom state the harness can't see or manage (it owns placement, branching, and cleanup).
+
+**Directory selection priority:** explicit user preference > existing project-local dir (`.worktrees/` beats `worktrees/`) > default `.worktrees/` at project root.
 
 #### Git Worktree Fallback
 
@@ -59,6 +68,8 @@ mkdir -p .worktrees
 git worktree add ".worktrees/$BRANCH_NAME" -b "$BRANCH_NAME"
 cd ".worktrees/$BRANCH_NAME"
 ```
+
+**Sandbox fallback:** if `git worktree add` fails with a permission error (sandbox denial), tell the user and work in place instead — then run setup and baseline tests in the current directory.
 
 **Safety:** Verify `.worktrees/` is in `.gitignore` before creating. An unignored worktree directory commits the whole tree into the repo.
 

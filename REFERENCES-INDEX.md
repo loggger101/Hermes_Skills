@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **304 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **317 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -27,6 +27,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `autonomous-ai-agents/hermes-agent/references/cli-reference.md` — Hermes CLI Reference
 - `autonomous-ai-agents/hermes-agent/references/configuration.md` — Configuration, Toolsets & Voice
 - `autonomous-ai-agents/hermes-agent/references/contributor-guide.md` — Contributor Quick Reference
+- `autonomous-ai-agents/hermes-agent/references/cross-harness-skill-porting.md` — Cross-Harness Skill Porting — making one skill corpus auto-trigger on N agent runtimes
 - `autonomous-ai-agents/hermes-agent/references/delegate-task-concurrency-diagnosis.md` — delegate_task: diagnosing "my batch was capped"
 - `autonomous-ai-agents/hermes-agent/references/desktop-plugins.md` — Desktop App Plugins — UI Panes, Commands, Widgets
 - `autonomous-ai-agents/hermes-agent/references/native-mcp.md` — Native MCP Client
@@ -34,6 +35,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `autonomous-ai-agents/hermes-agent/references/portal-auth-for-third-party-apps.md` — Nous Portal — authenticating third-party apps against the subscription
 - `autonomous-ai-agents/hermes-agent/references/project-context-files.md` — Project Context Files
 - `autonomous-ai-agents/hermes-agent/references/providers-and-models.md` — Providers & Model Aliases
+- `autonomous-ai-agents/hermes-agent/references/python-agent-plugins.md` — Python Agent Plugins (the `~/.hermes/plugins/` system) — verified API notes
 - `autonomous-ai-agents/hermes-agent/references/security-privacy.md` — Security & Privacy Toggles
 - `autonomous-ai-agents/hermes-agent/references/slash-commands.md` — Slash Commands (In-Session)
 - `autonomous-ai-agents/hermes-agent/references/themes.md` — Themes / Skins — Author a Hermes Color Theme
@@ -271,6 +273,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `github/github-issues/references/untrusted-repo-content.md` — Threat model for gh CLI output + stale-item policy — distilled from affaan-m/ECC github-ops (MIT)
 ## github/github-pr-workflow
 
+- `github/github-pr-workflow/references/agent-contribution-guardrails.md` — Agent Contribution Guardrails (PRs from coding agents to strict repos)
 - `github/github-pr-workflow/references/ci-troubleshooting.md` — CI Troubleshooting Quick Reference
 - `github/github-pr-workflow/references/conventional-commits.md` — Conventional Commits Quick Reference
 - `github/github-pr-workflow/references/git-workflow-recipes.md` — High-value git recipes distilled from tiimgreen/github-cheat-sheet (MIT) — fixup/autosquash, PR checkout, revert
@@ -293,6 +296,11 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 ## media/youtube-content
 
 - `media/youtube-content/references/output-formats.md` — Output Format Examples
+## mlops/accelerate
+
+- `mlops/accelerate/references/custom-plugins.md` — Custom Plugins for Accelerate
+- `mlops/accelerate/references/megatron-integration.md` — Megatron Integration with Accelerate
+- `mlops/accelerate/references/performance.md` — Accelerate Performance Tuning
 ## mlops/evaluation
 
 - `mlops/evaluation/evaluating-llms-harness/references/api-evaluation.md` — API Evaluation
@@ -383,6 +391,9 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `software-development/ast-grep/references/recipes.md` — Recipes — copy-paste patterns by language
 - `software-development/ast-grep/references/sgconfig.md` — sgconfig.yml — project configuration
 - `software-development/ast-grep/references/yaml-rules.md` — YAML rule reference — atomic, relational, composite, transform, fix
+## software-development/conversation-to-spec
+
+- `software-development/conversation-to-spec/references/spec-document-reviewer-prompt.md` — Spec Document Reviewer Prompt Template
 ## software-development/dogfood
 
 - `software-development/dogfood/references/issue-taxonomy.md` — Issue Taxonomy
@@ -401,6 +412,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 ## software-development/hermes-agent-skill-authoring
 
 - `software-development/hermes-agent-skill-authoring/references/audit-script-pattern.md` — Building Repo-Health Audit Scripts for Hermes Skill Repositories
+- `software-development/hermes-agent-skill-authoring/references/behavioral-skill-testing.md` — Behavioral Skill Testing (RED-GREEN for Discipline Skills)
 - `software-development/hermes-agent-skill-authoring/references/frontmatter-audit-pattern.md` — Frontmatter Audit Pattern
 - `software-development/hermes-agent-skill-authoring/references/related-skills-audit.md` — Auditing and Fixing `related_skills` References
 - `software-development/hermes-agent-skill-authoring/references/section-header-standardization.md` — Section Header Standardization
@@ -408,6 +420,17 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 ## software-development/mattpocock-diagnosing-bugs
 
 - `software-development/mattpocock-diagnosing-bugs/references/library-audit-methodology.md` — (no description)
+## software-development/plan
+
+- `software-development/plan/references/plan-document-reviewer-prompt.md` — Plan Document Reviewer Prompt Template
 ## software-development/python-craft
 
 - `software-development/python-craft/references/windows-path-separator-trap.md` — Windows os.path.relpath yields backslashes; cross-platform path-string comparison fails silently.
+## software-development/systematic-debugging
+
+- `software-development/systematic-debugging/references/condition-based-waiting.md` — Condition-Based Waiting (Replace Arbitrary Timeouts)
+- `software-development/systematic-debugging/references/defense-in-depth.md` — Defense in Depth (Make the Bug Structurally Impossible)
+- `software-development/systematic-debugging/references/root-cause-tracing.md` — Root-Cause Tracing (Trace Backward to the Original Trigger)
+## software-development/test-driven-development
+
+- `software-development/test-driven-development/references/writing-good-tests.md` — Writing Good Tests (Honest-Test Discipline)

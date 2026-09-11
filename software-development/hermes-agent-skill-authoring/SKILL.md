@@ -150,6 +150,8 @@ A skill exists to make the agent's process more predictable — the agent reliab
 4. **Co-locate rules with the concept they govern.**
 5. **Use strong leading words** ("tight loop," "root cause," "regression test") over long repeated explanations.
 6. **Prune duplication and no-ops.** "Be careful" and "use best practices" don't change model behavior — replace with a checkable criterion or delete.
+7. **Match the form to the failure mode** (measured, not stylistic): discipline violations under pressure -> prohibition + rationalization table; wrong-shaped output -> positive recipe stating what the output IS ("your dispatch should contain: 1..5") — composition prohibitions backfire WORSE than no guidance when the model has a competing incentive for the forbidden act. See `references/behavioral-skill-testing.md`.
+8. **Description = trigger contract.** Even within this repo's short-description convention, describe WHEN to load (symptoms/situations), never summarize the workflow — agents follow description summaries instead of reading the body (empirically observed upstream: a "code review between tasks" summary produced ONE review where the skill mandates two).
 
 ## Tests and Docs (required for repo skills)
 

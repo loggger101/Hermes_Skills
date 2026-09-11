@@ -166,7 +166,7 @@ THEN investigate that specific component.
 - Where does the bad value originate?
 - What called this function with the bad value?
 - Keep tracing upstream until you find the source
-- Fix at the source, not at the symptom
+- Fix at the source, not at the symptom — see `references/root-cause-tracing.md` for the 5-step backward trace (observe symptom -> immediate cause -> caller chain -> keep asking "what value was passed?" -> original trigger), stack-trace instrumentation patterns, and a worked example.
 
 **Action:** Use `search_files` to trace references:
 
@@ -323,6 +323,15 @@ pytest tests/ -q
 This is NOT a failed hypothesis — this is a wrong architecture.
 
 ---
+
+## Supporting Techniques (references/)
+
+Loaded on demand, each from a real failure session:
+
+- **`references/root-cause-tracing.md`** — trace bugs backward through the call stack to find the original trigger; 5-step process + instrumentation patterns + worked example. Use when the error is deep in the stack and you don't know where the bad value came from.
+- **`scripts/find_polluter.sh`** — finds *which test* creates an unwanted file/state (e.g., `.git` appearing inside source): `./find_polluter.sh '.git' 'tests/**/*.py' [runner]`. Runs tests one-by-one with a pre-run pollution check so attribution stays correct; exit 1 = polluter found.
+- **`references/defense-in-depth.md`** — after fixing at the root, add validation at every layer data passes through (entry / business logic / environment guard / instrumentation) to make the bug structurally impossible. A single check is a fix; layered checks are an invariant.
+- **`references/condition-based-waiting.md`** — replace arbitrary sleeps with condition polling (`wait_for(condition, description)`). Use for flaky timing tests: pass rate 60% -> 100%, ~40% faster in the upstream session that motivated it. Exception: timed-behavior tests (debounce/tick) may sleep a *derived* duration after waiting for the trigger — with a comment explaining why.
 
 ## Red Flags — STOP and Follow Process
 

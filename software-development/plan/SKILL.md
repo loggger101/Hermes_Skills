@@ -132,7 +132,7 @@ Every plan MUST start with:
 ```markdown
 # [Feature Name] Implementation Plan
 
-> **For Hermes:** Use subagent-driven-development skill to implement this plan task-by-task.
+> **For Hermes:** Use subagent-driven-development skill to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** [One sentence describing what this builds]
 
@@ -140,8 +140,26 @@ Every plan MUST start with:
 
 **Tech Stack:** [Key technologies/libraries]
 
+**Spec:** [path to the spec/design doc this plan implements — the plan argues from
+the spec, so the spec travels with it; executors read both. Omit only if no spec exists.]
+
+## Global Constraints
+
+[The project-wide requirements that bind EVERY task — version floors, dependency
+limits, naming/copy rules, exact values — one line each, copied VERBATIM from the
+spec. Every task's requirements implicitly include this section; it is how global
+rules actually reach implementers who only ever see their own task.]
+
 ---
 ```
+
+### File Structure (before defining tasks)
+
+Before drawing task boundaries, map which files will be created or modified and what each one is responsible for — decomposition decisions get locked in here. One clear responsibility per file; files that change together live together (split by responsibility, not technical layer); follow established patterns in existing codebases. Each task should then produce self-contained changes that make sense independently.
+
+### Task Right-Sizing
+
+A task is the smallest unit that carries its own test cycle and is worth a fresh reviewer's gate. Fold setup, configuration, scaffolding, and documentation steps into the task whose deliverable needs them; split only where a reviewer could meaningfully reject one task while approving its neighbor. In practice: plans written this way needed ~1 round of fixes vs 2-4 for loosely-sized controls (upstream measurement).
 
 ### Task Structure
 
@@ -156,6 +174,10 @@ Each task follows this format:
 - Create: `exact/path/to/new_file.py`
 - Modify: `exact/path/to/existing.py:45-67` (line numbers if known)
 - Test: `tests/path/to/test_file.py`
+
+**Interfaces:**
+- Consumes: [what this task uses from earlier tasks — exact signatures]
+- Produces: [what later tasks rely on — exact function names, parameter and return types. A task's implementer sees only their own task; this block is how they learn the names and types neighboring tasks use.]
 
 **Step 1: Write failing test**
 
@@ -189,6 +211,22 @@ git add tests/path/test.py src/path/file.py
 git commit -m "feat: add specific feature"
 ```
 ````
+
+### No Placeholders — plan failures, never write them
+
+- "TBD", "TODO", "implement later", "fill in details"
+- "Add appropriate error handling" / "add validation" / "handle edge cases" (without the actual code)
+- "Write tests for the above" (without actual test code)
+- "Similar to Task N" — repeat the code; an implementer may read tasks out of order
+- Steps that describe what to do without showing how (code blocks required for code steps)
+- References to types, functions, or methods not defined in any task
+
+### Self-Review Against the Spec (after writing the complete plan)
+
+A checklist you run yourself — not a subagent dispatch:
+1. **Spec coverage:** skim each requirement in the spec; can you point to a task that implements it? Add tasks for gaps.
+2. **Placeholder scan:** search your plan for every pattern above. Fix them.
+3. **Type consistency:** do names/signatures used in later tasks match what earlier tasks defined? `clear_layers()` in Task 3 but `clear_full_layers()` in Task 7 is a bug — fix inline, no re-review needed.
 
 ## Writing Process
 
@@ -324,15 +362,14 @@ git commit -m "type: description"
 
 ## Execution Handoff
 
-After saving the plan, offer the execution approach:
+After saving the plan, offer BOTH execution approaches:
 
-**"Plan complete and saved. Ready to execute using subagent-driven-development — I'll dispatch a fresh subagent per task with two-stage review (spec compliance then code quality). Shall I proceed?"**
+**"Plan complete and saved. Two options:**
+**1. Subagent-driven (recommended for independent tasks)** — fresh subagent per task with two-stage review (spec compliance then code quality), fast iteration
+**2. Inline execution** — execute in this session via executing-plans, batch work with checkpoints
+**Which approach?"**
 
-When executing, use the `subagent-driven-development` skill:
-- Fresh `delegate_task` per task with full context
-- Spec compliance review after each task
-- Code quality review after spec passes
-- Proceed only when both reviews approve
+If 1: use the `mattpocock-subagent-driven-development` skill. If 2: use the `executing-plans` skill (it reviews the plan critically first and stops at blockers rather than guessing).
 
 ## Remember
 

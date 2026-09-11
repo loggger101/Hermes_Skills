@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **126 code files** (29,784 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **127 code files** (29,864 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -208,6 +208,10 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `software-development/github/scripts/gh-env.sh` (script, bash, 66 lines) — GitHub environment detection helper for Hermes Agent skills
 - `software-development/github/scripts/git-credential-token.py` (script, python, 65 lines) — Print the first unambiguous GitHub token in a git credential-store file.
 
+## software-development/systematic-debugging
+
+- `software-development/systematic-debugging/scripts/find_polluter.sh` (script, bash, 80 lines) — Bisection-style polluter finder: which test creates unwanted files/state?
+
 ## web-development/har-derived-api-client
 
 - `web-development/har-derived-api-client/scripts/har_capture.py` (script, python, 72 lines) — Record a HAR file while driving a website with Playwright
@@ -232,4 +236,4 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `tools/verify-all.py` (repo tooling, python, 128 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*126 code files: 87 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*127 code files: 88 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
