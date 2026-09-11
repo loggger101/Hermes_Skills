@@ -13,9 +13,12 @@ Development tools and coding workflows.
 - [`code-wiki`](./code-wiki/SKILL.md) — Generate wiki docs + Mermaid diagrams for any codebase
 - [`codebase-onboarding`](./codebase-onboarding/SKILL.md) — Onboard to a new repo: arch map + starter AGENTS.md
 - [`conversation-to-spec`](./conversation-to-spec/SKILL.md) — Turn a conversation into a publishable spec
+- [`dispatching-parallel-agents`](./dispatching-parallel-agents/SKILL.md) — Parallel subagents for independent problem domains
 - [`dogfood`](./dogfood/SKILL.md) — Exploratory QA of web apps: find bugs, evidence, reports
+- [`executing-plans`](./executing-plans/SKILL.md) — Execute a written plan inline with checkpoints
 - [`generating-python-installer`](./generating-python-installer/SKILL.md) — Nuitka + Inno Setup: smallest, fastest Windows installers
 - [`github`](./github/SKILL.md) — GitHub via gh CLI: PRs, issues, reviews, repos, auth
+- [`grill-me`](./grill-me/SKILL.md) — Adversarial plan interview before implementation
 - [`grilling-interview`](./grilling-interview/SKILL.md) — Stress-test a plan by interviewing in design-tree rounds
 - [`hermes-agent-skill-authoring`](./hermes-agent-skill-authoring/SKILL.md) — Author in-repo SKILL.md files: frontmatter and structure
 - [`inspecting-hermes-desktop-dom`](./inspecting-hermes-desktop-dom/SKILL.md) — Read the live Hermes desktop DOM/CSS over CDP

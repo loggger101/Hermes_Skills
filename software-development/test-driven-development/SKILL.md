@@ -274,6 +274,7 @@ If you catch yourself doing any of these, delete the code and restart with TDD:
 - Rationalizing "just this once"
 - "I already manually tested it"
 - "Tests after achieve the same purpose"
+- "It's about spirit not ritual"
 - "Keep as reference" or "adapt existing code"
 - "Already spent X hours, deleting is wasteful"
 - "TDD is dogmatic, I'm being pragmatic"
@@ -357,6 +358,8 @@ Never fix bugs without a test.
 - **Testing implementation details** — test behavior/results, not internal method calls
 - **Happy path only** — always test edge cases, errors, and boundaries
 - **Brittle tests** — tests should verify behavior, not structure; refactoring shouldn't break them
+
+When writing or changing any test (or adding mocks), read `references/writing-good-tests.md` for the rules that keep individual tests honest: name the production change each test would catch, derive expectations independently of the code under test, mock only at the slow/external level, and finish with a mutation check.
 
 ## Final Rule
 

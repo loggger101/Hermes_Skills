@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **190 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **195 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -12,6 +12,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 
 ## autonomous-ai-agents
 
+- `agent-merge-conflict-arbiter` — Neutral arbiter for merge conflicts between two agents _(autonomous-ai-agents)_
 - `autonomous-repo-cronjob` — Write self-contained cronjob prompts for existing repos _(autonomous-ai-agents)_
 - `claude-code` — Delegate coding to Claude Code CLI (features, PRs) _(autonomous-ai-agents)_
 - `codex` — Delegate coding to OpenAI Codex CLI (features, PRs) _(autonomous-ai-agents)_
@@ -137,6 +138,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 
 ## mlops
 
+- `accelerate` — Run PyTorch training across GPUs with minimal changes _(mlops)_
 - `evaluating-llms-harness` — lm-eval-harness: benchmark LLMs (MMLU, GSM8K, etc.) _(mlops)_
 - `huggingface-hub` — HuggingFace hf CLI: search/download/upload models _(mlops)_
 - `llama-cpp` — llama.cpp local GGUF inference + HF Hub model discovery _(mlops)_
@@ -214,9 +216,12 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `code-wiki` — Generate wiki docs + Mermaid diagrams for any codebase _(software-development)_
 - `codebase-onboarding` — Onboard to a new repo: arch map + starter AGENTS.md _(software-development)_
 - `conversation-to-spec` — Turn a conversation into a publishable spec _(software-development)_
+- `dispatching-parallel-agents` — Parallel subagents for independent problem domains _(software-development)_
 - `dogfood` — Exploratory QA of web apps: find bugs, evidence, reports _(software-development)_
+- `executing-plans` — Execute a written plan inline with checkpoints _(software-development)_
 - `generating-python-installer` — Nuitka + Inno Setup: smallest, fastest Windows installers _(software-development)_
 - `github` — GitHub via gh CLI: PRs, issues, reviews, repos, auth _(software-development)_
+- `grill-me` — Adversarial plan interview before implementation _(software-development)_
 - `grilling-interview` — Stress-test a plan by interviewing in design-tree rounds _(software-development)_
 - `hermes-agent-skill-authoring` — Author in-repo SKILL.md files: frontmatter and structure _(software-development)_
 - `inspecting-hermes-desktop-dom` — Read the live Hermes desktop DOM/CSS over CDP _(software-development)_
@@ -263,4 +268,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*190 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*195 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*

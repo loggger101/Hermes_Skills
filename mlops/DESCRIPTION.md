@@ -6,6 +6,7 @@ description: Knowledge and Tools for Machine Learning Operations - tools and fra
 
 Knowledge and Tools for Machine Learning Operations - tools and frameworks for training, fine-tuning, deploying, and optimizing ML/AI models.
 
+- [`accelerate`](./accelerate/SKILL.md) — Run PyTorch training across GPUs with minimal changes
 - [`huggingface-hub`](./huggingface-hub/SKILL.md) — HuggingFace hf CLI: search/download/upload models
 - [`evaluating-llms-harness`](./evaluation/evaluating-llms-harness/SKILL.md) — lm-eval-harness: benchmark LLMs (MMLU, GSM8K, etc.)
 - [`weights-and-biases`](./evaluation/weights-and-biases/SKILL.md) — W&B: log ML experiments, sweeps, registry, dashboards

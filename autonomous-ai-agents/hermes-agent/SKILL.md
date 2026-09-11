@@ -108,6 +108,8 @@ Profiles use `~/.hermes/profiles/<name>/` with the same layout. When a profile i
 | Webhook routes and event-driven runs | `references/webhooks.md` |
 | A custom theme/skin ("synthwave theme", "change the gold ●") | `references/themes.md` + `templates/skin.yaml` |
 | A desktop app UI element (pane, widget, ⌘K command, page) | `references/desktop-plugins.md` + `templates/plugin.js` |
+| Python agent plugin (`~/.hermes/plugins/`, register_skill/pre_llm_call hooks, skill bootstrap injection) | `references/python-agent-plugins.md` |
+| Porting skills/context to another harness (Claude Code/Codex/Gemini/OpenCode/pi), session-start hooks, polyglot Windows scripts | `references/cross-harness-skill-porting.md` |
 | A live TUI panel or modal widget (ticker, clock, dashboard) | `references/tui-widgets.md` + `templates/clock.mjs` |
 | Pet mascots — install, select, scale, diagnose | `references/petdex.md` |
 | Windows-specific issues (keybinds, WinError 10106, BOM) | `references/windows-quirks.md` |

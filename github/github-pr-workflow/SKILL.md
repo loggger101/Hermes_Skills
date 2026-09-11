@@ -400,3 +400,4 @@ git push -u origin HEAD
 - `references/github-web-ui-tricks.md` — the cheat sheet's GitHub.com half, re-verified live 2026-09-10: diff URL params (`?w=1`, `?ts=N`), compare URLs incl. time travel + cross-fork, gists-as-repos, `.keys`/`.png` endpoints, current keyboard shortcuts, closing-keyword gotchas, search qualifiers; stale items flagged (git.io creation dead, hub in maintenance).
 - `references/ci-troubleshooting.md` — CI failure triage patterns (gh + curl fallbacks).
 - `references/conventional-commits.md` — commit message conventions used by the automation commits in this repo.
+- `references/agent-contribution-guardrails.md` — pre-flight checks for agent-opened PRs against strict external repos (distilled from obra/superpowers' 94%-rejection-rate contributor rules): template completeness, open+closed duplicate search, real-problem evidence, core-belonging check, authorship disclosure, human diff approval; new-integration acceptance-test standard.

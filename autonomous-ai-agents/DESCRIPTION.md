@@ -6,6 +6,7 @@ description: Skills for spawning and orchestrating autonomous AI coding agents a
 
 Skills for spawning and orchestrating autonomous AI coding agents and multi-agent workflows — running independent agent processes, delegating tasks, and coordinating parallel workstreams.
 
+- [`agent-merge-conflict-arbiter`](./agent-merge-conflict-arbiter/SKILL.md) — Neutral arbiter for merge conflicts between two agents
 - [`autonomous-repo-cronjob`](./autonomous-repo-cronjob/SKILL.md) — Write self-contained cronjob prompts for existing repos
 - [`claude-code`](./claude-code/SKILL.md) — Delegate coding to Claude Code CLI (features, PRs)
 - [`codex`](./codex/SKILL.md) — Delegate coding to OpenAI Codex CLI (features, PRs)

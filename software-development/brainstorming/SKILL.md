@@ -72,13 +72,16 @@ Classify first, announce the path, then work through each item in order.
 
 **Architectural:**
 1. **Explore project context** — check files, docs, recent commits.
-2. **Ask clarifying questions** — one at a time; understand purpose, constraints, success criteria.
-3. **Propose 2–3 approaches** — with trade-offs and your recommendation.
-4. **Present design in sections** scaled to their complexity; get approval after each section. If a question would be clearer shown than described (a layout, a diagram), offer a visual mockup then rather than upfront.
-5. **Write the spec** — save under `docs/specs/YYYY-MM-DD-<topic>-design.md` and commit.
-6. **Spec self-review** — quick inline check for placeholders, contradictions, ambiguity, scope creep.
-7. **User reviews written spec** — ask before proceeding.
-8. **Transition to implementation** — create the plan (see `plan`) with tracer-bullet steps if the work spans sessions.
+2. **Scope check BEFORE detailed questions** — if the request describes multiple independent subsystems ("build a platform with chat, file storage, billing, and analytics"), flag it immediately; don't spend questions refining details of something that needs decomposition first. Help decompose into sub-projects (independent pieces, how they relate, build order); each sub-project gets its own spec -> plan -> implementation cycle.
+3. **Ask clarifying questions** — one at a time; understand purpose, constraints, success criteria.
+4. **Propose 2–3 approaches** — with trade-offs and your recommendation (lead with the recommended option). YAGNI ruthlessly: remove unnecessary features from every approach.
+5. **Present design in sections** scaled to their complexity; get approval after each section. If a question would be clearer shown than described (a layout, a diagram), offer a visual mockup then rather than upfront. Cover architecture, components, data flow, error handling, testing.
+6. **Design for isolation and clarity** — break the system into smaller units that each have one clear purpose, communicate through well-defined interfaces, and can be understood/tested independently; per unit you should be able to answer: what does it do, how is it used, what does it depend on? A file growing large is usually a signal it's doing too much.
+7. **Working in existing codebases** — explore the current structure first; follow established patterns. Where existing problems affect THIS work (a file grown unwieldy, tangled responsibilities), include targeted improvements as part of the design — but no unrelated refactoring.
+8. **Write the spec** — save under `docs/specs/YYYY-MM-DD-<topic>-design.md` and commit.
+9. **Spec self-review** — quick inline check for placeholders, contradictions, ambiguity, scope creep; fix issues inline (no re-review loop). Optionally dispatch a calibrated subagent review (`conversation-to-spec/references/spec-document-reviewer-prompt.md`) with the rule: only flag gaps that would cause real problems during planning.
+10. **User reviews written spec** — ask before proceeding.
+11. **Transition to implementation** — create the plan (see `plan`); do NOT invoke any other skill in between.
 
 ## Process Flow
 
