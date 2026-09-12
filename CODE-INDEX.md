@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **127 code files** (29,864 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **128 code files** (30,349 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -189,6 +189,10 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 
 - `security/oss-forensics/scripts/evidence-store.py` (script, python, 313 lines)
 
+## software-development/architecture-metrics
+
+- `software-development/architecture-metrics/scripts/architecture_metrics.py` (script, python, 485 lines) — Architecture metrics: levels, violations, blast radius, A/I/D distance,
+
 ## software-development/ast-grep
 
 - `software-development/ast-grep/install.sh` (script, bash, 286 lines) — install.sh - install the ast-grep binary on POSIX systems (macOS, Linux, WSL, Git Bash)
@@ -236,4 +240,4 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `tools/verify-all.py` (repo tooling, python, 128 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*127 code files: 88 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*128 code files: 89 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*

@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **317 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **318 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -382,6 +382,9 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 
 - `security/semgrep-rule-creator/references/quick-reference.md` — Semgrep Rule Quick Reference
 - `security/semgrep-rule-creator/references/workflow.md` — Semgrep Rule Creation Workflow
+## software-development/architecture-metrics
+
+- `software-development/architecture-metrics/references/sentrux-architecture-notes.md` — Sentrux Architecture Notes (source-level findings)
 ## software-development/ast-grep
 
 - `software-development/ast-grep/references/cli.md` — CLI reference — `sg` / `ast-grep`
