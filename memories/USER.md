@@ -1,6 +1,6 @@
 Security rule: never preserve API keys/tokens/passwords/credentials — replace with [REDACTED]. Cronjob delivery: deliver='all' broadcasts to all bot platforms; deliver='origin' sends back to chat (requires Hermes gateway running).
 §
-Works on Hermes_Skills repo (167 skills / 23 categories; flat docs/ layer dissolved into owning skills' references/, docs/ = pointer index + archive) and aspirecures repo at C:/Users/Owner/OneDrive/Documents/GitHub/. Windows 11 with core.autocrlf=true + .gitattributes text=auto. Second brain should hold general programming knowledge & use-case docs, not just skills.
+Works on Hermes_Skills repo (as of round-12 @ HEAD 9009836: 196 skills / 23 categories; flat docs/ layer dissolved into owning skills' references/, docs/ = pointer index + archive) and aspirecures repo at C:/Users/Owner/OneDrive/Documents/GitHub/. Windows 11 with core.autocrlf=true + .gitattributes text=auto. Second brain should hold general programming knowledge & use-case docs, not just skills — mine starred repos to exhaustion across multiple passes (skills AND runnable scripts AND reference-docs layer), never stop at the first pass; state completion explicitly when a repo is exhausted rather than manufacturing padding work.
 §
 Prefers perfect/foolproof autonomous solutions. Triple-checks deliverables: (1) git pushed & 0 ahead/behind, (2) working tree clean, (3) no temp files, (4) no accidental deletions, (5) audit passes.
 §
