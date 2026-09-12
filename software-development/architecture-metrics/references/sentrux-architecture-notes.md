@@ -1,10 +1,12 @@
 # Sentrux Architecture Notes (source-level findings)
 
-Deep-dive of `sentrux/sentrux` (MIT, 318 commits at clone time 2026-09-11, ~34k lines of Rust).
+Deep-dive of `sentrux/sentrux` (MIT, 318+ commits at clone times 2026-09-11/12, ~34k lines of Rust).
 Sentrux = "real-time architectural sensor for AI agents": scan → score → agent improves → rescan.
 The `code-quality-signal` skill already ports its 5-metric quality signal; this file holds the
 rest — patterns and formulas worth reusing even without the binary (which is Rust + tree-sitter,
-not pip-installable on arbitrary machines).
+not pip-installable on arbitrary machines). Second-pass additions (2026-09-12): mod-declaration edge
+filter (§3), git-walker skip rules (§5), exact ArchDiff gate rules + incremental rescan design + CI
+grammar-bundle pattern (§7, 7b, 7c) — the rest came from the first pass (2026-09-11).
 
 ## 1. Import resolution: suffix-index architecture (`analysis/resolver/suffix.rs`, ~1100 lines)
 
@@ -70,6 +72,14 @@ Parse results cached in an LRU keyed by content hash (2000 entries) — rescan o
 - **Kosaraju SCC** (iterative, O(V+E), no stack overflow): pass 1 DFS finish-order on forward
   graph; pass 2 DFS on reverse graph in *reverse* finish order. Computed ONCE and shared by both
   levelization and violation detection (`_with_sccs` variants) — don't recompute SCC per metric.
+- **Mod-declaration edge filter** (`metrics/types.rs::is_mod_declaration_edge`, applied to the raw
+  graph BEFORE any metric): edges FROM a mod-declaration file (Rust `mod.rs`/`lib.rs`, Python
+  `__init__.py` — list from lang_registry) TO (a) the same directory, or (b) exactly one level down
+  (direct child subdir), are package structure / barrel re-exports, not functional dependencies.
+  Guards: both dirs must be non-empty (root-level files would false-positive; also prevents a
+  workspace `crates/foo/src/lib.rs` with empty from_dir matching any to_dir). Without this filter,
+  every Python project's coupling/cycles/depth metrics count the package skeleton itself — barrel
+  re-exports inflate fan-out and can manufacture whole cycles between sibling subpackages.
 - **Levelization (Lakos)**: Kahn topological sort on the SCC DAG, leaves first (no outgoing deps =
   level 0), propagate `max(child)+1`. All cycle members share one level.
 - **Upward violations**: cross-level edges where from_level < to_level are rare by construction;
@@ -106,10 +116,19 @@ Per module (directory): A = abstract_types/total_types, I = Ce/(Ca+Ce), D = |A +
   get per-file modules. Documented bug fix: root-level file `src/app.rs` used to be treated as same-module
   with ALL subdirs of src — masking real coupling. Now strict equality.
 
-## 5. Git evolution metrics (`metrics/evo/mod.rs`, git2 log walk, no shell-out)
+## 5. Git evolution metrics (`metrics/evo/mod.rs`, `git_walker.rs` — git2 log walk, no shell-out)
 
 Constants from source: default lookback **90 days**; min co-change count for a reported pair = **3**.
-- **Churn**: per file over window — commit_count, lines_added/removed, total (saturating add to avoid u32 overflow on high-churn files).
+**Walker skip rules** (`git_walker.rs`) — the difference between plausible and garbage numbers:
+- **Merge commits skipped**: they re-list every changed file of both branches, double-counting churn.
+  Detected via parent count >1 (libgit2 `commit.parent_count()`; CLI equivalent: `rev-list --parents`).
+- **Mega-commits (>50 files) skipped**: vendored deps / generated code / bulk renames add noise that
+  drowns out real coupling signal in co-change pairs.
+- **Renames excluded** (`--no-renames`): a rename is not churn; counting it as delete+add corrupts both
+  per-file churn and the "oldest file" age metric (the new path looks brand-new).
+
+Formulas:
+- **Churn**: per file over window — commit_count, lines_added/removed, total (saturating add in Rust to avoid u32 overflow on high-churn files; plain ints fine in Python). Binary numstat entries (`-\t-\tpath`) count as touched with zero churn.
 - **Change coupling** (logical coupling): pairs of files changed in the same commits; strength = Jaccard `co_changes / (changes_a + changes_b − co_changes)`. Sorted by strength desc with deterministic tiebreaker (HashMap iteration order previously made output non-deterministic under par_iter — always sort with a total order).
 - **Temporal hotspots**: risk = churn_count × max_complexity_in_file. Theory: Nagappan & Ball 2005 (churn×complexity predicts defect density), Gall et al. 1998 for change coupling, Ricca et al. 2011 for bus factor.
 - **Bus factor**: per-file author distribution; primary_ratio = fraction of commits by the top author; score = 1 − single_author_file_ratio (files with exactly one distinct author).
@@ -147,11 +166,35 @@ to = "src/core/internal/*"
 reason = "App must not depend on core internals"
 ```
 
-CI contract: `sentrux check .` exits 0/1. **Quality gate**: `.sentrux/baseline.json` saved before an
-agent session (`gate --save`), compared after (`gate`) — degraded if quality_signal dropped by more
-than 0.02 OR any tracked metric (coupling, cycles, god files) regressed; prints per-violation lines.
+CI contract: `sentrux check .` exits 0/1. **Quality gate** (exact rules from `ArchBaseline::diff`,
+`metrics/arch/mod.rs`): baseline JSON stores quality_signal, coupling_score, cycle_count, god_file_count,
+hotspot_count, complex_fn_count (CC>15), max_depth, total/cross-module edge counts + timestamp. Diff:
+- signal_delta < **−0.02** ⇒ "Quality signal dropped" violation
+- coupling_after > before + **0.05** ⇒ "Coupling degraded"
+- cycles / god files / complex functions increased by ANY amount ⇒ violation (no epsilon — any new cycle is a regression)
+- `degraded = signal drop OR violations non-empty`; each violation printed as its own line
+
 This is the pattern to copy for agent governance without sentrux: snapshot N cheap metrics before a
-session, diff after, fail on regression — it's exactly what `code-quality-signal --json` + jq can do.
+session, diff after with per-metric rules (continuous scores get epsilons; integer counts don't), fail on regression.
+Implemented here as `scripts/session_gate.py` (same rule shape, 0–100 signal scale ⇒ drop threshold 2 pts).
+
+## 7b. Incremental rescan design (`analysis/scanner/rescan.rs`) — why rescans are millisecond-fast
+
+Full scan only on first pass; afterwards a per-file incremental pipeline:
+- **Body-hash cache**: each file's parse result (imports, functions, classes) is cached keyed by the
+  hash of its content. On rescan, changed files are re-parsed; unchanged files hit the cache — no AST work.
+- The graph is then rebuilt from the *cached per-file import lists* (cheap set assembly), and only
+  metrics whose inputs actually changed are recomputed. File-set changes (add/delete) trigger a full
+  rebuild of affected structures, not a whole-project re-parse.
+- Consequence for tool design: any "live sensor" pattern needs exactly two pieces — content-hash-keyed
+  per-file parse cache + graph assembly as a pure function of the cached lists. Everything else is derived state.
+
+## 7c. CI grammar-bundle pattern (`.github/workflows/ci.yml`)
+
+tree-sitter grammars are compiled ONCE into a shared bundle artifact and consumed by all test jobs
+instead of re-downloading/re-building per job — the standard "expensive setup as reusable artifact"
+CI move, worth copying for any multi-language pipeline. Their CI also runs plugin validation fixtures
+per language (`plugin validate`), i.e. each language's correctness is a first-class tested contract.
 
 ## 8. What-if simulation (`metrics/whatif/mod.rs`)
 

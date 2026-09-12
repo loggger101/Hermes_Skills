@@ -46,6 +46,31 @@ def module_name(p, root):
     return ".".join(parts) if parts else ""
 
 
+def is_mod_declaration_edge(from_path: str, to_path: str) -> bool:
+    """Structural-containment edge filter (sentrux parity).
+
+    Edges FROM a mod-declaration file (__init__.py in Python; mod.rs/lib.rs in
+    Rust) TO the same directory or a DIRECT child subdirectory are package
+    structure, not functional dependencies — filtering them keeps coupling /
+    cycles / depth from counting barrel re-exports as real edges. Guards: both
+    dirs must be non-empty (root-level files would false-positive), and the
+    parent→child case requires exactly one deeper level."""
+    fp = from_path.replace("\\", "/")
+    tp = to_path.replace("\\", "/")
+    if not (fp.endswith("/__init__.py") or fp == "__init__.py"):
+        return False
+    from_dir = fp.rsplit("/", 1)[0] if "/" in fp else ""
+    to_dir = tp.rsplit("/", 1)[0] if "/" in tp else ""
+    if not from_dir:
+        return False
+    if from_dir == to_dir:
+        return True
+    if to_dir.startswith(from_dir + "/"):
+        remainder = to_dir[len(from_dir) + 1:]
+        return "/" not in remainder
+    return False
+
+
 def build_graph(files, root):
     mods = {}
     for p, _ in files:
@@ -95,19 +120,27 @@ def build_graph(files, root):
                     sub = resolve(dotted + "." + a.name)
                     if sub and sub != m:
                         edges.add((m, sub))
+    # sentrux parity: drop structural-containment edges (barrel re-exports from
+    # __init__.py into the same dir / direct child subdir) — they are package
+    # structure, not functional dependencies.
+    edges = {(s, d) for s, d in edges
+             if not is_mod_declaration_edge(mods.get(s, ""), mods.get(d, ""))}
     return nodes, edges, cache
 
 
-def compute_levels(edges):
-    """Kahn on SCC DAG; returns ({node: level}, max_level)."""
+def strongly_connected_components(edges):
+    """Iterative Kosaraju over import edges -> (comps: [set], comp_id_of: {node: id}).
+
+    Shared by levelization, violation detection and cycle counting — one SCC pass
+    instead of three copies of the same traversal."""
     if not edges:
-        return {}, 0
+        return [], {}
     nodes = {x for e in edges for x in e}
-    adj = defaultdict(set)
+    adj, rev = defaultdict(set), defaultdict(set)
     for s, d in edges:
         adj[s].add(d)
+        rev[d].add(s)
 
-    # Kosaraju (iterative)
     visited, finish = set(), []
     for start in sorted(nodes):
         if start in visited:
@@ -127,25 +160,31 @@ def compute_levels(edges):
                 finish.append(v)
                 stack.pop()
 
-    rev = defaultdict(set)
-    for s, d in edges:
-        rev[d].add(s)
-    seen2, scc_id, sccs_list = set(), {}, []
+    seen2, comp_id_of, comps = set(), {}, []
     for start in reversed(finish):
         if start in seen2:
             continue
-        sid = len(sccs_list)
-        comp_set, stack = {start}, [start]
+        sid = len(comps)
+        cs, stack = {start}, [start]
         while stack:
             v = stack.pop()
-            scc_id[v] = sid
+            comp_id_of[v] = sid
             for w in rev.get(v, ()):
-                if w not in seen2 and w not in comp_set:
-                    comp_set.add(w)
-                    scc_id[w] = sid
+                if w not in seen2 and w not in cs:
+                    cs.add(w)
+                    comp_id_of[w] = sid
                     stack.append(w)
-        seen2 |= comp_set
-        sccs_list.append(comp_set)
+        seen2 |= cs
+        comps.append(cs)
+    return comps, comp_id_of
+
+
+def compute_levels(edges):
+    """Kahn on SCC DAG; returns ({node: level}, max_level)."""
+    if not edges:
+        return {}, 0
+    nodes = {x for e in edges for x in e}
+    sccs_list, scc_id = strongly_connected_components(edges)
 
     # SCC DAG edges (deduped)
     n_scc = len(sccs_list)
@@ -177,49 +216,7 @@ def upward_violations(edges, levels):
     Intra-SCC edges ARE violations: the cycle prevents clean layering."""
     if not edges:
         return []
-    nodes = {x for e in edges for x in e}
-    sccs_of_node = {}
-    # reuse SCC membership via a quick recompute (graphs are small)
-    adj = defaultdict(set)
-    for s, d in edges:
-        adj[s].add(d)
-    visited, finish = set(), []
-    for start in sorted(nodes):
-        if start in visited:
-            continue
-        stack = [(start, iter(sorted(adj.get(start, ()))))]
-        visited.add(start)
-        while stack:
-            v, it = stack[-1]
-            advanced = False
-            for w in it:
-                if w not in visited:
-                    visited.add(w)
-                    stack.append((w, iter(sorted(adj.get(w, ())))))
-                    advanced = True
-                    break
-            if not advanced:
-                finish.append(v)
-                stack.pop()
-    rev = defaultdict(set)
-    for s, d in edges:
-        rev[d].add(s)
-    seen2, comp_id_of = set(), {}
-    comps = []
-    for start in reversed(finish):
-        if start in seen2:
-            continue
-        sid = len(comps)
-        cs, stack = {start}, [start]
-        while stack:
-            v = stack.pop()
-            comp_id_of[v] = sid
-            for w in rev.get(v, ()):
-                if w not in seen2 and w not in cs:
-                    cs.add(w)
-                    stack.append(w)
-        seen2 |= cs
-        comps.append(cs)
+    comps, comp_id_of = strongly_connected_components(edges)
 
     violations = []
     for s, d in sorted(edges):
@@ -291,6 +288,27 @@ def is_test_file(path_str):
         or name == "conftest.py"
 
 
+def _composite_signal(n_modules, n_cycles, n_violations, n_edges, god_fan_outs, max_level, coupling_score):
+    """0–100 composite quality signal (higher = healthier).
+
+    Adaptation of sentrux's root-cause weighting to this port's structural inputs:
+      25 pts acyclicity   — cyclic SCCs vs module count (full penalty at >= modules/4)
+      20 pts modularity   — god files (full penalty at >= 5)
+      25 pts coupling     — SDP bad-cross ratio, direct
+      15 pts layering     — upward-violation edges / total edges
+      15 pts depth        — max_level vs 8-level budget
+    sentrux normalizes the same idea to 0–10000 with per-language inputs; keep this
+    on a fixed scale so baseline diffs are comparable across runs."""
+    if not n_modules:
+        return 100.0
+    s = 25.0 * (1 - min(1.0, n_cycles / max(n_modules // 4, 1)))
+    s += 20.0 * (1 - min(1.0, len(god_fan_outs) / 5))
+    s += 25.0 * (1 - coupling_score)
+    s += 15.0 * (1 - min(1.0, n_violations / max(n_edges, 1)))
+    s += 15.0 * max(0.0, 1 - max_level / 8)
+    return s
+
+
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     as_json = "--json" in sys.argv
@@ -305,6 +323,8 @@ def main():
     levels, max_level = compute_levels(edges)
     violations = upward_violations(edges, levels)
     br = blast_radius(edges)
+    comps, _comp_id = strongly_connected_components(edges)
+    cyclic_sccs = [c for c in comps if len(c) > 1]
 
     # fan maps (dedup import+call — Python: imports only here)
     fan_out, fan_in = defaultdict(int), defaultdict(int)
@@ -400,10 +420,21 @@ def main():
                    for m in src_files if m not in tested_by_tests and Path(src_files[m]).name != "__init__.py"),
                   key=lambda g: -(g[2] * (g[3] + 1)))[:20]
 
+    max_cc_fns = sum(1 for m in cache for _, _, c in cyclomatic(cache[m][0]) if c > 15)
+
     result = {
         "project": str(root),
         "files": len(files), "modules": len(nodes), "edges": len(edges),
         "max_level": max_level,
+        # Composite 0–100 signal (sentrux root-cause weighting scheme adapted to
+        # this port's structural inputs; sentrux normalizes the same idea to 0–10000).
+        # Weights: cycles 25 / god files 20 / SDP coupling 25 / violations 15 / depth 15.
+        "quality_signal": round(_composite_signal(len(nodes), len(cyclic_sccs),
+                                                  len(violations), len(edges),
+                                                  [c for _, c in god_files], max_level,
+                                                  coupling_score), 2),
+        "cycle_count": len(cyclic_sccs),
+        "complex_functions_gt15": max_cc_fns,
         "upward_violations": [{"from": s, "to": d, "levels": [fl, tl]}
                               for s, d, fl, tl in violations[:20]],
         "blast_radius_top": sorted(({"file": k, "reach": v} for k, v in br.items()),
