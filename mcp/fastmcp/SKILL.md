@@ -255,6 +255,10 @@ Implementation notes:
 
 Start from `templates/file_processor.py`.
 
+### Single Registry Pattern (multi-tool servers)
+
+Use when a server grows past ~5 tools or needs per-tool gating/caching. From sentrux's MCP layer: co-locate each tool's name + description + input schema + tier/permission requirement + handler in ONE struct, registered into a single registry at startup (duplicate names fail fast). Dispatch does the uniform steps — find → permission check → cache invalidation → handler — so adding a tool is one registration and metadata can't desync across files. Pair with declarative cache flags: tools that mutate state carry an `invalidates_cache` flag instead of each handler manually clearing shared caches.
+
 ## Quality Bar
 
 Before handing off a FastMCP server, verify all of the following:

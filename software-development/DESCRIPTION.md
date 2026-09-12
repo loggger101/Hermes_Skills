@@ -6,6 +6,7 @@ description: Development tools and coding workflows.
 
 Development tools and coding workflows.
 
+- [`architecture-metrics`](./architecture-metrics/SKILL.md) — Dependency-graph architecture metrics for Python repos
 - [`ast-grep`](./ast-grep/SKILL.md) — AST-aware structural code search and rewrite via ast-grep
 - [`brainstorming`](./brainstorming/SKILL.md) — Triage as spike/bounded/architectural; approve first
 - [`cli-tool-craft`](./cli-tool-craft/SKILL.md) — CLI tools: subcommands, config validation, env substitution

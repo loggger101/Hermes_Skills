@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **195 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **196 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -209,6 +209,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 
 ## software-development
 
+- `architecture-metrics` — Dependency-graph architecture metrics for Python repos _(software-development)_
 - `ast-grep` — AST-aware structural code search and rewrite via ast-grep _(software-development)_
 - `brainstorming` — Triage as spike/bounded/architectural; approve first _(software-development)_
 - `cli-tool-craft` — CLI tools: subcommands, config validation, env substitution _(software-development)_
@@ -268,4 +269,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*195 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*196 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*

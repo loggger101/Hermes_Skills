@@ -1,6 +1,6 @@
 # Skill Dependency Map
-This document maps the relationship network between all **195 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
-**Network stats:** 484 `related_skills` cross-references across 195 skills (2 skills are standalone with no `related_skills` entries).
+This document maps the relationship network between all **196 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+**Network stats:** 488 `related_skills` cross-references across 196 skills (2 skills are standalone with no `related_skills` entries).
 ## Hub Skills (referenced by 2+ other skills)
 These are the core skills that serve as building blocks, referenced by many other skills:
 | Skill | Referenced By (count) | Referencing Skills |
@@ -42,6 +42,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `ascii-video` | 4 | manim-video, p5js, pretext, touchdesigner-mcp |
 | `hermes-agent-skill-authoring` | 4 | cron-config-authoring, doc-coauthoring, mattpocock-code-review, mattpocock-writing-for-agents |
 | `manim-video` | 4 | ascii-video, p5js, pygame, touchdesigner-mcp |
+| `mattpocock-improve-codebase-architecture` | 4 | architecture-metrics, code-quality-signal, mattpocock-codebase-design, mattpocock-domain-modeling |
 | `mattpocock-security-review` | 4 | mattpocock-evidence-driven, mattpocock-multi-agent-code-review, mattpocock-spec-driven-development, semgrep-rule-creator |
 | `mattpocock-using-git-worktrees` | 4 | executing-plans, mattpocock-evidence-driven, mattpocock-finishing-a-development-branch, mattpocock-subagent-driven-development |
 | `parallel-cli` | 4 | blocked-page-recovery, blogwatcher, competitor-news-monitor, mattpocock-research |
@@ -67,15 +68,16 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `mattpocock-evidence-driven` | 3 | mattpocock-diagnosing-bugs, mattpocock-subagent-driven-development, verification-before-completion |
 | `mattpocock-finishing-a-development-branch` | 3 | executing-plans, mattpocock-subagent-driven-development, mattpocock-using-git-worktrees |
 | `mattpocock-handoff` | 3 | mattpocock-ask-if-underspecified, mattpocock-to-tickets, mattpocock-writing-for-agents |
-| `mattpocock-improve-codebase-architecture` | 3 | code-quality-signal, mattpocock-codebase-design, mattpocock-domain-modeling |
 | `mattpocock-multi-agent-code-review` | 3 | mattpocock-evidence-driven, mattpocock-security-review, mattpocock-subagent-driven-development |
 | `meeting-action-items` | 3 | decision-questionnaire, document-to-action-items, teams-meeting-pipeline |
 | `p5js` | 3 | manim-video, pretext, pygame |
+| `repowise` | 3 | architecture-metrics, code-quality-signal, fastmcp |
 | `spike` | 3 | brainstorming, mattpocock-prototype, sketch |
 | `verification-culture` | 3 | bit-identity-float-pipelines, retro, verification-before-completion |
 | `airtable` | 2 | notion, weekly-review-planning |
 | `ascii-art` | 2 | ascii-video, pretext |
 | `autonomous-repo-cronjob` | 2 | mattpocock-using-git-worktrees, mattpocock-yeet |
+| `code-quality-signal` | 2 | architecture-metrics, repowise |
 | `codebase-onboarding` | 2 | living-docs-governance, repowise |
 | `docker-containers` | 2 | rest-api-client, ssh-remote |
 | `document-to-action-items` | 2 | decision-questionnaire, meeting-action-items |
@@ -97,7 +99,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `orbital-mechanics-data` | 2 | astro-toolkit-selection, space-data-pipelines |
 | `pubmed-database` | 2 | bioinformatics, gget |
 | `redesign-existing-projects` | 2 | design-taste-frontend, full-output-enforcement |
-| `repowise` | 2 | code-quality-signal, fastmcp |
 | `serving-llms-vllm` | 2 | llama-cpp, weights-and-biases |
 | `simplify-code` | 2 | ast-grep, python-craft |
 | `space-mission-computation-paradigms` | 2 | astro-toolkit-selection, economicspace-pipeline |
@@ -110,6 +111,6 @@ The following 2 skills have no `related_skills` entries of their own (they do no
 - `accelerate`
 - `xurl`
 ## Related Skills Validation
-All 484 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 195 unique skill names.
+All 488 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 196 unique skill names.
 
 ---

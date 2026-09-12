@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [code-quality, architecture, refactoring, graph-metrics, stdlib-only]
-    related_skills: [mattpocock-improve-codebase-architecture, requesting-code-review, repowise]
+    related_skills: [architecture-metrics, mattpocock-improve-codebase-architecture, requesting-code-review, repowise]
 ---
 
 <!-- source: sentrux/sentrux docs/quality-signal-design.md (starred repo deep-dive 2026-09-05); implementation written and verified against hermes-agent (5,562 files) + synthetic cycle/dup fixtures -->
