@@ -4,9 +4,11 @@ Deep-dive of `sentrux/sentrux` (MIT, 318+ commits at clone times 2026-09-11/12, 
 Sentrux = "real-time architectural sensor for AI agents": scan → score → agent improves → rescan.
 The `code-quality-signal` skill already ports its 5-metric quality signal; this file holds the
 rest — patterns and formulas worth reusing even without the binary (which is Rust + tree-sitter,
-not pip-installable on arbitrary machines). Second-pass additions (2026-09-12): mod-declaration edge
-filter (§3), git-walker skip rules (§5), exact ArchDiff gate rules + incremental rescan design + CI
-grammar-bundle pattern (§7, 7b, 7c) — the rest came from the first pass (2026-09-11).
+not pip-installable on arbitrary machines). Pass 2 (2026-09-12): mod-declaration edge filter (§3),
+git-walker skip rules (§5), exact ArchDiff gate rules + incremental rescan design + CI grammar-bundle
+pattern (§7, 7b, 7c). Pass 3 (2026-09-12): their own dogfooded `.sentrux/rules.toml` as the reference
+example (§7), entry-point detection + execution depth (§10b), exact watermark mechanism + anti-piracy
+posture + per-feature ProRegistry lesson (§11). First pass: 2026-09-11.
 
 ## 1. Import resolution: suffix-index architecture (`analysis/resolver/suffix.rs`, ~1100 lines)
 
@@ -64,6 +66,9 @@ prefix file/directive/format). Adding a language = zero Rust.
 Generic AST import walker replaces 13 compiled per-language text extractors with ONE tree-sitter
 walker + two strategies from TOML: `field_read` (named field: Python `module_name`, Go `path`, JS
 `source`) and `scoped_path` (concatenate identifier chains: Rust, Java). Max recursion depth 64.
+Note: `lang_extractors.rs` still exists but only for data-driven base-class extraction
+(`base_class_node_kinds` from plugin.toml) + module-name transforms (`pascal_to_snake_path`, used by
+Elixir via `module_name_transform`) — zero text-based import extractors remain (verified in source).
 
 Parse results cached in an LRU keyed by content hash (2000 entries) — rescan only re-parses changed files.
 
@@ -166,7 +171,16 @@ to = "src/core/internal/*"
 reason = "App must not depend on core internals"
 ```
 
-CI contract: `sentrux check .` exits 0/1. **Quality gate** (exact rules from `ArchBaseline::diff`,
+CI contract: `sentrux check .` exits 0/1. **Their own repo's `.sentrux/rules.toml`** (dogfooding —
+the most instructive real-world example of the format): `[constraints] max_cycles = 0, max_cc = 25,
+max_fn_lines = 100, no_god_files = false` (deliberately relaxed: "allow god files for now" — a rules
+file is a living negotiation, not a one-time ideal) + six ordered layers matching their actual crate
+layout (`core → analysis → metrics → layout → renderer → app`, order 0–5) + two explicit boundary
+deny-rules with human-readable reasons ("Renderer must not depend on analysis directly", "Layout must
+not depend on app layer"). Note the pattern: constraints encode what they *currently* enforce, and
+the comments record why a stricter rule is deferred — that's how rules files stay honest.
+
+**Quality gate** (exact rules from `ArchBaseline::diff`,
 `metrics/arch/mod.rs`): baseline JSON stores quality_signal, coupling_score, cycle_count, god_file_count,
 hotspot_count, complex_fn_count (CC>15), max_depth, total/cross-module edge counts + timestamp. Diff:
 - signal_delta < **−0.02** ⇒ "Quality signal dropped" violation
@@ -225,13 +239,31 @@ dispatch can't be traced statically — self/this methods always excluded), name
 prefixes, isn't a qualified trait-impl name, base name isn't in the implicit entry-point list
 (`main`, `new`, `init`, `setup`, `run`, `start`, `build`, `register`, `draw`, `render`, … 18 defaults + per-language additions), and no call site anywhere references it (matching both full qualified name AND base name after last `::`). Test files skipped entirely via profile detection + path heuristic. Call set built from file-level calls + per-function calls, each inserted with its base-name variant so `Foo.bar()` matches a definition named `bar`.
 
+## 10b. Entry-point detection + execution depth (`analysis/entry_points.rs`)
+
+- **Execution depth** = BFS over import edges FROM detected entry points (deterministic BTreeSet order);
+  "how many hops from a public API does this file sit at" — the forward complement of blast radius
+  (blast radius = reverse reach, exec depth = forward distance). Both are one-liner graph ops once you
+  have the edge list.
+- **Entry detection layers**: non-production path filter first (`test/`, `tests/`, `example(s)/`,
+  `bench(es)/`, `fixtures/`, `vendor/` — prefix AND infix match, case-insensitive), then language
+  capability gate (profile's `is_executable`; CSS/HTML/markdown can't have entry points; unknown
+  languages conservatively allowed), then name patterns (`main.*` recognized via the lang registry so
+  newly added languages work without touching this code) + server/API handler conventions per profile.
+- Reusable principle: any "which files are public surface" question (attack surface, API docs scope,
+  what a rename can break externally) starts with exactly these three filters — path denylist,
+  language capability, name convention.
+
 ## 11. Pro licensing architecture (`docs/pro-architecture.md`) — trust-boundary pattern
 
 Worth reading even if you never ship paid software:
 - **Free binary = 100% public source, zero private code** (anyone can cargo build and verify what it does). No `if tier.is_pro()` gates around hidden computation in the free binary.
 - Paid features live in a separately downloaded dylib loaded at runtime via an extension trait (`MetricsExtension` registered into a global OnceLock registry; MCP tools registered through callback) — the free binary contains only *call sites*, not implementation.
 - License key = **Ed25519-signed JSON** (user, tier, issued/expires, id + signature over all fields). Validation is pure offline math against a hardcoded public key: parse → verify sig → check expiry. No server call, no internet.
-- **Per-user watermarked dylib**: each download embeds the buyer's identity; loader verifies watermark matches license (mismatch = stolen binary). Source-available under BSL — auditable, not redistributable.
+- **Per-user watermarked dylib**: each download embeds the buyer's identity; loader verifies watermark matches license (mismatch = stolen binary). Source-available under BSL — auditable, not redistributable. Exact mechanism (from source): base dylib ships with a 64-byte zero block `static WATERMARK: [u8; 64]`; at download time the CDN worker finds that block and overwrites it with `license_id (32 bytes) + HMAC(license_id, server_secret) (32 bytes)` — so each served binary is unique AND the loader can verify authenticity offline (recompute HMAC). Runtime check: watermark's license_id must equal the saved key's id.
+- **Anti-piracy posture = defense in depth with an explicit stop line**: pro-code-in-dylib + Ed25519 keys + per-user watermark + watermark↔license cross-check + telemetry (license_id + ip_hash to catch shared keys). What they *accept*: binary patching is always possible, and "engineering time on DRM > revenue lost to piracy" for a $15/month dev tool — the posture is traceability (leaked dylib → identified user), not prevention.
+- **Build pipeline split**: public repo CI builds ONLY the free binary (Homebrew); private `sentrux-pro` repo CI builds the base watermarked-less dylib to a private CDN; the watermark worker sits between license check and download. Free tier can never contain pro code paths — even as call sites with empty defaults, they keep the split at the compilation boundary.
+- **Design lesson from their recent commits**: `tier.is_pro()` gates were replaced with per-FEATURE checks (`ProRegistry` of loaded capabilities) — a feature that fails to load degrades individually instead of one boolean flipping everything off; same pattern as their MCP ToolRegistry (register what you have, dispatch uniformly).
 
 ## 12. Open ideas in sentrux worth stealing (`metrics/cross_validation.rs` — skeleton only)
 
