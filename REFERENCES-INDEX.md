@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **323 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **324 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -263,6 +263,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 
 - `data-science/space-data-pipelines/references/hf-mirror-catalog.md` — All 230 keyless Hugging Face space/astro/physics mirrors from juliensimon/space-datasets — load_dataset one-liner, no API keys; grouped by domain
 - `data-science/space-data-pipelines/references/shared-library-internals.md` — hf_dataset_utils internals from juliensimon/space-datasets (230 pipelines): retry budget, TAP clients, HEASARC HTTP-200 failures, MAST keyset pagination, LFS recovery, watchdog
+- `data-science/space-data-pipelines/references/source-parser-families.md` — Per-source parsing families from space-datasets (round-15): TLE two-line-element char positions + epoch century rule, PDS3/PDS4 fixed-width colspecs, GOES netCDF status pivot, Wikidata SPARQL dedup, HTML fixture testing
 - `data-science/space-data-pipelines/references/space-data-licensing-audit.md` — Space-data licensing traps from space-datasets' own 2026-05-26 audit: ESA CC BY-NC, WDC Kyoto no-commercial, VizieR scientific-use terms, provider URL table
 ## doc-coauthoring/references
 

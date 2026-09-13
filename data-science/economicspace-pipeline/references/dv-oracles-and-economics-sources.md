@@ -84,6 +84,8 @@ read-only; ~2,800 lines of shared library). Findings now live with the owning sk
 - **Watchdog pattern** — the repo runs a daily stale-checker over its ~108 workflows (cron-derived periods, persistent retry state, idempotent issue escalation, NO_RETRY for Space-Track): generalized in skill `devops/cron-pipeline-watchdog`, directly applicable to aspirecures' scheduled feeds.
 - Upstream churn since the 2026-09-05 audit: only status/stats commits (no schema changes) — all facts above still hold; NHATS HF mirror re-probed live this pass (HTTP 200, real parquet file list).
 
+**Round-15 addendum (2026-09-13):** per-source parser families now documented in skill `space-data-pipelines`, ref `source-parser-families.md` — TLE char-position parsing (epoch century rule ≥57), PDS3/PDS4 fixed-width colspecs from .lbl files + numbered/unnumbered dual-key merge, GOES netCDF status pivot, Wikidata SPARQL fan-out dedup, HTML fixture testing. The Bus-DeMeo/SDSS-taxonomy rows in the table above cite exact colspec tuples that now have full context there (incl. the PDS3 `0.0 = unavailable` proper-elements sentinel and dtype=str-first coercion order).
+
 ## License position
 
 space-datasets pipeline code: MIT; each dataset licensed at its own source. NHATS/SBDB/Horizons: NASA JPL
