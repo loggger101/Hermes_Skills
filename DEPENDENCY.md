@@ -1,6 +1,6 @@
 # Skill Dependency Map
-This document maps the relationship network between all **201 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
-**Network stats:** 507 `related_skills` cross-references across 201 skills (2 skills are standalone with no `related_skills` entries).
+This document maps the relationship network between all **202 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+**Network stats:** 514 `related_skills` cross-references across 202 skills (2 skills are standalone with no `related_skills` entries).
 ## Hub Skills (referenced by 2+ other skills)
 These are the core skills that serve as building blocks, referenced by many other skills:
 | Skill | Referenced By (count) | Referencing Skills |
@@ -9,8 +9,8 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `test-driven-development` | 19 | dispatching-parallel-agents, executing-plans, generating-python-installer, github-issue-to-pr, grill-me, mattpocock-subagent-driven-development, mattpocock-tdd, modern-python-tooling, plan, property-based-testing, python-craft, python-data-science, requesting-code-review, rest-graphql-debug, simplify-code, skill-flow-router, systematic-debugging, test-infra-ml, windows-desktop-e2e |
 | `systematic-debugging` | 15 | ast-grep, dispatching-parallel-agents, github-issue-to-pr, inspecting-hermes-desktop-dom, mattpocock-diagnosing-bugs, mattpocock-gh-fix-ci, mattpocock-resolving-merge-conflicts, mattpocock-tdd, node-inspect-debugger, python-craft, python-data-science, python-debugpy, rest-graphql-debug, skill-flow-router, test-driven-development |
 | `claude-design` | 12 | awwwards-gsap-motion, design-md, editorial-minimalism-ui, frontend-design, industrial-brutalist-ui, popular-web-designs, pretext, sketch, soft-premium-ui, songwriting-and-ai-music, stitch, teach |
+| `python-craft` | 12 | algorithms-python-catalog, build-systems-data, cli-tool-craft, evolutionary-ml, model-export-deploy, modern-python-tooling, orbital-mechanics-data, static-site-seo, streamlit-dashboards, system-design-scaling, test-infra-ml, verification-culture |
 | `hermes-agent` | 11 | agent-merge-conflict-arbiter, apple-reminders, autonomous-repo-cronjob, claude-code, codex, cron-job-authoring, mattpocock-to-tickets, merge-reconciler, opencode, qmd, repowise |
-| `python-craft` | 11 | build-systems-data, cli-tool-craft, evolutionary-ml, model-export-deploy, modern-python-tooling, orbital-mechanics-data, static-site-seo, streamlit-dashboards, system-design-scaling, test-infra-ml, verification-culture |
 | `excalidraw` | 10 | architecture-diagram, ascii-art, claude-design, design-md, diagram-design, p5js, popular-web-designs, pretext, research-paper-writing, sketch |
 | `github-pr-workflow` | 10 | github, github-auth, github-code-review, github-issue-to-pr, github-issues, github-repo-management, mattpocock-finishing-a-development-branch, mattpocock-gh-fix-ci, mattpocock-using-git-worktrees, mattpocock-yeet |
 | `mattpocock-subagent-driven-development` | 10 | dispatching-parallel-agents, executing-plans, grill-me, mattpocock-to-tickets, plan, requesting-code-review, research-paper-writing, spike, systematic-debugging, test-driven-development |
@@ -59,6 +59,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `comfyui` | 3 | baoyu-infographic, songsee, songwriting-and-ai-music |
 | `conversation-to-spec` | 3 | brainstorming, grilling-interview, skill-flow-router |
 | `design-md` | 3 | claude-design, popular-web-designs, stitch |
+| `evolutionary-ml` | 3 | algorithms-python-catalog, model-export-deploy, test-infra-ml |
 | `findmy` | 3 | apple-reminders, imessage, maps |
 | `huggingface-hub` | 3 | huggingface-trackio, llama-cpp, weights-and-biases |
 | `huggingface-trackio` | 3 | huggingface-hub, python-data-science, weights-and-biases |
@@ -88,12 +89,12 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `dogfood` | 2 | adversarial-ux-test, inspecting-hermes-desktop-dom |
 | `economicspace-pipeline` | 2 | optimization-modeling-pyomo, space-data-pipelines |
 | `email-inbox-triage` | 2 | himalaya, weekly-review-planning |
-| `evolutionary-ml` | 2 | model-export-deploy, test-infra-ml |
 | `fastmcp` | 2 | mcporter, repowise |
 | `github-repo-management` | 2 | codebase-inspection, github-auth |
 | `himalaya` | 2 | email-inbox-triage, google-workspace |
 | `imessage` | 2 | apple-reminders, findmy |
 | `llama-cpp` | 2 | huggingface-hub, serving-llms-vllm |
+| `maps` | 2 | algorithms-python-catalog, product-price-monitor |
 | `mattpocock-gh-fix-ci` | 2 | mattpocock-spec-driven-development, mattpocock-yeet |
 | `mattpocock-research` | 2 | literature-review, scholar-evaluation |
 | `mattpocock-spec-driven-development` | 2 | conversation-to-spec, mattpocock-to-tickets |
@@ -101,6 +102,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `mcporter` | 2 | fastmcp, repowise |
 | `node-inspect-debugger` | 2 | inspecting-hermes-desktop-dom, python-debugpy |
 | `opencode` | 2 | claude-code, hermes-agent |
+| `optimization-modeling-pyomo` | 2 | algorithms-python-catalog, space-mission-computation-paradigms |
 | `orbital-mechanics-data` | 2 | astro-toolkit-selection, space-data-pipelines |
 | `pubmed-database` | 2 | bioinformatics, gget |
 | `redesign-existing-projects` | 2 | design-taste-frontend, full-output-enforcement |
@@ -114,6 +116,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 The following 1 skills have no `related_skills` entries of their own (they do not reference other skills). These are genuinely standalone — no other skill references them either:
 - `accelerate`
 ## Related Skills Validation
-All 507 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 201 unique skill names.
+All 514 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 202 unique skill names.
 
 ---
