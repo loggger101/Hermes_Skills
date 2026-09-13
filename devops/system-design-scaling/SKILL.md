@@ -18,12 +18,13 @@ Distilled from the [donnemartin/system-design-primer](https://github.com/donnema
 
 ## What This Skill Does
 
-Provides the full decision framework: the 4-step process for any design question (scope → high-level design → core components → scale iteratively), back-of-envelope estimation tools (latency numbers, powers of two, request-rate conversions, availability math with runnable verification scripts), and distilled trade-off tables for every layer — DNS/CDN/load balancer/reverse proxy/application/database/cache/asynchronism/communication/security. Includes 8 worked case studies reduced to reusable patterns (URL shortener, social feed fan-out, web crawler, sharded graph BFS, query cache, budget aggregation, top-k ranking via MapReduce key-sort trick, and the iterative AWS scaling ladder).
+Provides the full decision framework: the 4-step process for any design question (scope → high-level design → core components → scale iteratively), back-of-envelope estimation tools (latency numbers, powers of two, request-rate conversions, availability math with runnable verification scripts), and distilled trade-off tables for every layer — DNS/CDN/load balancer/reverse proxy/application/database/cache/asynchronism/communication/security. Includes 8 worked system-design case studies reduced to reusable patterns (URL shortener, social feed fan-out, web crawler, sharded graph BFS, query cache, budget aggregation, top-k ranking via MapReduce key-sort trick, and the iterative AWS scaling ladder) **and all 6 OO design exercises** with their clarifying-question lists, class skeletons, and the non-obvious tricks (multi-ace Blackjack scoring, cascade dispatch + state machine, fit-inversion). The repo's three Anki flashcard decks were parsed in full: deck content is derivative of this skill's docs except HATEOAS detail (now included) — so nothing unique remains unrecorded.
 
 ## When to Use
 
 - "Design a system for X" / any architecture or scalability question
 - Prepping a system design interview (study guide + 4-step process inside)
+- An OO-design interview exercise ("design a parking lot / call center / chat server") — class-model patterns in `references/oo-design-interview-patterns.md`
 - Choosing SQL vs NoSQL, cache strategy, replication mode, sharding key
 - Estimating storage/bandwidth/latency by hand ("back of the envelope")
 - Deciding TCP vs UDP, RPC vs REST, message queue vs task queue
@@ -43,7 +44,8 @@ Provides the full decision framework: the 4-step process for any design question
 | DNS records & routing policies, push/pull CDNs, L4/L7 load balancing, reverse proxy vs LB, microservices/service discovery | same doc (networking half) |
 | ACID vs BASE, replication modes, federation, sharding + consistent hashing, denormalization, SQL tuning checklist, NoSQL families, cache update strategies | `references/databases-and-caching.md` |
 | Message queues vs task queues, back pressure, TCP vs UDP selection rules, RPC anatomy, REST properties, RPC-vs-REST comparison table, security basics | `references/asynchronism-communication-security.md` |
-| The 8 case studies as reusable patterns with their key numbers and the non-obvious tricks (base62 capacity math, celebrity fan-out inversion, crawl signature dedup, bidirectional BFS, MapReduce top-k sort) | `references/case-study-patterns.md` |
+| The 8 system-design case studies as reusable patterns with their key numbers and the non-obvious tricks (base62 capacity math, celebrity fan-out inversion, crawl signature dedup, bidirectional BFS, MapReduce top-k sort) | `references/case-study-patterns.md` |
+| OO design interviews: all 6 worked exercises (deck/Blackjack multi-ace scoring, call-center cascade dispatch + state machine, hash map chaining, LRU, chat graph-vs-conversation split, parking-lot fit-inversion), each with its clarifying-question list; plus verified source bugs in the primer's own stubbed code | `references/oo-design-interview-patterns.md` |
 | Powers of two, latency numbers every programmer should know, request-rate conversions, nines downtime tables | `references/latency-and-estimation.md` |
 
 ## Runnable scripts (stdlib-only, self-testing — run with `py`)
