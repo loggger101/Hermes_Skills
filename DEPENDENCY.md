@@ -1,6 +1,6 @@
 # Skill Dependency Map
-This document maps the relationship network between all **200 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
-**Network stats:** 504 `related_skills` cross-references across 200 skills (2 skills are standalone with no `related_skills` entries).
+This document maps the relationship network between all **201 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+**Network stats:** 507 `related_skills` cross-references across 201 skills (2 skills are standalone with no `related_skills` entries).
 ## Hub Skills (referenced by 2+ other skills)
 These are the core skills that serve as building blocks, referenced by many other skills:
 | Skill | Referenced By (count) | Referencing Skills |
@@ -10,10 +10,10 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `systematic-debugging` | 15 | ast-grep, dispatching-parallel-agents, github-issue-to-pr, inspecting-hermes-desktop-dom, mattpocock-diagnosing-bugs, mattpocock-gh-fix-ci, mattpocock-resolving-merge-conflicts, mattpocock-tdd, node-inspect-debugger, python-craft, python-data-science, python-debugpy, rest-graphql-debug, skill-flow-router, test-driven-development |
 | `claude-design` | 12 | awwwards-gsap-motion, design-md, editorial-minimalism-ui, frontend-design, industrial-brutalist-ui, popular-web-designs, pretext, sketch, soft-premium-ui, songwriting-and-ai-music, stitch, teach |
 | `hermes-agent` | 11 | agent-merge-conflict-arbiter, apple-reminders, autonomous-repo-cronjob, claude-code, codex, cron-job-authoring, mattpocock-to-tickets, merge-reconciler, opencode, qmd, repowise |
+| `python-craft` | 11 | build-systems-data, cli-tool-craft, evolutionary-ml, model-export-deploy, modern-python-tooling, orbital-mechanics-data, static-site-seo, streamlit-dashboards, system-design-scaling, test-infra-ml, verification-culture |
 | `excalidraw` | 10 | architecture-diagram, ascii-art, claude-design, design-md, diagram-design, p5js, popular-web-designs, pretext, research-paper-writing, sketch |
 | `github-pr-workflow` | 10 | github, github-auth, github-code-review, github-issue-to-pr, github-issues, github-repo-management, mattpocock-finishing-a-development-branch, mattpocock-gh-fix-ci, mattpocock-using-git-worktrees, mattpocock-yeet |
 | `mattpocock-subagent-driven-development` | 10 | dispatching-parallel-agents, executing-plans, grill-me, mattpocock-to-tickets, plan, requesting-code-review, research-paper-writing, spike, systematic-debugging, test-driven-development |
-| `python-craft` | 10 | build-systems-data, cli-tool-craft, evolutionary-ml, model-export-deploy, modern-python-tooling, orbital-mechanics-data, static-site-seo, streamlit-dashboards, test-infra-ml, verification-culture |
 | `plan` | 9 | brainstorming, executing-plans, hermes-agent-skill-authoring, requesting-code-review, research-paper-writing, simplify-code, spike, systematic-debugging, test-driven-development |
 | `python-data-science` | 9 | build-systems-data, evolutionary-ml, gget, huggingface-trackio, jupyter-notebook, orbital-mechanics-data, regex-vs-llm-structured-text, research-paper-writing, sql-for-data |
 | `design-taste-frontend` | 8 | awwwards-gsap-motion, editorial-minimalism-ui, full-output-enforcement, industrial-brutalist-ui, redesign-existing-projects, soft-premium-ui, static-site-patterns, stitch |
@@ -74,6 +74,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `repowise` | 3 | architecture-metrics, code-quality-signal, fastmcp |
 | `space-mission-computation-paradigms` | 3 | astro-toolkit-selection, economicspace-pipeline, optimization-modeling-pyomo |
 | `spike` | 3 | brainstorming, mattpocock-prototype, sketch |
+| `sql-for-data` | 3 | duckdb-querying, sqlite-queries, system-design-scaling |
 | `verification-culture` | 3 | bit-identity-float-pipelines, retro, verification-before-completion |
 | `airtable` | 2 | notion, weekly-review-planning |
 | `ascii-art` | 2 | ascii-video, pretext |
@@ -106,7 +107,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `serving-llms-vllm` | 2 | llama-cpp, weights-and-biases |
 | `simplify-code` | 2 | ast-grep, python-craft |
 | `space-data-pipelines` | 2 | cron-pipeline-watchdog, duckdb-querying |
-| `sql-for-data` | 2 | duckdb-querying, sqlite-queries |
 | `static-site-seo` | 2 | publish-site, static-site-patterns |
 | `test-infra-ml` | 2 | property-based-testing, verification-culture |
 | `wayfinder-map-planning` | 2 | grilling-interview, skill-flow-router |
@@ -114,6 +114,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 The following 1 skills have no `related_skills` entries of their own (they do not reference other skills). These are genuinely standalone — no other skill references them either:
 - `accelerate`
 ## Related Skills Validation
-All 504 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 200 unique skill names.
+All 507 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 201 unique skill names.
 
 ---

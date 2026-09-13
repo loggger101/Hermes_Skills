@@ -1,13 +1,13 @@
 ---
-description: Hermes Agent second brain — 200 skills across 23 categories, memories, cron configs.
+description: Hermes Agent second brain — 201 skills across 23 categories, memories, cron configs.
 ---
 
 # Hermes Skills Repository (Second Brain)
 
-This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **200 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
+This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **201 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
 
 ## Start here (cheapest → most thorough)
-- **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 200 skills; `grep -i <term>` is the fastest way to find a capability.
+- **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 201 skills; `grep -i <term>` is the fastest way to find a capability.
 - **[CODE-INDEX.md](./CODE-INDEX.md)** — flat index of every script, shared helper, test, and template (the executable knowledge layer); `grep -i <term> CODE-INDEX.md` finds runnable code by purpose or owner skill.
 - **[REFERENCES-INDEX.md](./REFERENCES-INDEX.md)** — flat index of all 324 reference docs living inside skills' `references/` dirs (nested subdirs included); `grep -i <term> REFERENCES-INDEX.md` finds verified API maps / gotchas tables by topic without knowing which skill owns them.
 - **[DEPENDENCY.md](./DEPENDENCY.md)** — relationship map: hub skills, standalone skills, full cross-reference validation.
@@ -51,6 +51,7 @@ The fastest way from a job you have in mind to the skill that does it:
 | Score codebase structural health / find what to refactor next | `code-quality-signal` (5 ungameable root-cause metrics → one score); where in the dependency graph it hurts → `architecture-metrics` (Lakos levels, blast radius, Martin A/I/D distance, SDP coupling, test gaps) — both stdlib-only, run together: signal says what's wrong, arch-metrics says which files |
 | Ship UI that doesn't look templated — pick the aesthetic first | `design-taste-frontend` (anti-slop default), presets: `soft-premium-ui`, `editorial-minimalism-ui`, `industrial-brutalist-ui`; motion-heavy → `awwwards-gsap-motion`; Google Stitch DESIGN.md → `stitch` |
 | Publish a site/dashboard/docs build with versioned deploys + rollback | `publish-site` (GitHub Pages → Cloudflare → Netlify ladder, live-URL verification) |
+| Design a scalable system / prep a system design interview (CAP, caching, sharding, fan-out) | `system-design-scaling` (primer-distilled trade-off tables + 8 case-study patterns; runnable LRU/base62/MapReduce-top-k/availability scripts inside) |
 | Verify this repo's own health | `py tools/verify-all.py` — all 9 gates in one run (`python` is a Store stub on Windows) |
 
 ## Organization
