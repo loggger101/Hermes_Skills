@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **131 code files** (30,821 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **131 code files** (30,854 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -64,7 +64,7 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 
 ## data-science/python-data-science
 
-- `data-science/python-data-science/references/big-data-patterns-verify.py` (script, python, 125 lines) — Verify the general big-data patterns for python-data-science reference doc
+- `data-science/python-data-science/references/big-data-patterns-verify.py` (script, python, 158 lines) — Verify the general big-data patterns for python-data-science reference doc
 
 ## data-science/regex-vs-llm-structured-text
 
