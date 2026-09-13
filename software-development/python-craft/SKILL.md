@@ -562,7 +562,7 @@ mycli = "myproject.cli:main"
 | Bare except | `except: pass` | Catch specific exceptions at minimum |
 | No type hints on public API | `def get(x): ...` | Add types to the signature |
 | Copy-paste with tiny variation | 3 functions differing in one line | Extract common part, pass variant as param |
-| Reinventing stdlib | Hand-rolled JSON parser, custom LRU cache | Use `json`, `functools.lru_cache`, `collections` — if you must build an O(1) LRU (interview/system-design context), the tested design + implementation lives in `devops/system-design-scaling/scripts/lru_cache_o1.py` |
+| Reinventing stdlib | Hand-rolled JSON parser, custom LRU/LFU cache | Use `json`, `functools.lru_cache`, `collections` — if you must build an O(1) LRU (interview/system-design context), the tested design + implementation lives in `devops/system-design-scaling/scripts/lru_cache_o1.py`; for an LFU variant (frequency-bucketed doubly-linked lists, complete interview-grade code) see TheAlgorithms' `other/lfu_cache.py` as catalogued in `data-science/algorithms-python-catalog/references/catalog-map.md` |
 
 ## Verification Checklist
 

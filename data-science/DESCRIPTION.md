@@ -6,6 +6,7 @@ description: Data science workflows and tools.
 
 Data science workflows and tools.
 
+- [`algorithms-python-catalog`](./algorithms-python-catalog/SKILL.md) — Python algorithm catalog: when to hand-roll vs stdlib
 - [`astro-toolkit-selection`](./astro-toolkit-selection/SKILL.md) — Choose astrodynamics tools: brahe, nyx, OpenSCvx, skyfield
 - [`bit-identity-float-pipelines`](./bit-identity-float-pipelines/SKILL.md) — Verify correctness via exact float hashes / bit-identity
 - [`build-systems-data`](./build-systems-data/SKILL.md) — Data build systems: orchestration, versioning, CSV at scale

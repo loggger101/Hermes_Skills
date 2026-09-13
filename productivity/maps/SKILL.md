@@ -11,7 +11,7 @@ metadata:
     category: productivity
     requires_toolsets: [terminal]
     supersedes: [find-nearby]
-    related_skills: [findmy]
+    related_skills: [findmy, algorithms-python-catalog]
 
 ---
 

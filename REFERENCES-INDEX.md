@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **330 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **332 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -232,6 +232,10 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `creative/touchdesigner-mcp/references/python-api.md` — TouchDesigner Python API Reference
 - `creative/touchdesigner-mcp/references/replicator.md` — Replicator COMP Reference
 - `creative/touchdesigner-mcp/references/troubleshooting.md` — TouchDesigner Troubleshooting (twozero MCP)
+## data-science/algorithms-python-catalog
+
+- `data-science/algorithms-python-catalog/references/algorithms-from-scratch.md` — Algorithms From Scratch (verified)
+- `data-science/algorithms-python-catalog/references/catalog-map.md` — TheAlgorithms/Python — Catalog Map & Decision Guide
 ## data-science/astro-toolkit-selection
 
 - `data-science/astro-toolkit-selection/references/brahe-api-reference.md` — brahe 1.7.0 API reference — module map + verified propagation/SPK snippets

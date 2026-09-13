@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **137 code files** (31,883 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **138 code files** (32,374 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -52,6 +52,10 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 ## creative/touchdesigner-mcp
 
 - `creative/touchdesigner-mcp/scripts/setup.sh` (script, bash, 115 lines) — setup.sh — Automated setup for twozero MCP plugin for TouchDesigner
+
+## data-science/algorithms-python-catalog
+
+- `data-science/algorithms-python-catalog/scripts/algorithms_verify.py` (script, python, 491 lines) — Re-runnable verification harness for data-science/algorithms-python-catalog
 
 ## data-science/economicspace-pipeline
 
@@ -261,4 +265,4 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `tools/verify-all.py` (repo tooling, python, 128 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*137 code files: 98 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*138 code files: 99 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*

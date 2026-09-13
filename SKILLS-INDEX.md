@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **201 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **202 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -62,6 +62,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 
 ## data-science
 
+- `algorithms-python-catalog` — Python algorithm catalog: when to hand-roll vs stdlib _(data-science)_
 - `astro-toolkit-selection` — Choose astrodynamics tools: brahe, nyx, OpenSCvx, skyfield _(data-science)_
 - `bit-identity-float-pipelines` — Verify correctness via exact float hashes / bit-identity _(data-science)_
 - `build-systems-data` — Data build systems: orchestration, versioning, CSV at scale _(data-science)_
@@ -274,4 +275,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*201 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*202 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
