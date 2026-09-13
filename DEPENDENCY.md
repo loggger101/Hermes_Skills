@@ -1,6 +1,6 @@
 # Skill Dependency Map
-This document maps the relationship network between all **196 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
-**Network stats:** 488 `related_skills` cross-references across 196 skills (2 skills are standalone with no `related_skills` entries).
+This document maps the relationship network between all **197 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+**Network stats:** 491 `related_skills` cross-references across 197 skills (2 skills are standalone with no `related_skills` entries).
 ## Hub Skills (referenced by 2+ other skills)
 These are the core skills that serve as building blocks, referenced by many other skills:
 | Skill | Referenced By (count) | Referencing Skills |
@@ -72,6 +72,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `meeting-action-items` | 3 | decision-questionnaire, document-to-action-items, teams-meeting-pipeline |
 | `p5js` | 3 | manim-video, pretext, pygame |
 | `repowise` | 3 | architecture-metrics, code-quality-signal, fastmcp |
+| `space-mission-computation-paradigms` | 3 | astro-toolkit-selection, economicspace-pipeline, optimization-modeling-pyomo |
 | `spike` | 3 | brainstorming, mattpocock-prototype, sketch |
 | `verification-culture` | 3 | bit-identity-float-pipelines, retro, verification-before-completion |
 | `airtable` | 2 | notion, weekly-review-planning |
@@ -101,7 +102,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `redesign-existing-projects` | 2 | design-taste-frontend, full-output-enforcement |
 | `serving-llms-vllm` | 2 | llama-cpp, weights-and-biases |
 | `simplify-code` | 2 | ast-grep, python-craft |
-| `space-mission-computation-paradigms` | 2 | astro-toolkit-selection, economicspace-pipeline |
 | `sql-for-data` | 2 | duckdb-querying, sqlite-queries |
 | `static-site-seo` | 2 | publish-site, static-site-patterns |
 | `test-infra-ml` | 2 | property-based-testing, verification-culture |
@@ -111,6 +111,6 @@ The following 2 skills have no `related_skills` entries of their own (they do no
 - `accelerate`
 - `xurl`
 ## Related Skills Validation
-All 488 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 196 unique skill names.
+All 491 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 197 unique skill names.
 
 ---

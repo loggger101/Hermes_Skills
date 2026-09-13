@@ -14,6 +14,7 @@ Data science workflows and tools.
 - [`evolutionary-ml`](./evolutionary-ml/SKILL.md) — Evolutionary ML: GA, NEAT, tournaments, parallel eval
 - [`jupyter-notebook`](./jupyter-notebook/SKILL.md) — Iterative Python via live Jupyter kernel (hamelnb)
 - [`model-export-deploy`](./model-export-deploy/SKILL.md) — Model export: ONNX, TorchScript, HDF5, NumPy, JSON
+- [`optimization-modeling-pyomo`](./optimization-modeling-pyomo/SKILL.md) — Model LP/MIP/NLP/GDP in Pyomo with live-verified patterns
 - [`orbital-mechanics-data`](./orbital-mechanics-data/SKILL.md) — Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC
 - [`python-data-science`](./python-data-science/SKILL.md) — Python DS: EDA, cleaning, modeling, eval, viz
 - [`regex-vs-llm-structured-text`](./regex-vs-llm-structured-text/SKILL.md) — Regex-first parsing; LLM only for flagged edge cases

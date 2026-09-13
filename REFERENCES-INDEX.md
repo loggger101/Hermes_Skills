@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **318 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **320 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -248,6 +248,10 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 ## data-science/evolutionary-ml
 
 - `data-science/evolutionary-ml/references/ga-tuning-measured.md` — GA Tuning — Measured Lessons (CR-pipeline, 2026-09)
+## data-science/optimization-modeling-pyomo
+
+- `data-science/optimization-modeling-pyomo/references/formulations-and-algorithms.md` — Pyomo Formulations & Algorithms — measured from source + live execution
+- `data-science/optimization-modeling-pyomo/references/pyomo-source-patterns.md` — Design Patterns Mined from Pyomo Source (portable to any Python project)
 ## data-science/orbital-mechanics-data
 
 - `data-science/orbital-mechanics-data/references/economicspace-library-landscape.md` — Library landscape for the economicspace pipeline

@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [trajectories, delta-v, mission-design]
-    related_skills: [astro-toolkit-selection]
+    related_skills: [astro-toolkit-selection, optimization-modeling-pyomo]
 ---
 
 ## When to Use
@@ -36,6 +36,7 @@ is most impressive.
 | **Successive convexification** (SCvx / SCVX) | optimal thrust profile under constraints (fuel-optimal, time-optimal, LOS/obstacle) | high (solves the actual OCP) | slow (iterative NLP loop) | designing a specific maneuver's control law; low-thrust trajectory shaping | OpenSCvx (JAX + CVXPY) |
 | **Parallel global multiobjective optimization** | Pareto front over many design variables, robustness under uncertainty | depends on inner model | very fast at scale (island model, GPU) | "what's the best mission given N uncertain parameters"; campaign sweeps | pygmo/pagmo (ESA), mesa (agent-based variant) |
 | **6DOF forward-integration Monte Carlo** | dispersions of a launch/flight under stochastic inputs; heating, wind, slosh | high (full 6-DOF dynamics + stats) | slow (thousands of runs) | launch dispersion analysis, reliability, aeroheating — NOT interplanetary Δv | CamPyRoS (Cambridge) |
+| **Declarative constrained optimization** (orthogonal layer — consumes the numbers above as coefficients) | optimal fleet/mission *selection* under budget/fleet/window constraints; piecewise-linear cost curves kept MIP-exact; global solutions of disjunctive ("either this transfer or that") structure | exact for LP/MIP/QP, rigorous b&b for convex GDP | fast (solver-internal); model build is the cost | "which subset of N candidates maximizes net value under K launches/yr" — the allocation problem closed-form Δv feeds but can't answer itself | Pyomo + HiGHS/Gurobi (`optimization-modeling-pyomo` skill: V2 solver idiom, piecewise MIP counts, GDPopt global solvers) |
 
 ## The core distinction: closed-form vs. numerical
 
@@ -100,3 +101,4 @@ Before deciding anything, the repo validated its closed-form estimator against a
 | cuspaceflight/CamPyRoS | 6DOF forward-integration Monte Carlo + aeroheating | GPL-3.0, stale Jul 2025 |
 | mesa/mesa | agent-based modeling (emergent dynamics) | Apache-2.0; not single-mission optimization |
 | nyx-space/nyx | high-fidelity propagation + trajectory opt + orbit determination | **AGPLv3 + Python pkg disabled** — blocker despite mission-proven |
+| Pyomo/pyomo (mined 2026-09-12) | declarative constrained optimization layer over the above | BSD-3; HiGHS persistent interface live-verified on this box via isolated venv (`optimization-modeling-pyomo`) — allocation/selection problems, not trajectory math itself |
