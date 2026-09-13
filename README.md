@@ -1,6 +1,6 @@
 # Hermes Skills Repository
 
-A comprehensive collection of **197 Hermes Agent skills** across 23 categories — the second brain for its owner's Hermes Agent environment. See [DESCRIPTION.md](./DESCRIPTION.md) for the task-to-skill...[truncated]
+A comprehensive collection of **198 Hermes Agent skills** across 23 categories — the second brain for its owner's Hermes Agent environment. See [DESCRIPTION.md](./DESCRIPTION.md) for the task-to-skill...[truncated]
 
 ## Table of Contents
 
@@ -43,7 +43,7 @@ grep -i "raster\|token bridge" CODE-INDEX.md
 
 ## Overview
 
-This repository serves as a centralized database of all **197 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (491 cross-references mapped across 197 skills, 2 with no outbound `related_skills`). See [audit notes](docs/archive/audit-notes-skills-repo-pass.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
+This repository serves as a centralized database of all **198 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (495 cross-references mapped across 198 skills, 2 with no outbound `related_skills`). See [audit notes](docs/archive/audit-notes-skills-repo-pass.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
 
 ### Source Profiles
 
@@ -65,7 +65,7 @@ When a skill existed in multiple profiles, the version from the highest-priority
 | [communication/](./communication/) | Decision-brief formats (1-3-1 rule) | 1 |
 | [creative/](./creative/) | Creative content generation and design | 28 |
 | [data-science/](./data-science/) | Data science workflows and tools | 15 |
-| [devops/](./devops/) | Infrastructure, containers, and deployment + zero-install SSH tunnels (Pinggy) | 8 |
+| [devops/](./devops/) | Infrastructure, containers, and deployment + zero-install SSH tunnels (Pinggy) | 9 |
 | [doc-coauthoring/](./doc-coauthoring/) | Structured document co-authoring workflow | 1 |
 | [dogfood/](./dogfood/) | Exploratory QA and testing | 1 |
 | [email/](./email/) | Email management and triage | 2 |
@@ -84,11 +84,11 @@ When a skill existed in multiple profiles, the version from the highest-priority
 | [software-development/](./software-development/) | Development tools and workflows | 52 |
 | [web-development/](./web-development/) | Web/API client derivation (HAR-based) + versioned static-site publishing | 3 |
 
-**Total: 197 skills across 23 categories** — counts below are regenerated from live frontmatter; keep them in sync via `python tools/gen-skills-index.py` and the audit.
+**Total: 198 skills across 23 categories** — counts below are regenerated from live frontmatter; keep them in sync via `python tools/gen-skills-index.py` and the audit.
 
 ### Skill Catalog
 
-All 197 skills organized by category:
+All 198 skills organized by category:
 
 #### Apple
 
@@ -162,6 +162,7 @@ All 197 skills organized by category:
 - [`sql-for-data`](./data-science/sql-for-data) — SQL for data: queries, joins, windows, aggregation.
 #### DevOps
 
+- [`cron-pipeline-watchdog`](./devops/cron-pipeline-watchdog) — Watch cron pipelines for stale jobs; retry and escalate.
 - [`docker-containers`](./devops/docker-containers) — Build and debug Docker containers and Compose stacks.
 - [`rest-api-client`](./devops/rest-api-client) — Call REST APIs: auth, pagination, rate limits, errors.
 - [`sdlc-review`](./devops/sdlc-review) — Review Kanban handoffs and route verified outcomes.
@@ -451,7 +452,7 @@ This repository includes Python scripts in the `tools/` directory that automate 
 | Tool | Purpose | Cron Integration |
 |------|---------|------------------|
 | [`verify-all.py`](./tools/verify-all.py) | **Start here.** Runs every gate in one shot: audit, links, index drift (all four generated indexes), cron validators, and README/DESCRIPTION count consistency. Exit 0 = all 9 gates pass | Manual; run before any commit |
-| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 197 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | Defined for Sun 3 AM in `skill-audit.json` — **not registered**; run manually |
+| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 198 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | Defined for Sun 3 AM in `skill-audit.json` — **not registered**; run manually |
 | [`sync-hermes-skills.py`](./tools/sync-hermes-skills.py) | Bidirectional sync between GitHub repo and local Hermes env: git pull, skill/memories/profiles sync, DEPENDENCY.md regeneration, audit, git push | Defined for Sun 2 AM in `sync-hermes-skills.json` — **not registered**; run manually |
 
 
@@ -510,9 +511,9 @@ The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a w
 
 ✅ items are checked by `tools/audit-skills.py` / `tools/check-links.py` on every audit run; the threshold-gated subset (a non-zero count fails the run) is `broken_refs`, `yaml_errors`, `long_descriptions`, `duplicate_skills`, `missing_body_sections`, `temps_scripts`. 📎 items are conventions no tool enforces — hold them by hand.
 
-- ✅ All 197 skills have valid frontmatter (`name`, `version`, `author`, `platforms`, `metadata.hermes`) and parse without errors
+- ✅ All 198 skills have valid frontmatter (`name`, `version`, `author`, `platforms`, `metadata.hermes`) and parse without errors
 - ✅ No duplicate skill names; no empty skill directories
-- ✅ All `related_skills` references resolve to existing in-repo skills — 491 cross-references across 197 skills (see [DEPENDENCY.md](./DEPENDENCY.md))
+- ✅ All `related_skills` references resolve to existing in-repo skills — 495 cross-references across 198 skills (see [DEPENDENCY.md](./DEPENDENCY.md))
 - ✅ All descriptions ≤59 chars, double-quoted YAML strings
 - ✅ Every skill has a body section (`## What This Skill Does` or an audit-recognized alternative) and standard header capitalization
 - ✅ Every multi-skill category directory has a `DESCRIPTION.md` (all 23 do)
