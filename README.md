@@ -11,6 +11,7 @@ A comprehensive collection of **202 Hermes Agent skills** across 23 categories �
 - [Skill Structure](#skill-structure)
 - [Provenance](#provenance)
 - [Cron Job Authoring](#cron-job-authoring)
+- [Claude Code](#claude-code)
 - [Tools](#tools)
 - [Verification](#verification)
 - [Usage](#usage)
@@ -448,13 +449,78 @@ cronjob(action='create',
   deliver='origin')
 ```
 
+## Claude Code
+
+This repo doubles as a Claude Code plugin, so the same second brain is available
+to Claude Code in every project on the machine — not just to Hermes.
+
+**Why a manifest is needed.** Claude Code's loader only auto-discovers skills one
+level under a plugin's `skills/` directory. It does not walk category folders, so
+a repo shaped `<category>/<skill>/SKILL.md` resolves to zero skills. Verified
+against Claude Code 2.1.270:
+
+| Layout | Skills discovered |
+|--------|-------------------|
+| `skills/<category>/<skill>/SKILL.md` | 0 |
+| `skills/<skill>/SKILL.md` | 2 of 2 |
+| explicit `skills` array in `plugin.json` | 2 of 2 |
+
+[`tools/gen-claude-plugin.py`](./tools/gen-claude-plugin.py) therefore writes an
+explicit `skills` array into [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json),
+listing each nested skill path. The Hermes-native layout is preserved, nothing is
+duplicated, and 199 skills load (`docx`, `pdf`, and `xlsx` are held back because
+Claude Code ships first-party skills of the same name — two near-identical entries
+for one request only degrades skill selection).
+
+### Install on this machine
+
+```bash
+py tools/gen-claude-plugin.py
+powershell -File tools/install-claude-code.ps1
+```
+
+The installer points a directory junction at `~/.claude/skills/hermes`, which
+Claude Code auto-loads as `hermes@skills-dir`. A junction, not a copy: the repo
+stays the single source of truth and a `git pull` is live immediately. Junctions
+need neither administrator rights nor Developer Mode. Restart Claude Code
+afterwards — skills are read once at session start.
+
+Verify, and see what it costs per session:
+
+```bash
+claude plugin details hermes
+```
+
+Roughly 3.9k tokens always-on (~20 per skill description); each skill body is
+only read when that skill fires. Remove it again with
+`powershell -File tools/install-claude-code.ps1 -Uninstall`.
+
+### Install on another machine
+
+[`.claude-plugin/marketplace.json`](./.claude-plugin/marketplace.json) makes the
+repo installable directly, no clone or junction needed:
+
+```bash
+claude plugin marketplace add loggger101/Hermes_Skills
+```
+
+```bash
+claude plugin install hermes@hermes-skills
+```
+
+The install step prompts once to trust the plugin source, so run it in an
+interactive terminal — piped or non-interactive shells will hang on that prompt.
+
+Both manifests are generated, and `verify-all.py` gates them for drift — rerun
+`py tools/gen-claude-plugin.py` after adding, renaming, or removing a skill.
+
 ## Tools
 
 This repository includes Python scripts in the `tools/` directory that automate repository maintenance:
 
 | Tool | Purpose | Cron Integration |
 |------|---------|------------------|
-| [`verify-all.py`](./tools/verify-all.py) | **Start here.** Runs every gate in one shot: audit, links, index drift (all four generated indexes), cron validators, and README/DESCRIPTION count consistency. Exit 0 = all 9 gates pass | Manual; run before any commit |
+| [`verify-all.py`](./tools/verify-all.py) | **Start here.** Runs every gate in one shot: audit, links, index drift (all four generated indexes plus the Claude Code manifests), cron validators, and README/DESCRIPTION count consistency. Exit 0 = all 10 gates pass | Manual; run before any commit |
 | [`audit-skills.py`](./tools/audit-skills.py) | Validates all 202 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | Defined for Sun 3 AM in `skill-audit.json` — **not registered**; run manually |
 | [`sync-hermes-skills.py`](./tools/sync-hermes-skills.py) | Bidirectional sync between GitHub repo and local Hermes env: git pull, skill/memories/profiles sync, DEPENDENCY.md regeneration, audit, git push | Defined for Sun 2 AM in `sync-hermes-skills.json` — **not registered**; run manually |
 
@@ -465,6 +531,8 @@ This repository includes Python scripts in the `tools/` directory that automate 
 | [`gen-skills-index.py`](./tools/gen-skills-index.py) | Rebuilds SKILLS-INDEX.md (flat one-line-per-skill index, the cheapest lookup path in the repo); stdlib-only | After adding/removing/renaming skills |
 | [`gen-code-index.py`](./tools/gen-code-index.py) | Rebuilds CODE-INDEX.md: every script/helper/test/template with kind, language, size, and a one-line purpose from its docstring/header comment; stdlib-only | After adding/removing/renaming code files |
 | [`regen-dependency-map.py`](./tools/regen-dependency-map.py) | Standalone DEPENDENCY.md regenerator (same format as the sync script's built-in map): scans all SKILL.md frontmatter, rebuilds hub/standalone tables and xref validation line | Manual / after bulk skill additions |
+| [`gen-claude-plugin.py`](./tools/gen-claude-plugin.py) | Rebuilds `.claude-plugin/plugin.json` and `marketplace.json` so Claude Code can load the nested skill tree (its loader does not walk category folders); stdlib-only | After adding/removing/renaming skills |
+| [`install-claude-code.ps1`](./tools/install-claude-code.ps1) | Junctions this repo into `~/.claude/skills/hermes` so every Claude Code session on the machine loads it; `-Uninstall` removes the link, never the repo | Once per machine |
 | [`validate-skill-refs.py`](./.hermes/cron/validate-skill-refs.py) | Validates all skill references in cronjob JSON configs resolve to existing in-repo skill directories | Pre-flight check before scheduling any cronjob |
 | [`validate-cronjobs.py`](./.hermes/cron/validate-cronjobs.py) | Comprehensive cronjob JSON validation: structural schema, skill ref resolution, threshold key alignment, no_agent consistency, enabled_toolsets correctness | Run before committing any cronjob config change |
 

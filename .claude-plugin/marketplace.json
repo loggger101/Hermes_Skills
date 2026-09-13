@@ -1,0 +1,20 @@
+{
+  "name": "hermes-skills",
+  "owner": {
+    "name": "loggger101",
+    "url": "https://github.com/loggger101"
+  },
+  "metadata": {
+    "description": "Hermes Agent skills, installable into Claude Code.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "hermes",
+      "source": "./",
+      "description": "Hermes second brain: 199 skills across 23 categories.",
+      "version": "1.0.0",
+      "license": "MIT"
+    }
+  ]
+}
