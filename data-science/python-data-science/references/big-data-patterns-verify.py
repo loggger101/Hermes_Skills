@@ -123,3 +123,36 @@ print(f"overlap row order_id=7: got {check} expected(day-2 value) {expected} -> 
 # pandas equivalent for the record (the space-datasets pattern uses exactly this):
 pd_merged = pd.concat([orders, batch2]).drop_duplicates(subset="order_id", keep="last")
 print(f"pandas-equivalent row count: {len(pd_merged):,} -> same={len(pd_merged)==N}")
+
+# ══ PATTERN 6: PyArrow row-group iteration — column-pruned null audit (space-datasets audit-nulls.py) ═══
+import pyarrow.parquet as pq
+null_df = pd.DataFrame({
+    "id": np.arange(N),
+    "a": rng.integers(0, 100, N).astype("int64"),
+    "b": [None if i % 7 == 0 else float(i) for i in range(N)],   # every 7th row null = 14.29%
+    "c": ["x" if i % 3 else None for i in range(N)],             # 1/3 = 33.33% nulls
+})
+pq_nulls = os.path.join(out_dir, "null_audit.parquet")
+null_df.to_parquet(pq_nulls, compression="zstd", row_group_size=50_000)
+
+def audit_nulls(path):
+    pf = pq.ParquetFile(path)                       # metadata only; no data loaded yet
+    total_rows = 0
+    null_counts = {}                                # col -> int
+    for batch in pf.iter_batches(batch_size=50_000):   # or columns=[...] to prune further
+        n = batch.num_rows
+        total_rows += n
+        for i, name in enumerate(batch.schema.names):
+            nulls = batch.column(i).null_count      # O(1) per column — validity bitmap precomputed
+            if nulls:
+                null_counts[name] = null_counts.get(name, 0) + nulls
+    return total_rows, null_counts
+
+t_total, t_nc = audit_nulls(pq_nulls)
+exp_b = int((null_df["b"].isna()).sum()); exp_c = int((null_df["c"].isna()).sum())
+print("\n=== PATTERN 6: pyarrow row-group null audit vs pandas ground truth ===")
+for col in ("a", "b", "c"):
+    got, want = t_nc.get(col, 0), {"a": 0, "b": exp_b, "c": exp_c}[col]
+    print(f"  {col}: row-groups={got} nulls (pandas says {want}) -> match={got == want}")
+assert t_total == N and t_nc.get("a", 0) == 0 and t_nc["b"] == exp_b and t_nc["c"] == exp_c
+print(f"rows scanned: {t_total:,} | audit matched pandas exactly (b={exp_b}, c={exp_c})")
