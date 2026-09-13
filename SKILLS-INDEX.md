@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **196 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **197 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -70,6 +70,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `evolutionary-ml` — Evolutionary ML: GA, NEAT, tournaments, parallel eval _(data-science)_
 - `jupyter-notebook` — Iterative Python via live Jupyter kernel (hamelnb) _(data-science)_
 - `model-export-deploy` — Model export: ONNX, TorchScript, HDF5, NumPy, JSON _(data-science)_
+- `optimization-modeling-pyomo` — Model LP/MIP/NLP/GDP in Pyomo with live-verified patterns _(data-science)_
 - `orbital-mechanics-data` — Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC _(data-science)_
 - `python-data-science` — Python DS: EDA, cleaning, modeling, eval, viz _(data-science)_
 - `regex-vs-llm-structured-text` — Regex-first parsing; LLM only for flagged edge cases _(data-science)_
@@ -269,4 +270,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*196 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*197 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
