@@ -55,6 +55,19 @@ python {baseDir}/scripts/quality_signal.py <project-dir> --json   # machine-read
 
 Output: `Quality NNNN (bottleneck: X)` + per-metric raw values and normalized scores.
 
+### Session governance (`sentrux gate` mirror)
+
+Save a baseline before an agent session, compare after it — exit 1 on degradation so the
+check works in CI/hooks or pre-commit gates:
+
+```bash
+python {baseDir}/scripts/quality_signal.py <project-dir> --save-baseline .qs-baseline.json
+# ...agent work...
+python {baseDir}/scripts/quality_signal.py <project-dir> --baseline .qs-baseline.json   # exits 0 clean / 1 degraded
+```
+
+Implementation details verified against the Rust source (sentrux-core/src/metrics/root_causes.rs @ 6f8ff3c): when no function data exists, Equality's Gini falls back to per-file line counts; each factor is floored at 0.01 before the geometric mean so a single zeroed dimension can't annihilate the whole signal.
+
 ## Interpreting Results
 
 - **Bottleneck = depth**: long dependency chains — extract interfaces, break the chain at a seam

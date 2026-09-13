@@ -1,6 +1,6 @@
 # Skill Dependency Map
-This document maps the relationship network between all **198 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
-**Network stats:** 495 `related_skills` cross-references across 198 skills (2 skills are standalone with no `related_skills` entries).
+This document maps the relationship network between all **200 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+**Network stats:** 504 `related_skills` cross-references across 200 skills (2 skills are standalone with no `related_skills` entries).
 ## Hub Skills (referenced by 2+ other skills)
 These are the core skills that serve as building blocks, referenced by many other skills:
 | Skill | Referenced By (count) | Referencing Skills |
@@ -17,6 +17,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `plan` | 9 | brainstorming, executing-plans, hermes-agent-skill-authoring, requesting-code-review, research-paper-writing, simplify-code, spike, systematic-debugging, test-driven-development |
 | `python-data-science` | 9 | build-systems-data, evolutionary-ml, gget, huggingface-trackio, jupyter-notebook, orbital-mechanics-data, regex-vs-llm-structured-text, research-paper-writing, sql-for-data |
 | `design-taste-frontend` | 8 | awwwards-gsap-motion, editorial-minimalism-ui, full-output-enforcement, industrial-brutalist-ui, redesign-existing-projects, soft-premium-ui, static-site-patterns, stitch |
+| `grounded-citations` | 8 | blocked-page-recovery, literature-review, mattpocock-research, parallel-cli, pubmed-database, reddit-reading, rss-feeds, scholar-evaluation |
 | `mattpocock-code-review` | 8 | mattpocock-diagnosing-bugs, mattpocock-evidence-driven, mattpocock-multi-agent-code-review, mattpocock-security-review, mattpocock-spec-driven-development, mattpocock-tdd, mattpocock-to-tickets, receiving-code-review |
 | `architecture-diagram` | 7 | claude-design, design-md, diagram-design, excalidraw, popular-web-designs, pretext, sketch |
 | `arxiv` | 7 | grounded-citations, literature-review, llm-wiki, mattpocock-research, pubmed-database, qmd, research-paper-writing |
@@ -25,7 +26,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `cron-job-authoring` | 6 | apple-reminders, cron-config-authoring, cron-pipeline-watchdog, findmy, product-price-monitor, watchers |
 | `docx` | 6 | document-to-action-items, ocr-and-documents, pdf, powerpoint, website-audit, xlsx |
 | `grilling-interview` | 6 | brainstorming, conversation-to-spec, issue-triage-state-machine, one-three-one-rule, skill-flow-router, wayfinder-map-planning |
-| `grounded-citations` | 6 | blocked-page-recovery, literature-review, mattpocock-research, parallel-cli, pubmed-database, scholar-evaluation |
 | `pdf` | 6 | document-to-action-items, docx, nano-pdf, ocr-and-documents, powerpoint, xlsx |
 | `github-code-review` | 5 | github-auth, github-pr-workflow, mattpocock-code-review, receiving-code-review, requesting-code-review |
 | `github-issues` | 5 | github, github-auth, github-issue-to-pr, github-repo-management, mattpocock-to-tickets |
@@ -38,8 +38,10 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `ocr-and-documents` | 5 | arxiv, document-to-action-items, grounded-citations, nano-pdf, pdf |
 | `popular-web-designs` | 5 | claude-design, design-md, frontend-design, redesign-existing-projects, sketch |
 | `sketch` | 5 | architecture-diagram, frontend-design, mattpocock-prototype, popular-web-designs, spike |
+| `youtube-content` | 5 | ascii-video, gif-search, manim-video, rss-feeds, songsee |
 | `apple-notes` | 4 | apple-reminders, findmy, imessage, obsidian |
 | `ascii-video` | 4 | manim-video, p5js, pretext, touchdesigner-mcp |
+| `blogwatcher` | 4 | competitor-news-monitor, rss-feeds, watchers, youtube-content |
 | `hermes-agent-skill-authoring` | 4 | cron-config-authoring, doc-coauthoring, mattpocock-code-review, mattpocock-writing-for-agents |
 | `manim-video` | 4 | ascii-video, p5js, pygame, touchdesigner-mcp |
 | `mattpocock-improve-codebase-architecture` | 4 | architecture-metrics, code-quality-signal, mattpocock-codebase-design, mattpocock-domain-modeling |
@@ -50,10 +52,8 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `ssh-remote` | 4 | docker-containers, pinggy-tunnel, rest-api-client, wizard |
 | `weights-and-biases` | 4 | evaluating-llms-harness, evolutionary-ml, python-data-science, serving-llms-vllm |
 | `xlsx` | 4 | docx, pdf, powerpoint, sql-for-data |
-| `youtube-content` | 4 | ascii-video, gif-search, manim-video, songsee |
 | `apple-reminders` | 3 | apple-notes, findmy, imessage |
 | `astro-toolkit-selection` | 3 | economicspace-pipeline, space-data-pipelines, space-mission-computation-paradigms |
-| `blogwatcher` | 3 | competitor-news-monitor, watchers, youtube-content |
 | `claude-code` | 3 | codex, hermes-agent, opencode |
 | `codex` | 3 | claude-code, hermes-agent, opencode |
 | `comfyui` | 3 | baoyu-infographic, songsee, songwriting-and-ai-music |
@@ -78,8 +78,10 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `airtable` | 2 | notion, weekly-review-planning |
 | `ascii-art` | 2 | ascii-video, pretext |
 | `autonomous-repo-cronjob` | 2 | mattpocock-using-git-worktrees, mattpocock-yeet |
+| `blocked-page-recovery` | 2 | reddit-reading, scrapling |
 | `code-quality-signal` | 2 | architecture-metrics, repowise |
 | `codebase-onboarding` | 2 | living-docs-governance, repowise |
+| `competitor-news-monitor` | 2 | blogwatcher, rss-feeds |
 | `docker-containers` | 2 | rest-api-client, ssh-remote |
 | `document-to-action-items` | 2 | decision-questionnaire, meeting-action-items |
 | `dogfood` | 2 | adversarial-ux-test, inspecting-hermes-desktop-dom |
@@ -109,10 +111,9 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `test-infra-ml` | 2 | property-based-testing, verification-culture |
 | `wayfinder-map-planning` | 2 | grilling-interview, skill-flow-router |
 ## Standalone Skills
-The following 2 skills have no `related_skills` entries of their own (they do not reference other skills). These are genuinely standalone — no other skill references them either:
+The following 1 skills have no `related_skills` entries of their own (they do not reference other skills). These are genuinely standalone — no other skill references them either:
 - `accelerate`
-- `xurl`
 ## Related Skills Validation
-All 495 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 198 unique skill names.
+All 504 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 200 unique skill names.
 
 ---
