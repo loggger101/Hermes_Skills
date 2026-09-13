@@ -9,7 +9,8 @@ Gates, in order (each must pass):
 
   1. audit-skills.py        frontmatter, descriptions, related_skills, body sections
   2. check-links.py         every relative markdown link resolves
-  3. index drift            SKILLS/CODE/REFERENCES/DEPENDENCY match what is on disk
+  3. index drift            SKILLS/CODE/REFERENCES/DEPENDENCY and the Claude Code
+                            plugin manifests match what is on disk
   4. cron validators        job configs are structurally valid, skill refs resolve
   5. doc counts             hand-written counts in README/DESCRIPTION match reality
 
@@ -105,6 +106,7 @@ def main():
         run("drift: CODE-INDEX", ["tools/gen-code-index.py", "--check"]),
         run("drift: REFERENCES-INDEX", ["tools/gen-references-index.py", "--check"]),
         run("drift: DEPENDENCY", ["tools/regen-dependency-map.py", "--check"]),
+        run("drift: .claude-plugin", ["tools/gen-claude-plugin.py", "--check"]),
         run("cron: configs", [".hermes/cron/validate-cronjobs.py"]),
         run("cron: skill refs", [".hermes/cron/validate-skill-refs.py"]),
         check_doc_counts(),
