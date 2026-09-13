@@ -1,8 +1,8 @@
 ---
-description: "External delta-v oracles + soft-assumption data sources — Asterank two-mode API correction (2026-09-07 re-probe #2), NHATS, per-element sigmas"
-source_repos: juliensimon/space-datasets (~259 scripts read selectively; 14 verified this pass), live asterank.com API re-check
-tested_version: space-datasets clone @ 2026-09-05 + LIVE Asterank API probe 2026-09-07 (this machine, py3.11)
-verified_date: "2026-09-07"
+description: "External delta-v oracles + soft-assumption data sources — Asterank two-mode API correction (2026-09-07 re-probe #2), NHATS, per-element sigmas; 2026-09-12 deep pass adds keyless HF mirrors + licensing traps"
+source_repos: juliensimon/space-datasets (~259 scripts read selectively; full shared-library read @ 5f886cd on 2026-09-12), live asterank.com API re-checks
+tested_version: space-datasets clone @ 2026-09-12 + LIVE Asterank/NHATS/HEASARC probes (this machine, py3.11)
+verified_date: "2026-09-12"
 ---
 
 # Delta-v Oracles & Economics Data Sources for the economicspace Pipeline
@@ -73,9 +73,21 @@ All are live public feeds; HF mirrors exist for most under `juliensimon/*`.
    overrides, meteorite fractions vs composition table — each is an afternoon and produces either a
    citation or a correction.
 
+## space-datasets deep pass (2026-09-12) — repo state + keyless HF mirrors
+
+Full source read of `juliensimon/space-datasets` @ 5f886cd this pass (clone `%LOCALAPPDATA%\Temp\space-ds-dive`,
+read-only; ~2,800 lines of shared library). Findings now live with the owning skill:
+
+- **Keyless HF mirrors for every soft-assumption source above** — `juliensimon/<name>` on Hugging Face loads in one line, no API keys. Full 230-dataset catalog + top-downloaders + cadence: skill `space-data-pipelines`, ref `hf-mirror-catalog.md`. For this pipeline that means frozen snapshots of SBDB/NEO/Sentry/Nesvorny/Bus-DeMeo/SDSS-taxonomy/LCDB/launch-cost/lunar-geochemistry/meteorites are available without touching the live endpoints (useful for backfills and independent cross-checks; they lag by up to one update cycle).
+- **Shared-library internals** — retry budget rationale, HEASARC HTTP-200 failure blocks, MAST keyset pagination + 504 page-halving, LFS-pointer upload recovery: skill `space-data-pipelines`, ref `shared-library-internals.md`.
+- **Licensing correction that matters for any redistribution of these feeds**: the repo's own 2026-05-26 audit found its blanket cc-by-4.0 labels wrong on ~89 datasets — ESA Space Science Archives (incl. everything fetched via VizieR/HEASARC mirrors) is **CC BY-NC 3.0 IGO**, WDC Kyoto geomagnetic indices no-commercial, SILSO CC BY-NC 4.0, and VizieR's terms are "scientific context", not CC-BY at all. Full provider table + policy URLs: skill `space-data-pipelines`, ref `space-data-licensing-audit.md`.
+- **Watchdog pattern** — the repo runs a daily stale-checker over its ~108 workflows (cron-derived periods, persistent retry state, idempotent issue escalation, NO_RETRY for Space-Track): generalized in skill `devops/cron-pipeline-watchdog`, directly applicable to aspirecures' scheduled feeds.
+- Upstream churn since the 2026-09-05 audit: only status/stats commits (no schema changes) — all facts above still hold; NHATS HF mirror re-probed live this pass (HTTP 200, real parquet file list).
+
 ## License position
 
 space-datasets pipeline code: MIT; each dataset licensed at its own source. NHATS/SBDB/Horizons: NASA JPL
 public APIs (citation requested). NEODyS: University of Pisa. Bus-DeMeo/Nesvorny/SDSS-taxonomy: NASA PDS.
 CSIS launch-cost table: cited per row in the dataset card. Asterank: MIT code, data terms on their site —
 the economics fields are explicitly "highly speculative order-of-magnitude estimates" even when they work.
+⚠️ For anything fetched via VizieR/HEASARC mirrors of ESA missions (Gaia subsets etc.): **CC BY-NC 3.0 IGO**, not cc-by-4.0 — see the licensing-audit ref above before redistributing.

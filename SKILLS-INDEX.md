@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **197 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **198 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -80,6 +80,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 
 ## devops
 
+- `cron-pipeline-watchdog` — Watch cron pipelines for stale jobs; retry and escalate _(devops)_
 - `docker-containers` — Build and debug Docker containers and Compose stacks _(devops)_
 - `pinggy-tunnel` — Zero-install localhost tunnels over SSH via Pinggy _(devops)_
 - `rest-api-client` — Call REST APIs: auth, pagination, rate limits, errors _(devops)_
@@ -270,4 +271,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*197 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*198 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*

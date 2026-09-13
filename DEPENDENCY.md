@@ -1,6 +1,6 @@
 # Skill Dependency Map
-This document maps the relationship network between all **197 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
-**Network stats:** 491 `related_skills` cross-references across 197 skills (2 skills are standalone with no `related_skills` entries).
+This document maps the relationship network between all **198 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+**Network stats:** 495 `related_skills` cross-references across 198 skills (2 skills are standalone with no `related_skills` entries).
 ## Hub Skills (referenced by 2+ other skills)
 These are the core skills that serve as building blocks, referenced by many other skills:
 | Skill | Referenced By (count) | Referencing Skills |
@@ -22,11 +22,11 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `arxiv` | 7 | grounded-citations, literature-review, llm-wiki, mattpocock-research, pubmed-database, qmd, research-paper-writing |
 | `github-auth` | 7 | github-code-review, github-issues, github-pr-workflow, github-repo-management, mattpocock-gh-fix-ci, mattpocock-yeet, wizard |
 | `mattpocock-domain-modeling` | 7 | issue-triage-state-machine, living-docs-governance, mattpocock-handoff, mattpocock-improve-codebase-architecture, mattpocock-spec-driven-development, mattpocock-to-tickets, mattpocock-writing-for-agents |
+| `cron-job-authoring` | 6 | apple-reminders, cron-config-authoring, cron-pipeline-watchdog, findmy, product-price-monitor, watchers |
 | `docx` | 6 | document-to-action-items, ocr-and-documents, pdf, powerpoint, website-audit, xlsx |
 | `grilling-interview` | 6 | brainstorming, conversation-to-spec, issue-triage-state-machine, one-three-one-rule, skill-flow-router, wayfinder-map-planning |
 | `grounded-citations` | 6 | blocked-page-recovery, literature-review, mattpocock-research, parallel-cli, pubmed-database, scholar-evaluation |
 | `pdf` | 6 | document-to-action-items, docx, nano-pdf, ocr-and-documents, powerpoint, xlsx |
-| `cron-job-authoring` | 5 | apple-reminders, cron-config-authoring, findmy, product-price-monitor, watchers |
 | `github-code-review` | 5 | github-auth, github-pr-workflow, mattpocock-code-review, receiving-code-review, requesting-code-review |
 | `github-issues` | 5 | github, github-auth, github-issue-to-pr, github-repo-management, mattpocock-to-tickets |
 | `google-workspace` | 5 | box, email-inbox-triage, himalaya, meeting-action-items, weekly-review-planning |
@@ -83,6 +83,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `docker-containers` | 2 | rest-api-client, ssh-remote |
 | `document-to-action-items` | 2 | decision-questionnaire, meeting-action-items |
 | `dogfood` | 2 | adversarial-ux-test, inspecting-hermes-desktop-dom |
+| `economicspace-pipeline` | 2 | optimization-modeling-pyomo, space-data-pipelines |
 | `email-inbox-triage` | 2 | himalaya, weekly-review-planning |
 | `evolutionary-ml` | 2 | model-export-deploy, test-infra-ml |
 | `fastmcp` | 2 | mcporter, repowise |
@@ -102,6 +103,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `redesign-existing-projects` | 2 | design-taste-frontend, full-output-enforcement |
 | `serving-llms-vllm` | 2 | llama-cpp, weights-and-biases |
 | `simplify-code` | 2 | ast-grep, python-craft |
+| `space-data-pipelines` | 2 | cron-pipeline-watchdog, duckdb-querying |
 | `sql-for-data` | 2 | duckdb-querying, sqlite-queries |
 | `static-site-seo` | 2 | publish-site, static-site-patterns |
 | `test-infra-ml` | 2 | property-based-testing, verification-culture |
@@ -111,6 +113,6 @@ The following 2 skills have no `related_skills` entries of their own (they do no
 - `accelerate`
 - `xurl`
 ## Related Skills Validation
-All 491 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 197 unique skill names.
+All 495 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 198 unique skill names.
 
 ---

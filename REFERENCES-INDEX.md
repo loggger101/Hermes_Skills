@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **320 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **323 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -243,7 +243,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 
 - `data-science/economicspace-pipeline/references/data-sources-environment-entrypoints.md` — Data sources, environment & entry points (economicspace)
 - `data-science/economicspace-pipeline/references/defect-classes-and-traps.md` — Defect classes, code traps & performance (economicspace)
-- `data-science/economicspace-pipeline/references/dv-oracles-and-economics-sources.md` — External delta-v oracles + soft-assumption data sources — Asterank two-mode API correction (2026-09-07 re-probe #2), NHATS, per-element sigmas
+- `data-science/economicspace-pipeline/references/dv-oracles-and-economics-sources.md` — External delta-v oracles + soft-assumption data sources — Asterank two-mode API correction (2026-09-07 re-probe #2), NHATS, per-element sigmas; 2026-09-12 deep pass adds keyless HF mirrors + licensing traps
 - `data-science/economicspace-pipeline/references/load-bearing-assumptions.md` — Load-bearing model assumptions (economicspace)
 ## data-science/evolutionary-ml
 
@@ -259,6 +259,11 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 
 - `data-science/python-data-science/references/big-data-patterns.md` — Verified big-data patterns (duckdb ad-hoc SQL, polars lazy joins with cardinality checks, parquet row groups, incremental dedup) — all run on 200k-row fixtures, cross-checked against pandas
 - `data-science/python-data-science/references/polars-pymc-api-reference.md` — polars + pymc API references — verified line-numbered facts from cloned sources
+## data-science/space-data-pipelines
+
+- `data-science/space-data-pipelines/references/hf-mirror-catalog.md` — All 230 keyless Hugging Face space/astro/physics mirrors from juliensimon/space-datasets — load_dataset one-liner, no API keys; grouped by domain
+- `data-science/space-data-pipelines/references/shared-library-internals.md` — hf_dataset_utils internals from juliensimon/space-datasets (230 pipelines): retry budget, TAP clients, HEASARC HTTP-200 failures, MAST keyset pagination, LFS recovery, watchdog
+- `data-science/space-data-pipelines/references/space-data-licensing-audit.md` — Space-data licensing traps from space-datasets' own 2026-05-26 audit: ESA CC BY-NC, WDC Kyoto no-commercial, VizieR scientific-use terms, provider URL table
 ## doc-coauthoring/references
 
 - `doc-coauthoring/references/repo-documentation-maintenance.md` — Maintaining Repo Documentation (README, DEPENDENCY, audit notes)
