@@ -1,8 +1,8 @@
 ---
 name: space-data-pipelines
 description: "Build space/astro data pipelines with verified API gotchas."
-version: v1.0.0
-author: Hermes Agent (ported from starred-repo research; deep pass on juliensimon/space-datasets 2026-09-12)
+version: v1.1.0
+author: Hermes Agent (ported from starred-repo research; deep passes on juliensimon/space-datasets 2026-09-12 shared library + 2026-09-13 parser families)
 license: MIT
 platforms: [linux, macos, windows]
 metadata:
@@ -32,6 +32,15 @@ Every pipeline is ONE script following the same shape:
 6. **Status** — update status.json with date + row count per key; keys written alphabetically so concurrent daily pushes don't merge-conflict.
 
 **Runnable reference implementation:** `scripts/pipeline_skeleton.py` (this skill) carries three shared helpers verbatim-in-spirit from space-datasets — `jpl_query()` (retry/backoff on 5xx), `vizier_query()` (recno-cursor pagination, VizieR TAP has no OFFSET), `check_dataset()` (hard-fail row/schema/null gates + truncated-upload guard) — wired to a live NHATS fetch as the self-test. Verified end-to-end 2026-09-07: 7,045 rows fetched, validation passed with 0 warnings.
+
+## Per-source parser families (full detail in `references/source-parser-families.md`)
+
+How each distinct source format is actually parsed — six families, all portable:
+- **TLE two-line elements**: fixed-position char slices (`norad [2:7]`, epoch year `[18:20]` with the century rule `>=57→1900s else 2000s`, bstar/eccentricity as implicit-decimal scientific), stateful line-1/line-2 pairing, Kepler-derived altitude column as a data-quality signal, PyArrow schema-enforced writes so one bad day can't mutate the year file's schema, empty-response = warning+skip (not an error) for lagging Space-Track.
+- **PDS3/PDS4 fixed-width `.tab`**: colspecs from the source's own `.lbl` files; `dtype=str` then strip/sentinel-map then coerce; dual-key merge split by numbered-vs-unnumbered objects (join provisional designations separately or you lose them); PDS3 proper-elements sentinel `0.0 = unavailable`.
+- **GOES netCDF**: discover the versioned filename via directory-listing regex at run time; long-format status rows (EVENT_START/PEAK/END) pivoted to one-row-per-flare by dict-keying on flare_id; seconds-since-2000-01-01T12:00 epoch.
+- **Wikidata SPARQL**: multi-value properties fan out rows — dedup with a data-richness sort, not blind keep="first"; strip full URIs to Q-IDs; drop bare `Q\d+` stub entities; hand-maintained override dict for missing properties applied only where null.
+- **HTML scraping (FCC filings)**: commit real page snapshots as git fixtures + pure offline parser tests covering BOTH layouts the site serves — layout drift fails locally before the weekly cron ships broken data, not in production. Seed JSON with a load-time invariant (`sum(shell counts) == requested total`).
 
 ## Shared-library internals (full deep read in `references/shared-library-internals.md`)
 
