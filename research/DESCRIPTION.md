@@ -20,6 +20,7 @@ Skills for academic research, paper discovery, literature review, domain reconna
 - [`pubmed-database`](./pubmed-database/SKILL.md) — PubMed/NCBI E-utilities: MeSH queries, PMID lookup, API
 - [`qmd`](./qmd/SKILL.md) — Hybrid local search over notes, docs, and transcripts
 - [`research-paper-writing`](./research-paper-writing/SKILL.md) — Write ML papers for NeurIPS/ICML/ICLR: design→submit
+- [`rss-feeds`](./rss-feeds/SKILL.md) — Read RSS, Atom, JSON feeds; discover feeds behind a page
 - [`scholar-evaluation`](./scholar-evaluation/SKILL.md) — Scholarly work rubric: papers, proposals, evidence quality
 - [`scrapling`](./scrapling/SKILL.md) — Scrape sites with stealth browsing and Cloudflare bypass
 

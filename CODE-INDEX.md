@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **131 code files** (30,854 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **133 code files** (31,426 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -189,9 +189,17 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `research/grounded-citations/scripts/sources.py` (script, python, 678 lines) — Citation ledger for grounded answers and documents
 - `research/grounded-citations/scripts/_hermes_home.py` (shared helper, python, 23 lines) — Resolve HERMES_HOME for standalone skill scripts
 
+## research/rss-feeds
+
+- `research/rss-feeds/scripts/feed.py` (script, python, 246 lines) — Read RSS / Atom / JSON Feed sources and discover feeds behind a page URL
+
 ## security/oss-forensics
 
 - `security/oss-forensics/scripts/evidence-store.py` (script, python, 313 lines)
+
+## social-media/reddit-reading
+
+- `social-media/reddit-reading/scripts/reddit.py` (script, python, 311 lines) — Read Reddit without a browser: listings, search, threads with comments, user pages
 
 ## software-development/architecture-metrics
 
@@ -207,7 +215,7 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 
 ## software-development/code-quality-signal
 
-- `software-development/code-quality-signal/scripts/quality_signal.py` (script, python, 366 lines) — Code quality signal: 5 ungameable root-cause metrics on a Python codebase
+- `software-development/code-quality-signal/scripts/quality_signal.py` (script, python, 381 lines) — Code quality signal: 5 ungameable root-cause metrics on a Python codebase
 
 ## software-development/generating-python-installer
 
@@ -246,4 +254,4 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `tools/verify-all.py` (repo tooling, python, 128 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*131 code files: 92 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*133 code files: 94 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*

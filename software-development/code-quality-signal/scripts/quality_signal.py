@@ -1,13 +1,22 @@
 #!/usr/bin/env python3
 """Code quality signal: 5 ungameable root-cause metrics on a Python codebase.
 
-Derived from sentrux/sentrux docs/quality-signal-design.md (starred repo, read-only).
-Stdlib only. Metrics: modularity (Newman Q over import graph), acyclicity
-(Tarjan SCC cycle count), depth (longest dependency chain), equality (Gini of
-per-function cyclomatic complexity), redundancy (dead + duplicate functions).
-Aggregated via geometric mean -> 0-10000 signal. Lowest sub-score = bottleneck.
+Derived from sentrux/sentrux docs/quality-signal-design.md, with normalization
+details verified against the Rust implementation (sentrux-core/src/metrics/
+root_causes.rs @ 6f8ff3c). Stdlib only. Metrics: modularity (Newman Q over
+import graph), acyclicity (Tarjan SCC cycle count), depth (longest dependency
+chain), equality (Gini of per-function cyclomatic complexity, falling back to
+per-file line counts when no functions exist — same fallback as upstream),
+redundancy (dead + duplicate functions). Aggregated via geometric mean ->
+0-10000 signal. Lowest sub-score = bottleneck.
 
-Usage: python quality_signal.py <project-dir> [--json]
+Session governance (mirrors `sentrux gate`): save a baseline before an agent
+session and compare after it; exit 1 on degradation so it works in CI/hooks.
+
+Usage:
+  python quality_signal.py <project-dir> [--json]
+  python quality_signal.py <project-dir> --save-baseline FILE.json
+  python quality_signal.py <project-dir> --baseline FILE.json   # exits 0/1
 """
 import ast
 import hashlib
@@ -317,6 +326,10 @@ def main():
     for m in sorted(cache):
         tree = cache[m][0]
         cc_values.extend(cyclomatic(tree))
+    # Upstream fallback (root_causes.rs compute_complexity_gini): when no
+    # function data exists, Gini is computed over per-file line counts.
+    if len(cc_values) <= 1:
+        cc_values = [len(src.splitlines()) for _, (_, _, src) in sorted(cache.items())]
     gini_cc = gini(cc_values)
     dead, dups, total_fns, red_ratio = redundancy(cache)
 
@@ -329,7 +342,9 @@ def main():
     }
     prod = 1.0
     for v in scores.values():
-        prod *= max(v, 1e-9)
+        # Upstream floors each factor at 0.01 (root_causes.rs: .max(0.01)) so a
+        # single zeroed dimension can't annihilate the whole signal.
+        prod *= max(v, 0.01)
     signal = int(round((prod ** (1 / 5)) * 10000))
     bottleneck = min(scores, key=scores.get)
 

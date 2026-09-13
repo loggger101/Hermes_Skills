@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **198 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **200 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -192,6 +192,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `pubmed-database` — PubMed/NCBI E-utilities: MeSH queries, PMID lookup, API _(research)_
 - `qmd` — Hybrid local search over notes, docs, and transcripts _(research)_
 - `research-paper-writing` — Write ML papers for NeurIPS/ICML/ICLR: design→submit _(research)_
+- `rss-feeds` — Read RSS, Atom, JSON feeds; discover feeds behind a page _(research)_
 - `scholar-evaluation` — Scholarly work rubric: papers, proposals, evidence quality _(research)_
 - `scrapling` — Scrape sites with stealth browsing and Cloudflare bypass _(research)_
 
@@ -207,6 +208,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 
 ## social-media
 
+- `reddit-reading` — Read Reddit: subs, search, threads, users. No browser _(social-media)_
 - `xurl` — X/Twitter via xurl CLI: post search, posting, DM, media _(social-media)_
 
 ## software-development
@@ -271,4 +273,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*198 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*200 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
