@@ -55,6 +55,21 @@ Use UDP when: lowest latency matters; late data is worse than lost data; you wan
 REST exposes *data*; minimizes client/server coupling → public HTTP APIs; statelessness makes horizontal scaling and partitioning easy.
 Disadvantages: awkward when resources aren't naturally hierarchical (e.g., "all records updated in the past hour matching events X" = path + query params + body soup); few verbs don't always fit ("archive expired documents"); nested hierarchies need multiple round trips (bad on mobile networks); evolving responses bloat payloads for old clients that receive fields they never use.
 
+**HATEOAS in practice** (from the primer's flashcard deck — fuller than most summaries): HATEOAS = *Hypermedia As The Engine Of Application State* — hypertext links should be how a client navigates the API, so responses advertise their own next actions:
+```http
+GET /account/12345 HTTP/1.1
+HTTP/1.1 200 OK
+<?xml version="1.0"?>
+<account>
+  <account_number>12345</account_number>
+  <balance currency="usd">100.00</balance>
+  <link rel="deposit"   href="/account/12345/deposit"/>
+  <link rel="withdraw"  href="/account/12345/withdraw"/>
+  <link rel="transfer"  href="/account/12345/transfer"/>
+</account>
+```
+The client discovers available operations from the representation itself instead of hardcoding URLs — this is what makes a REST service "fully accessible in a browser". In practice most public APIs skip full HATEOAS (link bloat, awkward with JSON); treat it as the theoretical ceiling of REST's self-descriptiveness.
+
 ### Side-by-side (same operations)
 | Operation | RPC | REST |
 |---|---|---|
