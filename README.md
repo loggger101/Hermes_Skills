@@ -98,6 +98,7 @@ All 197 skills organized by category:
 - [`imessage`](./apple/imessage) — Send and receive iMessages/SMS via the imsg CLI on macOS.
 #### Autonomous AI Agents
 
+- [`agent-merge-conflict-arbiter`](./autonomous-ai-agents/agent-merge-conflict-arbiter) — Neutral arbiter for merge conflicts between two agents.
 - [`autonomous-repo-cronjob`](./autonomous-ai-agents/autonomous-repo-cronjob) — Write self-contained cronjob prompts for existing repos.
 - [`claude-code`](./autonomous-ai-agents/claude-code) — Delegate coding to Claude Code CLI (features, PRs).
 - [`codex`](./autonomous-ai-agents/codex) — Delegate coding to OpenAI Codex CLI (features, PRs).
@@ -108,6 +109,7 @@ All 197 skills organized by category:
 - [`mattpocock-resolving-merge-conflicts`](./autonomous-ai-agents/mattpocock-resolving-merge-conflicts) — Resolve git merge conflicts by tracing each side's intent.
 - [`merge-reconciler`](./autonomous-ai-agents/merge-reconciler) — Neutral third-party resolution of agent merge conflicts.
 - [`opencode`](./autonomous-ai-agents/opencode) — Delegate coding to OpenCode CLI (features, PR review).
+- [`repowise`](./autonomous-ai-agents/repowise) — Index a repo once; the agent reads answers, not grep loops
 #### Communication
 
 - [`one-three-one-rule`](./communication/one-three-one-rule) — 1-3-1 decision briefs: problem, three options, one pick.
@@ -116,15 +118,18 @@ All 197 skills organized by category:
 - [`architecture-diagram`](./creative/architecture-diagram) — Dark-themed SVG architecture/cloud/infra diagrams as HTML.
 - [`ascii-art`](./creative/ascii-art) — ASCII art: pyfiglet, cowsay, boxes, image-to-ascii.
 - [`ascii-video`](./creative/ascii-video) — ASCII video: convert video/audio to colored ASCII MP4/GIF.
+- [`awwwards-gsap-motion`](./creative/awwwards-gsap-motion) — Awwwards-level GSAP motion + deterministic layout RNG.
 - [`baoyu-infographic`](./creative/baoyu-infographic) — Infographics: 21 layouts x 21 styles (信息图, 可视化).
 - [`claude-design`](./creative/claude-design) — Design one-off HTML artifacts (landing, deck, prototype).
 - [`comfyui`](./creative/comfyui) — Generate images, video, and audio via diffusion workflows.
 - [`design-md`](./creative/design-md) — Author/validate/export Google's DESIGN.md token spec files.
 - [`design-taste-frontend`](./creative/design-taste-frontend) — Anti-slop frontend skill: brief-inferred design direction.
 - [`diagram-design`](./creative/diagram-design) — Create 39 diagram types as standalone HTML/SVG/PNG files.
+- [`editorial-minimalism-ui`](./creative/editorial-minimalism-ui) — Editorial monochrome minimalism, Notion/Linear-tier UI.
 - [`excalidraw`](./creative/excalidraw) — Hand-drawn Excalidraw JSON diagrams (arch, flow, seq).
 - [`full-output-enforcement`](./creative/full-output-enforcement) — Enforce complete output; ban placeholder patterns.
 - [`humanizer`](./creative/humanizer) — Humanize text: strip AI-isms and add real voice.
+- [`industrial-brutalist-ui`](./creative/industrial-brutalist-ui) — Swiss-print + CRT-terminal brutalist UI engineering.
 - [`manim-video`](./creative/manim-video) — Manim CE animations: 3Blue1Brown math/algo videos.
 - [`mattpocock-prototype`](./creative/mattpocock-prototype) — Build a throwaway prototype to answer a design question.
 - [`p5js`](./creative/p5js) — p5.js sketches: gen art, shaders, interactive, 3D.
@@ -133,8 +138,10 @@ All 197 skills organized by category:
 - [`pygame`](./creative/pygame) — Use when building or testing pygame/SDL games.
 - [`redesign-existing-projects`](./creative/redesign-existing-projects) — Audit-first redesign of existing sites to premium quality.
 - [`sketch`](./creative/sketch) — Throwaway HTML mockups: 2-3 design variants to compare.
+- [`soft-premium-ui`](./creative/soft-premium-ui) — $150k-agency soft UI: double-bezel cards, spring motion.
 - [`songwriting-and-ai-music`](./creative/songwriting-and-ai-music) — Songwriting craft and Suno AI music prompts.
 - [`static-site-seo`](./creative/static-site-seo) — Static site SEO: JSON-LD, meta tags, analytics, CSP.
+- [`stitch`](./creative/stitch) — Generate premium anti-generic DESIGN.md files for Stitch.
 - [`touchdesigner-mcp`](./creative/touchdesigner-mcp) — Control TouchDesigner via twozero MCP.
 #### Data Science
 
@@ -146,6 +153,7 @@ All 197 skills organized by category:
 - [`evolutionary-ml`](./data-science/evolutionary-ml) — Evolutionary ML: GA, NEAT, tournaments, parallel eval.
 - [`jupyter-notebook`](./data-science/jupyter-notebook) — Iterative Python via live Jupyter kernel (hamelnb).
 - [`model-export-deploy`](./data-science/model-export-deploy) — Model export: ONNX, TorchScript, HDF5, NumPy, JSON.
+- [`optimization-modeling-pyomo`](./data-science/optimization-modeling-pyomo) — Model LP/MIP/NLP/GDP in Pyomo with live-verified patterns.
 - [`orbital-mechanics-data`](./data-science/orbital-mechanics-data) — Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC.
 - [`python-data-science`](./data-science/python-data-science) — Python DS: EDA, cleaning, modeling, eval, viz.
 - [`regex-vs-llm-structured-text`](./data-science/regex-vs-llm-structured-text) — Regex-first parsing; LLM only for flagged edge cases.
@@ -204,6 +212,7 @@ All 197 skills organized by category:
 - [`youtube-content`](./media/youtube-content) — YouTube transcripts to summaries, threads, blogs.
 #### MLOps
 
+- [`accelerate`](./mlops/accelerate) — Run PyTorch training across GPUs with minimal changes.
 - [`evaluating-llms-harness`](./mlops/evaluation/evaluating-llms-harness) — lm-eval-harness: benchmark LLMs (MMLU, GSM8K, etc.).
 - [`huggingface-hub`](./mlops/huggingface-hub) — HuggingFace hf CLI: search/download/upload models.
 - [`llama-cpp`](./mlops/inference/llama-cpp) — llama.cpp local GGUF inference + HF Hub model discovery.
@@ -268,16 +277,20 @@ All 197 skills organized by category:
 - [`xurl`](./social-media/xurl) — X/Twitter via xurl CLI: post search, posting, DM, media.
 #### Software Development
 
+- [`architecture-metrics`](./software-development/architecture-metrics) — Dependency-graph architecture metrics for Python repos.
 - [`ast-grep`](./software-development/ast-grep) — AST-aware structural code search and rewrite via ast-grep.
 - [`brainstorming`](./software-development/brainstorming) — Triage as spike/bounded/architectural; approve first.
 - [`codebase-onboarding`](./software-development/codebase-onboarding) — Onboard to a new repo: arch map + starter AGENTS.md.
 - [`cli-tool-craft`](./software-development/cli-tool-craft) — CLI tools: subcommands, config validation, env substitution.
 - [`code-quality-signal`](./software-development/code-quality-signal) — Score Python repos on 5 ungameable structural metrics.
 - [`code-wiki`](./software-development/code-wiki) — Generate wiki docs + Mermaid diagrams for any codebase.
+- [`dispatching-parallel-agents`](./software-development/dispatching-parallel-agents) — Parallel subagents for independent problem domains.
 - [`conversation-to-spec`](./software-development/conversation-to-spec) — Turn a conversation into a publishable spec.
 - [`dogfood`](./software-development/dogfood) — Exploratory QA of web apps: find bugs, evidence, reports.
+- [`executing-plans`](./software-development/executing-plans) — Execute a written plan inline with checkpoints.
 - [`generating-python-installer`](./software-development/generating-python-installer) — Nuitka + Inno Setup: smallest, fastest Windows installers.
 - [`github`](./software-development/github) — GitHub via gh CLI: PRs, issues, reviews, repos, auth.
+- [`grill-me`](./software-development/grill-me) — Adversarial plan interview before implementation.
 - [`grilling-interview`](./software-development/grilling-interview) — Stress-test a plan by interviewing in design-tree rounds.
 - [`hermes-agent-skill-authoring`](./software-development/hermes-agent-skill-authoring) — Author in-repo SKILL.md files: frontmatter and structure.
 - [`inspecting-hermes-desktop-dom`](./software-development/inspecting-hermes-desktop-dom) — Read the live Hermes desktop DOM/CSS over CDP.
@@ -312,7 +325,8 @@ All 197 skills organized by category:
 - [`systematic-debugging`](./software-development/systematic-debugging) — 4-phase root cause debugging: understand before fixing.
 - [`test-driven-development`](./software-development/test-driven-development) — TDD: enforce RED-GREEN-REFACTOR, tests before code.
 - [`test-infra-ml`](./software-development/test-infra-ml) — Testing ML systems: sims, EAs, tournaments, checkpoints.
-- [`windows-desktop-e2e`](./software-development/windows-desktop-e2e) — Windows desktop E2E testing with pywinauto + UI Automation.- [`verification-before-completion`](./software-development/verification-before-completion) — No completion claims without fresh verification evidence.
+- [`windows-desktop-e2e`](./software-development/windows-desktop-e2e) — Windows desktop E2E testing with pywinauto + UI Automation.
+- [`verification-before-completion`](./software-development/verification-before-completion) — No completion claims without fresh verification evidence.
 - [`verification-culture`](./software-development/verification-culture) — Doc-driven verification: backlog, audits, regression.
 - [`wayfinder-map-planning`](./software-development/wayfinder-map-planning) — Plan multi-session work as a map of decision tickets.
 #### Web Development
