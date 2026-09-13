@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **200 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **201 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -87,6 +87,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `sdlc-review` — Review Kanban handoffs and route verified outcomes _(devops)_
 - `sqlite-queries` — Query, inspect, and export SQLite databases _(devops)_
 - `ssh-remote` — Commands and file transfer on remote machines over SSH _(devops)_
+- `system-design-scaling` — Scalable system design: CAP, caches, shards, tradeoffs _(devops)_
 - `watchers` — Poll RSS, JSON APIs, and GitHub with watermark dedup _(devops)_
 - `wizard` — Bash wizard walking a human through manual-only steps _(devops)_
 
@@ -273,4 +274,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*200 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*201 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*

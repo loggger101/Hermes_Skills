@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **133 code files** (31,426 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **137 code files** (31,883 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -79,6 +79,13 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 
 - `devops/sqlite-queries/tests/conftest.py` (test, python, 54 lines) — Shared fixtures: a small deterministic SQLite DB exercising users/orders/FKs.
 - `devops/sqlite-queries/tests/test_sqlite_queries.py` (test, python, 258 lines) — Verify the sqlite-queries skill's documented workflow against real SQLite behavior
+
+## devops/system-design-scaling
+
+- `devops/system-design-scaling/scripts/availability_math.py` (script, python, 125 lines) — Availability math — verifies the "nines" downtime tables and sequence/parallel
+- `devops/system-design-scaling/scripts/lru_cache_o1.py` (script, python, 124 lines) — O(1) LRU cache — implements the design doc from donnemartin/system-design-primer's
+- `devops/system-design-scaling/scripts/shortlink_base62.py` (script, python, 102 lines) — Base62 URL shortener — implements + verifies the pastebin/Bit.ly pattern from
+- `devops/system-design-scaling/scripts/topk_mapreduce_sim.py` (script, python, 106 lines) — Top-k-per-group via two-stage MapReduce — simulates the sales_rank case study from
 
 ## devops/watchers
 
@@ -254,4 +261,4 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `tools/verify-all.py` (repo tooling, python, 128 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*133 code files: 94 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*137 code files: 98 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*

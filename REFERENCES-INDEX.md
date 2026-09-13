@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **324 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **329 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -265,6 +265,13 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `data-science/space-data-pipelines/references/shared-library-internals.md` — hf_dataset_utils internals from juliensimon/space-datasets (230 pipelines): retry budget, TAP clients, HEASARC HTTP-200 failures, MAST keyset pagination, LFS recovery, watchdog
 - `data-science/space-data-pipelines/references/source-parser-families.md` — Per-source parsing families from space-datasets (round-15): TLE two-line-element char positions + epoch century rule, PDS3/PDS4 fixed-width colspecs, GOES netCDF status pivot, Wikidata SPARQL dedup, HTML fixture testing
 - `data-science/space-data-pipelines/references/space-data-licensing-audit.md` — Space-data licensing traps from space-datasets' own 2026-05-26 audit: ESA CC BY-NC, WDC Kyoto no-commercial, VizieR scientific-use terms, provider URL table
+## devops/system-design-scaling
+
+- `devops/system-design-scaling/references/asynchronism-communication-security.md` — Asynchronism, Communication & Security
+- `devops/system-design-scaling/references/case-study-patterns.md` — Case-Study Patterns (8 Worked Designs → Reusable Recipes)
+- `devops/system-design-scaling/references/databases-and-caching.md` — Databases, NoSQL & Caching — Trade-Off Tables
+- `devops/system-design-scaling/references/latency-and-estimation.md` — Latency Numbers & Back-of-the-Envelope Estimation
+- `devops/system-design-scaling/references/scaling-tradeoffs-and-topics.md` — Scaling Trade-Offs & Networking Topics
 ## doc-coauthoring/references
 
 - `doc-coauthoring/references/repo-documentation-maintenance.md` — Maintaining Repo Documentation (README, DEPENDENCY, audit notes)
