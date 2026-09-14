@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **202 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **204 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -19,6 +19,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `computer-use` — Drive the desktop in the background without stealing focus _(autonomous-ai-agents)_
 - `cron-config-authoring` — Author cronjob JSON configs with structured skills _(autonomous-ai-agents)_
 - `cron-job-authoring` — Author autonomous cron prompts with guardrails _(autonomous-ai-agents)_
+- `dynamic-workflow` — Plan-in-code fan-outs, adversarial verification, waves _(autonomous-ai-agents)_
 - `hermes-agent` — Use, configure, theme, extend, orchestrate Hermes Agent _(autonomous-ai-agents)_
 - `mattpocock-resolving-merge-conflicts` — Resolve git merge conflicts by tracing each side's intent _(autonomous-ai-agents)_
 - `merge-reconciler` — Neutral third-party resolution of agent merge conflicts _(autonomous-ai-agents)_
@@ -58,6 +59,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `songwriting-and-ai-music` — Songwriting craft and Suno AI music prompts _(creative)_
 - `static-site-seo` — Static site SEO: JSON-LD, meta tags, analytics, CSP _(creative)_
 - `stitch` — Generate premium anti-generic DESIGN.md files for Stitch _(creative)_
+- `system-atlas` — Build explorable isometric architecture atlases as HTML _(creative)_
 - `touchdesigner-mcp` — Control TouchDesigner via twozero MCP _(creative)_
 
 ## data-science
@@ -275,4 +277,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*202 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*204 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*

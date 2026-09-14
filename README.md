@@ -1,6 +1,6 @@
 # Hermes Skills Repository
 
-A comprehensive collection of **202 Hermes Agent skills** across 23 categories — the second brain for its owner's Hermes Agent environment. See [DESCRIPTION.md](./DESCRIPTION.md) for the task-to-skill lookup ladder and [SKILLS-INDEX.md](./SKILLS-INDEX.md) for the full flat index.
+A comprehensive collection of **204 Hermes Agent skills** across 23 categories — the second brain for its owner's Hermes Agent environment. See [DESCRIPTION.md](./DESCRIPTION.md) for the task-to-skill lookup ladder and [SKILLS-INDEX.md](./SKILLS-INDEX.md) for the full flat index.
 
 ## Table of Contents
 
@@ -44,7 +44,7 @@ grep -i "raster\|token bridge" CODE-INDEX.md
 
 ## Overview
 
-This repository serves as a centralized database of all **202 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (514 cross-references mapped across 202 skills, 2 with no outbound `related_skills`). See [audit notes](docs/archive/audit-notes-skills-repo-pass.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
+This repository serves as a centralized database of all **204 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (520 cross-references mapped across 204 skills, 2 with no outbound `related_skills`). See [audit notes](docs/archive/audit-notes-skills-repo-pass.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
 
 ### Source Profiles
 
@@ -62,9 +62,9 @@ When a skill existed in multiple profiles, the version from the highest-priority
 | Category | Description | Skill Count |
 |----------|-------------|-------------|
 | [apple/](./apple/) | Apple platform integrations | 4 |
-| [autonomous-ai-agents/](./autonomous-ai-agents/) | Multi-agent orchestration and delegation | 12 |
+| [autonomous-ai-agents/](./autonomous-ai-agents/) | Multi-agent orchestration and delegation | 13 |
 | [communication/](./communication/) | Decision-brief formats (1-3-1 rule) | 1 |
-| [creative/](./creative/) | Creative content generation and design | 28 |
+| [creative/](./creative/) | Creative content generation and design | 29 |
 | [data-science/](./data-science/) | Data science workflows and tools | 16 |
 | [devops/](./devops/) | Infrastructure, containers, and deployment + zero-install SSH tunnels (Pinggy) + system-design knowledge layer | 10 |
 | [doc-coauthoring/](./doc-coauthoring/) | Structured document co-authoring workflow | 1 |
@@ -85,11 +85,11 @@ When a skill existed in multiple profiles, the version from the highest-priority
 | [software-development/](./software-development/) | Development tools and workflows | 52 |
 | [web-development/](./web-development/) | Web/API client derivation (HAR-based) + versioned static-site publishing | 3 |
 
-**Total: 202 skills across 23 categories** — counts below are regenerated from live frontmatter; keep them in sync via `python tools/gen-skills-index.py` and the audit.
+**Total: 204 skills across 23 categories** — counts below are regenerated from live frontmatter; keep them in sync via `python tools/gen-skills-index.py` and the audit.
 
 ### Skill Catalog
 
-All 202 skills organized by category:
+All 204 skills organized by category:
 
 #### Apple
 
@@ -106,6 +106,7 @@ All 202 skills organized by category:
 - [`computer-use`](./autonomous-ai-agents/computer-use) — Drive the desktop in the background without stealing focus.
 - [`cron-config-authoring`](./autonomous-ai-agents/cron-config-authoring) — Author cronjob JSON configs with structured skills.
 - [`cron-job-authoring`](./autonomous-ai-agents/cron-job-authoring) — Author autonomous cron prompts with guardrails.
+- [`dynamic-workflow`](./autonomous-ai-agents/dynamic-workflow) — Plan-in-code fan-outs, adversarial verification, waves.
 - [`hermes-agent`](./autonomous-ai-agents/hermes-agent) — Use, configure, theme, extend, orchestrate Hermes Agent.
 - [`mattpocock-resolving-merge-conflicts`](./autonomous-ai-agents/mattpocock-resolving-merge-conflicts) — Resolve git merge conflicts by tracing each side's intent.
 - [`merge-reconciler`](./autonomous-ai-agents/merge-reconciler) — Neutral third-party resolution of agent merge conflicts.
@@ -143,6 +144,7 @@ All 202 skills organized by category:
 - [`songwriting-and-ai-music`](./creative/songwriting-and-ai-music) — Songwriting craft and Suno AI music prompts.
 - [`static-site-seo`](./creative/static-site-seo) — Static site SEO: JSON-LD, meta tags, analytics, CSP.
 - [`stitch`](./creative/stitch) — Generate premium anti-generic DESIGN.md files for Stitch.
+- [`system-atlas`](./creative/system-atlas) — Build explorable isometric architecture atlases as HTML.
 - [`touchdesigner-mcp`](./creative/touchdesigner-mcp) — Control TouchDesigner via twozero MCP.
 #### Data Science
 
@@ -521,7 +523,7 @@ This repository includes Python scripts in the `tools/` directory that automate 
 | Tool | Purpose | Cron Integration |
 |------|---------|------------------|
 | [`verify-all.py`](./tools/verify-all.py) | **Start here.** Runs every gate in one shot: audit, links, index drift (all four generated indexes plus the Claude Code manifests), cron validators, and README/DESCRIPTION count consistency. Exit 0 = all 10 gates pass | Manual; run before any commit |
-| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 202 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | **Registered + live** — job `hermes-skills-audit`, Sun 3 AM (verified end-to-end through the real scheduler 2026-09-14) |
+| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 204 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | **Registered + live** — job `hermes-skills-audit`, Sun 3 AM (verified end-to-end through the real scheduler 2026-09-14) |
 | [`sync-hermes-skills.py`](./tools/sync-hermes-skills.py) | Bidirectional sync between GitHub repo and local Hermes env: git pull, skill/memories/profiles sync, DEPENDENCY.md regeneration, audit, git push. Has `--dry-run` — always dry-run before a first live run (round 19b caught two latent phantom-action bugs this way) | **Registered** for Sun 2 AM in `sync-hermes-skills.json`, currently paused by design until the owner opts it on; verified end-to-end once via manual trigger 2026-09-14 |
 
 
@@ -583,9 +585,9 @@ The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a w
 
 ✅ items are checked by `tools/audit-skills.py` / `tools/check-links.py` on every audit run; the threshold-gated subset (a non-zero count fails the run) is `broken_refs`, `yaml_errors`, `long_descriptions`, `duplicate_skills`, `missing_body_sections`, `temps_scripts`. 📎 items are conventions no tool enforces — hold them by hand.
 
-- ✅ All 202 skills have valid frontmatter (`name`, `version`, `author`, `platforms`, `metadata.hermes`) and parse without errors
+- ✅ All 204 skills have valid frontmatter (`name`, `version`, `author`, `platforms`, `metadata.hermes`) and parse without errors
 - ✅ No duplicate skill names; no empty skill directories
-- ✅ All `related_skills` references resolve to existing in-repo skills — 514 cross-references across 202 skills (see [DEPENDENCY.md](./DEPENDENCY.md))
+- ✅ All `related_skills` references resolve to existing in-repo skills — 520 cross-references across 204 skills (see [DEPENDENCY.md](./DEPENDENCY.md))
 - ✅ All descriptions ≤59 chars, double-quoted YAML strings
 - ✅ Every skill has a body section (`## What This Skill Does` or an audit-recognized alternative) and standard header capitalization
 - ✅ Every multi-skill category directory has a `DESCRIPTION.md` (all 23 do)

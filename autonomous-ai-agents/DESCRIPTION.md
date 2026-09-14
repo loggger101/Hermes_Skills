@@ -13,6 +13,7 @@ Skills for spawning and orchestrating autonomous AI coding agents and multi-agen
 - [`computer-use`](./computer-use/SKILL.md) — Drive the desktop in the background without stealing focus
 - [`cron-config-authoring`](./cron-config-authoring/SKILL.md) — Author cronjob JSON configs with structured skills
 - [`cron-job-authoring`](./cron-job-authoring/SKILL.md) — Author autonomous cron prompts with guardrails
+- [`dynamic-workflow`](./dynamic-workflow/SKILL.md) — Plan-in-code fan-outs, adversarial verification, waves
 - [`hermes-agent`](./hermes-agent/SKILL.md) — Use, configure, theme, extend, orchestrate Hermes Agent
 - [`mattpocock-resolving-merge-conflicts`](./mattpocock-resolving-merge-conflicts/SKILL.md) — Resolve git merge conflicts by tracing each side's intent
 - [`merge-reconciler`](./merge-reconciler/SKILL.md) — Neutral third-party resolution of agent merge conflicts

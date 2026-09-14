@@ -33,6 +33,7 @@ Creative content generation — ASCII art, hand-drawn style diagrams, and visual
 - [`songwriting-and-ai-music`](./songwriting-and-ai-music/SKILL.md) — Songwriting craft and Suno AI music prompts
 - [`static-site-seo`](./static-site-seo/SKILL.md) — Static site SEO: JSON-LD, meta tags, analytics, CSP
 - [`stitch`](./stitch/SKILL.md) — Generate premium anti-generic DESIGN.md files for Stitch
+- [`system-atlas`](./system-atlas/SKILL.md) — Build explorable isometric architecture atlases as HTML
 - [`touchdesigner-mcp`](./touchdesigner-mcp/SKILL.md) — Control TouchDesigner via twozero MCP
 
 *Regenerated from live frontmatter — keep in sync with `tools/gen-skills-index.py`.*
