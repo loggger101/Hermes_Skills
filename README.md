@@ -521,8 +521,8 @@ This repository includes Python scripts in the `tools/` directory that automate 
 | Tool | Purpose | Cron Integration |
 |------|---------|------------------|
 | [`verify-all.py`](./tools/verify-all.py) | **Start here.** Runs every gate in one shot: audit, links, index drift (all four generated indexes plus the Claude Code manifests), cron validators, and README/DESCRIPTION count consistency. Exit 0 = all 10 gates pass | Manual; run before any commit |
-| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 202 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | Defined for Sun 3 AM in `skill-audit.json` — **not registered**; run manually |
-| [`sync-hermes-skills.py`](./tools/sync-hermes-skills.py) | Bidirectional sync between GitHub repo and local Hermes env: git pull, skill/memories/profiles sync, DEPENDENCY.md regeneration, audit, git push | Defined for Sun 2 AM in `sync-hermes-skills.json` — **not registered**; run manually |
+| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 202 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | **Registered + live** — job `hermes-skills-audit`, Sun 3 AM (verified end-to-end through the real scheduler 2026-09-14) |
+| [`sync-hermes-skills.py`](./tools/sync-hermes-skills.py) | Bidirectional sync between GitHub repo and local Hermes env: git pull, skill/memories/profiles sync, DEPENDENCY.md regeneration, audit, git push. Has `--dry-run` — always dry-run before a first live run (round 19b caught two latent phantom-action bugs this way) | **Registered** for Sun 2 AM in `sync-hermes-skills.json`, currently paused by design until the owner opts it on; verified end-to-end once via manual trigger 2026-09-14 |
 
 
 
@@ -554,7 +554,7 @@ Requires **pyyaml** (`pip install -r requirements.txt`). Without it the audit re
 The single command that runs everything:
 
 ```bash
-py tools/verify-all.py      # 9 gates; exit 0 = all pass
+py tools/verify-all.py      # 10 gates; exit 0 = all pass
 ```
 
 Every tool fails **closed**: a wrong interpreter, a missing pyyaml, an unreadable file, a scan that
@@ -568,11 +568,12 @@ py tools/audit-skills.py         # Windows: use `py`. Bare `python`/`python3` ar
                                  # running the script. Linux/macOS: python3 tools/audit-skills.py
 
 # .hermes/cron/active/skill-audit.json defines a weekly (Sun 3 AM, no_agent=true)
-# job for this -- but that definition is not registered with the scheduler yet,
-# so today the audit only runs when you (or verify-all.py) run it.
+# job for this -- REGISTERED with the live scheduler as `hermes-skills-audit`
+# and verified end-to-end through the real scheduler on 2026-09-14. It runs
+# unattended every Sunday; verify-all.py still covers manual pre-commit use.
 ```
 
-The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a weekly cronjob definition that would emit a JSON report via the cronjob system's `deliver: origin` target. That definition is **not currently registered** with the live scheduler (see the registration status note in [Cron Job Authoring](#cron-job-authoring)), so the audit runs on demand today.
+The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a weekly cronjob definition that emits its report via the cronjob system's `deliver: local` target. That job **is registered** with the live scheduler as `hermes-skills-audit` (Sun 3 AM) and was verified end-to-end through the real scheduler on 2026-09-14, so the audit now runs unattended weekly; `verify-all.py` remains the manual pre-commit path.
 
 ### CI (GitHub Actions)
 
