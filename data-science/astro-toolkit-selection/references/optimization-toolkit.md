@@ -27,20 +27,66 @@ Rust engine — fine for internal research, a copyleft consideration if you ship
   The `_patch_*.py` files in the package show exactly how Python objects get wrapped into the C++ core.
 - Windows install note (unchanged from round 1): PyPI wheels are Linux-only → conda-forge or build.
 
-## mesa v3.x — ⚠️ TWO BLOCKERS for this machine [SRC]
-1. **`requires-python = ">=3.12"`** in pyproject; source uses PEP 695 generics (`class Agent[M: Model]:`) — won't even parse on Python 3.11 (this box). Install a 3.12+ interpreter before any mesa work.
-2. **Full API rewrite vs every 2.x tutorial**: no more `Model.__init__(self, **kwargs)` + scheduler pattern.
-   - Agent: action-based — `start_action(action)`, `should_interrupt(current, incoming)`, `interrupt_for(new_agent)`,
-     `cancel_action()`, `is_busy()`; async `step`/`advance`; per-agent `rng`.
-   - Model: event-driven time — `schedule_event(function, *, at=|after=, priority)`, `schedule_recurring(...)`,
-     `run_model()`, `run_for(duration)`, `run_until(end_time)`; agent registry with removal hooks.
+## mesa — ⚠️ CORRECTED + LIVE-VERIFIED 2026-09-19 (PyPI 3.5.1 on Python 3.12) [LIVE]
+Round 2 read **master** and reported "v4 API, two blockers". Live probes against the actual PyPI
+release change that picture:
 
-## z3 v5.2.0 (SMT solver) [SRC]
-- Single-file Python API (`src/api/python/z3/z3.py`); 64 top-level classes. Notable sorts: **FPRef** (floating-point SMT),
-  SeqRef+ReRef (sequences + regular expressions — monadic regex solver on by default since 5.1, `smt.seq.regex_monadic=true`),
-  FiniteDomainRef, DatatypeRef.
-- Workflow objects: `Solver`, `Optimize`, `Fixedpoint`, `Simplifier`, `Tactic`; results via `ModelRef`/`CheckSatResult`.
-  Top-level convenience: `solve()`, `simplify()`, `prove()`.
+1. **"Two blockers" overstated**: `pip install mesa` → **3.5.1**, which already ships most of the v4
+   surface on Python 3.12 (no PEP-695 parse issue — that's master/v4-alpha only, requires-python ≥3.12).
+   Don't git-install for real work; PyPI is fine.
+2. **The working idiom** (verified end-to-end):
+
+```python
+class Miner(mesa.Agent):
+    def __init__(self, model, wealth=0):      # `model` positional arg still REQUIRED in 3.x
+        super().__init__(model)
+        self.wealth = wealth
+    def step(self):
+        self.wealth += int(self.random.randint(1, 3))
+
+class Economy(mesa.Model):
+    def __init__(self, n=5, **kw):            # pass seed via kw: Model(seed=N) warns (deprecated); use rng=int
+        super().__init__(**kw)
+        for _ in range(n): self.register_agent(Miner(self))   # v4-style registration on 3.5.1 ✓
+    def step(self):
+        self.agents.shuffle_do("step")         # ← AgentSet has NO .step(); shuffle().step() raises AttributeError
+```
+
+- Seeding: `Model(rng=7)` (int) is the non-deprecated path; **`rng=random.Random(7)` fails** — numpy
+  SeedSequence wants int/sequence-of-ints. Same seed ⇒ identical agent draws (`self.random` replay verified).
+- AgentSet API on 3.5.1: `select(fn)`, `do("step")`, `shuffle_do(...)`, `agg(attr, "sum"|"mean"|...)`,
+  `groupby`, `sort`. Agent identity attr is **`unique_id`** — NOT `agent_id` (v2 name).
+- ⚠️ **VERIFIED BUG: `mesa.batch_run()` silently returns `[]` when the DataCollector has only
+  agent_reporters.** Root cause in 3.5.1 source: `DataCollector.collect()` appends to `_collection_steps`
+  ONLY inside `if self.model_reporter:` — with no model reporters the list stays empty, and batchrunner's
+  `data_collection_period=-1` path does `[recorded[-1]] if recorded else []`. **Fix: give the collector at
+  least one model reporter** (e.g. `"n_agents": lambda m: len(m.agents)`). With that fix + `rng=[7]`,
+  batch_run rows are correct and seeded runs reproducible (`iterations=` is deprecated → use `rng=[...]`).
+- New in 3.x PyPI: `mesa.discrete_space` (Grid/HexGrid/VoronoiGrid, CellAgent) — spatial models with no
+  external deps.
+
+## z3-solver 5.1.0 (pip) — ⚠️ CORRECTED API NAMES vs round-2 source read [LIVE]
+Round 2 read the repo's `src/api/python/z3/z3.py` at a newer revision and quoted names that **do not
+exist in `pip install z3-solver` (5.1.0)**: no `RegExConst`, no `SeqVal`. What actually works (verified):
+
+```python
+import z3 as zz
+# Float SMT: sort via Float64(), variables FP(name, Float64()); conversions take REAL EXPRESSIONS —
+# fpRealToFP(RNE(), 0.1, ...) raises "Second argument must be a Z3 expression or real sort"; use RealVal("0.1")
+one_tenth = zz.fpRealToFP(zz.RNE(), zz.RealVal("0.1"), zz.Float64())
+g = zz.FP("g", zz.Float64()); s = zz.Solver()
+s.add(g == (one_tenth + two_tenths), g != three_tenths)   # PROOF: IEEE double 0.1+0.2 != 0.3 -> sat ✓
+# FP <-> bits: fpToIEEEBV(h); the BV constant ctor is BitVecVal (NOT BitVectorVal/BVVal):
+s.add(h == one_tenth, zz.fpToIEEEBV(h) == zz.BitVecVal(0x3FB999999999999A, 64))   # sat ✓
+# Regex: the pip-build API is Re()/InRe()/Union() (doctest pattern from z3.py L12061):
+re = zz.Union(zz.Re("a"), zz.Re("b"))
+zz.simplify(zz.InRe("c", re))   # False  ✓
+# Optimize nonlinear: maximize(x*x) s.t. 0<x<5 -> sat, model eval x=319/64 (exact rational) ✓
+# Module-level solve()/simplify()/prove() all present ✓; prove() prints "proved" and returns None
+```
+
+- `unknown` remains a real result class on hard nonlinear arithmetic — set timeouts (`s.set("timeout", ms)`);
+  the general advice stands even though small test constraints solved instantly here.
 
 ## Pyomo — the unmentioned modules [SRC]
 Standard pattern unchanged (`ConcreteModel` + `Var/Indexer` + `Constraint` + `Objective` + `SolverFactory`; Model class in

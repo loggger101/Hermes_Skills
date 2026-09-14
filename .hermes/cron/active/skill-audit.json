@@ -34,10 +34,6 @@
   },
   "deliver": "origin",
   "continuity": true,
-  "model": "qwen/qwen3.6-35b",
-  "provider": "qwen",
-  "fallback_model": "poolside/laguna-s-2.1:free",
-  "fallback_provider": "nous",
   "enabled_toolsets": [
     "terminal",
     "file"
@@ -60,7 +56,7 @@
     "Threshold-based alerting: 6 threshold checks (matching audit-skills.py THRESHOLDS dict exactly), all must pass (no breaches = silent run)",
     "Exit code 0 = pass within all thresholds, exit code 1 = any threshold breached",
     "Empty stdout from script = silent (no delivery) -- only fires alert on threshold breach",
-    "Model pinned with fallback: primary=qwen/qwen3.6-35b (provider=qwen), fallback=poolside/laguna-s-2.1:free (provider=nous)",
+    "No model pin -- job follows config.yaml default (verified 2026-09-13: qwen3.8-27b via LM Studio at http://127.0.0.1:42069/v1; the old qwen/qwen3.6-35b pin referenced a provider not configured on this box)",
     "Script runs in REPO_ROOT (.), REPO_ROOT detection via Path(__file__).resolve().parents[1]",
     "Windows python detection: the audit subprocess uses sys.executable (the interpreter already running the script). BOTH shutil.which('python') and which('python3') resolve to the Microsoft Store alias stub on this box (exits 49, runs nothing); the old which('python') path produced an empty audit that still reported threshold_breached=false. Invoke repo tools with `py` on Windows.",
     "File exclusion order: audit-skills.py find_skill_files() excludes .git/, .hermes/, profiles-export/, memories-export/, memories/ before parsing",
@@ -227,5 +223,6 @@
     "threshold_evaluation": "Script's THRESHOLDS dict (6 keys: broken_refs, yaml_errors, long_descriptions, duplicate_skills, temps_scripts, missing_body_sections) is compared against the summary counts. If ANY actual > threshold, threshold_breached=True, exit code 1. threshold_breached and exit_code are OUTPUT fields (computed by script), not input threshold checks.",
     "no_agent_compatibility": "no_agent=true so the THRESHOLD dict is evaluated by the cronjob system from the JSON summary, not by an LLM",
     "note": "Issues like missing_frontmatter_fields, missing_category_descriptions are REPORTED in the JSON but NOT threshold-gated (not in THRESHOLDS dict). They appear as warnings in the report."
-  }
+  },
+  "registration_note": "Registration: REGISTERED + VERIFIED LIVE 2026-09-13 (job id 4cb222c35533; `hermes cron run` -> completed, no incidents). ENABLED by design -- silent when clean. Runs via shim ~/.local/hermes/scripts/audit-skills.shim.py which delegates to tools/audit-skills.py in this repo (single source of truth); the live scheduler only accepts scripts under $LOCALAPPDATA/hermes/scripts/. No model pin: follows config.yaml default."
 }

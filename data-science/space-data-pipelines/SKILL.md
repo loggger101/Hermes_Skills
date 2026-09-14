@@ -79,6 +79,10 @@ The upstream repo's `hf_dataset_utils` package is the reference implementation o
 
 Default "NASA/ESA public API ⇒ CC-BY-4.0" is **wrong** for a large fraction of providers: ESA Space Science Archives = **CC BY-NC 3.0 IGO** (no commercial use), WDC Kyoto geomagnetic indices no-commercial, SILSO sunspot numbers CC BY-NC 4.0, AAVSO NC-only, and VizieR's own terms are "scientific context" — not CC-BY at all. The source license travels with the data: fetching ESA catalogs via VizieR/HEASARC mirrors does NOT strip the restriction. When unsure, label `license: other` + upstream policy link rather than over-permissive cc-by-4.0.
 
+## Lunar-surface GIS (see `references/lunar-gis-patterns-aegis.md`)
+
+South-pole LPS projection math from nasa/aegis (AEGIS) — re-derived and **verified against the real lgrs 0.3.0 package to ≤5.8e-11 m** (`scripts/lps_projection_verify.py`, stdlib-only, exit-code gated): exact constants (R=1737.4 km, K0=0.994, false E/N = 500000 m), the -80° domain limit, lgrs API traps ((latitude, longitude) constructor order; `to_lps()` returns an object with `.easting`/`.northing`, not a tuple; PyPI needs Python ≥3.13), plus GeoTIFF custom-CRS reconstruction (transform codes 15=polar-stereo / 17=equirectangular from numeric GeoKeys when no EPSG code exists) and geographic→pixel nearest-cell sampling for lunar DEM products.
+
 ## Scheduling template (GitHub Actions)
 
 - `on: schedule` cron staggered across a UTC window + `workflow_dispatch` for manual runs; `permissions: contents: write`; `environment:` with the HF token secret.

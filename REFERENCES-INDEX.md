@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **332 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **334 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -266,6 +266,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 ## data-science/space-data-pipelines
 
 - `data-science/space-data-pipelines/references/hf-mirror-catalog.md` — All 230 keyless Hugging Face space/astro/physics mirrors from juliensimon/space-datasets — load_dataset one-liner, no API keys; grouped by domain
+- `data-science/space-data-pipelines/references/lunar-gis-patterns-aegis.md` — Lunar GIS patterns from nasa/aegis (AEGIS): LPS projection math, GeoTIFF custom-CRS reconstruction, lgrs-verified port
 - `data-science/space-data-pipelines/references/shared-library-internals.md` — hf_dataset_utils internals from juliensimon/space-datasets (230 pipelines): retry budget, TAP clients, HEASARC HTTP-200 failures, MAST keyset pagination, LFS recovery, watchdog
 - `data-science/space-data-pipelines/references/source-parser-families.md` — Per-source parsing families from space-datasets (round-15): TLE two-line-element char positions + epoch century rule, PDS3/PDS4 fixed-width colspecs, GOES netCDF status pivot, Wikidata SPARQL dedup, HTML fixture testing
 - `data-science/space-data-pipelines/references/space-data-licensing-audit.md` — Space-data licensing traps from space-datasets' own 2026-05-26 audit: ESA CC BY-NC, WDC Kyoto no-commercial, VizieR scientific-use terms, provider URL table
@@ -340,6 +341,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `mlops/inference/llama-cpp/references/quantization.md` — GGUF Quantization Guide
 - `mlops/inference/llama-cpp/references/server.md` — Server Deployment Guide
 - `mlops/inference/llama-cpp/references/troubleshooting.md` — GGUF Troubleshooting Guide
+- `mlops/inference/llama-cpp/references/unsloth-local-workflow.md` — Unsloth local workflow (unslothai/unsloth, Apache-2.0): LoRA fine-tuning -> GGUF export pipeline + `unsloth start hermes` one-command local-model bridge
 - `mlops/inference/serving-llms-vllm/references/optimization.md` — Performance Optimization
 - `mlops/inference/serving-llms-vllm/references/quantization.md` — Quantization Guide
 - `mlops/inference/serving-llms-vllm/references/server-deployment.md` — Server Deployment Patterns
