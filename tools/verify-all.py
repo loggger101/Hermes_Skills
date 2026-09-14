@@ -178,6 +178,9 @@ def main():
         run("cron: configs", [".hermes/cron/validate-cronjobs.py"]),
         run("cron: skill refs", [".hermes/cron/validate-skill-refs.py"]),
         check_doc_counts(),
+        # The doc-count gate tests itself: mutates each claim class in a temp copy and
+        # asserts the gate fails loudly. Keeps an untested claim class from ever shipping.
+        run("gate self-test", ["tools/mutation-test-doc-gate.py"]),
     ]
 
     width = max(len(r[0]) for r in results)

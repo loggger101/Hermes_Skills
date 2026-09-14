@@ -626,3 +626,13 @@ With this ledger the star list is **mined to exhaustion**: every one of the 51 s
 **Process lessons:** (1) a gate that only checks the exact phrasing it was written for will always rot at the next rewording — check every *form* of each claim, or generate the prose from the same source; (2) when hardening a checker, mutation-test it against a temp copy before trusting it — this pass's first draft had two bugs (parent-name category counting, an undefined helper left in by a mangled long patch string) that only the mutation harness caught.
 
 Final state: **204 skills / 520 xrefs / 336 ref docs**, all 10 gates green locally + CI, local↔repo parity clean (two regenerated category DESCRIPTIONs synced to the live dir after the first parity check flagged them).
+
+
+**Round-20c (2026-09-14): the doc-count gate now tests itself — 11th gate.** The round-20b mutation harness lived only in Temp; it is now a permanent, self-maintaining tool: `tools/mutation-test-doc-gate.py`, wired into verify-all as gate #11 (`gate self-test`). Design points that matter for future edits:
+
+- **Anchors are derived from live truths** (plugin.json array length, DEPENDENCY.md Network stats line, REFERENCES-INDEX header), never hard-coded — routine count changes cannot break the tool; it fails loudly only when a doc's *wording* drifts from what `check_doc_counts` expects.
+- **Mutation 4 tries two wordings** for the xref claim (overview 'NNN cross-references mapped across N skills' vs invariants bullet '— NNN cross-references across N skills') because README carries the number twice and the bare phrase is not a unique anchor; mutation 5 uses the full table row as its anchor (the `[cat/](./cat/)` link makes each line unique) so shared counts between rows can't collide.
+- **The gate reads verify-all's module-level REPO global** — the harness must set `mod.REPO = tmp` before running, or every mutation silently tests against the real repo and reports "caught" for nothing (this exact bug was hit in development; the baseline-green assertion is what would have masked it).
+- Runs stdlib-only on any platform; fixture copy skips profiles-export/.git (outside counting scope) so CI stays fast.
+
+Gate count 10 → **11** everywhere: ci.yml header, DESCRIPTION.md (3 spots), README.md tools table + verification block. CODE-INDEX regenerated (142 → 143 code files). All 11 gates green locally; the self-test gate prints `ALL 6 MUTATIONS CAUGHT` on every run, so a future claim class added to `check_doc_counts` without its mutation here will be caught at commit time by construction.
