@@ -360,6 +360,11 @@ def sync_skills_pull(repo_root: Path, local_dir: Path, dry_run: bool = False) ->
             # Skip the tools/ directory — scripts are repo infrastructure
             if rel_path.startswith("tools/"):
                 continue
+            # Skip docs/ — the knowledge-layer pointer index + archive is repo documentation,
+            # not user skills. (Without this skip a real run copies it into the local tree and
+            # the push phase then queues the repo copy for deletion as "removed locally".)
+            if rel_path.startswith("docs/"):
+                continue
             # Skip the profile/ directory — repo documentation, not user skills
             if rel_path.startswith("profile/"):
                 continue
@@ -402,6 +407,16 @@ def sync_skills_push(repo_root: Path, local_dir: Path, dry_run: bool = False,
 
     local_files = list_repo_files(local_dir)
 
+    # Only push content that belongs to a real skill category: a top-level dir must contain at
+    # least one SKILL.md somewhere under it locally. This keeps orphaned stubs (e.g. an early-import
+    # "web/DESCRIPTION.md" with no skills in web/) and any future non-skill dirs out of the repo,
+    # instead of committing phantom categories. Self-healing: once a category gains its SKILL.md,
+    # earlier files are still new-vs-repo on the next run and get pushed then.
+    skill_categories = set()
+    for rel_path in local_files:
+        if os.path.basename(rel_path) == "SKILL.md":
+            skill_categories.add(rel_path.split("/")[0])
+
     # --- Copy new/modified files (local → repo) ---
     for rel_path, local_path in sorted(local_files.items()):
         # Skip the .hermes/cron/ directory in the local environment —
@@ -426,6 +441,11 @@ def sync_skills_push(repo_root: Path, local_dir: Path, dry_run: bool = False,
 
         # Skip export directories and memories/ — these are sync outputs from this script
         if parts[0] in ("memories-export", "profiles-export", "memories"):
+            continue
+
+        # Skip non-skill categories (orphaned stubs like web/DESCRIPTION.md)
+        if parts[0] not in skill_categories:
+            result["files_skipped"] += 1
             continue
 
         repo_path = repo_root / rel_path
@@ -463,7 +483,8 @@ def sync_skills_push(repo_root: Path, local_dir: Path, dry_run: bool = False,
         parts = rel_path.split("/")
         # Skip non-skill files in repo
         if len(parts) == 1 or parts[0] in ("tools", "profile", ".hermes",
-                                           "memories", "memories-export", "profiles-export"):
+                                           "memories", "memories-export", "profiles-export",
+                                           "docs"):
             continue
         local_path = local_dir / rel_path
         if not local_path.exists() and repo_path.exists():
