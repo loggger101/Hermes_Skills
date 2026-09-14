@@ -248,6 +248,7 @@ Source URLs:
 - **[server.md](references/server.md)** — direct-from-Hub server launch, OpenAI API endpoints, Docker deployment, NGINX load balancing, monitoring
 - **[optimization.md](references/optimization.md)** — CPU threading, BLAS, GPU offload heuristics, batch tuning, benchmarks
 - **[troubleshooting.md](references/troubleshooting.md)** — install/convert/quantize/inference/server issues, Apple Silicon, debugging
+- **[unsloth-local-workflow.md](references/unsloth-local-workflow.md)** — Unsloth fine-tune → `save_to_gguf` export pipeline (LoRA merge, f16/bf16 staging traps) + the first-party `unsloth start hermes` local-model bridge with its SSE-timeout gotcha
 
 ## Resources
 

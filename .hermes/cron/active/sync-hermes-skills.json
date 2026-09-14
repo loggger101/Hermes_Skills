@@ -6,10 +6,6 @@
   "workdir": ".",
   "deliver": "origin",
   "continuity": true,
-  "model": "qwen/qwen3.6-35b",
-  "provider": "qwen",
-  "fallback_model": "poolside/laguna-s-2.1:free",
-  "fallback_provider": "nous",
   "skills": {
     "loaded": [
       {
@@ -61,7 +57,7 @@
     "File exclusions: sync_skills_push AND sync_skills_pull exclude profiles-export/, memories-export/, .hermes/, .git/, tools/, memories/",
     "Delete safety: sync_skills_push delete phase excludes memories/ directory (CRITICAL FIX -- prevents accidental deletion of tracked memory files)",
     "Duplicate detection: sync tracks duplicates in LOCAL_SKILLS_DIR and logs them; does NOT silently overwrite",
-    "Model pinned with fallback: primary=qwen/qwen3.6-35b (provider=qwen), fallback=poolside/laguna-s-2.1:free (provider=nous)",
+    "No model pin -- job follows config.yaml default (verified 2026-09-13: qwen3.8-27b via LM Studio at http://127.0.0.1:42069/v1; the old qwen/qwen3.6-35b pin referenced a provider not configured on this box)",
     "HERMES_HOME environment variable (C:\\Users\\Loggg\\AppData\\Local\\hermes) is used for all local paths",
     "Git operations use commit author hermes-cronbot / cronbot@hermes.local",
     "memories/ directory is TRACKED in repo (NOT gitignored) -- sync_memories copies to memories/ not memories-export/",
@@ -222,5 +218,6 @@
     "no_agent_compatibility": "no_agent=true so the THRESHOLD dict is evaluated by the cronjob system, not by an LLM",
     "fields_not_in_threshold": "no_merge_conflicts, no_orphaned_files, dependency_map_regenerated, memories_synced, profiles_synced are VERIFICATION checks (run post-script), not field-based thresholds",
     "threshold_evaluation": "Script outputs boolean fields: git_pull_success, git_push_success, audit_passed, lint_passed, threshold_breached. Plus deleted_files_in_repo (int, must be 0) and push_error (null = success). Post-run verification checks (no_merge_conflicts, no_orphaned_files, dependency_map_regenerated, memories_synced count, profiles_synced count) are evaluated separately via verification_commands, not as script output thresholds."
-  }
+  },
+  "registration_note": "Registration: REGISTERED 2026-09-13 (job id 0b7ec59e6f05) via shim sync-hermes-skills.shim.py -> tools/sync-hermes-skills.py. PAUSED by design while any session is actively editing the repo (sync pushes local->repo); resume after end-of-session verification passes. No model pin: follows config.yaml default."
 }

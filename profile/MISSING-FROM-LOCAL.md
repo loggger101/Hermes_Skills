@@ -5,33 +5,47 @@ in the local Hermes skills directory at `C:\Users\Owner\AppData\Local\hermes\ski
 
 ## Sync Status
 
-**Verified 2026-09-08.** Nothing in the repository is missing from the local profile: all **167**
-repo skills are present locally. The local tree carries **169** `SKILL.md` files — the two extras are
-local-only by design and are not pushed to the repo:
+**Verified 2026-09-13 (round-19 integrity pass).** Nothing in the repository is missing from
+the local profile: all **202** repo skills are present locally, verified by a full bidirectional
+inventory diff of every file (CRLF-normalized hashes), not just `SKILL.md` frontmatter names.
 
-| Skill | Why local-only |
+The local tree carries no extra *skills* beyond the repo — only hub/curator infrastructure that is
+local-only **by design** and never pushed: `.hub/`, `.usage.json`, `.curator_ledger.jsonl`,
+`.bundled_manifest`, plus per-skill telemetry sidecars. (An orphaned `web/DESCRIPTION.md` stub in
+the local tree from an early import was flagged for removal on 2026-09-13; it references no skill.)
+
+### Historical note: former "local-only by design" skills are now IN the repo
+
+| Skill | Resolution (round-16, commit 282e0f0) |
 |---|---|
-| `research/rss-feeds` | Hub-installed (`hermes skills install official/...`), kept out of the repo catalog |
-| `social-media/reddit-reading` | Same — hub skill, local convenience |
+| `research/rss-feeds` | Was hub-installed and kept out of the catalog; committed to git with audit repairs so a fresh clone is complete |
+| `social-media/reddit-reading` | Same — now tracked in the repo |
 
-Re-check with a frontmatter-name diff across both trees (the method used above), not a file count:
-skill directories and file counts drift for reasons unrelated to coverage.
+Re-check method (use this, not file counts): full bidirectional inventory diff across both trees
+with CRLF-normalized SHA-256 per relative path; skill directories and raw file counts drift for
+reasons unrelated to coverage. `profile/MISSING-FROM-LOCAL.md` is the standing record of that check's result.
 
 ## History
 
-The section below is the original 2026-08-24 record, when 13 skills were missing locally and were
-synced in from the repository. It is kept as a historical note; every row has long since been resolved.
+### 2026-09-08 (superseded by the round-19 verification above)
 
-### Previously Missing (Now Synced)
+All **167** repo skills were present locally; the two extras in the local tree at the time
+(`research/rss-feeds`, `social-media/reddit-reading`) were hub-installed and deliberately kept out
+of the repo catalog. That state changed in round 16 when both were committed to git.
+
+### Previously Missing (Now Synced) — original 2026-08-24 record
+
+The section below is the original record, when 13 skills were missing locally and were synced in
+from the repository. It is kept as a historical note; every row has long since been resolved.
 
 | # | Category | Skill Name | Notes |
 |---|----------|-----------|-------|
 | 1 | data-science | `build-systems-data` | Data build pipeline skill — now local |
-| 2 | data-science | `cli-tool-craft` | CLI tool development craft — now local |
+| 2 | data-science | `cli-tool-craft` | CLI tool development craft skill — now local |
 | 3 | data-science | `evolutionary-ml` | Evolutionary ML techniques — now local |
 | 4 | data-science | `model-export-deploy` | Model export and deployment — now local |
 | 5 | data-science | `orbital-mechanics-data` | Orbital mechanics data processing — now local |
-| 6 | data-science | `python-craft` | Python development craft — now local |
+| 6 | data-science | `python-craft` | Python development craft skill — now local |
 | 7 | data-science | `python-data-science` | Python data science workflows — now local |
 | 8 | data-science | `sql-for-data` | SQL for data analysis — now local |
 | 9 | data-science | `static-site-seo` | Static site SEO optimization — now local |
@@ -40,16 +54,21 @@ synced in from the repository. It is kept as a historical note; every row has lo
 | 12 | data-science | `verification-culture` | Verification culture practices — now local |
 | 13 | autonomous-ai-agents | `cron-job-authoring` | Cron job authoring patterns — now local |
 
-## Local-Only Skill
+## Local-Only Skill (historical)
 
-The local profile has **1 skill** that does not exist in the repository:
+At the time of the original record, the local profile had **1 skill** that did not exist in the
+repository:
 
 | # | Skill Name | Local Path | Notes |
 |---|-----------|------------|-------|
 | 1 | `hermes-agent` | `C:\Users\Owner\AppData\Local\hermes\skills\autonomous-ai-agents\hermes-agent` | Pre-installed by Hermes core; the repo version is a curated copy |
 
+This no longer applies: `autonomous-ai-agents/hermes-agent` exists in both trees and stays in
+sync via the bidirectional inventory diff.
+
 ## Action Items
 
-- [x] Sync all 13 missing skills from the repository to local profile
-- [x] Verify all 127 repo skills are present locally
-- [x] Document sync status in this file
+- [x] Sync all 13 missing skills from the repository to local profile (2026-08-24)
+- [x] Verify repo coverage by frontmatter-name diff, then upgrade to full file-level diff (round-16 onward)
+- [x] Commit former hub-only skills (`rss-feeds`, `reddit-reading`) into the repository (round 16)
+- [x] Document sync status in this file with a dated verification section
