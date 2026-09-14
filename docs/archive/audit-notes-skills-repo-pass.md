@@ -593,3 +593,36 @@ from an already-on-disk source and verify with sha256 before trusting it; never 
 | `ionic-team/ionic-framework` | Full Ionic/Angular/Capacitor framework repo (~10,437 files) — a product codebase for mobile web apps, not knowledge. Brain's stack is desktop Python + vanilla JS static sites; no use case exists here. **Rejected: out-of-domain framework.** |
 
 With this ledger the star list is **mined to exhaustion**: every one of the 51 stars has either produced content (skills/references/scripts) or a written rejection with reason in this file, `memories/MEMORY.md`, or an owning skill's reference. Future passes should re-scan only when new stars are added — do not re-mine these seven for padding.
+
+
+**Round-20 (2026-09-14): upstream-churn audit — 2 ports + gate hardening (202 → 204 skills).** A full audit pass re-checked every external surface for churn since the round-7b/round-19 sweeps:
+
+| Source | Churn found | Action |
+|---|---|---|
+| NousResearch/hermes-agent `optional-skills` | **140 → 147**: seven new first-party skills landed 2026-09-13/14 (ai-presenter-video, scrollcraft, dream-loop, system-atlas, mono-color, pr-lens, dynamic-workflow) + archify as a catalog stub; touchdesigner retired to a plugin | **Ported two** (below); rejected five with reasons below |
+| VoltAgent/awesome-agent-skills (ECC) | ~12 new community listings since the round-7b rescan (`f28f833`) | All evaluated, all rejected — see table below |
+| TheAlgorithms/Python | 44 files changed past pin `23c4208` (machine_learning +8 net → 42 .py, physics +8 → 50) | No decision-relevant change; re-check recorded in `data-science/algorithms-python-catalog/references/catalog-map.md`; star remains mined to exhaustion |
+| juliensimon/space-datasets | metadata-only churn (README/stats JSON) past pin `5f886cd` | None — already exhausted |
+| Star list | still 51 slugs, zero new since round-19c ledger | None |
+
+**Ported (both MIT, both convention-adapted with the required body sections):**
+
+| Skill | Source | Notes |
+|---|---|---|
+| `autonomous-ai-agents/dynamic-workflow` | hermes-agent optional-skills v2.0.0 (Teknium + Hermes) | Plan-in-code fan-outs, adversarial attempts+refuters convergence, and the 12-step multi-wave campaign playbook — the densest orchestration skill in the catalog; zero deps; cross-linked from `dispatching-parallel-agents` (+xref) |
+| `creative/system-atlas` | hermes-agent port of inkboard/system-atlas (MIT, pinned f7005f2 upstream) | One `data.mjs` renders an interactive isometric atlas (`atlas.html`) + generated text twin (`SYSTEM.md`); ships assets/ (build.mjs uses only node builtins — no npm install) + 2 references; **live-tested on this box with node v22.23.2: build exits 0, both outputs written**; cross-linked from `architecture-diagram` (+xref) |
+
+**Rejected upstream candidates with reasons:** ai-presenter-video (needs a video-generation provider not configured here — dead weight); scrollcraft / dream-loop / mono-color (depend on the deferred `image_generate` tool; creative cluster already saturated at 29 skills after this pass); pr-lens (Node-CLI animated-diagram niche overlapping architecture-diagram + system-atlas coverage); archify (catalog stub only — pulls live from tt-a1i/archify via `hermes skills install official/creative/archify`; vendoring a copy would just go stale).
+
+**Rejected ECC listings with reasons:** NVIDIA catalog link (a pointer, not a skill); humanizer-ru (Russian-language variant of the existing humanizer skill); zero-slop + reimagine-it + cursor-kenji (prose-editing/playbook collections overlapping full-output-enforcement/design-taste-frontend and Claude-Code-specific triggers); orca-replay (needs OrcaReplay recordings — no such tooling here); itqan-engineering (12-skill lifecycle suite = overlap with the existing plan/execute/review cluster, plus a resumable orchestrator that duplicates delegate_task + cronjob territory); subagent-cli-skills (delegates to 15 other agent CLIs — this box runs one agent stack; its delegation methodology is already distilled in superpowers-derived skills); AI-Research-SKILLs (model-training/inference/MLOps ops for hosted GPU fleets, out of domain); edit-timeline-studio (video-editing niche).
+
+**Gate hardening: `check_doc_counts` now covers every claim class found to rot by hand.** The old gate only matched bold `**NNN ...skills` and prose 'all NNN skills' — it is what let README line 3 (`**202 Hermes Agent skills**`) survive a full round-20 manual sweep, because the tagline used different wording than the other six count spots. New behavior (mutation-tested: all six claim classes fail-loud; test at `%LOCALAPPDATA%\Temp\r20-gate-mutation-test.py`):
+1. skill totals — bold AND prose forms → live SKILL.md count (unchanged scope);
+2. cross-reference counts in any prose form ('514 cross-references', '`related_skills` xrefs') → DEPENDENCY.md's Network stats line;
+3. Claude-plugin exposure claims ('NNN skills load' / 'NNN exposed') → `.claude-plugin/plugin.json` `skills` array length — this caught a REAL stale count on first run: README said "199 skills load" (round-8 wording) while the manifest exposes 201;
+4. reference-docs counts ('all NNN reference docs') → REFERENCES-INDEX.md header;
+5. per-category rows of the README summary table (`| [cat/](./cat/) | ... | NN |`) → live count by TOP-LEVEL dir (nested skills like `mlops/inference/x` belong to mlops — first implementation counted immediate parent and false-flagged frontend-design/github).
+
+**Process lessons:** (1) a gate that only checks the exact phrasing it was written for will always rot at the next rewording — check every *form* of each claim, or generate the prose from the same source; (2) when hardening a checker, mutation-test it against a temp copy before trusting it — this pass's first draft had two bugs (parent-name category counting, an undefined helper left in by a mangled long patch string) that only the mutation harness caught.
+
+Final state: **204 skills / 520 xrefs / 336 ref docs**, all 10 gates green locally + CI, local↔repo parity clean (two regenerated category DESCRIPTIONs synced to the live dir after the first parity check flagged them).

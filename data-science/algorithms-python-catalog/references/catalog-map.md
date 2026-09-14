@@ -1,6 +1,6 @@
 # TheAlgorithms/Python — Catalog Map & Decision Guide
 
-Mined 2026-09-13 from commit `23c4208` (MIT). 1,466 Python files in ~50 top-level categories.
+Mined 2026-09-13 from commit `23c4208` (MIT). 1,466 Python files in ~50 top-level categories. Re-checked against HEAD on 2026-09-14: the repo churns constantly (~44 new/changed files between this pin and the re-check — mostly machine_learning +8 net [now 42 .py] and physics +8 [now 50]), but every addition is another teaching implementation of an existing category; no decision-relevant change, so the map below stands as mined.
 The repo's own README: *"Implementations are for learning purposes only. They may be less
 efficient than the implementations in the Python standard library."* — that warning is accurate;
 treat every file here as **teaching material**, not production code.
@@ -43,6 +43,8 @@ treat every file here as **teaching material**, not production code.
 | audio_filters | 5 | numpy | FIR/IIR filter design — teaching DSP; production → `scipy.signal` |
 | electronics / fuzzy_logic / fractals / graphics / quantum / blockchain / file_transfer / networking_flow | ~40 total | mixed | Niche/teaching. **networking_flow** (Ford-Fulkerson, Dinic, push-relabel) is the one worth a look if you ever need max-flow from scratch; production → `networkx` or `scipy.sparse.csgraph.maximum_flow` |
 | other | 28 | stdlib-only (+1 numpy) | Mixed bag: **LRU/LFU cache** (the LFU version with frequency-bucketed doubly-linked lists is the complete interview-grade implementation), Tower of Hanoi, Fisher-Yates shuffle, DPLL SAT solver. Production → `functools.lru_cache`; their LRU is for interviews only |
+
+*Re-check note (2026-09-14): table values are the pin `23c4208` snapshot. At HEAD, machine_learning has 42 .py files (+8: DBSCAN, Gaussian mixture model, mean-shift, mini-batch GD, naive Bayes text classification, Q-learning, RMSProp, OLS regression) and physics has 50 (+8). All additions are from-scratch teaching code; every row's verdict (use scikit-learn / numpy / scipy instead) covers them unchanged.*
 
 ## Cross-cutting facts worth knowing about this repo
 
