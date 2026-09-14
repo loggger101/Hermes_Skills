@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [subagents, parallelism, delegation, debugging, concurrency]
-    related_skills: [mattpocock-subagent-driven-development, systematic-debugging, test-driven-development]
+    related_skills: [mattpocock-subagent-driven-development, systematic-debugging, test-driven-development, dynamic-workflow]
 
 ---
 

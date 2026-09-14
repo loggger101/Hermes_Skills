@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **334 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **336 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -209,6 +209,10 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 ## creative/stitch
 
 - `creative/stitch/references/taste-standard-design-system.md` — Worked example of the Stitch DESIGN.md output format - the Taste Standard design system
+## creative/system-atlas
+
+- `creative/system-atlas/references/design-language.md` — Atlas design language
+- `creative/system-atlas/references/process-and-lessons.md` — Process and lessons
 ## creative/touchdesigner-mcp
 
 - `creative/touchdesigner-mcp/references/3d-scene.md` — 3D Scene Reference

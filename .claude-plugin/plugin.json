@@ -1,7 +1,7 @@
 {
   "name": "hermes",
   "version": "1.0.0",
-  "description": "Hermes second brain: 199 skills across 23 categories.",
+  "description": "Hermes second brain: 201 skills across 23 categories.",
   "author": {
     "name": "Hermes Agent",
     "url": "https://github.com/loggger101"
@@ -20,6 +20,7 @@
     "./autonomous-ai-agents/computer-use",
     "./autonomous-ai-agents/cron-config-authoring",
     "./autonomous-ai-agents/cron-job-authoring",
+    "./autonomous-ai-agents/dynamic-workflow",
     "./autonomous-ai-agents/hermes-agent",
     "./autonomous-ai-agents/mattpocock-resolving-merge-conflicts",
     "./autonomous-ai-agents/merge-reconciler",
@@ -53,6 +54,7 @@
     "./creative/songwriting-and-ai-music",
     "./creative/static-site-seo",
     "./creative/stitch",
+    "./creative/system-atlas",
     "./creative/touchdesigner-mcp",
     "./data-science/algorithms-python-catalog",
     "./data-science/astro-toolkit-selection",
