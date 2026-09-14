@@ -81,20 +81,88 @@ def run_audit_gate():
 
 
 def check_doc_counts():
-    """Hand-written counts in README/DESCRIPTION must match the live skill count."""
+    """Hand-written counts in README/DESCRIPTION must match the machine-generated truths.
+
+    Covers every claim class found to rot by hand (round-20 audit):
+      * skill totals — bold `**NNN ...skills` and prose 'all NNN skills' -> live SKILL.md count
+        (same scope as gen-skills-index.py: profiles-export is a historical snapshot, not catalog)
+      * cross-reference counts in any form ('514 cross-references', '`related_skills` xrefs')
+        -> DEPENDENCY.md's Network stats line (the drift gate keeps that file fresh; this checks prose)
+      * Claude-plugin exposure claims ('NNN skills load' / 'NNN exposed')
+        -> .claude-plugin/plugin.json `skills` array length
+      * reference-docs counts ('all NNN reference docs')
+        -> REFERENCES-INDEX.md header count (same source its drift gate checks)
+      * per-category rows of the README summary table ('| [cat/](./cat/) | ... | NN |')
+        -> live SKILL.md count in that category dir
+    """
     skills = [p for p in REPO.rglob("SKILL.md")
               if not any(part in (".git", ".hermes", "profiles-export", "memories",
                                   "memories-export") for part in p.relative_to(REPO).parts)]
     live = len(skills)
+
+    # truths from the machine-generated files (each already drift-gated upstream of here)
+    xrefs, exposed, refdocs = None, None, None
+    dep = REPO / "DEPENDENCY.md"
+    if dep.exists():
+        m = re.search(r"\*\*Network stats:\*\* (\d+) `related_skills` cross-references",
+                      dep.read_text(encoding="utf-8"))
+        xrefs = int(m.group(1)) if m else None
+    plugin_json = REPO / ".claude-plugin" / "plugin.json"
+    if plugin_json.exists():
+        try:
+            exposed = len(json.loads(plugin_json.read_text(encoding="utf-8")).get("skills", []))
+        except (json.JSONDecodeError, OSError):
+            pass
+    refs_index = REPO / "REFERENCES-INDEX.md"
+    if refs_index.exists():
+        m = re.search(r"\*\*(\d+) reference documents?\*\*",
+                      refs_index.read_text(encoding="utf-8"))
+        refdocs = int(m.group(1)) if m else None
+
     problems = []
     for name in ("README.md", "DESCRIPTION.md"):
         text = (REPO / name).read_text(encoding="utf-8")
-        for m in re.finditer(r"\*\*(\d{2,4}) (?:verified, audit-passing skills|Hermes Agent skills|skills)", text):
-            if int(m.group(1)) != live:
-                problems.append(f"{name}: claims {m.group(1)} skills, disk has {live}")
-        for m in re.finditer(r"all (\d{2,4}) skills", text):
-            if int(m.group(1)) != live:
-                problems.append(f"{name}: claims 'all {m.group(1)} skills', disk has {live}")
+
+        def check(pattern, truth, label):
+            if truth is None:
+                return  # source file missing — its own drift gate already failed or will
+            for m in re.finditer(pattern, text):
+                val = int(m.group(1))
+                if val != truth:
+                    problems.append(f"{name}: claims {val} {label}, "
+                                    f"truth is {truth}")
+
+        # 1) skill totals (bold + prose forms; both rotted in the wild)
+        check(r"\*\*(\d{2,4}) skills\b", live, "skills")
+        check(r"\ball (\d{2,4}) skills\b", live, "skills ('all NNN skills')")
+
+        # 2) cross-reference counts — any prose form; truth = DEPENDENCY.md Network stats.
+        check(r"\b(\d{2,4}) `related_skills` xrefs?\b", xrefs, "`related_skills` xrefs")
+        # 'NNN (cross-)references' only when the sentence is about skills ("...across NNN skills"),
+        # so unrelated uses of the word are never treated as an xref claim.
+        check(r"\b(\d{2,4}) (?:cross-)?references\b(?=.{0,30}?across \d+ skills)", xrefs, "xref claims")
+
+        # 3) Claude-plugin exposure — truth = plugin.json `skills` array length.
+        #    Deliberately NOT 'NNN skills' bare: that is the catalog total, a different metric.
+        check(r"\b(\d{2,4}) skills load\b", exposed, "plugin-exposed skills ('load')")
+        check(r"\b(\d{2,4})(?:\s+skills)? exposed\b", exposed, "plugin-exposed skills")
+
+        # 4) reference-docs counts — truth = REFERENCES-INDEX.md header (drift-gated).
+        check(r"all (\d{2,4}) reference docs?\b", refdocs, "reference docs")
+
+    # 5) README summary-table category rows: '| [cat/](./cat/) | ... | NN |'
+    readme = REPO / "README.md"
+    if readme.exists():
+        for m in re.finditer(r"\|\s*\[([a-z0-9_-]+)/\]\(\./[a-z0-9_-]+/\)\s*\|[^\n|]*\|\s*(\d+)\s*\|",
+                             readme.read_text(encoding="utf-8")):
+            cat, claimed = m.group(1), int(m.group(2))
+            # count by TOP-LEVEL dir (nested skills like mlops/inference/x belong to mlops)
+            actual = sum(1 for p in skills if p.relative_to(REPO).parts[0] == cat)
+            # a category may legitimately hold 0 SKILL.md (stub dir); only flag real drift
+            if actual and claimed != actual:
+                problems.append(f"README table: {cat}/ claims {claimed} skills, "
+                                f"disk has {actual}")
+
     return ("doc counts", not problems, "; ".join(problems)[:160] or f"{live} skills, counts agree")
 
 
