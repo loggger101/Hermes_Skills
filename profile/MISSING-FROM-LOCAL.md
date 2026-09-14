@@ -12,7 +12,8 @@ inventory diff of every file (CRLF-normalized hashes), not just `SKILL.md` front
 The local tree carries no extra *skills* beyond the repo — only hub/curator infrastructure that is
 local-only **by design** and never pushed: `.hub/`, `.usage.json`, `.curator_ledger.jsonl`,
 `.bundled_manifest`, plus per-skill telemetry sidecars. (An orphaned `web/DESCRIPTION.md` stub in
-the local tree from an early import was flagged for removal on 2026-09-13; it references no skill.)
+the local tree from an early import was removed on 2026-09-14; the sync script now also refuses to
+re-introduce such stubs — only top-level dirs containing a SKILL.md are treated as skill categories.)
 
 ### Historical note: former "local-only by design" skills are now IN the repo
 
