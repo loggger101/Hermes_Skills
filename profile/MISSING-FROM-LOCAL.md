@@ -5,8 +5,8 @@ in the local Hermes skills directory at `C:\Users\Owner\AppData\Local\hermes\ski
 
 ## Sync Status
 
-**Verified 2026-09-14 (round-20 audit pass).** Nothing in the repository is missing from
-the local profile: all **204** repo skills are present locally, verified by a full bidirectional
+**Verified 2026-09-14 (round-21 audit pass).** Nothing in the repository is missing from
+the local profile: all **205** repo skills are present locally, verified by a full bidirectional
 inventory diff of every file (CRLF-normalized hashes), not just `SKILL.md` frontmatter names.
 
 The local tree carries no extra *skills* beyond the repo — only hub/curator infrastructure that is
