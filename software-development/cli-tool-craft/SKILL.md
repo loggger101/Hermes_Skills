@@ -1,7 +1,7 @@
 ---
 name: cli-tool-craft
 description: "CLI tools: subcommands, config validation, env substitution"
-version: 1.0.0
+version: 1.1.0
 author: Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
@@ -92,6 +92,23 @@ Keep `main()` thin — parse, dispatch, done. Each subcommand function is its ow
 - **argparse**: standard library, no dependency, fine for most tools. Use it unless you have a reason to reach for click/typer.
 
 For a tool with 10+ subcommands, click/typer's decorator style is cleaner than argparse's builder style. For a tool with 2–5 subcommands, argparse is fine and has zero dependencies.
+
+## Zero-Dependency Single-File API Client CLIs (agent-consumption pattern)
+
+A proven shape for small CLI wrappers around SaaS APIs that an AI agent invokes directly — as shipped by coreyhaines31/marketingskills (`tools/clis/*.js`, 64 tools, MIT; mined + live-tested on this host 2026-09-15). No package.json, no `require()` of anything (verified: zero CLIs import a dependency), Node 18+ global `fetch` only. The whole tool is one file an agent can read end-to-end to learn the API surface — that readability IS the feature for agent consumers.
+
+**The contract:**
+- **No args = usage.** Running bare prints every subcommand with its flags (an `"usage"` object in JSON, not prose). This doubles as documentation and self-test: `node tool.js` must never require credentials to succeed.
+- **JSON-only stdout**, pretty-printed (`console.log(JSON.stringify(result, null, 2))`). Errors are the same shape — a JSON error object — so an agent parsing stdout always gets one grammar. Never mix human prose into the output stream.
+- **`--dry-run`** echoes exactly what would be sent (method, URL, headers with secrets redacted to `'***'`, body) and returns it as `_dry_run: true` instead of hitting the network — lets an agent preview a mutating call safely.
+- **Credentials from env vars only**, named `<TOOL>_<KEY>` (`GA4_ACCESS_TOKEN`, `HUNTER_API_KEY`). Never in args, never persisted by the tool itself.
+- **Parse → dispatch**: hand-rolled `parseArgs` (handles `--flag value`, boolean flags, positionals) feeding a nested switch on `[cmd, sub]`. No framework; ~30 lines of boilerplate per file is acceptable because each file stays self-contained.
+
+**⚠️ VERIFIED DEFECT in the source — credential check placement breaks its own contract.** All 64 CLIs put `if (!API_KEY) { console.error(...); process.exit(1) }` at **module load, before arg parsing**. Consequence (live-measured on this host): running any of them with no args and no env key prints the credential error instead of usage — so **63/64 fail their own documented "no args = show help" rule** (`node tool.js <cmd> --dry-run` is also unreachable without a real key). Only `github-prospects.js` works as documented, because it resolves credentials *lazily inside the command handler* after arg parsing. The fix pattern: parse args first; if no command was given (or `--help`), print usage and exit 0 regardless of env state; resolve credentials only when a real subcommand executes. Keep their error path on stderr with exit 1, but make the *usage* path stdout/exit-0 so scripts can distinguish "I asked for help" from "something failed."
+
+**Verification loop (from their AGENTS.md):** `node --check tool.js` (syntax) → `node tool.js` (usage prints, exit 0) → `node tool.js <cmd> --dry-run` (request previews without sending). All three must pass with NO credentials present — that last clause is what the module-load gate above breaks.
+
+**When to use this shape:** thin read/act wrappers around one vendor API where an agent needs to call it from a prompt, and installing packages per-tool would be friction. When NOT: anything needing retries/backoff/rate-limit state across runs (add a small config file), or multi-API orchestration (use the normal subcommand tool above).
 
 ## Config Systems
 
@@ -261,6 +278,7 @@ For CLI tools that run pipelines (training, simulation, data processing), make t
 | Pitfall | Symptom | Fix |
 |---|---|---|
 | One script with 30 flags | Unreadable, flags interact confusingly | Use subcommands to group operations |
+| Credential check at module load (before arg parsing) | `tool.js` with no args prints "API_KEY required" instead of usage; help and `--dry-run` unreachable without a real key — measured 63/64 in marketingskills' CLI set, only the one with lazy cred resolution worked | Parse args first; print usage (stdout, exit 0) when no command given regardless of env state; resolve credentials inside the subcommand handler |
 | Bad config fails late (hours into a run) | Wasted time, frustrating | Validate config at load time, before using |
 | Secrets in config files | Accidental commit, exposure | Use env var substitution, keep secrets in env |
 | No help text or stale help | User doesn't know how to use it | Keep `--help` accurate; test it |
