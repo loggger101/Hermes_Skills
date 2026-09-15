@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **336 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **358 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -46,6 +46,30 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 ## autonomous-ai-agents/repowise
 
 - `autonomous-ai-agents/repowise/references/codebase-intelligence-patterns.md` — Engineering patterns from repowise-dev/repowise (AGPL-3.0) — distillation contracts, decayed git signals, confidence-scored graphs, benchmark discipline; formulas + verified numbers
+## communication/mental-models
+
+- `communication/mental-models/references/models/activation-energy.md` — Change needs an upfront input larger than its running cost, so the barrier to starting is the thing to attack.
+- `communication/mental-models/references/models/asymmetric-warfare.md` — The weaker side wins by refusing the stronger side's terms and changing what counts as winning.
+- `communication/mental-models/references/models/bias-from-incentives.md` — People reach the conclusions their incentives point toward, sincerely and without noticing.
+- `communication/mental-models/references/models/bottlenecks.md` — A system's throughput is set by its single tightest constraint; work spent anywhere else is wasted.
+- `communication/mental-models/references/models/confirmation-bias.md` — We search for and weight evidence that supports what we already believe, and the search feels neutral from inside.
+- `communication/mental-models/references/models/creative-destruction.md` — Growth arrives by destroying the thing that currently works, and incumbents defend the thing being destroyed.
+- `communication/mental-models/references/models/emergence.md` — Aggregates have properties their parts don't, so understanding the components does not give you the whole.
+- `communication/mental-models/references/models/feedback-loops.md` — Output that re-enters as input — reinforcing loops accelerate, balancing loops resist, and delay makes both unstable.
+- `communication/mental-models/references/models/first-principles-thinking.md` — Strip a problem to what you know is true, then rebuild upward without borrowing anyone's conclusions.
+- `communication/mental-models/references/models/framing.md` — The same facts presented differently produce different decisions — so the frame is a choice someone made.
+- `communication/mental-models/references/models/index.md` — (no description)
+- `communication/mental-models/references/models/inertia.md` — Things keep doing what they were doing; change requires a force, and mass determines how much.
+- `communication/mental-models/references/models/inversion.md` — Approach a goal backward by asking what would guarantee failure, then avoid those things.
+- `communication/mental-models/references/models/leverage.md` — Find the point where a small input produces a disproportionate output, and apply force there.
+- `communication/mental-models/references/models/margin-of-safety.md` — Build for materially worse than your best estimate, because your estimate is an estimate.
+- `communication/mental-models/references/models/randomness.md` — Much of what looks like signal is noise, and we build causal stories over both without noticing.
+- `communication/mental-models/references/models/regression-to-the-mean.md` — Extreme results are followed by less extreme ones for statistical reasons, independent of anything you did.
+- `communication/mental-models/references/models/sampling.md` — Small and self-selected samples lie confidently, and the people you can hear from are rarely the ones you need.
+- `communication/mental-models/references/models/scarcity.md` — Not having enough of something captures attention and degrades judgement about everything else.
+- `communication/mental-models/references/models/second-order-thinking.md` — Ask "and then what?" at least twice — the first-order winner is often the second-order loser.
+- `communication/mental-models/references/models/social-proof.md` — We infer correct behaviour from what others do, most strongly exactly when we are least certain.
+- `communication/mental-models/references/models/trade-offs.md` — The real cost of a choice is the best thing you gave up to make it, not the money you spent.
 ## creative/ascii-video
 
 - `creative/ascii-video/references/architecture.md` — Architecture Reference

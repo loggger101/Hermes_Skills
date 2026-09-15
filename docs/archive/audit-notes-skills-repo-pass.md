@@ -646,3 +646,14 @@ Gate count 10 → **11** everywhere: ci.yml header, DESCRIPTION.md (3 spots), RE
 | `Tencent/AI-Infra-Guard` → `aig-agent-redteam` skill (Apache-2.0) | REJECTED | Entirely Chinese-language documentation; heavy external data-dir coupling (`data/` sync from the parent repo); overlaps mattpocock-security-review + oss-forensics territory for a domain (AI-infra pentesting) with no standing need here |
 
 Cross-link added: `one-three-one-rule → mental-models`. Counts reconciled to **205 skills / 524 xrefs / 336 ref docs** everywhere the gate checks; plugin now exposes 202. The doc-count gate caught a stale README category-table row (communication/ claimed 1, disk has 2) on first run — and exposed that the table's caption falsely claimed it was auto-regenerated: corrected to "hand-maintained and enforced against disk by verify-all" (the per-category DESCRIPTIONs are what regenerate).
+
+
+**Round-21b (2026-09-14): mental-models support files now surface through skill_view.** Round 21's port verified file parity but never checked discoverability: `skill_view(name='mental-models')` returned `linked_files: null`, so the entire payload — all 21 models + TEMPLATE.md, the thing an agent needs when applying a model — was reachable only by guessing absolute paths. Root cause: upstream ships its bundle in a non-standard top-level `models/` dir; Hermes surfaces only `references/`, `templates/`, `scripts/`, `assets/`. Fix (via `git mv`, history preserved):
+
+- `communication/mental-models/models/` → `references/models/`
+- `communication/mental-models/TEMPLATE.md` → `templates/TEMPLATE.md`
+- every path reference in SKILL.md updated (`models/index.md` → `references/models/index.md`, etc.); internal relative links inside the moved bundle stay valid (files moved together)
+
+**Verified empirically, not just by file hashes:** after syncing to the live dir, `skill_view(name='mental-models')` now lists templates in `linked_files`, and a nested probe — `file_path='references/models/inversion.md'` — returns the full model content. A repo-wide sweep for other non-standard top-level dirs found only two more: `creative/comfyui/workflows/` (runtime workflow JSON, not agent-readable docs) and `productivity/docx/specs/` (builder-script fixtures referenced by memory + docx skill body text) — both deliberately left as-is.
+
+Counts: ref docs 336 → **358** (the 21 models + index now count in REFERENCES-INDEX); DESCRIPTION's one live claim updated; the two "336" mentions in the audit ledger are historical round records and stay untouched by design. All 11 gates pass, including doc counts against the new truth.
