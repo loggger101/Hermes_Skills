@@ -13,6 +13,13 @@ actually matter at 1M+ rows. **Every snippet below was executed on this machine*
 against pandas as ground truth. Companion to `polars-pymc-api-reference.md` (API surface) —
 this file is about *which pattern for which job*.
 
+> **⚠️ 2026-09-14 note (round-22):** polars 2.0.0rc1 is on PyPI and changes the default lazy engine to
+> streaming — see `polars-v2-engine-and-breaking-changes.md`. Two consequences for this doc: Pattern 3's
+> join no longer preserves left row order by default (add `maintain_order="left"` if downstream logic
+> depends on it), and in-memory parquet round-trips through file-like objects now need an explicit
+> `.seek(0)` between write and read. All patterns here were verified on 1.44.x; the rc behaves identically
+> for everything except row-order guarantees (39/39 live checks, `polars-v2-verify.py`).
+
 ## Environment note (this machine)
 
 The default Python env has **none** of duckdb/polars/pyarrow installed. Isolated venv used here:
@@ -97,6 +104,10 @@ Real output: identical segment totals to Pattern 1 (cross-engine agreement, exac
 genuinely fires: joining against a frame where one customer appears twice with `validate="m:1"`
 raises `ComputeError` **before any row is processed** — an m:n fan-out that would otherwise
 silently multiply your order rows (and every SUM downstream) by the duplicate count.
+
+Row-order caveat (polars ≥2.0): this join's output no longer preserves left-hand row order under the
+default streaming engine — fine for group_by/agg pipelines like this one, but add
+`maintain_order="left"` to `.join(...)` if anything downstream indexes or zips by position.
 
 ## Pattern 4 — parquet zstd round-trip with row-group control (verified bit-identical)
 

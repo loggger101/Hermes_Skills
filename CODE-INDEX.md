@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **143 code files** (33,156 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **144 code files** (33,647 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -74,6 +74,7 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 ## data-science/python-data-science
 
 - `data-science/python-data-science/references/big-data-patterns-verify.py` (script, python, 158 lines) — Verify the general big-data patterns for python-data-science reference doc
+- `data-science/python-data-science/references/polars-v2-verify.py` (script, python, 491 lines) — Live verification of polars 2.0.0rc1 behavior claims (from docs/source/releases/upgrade/2.md)
 
 ## data-science/regex-vs-llm-structured-text
 
@@ -273,4 +274,4 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `tools/verify-all.py` (repo tooling, python, 201 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*143 code files: 102 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*144 code files: 103 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
