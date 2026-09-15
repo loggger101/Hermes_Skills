@@ -1,6 +1,6 @@
 Security rule: never preserve API keys/tokens/passwords/credentials — replace with [REDACTED]. Cronjob delivery: deliver='all' broadcasts to all bot platforms; deliver='origin' sends back to chat (requires Hermes gateway running).
 §
-Works on Hermes_Skills repo (CURRENT @ HEAD bc78be1, rounds through 21 done 2026-09-14: 205 skills / 524 xrefs / 336 ref docs; also exposed as Claude Code plugin via PR #4) and aspirecures repo at C:/Users/Owner/OneDrive/Documents/GitHub/.
+Works on Hermes_Skills repo (CURRENT @ HEAD b577ee7, rounds through 21b done 2026-09-14: 205 skills / 524 xrefs / 358 ref docs; also exposed as Claude Code plugin via PR #4) and aspirecures repo at C:/Users/Owner/OneDrive/Documents/GitHub/.
 §
 Prefers perfect/foolproof autonomous solutions. Triple-checks deliverables: (1) git pushed & 0 ahead/behind, (2) working tree clean, (3) no temp files, (4) no accidental deletions, (5) audit passes.
 §
