@@ -1,6 +1,6 @@
 # Skill Dependency Map
-This document maps the relationship network between all **205 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
-**Network stats:** 524 `related_skills` cross-references across 205 skills (2 skills are standalone with no `related_skills` entries).
+This document maps the relationship network between all **206 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+**Network stats:** 527 `related_skills` cross-references across 206 skills (2 skills are standalone with no `related_skills` entries).
 ## Hub Skills (referenced by 2+ other skills)
 These are the core skills that serve as building blocks, referenced by many other skills:
 | Skill | Referenced By (count) | Referencing Skills |
@@ -94,6 +94,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `fastmcp` | 2 | mcporter, repowise |
 | `github-repo-management` | 2 | codebase-inspection, github-auth |
 | `himalaya` | 2 | email-inbox-triage, google-workspace |
+| `humanizer` | 2 | no-ai-slop, songwriting-and-ai-music |
 | `imessage` | 2 | apple-reminders, findmy |
 | `llama-cpp` | 2 | huggingface-hub, serving-llms-vllm |
 | `maps` | 2 | algorithms-python-catalog, product-price-monitor |
@@ -109,6 +110,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `pubmed-database` | 2 | bioinformatics, gget |
 | `redesign-existing-projects` | 2 | design-taste-frontend, full-output-enforcement |
 | `serving-llms-vllm` | 2 | llama-cpp, weights-and-biases |
+| `songwriting-and-ai-music` | 2 | humanizer, no-ai-slop |
 | `space-data-pipelines` | 2 | cron-pipeline-watchdog, duckdb-querying |
 | `static-site-seo` | 2 | publish-site, static-site-patterns |
 | `test-infra-ml` | 2 | property-based-testing, verification-culture |
@@ -117,6 +119,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 The following 1 skills have no `related_skills` entries of their own (they do not reference other skills). These are genuinely standalone — no other skill references them either:
 - `accelerate`
 ## Related Skills Validation
-All 524 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 205 unique skill names.
+All 527 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 206 unique skill names.
 
 ---

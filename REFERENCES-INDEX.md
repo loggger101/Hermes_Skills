@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **359 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **360 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -215,6 +215,9 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `creative/manim-video/references/troubleshooting.md` — Troubleshooting
 - `creative/manim-video/references/updaters-and-trackers.md` — Updaters and Value Trackers
 - `creative/manim-video/references/visual-design.md` — Visual Design Principles
+## creative/no-ai-slop
+
+- `creative/no-ai-slop/references/eval.md` — No AI slop eval
 ## creative/p5js
 
 - `creative/p5js/references/animation.md` — Animation

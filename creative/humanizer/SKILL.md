@@ -10,7 +10,7 @@ metadata:
     tags: [writing, editing, humanize, anti-ai-slop, voice, prose, text]
     category: creative
     homepage: https://github.com/blader/humanizer
-    related_skills: [songwriting-and-ai-music]
+    related_skills: [no-ai-slop, songwriting-and-ai-music]
 
 ---
 
@@ -35,6 +35,8 @@ Load this skill whenever the user asks to:
 - review text for AI tells before publishing
 
 Also apply this skill to **your own** output when writing user-facing prose such as release notes, PR descriptions, docs, and summaries. Hermes's baseline voice already strips most of these, but a focused pass catches what slips through.
+
+**Companion: [no-ai-slop](../no-ai-slop/SKILL.md) (petergyang/no-ai-slop).** Humanizer adds soul where none exists; no-ai-slop is the voice-preserving editor for drafts that already have personality — its "minimum effective edit" rule and portability test exist precisely to stop an editing pass from flattening a distinctive writer into generic polished prose. Use it when the user wants their draft *less AI-sounding* rather than rewritten in a default human voice, or for **detect mode**: name each slop pattern with a quoted line and a short fix instead of guessing authorship (AI detectors guess; named patterns are checkable evidence). Its `eval.md` self-check list is the model for any skill that edits prose.
 
 ## How to Run
 
