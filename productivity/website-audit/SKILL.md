@@ -1,7 +1,7 @@
 ---
 name: website-audit
 description: "Audit websites/codebases into .docx reports; read-only."
-version: v0.9.0
+version: v1.0.0
 author: Hermes Agent (ported from starred-repo research)
 license: MIT
 platforms: [linux, macos, windows]
@@ -50,11 +50,11 @@ Generate comprehensive .docx audit reports for websites/codebases via read-only 
 1. Architecture Overview (tech stack, file organization, dependencies)
 2. Accessibility Audit (WCAG compliance patterns, screen reader behavior, keyboard navigation)
 3. Security Analysis (CSP meta tags, form protection mechanisms, external link security)
-4. SEO & Social Media (meta tags, Open Graph/Twitter cards, structured data/JSON-LD, sitemap)
+4. SEO & Social Media (meta tags, Open Graph/Twitter cards, structured data/JSON-LD, sitemap) — for the AI-search layer on top of classic SEO see `static-site-seo/references/agent-ready-and-ai-search.md`
 5. Performance (loading strategies, asset optimization opportunities, caching potential)
 6. Code Quality (naming conventions, code comments, modularity, error handling patterns)
-7. Content & UX (navigation flow, interactive elements, responsive behavior observations)
-8. Cross-Page Consistency (patterns across all pages, notable deviations flagged)
+7. Content & UX / Conversion — audit against the CRO + form + site-structure frameworks in `references/cro-form-ux-checklists.md` (value-prop clarity → headline → CTA hierarchy → trust signals → friction; per-field form cost analysis; 3-click rule + navigation anti-patterns). Structure findings as Quick Wins / High-Impact Changes / Test Ideas.
+8. Cross-Page Consistency (patterns across all pages, notable deviations flagged) — include an internal-link orphan check: build the link graph from all HTML files and report zero-inbound pages
 9. Testing & CI/CD (test coverage gaps, automation opportunities)
 10. Recommendations Summary (prioritized by impact: High/Medium/Low + effort estimate)
 
@@ -164,3 +164,5 @@ Final review checklist (verify each before delivery):
    If that fails, check with `where.exe python` or verify via terminal if standard `python3` works.
 
 6. **Type mismatch in bullet rendering.** When passing `(text, is_bold)` tuples to paragraph builders expecting plain strings, unpack them first and set `r.bold = True` explicitly rather than relying on implicit formatting detection from markup markers like `<strong>`.
+
+7. **"No schema found" false positives from non-rendering fetches.** `web_fetch`, `curl`, or any static HTML read **cannot see JSON-LD injected by client-side JavaScript** (common with CMS SEO plugins, and even hand-authored sites that build structured data in JS). Reporting "no structured data" based on a raw fetch is an audit error. Verify schema claims one of three ways: render the page in a browser and query `document.querySelectorAll('script[type="application/ld+json"]')`, run Google's Rich Results Test, or use a JS-rendering crawler export (Screaming Frog). In read-only audits where rendering isn't available, state the limitation explicitly ("schema not detectable via static fetch — verify with rendered check") instead of asserting absence.

@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **364 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **367 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -238,6 +238,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 ## creative/static-site-seo
 
 - `creative/static-site-seo/references/agent-ready-and-ai-search.md` — Agent-Ready Sites & the AI-Search Layer (AEO/GEO)
+- `creative/static-site-seo/references/programmatic-pages-quality-gates.md` — Programmatic / Generated Pages: Quality Gates (for templated page families)
 ## creative/stitch
 
 - `creative/stitch/references/taste-standard-design-system.md` — Worked example of the Stitch DESIGN.md output format - the Taste Standard design system
@@ -298,6 +299,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 ## data-science/python-data-science
 
 - `data-science/python-data-science/references/big-data-patterns.md` — Verified big-data patterns (duckdb ad-hoc SQL, polars lazy joins with cardinality checks, parquet row groups, incremental dedup) — all run on 200k-row fixtures, cross-checked against pandas
+- `data-science/python-data-science/references/experiment-design-sample-size.md` — Experiment Design & Sample Size (A/B test statistics)
 - `data-science/python-data-science/references/polars-pymc-api-reference.md` — polars + pymc API references — verified line-numbered facts from cloned sources
 - `data-science/python-data-science/references/polars-v2-engine-and-breaking-changes.md` — polars 2.0 (rc) engine architecture + every breaking change live-verified on polars==2.0.0rc1 — streaming-by-default, row-order semantics, OOC spilling internals, GPU beta
 ## data-science/space-data-pipelines
@@ -414,6 +416,9 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `productivity/teach/references/LEARNING-RECORD-FORMAT.md` — Learning Record Format
 - `productivity/teach/references/MISSION-FORMAT.md` — MISSION.md Format
 - `productivity/teach/references/RESOURCES-FORMAT.md` — RESOURCES.md Format
+## productivity/website-audit
+
+- `productivity/website-audit/references/cro-form-ux-checklists.md` — CRO / Form / UX Audit Frameworks (for website audit reports)
 ## productivity/xlsx
 
 - `productivity/xlsx/references/restructuring.md` — Reference-aware restructuring (xlsx_restructure.py)
