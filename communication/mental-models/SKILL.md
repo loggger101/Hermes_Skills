@@ -24,7 +24,7 @@ markdown.
 
 ## What This Skill Does
 
-Applies a latticework of mental models — the 21 sourced ones bundled here, or your own files in Open Knowledge Format — to any problem. The agent reads `models/index.md`, checks for user-supplied model directories, selects 2-4 models from different areas (selection is reasoning, not keyword matching), walks each model's Thinking Steps against the actual facts, surfaces 'When to Avoid' conditions, and reports where models agree or disagree plus concrete next steps. Everything is plain markdown: no install, no dependencies.
+Applies a latticework of mental models — the 21 sourced ones bundled here, or your own files in Open Knowledge Format — to any problem. The agent reads `references/models/index.md`, checks for user-supplied model directories, selects 2-4 models from different areas (selection is reasoning, not keyword matching), walks each model's Thinking Steps against the actual facts, surfaces 'When to Avoid' conditions, and reports where models agree or disagree plus concrete next steps. Everything is plain markdown: no install, no dependencies.
 
 ## When to Use
 
@@ -36,7 +36,7 @@ Applies a latticework of mental models — the 21 sourced ones bundled here, or 
 
 ## Step 1 — Load the index
 
-Read [`models/index.md`](./models/index.md). It lists every bundled model with a one-line
+Read [`references/models/index.md`](./references/models/index.md). It lists every bundled model with a one-line
 description. It is short; load it in full.
 
 Then check for the user's own models. The bundled set is a starting point, not a fixed list:
@@ -81,13 +81,13 @@ entire point of a *latticework* — a single-area pick means blind spots go unch
 
 ## Step 3 — Retrieve each pick
 
-Read the file directly. Bundled models are flat files named by slug:
+Read the file directly (bundled models live under this skill's `references/` dir). They are flat files named by slug:
 
 ```
-models/<slug>.md
+references/models/<slug>.md
 ```
 
-e.g. `models/inversion.md`. The index gives you the exact filename — use it rather than
+e.g. `references/models/inversion.md`. The index gives you the exact filename — use it rather than
 guessing. User models are at the path you found them.
 
 ## Step 4 — Apply
@@ -123,20 +123,20 @@ Show where the chosen models agree, and where they disagree.
 
 ## The format
 
-`models/` is an [Open Knowledge Format](https://github.com/GoogleCloudPlatform/open-knowledge-format)
+The bundled copy (`references/models/`) is an [Open Knowledge Format](https://github.com/GoogleCloudPlatform/open-knowledge-format)
 bundle: a directory of markdown files, each with YAML frontmatter carrying at minimum a
 `type`. That means any OKF bundle can be dropped into `.mental-models/` and read the same way,
-and this bundle can be consumed by any OKF-aware agent.
+and this bundle can be consumed by any OKF-aware agent. (The layout under `references/` is a porting detail for Hermes' skill_view surfacing — user-supplied bundles keep their own layout.)
 
 Obsidian vaults work too — treat `[[wikilink]]` as a link to `wikilink.md`.
 
-To write your own, copy [`TEMPLATE.md`](./TEMPLATE.md).
+To write your own, copy [`templates/TEMPLATE.md`](./templates/TEMPLATE.md).
 
 ## Files in This Skill
 
 - `SKILL.md` — this entry point
-- `TEMPLATE.md` — the format; copy it to write your own model
-- `models/` — the bundled OKF bundle: `index.md` plus one file per model
+- `references/models/` — the bundled OKF bundle: `index.md` plus one file per model (surfaced by `skill_view(name='mental-models', file_path=...)`)
+- `templates/TEMPLATE.md` — the format; copy it to write your own model
 
 Outside this skill, and never overwritten by an update:
 
