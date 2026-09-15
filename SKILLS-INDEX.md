@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **204 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **205 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -28,6 +28,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 
 ## communication
 
+- `mental-models` — Mental models as files: pick a latticework of 2-4 to apply _(communication)_
 - `one-three-one-rule` — 1-3-1 decision briefs: problem, three options, one pick _(communication)_
 
 ## creative
@@ -277,4 +278,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*204 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*205 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*

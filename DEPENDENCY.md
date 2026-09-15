@@ -1,6 +1,6 @@
 # Skill Dependency Map
-This document maps the relationship network between all **204 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
-**Network stats:** 520 `related_skills` cross-references across 204 skills (2 skills are standalone with no `related_skills` entries).
+This document maps the relationship network between all **205 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+**Network stats:** 524 `related_skills` cross-references across 205 skills (2 skills are standalone with no `related_skills` entries).
 ## Hub Skills (referenced by 2+ other skills)
 These are the core skills that serve as building blocks, referenced by many other skills:
 | Skill | Referenced By (count) | Referencing Skills |
@@ -22,10 +22,10 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `mattpocock-code-review` | 8 | mattpocock-diagnosing-bugs, mattpocock-evidence-driven, mattpocock-multi-agent-code-review, mattpocock-security-review, mattpocock-spec-driven-development, mattpocock-tdd, mattpocock-to-tickets, receiving-code-review |
 | `arxiv` | 7 | grounded-citations, literature-review, llm-wiki, mattpocock-research, pubmed-database, qmd, research-paper-writing |
 | `github-auth` | 7 | github-code-review, github-issues, github-pr-workflow, github-repo-management, mattpocock-gh-fix-ci, mattpocock-yeet, wizard |
+| `grilling-interview` | 7 | brainstorming, conversation-to-spec, issue-triage-state-machine, mental-models, one-three-one-rule, skill-flow-router, wayfinder-map-planning |
 | `mattpocock-domain-modeling` | 7 | issue-triage-state-machine, living-docs-governance, mattpocock-handoff, mattpocock-improve-codebase-architecture, mattpocock-spec-driven-development, mattpocock-to-tickets, mattpocock-writing-for-agents |
 | `cron-job-authoring` | 6 | apple-reminders, cron-config-authoring, cron-pipeline-watchdog, findmy, product-price-monitor, watchers |
 | `docx` | 6 | document-to-action-items, ocr-and-documents, pdf, powerpoint, website-audit, xlsx |
-| `grilling-interview` | 6 | brainstorming, conversation-to-spec, issue-triage-state-machine, one-three-one-rule, skill-flow-router, wayfinder-map-planning |
 | `pdf` | 6 | document-to-action-items, docx, nano-pdf, ocr-and-documents, powerpoint, xlsx |
 | `github-code-review` | 5 | github-auth, github-pr-workflow, mattpocock-code-review, receiving-code-review, requesting-code-review |
 | `github-issues` | 5 | github, github-auth, github-issue-to-pr, github-repo-management, mattpocock-to-tickets |
@@ -85,6 +85,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `code-quality-signal` | 2 | architecture-metrics, repowise |
 | `codebase-onboarding` | 2 | living-docs-governance, repowise |
 | `competitor-news-monitor` | 2 | blogwatcher, rss-feeds |
+| `decision-questionnaire` | 2 | mental-models, one-three-one-rule |
 | `docker-containers` | 2 | rest-api-client, ssh-remote |
 | `document-to-action-items` | 2 | decision-questionnaire, meeting-action-items |
 | `dogfood` | 2 | adversarial-ux-test, inspecting-hermes-desktop-dom |
@@ -116,6 +117,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 The following 1 skills have no `related_skills` entries of their own (they do not reference other skills). These are genuinely standalone — no other skill references them either:
 - `accelerate`
 ## Related Skills Validation
-All 520 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 204 unique skill names.
+All 524 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 205 unique skill names.
 
 ---

@@ -636,3 +636,13 @@ Final state: **204 skills / 520 xrefs / 336 ref docs**, all 10 gates green local
 - Runs stdlib-only on any platform; fixture copy skips profiles-export/.git (outside counting scope) so CI stays fast.
 
 Gate count 10 → **11** everywhere: ci.yml header, DESCRIPTION.md (3 spots), README.md tools table + verification block. CODE-INDEX regenerated (142 → 143 code files). All 11 gates green locally; the self-test gate prints `ALL 6 MUTATIONS CAUGHT` on every run, so a future claim class added to `check_doc_counts` without its mutation here will be caught at commit time by construction.
+
+
+**Round-21 (2026-09-14): one more upstream sweep — ported `communication/mental-models`, rejected Tencent red-team.** A same-day re-scan of the two external catalogs found movement since round 20: hermes-agent optional-skills unchanged (`f7005f2`), TheAlgorithms/Python still teaching-material churn (re-check note already in catalog-map.md), but ECC merged ~10 community PRs this morning. Nine were README-only link entries; five had recorded dispositions from the round-20 sweep, leaving two unprocessed:
+
+| Candidate | Disposition | Reasoning |
+|---|---|---|
+| `cyperx84/claude-skills-mental-models` (MIT, v2.0.1) | **PORTED** → `communication/mental-models` | 21 sourced mental models as Open-Knowledge-Format markdown + a SKILL.md that makes the agent select a latticework of 2-4 from different areas and walk each model's Thinking Steps / When-to-Avoid against actual facts. Zero deps (pure file reads), no overlap with existing decision skills — it supplies the *content* those formats structure. Adapted: Hermes frontmatter, required body sections, Claude-specific personal-models path generalized |
+| `Tencent/AI-Infra-Guard` → `aig-agent-redteam` skill (Apache-2.0) | REJECTED | Entirely Chinese-language documentation; heavy external data-dir coupling (`data/` sync from the parent repo); overlaps mattpocock-security-review + oss-forensics territory for a domain (AI-infra pentesting) with no standing need here |
+
+Cross-link added: `one-three-one-rule → mental-models`. Counts reconciled to **205 skills / 524 xrefs / 336 ref docs** everywhere the gate checks; plugin now exposes 202. The doc-count gate caught a stale README category-table row (communication/ claimed 1, disk has 2) on first run — and exposed that the table's caption falsely claimed it was auto-regenerated: corrected to "hand-maintained and enforced against disk by verify-all" (the per-category DESCRIPTIONs are what regenerate).
