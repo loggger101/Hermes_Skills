@@ -156,7 +156,7 @@ the actual dataset licenses before relying on it.
   data is needed, read the raw PDS4 products yourself rather than depending on an unlicensed wrapper.
 - **space-map** -- AGPL-3.0 + only 2 stars; tiny and copyleft.
 - **polars** -- MIT but redundant: pyarrow already in the stack for parquet (ssoBFT). Don't add a
-  second DataFrame engine.
+  second DataFrame engine. Refined after the round-22 deep-dive (see `python-data-science/references/polars-v2-engine-and-breaking-changes.md`): its real strengths are join-cardinality validation (`validate="m:1"` catches fan-out at plan time) and — in 2.x — a streaming default engine with out-of-core spilling for larger-than-RAM queries. Neither is needed while the catalog fits in RAM and pyarrow covers parquet; if it ever IS adopted, pin to stable 1.x (bit-reproducibility discipline) because 2.0 changes row-order guarantees by default.
 - **mesa / z3 / Pyomo / pygmo2 / OpenSCvx** -- modeling/optimization/constraint tools that don't
   fit a deterministic profitability ranking. calc.py already solves its own rocket-equation
   feedback loop; none of these are needed for the current model.

@@ -10,6 +10,11 @@ verified_date: "2026-09-05"
 Distilled from the 2026-09-05 deep-dive salvage report (`%LOCALAPPDATA%\hermes\output\starred-dive\data-engineering.md`),
 which verified every fact against cloned source with file:line anchors. Re-check line numbers before quoting them — they drift between releases; the *facts* are what matter.
 
+> **⚠️ 2026-09-14 update (round-22):** polars is at **2.0.0rc1** on PyPI (stable = 1.44.x). The v2
+> release changes the default engine to streaming and breaks ~35 behaviors — read
+> `polars-v2-engine-and-breaking-changes.md` before upgrading anything, and note that several facts in
+> this file below were corrected by that pass (marked ⚠️-corrected).
+
 ## polars (Rust core, Python bindings)
 
 **Design rule: lazy-first.** The lazy API is where query optimization and streaming
@@ -21,11 +26,11 @@ which verified every fact against cloned source with file:line anchors. Re-check
 | `read_csv` / `scan_csv` | `py-polars/src/polars/io/csv/functions.py:74` / `:558` | scan_* = lazy entry; prefer for any pipeline > RAM or multi-step transform chain |
 | `to_pandas` interop | `dataframe/frame.py:2479` | the pandas escape hatch — keep it at the boundary, not mid-pipeline |
 | **modern group_by** | `dataframe/frame.py:7091`: `group_by(*by, maintain_order=False, **named_by)` | positional + named kwargs; old `.groupby()` alias still present (`:7409`) — use `group_by` in new code |
-| **LazyFrame.join** | `lazyframe/frame.py:5822`: params incl. `how`, `left_on/right_on`, `suffix="_right"`, **`validate="m:m"`**, `nulls_equal`, `coalesce` | `validate=` is the standout vs pandas — join cardinality validation catches fan-out bugs at query time, not in a 3 AM data review |
-| `collect()` | signature: `engine: EngineType = "auto", background, optimizations` | pluggable query engines + async/background collection (see `tests/unit/lazyframe/test_async.py`, `test_engine_selection.py`) |
+| **LazyFrame.join** | `lazyframe/frame.py:5822`: params incl. `how`, `left_on/right_on`, `suffix="_right"`, **`validate="m:m"`**, `nulls_equal`, `coalesce`; v2 adds semantics around `maintain_order`/`build_side` (see ⚠️ below) | `validate=` is the standout vs pandas — join cardinality validation catches fan-out bugs at query time, not in a 3 AM data review. **⚠️-corrected (round-22):** `maintain_order: Literal["none","left","right","left_right","right_left"]` and `build_side: Literal["auto","prefer_left","prefer_right","force_left","force_right"]` already exist in stable 1.44 — they are NOT v2-only APIs; what changed in 2.0 is that the default (streaming) engine no longer preserves left row order, making `maintain_order="left"` load-bearing |
+| `collect()` | signature: `engine: EngineType = "auto", background, optimizations` | pluggable query engines + async/background collection (see `tests/unit/lazyframe/test_async.py`, `test_engine_selection.py`). **⚠️-corrected (round-22):** in 2.0 `"auto"` resolves to the STREAMING engine for lazy queries — row order is no longer guaranteed on unpivot/group_by/joins; escapes are per-query `engine="in-memory"`, process-wide `pl.Config.set_engine_affinity("in-memory")` / env `POLARS_ENGINE_AFFINITY`. Also new in 2.0: `collect_batches()` (streaming batches) and `pl.collect_all([lf1, lf2])` which merges plans with common-subplan elimination |
 
 ### Module layout worth knowing
-`catalog/` (lakehouse catalog support), `sql/` (SQL interface over frames), `interchange/` (dataframe interchange protocol), `ml/`, `selectors/`.
+`catalog/unity/` (lakehouse Unity Catalog client), `sql/` (**not an engine** — a 13-file Rust parser/resolver that translates SQL into expressions for the normal IR; every expression feature works from SQL and gets all optimizer passes, but also inherits v2 streaming/order semantics), `interchange/` (**⚠️-corrected round-22:** in 2.0 this now holds only `CompatLevel` — the DataFrame Interchange Protocol itself was removed along with `df.__dataframe__()`; use `.to_arrow()` / `.to_pandas()` for interop), `ml/torch.py` (unstable `PolarsDataset(TensorDataset)` bridge to torch), `datatype_expr/` (unstable `pl.dtype_of(col)` — lazily-referenced dtypes, e.g. as `map_batches(..., return_dtype=...)`).
 
 ### The idiom to internalize
 ```python
