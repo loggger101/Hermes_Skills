@@ -1,7 +1,7 @@
 ---
 name: static-site-seo
 description: "Static site SEO: JSON-LD, meta tags, analytics, CSP."
-version: 1.1.0
+version: 1.2.0
 author: Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
@@ -26,6 +26,7 @@ Static site SEO: JSON-LD, meta tags, analytics, CSP.
 
 - Building or maintaining a static site (hand-authored HTML, generated HTML, or a static site generator)
 - Improving a static site's search visibility (titles, descriptions, structured data, sitemaps) — including the AI-search layer: being cited by ChatGPT/Perplexity/AI Overviews and usable by autonomous agents (`references/agent-ready-and-ai-search.md`)
+- Generating many pages from templates + data (feed sections, listing/catalog families, per-item docs): quality gates to avoid thin-content / near-duplicate page debt — verified Jaccard-shingle detection snippet included (`references/programmatic-pages-quality-gates.md`)
 - Adding analytics without degrading privacy or performance
 - Wiring up a contact/registration form without a backend server
 - Hardening a static site with security headers (CSP, HSTS, X-Frame-Options, etc.)
