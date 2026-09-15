@@ -28,6 +28,7 @@ Load this skill when:
 - The user wants a draft made "clearer, more direct, more opinionated" or less AI-sounding — with their voice preserved (this is the complement of [humanizer](../humanizer/SKILL.md): humanizer adds soul where none exists; no-ai-slop refuses to flatten an existing one).
 - The user asks "is this slop?" / wants a scan, audit, or flag pass WITHOUT a rewrite — use Detect mode below.
 - Editing marketing copy, posts, essays, emails, or product updates that already have personality and must keep it.
+- Editing **technical drafts with numbers/units/named entities**: `references/community-pattern-proposals.md` carries the upstream fact-binding rule (PR #24) — compression silently rebinding a measurement to the wrong subject is the failure class this skill's own rules don't prevent; plus over-edit tells, terms-of-art ban-list split, and a measured benchmark (-13.7% length change, 17/18 details kept).
 
 ## Two jobs
 
