@@ -23,6 +23,7 @@ Creative content generation — ASCII art, hand-drawn style diagrams, and visual
 - [`industrial-brutalist-ui`](./industrial-brutalist-ui/SKILL.md) — Swiss-print + CRT-terminal brutalist UI engineering
 - [`manim-video`](./manim-video/SKILL.md) — Manim CE animations: 3Blue1Brown math/algo videos
 - [`mattpocock-prototype`](./mattpocock-prototype/SKILL.md) — Build a throwaway prototype to answer a design question
+- [`no-ai-slop`](./no-ai-slop/SKILL.md) — Edit drafts into human writing; detect AI-slop patterns
 - [`p5js`](./p5js/SKILL.md) — p5.js sketches: gen art, shaders, interactive, 3D
 - [`popular-web-designs`](./popular-web-designs/SKILL.md) — 54 real design systems as HTML/CSS
 - [`pretext`](./pretext/SKILL.md) — Build creative browser demos with DOM-free text layout
