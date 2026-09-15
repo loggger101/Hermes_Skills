@@ -132,6 +132,10 @@ Obsidian vaults work too — treat `[[wikilink]]` as a link to `wikilink.md`.
 
 To write your own, copy [`templates/TEMPLATE.md`](./templates/TEMPLATE.md).
 
+## Alternative form: the advisor panel (role-played frameworks)
+
+Instead of applying 2–4 abstract models yourself, staff a simulated board of named experts and let them argue — useful when the user wants *perspectives*, not just structure. The pattern (from coreyhaines31/marketingskills `skills/marketing-council/`, MIT): one file per advisor with four parts — **Lens** (the single framing they apply), **Core frameworks** (each named + source-attributed, e.g. "Value Equation (*$100M Offers*)"), **Documented positions** (what they'd actually argue, including contrarian ones), and **Signature questions** (2–5 probes they'd open with). The agent runs the question each advisor would ask against the user's real facts, reports where advisors *disagree* explicitly, then synthesizes. Same discipline as this skill applies to models — frameworks stay sourced, positions stay attributed, disagreement is surfaced rather than silently resolved — just cast in named voices for readability and debate dynamics.
+
 ## Files in This Skill
 
 - `SKILL.md` — this entry point

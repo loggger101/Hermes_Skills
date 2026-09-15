@@ -1,7 +1,7 @@
 ---
 name: cron-job-authoring
 description: "Author autonomous cron prompts with guardrails."
-version: 1.0.0
+version: 1.1.0
 author: Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
@@ -17,7 +17,7 @@ metadata:
 
 ## What This Skill Does
 
-Teaches the pattern for writing prompts for cron jobs that run autonomously on a schedule with no human present. Covers the no-interaction guardrail pattern (never use `clarify`, never prompt for credentials, never present interactive UI), credential handling (skip-and-record strategy when credentials are missing), delivery discipline (the cron system auto-delivers the final response; never call `send_message` yourself), and structural conventions (phased prompts, scorecards, blocked-item handling). Includes troubleshooting for common failures like `[drift_skip]` errors and `approvals.cron_mode` blocking.
+Teaches the pattern for writing prompts for cron jobs that run autonomously on a schedule with no human present. Covers the no-interaction guardrail pattern (never use `clarify`, never prompt for credentials, never present interactive UI), credential handling (skip-and-record strategy when credentials are missing), delivery discipline (the cron system auto-delivers the final response; never call `send_message` yourself), and structural conventions (phased prompts, scorecards, blocked-item handling). Includes loop engineering for *recurring* jobs — nine-part anatomy, cadence-vs-signal-speed matching, two-tier action model with spend caps/allowlists, idempotency state patterns, kill switches, and the vanity-loop detector (`references/loop-engineering.md`). Also includes troubleshooting for common failures like `[drift_skip]` errors and `approvals.cron_mode` blocking.
 
 Writing prompts for cron jobs that run on a schedule with no human present requires different discipline than writing prompts for interactive sessions. The job cannot ask questions, wait for approvals, or pause for credentials. Every decision point that would normally trigger a `clarify` or a prompt must be resolved in the prompt itself — either with a rule ("skip and note"), a fallback, or an explicit blocker record.
 
@@ -98,6 +98,10 @@ Always include a "Blocked" or "Flagged for Human Review" section. The difference
 ### Silent vs. delivered runs
 
 Some jobs are watchdogs that should stay silent when nothing changed (e.g. `wakeAgent: false` gates, empty stdout). Design the prompt so the agent knows when to produce output and when to stay quiet — don't let it deliver "nothing to report" noise on every tick.
+
+### Recurring jobs = loops with state
+
+For any job that runs more than once (watchdogs, monitors, periodic reviews), apply loop engineering: a **self-check** phase before acting (is the signal real vs. noise/stale data?), durable **state/idempotency** (watermark + dedupe keys so re-runs never double-act or re-nag), an explicit **stop/bail-out**, and a per-run log line that doubles as the vanity-loop detector (`acted=0` for weeks → retire it). The full nine-part anatomy, two-tier action model (draft/stage = safe; spend/send/publish/delete = gated behind caps + allowlist + human checkpoint), cadence-vs-signal-speed table, and rollout order for multiple loops are in `references/loop-engineering.md`.
 
 ## Pitfalls
 

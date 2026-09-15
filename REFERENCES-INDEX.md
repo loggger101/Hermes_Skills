@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **361 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **364 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -19,6 +19,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `autonomous-ai-agents/cron-job-authoring/references/delivery-discipline.md` — Delivery Discipline for Cron Jobs
 - `autonomous-ai-agents/cron-job-authoring/references/drift-skip-error.md` — Drift Skip: Model/Provider Config Drift
 - `autonomous-ai-agents/cron-job-authoring/references/guardrail-template.md` — Guardrail Template — No-Interaction Block for Cron Jobs
+- `autonomous-ai-agents/cron-job-authoring/references/loop-engineering.md` — Loop Engineering (scheduled autonomous jobs)
 - `autonomous-ai-agents/cron-job-authoring/references/output-alignment.md` — Output Alignment Reference
 - `autonomous-ai-agents/cron-job-authoring/references/script-path-resolution.md` — Script Path Resolution Pitfalls
 ## autonomous-ai-agents/hermes-agent
@@ -234,6 +235,9 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 ## creative/pretext
 
 - `creative/pretext/references/patterns.md` — Pretext Patterns
+## creative/static-site-seo
+
+- `creative/static-site-seo/references/agent-ready-and-ai-search.md` — Agent-Ready Sites & the AI-Search Layer (AEO/GEO)
 ## creative/stitch
 
 - `creative/stitch/references/taste-standard-design-system.md` — Worked example of the Stitch DESIGN.md output format - the Taste Standard design system
@@ -477,6 +481,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `software-development/hermes-agent-skill-authoring/references/related-skills-audit.md` — Auditing and Fixing `related_skills` References
 - `software-development/hermes-agent-skill-authoring/references/section-header-standardization.md` — Section Header Standardization
 - `software-development/hermes-agent-skill-authoring/references/skill-evolution-pipeline.md` — DSPy+GEPA skill-evolution pipeline (NousResearch/hermes-agent-self-evolution) — verified CLI, requirements, when NOT to use
+- `software-development/hermes-agent-skill-authoring/references/skill-repo-release-engineering.md` — Skill-Repo Release Engineering (versioning, update channel, generated blocks)
 ## software-development/mattpocock-diagnosing-bugs
 
 - `software-development/mattpocock-diagnosing-bugs/references/library-audit-methodology.md` — (no description)

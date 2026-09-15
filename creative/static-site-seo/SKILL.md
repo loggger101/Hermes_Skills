@@ -1,7 +1,7 @@
 ---
 name: static-site-seo
 description: "Static site SEO: JSON-LD, meta tags, analytics, CSP."
-version: 1.0.0
+version: 1.1.0
 author: Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
@@ -25,7 +25,7 @@ Static site SEO: JSON-LD, meta tags, analytics, CSP.
 ## When to Use
 
 - Building or maintaining a static site (hand-authored HTML, generated HTML, or a static site generator)
-- Improving a static site's search visibility (titles, descriptions, structured data, sitemaps)
+- Improving a static site's search visibility (titles, descriptions, structured data, sitemaps) — including the AI-search layer: being cited by ChatGPT/Perplexity/AI Overviews and usable by autonomous agents (`references/agent-ready-and-ai-search.md`)
 - Adding analytics without degrading privacy or performance
 - Wiring up a contact/registration form without a backend server
 - Hardening a static site with security headers (CSP, HSTS, X-Frame-Options, etc.)
@@ -137,6 +137,17 @@ If the site has multiple language versions, use `hreflang` to tell search engine
 <link rel="alternate" hreflang="es" href="https://www.example.com/es/page" />
 <link rel="alternate" hreflang="x-default" href="https://www.example.com/page" />
 ```
+
+## The AI-Search & Agent Layer (2026+)
+
+Classic ranking is no longer the whole discoverability story: answer engines (Google AI Overviews, ChatGPT search, Perplexity) **cite** sources rather than just rank them, and autonomous agents increasingly read sites directly. For a static site this layer adds four concrete items on top of everything above — full detail in `references/agent-ready-and-ai-search.md`:
+
+1. **Extractable structure** — key claims as self-contained 40–60 word answer blocks; query-phrased H2/H3s; statistics with sources + dates (Princeton GEO: citations +40%, stats +37% visibility; keyword stuffing is −10%, not just ineffective).
+2. **Machine-readable files** — `llms.txt` at root, `/pricing.md` if a product exists (agents skip pricing they can't parse), explicit AI-crawler stance in robots.txt (GPTBot/PerplexityBot/ClaudeBot/Google-Extended/Bingbot) and checking the CDN/WAF doesn't challenge them.
+3. **Presence portfolio** — third-party surfaces out-cite your own domain ~6.5x, but citation mixes shift overnight with retrieval updates (ChatGPT 5.6 cut listicle citations −50% in one release; Reddit was nearly wiped as a source within days). Diversify; treat any share statistic as dated.
+4. **Measurement** — AI answers are non-deterministic: run each key query 3–5 times per platform and track mention *rates* with sample sizes, monthly.
+
+Google's own stance for AIO/AI Mode: no special markup or files required, don't chunk content "for AI", people-first E-E-A-T wins — the structural items above help non-Google engines without hurting Google.
 
 ## Structured Data (JSON-LD)
 
