@@ -69,7 +69,15 @@ Independent maintainer of ZeroSlop ran no-ai-slop in a controlled replay: 18 dra
 
 Ranked second of four tools replayed. The 17/18 is exactly the failure class PR #24's fact-binding rule targets (compression silently rebinding a detail), and -13.7% quantifies typical compression — expect roughly that much shortening, which makes "restore the original line" over-edit fixes matter more than they sound.
 
-## 8. Ecosystem notes
+## 8. Language-specific pattern files (PR #50 Korean, PR #17 Chinese)
+
+Anti-slop lists do NOT transfer across languages — each language has its own AI tells, and both open PRs add per-language reference files instead of bloating the main skill:
+- **Korean** (`references/korean.md`, PR #50): 번역투 (translated-English stiffness), 이중 피동 (double passive), 명사화 (unnecessary nominalization), 사물존칭 (honorifics applied to objects — a tell no English list has), 빈 수식어 (empty modifiers). The build script gains an `if references.is_dir(): copytree(...)` so the file ships in the package.
+- **Chinese** (PR #17): empty officialese ("高度重视", "持续推进", "取得积极成效"), framework padding without content ("以X为引领、以Y为抓手..."), four-character phrase stacks, public-account hook templates ("很多人不知道的是...").
+
+Generalizable lesson for any multilingual skill: keep the universal rules in SKILL.md and put language-specific pattern lists in `references/<lang>.md` with a one-line trigger in the main file — the universal patterns (binary contrasts, colon reveals) hold cross-lingually, but word-level bans and honorific/grammar tells are per-language.
+
+## 9. Ecosystem notes
 
 - Japanese adaptation: [53able/no-ai-slop-ja](https://github.com/53able/no-ai-slop-ja) — redesigned around Japanese grammar/honorifics, credits upstream (issue #46). ZeroSlop ([manavmishra/ZeroSlop](https://github.com/manavmishra/ZeroSlop)) cites no-ai-slop as prior work.
 - Claude Code plugin support is PR #52 (open at mine time): `marketplace.json` + `plugin.json`, install via `/plugin marketplace add petergyang/no-ai-slop`. Works WITHOUT an explicit skills array because their layout is exactly what CC's native one-level discovery handles (`skills/<name>/SKILL.md`); this repo needs the explicit array for its `<category>/<skill>/` two-level paths — corroborates the round-18 finding in cross-harness-skill-porting.md. Namespaced invocation caveat: plugin-installed skills invoke as `/no-ai-slop:no-ai-slop`, not bare `/no-ai-slop`.
