@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **367 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **371 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -22,6 +22,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `autonomous-ai-agents/cron-job-authoring/references/loop-engineering.md` — Loop Engineering (scheduled autonomous jobs)
 - `autonomous-ai-agents/cron-job-authoring/references/output-alignment.md` — Output Alignment Reference
 - `autonomous-ai-agents/cron-job-authoring/references/script-path-resolution.md` — Script Path Resolution Pitfalls
+- `autonomous-ai-agents/cron-job-authoring/references/vault-crypto-pattern.md` — Per-User Encrypted Secret Vault (verified from reconurge/flowsint @ 1820569)
 ## autonomous-ai-agents/hermes-agent
 
 - `autonomous-ai-agents/hermes-agent/references/background-systems.md` — Durable & Background Systems
@@ -304,11 +305,15 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `data-science/python-data-science/references/polars-v2-engine-and-breaking-changes.md` — polars 2.0 (rc) engine architecture + every breaking change live-verified on polars==2.0.0rc1 — streaming-by-default, row-order semantics, OOC spilling internals, GPU beta
 ## data-science/space-data-pipelines
 
+- `data-science/space-data-pipelines/references/flowsint-pipeline-patterns.md` — Flowsint Pipeline Architecture Patterns (verified from reconurge/flowsint @ 1820569, v1.2.12)
 - `data-science/space-data-pipelines/references/hf-mirror-catalog.md` — All 230 keyless Hugging Face space/astro/physics mirrors from juliensimon/space-datasets — load_dataset one-liner, no API keys; grouped by domain
 - `data-science/space-data-pipelines/references/lunar-gis-patterns-aegis.md` — Lunar GIS patterns from nasa/aegis (AEGIS): LPS projection math, GeoTIFF custom-CRS reconstruction, lgrs-verified port
 - `data-science/space-data-pipelines/references/shared-library-internals.md` — hf_dataset_utils internals from juliensimon/space-datasets (230 pipelines): retry budget, TAP clients, HEASARC HTTP-200 failures, MAST keyset pagination, LFS recovery, watchdog
 - `data-science/space-data-pipelines/references/source-parser-families.md` — Per-source parsing families from space-datasets (round-15): TLE two-line-element char positions + epoch century rule, PDS3/PDS4 fixed-width colspecs, GOES netCDF status pivot, Wikidata SPARQL dedup, HTML fixture testing
 - `data-science/space-data-pipelines/references/space-data-licensing-audit.md` — Space-data licensing traps from space-datasets' own 2026-05-26 audit: ESA CC BY-NC, WDC Kyoto no-commercial, VizieR scientific-use terms, provider URL table
+## devops/rest-api-client
+
+- `devops/rest-api-client/references/ssrf-guard-and-outbound-http-hardening.md` — SSRF Guard & Outbound-HTTP Hardening (verified from reconurge/flowsint @ 1820569, v1.2.12)
 ## devops/system-design-scaling
 
 - `devops/system-design-scaling/references/asynchronism-communication-security.md` — Asynchronism, Communication & Security
@@ -336,6 +341,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 ## github/github-pr-workflow
 
 - `github/github-pr-workflow/references/agent-contribution-guardrails.md` — Agent Contribution Guardrails (PRs from coding agents to strict repos)
+- `github/github-pr-workflow/references/ci-ratchets-and-release-pipeline.md` — CI Ratchets & Release Pipeline (verified from reconurge/flowsint @ 1820569)
 - `github/github-pr-workflow/references/ci-troubleshooting.md` — CI Troubleshooting Quick Reference
 - `github/github-pr-workflow/references/conventional-commits.md` — Conventional Commits Quick Reference
 - `github/github-pr-workflow/references/git-workflow-recipes.md` — High-value git recipes distilled from tiimgreen/github-cheat-sheet (MIT) — fixup/autosquash, PR checkout, revert

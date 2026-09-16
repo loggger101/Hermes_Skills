@@ -1,8 +1,8 @@
 ---
 name: cron-job-authoring
 description: "Author autonomous cron prompts with guardrails."
-version: 1.1.0
-author: Hermes Agent
+version: 1.2.0
+author: Hermes Agent (vault crypto pattern verified from reconurge/flowsint 2026-09-15)
 license: MIT
 platforms: [linux, macos, windows]
 metadata:
@@ -68,6 +68,8 @@ When a cron job's work touches external services, the prompt must tell the agent
 3. **Hard blocker → record and continue.** If a step is foundational (can't proceed without it), record it as a blocked item and continue with non-dependent work. Don't stop the whole job.
 
 Never: attempt to obtain credentials, search for how to get them, enter interactive OAuth flows, or prompt the user.
+
+For *storing* per-user/per-profile secrets at rest (when a pipeline needs its own encrypted vault rather than env vars), `references/vault-crypto-pattern.md` has a verified reference construction from reconurge/flowsint: versioned master key from env -> HKDF-SHA256 with `info=tenant_id` -> AES-256-GCM with AAD bound to the owner, per-row salt+iv+key_version (rotation = additive migration), dual UUID-or-name lookup scoped by ownership in every query, and deferred-secret-resolution so components stay instantiable without a vault.
 
 ## Delivery Discipline
 

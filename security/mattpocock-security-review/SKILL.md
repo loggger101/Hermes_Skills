@@ -55,7 +55,7 @@ semgrep --config=auto --output=semgrep-results.sarif
 - **Hardcoded secrets**: API keys, passwords, tokens — flag immediately
 - **Insecure deserialization**: avoid `pickle`, use JSON/pydantic
 - **Path traversal**: validate with `os.path.realpath` + prefix checks
-- **SSRF**: validate URLs before fetching
+- **SSRF**: validate URLs before fetching — for user-controlled destinations (webhooks, config-supplied APIs, LLM-generated templates) use a blocked-range + scheme allowlist guard on the *rendered* URL; reference implementation with two measured bypasses: `rest-api-client` skill's `references/ssrf-guard-and-outbound-http-hardening.md`. Also check for **IDOR** (authN without per-resource authZ), naive-vs-aware datetimes, and nginx `add_header` inheritance silently dropping security headers.
 
 ### JavaScript/TypeScript
 - **XSS**: input sanitization, output encoding, CSP headers

@@ -2,6 +2,17 @@
 
 Distilled from obra/superpowers v6.3.0 `docs/porting-to-a-new-harness.md` (827 lines) + `docs/windows/polyglot-hooks.md` + the shipped hook/plugin code (MIT). Use when: porting a skill set to another harness (Claude Code, Codex, Cursor, Gemini CLI, OpenCode, pi, Copilot CLI...), or designing your own agent-plugin that must inject context at session start.
 
+## In-repo extension-builder skills: shipping one inside the project itself (verified from reconurge/flowsint @ 1820569)
+
+Flowsint ships `.claude/skills/flowsint-enricher-builder/SKILL.md` — a single skill that teaches an agent how to extend THAT repo. It's the reference anatomy for any "extension builder" you embed in a project (or write as a Hermes skill about one):
+- **Opening doctrine**: "You do not memorize the catalog — you know where to look and how the pieces fit. Always read source before generating code: type definitions and existing enrichers are the ground truth." Immediately followed by an **authoritative-source-paths table** (what | exact path) for every file an extension touches — this is what makes the skill survive repo churn; paths, not prose, carry the load.
+- **Decide-before-code tree**: "new type or reuse?" with explicit criteria per branch (reuse if all fields covered; extend if 1–2 missing; new only when conceptually distinct: different primary key / label semantics / graph role) + a hard rule ("Never cram data into a wrong type") and an instruction to *surface the decision before generating code*.
+- **Conventions with known smells**: naming rules plus an honest "known smell" callout (category casing is inconsistent in source — match what's already used, don't introduce a third variant; flag cleanup as a separate task). Documenting existing inconsistency prevents agents from 'fixing' it mid-feature.
+- **Numbered 1–11 workflow per request**, ending with tests + restart-for-discovery.
+- **"Anti-patterns — refuse to generate these"** list (hardcoded keys, manual node dicts, silently swallowed exceptions — "every `except` must log", hand-casting what the base class already validates, editing registry files manually) and a closing **"When the user is wrong"** clause: push back with evidence, don't generate the bad version.
+- The skill lives in Claude Code's auto-discovered `.claude/skills/` location — zero bootstrap needed inside that harness; for other runtimes it would need Shape C (instructions file) or a port per this doc's shapes.
+
+
 ## The three components every integration needs
 
 1. **Skills** — harness-agnostic content; the source of truth shared verbatim by every runtime. Write them to name ACTIONS ("dispatch a subagent", "read a file"), never tool names. One skill body then runs unedited on all runtimes.

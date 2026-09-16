@@ -1,8 +1,8 @@
 ---
 name: hermes-agent
 description: "Use, configure, theme, extend, orchestrate Hermes Agent"
-version: 3.2.0
-author: Hermes Agent + Teknium
+version: 3.2.1
+author: Hermes Agent + Teknium (in-repo extension-builder skill anatomy added from reconurge/flowsint 2026-09-15)
 license: MIT
 platforms: [linux, macos, windows]
 metadata:

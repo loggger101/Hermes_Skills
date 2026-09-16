@@ -1,8 +1,8 @@
 ---
 name: github-pr-workflow
 description: "GitHub PR lifecycle: branch, commit, open, CI, merge."
-version: 1.1.0
-author: Hermes Agent
+version: 1.2.0
+author: Hermes Agent (CI ratchet + release-pipeline patterns verified from reconurge/flowsint 2026-09-15)
 license: MIT
 platforms: [linux, macos, windows]
 metadata:
@@ -399,5 +399,6 @@ git push -u origin HEAD
 - `references/git-workflow-recipes.md` — high-value recipes distilled from github-cheat-sheet (MIT): fixup+autosquash, PR checkout refspecs, safe revert of merged PRs (`git revert -m 1 <merge-sha>`), bulk-stage deletions; plus commit-message search (`git show :/query`), boolean `git grep`, branch --merged/--no-merged, empty commits, verified aliases. Windows/OneDrive index-churn notes for this machine.
 - `references/github-web-ui-tricks.md` — the cheat sheet's GitHub.com half, re-verified live 2026-09-10: diff URL params (`?w=1`, `?ts=N`), compare URLs incl. time travel + cross-fork, gists-as-repos, `.keys`/`.png` endpoints, current keyboard shortcuts, closing-keyword gotchas, search qualifiers; stale items flagged (git.io creation dead, hub in maintenance).
 - `references/ci-troubleshooting.md` — CI failure triage patterns (gh + curl fallbacks).
+- `references/ci-ratchets-and-release-pipeline.md` — verified from reconurge/flowsint @ 1820569: the **ratchet pattern** for repos with large type/lint backlogs (gate only *semantically* changed files per PR — re-run the formatter on the BASE_REF version and skip if it reproduces today's content byte-for-byte; tiered policy format=repo-wide-blocking / typecheck=ratcheted / tests=always-full), plus their release pipeline: workflow_dispatch bump -> standard-version + custom pyproject updaters across a uv workspace -> **PAT checkout token because GITHUB_TOKEN pushes don't trigger other workflows** (silent tag-build skip) -> `git push --follow-tags` triggers the image build; Trivy SARIF upload per pushed multi-arch image with provenance+SBOM.
 - `references/conventional-commits.md` — commit message conventions used by the automation commits in this repo.
 - `references/agent-contribution-guardrails.md` — pre-flight checks for agent-opened PRs against strict external repos (distilled from obra/superpowers' 94%-rejection-rate contributor rules): template completeness, open+closed duplicate search, real-problem evidence, core-belonging check, authorship disclosure, human diff approval; new-integration acceptance-test standard.
