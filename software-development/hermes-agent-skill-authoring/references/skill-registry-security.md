@@ -87,13 +87,16 @@ the manifest itself becomes the allowlist, so prompt-injection-via-arbitrary-fet
 1. **No content hash on hub installs.** `lock.json` records what was installed but not *what bytes*; a
    malicious upstream update is indistinguishable from a benign one until re-read. Adding per-skill SHA-256
    to the lock + verifying at sync time would close the supply-chain row of their threat table for free
-   (we already compute hashes during parity diffs — persist them).
+   (we already compute hashes during parity diffs — persist them). *Still open.*
 2. **No script-behavior audit.** Our `audit-skills.py` validates frontmatter/links/counts; it never inspects
    what a skill's scripts do at runtime (network calls, env access). Their CI static-analysis gate is the
-   missing layer for our 145+ tracked scripts. Minimum viable: grep-level denylist (subprocess + socket /
-   requests to non-allowlisted hosts) as an audit warning class.
+   missing layer for our 145+ tracked scripts. **Closed in round-27b** — `audit-skills.py` now runs check 7:
+   a zero-threshold hardcoded-secret scan over every skill-content `.py/.sh/SKILL.md` (AWS/GitHub/OpenAI/Slack
+   token shapes, PEM blocks, non-placeholder `password=` literals; env reads excluded), wired into verify-all
+   and self-tested by `tools/mutation-test-secret-gate.py`. The deeper runtime-behavior layer (network-call
+   analysis) remains open — the secret scan is its minimum viable form.
 3. **No expiry on manual security overrides.** The parallel-cli 'dangerous' scan verdict is a standing,
-   unreviewed exception — the exact anti-pattern their `expiresAt` field exists to kill.
+   unreviewed exception — the exact anti-pattern their `expiresAt` field exists to kill. *Still open.*
 
 ## Licensing note [VERIFIED]
 
