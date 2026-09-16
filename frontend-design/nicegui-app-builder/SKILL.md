@@ -42,7 +42,7 @@ ui.button('Increment', on_click=increment)
 ui.run(title='My App', port=8080, reload=True)
 ```
 
-## `ui.run()` parameter map (verified from nicegui/ui_run.py:50 — v3.x signature)
+## `ui.run()` parameter map (verified from nicegui/ui_run.py:50 — signature stable through v3.16.0, re-verified 2026-09-16)
 | Param | Default | Use when |
 |---|---|---|
 | `host` / `port` | None/None | binding to LAN or specific port |

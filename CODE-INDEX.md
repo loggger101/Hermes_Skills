@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **145 code files** (33,920 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **146 code files** (34,119 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -83,6 +83,7 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 
 ## data-science/space-data-pipelines
 
+- `data-science/space-data-pipelines/scripts/cap_grid_verify.py` (script, python, 199 lines) — Verify AEGIS cap-grid tiling invariants + LGRS converter logic (stdlib only)
 - `data-science/space-data-pipelines/scripts/lps_projection_verify.py` (script, python, 112 lines) — Verify the south-pole Lunar Polar Stereographic (LPS) projection math used by nasa/aegis (AEGIS)
 - `data-science/space-data-pipelines/scripts/pipeline_skeleton.py` (script, python, 206 lines) — Runnable reference implementation of the space-datasets pipeline pattern
 
@@ -278,4 +279,4 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `tools/verify-all.py` (repo tooling, python, 201 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*145 code files: 104 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*146 code files: 105 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
