@@ -1,14 +1,14 @@
 ---
 name: rest-api-client
 description: "Call REST APIs: auth, pagination, rate limits, errors."
-version: v1.0.0
-author: Hermes Agent
+version: v1.1.0
+author: Hermes Agent (outbound-HTTP hardening patterns verified from reconurge/flowsint 2026-09-15)
 license: MIT
 platforms: [linux, macos, windows]
 metadata:
   hermes:
-    tags: [REST, API, HTTP, curl, integration]
-    related_skills: [ssh-remote, docker-containers]
+    tags: [REST, API, HTTP, curl, integration, SSRF, security]
+    related_skills: [ssh-remote, docker-containers, mattpocock-security-review]
 
 ---
 
@@ -205,6 +205,7 @@ For robust pagination, prefer `execute_code` (Python + `requests` or `urllib`) w
 - **HTTPS/certificate issues.** Corporate MITM proxies, self-signed certs, or expired CA bundles cause `SSL certificate problem` errors. Don't blindly add `-k` (insecure) — flag it for the user instead.
 - **Large responses.** Don't dump multi-MB responses into context. Save to file with `-o` and read only what you need (or parse in `execute_code`).
 - **POST body encoding.** `-d` sends `application/x-www-form-urlencoded` by default. For JSON, set `-H "Content-Type: application/json"` and use `-d '{"key":"value"}'` (or `-d @file.json`).
+- **User-controlled destinations = SSRF surface.** If the URL comes from user input, config files, webhooks, or LLM-generated templates — not just your own code — validate it before fetching. Full pattern + runnable harness: `references/ssrf-guard-and-outbound-http-hardening.md` (blocked IP ranges incl. cloud-metadata 169.254/16 and CGNAT, scheme allowlist http/https only, percent-encoding at the URL slot, exponential-backoff retry on {429, 5xx} with fail-fast on other 4xx) + `scripts/ssrf_guard_verify.py` (28 live checks). Two verified limitations of the reference implementation: no DNS resolution before range check, and unbracketed IPv6 literals bypass it via urlparse mis-parsing.
 
 ## Verification
 

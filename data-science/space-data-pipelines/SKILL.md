@@ -1,8 +1,8 @@
 ---
 name: space-data-pipelines
 description: "Build space/astro data pipelines with verified API gotchas."
-version: v1.1.0
-author: Hermes Agent (ported from starred-repo research; deep passes on juliensimon/space-datasets 2026-09-12 shared library + 2026-09-13 parser families)
+version: v1.2.0
+author: Hermes Agent (ported from starred-repo research; deep passes on juliensimon/space-datasets 2026-09-12 shared library + 2026-09-13 parser families; reconurge/flowsint pipeline architecture 2026-09-15)
 license: MIT
 platforms: [linux, macos, windows]
 metadata:
@@ -82,6 +82,10 @@ Default "NASA/ESA public API ⇒ CC-BY-4.0" is **wrong** for a large fraction of
 ## Lunar-surface GIS (see `references/lunar-gis-patterns-aegis.md`)
 
 South-pole LPS projection math from nasa/aegis (AEGIS) — re-derived and **verified against the real lgrs 0.3.0 package to ≤5.8e-11 m** (`scripts/lps_projection_verify.py`, stdlib-only, exit-code gated): exact constants (R=1737.4 km, K0=0.994, false E/N = 500000 m), the -80° domain limit, lgrs API traps ((latitude, longitude) constructor order; `to_lps()` returns an object with `.easting`/`.northing`, not a tuple; PyPI needs Python ≥3.13), plus GeoTIFF custom-CRS reconstruction (transform codes 15=polar-stereo / 17=equirectangular from numeric GeoKeys when no EPSG code exists) and geographic→pixel nearest-cell sampling for lunar DEM products.
+
+## Flowsint pipeline-architecture patterns (see `references/flowsint-pipeline-patterns.md`)
+
+Source-level read of reconurge/flowsint @ 1820569 — an OSINT graph tool whose architecture is a clean reference for any multi-source chaining pipeline: the **three-layer split** (pure schema types / one-external-system-each tools returning raw data / typed enrichers that own all side effects), **decorator auto-discovery** via os.walk with per-module import-error isolation + idempotent load flag, the **scan/postprocess two-phase contract** (gather phase has no I/O; persist phase has no network — each independently testable) with strict `extra="forbid"` params models and deferred vault-secret resolution, **Neo4j MERGE semantics keyed on (type, nodeLabel, sketch_id)** — label collisions are graph-correctness bugs, not cosmetics — plus soft-delete resurrection and batched idempotent re-runs. Also: declarative YAML templates as a first-class extension mechanism with an LLM generator gated by schema-in-prompt + fence-strip repair + `safe_load` + frozen Pydantic validation (LLM-writes-*config* beats LLM-writes-code), per-run JSON audit logs with input-keyed memoization and fail-fast, DockerTool wrapper quirks (`TERM=dumb`, diagnostic re-run on non-zero exit), test conventions for pipeline components, a recurring-bug-class checklist from their PR history (~8 naive-datetime fixes, IDOR, UTF-8 assumptions, tight healthcheck timeouts), and the anatomy of their embedded agent extension-builder skill (source-paths table + decide-before-code tree + refuse-list).
 
 ## Scheduling template (GitHub Actions)
 

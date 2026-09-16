@@ -44,7 +44,7 @@ grep -i "raster\|token bridge" CODE-INDEX.md
 
 ## Overview
 
-This repository serves as a centralized database of all **206 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (527 cross-references mapped across 206 skills, 2 with no outbound `related_skills`). See [audit notes](docs/archive/audit-notes-skills-repo-pass.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
+This repository serves as a centralized database of all **206 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (528 cross-references mapped across 206 skills, 2 with no outbound `related_skills`). See [audit notes](docs/archive/audit-notes-skills-repo-pass.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
 
 ### Source Profiles
 
@@ -589,7 +589,7 @@ The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a w
 
 - ✅ All 206 skills have valid frontmatter (`name`, `version`, `author`, `platforms`, `metadata.hermes`) and parse without errors
 - ✅ No duplicate skill names; no empty skill directories
-- ✅ All `related_skills` references resolve to existing in-repo skills — 527 cross-references across 206 skills (see [DEPENDENCY.md](./DEPENDENCY.md))
+- ✅ All `related_skills` references resolve to existing in-repo skills — 528 cross-references across 206 skills (see [DEPENDENCY.md](./DEPENDENCY.md))
 - ✅ All descriptions ≤59 chars, double-quoted YAML strings
 - ✅ Every skill has a body section (`## What This Skill Does` or an audit-recognized alternative) and standard header capitalization
 - ✅ Every multi-skill category directory has a `DESCRIPTION.md` (all 23 do)

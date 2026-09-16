@@ -1,6 +1,6 @@
 # Skill Dependency Map
 This document maps the relationship network between all **206 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
-**Network stats:** 527 `related_skills` cross-references across 206 skills (2 skills are standalone with no `related_skills` entries).
+**Network stats:** 528 `related_skills` cross-references across 206 skills (2 skills are standalone with no `related_skills` entries).
 ## Hub Skills (referenced by 2+ other skills)
 These are the core skills that serve as building blocks, referenced by many other skills:
 | Skill | Referenced By (count) | Referencing Skills |
@@ -30,6 +30,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `github-code-review` | 5 | github-auth, github-pr-workflow, mattpocock-code-review, receiving-code-review, requesting-code-review |
 | `github-issues` | 5 | github, github-auth, github-issue-to-pr, github-repo-management, mattpocock-to-tickets |
 | `google-workspace` | 5 | box, email-inbox-triage, himalaya, meeting-action-items, weekly-review-planning |
+| `mattpocock-security-review` | 5 | mattpocock-evidence-driven, mattpocock-multi-agent-code-review, mattpocock-spec-driven-development, rest-api-client, semgrep-rule-creator |
 | `mattpocock-tdd` | 5 | mattpocock-code-review, mattpocock-codebase-design, mattpocock-diagnosing-bugs, mattpocock-evidence-driven, mattpocock-spec-driven-development |
 | `mattpocock-to-tickets` | 5 | mattpocock-handoff, mattpocock-spec-driven-development, mattpocock-subagent-driven-development, skill-flow-router, wayfinder-map-planning |
 | `mattpocock-writing-for-agents` | 5 | doc-coauthoring, mattpocock-ask-if-underspecified, mattpocock-domain-modeling, mattpocock-handoff, retro |
@@ -45,7 +46,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `hermes-agent-skill-authoring` | 4 | cron-config-authoring, doc-coauthoring, mattpocock-code-review, mattpocock-writing-for-agents |
 | `manim-video` | 4 | ascii-video, p5js, pygame, touchdesigner-mcp |
 | `mattpocock-improve-codebase-architecture` | 4 | architecture-metrics, code-quality-signal, mattpocock-codebase-design, mattpocock-domain-modeling |
-| `mattpocock-security-review` | 4 | mattpocock-evidence-driven, mattpocock-multi-agent-code-review, mattpocock-spec-driven-development, semgrep-rule-creator |
 | `mattpocock-using-git-worktrees` | 4 | executing-plans, mattpocock-evidence-driven, mattpocock-finishing-a-development-branch, mattpocock-subagent-driven-development |
 | `parallel-cli` | 4 | blocked-page-recovery, blogwatcher, competitor-news-monitor, mattpocock-research |
 | `powerpoint` | 4 | docx, ocr-and-documents, pdf, xlsx |
@@ -119,6 +119,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 The following 1 skills have no `related_skills` entries of their own (they do not reference other skills). These are genuinely standalone — no other skill references them either:
 - `accelerate`
 ## Related Skills Validation
-All 527 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 206 unique skill names.
+All 528 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 206 unique skill names.
 
 ---
