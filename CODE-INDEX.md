@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **146 code files** (34,119 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **147 code files** (34,346 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -266,17 +266,18 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `.hermes/cron/templates/skill-watchdog.py` (template, python, 47 lines) — Skill Watchdog Cronjob Template
 - `.hermes/cron/validate-cronjobs.py` (repo tooling, python, 153 lines) — Validate cronjob JSON config files for structural correctness + cross-consistency
 - `.hermes/cron/validate-skill-refs.py` (repo tooling, python, 56 lines) — Lightweight JSON + skill-ref validator (no_agent-compatible).
-- `tools/audit-skills.py` (repo tooling, python, 429 lines)
+- `tools/audit-skills.py` (repo tooling, python, 507 lines)
 - `tools/check-links.py` (repo tooling, python, 125 lines) — Broken-link checker for this second brain (stdlib only)
 - `tools/gen-claude-plugin.py` (repo tooling, python, 153 lines) — Regenerate the Claude Code plugin manifests from live skill frontmatter
 - `tools/gen-code-index.py` (repo tooling, python, 173 lines) — Regenerate CODE-INDEX.md from live code files (flat, grep-friendly)
 - `tools/gen-references-index.py` (repo tooling, python, 100 lines) — Rebuild REFERENCES-INDEX.md from every skill's references/ directory
 - `tools/gen-skills-index.py` (repo tooling, python, 159 lines) — Regenerate SKILLS-INDEX.md from live skill frontmatter (flat, grep-friendly)
 - `tools/mutation-test-doc-gate.py` (repo tooling, python, 232 lines) — Mutation test for verify-all.check_doc_counts — the doc-count gate tests itself
+- `tools/mutation-test-secret-gate.py` (repo tooling, python, 145 lines) — Mutation test for audit-skills.scan_repo_for_secrets — the secret scan tests itself
 - `tools/regen-dependency-map.py` (repo tooling, python, 101 lines) — Regenerate DEPENDENCY.md from live related_skills frontmatter (same format as repo convention).
 - `tools/run-skill-tests.py` (repo tooling, python, 133 lines) — Discover and run every pytest suite that ships inside a skill, one command
 - `tools/sync-hermes-skills.py` (repo tooling, python, 982 lines)
-- `tools/verify-all.py` (repo tooling, python, 201 lines) — Run every health gate in this repo and report one verdict
+- `tools/verify-all.py` (repo tooling, python, 205 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*146 code files: 105 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*147 code files: 105 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*

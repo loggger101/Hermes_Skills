@@ -1,6 +1,6 @@
 # CI gate for the second brain: every push and pull request runs the full
-# health check (tools/verify-all.py — 11 gates, including a self-test of the
-# doc-count checker) plus the pytest suites that ship inside skills. This is
+# health check (tools/verify-all.py — 12 gates, including self-tests of the
+# doc-count checker and the hardcoded-secret scan) plus the pytest suites that ship inside skills. This is
 # what makes "the repo always passes its own audit" a property of the remote,
 # not just of local discipline.
 name: CI

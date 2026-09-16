@@ -181,6 +181,10 @@ def main():
         # The doc-count gate tests itself: mutates each claim class in a temp copy and
         # asserts the gate fails loudly. Keeps an untested claim class from ever shipping.
         run("gate self-test", ["tools/mutation-test-doc-gate.py"]),
+        # The secret scan (audit check 7) tests itself: plants one fake credential per
+        # pattern class plus env/placeholder negative controls in a temp fixture and
+        # asserts every positive is caught with zero false positives.
+        run("secret gate self-test", ["tools/mutation-test-secret-gate.py"]),
     ]
 
     width = max(len(r[0]) for r in results)

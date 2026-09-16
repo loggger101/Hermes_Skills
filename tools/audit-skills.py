@@ -9,6 +9,10 @@ Validates all SKILL.md files in the Hermes_Skills repository for:
   4. Body section presence (## What This Skill Does, ## When to Use)
   5. Cross-reference sanity (skill_view calls map to related_skills entries)
   6. Duplicate skill names (same name in different directories)
+  7. Hardcoded secrets in skill content (.py/.sh scripts + SKILL.md): AWS key IDs,
+     GitHub/OpenAI/Slack token shapes, PEM private-key blocks, and password=literal
+     assignments that are not obvious placeholders/examples. Threshold is ZERO — a
+     committed secret is never acceptable (see hermes-agent-skill-authoring/references/skill-registry-security.md).
 
 Output: JSON report suitable for cronjob delivery.
 Exit codes: 0 = pass within thresholds, 1 = threshold breached.
@@ -60,7 +64,40 @@ THRESHOLDS = {
     "duplicate_skills": 0,
     "temps_scripts": 0,
     "missing_body_sections": 0,
+    # A committed secret is never acceptable — threshold zero by definition.
+    "hardcoded_secrets": 0,
 }
+
+# ── Hardcoded-secret scan (check 7) ───────────────────────────────
+# Patterns were validated against the full corpus before wiring (2026-09-16 probe:
+# 331 skill-content files scanned, zero hits), so threshold-zero is safe on day one.
+SECRET_PATTERNS = [
+    ("aws_access_key_id", re.compile(r"AKIA[0-9A-Z]{16}")),
+    ("github_token",      re.compile(r"\b(?:ghp|gho)_[A-Za-z0-9]{30,}\b|\bgitHub_pat_[A-Za-z0-9_]{20,}\b")),
+    ("openai_style_secret", re.compile(r"\bsk-[A-Za-z0-9_-]{20,}")),
+    ("slack_token",       re.compile(r"xox[baprs]-[A-Za-z0-9-]{10,}")),
+    ("pem_private_key",   re.compile(r"BEGIN [A-Z ]*PRIVATE KEY")),
+]
+# password/secret/token = "literal" — but only when the literal is not an obvious
+# placeholder/example and the line is not reading from env or argparse.
+SECRET_ASSIGN = re.compile(
+    r"(?i)\b(password|passwd|secret|token|api_?key)\s*[=:]\s*['\"]([^'\"\n]{8,})['\"]"
+)
+ENV_READ_HINTS = ("os.environ", "getenv(", "process.env")
+
+
+def _is_placeholder_literal(lit: str) -> bool:
+    if len(lit) < 12:
+        return True
+    low = lit.lower()
+    for marker in ("example", "placeholder", "dummy", "your-", "your_", "<", "[", "***"):
+        if marker in low:
+            return True
+    if re.fullmatch(r"[A-Za-z0-9_\-\. ]{8,}", lit) and not re.search(r"\d", lit):
+        # wordy with no digits — usually a description string, not a secret
+        return "your" in low or "example" in low
+    return False
+
 
 # ── Collect all skills ──────────────────────────────────────────────
 
@@ -315,6 +352,7 @@ def run_audit():
             "placeholder_markers": [],
             "intentional_placeholders": [],
             "missing_category_descriptions": [],
+            "hardcoded_secrets": [],
         },
     }
 
@@ -358,6 +396,9 @@ def run_audit():
         for note in placeholder_result["intentional"]:
             report["issues"]["intentional_placeholders"].append(f"{skill_name}: {note}")
 
+        # Hardcoded secrets are scanned in one repo-wide pass below (covers orphaned
+        # scripts that no registered skill owns — the per-skill loop would miss them).
+
     # Check category DESCRIPTION.md files
     cats = find_category_dirs(REPO_ROOT)
     for cat_name, cat_info in sorted(cats.items()):
@@ -365,6 +406,12 @@ def run_audit():
             report["issues"]["missing_category_descriptions"].append(
                 f"{cat_name}/: missing DESCRIPTION.md ({cat_info['skill_count']} skills)"
             )
+
+    # Hardcoded secrets: one repo-wide pass over every skill-content .py/.sh/SKILL.md —
+    # must run BEFORE the summary/threshold block below so its count is actually gated.
+    # Threshold zero; the walk ignores the registered-skill map so orphaned script dirs
+    # (no valid SKILL.md) are covered too.
+    report["issues"]["hardcoded_secrets"] = scan_repo_for_secrets()
 
     # Summary counts
     report["summary"] = {
@@ -400,6 +447,37 @@ def run_audit():
         report["breaches"] = breaches
 
     return report
+
+
+def scan_repo_for_secrets():
+    """Repo-wide hardcoded-secret pass over ALL skill-content .py/.sh + every SKILL.md.
+
+    Walks category dirs directly (not the registered-skill map) so orphaned scripts in a
+    directory without a valid SKILL.md are still covered — that is exactly where an
+    accidental commit of real credentials would hide unnoticed by the other checks.
+    """
+    findings = []
+    skip_top = {".git", ".hermes", "tools", "docs", "memories", "profile", "profiles-export"}
+    for top in sorted(REPO_ROOT.iterdir()):
+        if not top.is_dir() or top.name.startswith(".") or top.name in skip_top:
+            continue
+        files = (list(top.rglob("*.py")) + list(top.rglob("*.sh")) + list(top.rglob("SKILL.md")))
+        for path in sorted(set(files)):
+            rel = path.relative_to(REPO_ROOT).as_posix()
+            try:
+                text = path.read_text(encoding="utf-8", errors="replace")
+            except OSError as exc:
+                findings.append(f"{rel}: unreadable ({exc}) — treat as a finding, not a pass")
+                continue
+            for lineno, line in enumerate(text.splitlines(), 1):
+                for name, rx in SECRET_PATTERNS:
+                    if rx.search(line):
+                        findings.append(f"{rel}:{lineno} — {name}: {line.strip()[:80]}")
+                m = SECRET_ASSIGN.search(line)
+                if (m and not _is_placeholder_literal(m.group(2))
+                        and not any(h in line for h in ENV_READ_HINTS)):
+                    findings.append(f"{rel}:{lineno} — secret_assignment: {line.strip()[:80]}")
+    return findings
 
 
 def find_stale_script_refs(all_skills):

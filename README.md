@@ -524,7 +524,7 @@ This repository includes Python scripts in the `tools/` directory that automate 
 
 | Tool | Purpose | Cron Integration |
 |------|---------|------------------|
-| [`verify-all.py`](./tools/verify-all.py) | **Start here.** Runs every gate in one shot: audit, links, index drift (all four generated indexes plus the Claude Code manifests), cron validators, and README/DESCRIPTION count consistency. Exit 0 = all 11 gates pass (incl. the doc-count gate's mutation self-test) | Manual; run before any commit |
+| [`verify-all.py`](./tools/verify-all.py) | **Start here.** Runs every gate in one shot: audit (incl. zero-threshold hardcoded-secret scan), links, index drift (all four generated indexes plus the Claude Code manifests), cron validators, and README/DESCRIPTION count consistency. Exit 0 = all 12 gates pass (incl. both mutation self-tests) | Manual; run before any commit |
 | [`audit-skills.py`](./tools/audit-skills.py) | Validates all 206 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | **Registered + live** — job `hermes-skills-audit`, Sun 3 AM (verified end-to-end through the real scheduler 2026-09-14) |
 | [`sync-hermes-skills.py`](./tools/sync-hermes-skills.py) | Bidirectional sync between GitHub repo and local Hermes env: git pull, skill/memories/profiles sync, DEPENDENCY.md regeneration, audit, git push. Has `--dry-run` — always dry-run before a first live run (round 19b caught two latent phantom-action bugs this way) | **Registered** for Sun 2 AM in `sync-hermes-skills.json`, currently paused by design until the owner opts it on; verified end-to-end once via manual trigger 2026-09-14 |
 
@@ -558,7 +558,7 @@ Requires **pyyaml** (`pip install -r requirements.txt`). Without it the audit re
 The single command that runs everything:
 
 ```bash
-py tools/verify-all.py      # 11 gates; exit 0 = all pass
+py tools/verify-all.py      # 12 gates; exit 0 = all pass
 ```
 
 Every tool fails **closed**: a wrong interpreter, a missing pyyaml, an unreadable file, a scan that
