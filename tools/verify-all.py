@@ -44,6 +44,27 @@ except (AttributeError, ValueError):
 REPO = Path(__file__).resolve().parents[1]
 PY = sys.executable or "python3"
 
+# Single source of truth for "how many gates verify-all runs". main() builds its result list
+# from this, and the doc-count gate checks every 'NNN gates' prose claim against it — so a new
+# gate added to one place but not the other (or vice versa) fails loudly instead of rotting.
+GATE_LABELS = [
+    "audit-skills",           # incl. zero-threshold hardcoded-secret scan + its mutation self-test below
+    "check-links",            # honest denominator: checked vs skipped-by-design per category
+    "drift: SKILLS-INDEX",    # gen-skills-index.py --check (index + all 23 category DESCRIPTIONs)
+    "drift: CODE-INDEX",      # gen-code-index.py --check
+    "drift: REFERENCES-INDEX",# gen-references-index.py --check
+    "drift: DEPENDENCY",      # regen-dependency-map.py --check (xref network, broken refs, standalone)
+    "drift: .claude-plugin",  # gen-claude-plugin.py --check (plugin.json + marketplace.json)
+    "cron: configs",          # validate-cronjobs.py incl. threshold-key contract check
+    "cron: skill refs",       # validate-skill-refs.py — every cron job's skills resolve in-repo
+    "doc counts",             # hand-written numbers vs machine truths (9 claim classes, self-tested)
+    "self-test harnesses",    # run-self-tests.py executes the standalone *_verify.py harnesses
+    "gate self-test",         # mutation-test-doc-gate.py — proves every doc-count class fails loud
+    "secret gate self-test",  # mutation-test-secret-gate.py — plants fake creds, asserts zero misses
+    "harness gate self-test", # mutation-test-selftest-gate.py — PASS/SKIP/FAIL classification proven
+    "cron gate self-test",    # mutation-test-cron-gate.py — phantom threshold keys caught
+]
+
 
 def run(label, args, cwd=REPO):
     """Run a child tool; return (label, ok, first meaningful output line)."""
@@ -277,10 +298,40 @@ def check_doc_counts():
                     problems.append(f"{name}: claims {m.group(1)} categories, "
                                     f"SKILLS-INDEX has {cats_truth}")
 
+    # 8) gate counts — 'NNN gates' prose vs the GATE_LABELS list that main() actually runs.
+    #    (round-42: every round added a gate and hand-edited four doc lines; nothing checked.)
+    if len(GATE_LABELS):
+        for name in ("README.md", "DESCRIPTION.md"):
+            text = (REPO / name).read_text(encoding="utf-8")
+            for m in re.finditer(r"\b(\d{2}) gates\b", text):
+                if int(m.group(1)) != len(GATE_LABELS):
+                    problems.append(f"{name}: claims {m.group(1)} gates, "
+                                    f"verify-all runs {len(GATE_LABELS)}")
+
+    # 9) CI job counts — 'three jobs' prose vs the actual jobs in ci.yml.
+    ci = REPO / ".github" / "workflows" / "ci.yml"
+    if ci.exists():
+        try:
+            import yaml as _yaml
+            n_jobs = len(_yaml.safe_load(ci.read_text(encoding="utf-8")).get("jobs", {}))
+        except Exception:
+            n_jobs = None  # unreadable YAML — the CI itself would fail; don't double-report here
+        if n_jobs:
+            word_to_n = {"two": 2, "three": 3, "four": 4}
+            for name in ("README.md", "DESCRIPTION.md"):
+                text = (REPO / name).read_text(encoding="utf-8")
+                for m in re.finditer(r"\b(two|three|four) jobs\b", text):
+                    if word_to_n[m.group(1)] != n_jobs:
+                        problems.append(f"{name}: claims {m.group(1)} CI jobs, "
+                                        f"ci.yml defines {n_jobs}")
+
     return ("doc counts", not problems, "; ".join(problems)[:160] or f"{live} skills, counts agree")
 
 
 def main():
+    # Built explicitly (each gate has its own invocation), but the labels MUST equal
+    # GATE_LABELS in order — that list is what the doc-count gate counts against, so a
+    # divergence here would make 'NNN gates' prose uncheckable. The assertion makes it fail loud.
     results = [
         run_audit_gate(),
         run("check-links", ["tools/check-links.py"]),
@@ -310,6 +361,10 @@ def main():
         # fixture copies and asserts the validator fails loudly, plus proves --job works.
         run("cron gate self-test", ["tools/mutation-test-cron-gate.py"]),
     ]
+    assert [r[0] for r in results] == GATE_LABELS, (
+        "verify-all's result labels diverged from GATE_LABELS — the doc-count gate counts "
+        f"against that list: {[r[0] for r in results]}"
+    )
 
     width = max(len(r[0]) for r in results)
     print("\n=== verify-all ===")
