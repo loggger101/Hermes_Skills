@@ -1,12 +1,12 @@
 ---
-description: "Engineering patterns from repowise-dev/repowise (AGPL-3.0) — distillation contracts, decayed git signals, confidence-scored graphs, benchmark discipline; formulas + verified numbers"
-source_repos: repowise-dev/repowise (docs/layers/*, docs/BENCHMARKS.md), clone @ 9f52f0a mined 2026-09-10; operational claims re-tested live with v0.49.0 on Windows/py3.13
-verified_date: "2026-09-10"
+description: "Engineering patterns from repowise-dev/repowise (AGPL-3.0) — distillation contracts, decayed git signals, confidence-scored graphs, benchmark discipline, noise-free doc-drift detection; formulas + verified numbers"
+source_repos: repowise-dev/repowise (docs/layers/*, docs/BENCHMARKS.md), clone @ 9f52f0a mined 2026-09-10; operational claims re-tested live with v0.49.0 on Windows/py3.13 and RE-PROBED against v0.51.0 (PyPI latest) on 2026-09-17
+verified_date: "2026-09-17"
 ---
 
 # Codebase Intelligence Patterns (distilled from repowise)
 
-General-purpose engineering knowledge extracted from how repowise builds a precomputed codebase index for AI agents. AGPL-3.0 — patterns only, no code ported. Everything marked **verified** was executed on this machine 2026-09-10; the rest is documented design intent (still useful as reference architecture).
+General-purpose engineering knowledge extracted from how repowise builds a precomputed codebase index for AI agents. AGPL-3.0 — patterns only, no code ported. Everything marked **verified** was executed on this machine 2026-09-10 (v0.49) or re-probed 2026-09-17 (v0.51); the rest is documented design intent (still useful as reference architecture).
 
 ## 1. Reversible distillation contract (command-output compression)
 
@@ -57,11 +57,13 @@ Same principle for **mined architectural decisions**: every decision record carr
 
 **Stale-aware responses**: every tool response carries `_meta{index_age_days, indexed_commit, stale_warning}`; the warning fires *only* when indexed HEAD diverges from live `.git/HEAD` (not merely time elapsed). Provenance age travels with the data — never let an agent read a number without knowing how old it is.
 
-## 5. Task-shaped tool surfaces for agents
+## 5. Task-shaped tool surfaces for agents (and how to grow them without breaking the principle)
 
-Ten tools, deliberately capped: "a small task-shaped surface is easier for an agent to choose from than a large one". The contrast they draw (and I'd generalize): most MCP servers expose **data entities** ("get file X", "list symbols in Y") which forces long sequential call chains; repowise exposes **tasks** (`get_context(targets[])` batches many targets, `get_answer(question)` collapses search→read→reason into one round-trip with a calibrated retrieval_quality score).
+Ten tools as the default, deliberately capped: "a small task-shaped surface is easier for an agent to choose from than a large one". The contrast they draw (and I'd generalize): most MCP servers expose **data entities** ("get file X", "list symbols in Y") which forces long sequential call chains; repowise exposes **tasks** (`get_context(targets[])` batches many targets, `get_answer(question)` collapses search→read→reason into one round-trip with a calibrated retrieval_quality score).
 
 Measured effect (their benchmark, django/django): 3.8 tool calls vs 7.2 for a bare agent to reach an answer; −31.6% of the agent's *output* tokens (n=43, p<0.0001); loading one commit's context = 393 tokens via `get_context` vs 13,984 raw — deterministic tiktoken counts across 30 commits.
+
+**How v0.5x grew the surface without breaking the principle (verified in docs/agent/MCP_TOOLS.md @ v0.51):** 18 tools are *registered* but only 10 are *advertised* by default in single-repo mode; workspace mode adds `list_repos`; 7 specialists (`get_architecture`, `get_blast_radius`, `get_dependency_path`, `get_execution_flows`, `generate_refactoring_code`, `get_conformance`, `set_finding_status`) stay off until opted in via `.repowise/config.yaml` → `mcp.tools`. Two configuration shapes: +/- deltas against the default (`["+get_execution_flows", "-get_dead_code"]`) or an explicit allowlist. The resolution order is each tool's declared metadata (default / requires_workspace) × server mode × user override — i.e., "advertised" is a computed property, not a hardcoded list. That's the transferable design: keep one canonical small default, make growth opt-in per deployment, and let eligibility be data on the tool rather than branching in the server code.
 
 ## 6. Benchmark discipline for claims about your own tool
 
@@ -101,3 +103,16 @@ The general pattern: context delivery should be *event-triggered* (about to edit
 - Zero LLM, <30s for the whole layer; an accuracy self-check runs against its own labeled set and is exposed via `include`.
 
 Complements (not duplicates) my `code-quality-signal` skill: that one scores *structural* root causes of a Python repo from 5 ungameable graph metrics in seconds, stdlib-only; repowise's layer scores per-file maintainability + defect risk with git-history inputs and ships refactoring plans. Use code-quality-signal for "is this architecture healthy", repowise health for "which files will hurt me first".
+
+## 11. Noise-free doc-drift detection (v0.5x, #2290) — the pattern worth stealing most here
+
+The index gained a fourth deterministic analysis: read the repo's own markdown, extract what each document *claims* about the tree, resolve those claims against reality, and report only what the tree **refutes**. This is exactly the failure mode of every link-checker that ever existed (and why naive ones get disabled), solved with four design rules:
+
+1. **Four verdicts, not two.** A reference `resolves`, is `missing`, is `ambiguous`, or is `uncheckable` — and uncheckable is a first-class reported outcome, the "honest denominator". Their own repo: 691 of 1,784 references are uncheckable; *saying so* is what separates a detector from a noise generator. A binary found/broken checker either drowns in false positives or silently skips everything hard — both make people stop trusting it and delete the gate.
+2. **A class ships only after measuring its precision.** The symbol class (does `foo.py` referenced in prose exist?) was built, measured, and **rejected**: backticks in technical prose mean "literal token", not code symbol — top flags were `string`, `boolean`, `OPENAI_API_KEY`, `PATH`. "The premise is wrong rather than the resolution; a better graph would not rescue it." Build → measure on your own tree → ship or kill, with the measurement recorded.
+3. **Checkability gates, per class.** A path reference is checkable *only* when it contains a separator AND its first segment names a real top-level directory — bare filenames are never checkable. That one rule took the path class from a 49% flag rate to 1.3%. Historical documents are excluded by **stem pattern** (catches `release-notes.md`, not just an exact `CHANGELOG.md` list). Build commands are read only inside inline code spans, because scanning prose for `make <target>` matches English sentences.
+4. **Renderer-aware anchors.** A heading's anchor is whatever the renderer decides it is — so anchor checking is gated on a *detected* renderer, per subtree (their repo publishes `website/` through Jekyll while the rest uses another), never assumed globally.
+
+Measured end-to-end: their own repo 1,784 refs → 19 findings, **17 real defects**; fastapi at scale 4,123 refs / 1,526 docs → zero findings (a clean large codebase must produce *nothing*, or nobody runs the tool). Runtime 184 ms on a 4,547-file tree — cheap enough to run inside an index gather that already waits on LLM work.
+
+**Mapping onto this repo's own gates:** `check-links.py` today is binary (resolves/broken) with skip-lists for URLs/code spans/profiles-export — it has no *ambiguous* or *uncheckable* verdict, so a relative link whose target exists only under a different case or an unanchored `#section` reference are both "broken" by construction. The transfer is: (a) report the skipped-but-uncheckable count as an honest denominator in gate output instead of silently skipping; (b) before adding any new check class (e.g., verifying that prose-mentioned script names exist), measure its flag rate on this repo first and record the number — 49%→1.3% is what a good gate looks like, not "more coverage".
