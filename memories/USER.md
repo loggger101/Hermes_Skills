@@ -1,6 +1,6 @@
 Security rule: never preserve API keys/tokens/passwords/credentials — replace with [REDACTED]. Cronjob delivery: deliver='all' broadcasts to all bot platforms; deliver='origin' sends back to chat (requires Hermes gateway running).
 §
-Works on Hermes_Skills repo (CURRENT @ HEAD b577ee7, rounds through 21b done 2026-09-14: 205 skills / 524 xrefs / 358 ref docs; also exposed as Claude Code plugin via PR #4) and aspirecures repo at C:/Users/Owner/OneDrive/Documents/GitHub/.
+Works on Hermes_Skills repo (CURRENT @ HEAD 4113251 after round-34 of the continuous-improvement cycle, 2026-09-17: ALL 14 GATES — added gates are self-test-harnesses runner + its mutation self-test; CI = three jobs incl. dedicated harness job with duckdb/polars/pyarrow/numpy/pyomo/highspy; doc-count gate now covers pytest suite counts and proves all 8 claim classes independently; sync tool's publish decision requires full verify-all after regenerating every index)
 §
 Prefers perfect/foolproof autonomous solutions. Triple-checks deliverables: (1) git pushed & 0 ahead/behind, (2) working tree clean, (3) no temp files, (4) no accidental deletions, (5) audit passes.
 §
