@@ -98,6 +98,43 @@ the manifest itself becomes the allowlist, so prompt-injection-via-arbitrary-fet
 3. **No expiry on manual security overrides.** The parallel-cli 'dangerous' scan verdict is a standing,
    unreviewed exception — the exact anti-pattern their `expiresAt` field exists to kill. *Still open.*
 
+## Exhaustion status (round 28, 2026-09-16) [ANALYSIS]
+
+Round 27 mined SECURITY.md + installer only; round 28 mined the REST of the repo at source level — all 92 skills'
+frontmatter/bodies, `packages/mcp` (full server), `.github/workflows/release.yml`, `tools/validate-skills.ts`,
+registry generator (`skills-catalog/src/{utils,generate-registry}.ts`), CONTRIBUTING.md governance. Ported with
+attribution this round: the-jury protocol + its tally script → `software-development/dispatching-parallel-agents/references/multi-agent-deliberation-jury.md`;
+the-judge's bypass scanner → `github/github-code-review/scripts/scan_bypasses.py` (live-tested). New refs: MCP server design patterns,
+spec-driven patterns + eval methodology (`mattpocock-spec-driven-development/references/`), harness dual-judge trap audit
+(`hermes-agent-skill-authoring/references/harness-audit-dual-judge-traps.md`). Remaining unmined surfaces are non-knowledge by nature:
+marketplace Next.js UI, CLI TUI components (React+Ink), Nx generator scaffolding.
+
+## CI pipeline patterns (.github/workflows/release.yml) [SRC]
+
+- **Fork-PR security scanning via Merge Queue**: GitHub does not expose repo secrets to fork workflows, so their Snyk scan
+  runs only on same-repo PRs — but a second job triggers on `on: merge_group` (the event fires when a PR enters the Merge
+  Queue), where it DOES run with base-repo secrets; requiring that status check blocks merge for ALL PRs including forks.
+  Generalization: any secret-gated CI step can be made fork-proof by re-running it in a `merge_group` job and making it a required check.
+- **Change-scoped release detection**: per release group, `git diff --name-only <latest-tag-for-group>..HEAD -- <group paths>`;
+  empty ⇒ skip that group entirely (no tag bump, no publish). Tag prefixes disambiguate groups (`v*`, `skills-catalog-v*`, `mcp-v*`).
+- **Bot-loop prevention**: release jobs filter `github.actor != '<release-bot>[bot]'` AND commit message not starting with the bot's own prefix.
+- **Snapshot publishing for PRs** (label-triggered): version `0.0.0-pr<N>.<shortsha>`, publish to npm tag `snapshot` WITH provenance, checkout of the fork branch done via a generated GitHub App token; CI-pass verified before publishing.
+- Generated data committed by CI ("chore(release): update generated skills data") only when changed — same marker-block regen discipline as their VERSIONS.md (see skill-repo-release-engineering.md).
+
+## Contribution governance: issue-first flow (CONTRIBUTING.md) [SRC]
+
+They moved from open PRs to **issue-first** because "at volume, a machine-generated PR is not reliably distinguishable from a large
+human one" — the entry point became issues where intent settles before code; members keep direct-PR rights. Credit rules: idea author's
+handle in `metadata.author`, issue linked from implementing commit, release-notes credit. AI-assisted contributions are expected with two
+conditions: you can defend every line, and you disclose agent involvement — "an unreviewed agent output submitted as your own work is the
+thing this policy exists to filter." (Relevant if our repo ever gets automated-PR volume; see also `github/github-pr-workflow/references/agent-contribution-guardrails.md`.)
+
+## Environment pitfall they document [SRC]
+
+"Each tool sets NODE_ENV for you (`test` for Jest, `production` for a Next build). A `NODE_ENV=development` exported in your profile makes
+`nx build marketplace` fail with confusing React errors such as `Cannot read properties of null (reading 'useContext')` during prerender. If a
+build fails only on your machine, check `echo $NODE_ENV` first." — the classic shell-env-shadowing-tool-env failure; add to any Next.js static-export troubleshooting list.
+
 ## Licensing note [VERIFIED]
 
 Code = MIT; skill content (SKILL.md files) = CC-BY-4.0 unless individual files say otherwise (dual-license

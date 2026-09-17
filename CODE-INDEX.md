@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **147 code files** (34,346 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **149 code files** (34,678 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -118,6 +118,10 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 
 - `github/github-auth/scripts/gh-env.sh` (script, bash, 66 lines) — GitHub environment detection helper for Hermes Agent skills
 - `github/github-auth/scripts/git-credential-token.py` (script, python, 65 lines) — Print the first unambiguous GitHub token in a git credential-store file.
+
+## github/github-code-review
+
+- `github/github-code-review/scripts/scan_bypasses.py` (script, python, 71 lines) — invariant: hits are Pass F candidates, never findings; always exit 0 so a detector cannot block the review
 
 ## mcp/fastmcp
 
@@ -240,6 +244,10 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 
 - `software-development/code-quality-signal/scripts/quality_signal.py` (script, python, 381 lines) — Code quality signal: 5 ungameable root-cause metrics on a Python codebase
 
+## software-development/dispatching-parallel-agents
+
+- `software-development/dispatching-parallel-agents/scripts/tally_jury.py` (script, python, 261 lines) — Ported verbatim from tech-leads-club/agent-skills (CC-BY-4.0), skill "the-jury" v1.0.0,
+
 ## software-development/generating-python-installer
 
 - `software-development/generating-python-installer/scripts/analyze_dlls.py` (script, python, 136 lines) — DLL dependency footprint analyzer for a Nuitka standalone dist folder
@@ -280,4 +288,4 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `tools/verify-all.py` (repo tooling, python, 205 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*147 code files: 105 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*149 code files: 107 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*

@@ -80,3 +80,8 @@ Return: summary of root cause and changes made.
 - [ ] Checked for conflicts — no two agents edited the same code path
 - [ ] Full test suite run: all fixes work together
 - [ ] Spot-checked at least one fix per agent (agents can make systematic errors)
+
+## References & Scripts
+
+- `references/multi-agent-deliberation-jury.md` — when parallel agents must DECIDE rather than just execute: the jury protocol (independent verdicts first, then structured deliberation; anchoring/sycophancy/correlated-error defenses), ported from tech-leads-club/agent-skills' `the-jury` skill with attribution.
+- `scripts/tally_jury.py` — stdlib tally for juror JSON: weighted consensus + bandwagon detection (a dissenting juror who flipped after seeing others = discounted). Live-tested both paths; `--example` prints a sample input.

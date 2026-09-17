@@ -306,4 +306,4 @@ The server-building part may be correct while the Hermes config is not. Load the
 
 ## References
 
-For CLI details, install targets, and deployment checks, read `references/fastmcp-cli.md`.
+For CLI details, install targets, and deployment checks, read `references/fastmcp-cli.md`. For server-side design patterns (integrity/hashing of remote content, staging dirs, honest tool annotations incl. token costs), read `references/mcp-server-design-patterns-tlc.md` — verified from tech-leads-club/agent-skills' FastMCP-based registry server.
