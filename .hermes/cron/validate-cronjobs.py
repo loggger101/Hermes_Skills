@@ -12,8 +12,19 @@ Run this after ANY edit to `.hermes/cron/active/*.json` to catch:
 Usage:
   python .hermes/cron/validate-cronjobs.py
   python .hermes/cron/validate-cronjobs.py --job aspirecures-weekly.json   # single file
+
+Threshold verification (round-36): for no_agent jobs whose script lives in THIS repo,
+every key under "threshold" (and report_template.summary / actual_script_output.
+summary_keys when present) must appear as a string literal somewhere in the script —
+i.e. it is something the script can actually emit. A threshold key that matches nothing
+is silently never evaluated by the cron system (always-pass), so this is an ERROR, not
+a warning: phantom keys rotted sync-hermes-skills.json for months before round-35 hit
+them in a live run. Jobs whose script is outside this repo are SKIPped with a label —
+their contract must be verified where the script lives.
+
+Set CRON_JOBS_DIR to point at an alternate jobs directory (used by the mutation self-test).
 """
-import json, os, sys
+import ast, json, os, sys
 
 if sys.version_info < (3, 8):
     raise SystemExit(
@@ -31,7 +42,74 @@ for _stream in (sys.stdout, sys.stderr):
         pass
 
 BASE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-JOBS_DIR = os.path.join(BASE, '.hermes', 'cron', 'active')
+JOBS_DIR = os.environ.get("CRON_JOBS_DIR") or os.path.join(BASE, '.hermes', 'cron', 'active')
+
+# --job <name.json>: documented in the usage block but never implemented until round-36.
+ONLY_JOB = None
+for _i, _arg in enumerate(sys.argv):
+    if _arg == '--job' and _i + 1 < len(sys.argv):
+        ONLY_JOB = sys.argv[_i + 1]
+
+def script_string_literals(script_path):
+    """Every string literal the script source contains (AST walk) — i.e. every key name it
+    could possibly emit in its JSON output. Returns None if the file is missing/unparseable."""
+    try:
+        with open(script_path, encoding='utf-8') as f:
+            tree = ast.parse(f.read(), filename=script_path)
+    except (OSError, SyntaxError):
+        return None
+    lits = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Constant) and isinstance(node.value, str):
+            lits.add(node.value)
+    return lits
+
+
+def verify_threshold_keys(job_name, data, script_literals_cache):
+    """Round-36: every threshold key must be a string the script actually emits.
+
+    Returns (errors, skips). A key absent from the script's literal set is silently never
+    evaluated by the cron system — an always-pass phantom gate."""
+    errs = []
+    skips = []
+    if not data.get('no_agent'):
+        return errs, skips  # LLM-driven jobs have no machine-evaluated threshold contract
+    script = data.get('script') or ''
+    if not script:
+        return errs, skips  # 'no script field' is already an error elsewhere
+    rel = script.replace('\\', '/').lstrip('./')
+    script_path = os.path.join(BASE, *rel.split('/'))
+    if not os.path.isfile(script_path):
+        skips.append(f'{job_name}: threshold NOT verified — {script} not in this repo (verify where it lives)')
+        return errs, skips
+    if rel not in script_literals_cache:
+        script_literals_cache[rel] = script_string_literals(script_path)
+    lits = script_literals_cache[rel]
+    if lits is None:
+        skips.append(f'{job_name}: threshold NOT verified — {script} unparseable')
+        return errs, skips
+
+    def check_key(key):
+        # a key 'matches' if it appears verbatim as a literal (dict keys / .get() args are
+        # all string constants in these scripts) or is built from one ('summary[' + field).
+        if key not in lits:
+            errs.append(f'{job_name}: threshold key {key!r} never emitted by {script}')
+
+    t = data.get('threshold')
+    if isinstance(t, dict):
+        for k in t.keys():
+            check_key(k)
+    rt = (data.get('report_template') or {}).get('summary')
+    if isinstance(rt, dict):
+        for k in rt.keys():
+            check_key(k)
+    aso = data.get('actual_script_output') or {}
+    sk = aso.get('summary_keys')
+    if isinstance(sk, list):
+        for k in sk:
+            check_key(k)
+    return errs, skips
+
 
 # ── Load all valid skills ──
 valid_skills = {}
@@ -53,9 +131,18 @@ for path, dirs, files in os.walk(BASE):
 
 errors = []
 warnings = []
+skips = []
+script_literals_cache = {}
 
-for job in sorted(os.listdir(JOBS_DIR)):
+job_files = sorted(os.listdir(JOBS_DIR)) if os.path.isdir(JOBS_DIR) else []
+if ONLY_JOB and not any(f == ONLY_JOB for f in job_files):
+    print(f'[FAIL] --job {ONLY_JOB}: no such file in {JOBS_DIR}')
+    sys.exit(1)
+
+for job in job_files:
     if not job.endswith('.json'):
+        continue
+    if ONLY_JOB and job != ONLY_JOB:
         continue
     fp = os.path.join(JOBS_DIR, job)
     with open(fp, encoding='utf-8') as f:
@@ -117,10 +204,13 @@ for job in sorted(os.listdir(JOBS_DIR)):
     else:
         print(f'  [OK] workdir: {wd!r}')
 
-    # Threshold validation: keys should match script output
+    # Threshold validation (round-36): keys must match what the script actually emits —
+    # a phantom key is silently never evaluated by the cron system (always-pass).
+    t_errs, t_skips = verify_threshold_keys(job, data, script_literals_cache)
     if 'threshold' in data:
-        t = data['threshold']
-        print(f'  [OK] threshold keys: {list(t.keys())}')
+        print(f'  [OK] threshold keys: {list(data["threshold"].keys())}')
+    errors.extend(t_errs)
+    skips.extend(t_skips)
 
     # Model pinning check (drift-skip prevention)
     if not no_agent:
@@ -140,6 +230,10 @@ print(f'  Valid skills in repo: {len(valid_skills)}')
 print(f'\n=== Summary ===')
 print(f'  Errors: {len(errors)}')
 print(f'  Warnings: {len(warnings)}')
+if skips:
+    print(f'  Skipped (by design): {len(skips)}')
+    for s in skips:
+        print(f'    - SKIP {s}')
 if errors:
     print('  ERRORS:')
     for e in errors:

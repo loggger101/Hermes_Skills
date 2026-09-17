@@ -1,6 +1,7 @@
 # CI gate for the second brain: every push and pull request runs the full
-# health check (tools/verify-all.py — 14 gates, including self-tests of the
-# doc-count checker, the hardcoded-secret scan, and the harness runner) plus
+# health check (tools/verify-all.py — 15 gates, including self-tests of the
+# doc-count checker, the hardcoded-secret scan, the harness runner, and the
+# cron threshold-key contract) plus
 # the pytest suites that ship inside skills AND a dedicated job that executes
 # the standalone *_verify.py self-test harnesses against real duckdb/polars/
 # pyarrow/numpy installs (the base gate runs them too but classifies missing

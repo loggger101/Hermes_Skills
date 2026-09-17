@@ -283,6 +283,9 @@ def main():
         # The harness runner (gate 6) tests itself: proves PASS/SKIP-rc77/SKIP-dep/FAIL
         # classification and manifest-drift detection on throwaway temp fixtures.
         run("harness gate self-test", ["tools/mutation-test-selftest-gate.py"]),
+        # The cron threshold-key check (gate 8) tests itself: plants phantom keys in temp
+        # fixture copies and asserts the validator fails loudly, plus proves --job works.
+        run("cron gate self-test", ["tools/mutation-test-cron-gate.py"]),
     ]
 
     width = max(len(r[0]) for r in results)
