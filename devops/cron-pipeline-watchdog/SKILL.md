@@ -87,3 +87,13 @@ The same state machine works with any scheduler:
 - A stale status.json entry that is *ahead* of reality (job failed but an earlier push succeeded) makes `find_stale` see green forever — the watchdog must also trust CI state over the file, not just the other way around; the repair path above handles exactly this.
 - Cron parsing assumes 5-field expressions; anything else falls back to daily — a monthly job written as a date list in day-of-month will be treated as weekly and flagged early (harmless: one extra retry cycle).
 - `gh run view --log` on large runs is slow (~60 s timeout set deliberately); the row-count regex scans line-by-line so it stops at first hit.
+
+## Bounded self-healing loop (pattern from tech-leads-club/agent-skills' nx-ci-monitor, mined 2026-09-17)
+
+Their CI monitor generalizes this skill's retry→escalate state machine with four bounds that keep "self-heal" from becoming "flail":
+1. **Two independent caps**: max fix CYCLES (default 10) AND total wall-clock timeout (default 120 min) — a fast-failing loop can burn cycles without time; a slow one burns time without cycles. Either cap alone is escapable, together they're not.
+2. **Local-verify-before-CI**: up to N local verification + fix attempts (default 3) BEFORE pushing anything back to CI — each remote round-trip costs minutes and pollutes the run history; a fix that can't pass locally doesn't deserve a pipeline slot.
+3. **Known-failure auto-fix is a CLOSED list** (`--auto-fix-workflow`): only pre-declared cheap classes (lockfile regeneration, dependency bumps) are attempted before human escalation — an open-ended "try to fix it" agent on CI logs is how you get force-pushes at 3am.
+4. **Post-action re-trigger window**: after any fix push, wait a bounded time for the NEW run to appear and track THAT (not the old one) — without this, the monitor keeps judging the failure it already fixed.
+
+The orchestrator/watcher split is also worth keeping: the poller is a sub-agent with its own timeout budget; the decision logic lives in the parent so an interrupted watcher can be re-spawned (`--fresh` to discard stale session context) without losing policy.

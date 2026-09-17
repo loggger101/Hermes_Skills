@@ -118,6 +118,10 @@ For each finding: describe the vulnerability, show the vulnerable code, explain 
 - [ ] All existing Critical/High findings are either fixed or documented as accepted risk
 - [ ] Report includes proof-of-concept for each vulnerability (not just "could be vulnerable")
 
+## References
+
+- `references/repository-threat-modeling.md` — system-level complement to this code-level flow: repository-grounded threat modeling (trust boundaries as concrete edges, attacker capabilities WITH explicit non-capabilities, threats as abuse paths through THIS system's boundaries, likelihood×impact with existing controls, user assumption validation before finalizing). Use it when the question is "what can an attacker do here" rather than "does this code have known vuln classes".
+
 ## AspireCURES Context
 
 The pipeline downloads untrusted data from medical databases. Flag: hardcoded API keys in cronjob scripts, path traversal in disease-page file writes, SSRF in web-scraping code, injection in the SQLite storage layer. Run CodeQL + Semgrep before each commit.

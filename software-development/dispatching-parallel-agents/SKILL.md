@@ -84,4 +84,5 @@ Return: summary of root cause and changes made.
 ## References & Scripts
 
 - `references/multi-agent-deliberation-jury.md` — when parallel agents must DECIDE rather than just execute: the jury protocol (independent verdicts first, then structured deliberation; anchoring/sycophancy/correlated-error defenses), ported from tech-leads-club/agent-skills' `the-jury` skill with attribution.
+- `references/discovery-interview-and-critique-protocols.md` — the two siblings of the jury: tlc-discover's anti-convergence interview rules (no technology proposed before the verdict; "people answer form dumps by agreeing"; high-impact+low-clarity becomes an RFC/spike, never a forced decision) and the-fool's challenge-only protocol (steelmanned thesis confirmed FIRST, bias scan woven in not sectioned, engage-before-synthesize).
 - `scripts/tally_jury.py` — stdlib tally for juror JSON: weighted consensus + bandwagon detection (a dissenting juror who flipped after seeing others = discounted). Live-tested both paths; `--example` prints a sample input.
