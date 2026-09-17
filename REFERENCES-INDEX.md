@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **401 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **403 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -311,6 +311,9 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `data-science/space-data-pipelines/references/shared-library-internals.md` — hf_dataset_utils internals from juliensimon/space-datasets (230 pipelines): retry budget, TAP clients, HEASARC HTTP-200 failures, MAST keyset pagination, LFS recovery, watchdog
 - `data-science/space-data-pipelines/references/source-parser-families.md` — Per-source parsing families from space-datasets (round-15): TLE two-line-element char positions + epoch century rule, PDS3/PDS4 fixed-width colspecs, GOES netCDF status pivot, Wikidata SPARQL dedup, HTML fixture testing
 - `data-science/space-data-pipelines/references/space-data-licensing-audit.md` — Space-data licensing traps from space-datasets' own 2026-05-26 audit: ESA CC BY-NC, WDC Kyoto no-commercial, VizieR scientific-use terms, provider URL table
+## devops/incident-response
+
+- `devops/incident-response/references/incident-command-method.md` — Live Incident Command Method
 ## devops/rest-api-client
 
 - `devops/rest-api-client/references/ssrf-guard-and-outbound-http-hardening.md` — SSRF Guard & Outbound-HTTP Hardening (verified from reconurge/flowsint @ 1820569, v1.2.12)
@@ -447,6 +450,9 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `research/research-paper-writing/references/reviewer-guidelines.md` — Reviewer Guidelines & Evaluation Criteria
 - `research/research-paper-writing/references/sources.md` — Source Bibliography
 - `research/research-paper-writing/references/writing-guide.md` — ML Paper Writing Philosophy & Best Practices
+## security/application-threat-model
+
+- `security/application-threat-model/references/threat-model-method.md` — Application Threat Model Method
 ## security/mattpocock-security-review
 
 - `security/mattpocock-security-review/references/repository-threat-modeling.md` — Repository-Grounded Threat Modeling (verified from tech-leads-club/agent-skills @ 0ab82f6)

@@ -1,7 +1,7 @@
 {
   "name": "hermes",
   "version": "1.0.0",
-  "description": "Hermes second brain: 204 skills across 23 categories.",
+  "description": "Hermes second brain: 207 skills across 23 categories.",
   "author": {
     "name": "Hermes Agent",
     "url": "https://github.com/loggger101"
@@ -76,6 +76,7 @@
     "./data-science/sql-for-data",
     "./devops/cron-pipeline-watchdog",
     "./devops/docker-containers",
+    "./devops/incident-response",
     "./devops/pinggy-tunnel",
     "./devops/rest-api-client",
     "./devops/sdlc-review",
@@ -151,6 +152,7 @@
     "./research/rss-feeds",
     "./research/scholar-evaluation",
     "./research/scrapling",
+    "./security/application-threat-model",
     "./security/mattpocock-security-review",
     "./security/oss-forensics",
     "./security/security-audit",
@@ -169,6 +171,7 @@
     "./software-development/dispatching-parallel-agents",
     "./software-development/dogfood",
     "./software-development/executing-plans",
+    "./software-development/failure-signal-audit",
     "./software-development/generating-python-installer",
     "./software-development/github",
     "./software-development/grill-me",

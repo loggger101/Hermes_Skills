@@ -8,6 +8,7 @@ Infrastructure, containers, and deployment workflows.
 
 - [`cron-pipeline-watchdog`](./cron-pipeline-watchdog/SKILL.md) — Watch cron pipelines for stale jobs; retry and escalate
 - [`docker-containers`](./docker-containers/SKILL.md) — Build and debug Docker containers and Compose stacks
+- [`incident-response`](./incident-response/SKILL.md) — Command an open incident: severity, roles, timeline
 - [`pinggy-tunnel`](./pinggy-tunnel/SKILL.md) — Zero-install localhost tunnels over SSH via Pinggy
 - [`rest-api-client`](./rest-api-client/SKILL.md) — Call REST APIs: auth, pagination, rate limits, errors
 - [`sdlc-review`](./sdlc-review/SKILL.md) — Review Kanban handoffs and route verified outcomes
