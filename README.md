@@ -597,7 +597,7 @@ The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a w
 - ✅ Every skill has a body section (`## What This Skill Does` or an audit-recognized alternative) and standard header capitalization
 - ✅ Every multi-skill category directory has a `DESCRIPTION.md` (all 23 do)
 - 🔒 Line endings normalized via `.gitattributes` (`text=auto`) — CRLF in working tree, LF in git storage. Enforced by git itself at checkout/commit, not by the audit
-- 📎 *Convention, not a gate:* repo-authored files end with a newline. Two exceptions are kept byte-for-byte as their source emits them: the vendored conference templates under `research/research-paper-writing/templates/`, and the sync-owned `memories/` + `profile/` files. Trailing whitespace is **not** stripped — in markdown a double trailing space is a hard line break, so a blanket strip would silently reflow docs.
+- 📎 *Convention, not a gate:* repo-authored files end with a newline. Two exceptions are kept byte-for-byte as their source emits them: the vendored conference templates under `research/research-paper-writing/templates/`, and the sync-owned `memories/` files (the historical snapshot in singular `profile/` is likewise untouched by sync, which skips it). Trailing whitespace is **not** stripped — in markdown a double trailing space is a hard line break, so a blanket strip would silently reflow docs.
 - ✅ Broken-link gate: every relative markdown link resolves (`tools/check-links.py`, skips URLs/code spans/`profiles-export/` snapshots)
 
 One-off historical fixes (duplicate removals, ref repairs, header renames, sync setup) are logged round-by-round in [audit notes](docs/archive/audit-notes-skills-repo-pass.md).

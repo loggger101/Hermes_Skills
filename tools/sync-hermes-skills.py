@@ -441,7 +441,8 @@ def sync_skills_push(repo_root: Path, local_dir: Path, dry_run: bool = False,
         if parts[0] == "tools":
             continue
 
-        # Skip profile/ directory — handled separately by sync_profiles
+        # Skip profile/ (singular) — a historical reference snapshot, never touched by sync.
+        # The live mirror of named profiles goes to plural profiles-export/ via sync_profiles.
         if parts[0] == "profile":
             continue
 

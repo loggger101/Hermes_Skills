@@ -84,7 +84,7 @@ Skills are organized into 23 categories (each has a `DESCRIPTION.md`):
 | [software-development/](./software-development/) | TDD, spec-driven dev, debugging, planning (grilling/wayfinder), Python, Node + repo onboarding & living-docs governance |
 | [web-development/](./web-development/) | Web/API client derivation from HAR recordings |
 
-Non-skill content: [`memories/`](./memories/DESCRIPTION.md) (the agent's persistent notes + user profile — the "brain" part) and [`profile/`](./profile/DESCRIPTION.md) (a reference snapshot of one live Hermes profile). See each directory's `DESCRIPTION.md`.
+Non-skill content: [`memories/`](./memories/DESCRIPTION.md) (the agent's persistent notes + user profile — the "brain" part), and [`profile/`](./profile/DESCRIPTION.md) (a historical reference snapshot of one live Hermes profile, taken 2026-08-24). The plural `profiles-export/` directory is a different thing: a gitignored local mirror that sync writes on every run — it never enters git. See each directory's `DESCRIPTION.md`.
 
 ## Structure
 
