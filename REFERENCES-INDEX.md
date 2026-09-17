@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **381 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **385 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -324,6 +324,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `devops/system-design-scaling/references/scaling-tradeoffs-and-topics.md` — Scaling Trade-Offs & Networking Topics
 ## doc-coauthoring/references
 
+- `doc-coauthoring/references/decision-document-formats-adr-rfc-tdd.md` — Decision Document Formats: ADR vs RFC vs TDD (verified from tech-leads-club/agent-skills @ 0ab82f6)
 - `doc-coauthoring/references/repo-documentation-maintenance.md` — Maintaining Repo Documentation (README, DEPENDENCY, audit notes)
 ## email/himalaya
 
@@ -446,6 +447,9 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `research/research-paper-writing/references/reviewer-guidelines.md` — Reviewer Guidelines & Evaluation Criteria
 - `research/research-paper-writing/references/sources.md` — Source Bibliography
 - `research/research-paper-writing/references/writing-guide.md` — ML Paper Writing Philosophy & Best Practices
+## security/mattpocock-security-review
+
+- `security/mattpocock-security-review/references/repository-threat-modeling.md` — Repository-Grounded Threat Modeling (verified from tech-leads-club/agent-skills @ 0ab82f6)
 ## security/oss-forensics
 
 - `security/oss-forensics/references/evidence-types.md` — Evidence Types Reference
@@ -459,6 +463,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 ## software-development/architecture-metrics
 
 - `software-development/architecture-metrics/references/modular-monolith-boundary-validation.md` — Modular Monolith & Boundary Validation (verified from tech-leads-club/agent-skills @ 0ab82f6)
+- `software-development/architecture-metrics/references/monolith-decomposition-pipeline.md` — Monolith Decomposition Analysis Pipeline (verified from tech-leads-club/agent-skills @ 0ab82f6)
 - `software-development/architecture-metrics/references/sentrux-architecture-notes.md` — Sentrux Architecture Notes (source-level findings)
 - `software-development/architecture-metrics/references/strangler-fig-migration-patterns.md` — Strangler Fig Migration Patterns (verified from tech-leads-club/agent-skills @ 0ab82f6)
 ## software-development/ast-grep
@@ -475,6 +480,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `software-development/conversation-to-spec/references/spec-document-reviewer-prompt.md` — Spec Document Reviewer Prompt Template
 ## software-development/dispatching-parallel-agents
 
+- `software-development/dispatching-parallel-agents/references/discovery-interview-and-critique-protocols.md` — Discovery Interview & Critique Protocols (verified from tech-leads-club/agent-skills @ 0ab82f6)
 - `software-development/dispatching-parallel-agents/references/multi-agent-deliberation-jury.md` — Multi-Agent Deliberation: the Jury Protocol (verified from tech-leads-club/agent-skills @ 0ab82f6)
 ## software-development/dogfood
 

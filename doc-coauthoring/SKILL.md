@@ -41,6 +41,8 @@ Explain that this approach helps ensure the doc works well when others read it (
 
 If user declines, work freeform. If user accepts, proceed to Stage 1.
 
+**Format choice first (for decision docs):** if the doc is an ADR / RFC / technical design doc rather than general prose, pick the format before drafting — `references/decision-document-formats-adr-rfc-tdd.md` has the routing rule (ADR records a made decision, RFC proposes+decides before commitment, TDD designs after direction) and the MADR section template.
+
 ## Stage 1: Context Gathering
 
 **Goal:** Close the gap between what the user knows and what Claude knows, enabling smart guidance later.
