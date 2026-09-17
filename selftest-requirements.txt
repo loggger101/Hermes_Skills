@@ -8,6 +8,10 @@
 #                                                  pyarrow 25.0.1, pandas <3 (pandas 3.x
 #          has breaking changes; the harness ground-truth comparisons were captured on 2.x)
 #   algorithms-python-catalog                   -> numpy
+#   optimization-modeling-pyomo                 -> pyomo 6.10.1 + highspy (HiGHS solver;
+#          both ship cp312 manylinux wheels on PyPI with zero required deps beyond the
+#          already-present numpy — verified via PyPI metadata, so CI install cannot drift
+#          into a source build)
 #
 # polars-v2-verify.py pins POLARS 2.0 rc behavior and exits 77 (SKIP) under this stable
 # install by design — it is exercised locally in a dedicated venv (see its docstring).
@@ -17,3 +21,5 @@ duckdb==1.5.5
 polars==1.44.1
 pyarrow==25.0.1
 pandas>=2.2,<3
+pyomo==6.10.1
+highspy==1.15.1
