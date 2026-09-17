@@ -21,6 +21,11 @@ Rules:
 - profiles-export/ is SKIPPED: those are historical per-profile snapshots (see profile/DESCRIPTION.md);
   they may predate later fixes and are regenerated from live environments, not hand-maintained here.
 
+Every skipped category is reported as an honest denominator in the summary line — a binary
+"checked N / no broken links" hides how much of the repo's link surface was never actually
+verifiable (pattern: repowise's doc-drift analysis, 4 verdicts instead of 2; see
+autonomous-ai-agents/repowise/references/codebase-intelligence-patterns.md §11).
+
 Usage: python tools/check-links.py          # exit 0 = no broken links, 1 = found some
 """
 import re
@@ -58,16 +63,20 @@ def main():
     broken = []
     unreadable = []  # files the scan could not open: coverage gaps, not warnings
     checked = 0
+    # honest denominators (repowise doc-drift pattern): every skipped category counted and
+    # reported, so "no broken links" always says how much surface was actually verifiable.
+    n_ext_url = n_pure_anchor = n_abs_path = n_code_span = 0
+    n_template_files = n_snapshot_export_files = 0
     for p in REPO.rglob("*.md"):
         if any(part in SKIP_DIRS for part in p.parts):
             continue
         rel_posix = str(p.relative_to(REPO)).replace("\\", "/")
-        if rel_posix.startswith(SNAPSHOT_PREFIXES):
-            continue  # historical snapshots — not hand-maintained (see module docstring)
-        if rel_posix in EXPORTED_FILES:
-            continue  # live-memory exports — see module docstring
+        if rel_posix.startswith(SNAPSHOT_PREFIXES) or rel_posix in EXPORTED_FILES:
+            n_snapshot_export_files += 1
+            continue  # historical snapshots / live-memory exports — not hand-maintained (see docstring)
         parts = p.relative_to(REPO).parts
         if "templates" in parts:
+            n_template_files += 1
             continue  # skill template scaffolds — links resolve only after generation
         try:
             text = p.read_text(encoding="utf-8")
@@ -77,15 +86,22 @@ def main():
         # strip fenced code blocks so example links in docs don't count,
         # then inline `code` spans (e.g. markdown syntax examples like ![alt](url))
         text_no_code = re.sub(r'```.*?```', '', text, flags=re.S)
+        n_code_span += len(LINK_RE.findall(text)) - len(LINK_RE.findall(text_no_code))
         text_no_code = re.sub(r'`[^`\n]*`', '', text_no_code)
         for m in LINK_RE.finditer(text_no_code):
             target = m.group(1).strip()
-            if not target or target.startswith(("http://", "https://", "mailto:", "#")):
+            if not target or target.startswith(("http://", "https://")):
+                n_ext_url += 1
+                continue
+            if target.startswith("mailto:") or target.startswith("#"):
+                n_pure_anchor += 1
                 continue
             path_part = target.split("#")[0]
             if not path_part:
+                n_pure_anchor += 1
                 continue  # pure anchor
             if path_part.startswith("/"):
+                n_abs_path += 1
                 continue  # absolute — out of scope for this checker
             checked += 1
             resolved = (p.parent / path_part).resolve()
@@ -97,7 +113,12 @@ def main():
                 rel_from_repo = str(p.relative_to(REPO)).replace("\\", "/")
                 broken.append(f"{rel_from_repo} -> {target}")
 
-    print(f"checked {checked} relative links across repo .md files")
+    print(
+        f"checked {checked} relative links "
+        f"(skipped, by design: {n_ext_url} external URLs, {n_pure_anchor} anchors/mailto, "
+        f"{n_abs_path} absolute paths, {n_code_span} in code spans/fences; "
+        f"{n_template_files} template + {n_snapshot_export_files} snapshot/export files not scanned)"
+    )
     if unreadable:
         print(f"[FATAL] {len(unreadable)} file(s) could not be read -- link coverage is "
               "incomplete, so a clean result would be meaningless:", file=sys.stderr)
