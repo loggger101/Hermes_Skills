@@ -76,6 +76,23 @@ def build_fixture(tmp: Path):
         (tmp / ".claude-plugin").mkdir(parents=True, exist_ok=True)
         shutil.copy2(plugin_json, tmp / ".claude-plugin" / "plugin.json")
 
+    # claim class 6 needs live discovery inside the fixture: copy run-skill-tests.py and
+    # every pytest tests/ dir (relative paths preserved). Without these, suites_truth is
+    # None in the gate and the whole class silently skips — which would make its
+    # mutations below prove nothing.
+    (tmp / "tools").mkdir(parents=True, exist_ok=True)
+    shutil.copy2(REPO / "tools" / "run-skill-tests.py", tmp / "tools" / "run-skill-tests.py")
+    for tf in REPO.rglob("*.py"):
+        rel = tf.relative_to(REPO)
+        parts = list(rel.parts)
+        if len(parts) < 2 or parts[-2] != "tests":
+            continue
+        if any(x in parts for x in ("profiles-export", ".git")):
+            continue
+        d = tmp / Path(*parts[:-1])
+        d.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(tf, d / tf.name)
+
 
 def mutate(tmp: Path, fname: str, old: str, new: str):
     f = tmp / fname
@@ -141,10 +158,11 @@ def build_mutations(tmp: Path):
         mutations.append(("prose skill total ('all NNN skills')", "DESCRIPTION.md",
                           old, f"index of all {live - 1} skills"))
 
-    # 3) bold skill total — README's '**Total: NNN skills across ...**'.
+    # 3) bold skill total — README's '**Total: NNN skills across ...**' (the unique
+    #    full phrase; the bare tagline '**NNN Hermes Agent skills**' appears twice).
     m = re.search(r"\*\*Total: (\d+) skills across \d+ categories\*\*", readme)
     if m and int(m.group(1)) == live:
-        mutations.append(("bold skill total ('**NNN skills**')", "README.md",
+        mutations.append(("bold skill total ('**Total: NNN skills')", "README.md",
                           f"**Total: {live} skills", f"**Total: {live + 1} skills"))
 
     # 4) cross-reference count — README carries the xref number in two wordings;
@@ -181,6 +199,42 @@ def build_mutations(tmp: Path):
             mutations.append(("reference-docs count", "DESCRIPTION.md",
                               old, f"all {refdocs - 1} reference docs"))
 
+    # 7+8) pytest suite counts — README's 'Seven suites currently: comfyui N / ...' line.
+    #      Truth comes from run-skill-tests.discover_suites() — the SAME imported path
+    #      verify-all uses, so this test and the gate can never disagree on what a suite is.
+    spec = importlib.util.spec_from_file_location(
+        "run_skill_tests", REPO / "tools" / "run-skill-tests.py")
+    rst = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(rst)
+    suite_counts = {}
+    for label, tests_dir in rst.discover_suites(REPO):
+        n = 0
+        for tf in sorted(tests_dir.rglob("*.py")):
+            txt = tf.read_text(encoding="utf-8", errors="replace")
+            n += len(re.findall(r"^\s*def (test_\w+)", txt, re.M))
+        parts = Path(label).parts
+        if len(parts) >= 3:
+            suite_counts[parts[-2]] = n
+
+    m = re.search(r"\b(\w+) suites currently:\s*([^()\n]+)", readme)
+    if m and len(suite_counts):
+        # 7) one listed count off by one (largest suite, so the anchor 'name N' is unique)
+        name, n = max(suite_counts.items(), key=lambda kv: kv[1])
+        old = f"{name} {n}"
+        if readme.count(old) == 1 and m.group(2).count(old):
+            mutations.append(("pytest suite count (listed pair)", "README.md",
+                              old, f"{name} {n + 1}"))
+        # 8) the count-word itself ('Seven suites' vs disk truth)
+        word_to_n = {"One": 1, "Two": 2, "Three": 3, "Four": 4, "Five": 5,
+                     "Six": 6, "Seven": 7, "Eight": 8, "Nine": 9, "Ten": 10}
+        if m.group(1) in word_to_n and word_to_n[m.group(1)] == len(suite_counts):
+            wrong = {v: k for k, v in word_to_n.items()}[len(suite_counts) - 1] \
+                if len(suite_counts) >= 2 else "Six"
+            old = f"{m.group(1)} suites currently:"
+            if readme.count(old) == 1 and wrong != m.group(1):
+                mutations.append(("pytest suite count-word", "README.md",
+                                  old, f"{wrong} suites currently:"))
+
     return live, xrefs, exposed, refdocs, mutations
 
 
@@ -203,20 +257,40 @@ def main():
         missing_truths = [n for n, v in (("skills", live), ("xrefs", xrefs),
                                          ("plugin exposure", exposed),
                                          ("ref docs", refdocs)) if v is None]
-        if len(mutations) < 6:
-            print(f"[FAIL] only {len(mutations)}/6 mutations built — truths missing: "
+        # 8 claim classes: skills total (bold + prose are one truth but two anchors may
+        # both exist — the floor counts BUILT mutations, and each class contributes at
+        # least one when its truths are present). A missing suite-list anchor means the
+        # README wording drifted from what this test expects — fail loudly.
+        if len(mutations) < 8:
+            print(f"[FAIL] only {len(mutations)}/8 mutations built — truths missing: "
                   f"{missing_truths or 'none'}; a doc's wording must have drifted from an anchor")
             return 1
 
         failures = []
         for label, fname, old, new in mutations:
-            mutate(tmp, fname, old, new)
-            _, ok, note = mod.check_doc_counts()
+            # Apply each mutation to a CLEAN copy of its file and revert afterwards.
+            # (The original loop applied them cumulatively — later "caught" results were
+            # then contaminated by earlier drift in the same file, so they proved nothing
+            # about their own class. Round-33 fix: every mutation is proven independently.)
+            f = tmp / fname
+            orig = f.read_text(encoding="utf-8")
+            try:
+                mutate(tmp, fname, old, new)
+                _, ok, note = mod.check_doc_counts()
+            finally:
+                f.write_text(orig, encoding="utf-8")  # always restore the clean baseline
             if ok:
                 failures.append(label)
                 print(f"[FAIL] mutation NOT caught: {label}")
             else:
                 print(f"  caught: {label} -> {note[:100]}")
+
+        # final sanity: after all reverts the fixture must be green again — a leak in
+        # any revert would otherwise silently corrupt nothing but prove our loop is broken.
+        _, ok, note = mod.check_doc_counts()
+        if not ok:
+            print(f"[FAIL] baseline no longer passes after mutation cycle (revert leaked): {note}")
+            return 1
 
         if failures:
             print(f"\nFAILED ({len(failures)}/{len(mutations)} mutations missed): "

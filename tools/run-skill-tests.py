@@ -42,30 +42,31 @@ PY = sys.executable or "python3"
 SKIP_DIRS = {".git", ".hermes", ".github", "profiles-export", "docs"}
 
 
-def discover_suites() -> list[tuple[str, Path]]:
-    """Return [(label, tests_dir)] for every pytest suite in the repo."""
+def discover_suites(root=None):
+    """Return [(label, tests_dir)] for every pytest suite in the repo (or `root`)."""
+    root = root or REPO
     suites = []
-    for testfile in REPO.rglob("test_*.py"):
-        rel_parts = testfile.relative_to(REPO).parts
+    for testfile in root.rglob("test_*.py"):
+        rel_parts = testfile.relative_to(root).parts
         if any(part in SKIP_DIRS or part == "__pycache__" for part in rel_parts):
             continue
         tests_dir = testfile.parent
         # only count dirs actually named `tests` (convention: <skill>/tests/)
         if tests_dir.name != "tests":
             continue
-        label = str(tests_dir.relative_to(REPO)).replace("\\", "/")
+        label = str(tests_dir.relative_to(root)).replace("\\", "/")
         suites.append((label, tests_dir))
 
-    testfile2 = REPO.rglob("*_test.py")  # second convention; de-dupe by dir
+    testfile2 = root.rglob("*_test.py")  # second convention; de-dupe by dir
     seen = {d for _, d in suites}
     for tf in testfile2:
-        rel_parts = tf.relative_to(REPO).parts
+        rel_parts = tf.relative_to(root).parts
         if any(part in SKIP_DIRS or part == "__pycache__" for part in rel_parts):
             continue
         tests_dir = tf.parent
         if tests_dir.name != "tests" or tests_dir in seen:
             continue
-        suites.append((str(tests_dir.relative_to(REPO)).replace("\\", "/"), tests_dir))
+        suites.append((str(tests_dir.relative_to(root)).replace("\\", "/"), tests_dir))
 
     # de-dupe (a dir can match both globs) and sort for stable output
     unique = {}

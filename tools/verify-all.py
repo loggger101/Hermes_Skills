@@ -23,6 +23,7 @@ Usage:
 Exit 0 = every gate passed. Exit 1 = at least one failed (details above the summary).
 Child tools are launched with sys.executable, never a which() lookup.
 """
+import importlib.util
 import json
 import re
 import subprocess
@@ -96,7 +97,15 @@ def check_doc_counts():
         -> REFERENCES-INDEX.md header count (same source its drift gate checks)
       * per-category rows of the README summary table ('| [cat/](./cat/) | ... | NN |')
         -> live SKILL.md count in that category dir
-    """
+      * pytest suite counts — README's 'NNN suites currently: a N / b M / ...' line
+        (round-33 audit found all seven hand-written numbers correct but guarded by
+        nothing; the same rot class as every other claim here) -> live discovery via
+        run-skill-tests.discover_suites() imported for real (single source of truth, so
+        CI's suite set and this gate can never disagree), counting `def test_*` per suite.
+        Known limitation: parametrize-expanded cases are not counted — if a suite ever
+        gains them the numbers drift and this fails loudly, which is exactly when a human
+        must update both README and (if desired) this counter.
+      """
     skills = [p for p in REPO.rglob("SKILL.md")
               if not any(part in (".git", ".hermes", "profiles-export", "memories",
                                   "memories-export") for part in p.relative_to(REPO).parts)]
@@ -121,6 +130,29 @@ def check_doc_counts():
                       refs_index.read_text(encoding="utf-8"))
         refdocs = int(m.group(1)) if m else None
 
+    # 6) pytest suite counts — truth = live discovery (imported, not reimplemented).
+    #    run-skill-tests.py is loaded from the CURRENT REPO global so the mutation
+    #    self-test's fixture tree works; counting `def test_*` per suite matches how
+    #    a human reads "comfyui 117 / docx 29". Parametrize-expanded cases are NOT
+    #    counted (documented limitation in the module docstring) — if a suite gains
+    #    them, this fails loudly and forces a conscious README update.
+    suites_truth = None
+    try:
+        spec = importlib.util.spec_from_file_location(
+            "run_skill_tests", REPO / "tools" / "run-skill-tests.py")
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        counts = {}
+        for label, tests_dir in mod.discover_suites(REPO):
+            n = 0
+            for tf in sorted(tests_dir.rglob("*.py")):
+                txt = tf.read_text(encoding="utf-8", errors="replace")
+                n += len(re.findall(r"^\s*def (test_\w+)", txt, re.M))
+            counts[label] = n
+        suites_truth = counts if counts else None
+    except Exception:  # discovery is a convenience truth; absence -> skip the class
+        pass
+
     problems = []
     for name in ("README.md", "DESCRIPTION.md"):
         text = (REPO / name).read_text(encoding="utf-8")
@@ -134,8 +166,14 @@ def check_doc_counts():
                     problems.append(f"{name}: claims {val} {label}, "
                                     f"truth is {truth}")
 
-        # 1) skill totals (bold + prose forms; both rotted in the wild)
-        check(r"\*\*(\d{2,4}) skills\b", live, "skills")
+        # 1) skill totals (bold + prose forms; both rotted in the wild).
+        #    The bold pattern covers every form actually used across README/DESCRIPTION —
+        #    **NNN Hermes Agent skills**, **Total: NNN skills ...**, and
+        #    **NNN verified, audit-passing skills** — not just a bare `**NNN skills`
+        #    (the old narrow pattern matched none of them; round-33 caught that via the
+        #    mutation self-test's now-independent application).
+        check(r"\*\*(?:Total: )?(\d{2,4})\s+(?:Hermes Agent |verified, audit-passing )?skills\b",
+              live, "bold skill total")
         check(r"\ball (\d{2,4}) skills\b", live, "skills ('all NNN skills')")
 
         # 2) cross-reference counts — any prose form; truth = DEPENDENCY.md Network stats.
@@ -164,6 +202,57 @@ def check_doc_counts():
             if actual and claimed != actual:
                 problems.append(f"README table: {cat}/ claims {claimed} skills, "
                                 f"disk has {actual}")
+
+    # 6) pytest suite counts — README's 'Seven suites currently: comfyui 117 / ...' line.
+    #    Parsed from the segment between 'suites currently:' and the first '(' so the
+    #    trailing '(counted YYYY-MM-DD; ...)' annotation can never be mistaken for a pair.
+    if readme.exists() and suites_truth:
+        text = readme.read_text(encoding="utf-8")
+        m = re.search(r"\b(\w+) suites currently:\s*([^()\n]+)", text)
+        listed = {}
+        if not m:
+            problems.append("README: 'NNN suites currently:' list missing while "
+                            f"{len(suites_truth)} pytest suite(s) are on disk")
+        else:
+            # the count-word itself is a claim too ('Seven' must stay in sync with
+            # both the listed pairs and discovery — round-33 found all three correct,
+            # but none of them was guarded before this gate existed).
+            word_to_n = {"One": 1, "Two": 2, "Three": 3, "Four": 4, "Five": 5,
+                         "Six": 6, "Seven": 7, "Eight": 8, "Nine": 9, "Ten": 10}
+            if m.group(1) not in word_to_n:
+                problems.append(f"README suite list: count-word {m.group(1)!r} is not a "
+                                f"recognized number (wording drifted from the gate's anchor)")
+            elif word_to_n[m.group(1)] != len(suites_truth):
+                problems.append(f"README suite list says '{m.group(1)} suites' but disk has "
+                                f"{len(suites_truth)}")
+
+            for tok in m.group(2).split("/"):
+                pm = re.fullmatch(r"\s*(\S+)\s+(\d+)\s*", tok)
+                if not pm:
+                    problems.append(f"README suite list: unparseable token {tok!r}")
+                    continue
+                listed[pm.group(1)] = int(pm.group(2))
+
+            # truth keyed by skill dir name (discovery labels are <cat>/<skill>/tests)
+            truth_by_skill = {}
+            for label, n in suites_truth.items():
+                parts = Path(label).parts
+                if len(parts) >= 3:
+                    truth_by_skill[parts[-2]] = (label, n)
+
+            for name, claimed in listed.items():
+                t = truth_by_skill.get(name)
+                if t is None:
+                    problems.append(f"README suite list names '{name}' but no such "
+                                    f"pytest suite exists on disk")
+                elif claimed != t[1]:
+                    problems.append(f"README suite list: {name} claims {claimed} tests, "
+                                    f"disk has {t[1]} ({t[0]})")
+            for name in truth_by_skill:
+                if name not in listed:
+                    label, n = truth_by_skill[name]
+                    problems.append(f"README suite list omits live suite {label} "
+                                    f"({n} tests)")
 
     return ("doc counts", not problems, "; ".join(problems)[:160] or f"{live} skills, counts agree")
 
