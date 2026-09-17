@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **207 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **210 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -87,6 +87,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 
 - `cron-pipeline-watchdog` — Watch cron pipelines for stale jobs; retry and escalate _(devops)_
 - `docker-containers` — Build and debug Docker containers and Compose stacks _(devops)_
+- `incident-response` — Command an open incident: severity, roles, timeline _(devops)_
 - `pinggy-tunnel` — Zero-install localhost tunnels over SSH via Pinggy _(devops)_
 - `rest-api-client` — Call REST APIs: auth, pagination, rate limits, errors _(devops)_
 - `sdlc-review` — Review Kanban handoffs and route verified outcomes _(devops)_
@@ -204,6 +205,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 
 ## security
 
+- `application-threat-model` — STRIDE app threat modeling with per-control security tests _(security)_
 - `mattpocock-security-review` — Review code for security vulnerabilities by language _(security)_
 - `oss-forensics` — GitHub supply-chain forensics: recovery, IOCs, reporting _(security)_
 - `security-audit` — Source-first six-phase codebase security audit workflow _(security)_
@@ -231,6 +233,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `dispatching-parallel-agents` — Parallel subagents for independent problem domains _(software-development)_
 - `dogfood` — Exploratory QA of web apps: find bugs, evidence, reports _(software-development)_
 - `executing-plans` — Execute a written plan inline with checkpoints _(software-development)_
+- `failure-signal-audit` — Find swallowed errors, bad fallbacks, gaps, false green _(software-development)_
 - `generating-python-installer` — Nuitka + Inno Setup: smallest, fastest Windows installers _(software-development)_
 - `github` — GitHub via gh CLI: PRs, issues, reviews, repos, auth _(software-development)_
 - `grill-me` — Adversarial plan interview before implementation _(software-development)_
@@ -280,4 +283,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*207 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*210 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*

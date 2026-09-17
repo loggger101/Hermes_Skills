@@ -17,6 +17,7 @@ Development tools and coding workflows.
 - [`dispatching-parallel-agents`](./dispatching-parallel-agents/SKILL.md) — Parallel subagents for independent problem domains
 - [`dogfood`](./dogfood/SKILL.md) — Exploratory QA of web apps: find bugs, evidence, reports
 - [`executing-plans`](./executing-plans/SKILL.md) — Execute a written plan inline with checkpoints
+- [`failure-signal-audit`](./failure-signal-audit/SKILL.md) — Find swallowed errors, bad fallbacks, gaps, false green
 - [`generating-python-installer`](./generating-python-installer/SKILL.md) — Nuitka + Inno Setup: smallest, fastest Windows installers
 - [`github`](./github/SKILL.md) — GitHub via gh CLI: PRs, issues, reviews, repos, auth
 - [`grill-me`](./grill-me/SKILL.md) — Adversarial plan interview before implementation
