@@ -11,7 +11,7 @@ metadata:
     related_skills: [hermes-agent, fastmcp, mcporter, code-quality-signal, codebase-onboarding]
 ---
 
-<!-- source: repowise-dev/repowise (AGPL-3.0) — docs/layers/* + docs/agent/* mined 2026-09-10 at clone HEAD 9f52f0a; every operational claim below re-tested live on this Windows box with v0.49.0 in an isolated uv venv. AGPL means knowledge distillation only — never port its code into MIT-licensed skills -->
+<!-- source: repowise-dev/repowise (AGPL-3.0) — docs/layers/* + docs/agent/* mined 2026-09-10 at clone HEAD 9f52f0a; every operational claim re-tested live on this Windows box with v0.49.0 in an isolated uv venv, then RE-PROBED against v0.51.0 (PyPI latest) on 2026-09-17 — the table below is current as of that date. AGPL means knowledge distillation only — never port its code into MIT-licensed skills -->
 
 # Repowise: Precomputed Codebase Intelligence for Agents
 
@@ -19,7 +19,7 @@ metadata:
 
 ## What This Skill Does
 
-Covers how to install, index, wire into Hermes as an MCP server, use the `distill` token-compression CLI, and — most durably — the **general engineering patterns** in its design that apply to any agent-context tooling (see references). All operational facts below were executed live on Windows 11 / Python 3.13 with repowise 0.49.0 before being recorded.
+Covers how to install, index, wire into Hermes as an MCP server, use the `distill` token-compression CLI, and — most durably — the **general engineering patterns** in its design that apply to any agent-context tooling (see references). All operational facts below were executed live on Windows 11 / Python 3.13; version-sensitive claims re-probed against repowise 0.51.0 (2026-09-17) after the v0.49→v0.51 drift was caught by an upstream SHA check.
 
 ## When to Use
 
@@ -28,18 +28,22 @@ Covers how to install, index, wire into Hermes as an MCP server, use the `distil
 - Noisy command output (300 lines of passing tests around 4 failures) is eating context — `repowise distill <cmd>` compresses it before the agent reads it
 - Evaluating whether a codebase-intelligence layer is worth adding to your setup
 
-## Verified on This Machine (2026-09-10, v0.49.0)
+## Verified on This Machine (re-probed 2026-09-17, v0.51.0)
 
 | Claim | Live result |
 |---|---|
-| `uv pip install repowise` in isolated venv | installs clean; CLI at `<venv>/Scripts/repowise.exe`, works on Windows py3.13 |
-| Keyless indexing: no API key needed for first index | `repowise init --no-prose` built `.repowise/wiki.db` + 8 structural wiki pages in ~2s on a scratch project, zero provider calls |
-| Distillation is real and reversible | `distill "git log --stat -30"` → **12,448 → 1,362 tokens (89%)**, errors-first ordering kept; exit code preserved exactly (rc=0→0, rc=1→1); `expand <ref>` round-trips byte-for-byte except CRLF normalization under Windows text-mode capture |
-| Cost accounting | `repowise saved` renders a per-filter table: 2 git_log events, 11,086 tokens (89%) saved — deterministic tiktoken counts, not estimates |
-| MCP server over stdio | real handshake via the official `mcp` python client: **exactly 10 tools** (`get_overview get_answer get_context get_symbol search_codebase get_risk get_change_risk get_why get_dead_code get_health`) |
-| Tool responses are structured, not prose dumps | `get_overview` returned a JSON envelope with `code_health{average_health: 9.94, band: healthy, ...}` and `_meta{contract_version: 1, response_budget{limit_chars: 24000}}` |
+| `uv pip install repowise` in isolated venv | installs clean; CLI at `<venv>/Scripts/repowise.exe`, works on Windows py3.13 (`--version` → 0.51.0) |
+| Keyless indexing: no API key needed for first index | `init --no-prose` built `.repowise/wiki.db` + structural wiki pages in ~2s on a scratch project, zero provider calls; v0.51 additionally prints a doc-quality audit table (page overlap %, question-shaped text, house vocabulary) at the end of init |
+| Distillation is real and reversible | `distill "git log --stat -35"` → **417 lines → 25** on a scratch repo with 36 commits; errors-first ordering kept; exit code preserved exactly (inner rc=128 → outer rc=128); `expand <ref>` round-trips byte-for-byte except CRLF normalization under Windows text-mode capture |
+| Cost accounting | `repowise saved` renders a per-filter table (git_log: 3,287 raw / 392 distilled tokens = 88%) PLUS a new "Net (billed tokens)" section that debits the resident CLAUDE.md block and states its ceiling-vs-floor honesty explicitly — deterministic tiktoken counts, not estimates |
+| MCP server over stdio | real handshake via the official `mcp` python client: **10 tools advertised by default** in single-repo mode (`get_overview get_answer get_context get_symbol search_codebase get_risk get_change_risk get_why get_dead_code get_health`) — unchanged from v0.49, but now part of a larger surface (see below) |
+| Configurable tool surface (NEW in 0.5x) | **18 tools registered total**: the 10 canonical + `list_repos` (workspace mode only) + 7 opt-in specialists (`get_architecture get_blast_radius get_dependency_path get_execution_flows generate_refactoring_code get_conformance set_finding_status`). Configure via `.repowise/config.yaml` → `mcp.tools`: +/- deltas against the default or an explicit allowlist |
+| Transports (NEW) | stdio, streamable-http (port 7338), and legacy sse — `repowise mcp --transport {stdio\|streamable-http\|sse}` |
+| Editor auto-setup (CHANGED) | `init` now **automatically registers the MCP server + installs proactive hooks for Claude Code** (one `repowise` key per config; indexing a second repo repoints it); `--codex` writes Codex config/hooks; opt out with `--no-editor-setup` or `REPOWISE_SKIP_EDITOR_SETUP=1` — use that on scratch/CI repos |
+| Tool responses are structured, not prose dumps | `get_overview` returned JSON envelope `_meta{completeness, contract_version: 1, embedder, embedder_degraded, index_age_days, index_behind, index_scope, indexed_commit, live_head, response_budget{limit_chars: 24000, tier: default}, semantic_search}` — the stale-warning inputs (`index_behind`, `live_head`) are now explicit fields |
+| Release notice (NEW) | server polls PyPI for a newer repowise and announces "upgrade and restart" in-band once per version seen — observed live during handshake |
 | Failure shield | un-indexed repo → tool returns `{error, remedy, guidance}` JSON (remedy even instructs the agent "suggest it once, do not run it yourself") instead of a raw traceback; nested task-group failures are unwrapped to depth ≤2 before shielding |
-| Telemetry is ON by default | observed live `POST https://api.repowise.dev/telemetry/events → 200` from local mode. Hard off: env `REPOWISE_TELEMETRY_DISABLED=1`; consent state in `~/.repowise/platform.json`. Decide before first run on a sensitive repo |
+| Telemetry is ON by default | opt-out model confirmed in v0.51 source (`cli/platform/settings.py`): precedence `DO_NOT_TRACK` (new cross-tool hard off) > `REPOWISE_TELEMETRY_DISABLED` > stored consent > enabled; new `REPOWISE_TELEMETRY_DEBUG=1` prints the exact payload to stderr instead of sending it — verify what would leave your machine before deciding. Consent state in `~/.repowise/platform.json` |
 
 ## Quickstart (verified)
 
@@ -83,7 +87,7 @@ Then restart Hermes. Tools arrive as `mcp_repowise_get_overview` etc. **Allowlis
 | `get_dead_code(...)` | Unreachable code by confidence tier + cleanup-impact estimates |
 | `get_health(targets?, include?)` | Per-file scores across defect-risk / maintainability / performance signals + structured refactoring plans (Extract Class/Method, Move Method, Break Cycle) — zero LLM, <30s |
 
-Every response carries `_meta{index_age_days, indexed_commit, stale_warning}` — the warning fires only when indexed HEAD diverges from live `.git/HEAD`, so the agent always knows how much to trust what it just read. Ten is a deliberate ceiling: a small task-shaped surface is easier for an agent to choose than a large entity-shaped one (one file per call forces long sequential chains).
+Every response carries `_meta{index_age_days, indexed_commit, stale_warning}` — on v0.51 the inputs are explicit fields (`index_behind`, `live_head`), and the warning fires only when indexed HEAD diverges from live `.git/HEAD`, so the agent always knows how much to trust what it just read. The ten-tool default is a deliberate ceiling **for single-repo mode**: "a small task-shaped surface is easier for an agent to choose than a large entity-shaped one (one file per call forces long sequential chains)". Since v0.5x the registry holds 18 tools — workspace mode adds `list_repos`, and 7 specialists (`get_architecture get_blast_radius get_dependency_path get_execution_flows generate_refactoring_code get_conformance set_finding_status`) are opt-in via `.repowise/config.yaml` → `mcp.tools: ["+get_execution_flows"]` (deltas) or an explicit allowlist. Keep the default surface small; add specialists only when a task genuinely needs them — schema overhead is paid on every call.
 
 ## Design Patterns Worth Stealing (general knowledge)
 
@@ -100,5 +104,10 @@ Full write-up with formulas and the benchmarking methodology in `references/code
 
 - `repowise mcp` without a PATH arg resolves the repo by walking up from **cwd** for `.repowise/`; if none is found it silently serves an empty registry — every tool then returns the "no index yet" remedy JSON instead of failing loudly. Pass the explicit path in your MCP config (as `init` does).
 - Windows: paths stored in the repo DB use backslashes; querying by forward-slash path string misses (use name or ID, or omit `repo`).
-- Telemetry posts to api.repowise.dev even in fully-local mode — set `REPOWISE_TELEMETRY_DISABLED=1` before indexing sensitive repos.
+- Telemetry posts to api.repowise.dev even in fully-local mode — set `REPOWISE_TELEMETRY_DISABLED=1` before indexing sensitive repos. v0.51 additions: the cross-tool standard `DO_NOT_TRACK=1` is also a hard off (highest precedence), and `REPOWISE_TELEMETRY_DEBUG=1` prints the exact payload to stderr instead of sending — use it once on an unfamiliar machine to see what would leave before deciding.
+- **Editor auto-setup is ON by default since v0.5x**: `init` writes/repaints a single `repowise` MCP key in your Claude Code config and installs hooks; indexing repo B repoints the entry away from repo A (it prints a notice). On scratch clones, worktrees, CI runners or benchmark repos pass `--no-editor-setup` (or `REPOWISE_SKIP_EDITOR_SETUP=1`) — an unattended agent run should not be mutating editor configs as a side effect.
 - AGPL-3.0: fine as a subprocess/MCP server; do not import its modules into permissively licensed code.
+
+## v0.5x feature worth knowing (2026-09-17)
+
+**doc-drift analysis (#2290)** — the index now reads the repo's own markdown, extracts what each document *claims* about the tree, and reports claims the tree refutes. Four reference classes ship: path, link, in-page anchor, build command; a fifth (symbol) was measured first and **rejected** because backticks in technical prose mean "literal token", not code symbol — their top false flags were `string`, `boolean`, `OPENAI_API_KEY`. Verdicts are four-way, not two: resolves / missing / ambiguous / uncheckable, with the last being an honest denominator (691 of 1,784 refs in their own repo are uncheckable — saying so is what separates a detector from a noise generator). Measured: 19 findings on their repo, 17 real defects; fastapi at 4,123 refs across 1,526 docs → zero findings. The precision rules (path checkable only with a separator + real top-level first segment — took that class from 49% flag rate to 1.3%; historical docs excluded by stem pattern so `release-notes.md` matches too; commands read only inside inline code spans) are the transferable part: see references for the full write-up and how it maps onto this repo's own check-links gate.

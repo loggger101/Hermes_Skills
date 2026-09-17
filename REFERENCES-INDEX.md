@@ -47,7 +47,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `autonomous-ai-agents/hermes-agent/references/windows-quirks.md` — Windows-Specific Quirks
 ## autonomous-ai-agents/repowise
 
-- `autonomous-ai-agents/repowise/references/codebase-intelligence-patterns.md` — Engineering patterns from repowise-dev/repowise (AGPL-3.0) — distillation contracts, decayed git signals, confidence-scored graphs, benchmark discipline; formulas + verified numbers
+- `autonomous-ai-agents/repowise/references/codebase-intelligence-patterns.md` — Engineering patterns from repowise-dev/repowise (AGPL-3.0) — distillation contracts, decayed git signals, confidence-scored graphs, benchmark discipline, noise-free doc-drift detection; formulas + verified numbers
 ## communication/mental-models
 
 - `communication/mental-models/references/models/activation-energy.md` — Change needs an upfront input larger than its running cost, so the barrier to starting is the thing to attack.
