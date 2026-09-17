@@ -142,6 +142,7 @@ def live_truths():
 def build_mutations(tmp: Path):
     """Return [(label, file, old, new)] with anchors derived from live truths."""
     live, xrefs, exposed, refdocs = live_truths()
+    n_gates = len(load_gate().GATE_LABELS)  # class-8 truth (same list verify-all runs)
     readme = (tmp / "README.md").read_text(encoding="utf-8")
     desc = (tmp / "DESCRIPTION.md").read_text(encoding="utf-8")
     mutations = []
@@ -247,6 +248,15 @@ def build_mutations(tmp: Path):
                           f"skills across {m.group(1)} categories**",
                           f"skills across {int(m.group(1)) + 1} categories**"))
 
+    # 10) gate counts — README's 'NNN gates' prose vs GATE_LABELS (the list verify-all runs).
+    #     Class-9 truth (ci.yml job count) lives outside the fixture, so only class 8 is
+    #     mutation-provable here; its anchor is unique in README ('# NNN gates;' quickstart line).
+    if n_gates:
+        old = f"# {n_gates} gates;"
+        if readme.count(old) == 1:
+            mutations.append(("gate count ('NNN gates')", "README.md",
+                              old, f"# {n_gates + 1} gates;"))
+
     return live, xrefs, exposed, refdocs, mutations
 
 
@@ -269,13 +279,13 @@ def main():
         missing_truths = [n for n, v in (("skills", live), ("xrefs", xrefs),
                                          ("plugin exposure", exposed),
                                          ("ref docs", refdocs)) if v is None]
-        # 9 claim classes (skills total bold+prose, xrefs, plugin exposure, ref docs,
-        # category table row, pytest suite count + count-word, category count). The floor
-        # counts BUILT mutations; each class contributes at least one when its truths are
+        # 10 claim classes (skills total bold+prose, xrefs, plugin exposure, ref docs,
+        # category table row, pytest suite count + count-word, category count, gate count).
+        # The floor counts BUILT mutations; each class contributes at least one when its truths are
         # present. A missing anchor means a doc's wording drifted from what this test
         # expects — fail loudly rather than silently stop guarding that class.
-        if len(mutations) < 9:
-            print(f"[FAIL] only {len(mutations)}/9 mutations built — truths missing: "
+        if len(mutations) < 10:
+            print(f"[FAIL] only {len(mutations)}/10 mutations built — truths missing: "
                   f"{missing_truths or 'none'}; a doc's wording must have drifted from an anchor")
             return 1
 
