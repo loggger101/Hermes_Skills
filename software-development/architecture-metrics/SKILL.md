@@ -104,3 +104,5 @@ Ported from source in this round, beyond round 1's metrics layer:
 ## References
 
 - `references/sentrux-architecture-notes.md` — everything else learned from the sentrux source: import-resolution patterns (suffix index, manifest boundaries, path aliases), git-evolution metrics formulas (churn×complexity risk, Jaccard change coupling, bus factor), quality-gate/baseline workflow, what-if simulation design, and the Pro licensing architecture.
+- `references/modular-monolith-boundary-validation.md` — flat-by-aggregate modular monolith + ports/adapters/transactional-outbox patterns, plus an executable boundary-validator pattern (barrel-only cross-module imports, entity uniqueness) from tech-leads-club/agent-skills' evolutionary-modular-architecture skill.
+- `references/strangler-fig-migration-patterns.md` — the three core strangler patterns (gateway routing w/ sticky canary + instant rollback, service extraction behind shared contract tests, dual-write DB migration) and their safety nets from tech-leads-club/agent-skills' legacy-migration-planner.

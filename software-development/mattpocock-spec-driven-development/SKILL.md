@@ -95,3 +95,8 @@ Before marking complete, verify:
 ## AspireCURES Context
 
 Apply this workflow when adding a new disease page: plan the data-source parser, gating logic, and renderer as separate tickets; design module interfaces; implement with TDD at the parser seam; then run the two-axis code review against the originating research findings. This maps directly to your preparer→executor pattern.
+
+## References (spec-driven patterns from tech-leads-club/agent-skills)
+
+- `references/spec-driven-patterns-tlc.md` — EARS requirement notation with their auto-sizing tables, deterministic gate scripts + independent-verifier rule (verdicts route to the orchestrator, never back to builders), and tlc-plan's nine unwritten requirements every plan must sweep: validation, failure modes, idempotency/retry, authorization, concurrency/ordering, data lifecycle, external-dependency failure, state transitions, observability.
+- `references/spec-implementation-eval-methodology.md` — how to score an implementation against a spec: binary pass/fail checks per requirement (no "partially"), the implicit-requirement rubric (requirements the spec assumes but never states), and evidence requirements for each verdict.

@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **372 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **381 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -334,6 +334,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `frontend-design/nicegui-app-builder/references/frontend-tooling.md` — nicegui / Front-End-Checklist MCP / HTMLHint / dashy — frontend tooling reference from starred clones
 ## github/github-code-review
 
+- `github/github-code-review/references/pr-judge-protocol-tlc.md` — Evidence-First PR Judge Protocol (verified from tech-leads-club/agent-skills @ 0ab82f6)
 - `github/github-code-review/references/review-output-template.md` — Review Output Template
 ## github/github-issues
 
@@ -361,6 +362,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 ## mcp/fastmcp
 
 - `mcp/fastmcp/references/fastmcp-cli.md` — FastMCP CLI Reference
+- `mcp/fastmcp/references/mcp-server-design-patterns-tlc.md` — MCP Server Design Patterns (verified from tech-leads-club/agent-skills @ 0ab82f6)
 ## media/youtube-content
 
 - `media/youtube-content/references/output-formats.md` — Output Format Examples
@@ -456,7 +458,9 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `security/semgrep-rule-creator/references/workflow.md` — Semgrep Rule Creation Workflow
 ## software-development/architecture-metrics
 
+- `software-development/architecture-metrics/references/modular-monolith-boundary-validation.md` — Modular Monolith & Boundary Validation (verified from tech-leads-club/agent-skills @ 0ab82f6)
 - `software-development/architecture-metrics/references/sentrux-architecture-notes.md` — Sentrux Architecture Notes (source-level findings)
+- `software-development/architecture-metrics/references/strangler-fig-migration-patterns.md` — Strangler Fig Migration Patterns (verified from tech-leads-club/agent-skills @ 0ab82f6)
 ## software-development/ast-grep
 
 - `software-development/ast-grep/references/cli.md` — CLI reference — `sg` / `ast-grep`
@@ -469,6 +473,9 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 ## software-development/conversation-to-spec
 
 - `software-development/conversation-to-spec/references/spec-document-reviewer-prompt.md` — Spec Document Reviewer Prompt Template
+## software-development/dispatching-parallel-agents
+
+- `software-development/dispatching-parallel-agents/references/multi-agent-deliberation-jury.md` — Multi-Agent Deliberation: the Jury Protocol (verified from tech-leads-club/agent-skills @ 0ab82f6)
 ## software-development/dogfood
 
 - `software-development/dogfood/references/issue-taxonomy.md` — Issue Taxonomy
@@ -489,6 +496,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `software-development/hermes-agent-skill-authoring/references/audit-script-pattern.md` — Building Repo-Health Audit Scripts for Hermes Skill Repositories
 - `software-development/hermes-agent-skill-authoring/references/behavioral-skill-testing.md` — Behavioral Skill Testing (RED-GREEN for Discipline Skills)
 - `software-development/hermes-agent-skill-authoring/references/frontmatter-audit-pattern.md` — Frontmatter Audit Pattern
+- `software-development/hermes-agent-skill-authoring/references/harness-audit-dual-judge-traps.md` — Harness Audit Protocol: Dual-Judge + Planted Traps (verified from tech-leads-club/agent-skills @ 0ab82f6)
 - `software-development/hermes-agent-skill-authoring/references/related-skills-audit.md` — Auditing and Fixing `related_skills` References
 - `software-development/hermes-agent-skill-authoring/references/section-header-standardization.md` — Section Header Standardization
 - `software-development/hermes-agent-skill-authoring/references/skill-evolution-pipeline.md` — DSPy+GEPA skill-evolution pipeline (NousResearch/hermes-agent-self-evolution) — verified CLI, requirements, when NOT to use
@@ -497,6 +505,10 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 ## software-development/mattpocock-diagnosing-bugs
 
 - `software-development/mattpocock-diagnosing-bugs/references/library-audit-methodology.md` — (no description)
+## software-development/mattpocock-spec-driven-development
+
+- `software-development/mattpocock-spec-driven-development/references/spec-driven-patterns-tlc.md` — Spec-Driven Development Patterns (verified from tech-leads-club/agent-skills @ 0ab82f6)
+- `software-development/mattpocock-spec-driven-development/references/spec-implementation-eval-methodology.md` — Spec-Implementation Evaluation Methodology (verified from tech-leads-club/agent-skills @ 0ab82f6)
 ## software-development/plan
 
 - `software-development/plan/references/plan-document-reviewer-prompt.md` — Plan Document Reviewer Prompt Template
@@ -511,3 +523,6 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 ## software-development/test-driven-development
 
 - `software-development/test-driven-development/references/writing-good-tests.md` — Writing Good Tests (Honest-Test Discipline)
+## software-development/verification-culture
+
+- `software-development/verification-culture/references/autonomous-operator-protocol-tlc.md` — Autonomous Operator Protocol: Evidence-or-Stop (verified from tech-leads-club/agent-skills @ 0ab82f6)

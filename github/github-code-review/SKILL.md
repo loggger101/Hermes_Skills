@@ -490,3 +490,8 @@ git branch -D pr-$PR_NUMBER
 - **Approve** — no critical or warning-level issues, only minor suggestions or all clear
 - **Request Changes** — any critical or warning-level issue that should be fixed before merge
 - **Comment** — observations and suggestions, but nothing blocking (use when you're unsure or the PR is a draft)
+
+## References & Scripts
+
+- `references/pr-judge-protocol-tlc.md` — evidence-first judge protocol from tech-leads-club/agent-skills' `the-judge` skill: verdicts require file+line citations, no praise filler, lint-rule flywheel (repeated findings become automated checks), and the verifier-independence rule.
+- `scripts/scan_bypasses.py` — stdlib-only scanner for review-bypass markers in diffs (`# noqa`, `eslint-disable`, `type: ignore`, force-push configs, CI skips...) across ~10 languages; exit 1 on hits. Live-tested (dirty diff → exit 1 with line numbers; clean diff → exit 0).

@@ -316,3 +316,7 @@ Before declaring a project's verification culture healthy:
 - [ ] Verification checklists define "done" with specific, verifiable items
 - [ ] Important constraints are encoded in tooling (CI gates, health checks, regression tests) so they're enforced automatically, not just documented
 - [ ] All active cronjob JSON configs include `model`/`provider` pinning, `threshold` block, `guardrails` array, and scoped `enabled_toolsets`
+
+## References
+
+- `references/autonomous-operator-protocol-tlc.md` — the "evidence-or-stop" operating protocol for long autonomous sessions (from tech-leads-club/agent-skills' not-your-babysitter skill): evidence hierarchy (live source > web search pinned to current date > never training memory), fake-nothing rules, exactly-three-stops policy with BLOCKED/TRIED/NEED format, don't-spin detection; plus codenavi's `.notebook/` pointer-notes method and learning-opportunities' deliberate-practice counterweight.
