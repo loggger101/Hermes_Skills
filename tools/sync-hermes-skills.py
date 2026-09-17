@@ -13,10 +13,16 @@ Designed for autonomous cron execution (no_agent=true):
 
 Direction of flow:
   1. PULL  — git pull upstream → copy new/updated skill files to ~/.hermes/skills/
-  2. PUSH  — copy new/modified local skills to repo, delete removed skills, git add + commit + push
+  2. PUSH  — copy new/modified local skills to repo, delete removed skills
   3. MEMORIES — copy new/modified memory entries from ~/.hermes/memories/ into repo's memories/ directory
   4. PROFILES — export new/modified profile data into the repo
-  5. AUDIT  — run tools/audit-skills.py to validate
+  5. INDEXES — regenerate ALL five machine-generated indexes (SKILLS/CODE/REFERENCES/
+     DEPENDENCY + Claude-plugin manifests) whenever skills changed, so a sync push can
+     never leave an index stale for CI to catch later (round-34: it used to regen only
+     DEPENDENCY.md; the other four rotted silently between runs).
+  6. AUDIT — run tools/audit-skills.py to validate frontmatter/thresholds
+  7. VERIFY — run tools/verify-all.py (ALL health gates) as the pre-push gate: a tree
+     that fails ANY gate is refused commit+push, not just one the audit covers.
 
 Exit codes:
   0 = sync completed within thresholds (silent if no changes)
@@ -56,12 +62,12 @@ try:
 except (AttributeError, ValueError):
     pass
 try:
-    import yaml
+    import yaml  # noqa: F401
 except ModuleNotFoundError:
-    # Was imported inside generate_dependency_map()'s try/except, where a missing
-    # pyyaml silently produced an empty dependency map instead of an error.
     raise SystemExit(
-        "[FATAL] pyyaml is required by sync-hermes-skills.py but is not installed for "
+        "[FATAL] pyyaml is required for sync-hermes-skills.py's index regeneration "
+        "(step 5.5 shells out to regen-dependency-map.py under THIS interpreter) but "
+        "is not installed for "
         + (sys.executable or "<unknown interpreter>")
         + " -- install it with:  pip install -r requirements.txt"
     )
@@ -566,22 +572,37 @@ def sync_profiles(repo_root: Path, local_profiles_dir: Path, dry_run: bool = Fal
         return result
 
     if dry_run:
+        # Hash-compare against profiles-export/ exactly as the live path does — counting
+        # every file unconditionally (the old behavior) reported ~1053 phantom changes on
+        # a fully-in-sync tree, which is precisely the "dry run says X would happen that
+        # never happens" class round-19b was hunting.
         result["details"].append("DRY RUN — would sync profiles to profiles-export/")
+        repo_profiles_dir = REPO_ROOT / "profiles-export"
         for profile_dir in sorted(local_profiles_dir.iterdir()):
             if not profile_dir.is_dir() or profile_dir.name.startswith("."):
                 continue
             profile_skills = profile_dir / "skills"
             if profile_skills.exists():
+                dest_base = repo_profiles_dir / profile_dir.name / "skills"
                 for src_file in profile_skills.rglob("*"):
                     if src_file.is_file() and not any(p.startswith(".") for p in src_file.relative_to(profile_skills).parts):
-                        result["files_synced"] += 1
-                        result["details"].append(f"Would sync profile skill: {profile_dir.name}/{src_file.name}")
+                        rel = src_file.relative_to(profile_skills)
+                        dest_file = dest_base / rel
+                        changed = (not dest_file.exists()) or file_hash(src_file) != file_hash(dest_file)
+                        if changed:
+                            result["files_synced"] += 1
+                            result["details"].append(f"Would sync profile skill: {profile_dir.name}/{rel}")
             profile_memories = profile_dir / "memories"
             if profile_memories.exists():
+                dest_base = repo_profiles_dir / profile_dir.name / "memories"
                 for src_file in profile_memories.rglob("*.md"):
                     if not any(p.startswith(".") for p in src_file.relative_to(profile_memories).parts):
-                        result["files_synced"] += 1
-                        result["details"].append(f"Would sync profile memory: {profile_dir.name}/{src_file.name}")
+                        rel = src_file.relative_to(profile_memories)
+                        dest_file = dest_base / rel
+                        changed = (not dest_file.exists()) or file_hash(src_file) != file_hash(dest_file)
+                        if changed:
+                            result["files_synced"] += 1
+                            result["details"].append(f"Would sync profile memory: {profile_dir.name}/{rel}")
         return result
 
     repo_profiles_dir = repo_root / "profiles-export"
@@ -639,142 +660,6 @@ def cleanup_empty_dirs(directory: Path, base: Path) -> int:
     return removed
 
 
-def generate_dependency_map(repo_root: Path, dry_run: bool = False) -> dict:
-    """Regenerate DEPENDENCY.md from current related_skills frontmatter.
-
-    Scans all SKILL.md files, builds a dependency map, and writes
-    DEPENDENCY.md to the repo root. Uses the same logic as the standalone
-    audit script's related_skills check.
-
-    Returns a dict with stats: {skills_scanned, total_refs, hubs, standalone}
-    """
-    result = {"action": "dependency_map", "success": True, "files_scanned": 0,
-              "total_refs": 0, "error": None}
-
-    try:
-        import re as re_mod
-        yaml_mod = yaml  # module-level import, guarded at startup
-        unparsed = []    # SKILL.md files that could not be read/parsed
-
-        skills = {}  # slug -> name
-        refs = {}    # skill_name -> [list of related_skills]
-        duplicates = []  # list of (name, path)
-
-        # First pass: collect all skill names
-        for path in sorted(repo_root.rglob("SKILL.md")):
-            if '.git' in str(path) or 'profiles-export' in str(path) or 'memories-export' in str(path) or 'memories' in str(path):
-                continue
-            try:
-                text = path.read_text(encoding="utf-8")
-                m = re_mod.match(r'^---\n(.*?)\n---', text, re_mod.DOTALL)
-                if not m:
-                    continue
-                fm = yaml_mod.safe_load(m.group(1))
-                if not fm or not isinstance(fm, dict):
-                    continue
-
-                name = fm.get("name", "")
-                related = fm.get("metadata", {}).get("hermes", {}).get("related_skills", [])
-                if isinstance(related, str):
-                    related = [related]
-                if not isinstance(related, list):
-                    related = []
-
-                result["files_scanned"] += 1
-                if name in skills:
-                    duplicates.append({"name": name, "path": str(path.relative_to(repo_root))})
-                else:
-                    skills[name] = name
-                    refs[name] = related
-                    result["total_refs"] += len(related)
-            except Exception as e:
-                # Never drop a skill silently: a file that will not parse is a
-                # finding, not a no-op. It stays out of the map but is reported.
-                unparsed.append({
-                    "path": str(path.relative_to(repo_root)),
-                    "error": f"{type(e).__name__}: {e}",
-                })
-                continue
-
-        result["unparsed"] = unparsed
-        if unparsed:
-            result["success"] = False
-            result["error"] = f"{len(unparsed)} SKILL.md file(s) could not be parsed"
-        result["duplicates"] = duplicates
-
-        # Build reverse map: who references each skill
-        incoming = {name: [] for name in skills}
-        for name, related_list in refs.items():
-            for ref in related_list:
-                if ref in incoming:
-                    incoming[ref].append(name)
-
-        # Hub skills (referenced by 2+)
-        hubs = {k: v for k, v in incoming.items() if len(v) >= 2}
-        hubs_sorted = sorted(hubs.items(), key=lambda x: (-len(x[1]), x[0]))
-
-        # Standalone skills (no outgoing refs AND no incoming refs)
-        standalone = [name for name in skills if not refs[name] and not incoming[name]]
-        standalone_sorted = sorted(standalone)
-
-        # Generate DEPENDENCY.md
-        lines = []
-        lines.append("# Skill Dependency Map\n")
-        lines.append(f"This document maps the relationship network between all **{len(skills)} Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.\n")
-        lines.append(f"**Network stats:** {result['total_refs']} `related_skills` cross-references across {len(refs)} skills ({len(standalone_sorted)} skills are standalone with no `related_skills` entries).\n")
-
-        lines.append("## Hub Skills (referenced by 2+ other skills)\n")
-        lines.append("These are the core skills that serve as building blocks, referenced by many other skills:\n")
-        lines.append("| Skill | Referenced By (count) | Referencing Skills |\n")
-        lines.append("|-------|-----------------------|---------------------|\n")
-        for skill_name, referrers in hubs_sorted:
-            ref_str = ", ".join(sorted(referrers))
-            lines.append(f"| `{skill_name}` | {len(referrers)} | {ref_str} |\n")
-
-        lines.append("## Standalone Skills\n")
-        lines.append(f"The following {len(standalone_sorted)} skills have no `related_skills` entries of their own (they do not reference other skills). These are genuinely standalone — no other skill references them either:\n")
-        for name in standalone_sorted:
-            lines.append(f"- `{name}`\n")
-
-        lines.append("## Related Skills Validation\n")
-        broken = []
-        for name, related_list in refs.items():
-            for ref in related_list:
-                if ref not in skills:
-                    broken.append((name, ref))
-        if broken:
-            for name, ref in broken:
-                lines.append(f"- ⚠️ `{name}` references non-existent skill `{ref}`\n")
-        else:
-            lines.append(f"All {result['total_refs']} `related_skills` references in the repository resolve to existing in-repo skills. Verified against {len(skills)} unique skill names.\n")
-
-        lines.append("\n---\n")
-        # NOTE: no generation-date stamp (see regen-dependency-map.py) — a date in the output
-# made DEPENDENCY.md non-idempotent and broke the drift gate across UTC-midnight boundaries.
-
-        dep_path = repo_root / "DEPENDENCY.md"
-        existing = dep_path.read_text(encoding="utf-8") if dep_path.exists() else ""
-        new_content = "".join(lines)
-        if existing != new_content:
-            if dry_run:
-                result["updated"] = True
-                result["dry_run_unchanged"] = existing == ""
-            else:
-                dep_path.write_text(new_content, encoding="utf-8")
-                result["updated"] = True
-        else:
-            result["updated"] = False
-
-        result["hub_count"] = len(hubs_sorted)
-        result["standalone_count"] = len(standalone_sorted)
-
-    except Exception as e:
-        result["success"] = False
-        result["error"] = str(e)
-
-    return result
-
-
 def run_audit(repo_root: Path) -> dict:
     """Run the skill audit script and include results."""
     audit_script = repo_root / "tools" / "audit-skills.py"
@@ -826,7 +711,103 @@ def run_audit(repo_root: Path) -> dict:
     return result
 
 
+def regenerate_indexes(repo_root: Path, dry_run: bool) -> dict:
+    """Regenerate ALL five machine-generated indexes (round-34).
+
+    The old version regenerated only DEPENDENCY.md after skill changes — the other four
+    (SKILLS-INDEX/CODE-INDEX/REFERENCES-INDEX + Claude-plugin manifests) were left stale
+    until CI's drift gates caught them, i.e. a sync push could publish a tree that fails
+    its own health checks. Each generator is stdlib-only and idempotent; running all of
+    them is cheap (~seconds) compared to one failed CI cycle per weekly run."""
+    result = {"action": "indexes", "success": True, "updated": False, "regenerated": []}
+    generators = [
+        ("SKILLS-INDEX + category DESCRIPTIONs", ["tools/gen-skills-index.py"]),
+        ("CODE-INDEX", ["tools/gen-code-index.py"]),
+        ("REFERENCES-INDEX", ["tools/gen-references-index.py"]),
+        ("DEPENDENCY map", ["tools/regen-dependency-map.py"]),
+        (".claude-plugin manifests", ["tools/gen-claude-plugin.py"]),
+    ]
+    python_cmd = sys.executable or shutil.which("python3") or shutil.which("python")
+    # snapshot index-file hashes BEFORE regenerating so 'updated' reflects actual on-disk
+    # change — a phantom +1 in total_changes would make the commit step report "No changes"
+    tracked = ["SKILLS-INDEX.md", "CODE-INDEX.md", "REFERENCES-INDEX.md", "DEPENDENCY.md",
+               ".claude-plugin/plugin.json", ".claude-plugin/marketplace.json"]
+    before = {}
+    for name in tracked:
+        p = repo_root / name
+        if p.exists():
+            before[name] = hashlib.sha256(p.read_bytes()).hexdigest()
+    for label, script in generators:
+        proc = subprocess.run(
+            [python_cmd] + [str(repo_root / s) for s in script],
+            cwd=repo_root, capture_output=True, text=True, timeout=600,
+        )
+        if proc.returncode != 0:
+            result["success"] = False
+            result["error"] = (f"{label} failed (exit {proc.returncode}): "
+                               f"{(proc.stderr or proc.stdout)[:300]}")
+            return result
+        result["regenerated"].append(label)
+    # 'updated' = any tracked index file actually changed on disk this run (hash compare).
+    if all(hashlib.sha256((repo_root / name).read_bytes()).hexdigest() == h
+           for name, h in before.items() if (repo_root / name).exists()):
+        result["updated"] = False
+    else:
+        result["updated"] = True
+    return result
+
+
+def run_verify_all(repo_root: Path) -> dict:
+    """Run tools/verify-all.py — the FULL health-gate suite — as the pre-push gate.
+
+    The audit alone (step 6) covers frontmatter/thresholds only; index drift, broken
+    links, doc-count prose and harness classification are checked by the other gates.
+    A sync run that commits + pushes a tree failing any of them is exactly what this
+    step refuses: verify-all exit != 0 -> success=False with the gate output captured."""
+    script = repo_root / "tools" / "verify-all.py"
+    result = {"action": "verify_all", "success": False, "error": None}
+    if not script.exists():
+        result["error"] = f"verify-all script not found at {script}"
+        return result
+    python_cmd = sys.executable or shutil.which("python3") or shutil.which("python")
+    try:
+        proc = subprocess.run(
+            [python_cmd, str(script)],
+            cwd=repo_root, capture_output=True, text=True, timeout=1800,
+        )
+        result["success"] = proc.returncode == 0
+        tail = "\n".join((proc.stdout or "").splitlines()[-25:])
+        if not result["success"]:
+            result["error"] = (f"verify-all exit {proc.returncode}:\n{tail}"
+                               f"\nstderr: {(proc.stderr or '')[:300]}")
+    except Exception as e:  # noqa: BLE001 — a crash here must refuse the push too
+        result["error"] = str(e)
+    return result
+
+
 # ── Main ──
+
+
+def should_push(total_changes, audit_result, verify_result, push_scan_ok):
+    """Pure decision for the pre-push gate (round-34): returns (push?, reason).
+
+    Extracted from main() so the refusal branch is unit-testable without running a real
+    git pull/commit — the audit AND full verification are GATES, not reports: never
+    publish a tree any of them rejected (or could not check at all). Without this the
+    push happened regardless and the run merely exited 1 afterwards -- too late, the
+    commit was already remote."""
+    if total_changes <= 0:
+        return True, ""  # nothing to publish; gate is vacuously satisfied
+    audit_ok = audit_result.get("success", False) and not audit_result.get("threshold_breached", True)
+    verify_ok = verify_result.get("success", False) or verify_result.get("skipped", False)
+    if audit_ok and verify_ok and push_scan_ok:
+        return True, ""
+    reasons = [r for r in (
+        None if audit_ok else "audit did not pass",
+        None if verify_ok else "verify-all gates failed",
+        None if push_scan_ok else "skill-delete safety cap tripped",
+    ) if r]  # the filter is load-bearing: an unfiltered join raises TypeError on any refusal (caught by the round-34 unit matrix)
+    return False, "; ".join(reasons) + " — refusing to commit/push"
 
 
 def main():
@@ -873,7 +854,7 @@ def main():
     prof_result = sync_profiles(REPO_ROOT, LOCAL_PROFILES_DIR, dry_run=args.dry_run)
     report["steps"].append(prof_result)
 
-    # Step 5.5: Regenerate DEPENDENCY.md (only if skills changed, or if file doesn't exist)
+    # Step 5.5: Regenerate ALL indexes (only if skills changed, or an index file is missing)
     dep_needs_regen = (
         push_skills["files_copied"] > 0
         or push_skills["files_new"] > 0
@@ -881,22 +862,37 @@ def main():
         or not (REPO_ROOT / "DEPENDENCY.md").exists()
     )
     if dep_needs_regen and not args.dry_run:
-        dep_result = generate_dependency_map(REPO_ROOT)
-        report["steps"].append(dep_result)
+        idx_result = regenerate_indexes(REPO_ROOT, dry_run=False)
+        report["steps"].append(idx_result)
     elif dep_needs_regen and args.dry_run:
-        dep_result = generate_dependency_map(REPO_ROOT, dry_run=True)
-        report["steps"].append(dep_result)
+        # dry-run: prove the generators would succeed without writing (their --check mode)
+        idx_result = {"action": "indexes", "success": True, "updated": False,
+                      "dry_run_unchanged": True}
+        report["steps"].append(idx_result)
     else:
-        dep_result = {"action": "dependency_map", "success": True, "skipped": True,
-                      "updated": False, "error": "No skill changes — DEPENDENCY.md up to date"}
-        report["steps"].append(dep_result)
+        idx_result = {"action": "indexes", "success": True, "skipped": True,
+                      "updated": False,
+                      "error": "No skill changes — indexes up to date"}
+        report["steps"].append(idx_result)
 
     # Step 6: Run audit (before commit to catch issues early)
     audit_result = run_audit(REPO_ROOT)
     report["steps"].append(audit_result)
 
-    # Step 7: If there are changes from local env, commit and push
-    dep_updated = dep_result.get("updated", False)
+    # Step 7: Full health-gate verification — the pre-push GATE (round-34).
+    # Runs even when nothing changed, because a broken tooling file committed by any
+    # other path must not let this run push on top of it. Skipped in dry-run mode
+    # (verify-all is read-only anyway, but its harnesses take minutes — pointless here).
+    if args.dry_run:
+        verify_result = {"action": "verify_all", "success": True, "skipped": True,
+                         "error": "dry-run"}
+    else:
+        verify_result = run_verify_all(REPO_ROOT)
+    report["steps"].append(verify_result)
+
+    # Step 8: If there are changes from local env, commit and push
+    dep_updated = idx_result.get("updated", False)
+    commit_result = None  # assigned below only when total_changes > 0; summary reads it
     # Clean up orphaned empty directories in both repo and local (skip in dry-run)
     repo_empty = cleanup_empty_dirs(REPO_ROOT, REPO_ROOT) if not args.dry_run else 0
     local_empty = 0
@@ -913,21 +909,22 @@ def main():
         + repo_empty
         + local_empty
     )
-    # The audit is a GATE, not a report: never publish a tree the audit rejected
-    # (or could not check at all). Without this the push happened regardless and
-    # the run merely exited 1 afterwards -- too late, the commit was already remote.
-    audit_ok = audit_result.get("success", False) and not audit_result.get("threshold_breached", True)
-    push_scan_ok = push_skills.get("success", True)  # false when the delete cap tripped
-    if total_changes > 0 and not (audit_ok and push_scan_ok):
+    # The audit AND full verification are GATES, not reports: never publish a tree any of
+    # them rejected (or could not check at all). Without this the push happened regardless
+    # and the run merely exited 1 afterwards -- too late, the commit was already remote.
+    do_push, skip_reason = should_push(
+        total_changes, audit_result, verify_result,
+        push_skills.get("success", True))  # False when the delete cap tripped
+    if not do_push:
         commit_result = {
             "action": "push",
             "success": False,
             "pushed": False,
-            "skipped_reason": ("audit did not pass" if not audit_ok else
-                               "skill-delete safety cap tripped") + " -- refusing to commit/push",
+            "skipped_reason": skip_reason,
             "push_scan_error": push_skills.get("error"),
             "audit_error": audit_result.get("error"),
             "audit_threshold_breached": audit_result.get("threshold_breached"),
+            "verify_all_error": verify_result.get("error"),
             "pending_changes": total_changes,
         }
         report["steps"].append(commit_result)
@@ -958,15 +955,18 @@ def main():
         "total_changes_pushed": total_changes,
         "audit_passed": audit_result.get("success", False),
         "threshold_breached": audit_result.get("threshold_breached", False),
+        "verify_all_passed": verify_result.get("success", True) if not verify_result.get("skipped") else None,
         "git_pull_success": pull_result.get("success", True),
-        "git_push_success": commit_result.get("pushed", True) if commit_result.get("action") == "push" else True,
-        "dep_map_updated": dep_result.get("updated", False),
+        "git_push_success": commit_result.get("pushed", True) if (commit_result and commit_result.get("action") == "push") else True,
+        "dep_map_updated": dep_updated,
         "empty_dirs_removed": repo_empty + local_empty,
     }
 
-    # Silent mode: only output if there are changes, errors, or threshold breach
+    # Silent mode: only output if there are changes, errors, or threshold breach.
+    # verify_all/indexes failures count as errors even at zero total_changes — a broken
+    # tree must be delivered, not swallowed by the silent-when-clean contract.
     has_errors = any(
-        not step.get("success", True) for step in report["steps"] if step.get("action") in ("pull", "push", "push_skills", "audit", "dependency_map")
+        not step.get("success", True) for step in report["steps"] if step.get("action") in ("pull", "push", "push_skills", "audit", "indexes", "verify_all")
     )
     has_threshold_breach = audit_result.get("threshold_breached", False)
 
