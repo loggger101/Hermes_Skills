@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [ml-experiments, trackio, huggingface, metrics, alerts, dashboard]
-    related_skills: [huggingface-hub, python-data-science]
+    related_skills: [accelerate, huggingface-hub, python-data-science]
 
 ---
 
