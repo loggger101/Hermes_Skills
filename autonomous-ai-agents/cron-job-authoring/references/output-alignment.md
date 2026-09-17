@@ -42,11 +42,13 @@ don't match what the script **actually** emits to stdout/JSON. This produces:
 - **No CLI flags**: script takes no argparse arguments — uses JSON extraction
 
 ### sync-hermes-skills.py (no_agent=true)
-- **summary keys**: `files_pulled_to_local`, `files_skipped_pull`,
+- **summary keys** (16): `files_pulled_to_local`, `files_skipped_pull`,
   `new_local_files_in_repo`, `updated_files_in_repo`, `deleted_files_in_repo`,
-  `memories_synced`, `profiles_synced`, `profiles_exported`, `profiles_skipped`,
-  `git_pull_success`, `git_push_success`, `audit_passed`, `lint_passed`,
-  `threshold_breached`, `push_error`
+  `files_skipped_push`, `memories_synced`, `profiles_local_mirror_refreshed`
+  (local-only — profiles-export/ is gitignored, never pushed; do NOT count it as a
+  published change), `total_changes_pushed`, `audit_passed`, `threshold_breached`,
+  `verify_all_passed`, `git_pull_success`, `git_push_success`, `dep_map_updated`,
+  `empty_dirs_removed`
 - **CLI flags**: `--dry-run` (skips all file ops + git commits/pushes)
 
 ### fetch_curate.mjs (CI pipeline — aspirecures repo)

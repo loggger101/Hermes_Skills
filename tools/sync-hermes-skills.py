@@ -564,8 +564,14 @@ def sync_memories(repo_root: Path, local_memories_dir: Path, dry_run: bool = Fal
 
 
 def sync_profiles(repo_root: Path, local_profiles_dir: Path, dry_run: bool = False) -> dict:
-    """Export profile-specific skills and memories from local to repo."""
-    result = {"action": "sync_profiles", "files_synced": 0, "details": []}
+    """Export profile-specific skills and memories from local to repo (LOCAL MIRROR).
+
+    profiles-export/ is gitignored by design (.gitignore: 'still intermediate'), so these
+    copies are a reference mirror on disk — they can NEVER be committed. Callers must not
+    count files_synced toward publishable changes or the commit message will claim files
+    that never reach git (round-34 live run caught exactly this: 'sync 10 file(s) … 8
+    profiles' when only 2 memory files were actually pushed)."""
+    result = {"action": "sync_profiles", "files_synced": 0, "local_only": True, "details": []}
 
     if not local_profiles_dir.exists():
         result["details"].append("No local profiles directory — skipping")
@@ -899,15 +905,17 @@ def main():
     if LOCAL_SKILLS_DIR.exists() and not args.dry_run:
         local_empty = cleanup_empty_dirs(LOCAL_SKILLS_DIR, LOCAL_SKILLS_DIR)
 
+    # Publishable = only what git can actually commit: skill files + memories + dep map.
+    # EXCLUDED on purpose (round-34 false-report fix): prof_result — profiles-export/ is
+    # gitignored by design, a local mirror that can never be pushed ('sync 10 file(s) …
+    # 8 profiles' when only 2 memory files reached git); and repo_empty/local_empty — git
+    # does not track empty directories, so removing them produces no commit content.
     total_changes = (
         push_skills["files_copied"]
         + push_skills["files_new"]
         + push_skills["files_deleted"]
         + mem_result["files_synced"]
-        + prof_result["files_synced"]
         + (1 if dep_updated else 0)
-        + repo_empty
-        + local_empty
     )
     # The audit AND full verification are GATES, not reports: never publish a tree any of
     # them rejected (or could not check at all). Without this the push happened regardless
@@ -934,8 +942,11 @@ def main():
             f"chore: sync {total_changes} file(s) from Hermes local env — "
             f"{push_skills['files_copied']} updated, {push_skills['files_new']} new, "
             f"{push_skills['files_deleted']} deleted, "
-            f"{mem_result['files_synced']} memories, {prof_result['files_synced']} profiles, "
-            f"{1 if dep_updated else 0} dep map, {repo_empty + local_empty} empty dirs",
+            f"{mem_result['files_synced']} memories, "
+            f"{1 if dep_updated else 0} dep map"
+            + (f"; local-only mirror: {prof_result['files_synced']} profile files refreshed "
+               "(profiles-export/ is gitignored — never committed)"
+               if prof_result["files_synced"] else ""),
             dry_run=args.dry_run,
         )
         report["steps"].append(commit_result)
@@ -951,7 +962,9 @@ def main():
         "deleted_files_in_repo": push_skills["files_deleted"],
         "files_skipped_push": push_skills["files_skipped"],
         "memories_synced": mem_result["files_synced"],
-        "profiles_synced": prof_result["files_synced"],
+        # profiles-export/ is a gitignored LOCAL MIRROR — these files are refreshed on disk
+        # but NEVER pushed; keep the key distinct from anything that implies publication.
+        "profiles_local_mirror_refreshed": prof_result["files_synced"],
         "total_changes_pushed": total_changes,
         "audit_passed": audit_result.get("success", False),
         "threshold_breached": audit_result.get("threshold_breached", False),
