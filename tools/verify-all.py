@@ -105,6 +105,8 @@ def check_doc_counts():
         Known limitation: parametrize-expanded cases are not counted — if a suite ever
         gains them the numbers drift and this fails loudly, which is exactly when a human
         must update both README and (if desired) this counter.
+      * category counts ('NNN categories') -> live top-level dirs holding SKILL.md files
+        (same enumeration gen-skills-index.py uses for its 'across NNN categories' line).
       """
     skills = [p for p in REPO.rglob("SKILL.md")
               if not any(part in (".git", ".hermes", "profiles-export", "memories",
@@ -253,6 +255,27 @@ def check_doc_counts():
                     label, n = truth_by_skill[name]
                     problems.append(f"README suite list omits live suite {label} "
                                     f"({n} tests)")
+
+    # 7) category counts — 'NNN categories' prose claims. Truth = SKILLS-INDEX.md's own
+    #    footer ('*N skills across M categories.*'), the same line its drift gate keeps
+    #    fresh, so this can never disagree with gen-skills-index.py's enumeration.
+    sk_index = REPO / "SKILLS-INDEX.md"
+    if sk_index.exists():
+        m = re.search(r"\*\s*(?:\d+) skills across (\d+) categories\b",
+                      sk_index.read_text(encoding="utf-8"))
+        cats_truth = int(m.group(1)) if m else None
+    else:
+        cats_truth = None
+    if cats_truth is not None:
+        for name in ("README.md", "DESCRIPTION.md"):
+            f = REPO / name
+            if not f.exists():
+                continue
+            text = f.read_text(encoding="utf-8")
+            for m in re.finditer(r"\b(\d{2,3}) categories\b", text):
+                if int(m.group(1)) != cats_truth:
+                    problems.append(f"{name}: claims {m.group(1)} categories, "
+                                    f"SKILLS-INDEX has {cats_truth}")
 
     return ("doc counts", not problems, "; ".join(problems)[:160] or f"{live} skills, counts agree")
 

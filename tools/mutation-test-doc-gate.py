@@ -65,7 +65,8 @@ def build_fixture(tmp: Path):
         d.mkdir(parents=True, exist_ok=True)
         shutil.copy2(p, d / "SKILL.md")
 
-    for fname in ("README.md", "DESCRIPTION.md", "DEPENDENCY.md", "REFERENCES-INDEX.md"):
+    for fname in ("README.md", "DESCRIPTION.md", "DEPENDENCY.md", "REFERENCES-INDEX.md",
+                  "SKILLS-INDEX.md"):
         src = REPO / fname
         if not src.exists():
             raise SystemExit(f"[FATAL] expected {fname} at the repo root — layout changed?")
@@ -235,6 +236,17 @@ def build_mutations(tmp: Path):
                 mutations.append(("pytest suite count-word", "README.md",
                                   old, f"{wrong} suites currently:"))
 
+    # 9) category counts — README's '**Total: NNN skills across M categories**' line.
+    #    (The bare '23 categories' appears twice in README + DESCRIPTION; this full bold
+    #    phrase is the unique anchor.) Truth = SKILLS-INDEX.md footer, same as the gate.
+    m = re.search(r"\*\*Total: \d+ skills across (\d+) categories\*\*", readme)
+    sk_footer = (tmp / "SKILLS-INDEX.md").read_text(encoding="utf-8")
+    fm_ = re.search(r"\*\s*\d+ skills across (\d+) categories\b", sk_footer)
+    if m and fm_ and int(m.group(1)) == int(fm_.group(1)):
+        mutations.append(("category count ('across NNN categories')", "README.md",
+                          f"skills across {m.group(1)} categories**",
+                          f"skills across {int(m.group(1)) + 1} categories**"))
+
     return live, xrefs, exposed, refdocs, mutations
 
 
@@ -257,12 +269,13 @@ def main():
         missing_truths = [n for n, v in (("skills", live), ("xrefs", xrefs),
                                          ("plugin exposure", exposed),
                                          ("ref docs", refdocs)) if v is None]
-        # 8 claim classes: skills total (bold + prose are one truth but two anchors may
-        # both exist — the floor counts BUILT mutations, and each class contributes at
-        # least one when its truths are present). A missing suite-list anchor means the
-        # README wording drifted from what this test expects — fail loudly.
-        if len(mutations) < 8:
-            print(f"[FAIL] only {len(mutations)}/8 mutations built — truths missing: "
+        # 9 claim classes (skills total bold+prose, xrefs, plugin exposure, ref docs,
+        # category table row, pytest suite count + count-word, category count). The floor
+        # counts BUILT mutations; each class contributes at least one when its truths are
+        # present. A missing anchor means a doc's wording drifted from what this test
+        # expects — fail loudly rather than silently stop guarding that class.
+        if len(mutations) < 9:
+            print(f"[FAIL] only {len(mutations)}/9 mutations built — truths missing: "
                   f"{missing_truths or 'none'}; a doc's wording must have drifted from an anchor")
             return 1
 
