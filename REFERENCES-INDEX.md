@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **387 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **401 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -456,6 +456,22 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `security/oss-forensics/references/github-archive-guide.md` — GitHub Archive Query Guide (BigQuery)
 - `security/oss-forensics/references/investigation-templates.md` — Investigation Templates
 - `security/oss-forensics/references/recovery-techniques.md` — Deleted Content Recovery Techniques
+## security/security-audit
+
+- `security/security-audit/references/AI-AND-LLM.md` — AI, LLM, and Agent Hunting
+- `security/security-audit/references/ATTACK-CLASSES.md` — Attack Classes
+- `security/security-audit/references/CLIENT-SIDE.md` — Client-Side and Browser Hunting
+- `security/security-audit/references/CLOUD-AND-DEPLOYMENT.md` — Cloud and Deployment Hunting
+- `security/security-audit/references/DATA-ISOLATION-AND-LIFECYCLE.md` — Data Isolation and Lifecycle Hunting
+- `security/security-audit/references/DESKTOP-MOBILE-AND-LOCAL-IPC.md` — Desktop, Mobile, and Local IPC Hunting
+- `security/security-audit/references/HUNTING.md` — Vulnerability Hunting
+- `security/security-audit/references/MEMORY-SAFETY-AND-BINARY.md` — Memory Safety, Binary, and Kernel Hunting
+- `security/security-audit/references/PROTOCOLS-RPC-AND-MESSAGING.md` — Protocols, RPC, and Messaging Hunting
+- `security/security-audit/references/RECONNAISSANCE.md` — Reconnaissance
+- `security/security-audit/references/RESOURCE-EXHAUSTION-AND-AVAILABILITY.md` — Resource Exhaustion and Availability Hunting
+- `security/security-audit/references/SUPPLY-CHAIN-AND-RELEASE.md` — Supply Chain and Release Hunting
+- `security/security-audit/references/VALIDATION-AND-REPORTING.md` — Validation, Structured Output, Verification, and Reporting
+- `security/security-audit/references/WEB-PROTOCOL-AND-AUTH.md` — HTTP-Protocol and Authentication Hunting
 ## security/semgrep-rule-creator
 
 - `security/semgrep-rule-creator/references/quick-reference.md` — Semgrep Rule Quick Reference

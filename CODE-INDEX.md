@@ -1,12 +1,12 @@
 # CODE-INDEX
 
-Flat index of all **152 code files** (35,512 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **156 code files** (38,562 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
 
-- `autonomous-ai-agents/hermes-agent/templates/clock.mjs` (template, javascript, 51 lines)
-- `autonomous-ai-agents/hermes-agent/templates/plugin.js` (template, javascript, 97 lines)
+- `autonomous-ai-agents/hermes-agent/templates/clock.mjs` (template, javascript, 51 lines) — * Reference user widget: a live clock docked above the status bar. * Copy to ~/.hermes/tui-widgets/clock.mjs, …
+- `autonomous-ai-agents/hermes-agent/templates/plugin.js` (template, javascript, 97 lines) — * Hermes desktop plugin template. Save as: * <hermes home>/desktop-plugins/<id>/plugin.js (folder name == id) …
 
 ## creative/comfyui
 
@@ -44,15 +44,15 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 
 ## creative/p5js
 
-- `creative/p5js/scripts/export-frames.js` (script, javascript, 179 lines)
+- `creative/p5js/scripts/export-frames.js` (script, javascript, 179 lines) — * p5.js Skill — Headless Frame Export * * Captures frames from a p5.js sketch using Puppeteer (headless Chrome…
 - `creative/p5js/scripts/render.sh` (script, bash, 108 lines) — p5.js Skill — Headless Render Pipeline
 - `creative/p5js/scripts/serve.sh` (script, bash, 28 lines) — p5.js Skill — Local Development Server
 - `creative/p5js/scripts/setup.sh` (script, bash, 87 lines) — p5.js Skill — Dependency Verification
 
 ## creative/system-atlas
 
-- `creative/system-atlas/assets/build.mjs` (script, javascript, 104 lines)
-- `creative/system-atlas/assets/data.example.mjs` (script, javascript, 87 lines)
+- `creative/system-atlas/assets/build.mjs` (script, javascript, 104 lines) — Builds <outDir>/SYSTEM.md and <outDir>/atlas.html from data.mjs (same folder)
+- `creative/system-atlas/assets/data.example.mjs` (script, javascript, 87 lines) — Single source of truth for one atlas. Copy to <atlas home>/data.mjs and edit
 
 ## creative/touchdesigner-mcp
 
@@ -224,6 +224,13 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 
 - `security/oss-forensics/scripts/evidence-store.py` (script, python, 313 lines)
 
+## security/security-audit
+
+- `security/security-audit/scripts/validate-coverage-ledger.cjs` (script, javascript, 872 lines) — * Validates coverage-ledger.json and its canonical coverage IDs. * Usage: node validate-coverage-ledger.cjs <p…
+- `security/security-audit/scripts/validate-coverage-ledger.test.cjs` (script, javascript, 740 lines)
+- `security/security-audit/scripts/validate-findings.cjs` (script, javascript, 773 lines) — * Validates findings.json against report-schema.json. * Usage: node validate-findings.cjs <path-to-findings.js…
+- `security/security-audit/scripts/validate-findings.test.cjs` (script, javascript, 652 lines)
+
 ## social-media/reddit-reading
 
 - `social-media/reddit-reading/scripts/reddit.py` (script, python, 311 lines) — Read Reddit without a browser: listings, search, threads with comments, user pages
@@ -277,7 +284,7 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `tools/audit-skills.py` (repo tooling, python, 507 lines)
 - `tools/check-links.py` (repo tooling, python, 146 lines) — Broken-link checker for this second brain (stdlib only)
 - `tools/gen-claude-plugin.py` (repo tooling, python, 153 lines) — Regenerate the Claude Code plugin manifests from live skill frontmatter
-- `tools/gen-code-index.py` (repo tooling, python, 173 lines) — Regenerate CODE-INDEX.md from live code files (flat, grep-friendly)
+- `tools/gen-code-index.py` (repo tooling, python, 186 lines) — Regenerate CODE-INDEX.md from live code files (flat, grep-friendly)
 - `tools/gen-references-index.py` (repo tooling, python, 100 lines) — Rebuild REFERENCES-INDEX.md from every skill's references/ directory
 - `tools/gen-skills-index.py` (repo tooling, python, 159 lines) — Regenerate SKILLS-INDEX.md from live skill frontmatter (flat, grep-friendly)
 - `tools/mutation-test-cron-gate.py` (repo tooling, python, 92 lines) — Mutation self-test for the cron threshold-key verification (round-36)
@@ -291,4 +298,4 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `tools/verify-all.py` (repo tooling, python, 329 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*152 code files: 107 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*156 code files: 111 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
