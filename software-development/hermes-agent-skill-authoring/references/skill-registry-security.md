@@ -98,16 +98,15 @@ the manifest itself becomes the allowlist, so prompt-injection-via-arbitrary-fet
 3. **No expiry on manual security overrides.** The parallel-cli 'dangerous' scan verdict is a standing,
    unreviewed exception — the exact anti-pattern their `expiresAt` field exists to kill. *Still open.*
 
-## Exhaustion status (round 28, 2026-09-16) [ANALYSIS]
+## Exhaustion status (rounds 28/28b/28c, complete 2026-09-17) [ANALYSIS]
 
 Round 27 mined SECURITY.md + installer only; round 28 mined the REST of the repo at source level — all 92 skills'
-frontmatter/bodies, `packages/mcp` (full server), `.github/workflows/release.yml`, `tools/validate-skills.ts`,
-registry generator (`skills-catalog/src/{utils,generate-registry}.ts`), CONTRIBUTING.md governance. Ported with
-attribution this round: the-jury protocol + its tally script → `software-development/dispatching-parallel-agents/references/multi-agent-deliberation-jury.md`;
-the-judge's bypass scanner → `github/github-code-review/scripts/scan_bypasses.py` (live-tested). New refs: MCP server design patterns,
-spec-driven patterns + eval methodology (`mattpocock-spec-driven-development/references/`), harness dual-judge trap audit
-(`hermes-agent-skill-authoring/references/harness-audit-dual-judge-traps.md`). Remaining unmined surfaces are non-knowledge by nature:
-marketplace Next.js UI, CLI TUI components (React+Ink), Nx generator scaffolding.
+frontmatter/bodies (every one tracked in an explicit examined/unseen ledger), `packages/mcp` (full server), `.github/workflows/release.yml`,
+`tools/validate-skills.ts`, registry generator (`skills-catalog/src/{utils,generate-registry}.ts`), CONTRIBUTING.md governance. Ported with
+attribution: the-jury protocol + its tally script → `software-development/dispatching-parallel-agents/references/multi-agent-deliberation-jury.md`;
+the-judge's bypass scanner → `github/github-code-review/scripts/scan_bypasses.py` (live-tested). New refs across rounds 28–28c: MCP server design patterns, spec-driven patterns + eval methodology (+ tlc-spec-lean §6b), harness dual-judge trap audit, monolith-decomposition pipeline, modular-design-principles violations/split-criteria, discovery-interview-and-critique protocols, ADR/RFC/TDD formats (doc-coauthoring), repository threat modeling (security-review), bounded self-heal loop (cron-pipeline-watchdog SKILL.md), Vercel Web Interface Guidelines UI checklist (`web-development/static-site-patterns/references/web-interface-guidelines-ui-checklist.md` — the one full verbatim port this repo received, MIT). gh-fix-ci gained field-drift + job-log-fallback pitfalls. Remaining unmined surfaces are non-knowledge by nature: marketplace Next.js UI, CLI TUI components (React+Ink), Nx generator scaffolding.
+
+**Final disposition ledger for explicitly-rejected clusters (do NOT re-mine):** gtm/ (17 skills — marketing domain outside brain scope; already integrated in round 24 via marketingskills); cloud deploy vendors (aws/cloudflare/netlify/render/vercel) = vendor CLI walkthroughs, no portable patterns beyond what ci-ratchets covers; framework dev skills (rails-dev/react-native-expert/shopify-developer/frontend-blueprint/react-composition-patterns/tactical-ddd/coding-guidelines — coding-guidelines is the Karpathy guidelines already reflected in our python-craft/mattpocock cluster); atlassian MCP wrappers (jira/confluence) = thin API maps for tools this brain doesn't use; figma pair + web-automation/playwright-skill + chrome-devtools = tool-specific operation guides, no general knowledge beyond what dogfood/adversarial-ux-test cover; excalidraw-studio/mermaid-studio/nx-* = overlap with our creative/diagram-design or Nx-vendor specifics; sentry monitoring skill = thin API map (our rest-api-client covers the pattern); web-quality-audit/perf-*/core-web-vitals/seo/web-accessibility/web-best-practices/security-best-practices/react-best-practices = standard checklists whose substance is already in static-site-patterns + website-audit cro-form-ux-checklists.md — EXCEPT Vercel's Web Interface Guidelines, which had zero coverage and was ported (28c); subagent/cursor-subagent creators → the skill-vs-subagent decision tree is generic enough to be noted here: complex multi-step task needing ISOLATED context ⇒ subagent; one-off action or procedure without isolation need ⇒ skill.
 
 ## CI pipeline patterns (.github/workflows/release.yml) [SRC]
 

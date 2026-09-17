@@ -234,6 +234,10 @@ From `reduced-motion` — mandatory for any site with ambient animation (starfie
 }
 ```
 
+## UI/UX code review (beyond performance)
+
+For a full accessibility/forms/animation/copy/dark-mode audit of site markup and JS, use `references/web-interface-guidelines-ui-checklist.md` — Vercel's Web Interface Guidelines ported verbatim with the clickable `file:line` output format. It complements this skill's Core-Web-Vitals section (which covers loading/rendering) by covering interaction quality; pair both when running a site audit.
+
 ## Provenance & verification notes
 
 - Source of truth for every pattern above: the clone at `%LOCALAPPDATA%\Temp\starred-dive\Front-End-Checklist\skills\<rule-name>\` (SKILL.md + references/rule.md). The repo ships 390 such rule skills — this file curates the ~15 that apply to a framework-free static site; for any other topic (a11y, SEO rules, security headers), grep its `skills/` dir directly.

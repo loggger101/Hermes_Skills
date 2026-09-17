@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **385 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **387 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -462,6 +462,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `security/semgrep-rule-creator/references/workflow.md` — Semgrep Rule Creation Workflow
 ## software-development/architecture-metrics
 
+- `software-development/architecture-metrics/references/modular-design-principles-violations-and-split-criteria.md` — Modular Design Principles: Violations & Split/Merge Criteria (verified from tech-leads-club/agent-skills @ 0ab82f6)
 - `software-development/architecture-metrics/references/modular-monolith-boundary-validation.md` — Modular Monolith & Boundary Validation (verified from tech-leads-club/agent-skills @ 0ab82f6)
 - `software-development/architecture-metrics/references/monolith-decomposition-pipeline.md` — Monolith Decomposition Analysis Pipeline (verified from tech-leads-club/agent-skills @ 0ab82f6)
 - `software-development/architecture-metrics/references/sentrux-architecture-notes.md` — Sentrux Architecture Notes (source-level findings)
@@ -532,3 +533,6 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 ## software-development/verification-culture
 
 - `software-development/verification-culture/references/autonomous-operator-protocol-tlc.md` — Autonomous Operator Protocol: Evidence-or-Stop (verified from tech-leads-club/agent-skills @ 0ab82f6)
+## web-development/static-site-patterns
+
+- `web-development/static-site-patterns/references/web-interface-guidelines-ui-checklist.md` — Web Interface Guidelines (UI/UX Review Checklist) [PORTED]

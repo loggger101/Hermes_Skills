@@ -120,6 +120,9 @@ diff <(gh run view {run_a} --log) <(gh run view {run_b} --log)
 - **Rerunning without fixing** — flaky tests need investigation, not just retries
 - **Ignoring cache issues** — stale caches can cause intermittent failures; try `--no-cache`
 - **Missing context** — read the full step output, not just the summary line
+- **gh field drift**: `gh pr checks --json ...` / `gh run view --json ...` field lists differ across gh CLI versions — if a requested field is rejected, re-run with only the fields gh reports as available (the error message names them) instead of guessing. This also applies to any scripted automation that pins a JSON schema against an unpinned gh version.
+- **Run log says "in progress" but you need job output now**: fall back to the raw API for per-job logs — `gh api "/repos/<owner>/<repo>/actions/jobs/<job_id>/logs" > <path>` (works while the run is still active, where `--log` can be empty).
+- **External providers are out of scope by design** (Buildkite etc.): if a check's details URL isn't a GitHub Actions run, report its URL and stop — don't half-implement foreign CI debugging.
 
 ## AspireCURES Context
 
