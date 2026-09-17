@@ -13,6 +13,8 @@ Gates, in order (each must pass):
                             plugin manifests match what is on disk
   4. cron validators        job configs are structurally valid, skill refs resolve
   5. doc counts             hand-written counts in README/DESCRIPTION match reality
+  6. self-test harnesses    every registered *_verify.py executes (run-self-tests.py)
+  7. gate self-tests        the doc-count and secret gates prove they fail loudly
 
 Usage:
     py tools/verify-all.py            # Windows -- `python` is a Store alias stub
@@ -178,6 +180,10 @@ def main():
         run("cron: configs", [".hermes/cron/validate-cronjobs.py"]),
         run("cron: skill refs", [".hermes/cron/validate-skill-refs.py"]),
         check_doc_counts(),
+        # The repo's other fail-loud mechanism: standalone *_verify.py harnesses that
+        # re-execute documented behavior (polars/duckdb/pyomo/cap-grid/ssrf/algorithms).
+        # Missing optional deps classify as SKIP; a real regression fails the gate.
+        run("self-test harnesses", ["tools/run-self-tests.py"]),
         # The doc-count gate tests itself: mutates each claim class in a temp copy and
         # asserts the gate fails loudly. Keeps an untested claim class from ever shipping.
         run("gate self-test", ["tools/mutation-test-doc-gate.py"]),
@@ -185,6 +191,9 @@ def main():
         # pattern class plus env/placeholder negative controls in a temp fixture and
         # asserts every positive is caught with zero false positives.
         run("secret gate self-test", ["tools/mutation-test-secret-gate.py"]),
+        # The harness runner (gate 6) tests itself: proves PASS/SKIP-rc77/SKIP-dep/FAIL
+        # classification and manifest-drift detection on throwaway temp fixtures.
+        run("harness gate self-test", ["tools/mutation-test-selftest-gate.py"]),
     ]
 
     width = max(len(r[0]) for r in results)
