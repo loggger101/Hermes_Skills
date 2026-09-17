@@ -52,7 +52,7 @@ The fastest way from a job you have in mind to the skill that does it:
 | Ship UI that doesn't look templated — pick the aesthetic first | `design-taste-frontend` (anti-slop default), presets: `soft-premium-ui`, `editorial-minimalism-ui`, `industrial-brutalist-ui`; motion-heavy → `awwwards-gsap-motion`; Google Stitch DESIGN.md → `stitch` |
 | Publish a site/dashboard/docs build with versioned deploys + rollback | `publish-site` (GitHub Pages → Cloudflare → Netlify ladder, live-URL verification) |
 | Design a scalable system / prep a system design interview (CAP, caching, sharding, fan-out) | `system-design-scaling` (primer-distilled trade-off tables + 8 case-study patterns; runnable LRU/base62/MapReduce-top-k/availability scripts inside) |
-| Verify this repo's own health | `py tools/verify-all.py` — all 14 gates in one run (`python` is a Store stub on Windows) |
+| Verify this repo's own health | `py tools/verify-all.py` — all 15 gates in one run (`python` is a Store stub on Windows) |
 
 ## Organization
 
@@ -99,7 +99,7 @@ category/
 
 ## Tooling (`tools/`)
 
-- **`verify-all.py`** — **the one command**: runs all 14 gates (audit incl. the zero-threshold hardcoded-secret scan over every skill script + SKILL.md, links, index drift x5: SKILLS/CODE/REFERENCES/DEPENDENCY/.claude-plugin, cron validators x2, doc-count consistency, self-test harness execution via `run-self-tests.py` — and mutation self-tests of the doc-count gate, the secret gate, AND the harness runner) and prints a pass/fail table. Run before every commit.
+- **`verify-all.py`** — **the one command**: runs all 15 gates (audit incl. the zero-threshold hardcoded-secret scan over every skill script + SKILL.md, links, index drift x5: SKILLS/CODE/REFERENCES/DEPENDENCY/.claude-plugin, cron validators x2 — the config validator proves every no_agent threshold key is a string its script actually emits, doc-count consistency, self-test harness execution via `run-self-tests.py` — and mutation self-tests of the doc-count gate, the secret gate, the harness runner, AND the cron contract check) and prints a pass/fail table. Run before every commit.
 - **`audit-skills.py`** — validates all skills against repo conventions; exit 0 = clean. Hard-fails if pyyaml is missing or the scan finds <100 skills, so an unrunnable audit can never report clean.
 
 - **`check-links.py`** — broken-link gate: every relative markdown link must resolve (skips URLs, code spans, historical `profiles-export/` snapshots). Run alongside the audit before committing doc changes.
@@ -109,7 +109,7 @@ category/
 - **`regen-dependency-map.py`** — rebuilds `DEPENDENCY.md` from live frontmatter (safe standalone; sync-hermes-skills.py's step 5.5 shells out to it rather than carrying a second copy).
 - **`sync-hermes-skills.py`** — full bidirectional GitHub↔local-Hermes sync. A weekly cron job is *defined* for it in `.hermes/cron/active/`, registered with the live scheduler as `hermes-skills-bidirectional-sync` (Sun 2 AM) and verified end-to-end once via manual trigger on 2026-09-14; currently **paused by design** until the owner opts it on, so today it only runs when invoked. Has `--dry-run` — always dry-run before a first live run (round 19b caught two latent phantom-action bugs this way: an un-skipped repo `docs/` dir and an orphaned local stub). Its delete phase is capped at `MAX_DELETIONS = 25` files per run (override: `--allow-mass-delete`), it only treats top-level dirs containing a SKILL.md as skill categories, and its pre-push gate runs the FULL health suite (`tools/verify-all.py`, all gates) after regenerating every machine-generated index — refusing commit+push when any of them fails or could not run.
 - **`_index_output.py`** — shared write-guard behind the four generators: blocks an empty-scan overwrite, and provides their `--check` drift mode (compare against disk, exit 1 if stale, write nothing).
-- **CI ([`.github/workflows/ci.yml`](./.github/workflows/ci.yml))** — three jobs on every push/PR: all 14 health gates; the seven skill pytest suites (comfyui, docx, pdf, powerpoint, xlsx, regex-vs-llm-structured-text, sqlite-queries) with deps from [`test-requirements.txt`](./test-requirements.txt); and a dedicated `self-test-harnesses` job that executes every registered `*_verify.py` harness against real duckdb/polars/pyarrow/numpy/pyomo/highspy installs (deps from [`selftest-requirements.txt`](./selftest-requirements.txt)) — so an upstream engine change breaks CI instead of quietly rotting the docs.
+- **CI ([`.github/workflows/ci.yml`](./.github/workflows/ci.yml))** — three jobs on every push/PR: all 15 health gates; the seven skill pytest suites (comfyui, docx, pdf, powerpoint, xlsx, regex-vs-llm-structured-text, sqlite-queries) with deps from [`test-requirements.txt`](./test-requirements.txt); and a dedicated `self-test-harnesses` job that executes every registered `*_verify.py` harness against real duckdb/polars/pyarrow/numpy/pyomo/highspy installs (deps from [`selftest-requirements.txt`](./selftest-requirements.txt)) — so an upstream engine change breaks CI instead of quietly rotting the docs.
 
 ## Getting Started
 

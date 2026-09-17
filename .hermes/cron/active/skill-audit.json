@@ -96,7 +96,7 @@
     "run_type": "audit",
     "repo": "Hermes_Skills",
     "summary": {
-      "total_skills": 0,
+      "skill_count": 0,
       "broken_refs": 0,
       "yaml_errors": 0,
       "long_descriptions": 0,
