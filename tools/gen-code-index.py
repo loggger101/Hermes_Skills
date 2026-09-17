@@ -37,7 +37,7 @@ except (AttributeError, ValueError):
 
 REPO = Path(__file__).resolve().parents[1]
 SKIP_PARTS = (".git", "profiles-export")
-CODE_EXT = {".py": "python", ".sh": "bash", ".js": "javascript", ".mjs": "javascript"}
+CODE_EXT = {".py": "python", ".sh": "bash", ".js": "javascript", ".mjs": "javascript", ".cjs": "javascript"}
 
 
 def first_summary(path: Path, lang: str) -> str:
@@ -61,13 +61,26 @@ def first_summary(path: Path, lang: str) -> str:
             if dm and i < 5:
                 return clean(dm.group(1))
             break
-        # fallback: first comment line
-    for ln in lines[:20]:
-        s = ln.strip()
-        if s.startswith("#") and not s.startswith("#!"):
-            body = s.lstrip("#").strip()
-            if body:
-                return clean(body)
+
+    # fallback: first comment line — // or /** */ for javascript, otherwise # (bash/python)
+    if lang == "javascript":
+        joined = "\n".join(lines[:20])
+        m = re.search(r"/\*\*?\s*(.+?)(?:\*/|$)", joined, re.S)
+        if m:
+            return clean(m.group(1))
+        for ln in lines[:20]:
+            s = ln.strip()
+            if s.startswith("//") and not s.startswith("#!"):
+                body = s.lstrip("/").strip()
+                if body:
+                    return clean(body)
+    else:
+        for ln in lines[:20]:
+            s = ln.strip()
+            if s.startswith("#") and not s.startswith("#!"):
+                body = s.lstrip("#").strip()
+                if body:
+                    return clean(body)
     return ""
 
 

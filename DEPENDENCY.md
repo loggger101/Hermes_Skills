@@ -1,6 +1,6 @@
 # Skill Dependency Map
-This document maps the relationship network between all **206 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
-**Network stats:** 529 `related_skills` cross-references across 206 skills (2 skills are standalone with no `related_skills` entries).
+This document maps the relationship network between all **207 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+**Network stats:** 533 `related_skills` cross-references across 207 skills (2 skills are standalone with no `related_skills` entries).
 ## Hub Skills (referenced by 2+ other skills)
 These are the core skills that serve as building blocks, referenced by many other skills:
 | Skill | Referenced By (count) | Referencing Skills |
@@ -26,11 +26,11 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `mattpocock-domain-modeling` | 7 | issue-triage-state-machine, living-docs-governance, mattpocock-handoff, mattpocock-improve-codebase-architecture, mattpocock-spec-driven-development, mattpocock-to-tickets, mattpocock-writing-for-agents |
 | `cron-job-authoring` | 6 | apple-reminders, cron-config-authoring, cron-pipeline-watchdog, findmy, product-price-monitor, watchers |
 | `docx` | 6 | document-to-action-items, ocr-and-documents, pdf, powerpoint, website-audit, xlsx |
+| `mattpocock-security-review` | 6 | mattpocock-evidence-driven, mattpocock-multi-agent-code-review, mattpocock-spec-driven-development, rest-api-client, security-audit, semgrep-rule-creator |
 | `pdf` | 6 | document-to-action-items, docx, nano-pdf, ocr-and-documents, powerpoint, xlsx |
 | `github-code-review` | 5 | github-auth, github-pr-workflow, mattpocock-code-review, receiving-code-review, requesting-code-review |
 | `github-issues` | 5 | github, github-auth, github-issue-to-pr, github-repo-management, mattpocock-to-tickets |
 | `google-workspace` | 5 | box, email-inbox-triage, himalaya, meeting-action-items, weekly-review-planning |
-| `mattpocock-security-review` | 5 | mattpocock-evidence-driven, mattpocock-multi-agent-code-review, mattpocock-spec-driven-development, rest-api-client, semgrep-rule-creator |
 | `mattpocock-tdd` | 5 | mattpocock-code-review, mattpocock-codebase-design, mattpocock-diagnosing-bugs, mattpocock-evidence-driven, mattpocock-spec-driven-development |
 | `mattpocock-to-tickets` | 5 | mattpocock-handoff, mattpocock-spec-driven-development, mattpocock-subagent-driven-development, skill-flow-router, wayfinder-map-planning |
 | `mattpocock-writing-for-agents` | 5 | doc-coauthoring, mattpocock-ask-if-underspecified, mattpocock-domain-modeling, mattpocock-handoff, retro |
@@ -109,6 +109,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `orbital-mechanics-data` | 2 | astro-toolkit-selection, space-data-pipelines |
 | `pubmed-database` | 2 | bioinformatics, gget |
 | `redesign-existing-projects` | 2 | design-taste-frontend, full-output-enforcement |
+| `semgrep-rule-creator` | 2 | oss-forensics, security-audit |
 | `serving-llms-vllm` | 2 | llama-cpp, weights-and-biases |
 | `songwriting-and-ai-music` | 2 | humanizer, no-ai-slop |
 | `space-data-pipelines` | 2 | cron-pipeline-watchdog, duckdb-querying |
@@ -118,6 +119,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 ## Standalone Skills
 The following 0 skills have no `related_skills` entries of their own (they do not reference other skills). These are genuinely standalone — no other skill references them either:
 ## Related Skills Validation
-All 529 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 206 unique skill names.
+All 533 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 207 unique skill names.
 
 ---
