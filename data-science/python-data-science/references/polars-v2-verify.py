@@ -12,9 +12,25 @@ Last full run: 2026-09-14, 39/39 PASS on polars 2.0.0-rc.1.
 from __future__ import annotations
 
 import io
+import re
 import sys
 
-import polars as pl
+try:
+    import polars as pl
+except ModuleNotFoundError:
+    # no polars at all — the runner (tools/run-self-tests.py) classifies this rc 77 as SKIP.
+    print("SKIP — polars not installed in this environment")
+    raise SystemExit(77)
+
+# This harness pins behavior of the POLARS 2.0 release line (rc1, from docs/source/
+# releases/upgrade/2.md). On a STABLE 1.x install most checks would fail for version
+# reasons, not regressions — exit 77 so tools/run-self-tests.py classifies it as SKIP
+# instead of a false failure. To actually exercise it: `uv venv` + polars==2.0.0rc1
+# (see the module docstring) and run with that interpreter.
+_m = re.match(r"^(\d+)\.", pl.__version__ or "")
+if _m and int(_m.group(1)) != 2:
+    print(f"SKIP — harness pins polars 2.0.x behavior; installed version is {pl.__version__}")
+    raise SystemExit(77)
 
 FAILS: list[str] = []
 

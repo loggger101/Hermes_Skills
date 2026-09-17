@@ -1,0 +1,19 @@
+# Dependencies for the dedicated CI job that executes the skill self-test harnesses
+# (tools/run-self-tests.py). The base verify-all job runs them too, but without these
+# deps the data-science harnesses classify as SKIP; this job is what actually exercises
+# duckdb/polars/pyarrow against their documented behavior on every push/PR.
+#
+# Pins match the versions named in the reference docs they verify:
+#   big-data-patterns.md / python-data-science  -> duckdb 1.5.5, polars 1.44.1 (stable),
+#                                                  pyarrow 25.0.1, pandas <3 (pandas 3.x
+#          has breaking changes; the harness ground-truth comparisons were captured on 2.x)
+#   algorithms-python-catalog                   -> numpy
+#
+# polars-v2-verify.py pins POLARS 2.0 rc behavior and exits 77 (SKIP) under this stable
+# install by design — it is exercised locally in a dedicated venv (see its docstring).
+
+numpy>=1.26,<3
+duckdb==1.5.5
+polars==1.44.1
+pyarrow==25.0.1
+pandas>=2.2,<3

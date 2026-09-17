@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **149 code files** (34,678 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **151 code files** (35,088 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -73,8 +73,8 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 
 ## data-science/python-data-science
 
-- `data-science/python-data-science/references/big-data-patterns-verify.py` (script, python, 158 lines) — Verify the general big-data patterns for python-data-science reference doc
-- `data-science/python-data-science/references/polars-v2-verify.py` (script, python, 491 lines) — Live verification of polars 2.0.0rc1 behavior claims (from docs/source/releases/upgrade/2.md)
+- `data-science/python-data-science/references/big-data-patterns-verify.py` (script, python, 222 lines) — Verify the general big-data patterns for python-data-science reference doc
+- `data-science/python-data-science/references/polars-v2-verify.py` (script, python, 507 lines) — Live verification of polars 2.0.0rc1 behavior claims (from docs/source/releases/upgrade/2.md)
 
 ## data-science/regex-vs-llm-structured-text
 
@@ -282,10 +282,12 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `tools/gen-skills-index.py` (repo tooling, python, 159 lines) — Regenerate SKILLS-INDEX.md from live skill frontmatter (flat, grep-friendly)
 - `tools/mutation-test-doc-gate.py` (repo tooling, python, 232 lines) — Mutation test for verify-all.check_doc_counts — the doc-count gate tests itself
 - `tools/mutation-test-secret-gate.py` (repo tooling, python, 145 lines) — Mutation test for audit-skills.scan_repo_for_secrets — the secret scan tests itself
+- `tools/mutation-test-selftest-gate.py` (repo tooling, python, 104 lines) — Mutation self-test for tools/run-self-tests.py (the self-test harness gate)
 - `tools/regen-dependency-map.py` (repo tooling, python, 101 lines) — Regenerate DEPENDENCY.md from live related_skills frontmatter (same format as repo convention).
+- `tools/run-self-tests.py` (repo tooling, python, 217 lines) — Discovery-based runner for the skill self-test harnesses (*_verify.py)
 - `tools/run-skill-tests.py` (repo tooling, python, 133 lines) — Discover and run every pytest suite that ships inside a skill, one command
 - `tools/sync-hermes-skills.py` (repo tooling, python, 982 lines)
-- `tools/verify-all.py` (repo tooling, python, 205 lines) — Run every health gate in this repo and report one verdict
+- `tools/verify-all.py` (repo tooling, python, 214 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*149 code files: 107 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*151 code files: 107 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
