@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **156 code files** (38,627 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **158 code files** (38,937 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -283,19 +283,21 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `.hermes/cron/validate-skill-refs.py` (repo tooling, python, 56 lines) — Lightweight JSON + skill-ref validator (no_agent-compatible).
 - `tools/audit-skills.py` (repo tooling, python, 507 lines)
 - `tools/check-links.py` (repo tooling, python, 146 lines) — Broken-link checker for this second brain (stdlib only)
+- `tools/check-router-coverage.py` (repo tooling, python, 140 lines) — Gate: the skill-flow-router must keep pace with the catalog it claims to map
 - `tools/gen-claude-plugin.py` (repo tooling, python, 153 lines) — Regenerate the Claude Code plugin manifests from live skill frontmatter
 - `tools/gen-code-index.py` (repo tooling, python, 186 lines) — Regenerate CODE-INDEX.md from live code files (flat, grep-friendly)
 - `tools/gen-references-index.py` (repo tooling, python, 100 lines) — Rebuild REFERENCES-INDEX.md from every skill's references/ directory
 - `tools/gen-skills-index.py` (repo tooling, python, 159 lines) — Regenerate SKILLS-INDEX.md from live skill frontmatter (flat, grep-friendly)
 - `tools/mutation-test-cron-gate.py` (repo tooling, python, 92 lines) — Mutation self-test for the cron threshold-key verification (round-36)
 - `tools/mutation-test-doc-gate.py` (repo tooling, python, 329 lines) — Mutation test for verify-all.check_doc_counts — the doc-count gate tests itself
+- `tools/mutation-test-router-gate.py` (repo tooling, python, 157 lines) — Mutation self-test for check-router-coverage.py (round-43)
 - `tools/mutation-test-secret-gate.py` (repo tooling, python, 145 lines) — Mutation test for audit-skills.scan_repo_for_secrets — the secret scan tests itself
 - `tools/mutation-test-selftest-gate.py` (repo tooling, python, 104 lines) — Mutation self-test for tools/run-self-tests.py (the self-test harness gate)
 - `tools/regen-dependency-map.py` (repo tooling, python, 101 lines) — Regenerate DEPENDENCY.md from live related_skills frontmatter (same format as repo convention).
 - `tools/run-self-tests.py` (repo tooling, python, 217 lines) — Discovery-based runner for the skill self-test harnesses (*_verify.py)
 - `tools/run-skill-tests.py` (repo tooling, python, 134 lines) — Discover and run every pytest suite that ships inside a skill, one command
 - `tools/sync-hermes-skills.py` (repo tooling, python, 996 lines)
-- `tools/verify-all.py` (repo tooling, python, 384 lines) — Run every health gate in this repo and report one verdict
+- `tools/verify-all.py` (repo tooling, python, 397 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*156 code files: 111 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*158 code files: 111 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
