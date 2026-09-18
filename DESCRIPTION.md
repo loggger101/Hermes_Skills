@@ -52,7 +52,7 @@ The fastest way from a job you have in mind to the skill that does it:
 | Ship UI that doesn't look templated — pick the aesthetic first | `design-taste-frontend` (anti-slop default), presets: `soft-premium-ui`, `editorial-minimalism-ui`, `industrial-brutalist-ui`; motion-heavy → `awwwards-gsap-motion`; Google Stitch DESIGN.md → `stitch` |
 | Publish a site/dashboard/docs build with versioned deploys + rollback | `publish-site` (GitHub Pages → Cloudflare → Netlify ladder, live-URL verification) |
 | Design a scalable system / prep a system design interview (CAP, caching, sharding, fan-out) | `system-design-scaling` (primer-distilled trade-off tables + 8 case-study patterns; runnable LRU/base62/MapReduce-top-k/availability scripts inside) |
-| Verify this repo's own health | `py tools/verify-all.py` — all 15 gates in one run (`python` is a Store stub on Windows) |
+| Verify this repo's own health | `py tools/verify-all.py` — all 17 gates in one run (`python` is a Store stub on Windows) |
 
 ## Organization
 
@@ -99,7 +99,7 @@ category/
 
 ## Tooling (`tools/`)
 
-- **`verify-all.py`** — **the one command**: runs all 15 gates (audit incl. the zero-threshold hardcoded-secret scan over every skill script + SKILL.md, links, index drift x5: SKILLS/CODE/REFERENCES/DEPENDENCY/.claude-plugin, cron validators x2 — the config validator proves every no_agent threshold key is a string its script actually emits, doc-count consistency, self-test harness execution via `run-self-tests.py` — and mutation self-tests of the doc-count gate, the secret gate, the harness runner, AND the cron contract check) and prints a pass/fail table. Run before every commit.
+- **`verify-all.py`** — **the one command**: runs all 17 gates (audit incl. the zero-threshold hardcoded-secret scan over every skill script + SKILL.md, links, index drift x5: SKILLS/CODE/REFERENCES/DEPENDENCY/.claude-plugin, cron validators x2 — the config validator proves every no_agent threshold key is a string its script actually emits, doc-count consistency, router coverage — every skill in the router's declared scope is either routed or explicitly declined with a reason, self-test harness execution via `run-self-tests.py` — and mutation self-tests of the doc-count gate, the secret gate, the harness runner, the cron contract check AND the router gate) and prints a pass/fail table. Run before every commit.
 - **`audit-skills.py`** — validates all skills against repo conventions; exit 0 = clean. Hard-fails if pyyaml is missing or the scan finds <100 skills, so an unrunnable audit can never report clean.
 
 - **`check-links.py`** — broken-link gate: every relative markdown link must resolve (skips URLs, code spans, historical `profiles-export/` snapshots). Run alongside the audit before committing doc changes.

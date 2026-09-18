@@ -14,7 +14,10 @@ Gates, in order (each must pass):
   4. cron validators        job configs are structurally valid, skill refs resolve
   5. doc counts             hand-written counts in README/DESCRIPTION match reality
   6. self-test harnesses    every registered *_verify.py executes (run-self-tests.py)
-  7. gate self-tests        the doc-count and secret gates prove they fail loudly
+  7. router coverage        skill-flow-router routes (or explicitly declines) every
+                            skill in its declared scope -- no silent unrouted skills
+  8. gate self-tests        the doc-count, secret, harness, cron and router gates all
+                            prove they fail loudly via mutation fixtures
 
 Usage:
     py tools/verify-all.py            # Windows -- `python` is a Store alias stub
@@ -58,11 +61,13 @@ GATE_LABELS = [
     "cron: configs",          # validate-cronjobs.py incl. threshold-key contract check
     "cron: skill refs",       # validate-skill-refs.py — every cron job's skills resolve in-repo
     "doc counts",             # hand-written numbers vs machine truths (9 claim classes, self-tested)
+    "router coverage",        # check-router-coverage.py — skill-flow-router vs the catalog it maps
     "self-test harnesses",    # run-self-tests.py executes the standalone *_verify.py harnesses
     "gate self-test",         # mutation-test-doc-gate.py — proves every doc-count class fails loud
     "secret gate self-test",  # mutation-test-secret-gate.py — plants fake creds, asserts zero misses
     "harness gate self-test", # mutation-test-selftest-gate.py — PASS/SKIP/FAIL classification proven
     "cron gate self-test",    # mutation-test-cron-gate.py — phantom threshold keys caught
+    "router gate self-test",  # mutation-test-router-gate.py — proves all 5 coverage classes fail loud
 ]
 
 
@@ -343,6 +348,11 @@ def main():
         run("cron: configs", [".hermes/cron/validate-cronjobs.py"]),
         run("cron: skill refs", [".hermes/cron/validate-skill-refs.py"]),
         check_doc_counts(),
+        # The router is the brain's discovery entry point, and until round-43 nothing
+        # checked it against the catalog: 47 skills were added after its last edit and it
+        # knew about none of them while every gate stayed green. In-scope skills must be
+        # routed or explicitly declared out-of-scope with a reason.
+        run("router coverage", ["tools/check-router-coverage.py"]),
         # The repo's other fail-loud mechanism: standalone *_verify.py harnesses that
         # re-execute documented behavior (polars/duckdb/pyomo/cap-grid/ssrf/algorithms).
         # Missing optional deps classify as SKIP; a real regression fails the gate.
@@ -360,6 +370,9 @@ def main():
         # The cron threshold-key check (gate 8) tests itself: plants phantom keys in temp
         # fixture copies and asserts the validator fails loudly, plus proves --job works.
         run("cron gate self-test", ["tools/mutation-test-cron-gate.py"]),
+        # The router gate (gate 11) tests itself: plants an unrouted skill, a reasonless
+        # opt-out, a phantom, a contradiction and a rotting count in temp fixtures.
+        run("router gate self-test", ["tools/mutation-test-router-gate.py"]),
     ]
     assert [r[0] for r in results] == GATE_LABELS, (
         "verify-all's result labels diverged from GATE_LABELS — the doc-count gate counts "
