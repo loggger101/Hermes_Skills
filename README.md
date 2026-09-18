@@ -618,4 +618,11 @@ skill_view(name='<skill-name>')
 
 ## License
 
-Individual skills carry their own license headers. Most are MIT licensed.
+MIT, see [`LICENSE`](LICENSE). That covers this repository's own work: the
+indexes, the root documentation and the skills written here. Individual skills
+carry a `license:` field in their SKILL.md frontmatter, and that field governs
+the skill it sits in. 410 of 413 are MIT. Three are CC-BY-SA-4.0:
+`security/semgrep-rule-creator`, `software-development/modern-python-tooling`
+and `software-development/property-based-testing`. One,
+`devops/system-design-scaling`, is MIT but distilled from
+donnemartin/system-design-primer, which is CC BY 4.0.
