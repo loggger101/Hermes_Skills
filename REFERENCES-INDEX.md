@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **403 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **404 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -45,6 +45,9 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `autonomous-ai-agents/hermes-agent/references/tui-widgets.md` — TUI Widgets — Live Panels for the Ink TUI Dock
 - `autonomous-ai-agents/hermes-agent/references/webhooks.md` — Webhook Subscriptions
 - `autonomous-ai-agents/hermes-agent/references/windows-quirks.md` — Windows-Specific Quirks
+## autonomous-ai-agents/hermes-bot-cloning
+
+- `autonomous-ai-agents/hermes-bot-cloning/references/free-model-discovery.md` — Free Model Discovery on Nous Portal
 ## autonomous-ai-agents/repowise
 
 - `autonomous-ai-agents/repowise/references/codebase-intelligence-patterns.md` — Engineering patterns from repowise-dev/repowise (AGPL-3.0) — distillation contracts, decayed git signals, confidence-scored graphs, benchmark discipline, noise-free doc-drift detection; formulas + verified numbers

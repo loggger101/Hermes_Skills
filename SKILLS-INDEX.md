@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **210 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **211 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -21,6 +21,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `cron-job-authoring` — Author autonomous cron prompts with guardrails _(autonomous-ai-agents)_
 - `dynamic-workflow` — Plan-in-code fan-outs, adversarial verification, waves _(autonomous-ai-agents)_
 - `hermes-agent` — Use, configure, theme, extend, orchestrate Hermes Agent _(autonomous-ai-agents)_
+- `hermes-bot-cloning` — Clone Hermes profiles to create identical subagent bots _(autonomous-ai-agents)_
 - `mattpocock-resolving-merge-conflicts` — Resolve git merge conflicts by tracing each side's intent _(autonomous-ai-agents)_
 - `merge-reconciler` — Neutral third-party resolution of agent merge conflicts _(autonomous-ai-agents)_
 - `opencode` — Delegate coding to OpenCode CLI (features, PR review) _(autonomous-ai-agents)_
@@ -283,4 +284,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*210 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*211 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
