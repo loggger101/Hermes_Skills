@@ -1,6 +1,6 @@
 # Hermes Skills Repository
 
-A comprehensive collection of **211 Hermes Agent skills** across 23 categories — the second brain for its owner's Hermes Agent environment. See [DESCRIPTION.md](./DESCRIPTION.md) for the task-to-skill lookup ladder and [SKILLS-INDEX.md](./SKILLS-INDEX.md) for the full flat index.
+A comprehensive collection of **212 Hermes Agent skills** across 23 categories — the second brain for its owner's Hermes Agent environment. See [DESCRIPTION.md](./DESCRIPTION.md) for the task-to-skill lookup ladder and [SKILLS-INDEX.md](./SKILLS-INDEX.md) for the full flat index.
 
 ## Table of Contents
 
@@ -44,7 +44,7 @@ grep -i "raster\|token bridge" CODE-INDEX.md
 
 ## Overview
 
-This repository serves as a centralized database of all **211 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (546 cross-references mapped across 211 skills — every skill is connected to at least one other). See [audit notes](docs/archive/audit-notes-skills-repo-pass.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
+This repository serves as a centralized database of all **212 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (550 cross-references mapped across 212 skills — every skill is connected to at least one other). See [audit notes](docs/archive/audit-notes-skills-repo-pass.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
 
 ### Source Profiles
 
@@ -78,18 +78,18 @@ When a skill existed in multiple profiles, the version from the highest-priority
 | [mlops/](./mlops/) | ML operations: evaluation, inference, models | 6 |
 | [note-taking/](./note-taking/) | Note-taking and knowledge management | 2 |
 | [productivity/](./productivity/) | Productivity and document management | 21 |
-| [research/](./research/) | Research and content discovery | 17 |
+| [research/](./research/) | Research and content discovery | 18 |
 | [security/](./security/) | Security review, audit orchestration, forensics, rule authoring + STRIDE app threat modeling | 5 |
 | [smart-home/](./smart-home/) | Smart home device control | 1 |
 | [social-media/](./social-media/) | Social media content | 2 |
 | [software-development/](./software-development/) | Development tools and workflows + failure-signal auditing | 53 |
 | [web-development/](./web-development/) | Web/API client derivation (HAR-based) + versioned static-site publishing | 3 |
 
-**Total: 211 skills across 23 categories** — the per-category DESCRIPTIONs regenerate from live frontmatter via `python tools/gen-skills-index.py`; this table is hand-maintained and enforced against disk by verify-all's doc-count gate.
+**Total: 212 skills across 23 categories** — the per-category DESCRIPTIONs regenerate from live frontmatter via `python tools/gen-skills-index.py`; this table is hand-maintained and enforced against disk by verify-all's doc-count gate.
 
 ### Skill Catalog
 
-All 211 skills organized by category:
+All 212 skills organized by category:
 
 #### Apple
 
@@ -260,6 +260,7 @@ All 211 skills organized by category:
 - [`blocked-page-recovery`](./research/blocked-page-recovery) — Recover blocked/paywalled/WAF'd pages via fallbacks.
 - [`blogwatcher`](./research/blogwatcher) — Monitor blogs and RSS/Atom feeds via blogwatcher-cli tool.
 - [`competitor-news-monitor`](./research/competitor-news-monitor) — Watch named companies for material news; cited digests.
+- [`general-research-rounds`](./research/general-research-rounds) — Run source-anchoring rounds on the General_Research repo.
 - [`gget`](./research/gget) — Quick bioinformatics lookups (Ensembl, BLAST) via gget CLI/Python + evidence logs.
 - [`grounded-citations`](./research/grounded-citations) — Ground answers and documents in cited, verifiable sources.
 - [`llm-wiki`](./research/llm-wiki) — Karpathy's LLM Wiki: build/query interlinked markdown KB.
@@ -472,7 +473,7 @@ against Claude Code 2.1.270:
 [`tools/gen-claude-plugin.py`](./tools/gen-claude-plugin.py) therefore writes an
 explicit `skills` array into [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json),
 listing each nested skill path. The Hermes-native layout is preserved, nothing is
-duplicated, and 208 skills load (`docx`, `pdf`, and `xlsx` are held back because
+duplicated, and 209 skills load (`docx`, `pdf`, and `xlsx` are held back because
 Claude Code ships first-party skills of the same name — two near-identical entries
 for one request only degrades skill selection).
 
@@ -525,7 +526,7 @@ This repository includes Python scripts in the `tools/` directory that automate 
 | Tool | Purpose | Cron Integration |
 |------|---------|------------------|
 | [`verify-all.py`](./tools/verify-all.py) | **Start here.** Runs every gate in one shot: audit (incl. zero-threshold hardcoded-secret scan), links, index drift (all four generated indexes plus the Claude Code manifests), cron validators (config validator proves no_agent threshold keys match script output), README/DESCRIPTION count consistency, self-test harness execution, router coverage (skill-flow-router vs the catalog it maps), and mutation self-tests of five gates. Exit 0 = all 18 gates pass | Manual; run before any commit |
-| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 211 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | **Registered + live** — job `hermes-skills-audit`, Sun 3 AM (verified end-to-end through the real scheduler 2026-09-14) |
+| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 212 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | **Registered + live** — job `hermes-skills-audit`, Sun 3 AM (verified end-to-end through the real scheduler 2026-09-14) |
 | [`sync-hermes-skills.py`](./tools/sync-hermes-skills.py) | Bidirectional sync between GitHub repo and local Hermes env: git pull, skill/memories/profiles sync, full index regeneration (all five machine-generated indexes), audit + FULL verify-all as the pre-push gate (refuses commit+push when any gate fails or could not run), git push. Has `--dry-run` — always dry-run before a first live run (round 19b caught two latent phantom-action bugs this way; round-34 fixed a third: profile counts now hash-compare instead of counting every file) | **Registered** for Sun 2 AM in `sync-hermes-skills.json`, currently paused by design until the owner opts it on; verified end-to-end once via manual trigger 2026-09-14 |
 
 
@@ -590,9 +591,9 @@ The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a w
 
 ✅ items are checked by `tools/audit-skills.py` / `tools/check-links.py` on every audit run; the threshold-gated subset (a non-zero count fails the run) is `broken_refs`, `yaml_errors`, `long_descriptions`, `duplicate_skills`, `missing_body_sections`, `temps_scripts`. 📎 items are conventions no tool enforces — hold them by hand.
 
-- ✅ All 211 skills have valid frontmatter (`name`, `version`, `author`, `platforms`, `metadata.hermes`) and parse without errors
+- ✅ All 212 skills have valid frontmatter (`name`, `version`, `author`, `platforms`, `metadata.hermes`) and parse without errors
 - ✅ No duplicate skill names; no empty skill directories
-- ✅ All `related_skills` references resolve to existing in-repo skills — 546 cross-references across 211 skills (see [DEPENDENCY.md](./DEPENDENCY.md))
+- ✅ All `related_skills` references resolve to existing in-repo skills — 550 cross-references across 212 skills (see [DEPENDENCY.md](./DEPENDENCY.md))
 - ✅ All descriptions ≤59 chars, double-quoted YAML strings
 - ✅ Every skill has a body section (`## What This Skill Does` or an audit-recognized alternative) and standard header capitalization
 - ✅ Every multi-skill category directory has a `DESCRIPTION.md` (all 23 do)

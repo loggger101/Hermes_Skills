@@ -1,6 +1,6 @@
 # Skill Dependency Map
-This document maps the relationship network between all **211 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
-**Network stats:** 546 `related_skills` cross-references across 211 skills (2 skills are standalone with no `related_skills` entries).
+This document maps the relationship network between all **212 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+**Network stats:** 550 `related_skills` cross-references across 212 skills (2 skills are standalone with no `related_skills` entries).
 ## Hub Skills (referenced by 2+ other skills)
 These are the core skills that serve as building blocks, referenced by many other skills:
 | Skill | Referenced By (count) | Referencing Skills |
@@ -14,11 +14,11 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `excalidraw` | 11 | architecture-diagram, ascii-art, claude-design, design-md, diagram-design, p5js, popular-web-designs, pretext, research-paper-writing, sketch, system-atlas |
 | `github-pr-workflow` | 10 | github, github-auth, github-code-review, github-issue-to-pr, github-issues, github-repo-management, mattpocock-finishing-a-development-branch, mattpocock-gh-fix-ci, mattpocock-using-git-worktrees, mattpocock-yeet |
 | `mattpocock-subagent-driven-development` | 10 | dispatching-parallel-agents, executing-plans, grill-me, mattpocock-to-tickets, plan, requesting-code-review, research-paper-writing, spike, systematic-debugging, test-driven-development |
+| `grounded-citations` | 9 | blocked-page-recovery, general-research-rounds, literature-review, mattpocock-research, parallel-cli, pubmed-database, reddit-reading, rss-feeds, scholar-evaluation |
 | `plan` | 9 | brainstorming, executing-plans, hermes-agent-skill-authoring, requesting-code-review, research-paper-writing, simplify-code, spike, systematic-debugging, test-driven-development |
 | `python-data-science` | 9 | build-systems-data, evolutionary-ml, gget, huggingface-trackio, jupyter-notebook, orbital-mechanics-data, regex-vs-llm-structured-text, research-paper-writing, sql-for-data |
 | `architecture-diagram` | 8 | claude-design, design-md, diagram-design, excalidraw, popular-web-designs, pretext, sketch, system-atlas |
 | `design-taste-frontend` | 8 | awwwards-gsap-motion, editorial-minimalism-ui, full-output-enforcement, industrial-brutalist-ui, redesign-existing-projects, soft-premium-ui, static-site-patterns, stitch |
-| `grounded-citations` | 8 | blocked-page-recovery, literature-review, mattpocock-research, parallel-cli, pubmed-database, reddit-reading, rss-feeds, scholar-evaluation |
 | `mattpocock-code-review` | 8 | mattpocock-diagnosing-bugs, mattpocock-evidence-driven, mattpocock-multi-agent-code-review, mattpocock-security-review, mattpocock-spec-driven-development, mattpocock-tdd, mattpocock-to-tickets, receiving-code-review |
 | `mattpocock-security-review` | 8 | application-threat-model, failure-signal-audit, mattpocock-evidence-driven, mattpocock-multi-agent-code-review, mattpocock-spec-driven-development, rest-api-client, security-audit, semgrep-rule-creator |
 | `arxiv` | 7 | grounded-citations, literature-review, llm-wiki, mattpocock-research, pubmed-database, qmd, research-paper-writing |
@@ -27,6 +27,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `grilling-interview` | 7 | brainstorming, conversation-to-spec, issue-triage-state-machine, mental-models, one-three-one-rule, skill-flow-router, wayfinder-map-planning |
 | `mattpocock-domain-modeling` | 7 | issue-triage-state-machine, living-docs-governance, mattpocock-handoff, mattpocock-improve-codebase-architecture, mattpocock-spec-driven-development, mattpocock-to-tickets, mattpocock-writing-for-agents |
 | `docx` | 6 | document-to-action-items, ocr-and-documents, pdf, powerpoint, website-audit, xlsx |
+| `ocr-and-documents` | 6 | arxiv, document-to-action-items, general-research-rounds, grounded-citations, nano-pdf, pdf |
 | `pdf` | 6 | document-to-action-items, docx, nano-pdf, ocr-and-documents, powerpoint, xlsx |
 | `github-code-review` | 5 | github-auth, github-pr-workflow, mattpocock-code-review, receiving-code-review, requesting-code-review |
 | `github-issues` | 5 | github, github-auth, github-issue-to-pr, github-repo-management, mattpocock-to-tickets |
@@ -36,7 +37,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `mattpocock-writing-for-agents` | 5 | doc-coauthoring, mattpocock-ask-if-underspecified, mattpocock-domain-modeling, mattpocock-handoff, retro |
 | `notion` | 5 | airtable, document-to-action-items, meeting-action-items, obsidian, weekly-review-planning |
 | `obsidian` | 5 | apple-notes, knowledge-ops, llm-wiki, qmd, weekly-review-planning |
-| `ocr-and-documents` | 5 | arxiv, document-to-action-items, grounded-citations, nano-pdf, pdf |
 | `popular-web-designs` | 5 | claude-design, design-md, frontend-design, redesign-existing-projects, sketch |
 | `sketch` | 5 | architecture-diagram, frontend-design, mattpocock-prototype, popular-web-designs, spike |
 | `verification-culture` | 5 | bit-identity-float-pipelines, failure-signal-audit, incident-response, retro, verification-before-completion |
@@ -45,6 +45,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `ascii-video` | 4 | manim-video, p5js, pretext, touchdesigner-mcp |
 | `blogwatcher` | 4 | competitor-news-monitor, rss-feeds, watchers, youtube-content |
 | `hermes-agent-skill-authoring` | 4 | cron-config-authoring, doc-coauthoring, mattpocock-code-review, mattpocock-writing-for-agents |
+| `literature-review` | 4 | general-research-rounds, gget, pubmed-database, scholar-evaluation |
 | `manim-video` | 4 | ascii-video, p5js, pygame, touchdesigner-mcp |
 | `mattpocock-improve-codebase-architecture` | 4 | architecture-metrics, code-quality-signal, mattpocock-codebase-design, mattpocock-domain-modeling |
 | `mattpocock-using-git-worktrees` | 4 | executing-plans, mattpocock-evidence-driven, mattpocock-finishing-a-development-branch, mattpocock-subagent-driven-development |
@@ -55,6 +56,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `xlsx` | 4 | docx, pdf, powerpoint, sql-for-data |
 | `apple-reminders` | 3 | apple-notes, findmy, imessage |
 | `astro-toolkit-selection` | 3 | economicspace-pipeline, space-data-pipelines, space-mission-computation-paradigms |
+| `blocked-page-recovery` | 3 | general-research-rounds, reddit-reading, scrapling |
 | `claude-code` | 3 | codex, hermes-agent, opencode |
 | `codex` | 3 | claude-code, hermes-agent, opencode |
 | `comfyui` | 3 | baoyu-infographic, songsee, songwriting-and-ai-music |
@@ -64,7 +66,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `findmy` | 3 | apple-reminders, imessage, maps |
 | `huggingface-hub` | 3 | huggingface-trackio, llama-cpp, weights-and-biases |
 | `huggingface-trackio` | 3 | huggingface-hub, python-data-science, weights-and-biases |
-| `literature-review` | 3 | gget, pubmed-database, scholar-evaluation |
 | `mattpocock-codebase-design` | 3 | codebase-onboarding, mattpocock-improve-codebase-architecture, mattpocock-spec-driven-development |
 | `mattpocock-diagnosing-bugs` | 3 | mattpocock-gh-fix-ci, mattpocock-resolving-merge-conflicts, mattpocock-tdd |
 | `mattpocock-evidence-driven` | 3 | mattpocock-diagnosing-bugs, mattpocock-subagent-driven-development, verification-before-completion |
@@ -82,7 +83,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `airtable` | 2 | notion, weekly-review-planning |
 | `ascii-art` | 2 | ascii-video, pretext |
 | `autonomous-repo-cronjob` | 2 | mattpocock-using-git-worktrees, mattpocock-yeet |
-| `blocked-page-recovery` | 2 | reddit-reading, scrapling |
 | `code-quality-signal` | 2 | architecture-metrics, repowise |
 | `codebase-onboarding` | 2 | living-docs-governance, repowise |
 | `competitor-news-monitor` | 2 | blogwatcher, rss-feeds |
@@ -122,6 +122,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 ## Standalone Skills
 The following 0 skills have no `related_skills` entries of their own (they do not reference other skills). These are genuinely standalone — no other skill references them either:
 ## Related Skills Validation
-All 546 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 211 unique skill names.
+All 550 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 212 unique skill names.
 
 ---
