@@ -1,11 +1,11 @@
 # CODE-INDEX
 
-Flat index of all **159 code files** (39,390 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **159 code files** (39,468 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
 
-- `autonomous-ai-agents/hermes-agent/scripts/sync-installed-plugins.py` (script, python, 447 lines) — Sync the installed-plugins reference doc from the live Hermes environment
+- `autonomous-ai-agents/hermes-agent/scripts/sync-installed-plugins.py` (script, python, 525 lines) — Sync the installed-plugins reference doc from the live Hermes environment
 - `autonomous-ai-agents/hermes-agent/templates/clock.mjs` (template, javascript, 51 lines) — * Reference user widget: a live clock docked above the status bar. * Copy to ~/.hermes/tui-widgets/clock.mjs, …
 - `autonomous-ai-agents/hermes-agent/templates/plugin.js` (template, javascript, 97 lines) — * Hermes desktop plugin template. Save as: * <hermes home>/desktop-plugins/<id>/plugin.js (folder name == id) …
 

@@ -15,6 +15,7 @@
 | Tool-providing plugins | 6 |
 | Community catalog plugins | 9 |
 | Official catalog plugins | 1 |
+| Standalone desktop plugins | 1 |
 | Total toolsets | 31 |
 | Toolsets enabled | 21 |
 | Toolsets disabled | 10 |
@@ -191,12 +192,22 @@
 - **Tools**: `memory` (Memory) — yantrikdb_remember, yantrikdb_recall, yantrikdb_forget, yantrikdb_conflicts, yantrikdb_relate, yantrikdb_tasks, yantrikdb_resolve_conflict
 - **Description**: YantrikDB — self-maintaining memory for Hermes with canonicalization, contradiction tracking, recency-aware ranking, explainable recall, and pluggable embedders (bundled potion-2M default; first-class loaders for the model2vec family and the HF sentence-transformers ecosystem; custom Python embedder class as escape hatch). As of v0.2.0 the default backend is in-process (`pip install` and go); HTTP-to-server is optional for HA cluster setups.
 
+## Standalone Desktop Plugins
+
+> Plugins in `desktop-plugins/` without a `.hermes-package.json` — these are
+> not visible to `hermes plugins list` (no Python component) and must be scanned
+> from disk directly.
+
+| Plugin | Source | plugin.js size | Description |
+|--------|--------|----------------|-------------|
+| `hermes-home-dashboard` | bundled | 120584 bytes | Built-in Hermes Desktop home dashboard: grid-layout workspace with ascii art, clock, gateway status, session list, cron jobs, system stats, and analytics. |
+
 ## Sync
 
 This reference is machine-generated from the live Hermes environment:
 
 - `python3 hermes-agent/scripts/sync-installed-plugins.py` — regenerate from live env
 - `python3 hermes-agent/scripts/sync-installed-plugins.py --check` — verify no drift
-- Data sources: `hermes plugins list --json`, `.install-metadata.json`, `config.yaml`, `hermes tools list`
+- Data sources: `hermes plugins list --json`, `.install-metadata.json`, `config.yaml`, `hermes tools list`, `desktop-plugins/` dir scan
 - CI note: when no local Hermes installation is found, the gate skips gracefully (exit 0)
 
