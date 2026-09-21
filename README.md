@@ -524,7 +524,7 @@ This repository includes Python scripts in the `tools/` directory that automate 
 
 | Tool | Purpose | Cron Integration |
 |------|---------|------------------|
-| [`verify-all.py`](./tools/verify-all.py) | **Start here.** Runs every gate in one shot: audit (incl. zero-threshold hardcoded-secret scan), links, index drift (all four generated indexes plus the Claude Code manifests), cron validators (config validator proves no_agent threshold keys match script output), README/DESCRIPTION count consistency, self-test harness execution, router coverage (skill-flow-router vs the catalog it maps), and mutation self-tests of five gates. Exit 0 = all 17 gates pass | Manual; run before any commit |
+| [`verify-all.py`](./tools/verify-all.py) | **Start here.** Runs every gate in one shot: audit (incl. zero-threshold hardcoded-secret scan), links, index drift (all four generated indexes plus the Claude Code manifests), cron validators (config validator proves no_agent threshold keys match script output), README/DESCRIPTION count consistency, self-test harness execution, router coverage (skill-flow-router vs the catalog it maps), and mutation self-tests of five gates. Exit 0 = all 18 gates pass | Manual; run before any commit |
 | [`audit-skills.py`](./tools/audit-skills.py) | Validates all 211 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | **Registered + live** — job `hermes-skills-audit`, Sun 3 AM (verified end-to-end through the real scheduler 2026-09-14) |
 | [`sync-hermes-skills.py`](./tools/sync-hermes-skills.py) | Bidirectional sync between GitHub repo and local Hermes env: git pull, skill/memories/profiles sync, full index regeneration (all five machine-generated indexes), audit + FULL verify-all as the pre-push gate (refuses commit+push when any gate fails or could not run), git push. Has `--dry-run` — always dry-run before a first live run (round 19b caught two latent phantom-action bugs this way; round-34 fixed a third: profile counts now hash-compare instead of counting every file) | **Registered** for Sun 2 AM in `sync-hermes-skills.json`, currently paused by design until the owner opts it on; verified end-to-end once via manual trigger 2026-09-14 |
 
@@ -561,7 +561,7 @@ Requires **pyyaml** (`pip install -r requirements.txt`). Without it the audit re
 The single command that runs everything:
 
 ```bash
-py tools/verify-all.py      # 17 gates; exit 0 = all pass
+py tools/verify-all.py      # 18 gates; exit 0 = all pass
 ```
 
 Every tool fails **closed**: a wrong interpreter, a missing pyyaml, an unreadable file, a scan that

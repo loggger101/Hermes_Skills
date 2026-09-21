@@ -1,10 +1,11 @@
 # CODE-INDEX
 
-Flat index of all **158 code files** (38,937 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **159 code files** (39,390 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
 
+- `autonomous-ai-agents/hermes-agent/scripts/sync-installed-plugins.py` (script, python, 447 lines) — Sync the installed-plugins reference doc from the live Hermes environment
 - `autonomous-ai-agents/hermes-agent/templates/clock.mjs` (template, javascript, 51 lines) — * Reference user widget: a live clock docked above the status bar. * Copy to ~/.hermes/tui-widgets/clock.mjs, …
 - `autonomous-ai-agents/hermes-agent/templates/plugin.js` (template, javascript, 97 lines) — * Hermes desktop plugin template. Save as: * <hermes home>/desktop-plugins/<id>/plugin.js (folder name == id) …
 
@@ -297,7 +298,7 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `tools/run-self-tests.py` (repo tooling, python, 217 lines) — Discovery-based runner for the skill self-test harnesses (*_verify.py)
 - `tools/run-skill-tests.py` (repo tooling, python, 134 lines) — Discover and run every pytest suite that ships inside a skill, one command
 - `tools/sync-hermes-skills.py` (repo tooling, python, 996 lines)
-- `tools/verify-all.py` (repo tooling, python, 397 lines) — Run every health gate in this repo and report one verdict
+- `tools/verify-all.py` (repo tooling, python, 403 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*158 code files: 111 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*159 code files: 112 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
