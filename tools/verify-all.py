@@ -10,7 +10,8 @@ Gates, in order (each must pass):
   1. audit-skills.py        frontmatter, descriptions, related_skills, body sections
   2. check-links.py         every relative markdown link resolves
   3. index drift            SKILLS/CODE/REFERENCES/DEPENDENCY and the Claude Code
-                            plugin manifests match what is on disk
+                            plugin manifests, and the installed-plugins reference
+                            match what is on disk / live environment
   4. cron validators        job configs are structurally valid, skill refs resolve
   5. doc counts             hand-written counts in README/DESCRIPTION match reality
   6. self-test harnesses    every registered *_verify.py executes (run-self-tests.py)
@@ -60,6 +61,7 @@ GATE_LABELS = [
     "drift: .claude-plugin",  # gen-claude-plugin.py --check (plugin.json + marketplace.json)
     "cron: configs",          # validate-cronjobs.py incl. threshold-key contract check
     "cron: skill refs",       # validate-skill-refs.py — every cron job's skills resolve in-repo
+    "drift: installed-plugins",# sync-installed-plugins.py --check (local Hermes plugins → ref doc)
     "doc counts",             # hand-written numbers vs machine truths (9 claim classes, self-tested)
     "router coverage",        # check-router-coverage.py — skill-flow-router vs the catalog it maps
     "self-test harnesses",    # run-self-tests.py executes the standalone *_verify.py harnesses
@@ -347,6 +349,10 @@ def main():
         run("drift: .claude-plugin", ["tools/gen-claude-plugin.py", "--check"]),
         run("cron: configs", [".hermes/cron/validate-cronjobs.py"]),
         run("cron: skill refs", [".hermes/cron/validate-skill-refs.py"]),
+        # Local-only gate: verifies references/installed-plugins.md matches the
+        # live Hermes plugin registry. Skips gracefully (exit 0) in CI where no
+        # local Hermes install exists — the doc is committed to the repo for human review.
+        run("drift: installed-plugins", ["autonomous-ai-agents/hermes-agent/scripts/sync-installed-plugins.py", "--check"]),
         check_doc_counts(),
         # The router is the brain's discovery entry point, and until round-43 nothing
         # checked it against the catalog: 47 skills were added after its last edit and it
