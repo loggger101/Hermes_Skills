@@ -127,6 +127,21 @@ TOOL_GROUP_INFO = {
 }
 
 
+# Static metadata for standalone desktop plugins — those in desktop-plugins/
+# that have NO .hermes-package.json (i.e. not bundled with a Python plugin).
+# These are invisible to `hermes plugins list` because they have no Python
+# component; their metadata can only be read from disk. Update this dict when
+# a new standalone desktop plugin is installed.
+DESKTOP_PLUGIN_INFO = {
+    "hermes-home-dashboard": (
+        "bundled",
+        "Built-in Hermes Desktop home dashboard: grid-layout workspace with "
+        "ascii art, clock, gateway status, session list, cron jobs, system "
+        "stats, and analytics.",
+    ),
+}
+
+
 def find_hermes_dir():
     """Locate the local Hermes installation directory."""
     # $HERMES_HOME takes priority, then LOCALAPPDATA/hermes (Windows), then ~/.hermes
@@ -194,6 +209,49 @@ def get_config_enabled(hermes_dir):
         return []
 
 
+def get_standalone_desktop_plugins(hermes_dir):
+    """Scan desktop-plugins/ for standalone desktop plugins.
+
+    A desktop plugin is *standalone* if its dir has no .hermes-package.json
+    (i.e. it's not bundled with a Python plugin that already appears in the
+    main catalog above). Standalone plugins are invisible to
+    `hermes plugins list` because they have no Python component.
+
+    Returns a list of dicts with keys: name, source, description, plugin_js_size.
+    """
+    dp_dir = hermes_dir / "desktop-plugins"
+    if not dp_dir.is_dir():
+        return []
+    result = []
+    for entry in sorted(dp_dir.iterdir()):
+        if not entry.is_dir():
+            continue
+        # Bundled desktop plugins carry .hermes-package.json and are already
+        # covered by their parent Python plugin entry in the main catalog.
+        if (entry / ".hermes-package.json").exists():
+            continue
+        plugin_js = entry / "plugin.js"
+        if not plugin_js.exists():
+            continue
+        name = entry.name
+        info = DESKTOP_PLUGIN_INFO.get(name)
+        if info:
+            source, description = info
+        else:
+            source = "unknown"
+            description = (
+                f"Standalone desktop plugin (plugin.js: "
+                f"{plugin_js.stat().st_size} bytes, no manifest)"
+            )
+        result.append({
+            "name": name,
+            "source": source,
+            "description": description,
+            "plugin_js_size": plugin_js.stat().st_size,
+        })
+    return result
+
+
 def parse_tools_list(stdout):
     """Parse `hermes tools list` output into (enabled, disabled) lists of toolsets.
 
@@ -219,7 +277,8 @@ def parse_tools_list(stdout):
     return enabled, disabled
 
 
-def generate_doc(plugins, metadata, config_enabled, tools_enabled, tools_disabled):
+def generate_doc(plugins, metadata, config_enabled, tools_enabled, tools_disabled,
+                 desktop_plugins=None):
     """Build the reference doc content from live data (deterministic, no timestamps)."""
     # --- Build plugin rows from live data ---
     rows = []
@@ -286,6 +345,7 @@ def generate_doc(plugins, metadata, config_enabled, tools_enabled, tools_disable
     L.append(f"| Tool-providing plugins | {tool_plugins} |")
     L.append(f"| Community catalog plugins | {community} |")
     L.append(f"| Official catalog plugins | {official} |")
+    L.append(f"| Standalone desktop plugins | {len(desktop_plugins) if desktop_plugins else 0} |")
     L.append(f"| Total toolsets | {total_typesets} |")
     L.append(f"| Toolsets enabled | {enabled_tools} |")
     L.append(f"| Toolsets disabled | {disabled_tools} |")
@@ -360,13 +420,26 @@ def generate_doc(plugins, metadata, config_enabled, tools_enabled, tools_disable
             L.append("- **Tools**: Not reflected in `hermes tools list` (may register via agent tool discovery)")
         L.append(f"- **Description**: {r['description']}")
         L.append("")
+    if desktop_plugins:
+        L.append("## Standalone Desktop Plugins")
+        L.append("")
+        L.append("> Plugins in `desktop-plugins/` without a `.hermes-package.json` — these are")
+        L.append("> not visible to `hermes plugins list` (no Python component) and must be scanned")
+        L.append("> from disk directly.")
+        L.append("")
+        L.append("| Plugin | Source | plugin.js size | Description |")
+        L.append("|--------|--------|----------------|-------------|")
+        for dp in desktop_plugins:
+            size = f"{dp['plugin_js_size']} bytes"
+            L.append(f"| `{dp['name']}` | {dp['source']} | {size} | {dp['description']} |")
+        L.append("")
     L.append("## Sync")
     L.append("")
     L.append("This reference is machine-generated from the live Hermes environment:")
     L.append("")
     L.append(f"- `python3 hermes-agent/scripts/sync-installed-plugins.py` — regenerate from live env")
     L.append(f"- `python3 hermes-agent/scripts/sync-installed-plugins.py --check` — verify no drift")
-    L.append(f"- Data sources: `hermes plugins list --json`, `.install-metadata.json`, `config.yaml`, `hermes tools list`")
+    L.append(f"- Data sources: `hermes plugins list --json`, `.install-metadata.json`, `config.yaml`, `hermes tools list`, `desktop-plugins/` dir scan")
     L.append(f"- CI note: when no local Hermes installation is found, the gate skips gracefully (exit 0)")
     L.append("")
 
@@ -410,9 +483,12 @@ def main():
         print("WARNING: `hermes tools list` not available — "
               "tool configuration section will be empty")
 
+    # 4b. Standalone desktop plugins (not visible via hermes CLI)
+    desktop_plugins = get_standalone_desktop_plugins(hermes_dir)
+
     # 5. Generate doc
     content = generate_doc(plugins, metadata, config_enabled,
-                           tools_enabled, tools_disabled)
+                           tools_enabled, tools_disabled, desktop_plugins)
 
     # 6. Write or check
     if check_mode:
@@ -429,7 +505,8 @@ def main():
                         print(f"          generated : {b[:120]}")
                         break
                 return 1
-            print(f"[OK] {REF_DOC.name} is up to date ({len(plugins)} plugins)")
+            print(f"[OK] {REF_DOC.name} is up to date "
+                  f"({len(plugins)} plugins, {len(desktop_plugins)} standalone desktop)")
             return 0
         else:
             print(f"[DRIFT] {REF_DOC.name} does not exist (would be created)")
@@ -439,7 +516,8 @@ def main():
         REF_DOC.write_text(content, encoding="utf-8")
         print(f"Wrote {len(plugins)} plugins to {REF_DOC} "
               f"({len(tools_enabled)} enabled toolsets, "
-              f"{len(tools_disabled)} disabled)")
+              f"{len(tools_disabled)} disabled, "
+              f"{len(desktop_plugins)} standalone desktop plugins)")
         return 0
 
 
