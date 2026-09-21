@@ -110,6 +110,7 @@ Mirror important workspace configuration and scripts to the knowledge base:
 - Redact sensitive config before committing (API keys, tokens — never preserve credentials)
 - Track changes over time
 - Do not treat the knowledge base or archive folder as the live code workspace
+- **Cross-check CLI output against disk** — CLI inventories only surface registered items; filesystem-only artifacts are invisible. When syncing a live environment's inventory to docs, a `hermes plugins list --json` call returns only Python plugins. Standalone desktop plugins in `desktop-plugins/` (no Python component, no catalog entry) appear only on disk. A marker file's absence (e.g. `.hermes-package.json` missing from a `desktop-plugins/<name>/` dir) is the signal that the item is standalone and needs separate tracking, not a sign of an incomplete install. Always scan the inventory directory directly as a data source alongside CLI calls.
 
 ### GitHub / Linear sync
 When information affects active execution:
