@@ -8,14 +8,14 @@
 
 | Metric | Count |
 |--------|-------|
-| Total plugins installed | 10 |
-| Enabled | 10 |
+| Total plugins installed | 11 |
+| Enabled | 11 |
 | Disabled | 0 |
 | Dashboard/UI-only plugins | 4 |
 | Tool-providing plugins | 6 |
-| Community catalog plugins | 9 |
+| Community catalog plugins | 10 |
 | Official catalog plugins | 1 |
-| Standalone desktop plugins | 1 |
+| Standalone desktop plugins | 0 |
 | Total toolsets | 31 |
 | Toolsets enabled | 21 |
 | Toolsets disabled | 10 |
@@ -28,12 +28,13 @@
 | 2 | bot-forge | 0.4.1 | community | enabled | BkashJEE/hermes-bot-forge | 88dd338a | tool |
 | 3 | hermes-ledgerline | 0.1.7.post2 | community | enabled | Adolanium/hermes-ledgerline | 9be4b850 | dashboard |
 | 4 | hermes-memory-ui | 0.6.0 | community | enabled | xraysight/hermes-memory-ui | 9472bed7 | dashboard |
-| 5 | icarus | 0.3.0 | community | enabled | esaradev/icarus-plugin | e46cba30 | tool |
-| 6 | job-search | 0.9.0 | community | enabled | agent-data/job-search | dba0c099 | tool |
-| 7 | memory-wiki | 1.0.0 | official | enabled | NousResearch/hermes-memory-wiki | 9bc3913b | dashboard |
-| 8 | mnemosyne-dashboard | 0.14.0 | community | enabled | wysie/mnemosyne-dashboard | a918e5e0 | tool |
-| 9 | web-search-plus | 4.2.0 | community | enabled | robbyczgw-cla/hermes-web-search-plus | d4840c9b | tool |
-| 10 | yantrikdb | 0.25.0 | community | enabled | yantrikos/yantrikdb-hermes-plugin | d7ccc7ec | tool |
+| 5 | home-dashboard | 1.3.0 | community | enabled | albertocvrrbs/hermes-home-dashboard | a8a01822 | unknown |
+| 6 | icarus | 0.3.0 | community | enabled | esaradev/icarus-plugin | e46cba30 | tool |
+| 7 | job-search | 0.9.0 | community | enabled | agent-data/job-search | dba0c099 | tool |
+| 8 | memory-wiki | 1.0.0 | official | enabled | NousResearch/hermes-memory-wiki | 9bc3913b | dashboard |
+| 9 | mnemosyne-dashboard | 0.14.0 | community | enabled | wysie/mnemosyne-dashboard | a918e5e0 | tool |
+| 10 | web-search-plus | 4.2.0 | community | enabled | robbyczgw-cla/hermes-web-search-plus | d4840c9b | tool |
+| 11 | yantrikdb | 0.25.0 | community | enabled | yantrikos/yantrikdb-hermes-plugin | d7ccc7ec | tool |
 
 ## Tool Configuration
 
@@ -126,7 +127,18 @@
 - **Tools**: None (dashboard panel only)
 - **Description**: Read-only Hermes Dashboard and Desktop plugin for inspecting built-in, holographic, Mem0, Honcho, Mnemosyne, Hindsight, and ByteRover memory.
 
-### 5. `icarus`
+### 5. `home-dashboard`
+
+- **Version**: 1.3.0
+- **Catalog**: community
+- **Status**: enabled
+- **Install source**: https://github.com/albertocvrrbs/hermes-home-dashboard
+- **Revision**: `a8a01822` (`a8a018225d8ecd21b281788131775adeade4c577`) — pinned
+- **Type**: Agent tool-providing
+- **Tools**: Not reflected in `hermes tools list` (may register via agent tool discovery)
+- **Description**: Personalizable rice-style Home page with draggable, resizable glass widgets for Hermes Web and Desktop.
+
+### 6. `icarus`
 
 - **Version**: 0.3.0
 - **Catalog**: community
@@ -137,7 +149,7 @@
 - **Tools**: `fabric` (Fabric) — self-memory + replacement model tools
 - **Description**: Self-memory and replacement models for Hermes agents. Remember your work. Train your replacement.
 
-### 6. `job-search`
+### 7. `job-search`
 
 - **Version**: 0.9.0
 - **Catalog**: community
@@ -148,7 +160,7 @@
 - **Tools**: Not reflected in `hermes tools list` (may register via agent tool discovery)
 - **Description**: A private, local-first job-search assistant that finds postings, judges them against your prose preferences (no scores), and writes digests on a schedule you control.
 
-### 7. `memory-wiki`
+### 8. `memory-wiki`
 
 - **Version**: 1.0.0
 - **Catalog**: official
@@ -159,7 +171,7 @@
 - **Tools**: None (dashboard panel only)
 - **Description**: Memory Wiki dashboard tab: browsable subject pages and daily logs derived from local session history, plus a read-only Persistent Memory audit panel (MEMORY.md / USER.md).
 
-### 8. `mnemosyne-dashboard`
+### 9. `mnemosyne-dashboard`
 
 - **Version**: 0.14.0
 - **Catalog**: community
@@ -170,7 +182,7 @@
 - **Tools**: `mnemosyne-dashboard` (Mnemosyne-Dashboard) — memory browsing & visualization
 - **Description**: Local-only web dashboard for browsing and visualising Mnemosyne memories, triples, stats, and consolidation history.
 
-### 9. `web-search-plus`
+### 10. `web-search-plus`
 
 - **Version**: 4.2.0
 - **Catalog**: community
@@ -181,7 +193,7 @@
 - **Tools**: `web-search-plus` (Web-Search-Plus) — multi-provider search, URL extraction, reports
 - **Description**: Multi-provider web search, URL extraction, quality reports, and opt-in research mode
 
-### 10. `yantrikdb`
+### 11. `yantrikdb`
 
 - **Version**: 0.25.0
 - **Catalog**: community
@@ -191,16 +203,6 @@
 - **Type**: Agent tool-providing
 - **Tools**: `memory` (Memory) — yantrikdb_remember, yantrikdb_recall, yantrikdb_forget, yantrikdb_conflicts, yantrikdb_relate, yantrikdb_tasks, yantrikdb_resolve_conflict
 - **Description**: YantrikDB — self-maintaining memory for Hermes with canonicalization, contradiction tracking, recency-aware ranking, explainable recall, and pluggable embedders (bundled potion-2M default; first-class loaders for the model2vec family and the HF sentence-transformers ecosystem; custom Python embedder class as escape hatch). As of v0.2.0 the default backend is in-process (`pip install` and go); HTTP-to-server is optional for HA cluster setups.
-
-## Standalone Desktop Plugins
-
-> Plugins in `desktop-plugins/` without a `.hermes-package.json` — these are
-> not visible to `hermes plugins list` (no Python component) and must be scanned
-> from disk directly.
-
-| Plugin | Source | plugin.js size | Description |
-|--------|--------|----------------|-------------|
-| `hermes-home-dashboard` | bundled | 120584 bytes | Built-in Hermes Desktop home dashboard: grid-layout workspace with ascii art, clock, gateway status, session list, cron jobs, system stats, and analytics. |
 
 ## Sync
 
