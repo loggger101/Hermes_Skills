@@ -1,7 +1,7 @@
 {
   "name": "hermes",
   "version": "1.0.0",
-  "description": "Hermes second brain: 208 skills across 23 categories.",
+  "description": "Hermes second brain: 209 skills across 23 categories.",
   "author": {
     "name": "Hermes Agent",
     "url": "https://github.com/loggger101"
@@ -141,6 +141,7 @@
     "./research/blocked-page-recovery",
     "./research/blogwatcher",
     "./research/competitor-news-monitor",
+    "./research/general-research-rounds",
     "./research/gget",
     "./research/grounded-citations",
     "./research/literature-review",

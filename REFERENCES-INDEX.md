@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **405 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **406 reference documents** in this second brain — one line each, grep-friendly.
 Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
@@ -438,6 +438,9 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 ## productivity/xlsx
 
 - `productivity/xlsx/references/restructuring.md` — Reference-aware restructuring (xlsx_restructure.py)
+## research/general-research-rounds
+
+- `research/general-research-rounds/references/source-access-notes.md` — Source access notes (verified from this machine)
 ## research/grounded-citations
 
 - `research/grounded-citations/references/citation-formats.md` — Citation formats per output target

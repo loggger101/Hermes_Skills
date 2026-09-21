@@ -11,6 +11,7 @@ Skills for academic research, paper discovery, literature review, domain reconna
 - [`blocked-page-recovery`](./blocked-page-recovery/SKILL.md) — Recover blocked/paywalled/WAF'd pages via fallbacks
 - [`blogwatcher`](./blogwatcher/SKILL.md) — Monitor blogs and RSS/Atom feeds via blogwatcher-cli tool
 - [`competitor-news-monitor`](./competitor-news-monitor/SKILL.md) — Watch named companies for material news; cited digests
+- [`general-research-rounds`](./general-research-rounds/SKILL.md) — Run source-anchoring rounds on the General_Research repo
 - [`gget`](./gget/SKILL.md) — gget CLI/Python: quick genomic DB queries + evidence logs
 - [`grounded-citations`](./grounded-citations/SKILL.md) — Ground answers and documents in cited, verifiable sources
 - [`literature-review`](./literature-review/SKILL.md) — Plan, screen, synthesize and cite technical literature
