@@ -8,12 +8,12 @@
 
 | Metric | Count |
 |--------|-------|
-| Total plugins installed | 11 |
-| Enabled | 11 |
-| Disabled | 0 |
+| Total plugins installed | 14 |
+| Enabled | 13 |
+| Disabled | 1 |
 | Dashboard/UI-only plugins | 4 |
 | Tool-providing plugins | 6 |
-| Community catalog plugins | 10 |
+| Community catalog plugins | 13 |
 | Official catalog plugins | 1 |
 | Standalone desktop plugins | 0 |
 | Total toolsets | 31 |
@@ -28,13 +28,16 @@
 | 2 | bot-forge | 0.4.1 | community | enabled | BkashJEE/hermes-bot-forge | 88dd338a | tool |
 | 3 | hermes-ledgerline | 0.1.7.post2 | community | enabled | Adolanium/hermes-ledgerline | 9be4b850 | dashboard |
 | 4 | hermes-memory-ui | 0.6.0 | community | enabled | xraysight/hermes-memory-ui | 9472bed7 | dashboard |
-| 5 | home-dashboard | 1.3.0 | community | enabled | albertocvrrbs/hermes-home-dashboard | a8a01822 | unknown |
-| 6 | icarus | 0.3.0 | community | enabled | esaradev/icarus-plugin | e46cba30 | tool |
-| 7 | job-search | 0.9.0 | community | enabled | agent-data/job-search | dba0c099 | tool |
-| 8 | memory-wiki | 1.0.0 | official | enabled | NousResearch/hermes-memory-wiki | 9bc3913b | dashboard |
-| 9 | mnemosyne-dashboard | 0.14.0 | community | enabled | wysie/mnemosyne-dashboard | a918e5e0 | tool |
-| 10 | web-search-plus | 4.2.0 | community | enabled | robbyczgw-cla/hermes-web-search-plus | d4840c9b | tool |
-| 11 | yantrikdb | 0.25.0 | community | enabled | yantrikos/yantrikdb-hermes-plugin | d7ccc7ec | tool |
+| 5 | hermes-telemetry | 0.8.0 | community | disabled | nujovich/hermes-telemetry | 146f6744 | unknown |
+| 6 | hindsight | 1.0.1 | community | enabled | vectorize-io/hindsight#hindsight-integrations/hermes | 176f8c2d | unknown |
+| 7 | home-dashboard | 1.3.0 | community | enabled | albertocvrrbs/hermes-home-dashboard | a8a01822 | unknown |
+| 8 | icarus | 0.3.0 | community | enabled | esaradev/icarus-plugin | e46cba30 | tool |
+| 9 | job-search | 0.9.0 | community | enabled | agent-data/job-search | dba0c099 | tool |
+| 10 | memory-wiki | 1.0.0 | official | enabled | NousResearch/hermes-memory-wiki | 9bc3913b | dashboard |
+| 11 | mnemosyne-dashboard | 0.14.0 | community | enabled | wysie/mnemosyne-dashboard | a918e5e0 | tool |
+| 12 | prompt-optimizer | 1.0.0 | community | enabled | Sahil-SS9/hermes-multichannel-prompt-optimizer | e83eba9a | unknown |
+| 13 | web-search-plus | 4.2.0 | community | enabled | robbyczgw-cla/hermes-web-search-plus | d4840c9b | tool |
+| 14 | yantrikdb | 0.25.0 | community | enabled | yantrikos/yantrikdb-hermes-plugin | d7ccc7ec | tool |
 
 ## Tool Configuration
 
@@ -127,7 +130,29 @@
 - **Tools**: None (dashboard panel only)
 - **Description**: Read-only Hermes Dashboard and Desktop plugin for inspecting built-in, holographic, Mem0, Honcho, Mnemosyne, Hindsight, and ByteRover memory.
 
-### 5. `home-dashboard`
+### 5. `hermes-telemetry`
+
+- **Version**: 0.8.0
+- **Catalog**: community
+- **Status**: disabled
+- **Install source**: https://github.com/nujovich/hermes-telemetry
+- **Revision**: `146f6744` (`146f6744fc4117ade784eefd7aa231c9b3f36281`) — pinned
+- **Type**: Agent tool-providing
+- **Tools**: Not reflected in `hermes tools list` (may register via agent tool discovery)
+- **Description**: Observability + budget guardrails for Hermes Agent — tokens, cost, latency, tool calls per session and cron job. Persists to local SQLite. Exposes /stats and /budget slash commands.
+
+### 6. `hindsight`
+
+- **Version**: 1.0.1
+- **Catalog**: community
+- **Status**: enabled
+- **Install source**: https://github.com/vectorize-io/hindsight#hindsight-integrations/hermes
+- **Revision**: `176f8c2d` (`176f8c2de1369f569c489b831d143b78128b5535`) — pinned
+- **Type**: Agent tool-providing
+- **Tools**: Not reflected in `hermes tools list` (may register via agent tool discovery)
+- **Description**: Hindsight — long-term memory with knowledge graph, entity resolution, and multi-strategy retrieval.
+
+### 7. `home-dashboard`
 
 - **Version**: 1.3.0
 - **Catalog**: community
@@ -138,7 +163,7 @@
 - **Tools**: Not reflected in `hermes tools list` (may register via agent tool discovery)
 - **Description**: Personalizable rice-style Home page with draggable, resizable glass widgets for Hermes Web and Desktop.
 
-### 6. `icarus`
+### 8. `icarus`
 
 - **Version**: 0.3.0
 - **Catalog**: community
@@ -149,7 +174,7 @@
 - **Tools**: `fabric` (Fabric) — self-memory + replacement model tools
 - **Description**: Self-memory and replacement models for Hermes agents. Remember your work. Train your replacement.
 
-### 7. `job-search`
+### 9. `job-search`
 
 - **Version**: 0.9.0
 - **Catalog**: community
@@ -160,7 +185,7 @@
 - **Tools**: Not reflected in `hermes tools list` (may register via agent tool discovery)
 - **Description**: A private, local-first job-search assistant that finds postings, judges them against your prose preferences (no scores), and writes digests on a schedule you control.
 
-### 8. `memory-wiki`
+### 10. `memory-wiki`
 
 - **Version**: 1.0.0
 - **Catalog**: official
@@ -171,7 +196,7 @@
 - **Tools**: None (dashboard panel only)
 - **Description**: Memory Wiki dashboard tab: browsable subject pages and daily logs derived from local session history, plus a read-only Persistent Memory audit panel (MEMORY.md / USER.md).
 
-### 9. `mnemosyne-dashboard`
+### 11. `mnemosyne-dashboard`
 
 - **Version**: 0.14.0
 - **Catalog**: community
@@ -182,7 +207,18 @@
 - **Tools**: `mnemosyne-dashboard` (Mnemosyne-Dashboard) — memory browsing & visualization
 - **Description**: Local-only web dashboard for browsing and visualising Mnemosyne memories, triples, stats, and consolidation history.
 
-### 10. `web-search-plus`
+### 12. `prompt-optimizer`
+
+- **Version**: 1.0.0
+- **Catalog**: community
+- **Status**: enabled
+- **Install source**: https://github.com/Sahil-SS9/hermes-multichannel-prompt-optimizer
+- **Revision**: `e83eba9a` (`e83eba9a8e102ed255a5bfd20cc88ea50e3af28f`) — pinned
+- **Type**: Agent tool-providing
+- **Tools**: Not reflected in `hermes tools list` (may register via agent tool discovery)
+- **Description**: Model-aware prompt rewriter with token-efficiency scoring, coaching metrics, and slash commands.
+
+### 13. `web-search-plus`
 
 - **Version**: 4.2.0
 - **Catalog**: community
@@ -193,7 +229,7 @@
 - **Tools**: `web-search-plus` (Web-Search-Plus) — multi-provider search, URL extraction, reports
 - **Description**: Multi-provider web search, URL extraction, quality reports, and opt-in research mode
 
-### 11. `yantrikdb`
+### 14. `yantrikdb`
 
 - **Version**: 0.25.0
 - **Catalog**: community
