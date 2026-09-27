@@ -52,3 +52,21 @@ hermes config set auxiliary.vision.model <model_name>
 ### "Reset permissions" / auto-approving everything
 See `references/security-privacy.md` — wipe the "Always allow" stores, don't touch yolo mode.
 
+### Plugin fails to load on every gateway start
+Symptom: repeated WARNING lines in `~/.hermes/logs/gateway.log`, e.g. `Plugin 'X' not loaded: uses N import path(s) removed on <date>` or `Failed to load plugin 'X': No __init__.py in ...`. Diagnose with:
+```bash
+grep -hE "not loaded:|Failed to load plugin" ~/.hermes/logs/gateway.log | sed 's/^.*WARNING //' | sort | uniq -c
+hermes plugins compat   # lists removed import paths for enabled plugins; clean = no output
+```
+Two known root causes (home-dashboard, fixed 2026-09-21):
+1. **Missing top-level `__init__.py`** — the agent plugin loader hard-fails directory plugins without it (`plugins_loader._load_directory_module`). UI-only plugins still need one: add a no-op stub with docstring + empty `def register(ctx):` (pattern: hermes-ledgerline). Note this is user-plugin territory; the in-tree case where omitting `__init__.py` was load-bearing applies to core's own trees, not installed plugins.
+2. **Stale imports of refactored core paths** — e.g. `hermes_cli.web_server.<symbol>` removed 2026-09-14 when web routers moved to `hermes_cli/web_routers/<topic>.py`. Repoint each lazy import to the defining module; verify every target exists in live source AND imports under the core venv before restarting. Commit locally inside `~/.hermes/plugins/<name>` (it's a git clone); do NOT push third-party upstreams.
+Fixes apply at next gateway start — grep gateway.log after restart for zero new warnings of that plugin to verify.
+
+### Memory files corrupted / memory tool refuses writes
+Symptom: MEMORY.md or USER.md contains truncated mid-word entries, doubled dashes, stray prose (e.g. `cycles: N` footers) from a failed background consolidation; the memory tool then reports `no entry matched '<old_text>'`, and after 3 failures/turn returns TERMINAL "stop retrying" (#42405). The store re-reads disk under lock on every op, so direct file repair is safe — but only if the result round-trips:
+1. Back up both files: `cp MEMORY.md MEMORY.md.pre-audit-backup.$(date +%Y%m%d_%H%M%S)` (same for USER.md).
+2. Rewrite each as a clean list of entries joined by exactly `\n§\n` — no headers, footers, or prose outside entries; the store rewrites whole files on any op, so leftover non-entry text becomes "external drift" and blocks all future replace/remove (drift guard #26045).
+3. Verify round-trip: parse = split on `\n§\n`, strip, drop empties; require `raw.strip() == '\n§\n'.join(parsed)`.
+Mid-session edits are safe for prompt caching: the system-prompt block is a frozen load-time snapshot and each memory-tool call re-reads disk. After repair, retry the intended add/replace batch — it now matches real entries.
+

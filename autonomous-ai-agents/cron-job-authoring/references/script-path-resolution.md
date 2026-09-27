@@ -92,7 +92,7 @@ python tools/audit-skills.py
 
 ## Problem: Model references must be updated across all config files
 
-When a cron job's model changes (e.g. `claude-sonnet-4-20250514` → `qwen/qwen3.6-35b`),
+When a cron job's model changes (on this machine: LM Studio moved from `spark-5525` @ :1234 to `unsloth/qwen3.8-27b` @ localhost:42069),
 the model string appears in multiple places that all need updating:
 
 1. **Cron JSON config** — `"model"` and `"provider"` fields in `.hermes/cron/active/*.json`
