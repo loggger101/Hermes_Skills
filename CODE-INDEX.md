@@ -1,11 +1,11 @@
 # CODE-INDEX
 
-Flat index of all **159 code files** (39,468 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **159 code files** (39,507 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
 
-- `autonomous-ai-agents/hermes-agent/scripts/sync-installed-plugins.py` (script, python, 525 lines) — Sync the installed-plugins reference doc from the live Hermes environment
+- `autonomous-ai-agents/hermes-agent/scripts/sync-installed-plugins.py` (script, python, 550 lines) — Sync the installed-plugins reference doc from the live Hermes environment
 - `autonomous-ai-agents/hermes-agent/templates/clock.mjs` (template, javascript, 51 lines) — * Reference user widget: a live clock docked above the status bar. * Copy to ~/.hermes/tui-widgets/clock.mjs, …
 - `autonomous-ai-agents/hermes-agent/templates/plugin.js` (template, javascript, 97 lines) — * Hermes desktop plugin template. Save as: * <hermes home>/desktop-plugins/<id>/plugin.js (folder name == id) …
 
@@ -295,10 +295,10 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `tools/mutation-test-secret-gate.py` (repo tooling, python, 145 lines) — Mutation test for audit-skills.scan_repo_for_secrets — the secret scan tests itself
 - `tools/mutation-test-selftest-gate.py` (repo tooling, python, 104 lines) — Mutation self-test for tools/run-self-tests.py (the self-test harness gate)
 - `tools/regen-dependency-map.py` (repo tooling, python, 101 lines) — Regenerate DEPENDENCY.md from live related_skills frontmatter (same format as repo convention).
-- `tools/run-self-tests.py` (repo tooling, python, 217 lines) — Discovery-based runner for the skill self-test harnesses (*_verify.py)
-- `tools/run-skill-tests.py` (repo tooling, python, 134 lines) — Discover and run every pytest suite that ships inside a skill, one command
+- `tools/run-self-tests.py` (repo tooling, python, 220 lines) — Discovery-based runner for the skill self-test harnesses (*_verify.py)
+- `tools/run-skill-tests.py` (repo tooling, python, 140 lines) — Discover and run every pytest suite that ships inside a skill, one command
 - `tools/sync-hermes-skills.py` (repo tooling, python, 996 lines)
-- `tools/verify-all.py` (repo tooling, python, 403 lines) — Run every health gate in this repo and report one verdict
+- `tools/verify-all.py` (repo tooling, python, 408 lines) — Run every health gate in this repo and report one verdict
 
 ---
 *159 code files: 112 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*

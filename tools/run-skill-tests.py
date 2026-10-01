@@ -20,6 +20,7 @@ Usage:
     py tools/run-skill-tests.py            # run every discovered suite
     py tools/run-skill-tests.py --list     # print what would run, exit 0
 """
+import os
 import re
 import subprocess
 import sys
@@ -37,6 +38,9 @@ except (AttributeError, ValueError):
 
 REPO = Path(__file__).resolve().parents[1]
 PY = sys.executable or "python3"
+# Decode child output as UTF-8 (and make children emit it); the Windows codepage cannot.
+CHILD_IO = dict(encoding="utf-8", errors="replace",
+                env=dict(os.environ, PYTHONIOENCODING="utf-8"))
 
 # Historical snapshots and non-skill trees never contain runnable suites.
 SKIP_DIRS = {".git", ".hermes", ".github", "profiles-export", "docs"}
@@ -78,20 +82,22 @@ def discover_suites(root=None):
 def run_suite(label: str, tests_dir: Path) -> tuple[str, bool, str]:
     proc = subprocess.run(
         [PY, "-m", "pytest", "--tb=line", "-q", "."],
-        cwd=str(tests_dir), capture_output=True, text=True, timeout=900,
+        cwd=str(tests_dir), capture_output=True, timeout=900, **CHILD_IO,
     )
     out = (proc.stdout or "") + "\n" + (proc.stderr or "")
-    # pull the pytest short-summary line ("29 passed in 10.9s") — with -q it is
-    # printed bare, without === separators; fall back to a failure count if present
-    m = re.search(r"^(\d+ failed(?:, \d+ (?:passed|skipped|xfailed))?|\d+ passed(?:, \d+ skipped)?) in [\d.]+s", out, re.M)
+    # pull the pytest short-summary line ("29 passed in 10.9s", "3 passed, 18 errors in
+    # 0.7s", "1 error in 0.2s") — with -q it is printed bare, without === separators
+    m = re.search(r"^(\d+ \w+(?:, \d+ \w+)*) in [\d.]+s", out, re.M)
     note = (m.group(1).strip()[:140] if m else "no summary line").replace("\n", " ")
 
     # Fail loud: on failure the runner must say WHICH tests failed — a bare
     # "1 failed" in CI forces a log dig every time. --tb=line gives one line per
-    # FAILED test (file::test - reason); cap so one pathological suite can't flood.
+    # FAILED test (file::test - reason), and collection/fixture errors print as
+    # ERROR lines; cap so one pathological suite can't flood.
     if proc.returncode != 0:
-        failed_lines = [ln.strip() for ln in out.splitlines() if ln.startswith("FAILED ")]
-        detail = "\n".join(f"      {ln[:300]}" for ln in failed_lines[:25]) or "      (no FAILED lines parsed — see CI log)"
+        failed_lines = [ln.strip() for ln in out.splitlines()
+                        if ln.startswith(("FAILED ", "ERROR "))]
+        detail = "\n".join(f"      {ln[:300]}" for ln in failed_lines[:25]) or "      (no FAILED or ERROR lines parsed — see CI log)"
         note += f"\n{detail}"
     return label, proc.returncode == 0, note
 

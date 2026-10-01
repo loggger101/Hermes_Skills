@@ -30,7 +30,17 @@ CI / no-local-install behavior:
     This is a deliberately local-only gate — it only catches drift when run
     on a machine that actually has Hermes installed. In CI it is a no-op that
     keeps the pipeline green so the reference doc doesn't rot in the repo.
+
+Per-machine inventory:
+    Two machines share this repo, each with its own Hermes install and its
+    own plugin set. The doc records the OS user of the machine that generated
+    it (``Generated on machine: `Owner` ``). ``--check`` on a different
+    machine prints ``skipped: …`` and exits 0 instead of reporting permanent
+    drift; running without ``--check`` there adopts that machine's inventory.
+    A doc with no machine line is checked as before, so it fails until it is
+    regenerated.
 """
+import getpass
 import json
 import os
 import re
@@ -58,6 +68,10 @@ except (AttributeError, ValueError):
     pass
 
 MIN_PLUGINS = 1  # write-guard floor — a scan returning 0 plugins is a failed scan
+
+# The OS user names the machine (`Loggg`, `Owner`); the hostname stays out of a public repo.
+MACHINE = getpass.getuser()
+MACHINE_RE = re.compile(r"^> Generated on machine: `([^`]+)`", re.MULTILINE)
 
 # ── Static metadata (update by hand only when a new plugin is installed) ───
 # These fields cannot be read from files alone and are stable between releases.
@@ -165,8 +179,10 @@ def find_hermes_dir():
 def run_hermes_cmd(args, timeout=30):
     """Run a hermes CLI command, return (stdout_str, ok)."""
     try:
-        proc = subprocess.run(["hermes"] + args,
-                              capture_output=True, text=True, timeout=timeout)
+        # The CLI prints UTF-8 (✓/✗ markers); the Windows default codepage
+        # cannot decode it and the reader thread dies, leaving stdout empty.
+        proc = subprocess.run(["hermes"] + args, capture_output=True,
+                              encoding="utf-8", errors="replace", timeout=timeout)
         if proc.returncode != 0:
             return "", False
         return proc.stdout, True
@@ -333,6 +349,8 @@ def generate_doc(plugins, metadata, config_enabled, tools_enabled, tools_disable
     L.append("> **Machine-generated** by `scripts/sync-installed-plugins.py` — do not edit by hand.")
     L.append("> Regenerate: `python3 hermes-agent/scripts/sync-installed-plugins.py`")
     L.append("> Check drift: `python3 hermes-agent/scripts/sync-installed-plugins.py --check`")
+    L.append(f"> Generated on machine: `{MACHINE}` (OS user). Each machine has its own plugin set;")
+    L.append("> `--check` on another machine skips rather than reporting drift.")
     L.append("")
     L.append("## Summary")
     L.append("")
@@ -454,6 +472,13 @@ def main():
         print("skipped: no local Hermes installation found "
               "($HERMES_HOME / $LOCALAPPDATA/hermes / ~/.hermes) — local-only gate")
         return 0
+
+    if check_mode and REF_DOC.exists():
+        m = MACHINE_RE.search(REF_DOC.read_text(encoding="utf-8"))
+        if m and m.group(1) != MACHINE:
+            print(f"skipped: {REF_DOC.name} is {m.group(1)}'s inventory, this is "
+                  f"{MACHINE}'s machine — run without --check to adopt this one's")
+            return 0
 
     # 1. Plugin data from `hermes plugins list --json`
     plugins = get_plugins_json()

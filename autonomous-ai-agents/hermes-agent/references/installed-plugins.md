@@ -3,6 +3,8 @@
 > **Machine-generated** by `scripts/sync-installed-plugins.py` — do not edit by hand.
 > Regenerate: `python3 hermes-agent/scripts/sync-installed-plugins.py`
 > Check drift: `python3 hermes-agent/scripts/sync-installed-plugins.py --check`
+> Generated on machine: `Owner` (OS user). Each machine has its own plugin set;
+> `--check` on another machine skips rather than reporting drift.
 
 ## Summary
 
