@@ -115,7 +115,7 @@ Run before scheduling:
 python .hermes/cron/validate-skill-refs.py   # all skill refs resolve
 python .hermes/cron/validate-cronjobs.py      # structural + threshold + no_agent consistency
 python tools/audit-skills.py                  # repo audit passes
-python3 tools/verify-all.py                     # ALL 17 gates pass (sync script's pre-push gate)
+python3 tools/verify-all.py                     # every gate passes (sync script's pre-push gate)
 ```
 
 See also: references/cronjob-config-patterns.md
