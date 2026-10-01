@@ -46,17 +46,6 @@ grep -i "raster\|token bridge" CODE-INDEX.md
 
 This repository serves as a centralized database of all **212 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities. All skills follow the standard `SKILL.md` format with consistent frontmatter, section headers, and `related_skills` cross-references (550 cross-references mapped across 212 skills — every skill is connected to at least one other). See [audit notes](docs/archive/audit-notes-skills-repo-pass.md) for the full audit details and [DEPENDENCY.md](./DEPENDENCY.md) for the full relationship map.
 
-### Source Profiles
-
-Skills were imported from three Hermes profiles:
-1. **Default profile** (`~/.hermes/skills/`) — system-level skills
-2. **the-skill-maker** (`~/.hermes/profiles/the-skill-maker/skills/`) — primary working profile
-3. **the-memory-controller** (`~/.hermes/profiles/the-memory-controller/skills/`) — memory management profile
-
-When a skill existed in multiple profiles, the version from the highest-priority profile was used.
-
-> ⚠️ **Known remaining issues** — see [audit notes](docs/archive/audit-notes-skills-repo-pass.md) for the full audit.
-
 ### Categories
 
 | Category | Description | Skill Count |
@@ -89,261 +78,10 @@ When a skill existed in multiple profiles, the version from the highest-priority
 
 ### Skill Catalog
 
-All 212 skills organized by category:
-
-#### Apple
-
-- [`apple-notes`](./apple/apple-notes) — Manage Apple Notes via memo CLI: create, search, edit.
-- [`apple-reminders`](./apple/apple-reminders) — Apple Reminders via remindctl: add, list, complete.
-- [`findmy`](./apple/findmy) — Track Apple devices/AirTags via FindMy.app on macOS.
-- [`imessage`](./apple/imessage) — Send and receive iMessages/SMS via the imsg CLI on macOS.
-#### Autonomous AI Agents
-
-- [`agent-merge-conflict-arbiter`](./autonomous-ai-agents/agent-merge-conflict-arbiter) — Neutral arbiter for merge conflicts between two agents.
-- [`autonomous-repo-cronjob`](./autonomous-ai-agents/autonomous-repo-cronjob) — Write self-contained cronjob prompts for existing repos.
-- [`claude-code`](./autonomous-ai-agents/claude-code) — Delegate coding to Claude Code CLI (features, PRs).
-- [`codex`](./autonomous-ai-agents/codex) — Delegate coding to OpenAI Codex CLI (features, PRs).
-- [`computer-use`](./autonomous-ai-agents/computer-use) — Drive the desktop in the background without stealing focus.
-- [`cron-config-authoring`](./autonomous-ai-agents/cron-config-authoring) — Author cronjob JSON configs with structured skills.
-- [`cron-job-authoring`](./autonomous-ai-agents/cron-job-authoring) — Author autonomous cron prompts with guardrails.
-- [`dynamic-workflow`](./autonomous-ai-agents/dynamic-workflow) — Plan-in-code fan-outs, adversarial verification, waves.
-- [`hermes-agent`](./autonomous-ai-agents/hermes-agent) — Use, configure, theme, extend, orchestrate Hermes Agent.
-- [`mattpocock-resolving-merge-conflicts`](./autonomous-ai-agents/mattpocock-resolving-merge-conflicts) — Resolve git merge conflicts by tracing each side's intent.
-- [`merge-reconciler`](./autonomous-ai-agents/merge-reconciler) — Neutral third-party resolution of agent merge conflicts.
-- [`opencode`](./autonomous-ai-agents/opencode) — Delegate coding to OpenCode CLI (features, PR review).
-- [`repowise`](./autonomous-ai-agents/repowise) — Index a repo once; the agent reads answers, not grep loops
-#### Communication
-
-- [`mental-models`](./communication/mental-models) — Mental models as files: pick a latticework of 2-4 to apply.
-- [`one-three-one-rule`](./communication/one-three-one-rule) — 1-3-1 decision briefs: problem, three options, one pick.
-#### Creative
-
-- [`architecture-diagram`](./creative/architecture-diagram) — Dark-themed SVG architecture/cloud/infra diagrams as HTML.
-- [`ascii-art`](./creative/ascii-art) — ASCII art: pyfiglet, cowsay, boxes, image-to-ascii.
-- [`ascii-video`](./creative/ascii-video) — ASCII video: convert video/audio to colored ASCII MP4/GIF.
-- [`awwwards-gsap-motion`](./creative/awwwards-gsap-motion) — Awwwards-level GSAP motion + deterministic layout RNG.
-- [`baoyu-infographic`](./creative/baoyu-infographic) — Infographics: 21 layouts x 21 styles (信息图, 可视化).
-- [`claude-design`](./creative/claude-design) — Design one-off HTML artifacts (landing, deck, prototype).
-- [`comfyui`](./creative/comfyui) — Generate images, video, and audio via diffusion workflows.
-- [`design-md`](./creative/design-md) — Author/validate/export Google's DESIGN.md token spec files.
-- [`design-taste-frontend`](./creative/design-taste-frontend) — Anti-slop frontend skill: brief-inferred design direction.
-- [`diagram-design`](./creative/diagram-design) — Create 39 diagram types as standalone HTML/SVG/PNG files.
-- [`editorial-minimalism-ui`](./creative/editorial-minimalism-ui) — Editorial monochrome minimalism, Notion/Linear-tier UI.
-- [`excalidraw`](./creative/excalidraw) — Hand-drawn Excalidraw JSON diagrams (arch, flow, seq).
-- [`full-output-enforcement`](./creative/full-output-enforcement) — Enforce complete output; ban placeholder patterns.
-- [`humanizer`](./creative/humanizer) — Humanize text: strip AI-isms and add real voice.
-- [`industrial-brutalist-ui`](./creative/industrial-brutalist-ui) — Swiss-print + CRT-terminal brutalist UI engineering.
-- [`manim-video`](./creative/manim-video) — Manim CE animations: 3Blue1Brown math/algo videos.
-- [`mattpocock-prototype`](./creative/mattpocock-prototype) — Build a throwaway prototype to answer a design question.
-- [`no-ai-slop`](./creative/no-ai-slop) — Edit drafts into sharper human writing; detect AI-slop patterns.
-- [`p5js`](./creative/p5js) — p5.js sketches: gen art, shaders, interactive, 3D.
-- [`popular-web-designs`](./creative/popular-web-designs) — 54 real design systems as HTML/CSS.
-- [`pretext`](./creative/pretext) — Build creative browser demos with DOM-free text layout.
-- [`pygame`](./creative/pygame) — Use when building or testing pygame/SDL games.
-- [`redesign-existing-projects`](./creative/redesign-existing-projects) — Audit-first redesign of existing sites to premium quality.
-- [`sketch`](./creative/sketch) — Throwaway HTML mockups: 2-3 design variants to compare.
-- [`soft-premium-ui`](./creative/soft-premium-ui) — $150k-agency soft UI: double-bezel cards, spring motion.
-- [`songwriting-and-ai-music`](./creative/songwriting-and-ai-music) — Songwriting craft and Suno AI music prompts.
-- [`static-site-seo`](./creative/static-site-seo) — Static site SEO: JSON-LD, meta tags, analytics, CSP.
-- [`stitch`](./creative/stitch) — Generate premium anti-generic DESIGN.md files for Stitch.
-- [`system-atlas`](./creative/system-atlas) — Build explorable isometric architecture atlases as HTML.
-- [`touchdesigner-mcp`](./creative/touchdesigner-mcp) — Control TouchDesigner via twozero MCP.
-#### Data Science
-
-- [`astro-toolkit-selection`](./data-science/astro-toolkit-selection) — Choose astrodynamics tools: brahe, nyx, OpenSCvx, skyfield.
-- [`bit-identity-float-pipelines`](./data-science/bit-identity-float-pipelines) — Verify correctness via exact float hashes / bit-identity.
-- [`build-systems-data`](./data-science/build-systems-data) — Data build systems: orchestration, versioning, CSV at scale.
-- [`duckdb-querying`](./data-science/duckdb-querying) — Query CSV/Parquet/S3 data ad-hoc via DuckDB Friendly SQL.
-- [`economicspace-pipeline`](./data-science/economicspace-pipeline) — Use on economicspace (asteroid-mining pipeline).
-- [`evolutionary-ml`](./data-science/evolutionary-ml) — Evolutionary ML: GA, NEAT, tournaments, parallel eval.
-- [`jupyter-notebook`](./data-science/jupyter-notebook) — Iterative Python via live Jupyter kernel (hamelnb).
-- [`model-export-deploy`](./data-science/model-export-deploy) — Model export: ONNX, TorchScript, HDF5, NumPy, JSON.
-- [`optimization-modeling-pyomo`](./data-science/optimization-modeling-pyomo) — Model LP/MIP/NLP/GDP in Pyomo with live-verified patterns.
-- [`orbital-mechanics-data`](./data-science/orbital-mechanics-data) — Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC.
-- [`python-data-science`](./data-science/python-data-science) — Python DS: EDA, cleaning, modeling, eval, viz.
-- [`regex-vs-llm-structured-text`](./data-science/regex-vs-llm-structured-text) — Regex-first parsing; LLM only for flagged edge cases.
-- [`space-data-pipelines`](./data-science/space-data-pipelines) — Build space/astro data pipelines with verified API gotchas.
-- [`space-mission-computation-paradigms`](./data-science/space-mission-computation-paradigms) — Choose trajectory method: closed-form vs propagation etc.
-- [`sql-for-data`](./data-science/sql-for-data) — SQL for data: queries, joins, windows, aggregation.
-#### DevOps
-
-- [`cron-pipeline-watchdog`](./devops/cron-pipeline-watchdog) — Watch cron pipelines for stale jobs; retry and escalate.
-- [`docker-containers`](./devops/docker-containers) — Build and debug Docker containers and Compose stacks.
-- [`rest-api-client`](./devops/rest-api-client) — Call REST APIs: auth, pagination, rate limits, errors.
-- [`sdlc-review`](./devops/sdlc-review) — Review Kanban handoffs and route verified outcomes.
-- [`system-design-scaling`](./devops/system-design-scaling) — Scalable system design: CAP, caches, shards, tradeoffs (primer-distilled + runnable scripts).
-- [`sqlite-queries`](./devops/sqlite-queries) — Query, inspect, and export SQLite databases.
-- [`ssh-remote`](./devops/ssh-remote) — Commands and file transfer on remote machines over SSH.
-- [`pinggy-tunnel`](./devops/pinggy-tunnel) — Zero-install localhost tunnels over SSH via Pinggy (webhook/MCP/demo recipes).
-- [`watchers`](./devops/watchers) — Poll RSS, JSON APIs, and GitHub with watermark dedup.
-- [`wizard`](./devops/wizard) — Bash wizard walking a human through manual-only steps.
-#### Doc Co-authoring
-
-- [`doc-coauthoring`](./doc-coauthoring) — Guide structured documentation co-authoring workflows.
-#### Dogfood
-
-- [`adversarial-ux-test`](./dogfood/adversarial-ux-test) — Roleplay a hostile user to find and triage UX pain points.
-#### Email
-
-- [`email-inbox-triage`](./email/email-inbox-triage) — Triage an inbox: prioritize threads, draft replies safely.
-- [`himalaya`](./email/himalaya) — Himalaya CLI: IMAP/SMTP email from terminal.
-#### Frontend Design
-
-- [`frontend-design`](./frontend-design) — Distinctive visual design for AI-generated UI.
-- [`nicegui-app-builder`](./frontend-design/nicegui-app-builder) — Build Python reactive web/desktop apps with NiceGUI.
-#### GitHub
-
-- [`codebase-inspection`](./github/codebase-inspection) — Inspect codebases w/ pygount: LOC, languages, ratios.
-- [`github-auth`](./github/github-auth) — GitHub auth setup: HTTPS tokens, SSH keys, gh CLI login.
-- [`github-code-review`](./github/github-code-review) — Review PRs: diffs, inline comments via gh or REST.
-- [`github-issue-to-pr`](./github/github-issue-to-pr) — Carry a GitHub issue to a verified PR with honest CI state.
-- [`github-issues`](./github/github-issues) — Create, triage, label, assign GitHub issues via gh or REST.
-- [`github-pr-workflow`](./github/github-pr-workflow) — GitHub PR lifecycle: branch, commit, open, CI, merge.
-- [`github-repo-management`](./github/github-repo-management) — Clone/create/fork repos; manage remotes, releases.
-- [`issue-triage-state-machine`](./github/issue-triage-state-machine) — Triage issues/PRs: categorise, verify, grill, agent briefs.
-- [`mattpocock-code-review`](./github/mattpocock-code-review) — Two-axis code review: Standards and Spec via sub-agents.
-- [`mattpocock-finishing-a-development-branch`](./github/mattpocock-finishing-a-development-branch) — Complete git branches with merge or PR options.
-- [`mattpocock-gh-fix-ci`](./github/mattpocock-gh-fix-ci) — Debug failing GitHub Actions checks on a PR.
-- [`mattpocock-yeet`](./github/mattpocock-yeet) — Git workflow: stage, commit, push, open PR.
-#### HuggingFace Trackio
-
-- [`huggingface-trackio`](./huggingface-trackio) — Log and retrieve ML training experiments with Trackio.
-#### MCP
-
-- [`fastmcp`](./mcp/fastmcp) — Build, test, and deploy Python MCP servers.
-- [`mcporter`](./mcp/mcporter) — List, auth, and call MCP servers/tools from the terminal (npx).
-#### Media
-
-- [`gif-search`](./media/gif-search) — Search/download GIFs from Tenor via curl + jq.
-- [`songsee`](./media/songsee) — Audio spectrograms and feature extraction via CLI.
-- [`youtube-content`](./media/youtube-content) — YouTube transcripts to summaries, threads, blogs.
-#### MLOps
-
-- [`accelerate`](./mlops/accelerate) — Run PyTorch training across GPUs with minimal changes.
-- [`evaluating-llms-harness`](./mlops/evaluation/evaluating-llms-harness) — lm-eval-harness: benchmark LLMs (MMLU, GSM8K, etc.).
-- [`huggingface-hub`](./mlops/huggingface-hub) — HuggingFace hf CLI: search/download/upload models.
-- [`llama-cpp`](./mlops/inference/llama-cpp) — llama.cpp local GGUF inference + HF Hub model discovery.
-- [`serving-llms-vllm`](./mlops/inference/serving-llms-vllm) — vLLM: LLM serving, OpenAI API, quantization.
-- [`weights-and-biases`](./mlops/evaluation/weights-and-biases) — W&B: log ML experiments, sweeps, registry, dashboards.
-
-#### Note Taking
-
-- [`knowledge-ops`](./note-taking/knowledge-ops) — KB ops: ingest, dedupe, sync, retrieve across stores.
-- [`obsidian`](./note-taking/obsidian) — Read, search, create, and edit notes in the Obsidian vault.
-#### Productivity
-
-- [`airtable`](./productivity/airtable) — Airtable REST API via curl. Records CRUD, filters, upserts.
-- [`box`](./productivity/box) — Box manages cloud files, sharing, search, and metadata.
-- [`decision-questionnaire`](./productivity/decision-questionnaire) — Turn an unanswerable decision into a questionnaire doc.
-- [`document-to-action-items`](./productivity/document-to-action-items) — Extract cited obligations, deadlines, tasks from documents.
-- [`docx`](./productivity/docx) — Create, read, edit, template, and review Word .docx files.
-- [`google-workspace`](./productivity/google-workspace) — Gmail, Calendar, Drive, Docs, Sheets via gws CLI or Python.
-- [`maps`](./productivity/maps) — Geocode, POIs, routes, timezones via OpenStreetMap/OSRM.
-- [`mattpocock-handoff`](./productivity/mattpocock-handoff) — Compact conversation into a handoff doc for another agent.
-- [`meeting-action-items`](./productivity/meeting-action-items) — Turn meeting notes into cited decisions, owners, tickets.
-- [`nano-pdf`](./productivity/nano-pdf) — Edit text in existing PDFs via natural-language prompts.
-- [`notion`](./productivity/notion) — Notion API + ntn CLI: pages, databases, markdown, Workers.
-- [`ocr-and-documents`](./productivity/ocr-and-documents) — Extract text from PDFs/scans (pymupdf, marker-pdf).
-- [`pdf`](./productivity/pdf) — Create, read, merge, fill, and secure PDF files.
-- [`powerpoint`](./productivity/powerpoint) — Create, read, edit .pptx decks with python-pptx.
-- [`product-price-monitor`](./productivity/product-price-monitor) — Watch product, flight, or listing prices; alert on target.
-- [`session-librarian`](./productivity/session-librarian) — Organize sessions by prompt: find, rename, archive, prune.
-- [`teach`](./productivity/teach) — Teach a topic across sessions via mission and lessons.
-- [`teams-meeting-pipeline`](./productivity/teams-meeting-pipeline) — Teams meeting summaries, job replay, Graph subscriptions.
-- [`website-audit`](./productivity/website-audit) — Audit websites/codebases into .docx reports; read-only.
-- [`weekly-review-planning`](./productivity/weekly-review-planning) — Weekly reset: commitments, stalled work, next-week plan.
-- [`xlsx`](./productivity/xlsx) — Create, read, edit Excel .xlsx workbooks and CSVs.
-#### Research
-
-- [`arxiv`](./research/arxiv) — Search arXiv papers by keyword, author, category, or ID.
-- [`bioinformatics`](./research/bioinformatics) — Gateway to 400+ genomics and computational biology skills.
-- [`blocked-page-recovery`](./research/blocked-page-recovery) — Recover blocked/paywalled/WAF'd pages via fallbacks.
-- [`blogwatcher`](./research/blogwatcher) — Monitor blogs and RSS/Atom feeds via blogwatcher-cli tool.
-- [`competitor-news-monitor`](./research/competitor-news-monitor) — Watch named companies for material news; cited digests.
-- [`general-research-rounds`](./research/general-research-rounds) — Run source-anchoring rounds on the General_Research repo.
-- [`gget`](./research/gget) — Quick bioinformatics lookups (Ensembl, BLAST) via gget CLI/Python + evidence logs.
-- [`grounded-citations`](./research/grounded-citations) — Ground answers and documents in cited, verifiable sources.
-- [`llm-wiki`](./research/llm-wiki) — Karpathy's LLM Wiki: build/query interlinked markdown KB.
-- [`literature-review`](./research/literature-review) — Plan, screen, synthesize and cite technical literature.
-- [`mattpocock-research`](./research/mattpocock-research) — Research a question against primary sources.
-- [`parallel-cli`](./research/parallel-cli) — Agent-native web search, deep research, and enrichment.
-- [`pubmed-database`](./research/pubmed-database) — PubMed/NCBI E-utilities: MeSH queries, PMID lookup, API-backed search logs.
-- [`qmd`](./research/qmd) — Hybrid local search over notes, docs, and transcripts.
-- [`research-paper-writing`](./research/research-paper-writing) — Write ML papers for NeurIPS/ICML/ICLR: design→submit.
-- [`rss-feeds`](./research/rss-feeds) — Read RSS, Atom, JSON feeds; discover feeds behind a page.
-- [`scrapling`](./research/scrapling) — Scrape sites with stealth browsing and Cloudflare bypass.
-- [`scholar-evaluation`](./research/scholar-evaluation) — Scholarly work rubric: papers, proposals, evidence quality.
-#### Security
-
-- [`mattpocock-security-review`](./security/mattpocock-security-review) — Review code for security vulnerabilities by language.
-- [`oss-forensics`](./security/oss-forensics) — GitHub supply-chain forensics: recovery, IOCs, reporting.
-- [`semgrep-rule-creator`](./security/semgrep-rule-creator) — Create tested Semgrep rules with taint-mode support.
-#### Smart Home
-
-- [`openhue`](./smart-home/openhue) — Control Philips Hue lights, scenes, rooms via OpenHue CLI.
-#### Social Media
-
-- [`reddit-reading`](./social-media/reddit-reading) — Read Reddit: subs, search, threads, users. No browser.
-- [`xurl`](./social-media/xurl) — X/Twitter via xurl CLI: post search, posting, DM, media.
-#### Software Development
-
-- [`architecture-metrics`](./software-development/architecture-metrics) — Dependency-graph architecture metrics for Python repos.
-- [`ast-grep`](./software-development/ast-grep) — AST-aware structural code search and rewrite via ast-grep.
-- [`brainstorming`](./software-development/brainstorming) — Triage as spike/bounded/architectural; approve first.
-- [`codebase-onboarding`](./software-development/codebase-onboarding) — Onboard to a new repo: arch map + starter AGENTS.md.
-- [`cli-tool-craft`](./software-development/cli-tool-craft) — CLI tools: subcommands, config validation, env substitution.
-- [`code-quality-signal`](./software-development/code-quality-signal) — Score Python repos on 5 ungameable structural metrics.
-- [`code-wiki`](./software-development/code-wiki) — Generate wiki docs + Mermaid diagrams for any codebase.
-- [`dispatching-parallel-agents`](./software-development/dispatching-parallel-agents) — Parallel subagents for independent problem domains.
-- [`conversation-to-spec`](./software-development/conversation-to-spec) — Turn a conversation into a publishable spec.
-- [`dogfood`](./software-development/dogfood) — Exploratory QA of web apps: find bugs, evidence, reports.
-- [`executing-plans`](./software-development/executing-plans) — Execute a written plan inline with checkpoints.
-- [`generating-python-installer`](./software-development/generating-python-installer) — Nuitka + Inno Setup: smallest, fastest Windows installers.
-- [`github`](./software-development/github) — GitHub via gh CLI: PRs, issues, reviews, repos, auth.
-- [`grill-me`](./software-development/grill-me) — Adversarial plan interview before implementation.
-- [`grilling-interview`](./software-development/grilling-interview) — Stress-test a plan by interviewing in design-tree rounds.
-- [`hermes-agent-skill-authoring`](./software-development/hermes-agent-skill-authoring) — Author in-repo SKILL.md files: frontmatter and structure.
-- [`inspecting-hermes-desktop-dom`](./software-development/inspecting-hermes-desktop-dom) — Read the live Hermes desktop DOM/CSS over CDP.
-- [`living-docs-governance`](./software-development/living-docs-governance) — Docs governance: constitution, map, status, history roles.
-- [`mattpocock-ask-if-underspecified`](./software-development/mattpocock-ask-if-underspecified) — Ask clarifying questions when a request is ambiguous.
-- [`mattpocock-codebase-design`](./software-development/mattpocock-codebase-design) — Design deep modules with small interfaces.
-- [`mattpocock-diagnosing-bugs`](./software-development/mattpocock-diagnosing-bugs) — Diagnose hard bugs via tight feedback loops and bisection.
-- [`mattpocock-domain-modeling`](./software-development/mattpocock-domain-modeling) — Sharpen domain terms and update CONTEXT.md and ADRs inline.
-- [`mattpocock-evidence-driven`](./software-development/mattpocock-evidence-driven) — Validate code changes with evidence and testing gates.
-- [`mattpocock-improve-codebase-architecture`](./software-development/mattpocock-improve-codebase-architecture) — Survey code for module deepening, fix opportunities.
-- [`mattpocock-multi-agent-code-review`](./software-development/mattpocock-multi-agent-code-review) — Multi-agent PR review: bug-hunter, security, contracts.
-- [`mattpocock-spec-driven-development`](./software-development/mattpocock-spec-driven-development) — Spec-driven development with planning and quality gates.
-- [`mattpocock-subagent-driven-development`](./software-development/mattpocock-subagent-driven-development) — Dispatch fresh subagents per task with task review.
-- [`mattpocock-tdd`](./software-development/mattpocock-tdd) — TDD red-green-refactor at pre-agreed seams.
-- [`mattpocock-to-tickets`](./software-development/mattpocock-to-tickets) — Break a plan or spec into tracer-bullet tickets with edges.
-- [`mattpocock-using-git-worktrees`](./software-development/mattpocock-using-git-worktrees) — Set up isolated git worktrees for feature work.
-- [`mattpocock-writing-for-agents`](./software-development/mattpocock-writing-for-agents) — Write docs agents can consume: skills, AGENTS.md, specs.
-- [`modern-python-tooling`](./software-development/modern-python-tooling) — Set up Python projects with uv, ruff, ty, PEP 723.
-- [`node-inspect-debugger`](./software-development/node-inspect-debugger) — Debug Node.js via --inspect + Chrome DevTools Protocol CLI.
-- [`plan`](./software-development/plan) — Write a markdown plan to .hermes/plans/; no execution.
-- [`property-based-testing`](./software-development/property-based-testing) — Hypothesis property tests: roundtrip, oracle, invariant.
-- [`python-craft`](./software-development/python-craft) — Python craft: style, typing, patterns, testing, packaging.
-- [`python-debugpy`](./software-development/python-debugpy) — Debug Python: pdb REPL + debugpy remote (DAP).
-- [`receiving-code-review`](./software-development/receiving-code-review) — Verify review feedback against the codebase before acting.
-- [`requesting-code-review`](./software-development/requesting-code-review) — Pre-commit review: security scan, quality gates, auto-fix.
-- [`rest-graphql-debug`](./software-development/rest-graphql-debug) — Debug REST and GraphQL APIs: auth, schemas, repro.
-- [`retro`](./software-development/retro) — Retrospective on a session proposing environment fixes.
-- [`simplify-code`](./software-development/simplify-code) — Parallel 4-agent cleanup of recent code changes.
-- [`skill-flow-router`](./software-development/skill-flow-router) — Route any task through the right skill flow in this brain.
-- [`spike`](./software-development/spike) — Throwaway experiments to validate an idea before build.
-- [`streamlit-dashboards`](./software-development/streamlit-dashboards) — Streamlit dashboards: layout, caching, charts, state.
-- [`systematic-debugging`](./software-development/systematic-debugging) — 4-phase root cause debugging: understand before fixing.
-- [`test-driven-development`](./software-development/test-driven-development) — TDD: enforce RED-GREEN-REFACTOR, tests before code.
-- [`test-infra-ml`](./software-development/test-infra-ml) — Testing ML systems: sims, EAs, tournaments, checkpoints.
-- [`windows-desktop-e2e`](./software-development/windows-desktop-e2e) — Windows desktop E2E testing with pywinauto + UI Automation.
-- [`verification-before-completion`](./software-development/verification-before-completion) — No completion claims without fresh verification evidence.
-- [`verification-culture`](./software-development/verification-culture) — Doc-driven verification: backlog, audits, regression.
-- [`wayfinder-map-planning`](./software-development/wayfinder-map-planning) — Plan multi-session work as a map of decision tickets.
-#### Web Development
-
-- [`har-derived-api-client`](./web-development/har-derived-api-client) — Record a site's XHR into a HAR, derive an HTTP client.
-- [`publish-site`](./web-development/publish-site) — Versioned deploys to GitHub/Cloudflare/Netlify Pages with rollback + live verification.
-- [`static-site-patterns`](./web-development/static-site-patterns) — Static-site perf/UX: PWA installability + Core Web Vitals.
+One line per skill lives in [SKILLS-INDEX.md](./SKILLS-INDEX.md), generated from each
+skill's frontmatter by `python tools/gen-skills-index.py` and drift-checked by verify-all.
+Browse a category folder above for the files themselves. (This README used to carry a
+hand-written copy of that list; it drifted twice, so it was removed in round-45.)
 
 
 ## Skill Structure
@@ -386,9 +124,9 @@ metadata:
 
 Skills come from three sources (see [audit notes](docs/archive/audit-notes-skills-repo-pass.md) for the full history):
 
-1. **Imported skills** — copied in from live Hermes profiles (`default`, `the-skill-maker`, `the-memory-controller`) during the initial import; where a skill existed in multiple profiles, the highest-priority profile's version was kept.
+1. **Imported skills** — copied in from three live Hermes profiles during the initial import: `default` (`~/.hermes/skills/`), `the-skill-maker` (`~/.hermes/profiles/the-skill-maker/skills/`, the primary working profile) and `the-memory-controller` (`~/.hermes/profiles/the-memory-controller/skills/`). Where a skill existed in more than one, the highest-priority profile's version was kept.
 2. **Pre-existing repo skills** — authored directly in this repository (e.g. the 22+ `mattpocock-*` methodology skills, devops and top-level category skills).
-3. **Research-harvest ports** — added across successive starred-repo deep-dive rounds (145 → 162 → 166 → 167 → 172 → 173 → 174 → 177 → 180 → 181 → 183 → 184 → 185 → 190 → 196 → 197), including hub installs (`hermes skills install official/...`) and MIT-licensed external ports with their licenses carried in frontmatter.
+3. **Research-harvest ports** — added across successive starred-repo deep-dive rounds, including hub installs (`hermes skills install official/...`) and external ports with their licenses carried in frontmatter.
 
 The per-skill origin is recorded in [audit notes](docs/archive/audit-notes-skills-repo-pass.md) round-by-round; the live set of record is always `SKILLS-INDEX.md` (regenerated from frontmatter).
 
@@ -402,7 +140,7 @@ This repository also includes a ready-to-use **cronjob registry** at [`.hermes/c
 - **`.hermes/cron/active/`** — Active cronjob definitions (JSON config) ready to be loaded via `cronjob()`
 - **`.hermes/cron/archive/`** — Deprecated or old cronjob definitions kept for reference
 
-> **Registration status (verified 2026-09-17).** The live Hermes scheduler (`%LOCALAPPDATA%/hermes/cron/jobs.json`) currently has three registered jobs: `aspirecures-weekly-research` (**disabled**), `hermes-skills-audit` (**enabled**, Sun 3 AM — silent when clean, runs the repo's own audit via a shim), and `hermes-skills-bidirectional-sync` (registered but **paused by design** until the owner opts it on). Load/enable a definition with the `cronjob()` tool to change that. Until then, run the checks yourself: `py tools/verify-all.py`.
+> **Registration status (Owner machine, verified 2026-09-17).** This is the one place the README records it. Registrations are per machine, and only the Owner machine has a scheduler (`%LOCALAPPDATA%/hermes/cron/jobs.json`; the Loggg machine has none as of 2026-10-01). It had three registered jobs: `aspirecures-weekly-research` (**disabled**), `hermes-skills-audit` (**enabled**, Sun 3 AM — silent when clean, runs the repo's own audit via a shim), and `hermes-skills-bidirectional-sync` (registered but **paused by design** until the owner opts it on). Load/enable a definition with the `cronjob()` tool to change that. Until then, run the checks yourself: `py tools/verify-all.py`.
 
 ### Core Skills
 
@@ -525,21 +263,21 @@ This repository includes Python scripts in the `tools/` directory that automate 
 
 | Tool | Purpose | Cron Integration |
 |------|---------|------------------|
-| [`verify-all.py`](./tools/verify-all.py) | **Start here.** Runs every gate in one shot: audit (incl. zero-threshold hardcoded-secret scan), links, index drift (all four generated indexes plus the Claude Code manifests), cron validators (config validator proves no_agent threshold keys match script output), README/DESCRIPTION count consistency, self-test harness execution, router coverage (skill-flow-router vs the catalog it maps), and mutation self-tests of five gates. Exit 0 = all 18 gates pass | Manual; run before any commit |
-| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 212 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | **Registered + live** — job `hermes-skills-audit`, Sun 3 AM (verified end-to-end through the real scheduler 2026-09-14) |
-| [`sync-hermes-skills.py`](./tools/sync-hermes-skills.py) | Bidirectional sync between GitHub repo and local Hermes env: git pull, skill/memories/profiles sync, full index regeneration (all five machine-generated indexes), audit + FULL verify-all as the pre-push gate (refuses commit+push when any gate fails or could not run), git push. Has `--dry-run` — always dry-run before a first live run (round 19b caught two latent phantom-action bugs this way; round-34 fixed a third: profile counts now hash-compare instead of counting every file) | **Registered** for Sun 2 AM in `sync-hermes-skills.json`, currently paused by design until the owner opts it on; verified end-to-end once via manual trigger 2026-09-14 |
-
-
-
+| [`verify-all.py`](./tools/verify-all.py) | **Start here.** Runs every gate in one shot: audit (incl. zero-threshold hardcoded-secret scan), links, index drift (the four generated indexes, the Claude Code manifests and the per-machine installed-plugins doc), cron validators (config validator proves no_agent threshold keys match script output), README/DESCRIPTION count consistency, self-test harness execution, router coverage (skill-flow-router vs the catalog it maps), and mutation self-tests of five gates. Exit 0 = all 18 gates pass | Manual; run before any commit |
+| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 212 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks Weekly job `hermes-skills-audit` ([registration status](#cron-job-authoring)) |
+| [`sync-hermes-skills.py`](./tools/sync-hermes-skills.py) | Bidirectional sync between GitHub repo and local Hermes env: git pull, skill/memories/profiles sync, full index regeneration (all five machine-generated indexes), audit + FULL verify-all as the pre-push gate (refuses commit+push when any gate fails or could not run), git push. Has `--dry-run` — always dry-run before a first live run (round 19b caught two latent phantom-action bugs this way; round-34 fixed a third: profile counts now hash-compare instead of counting every file) Weekly job in `sync-hermes-skills.json` ([registration status](#cron-job-authoring)); verified end-to-end once via manual trigger 2026-09-14 |
 | [`_index_output.py`](./tools/_index_output.py) | Shared write-guard for the generators: refuses to overwrite an index when the scan came back suspiciously empty, and implements their `--check` (compare-don't-write) drift mode | Imported by the four generators |
 | [`check-links.py`](./tools/check-links.py) | Broken-link gate: verifies every relative markdown link in the repo resolves (skips URLs, code spans, historical profiles-export snapshots); exit 1 on any broken link | After doc edits; pairs with audit as a pre-commit pair |
 | [`gen-skills-index.py`](./tools/gen-skills-index.py) | Rebuilds SKILLS-INDEX.md (flat one-line-per-skill index, the cheapest lookup path in the repo); stdlib-only | After adding/removing/renaming skills |
 | [`gen-code-index.py`](./tools/gen-code-index.py) | Rebuilds CODE-INDEX.md: every script/helper/test/template with kind, language, size, and a one-line purpose from its docstring/header comment; stdlib-only | After adding/removing/renaming code files |
 | [`regen-dependency-map.py`](./tools/regen-dependency-map.py) | Standalone DEPENDENCY.md regenerator (same format as the sync script's built-in map): scans all SKILL.md frontmatter, rebuilds hub/standalone tables and xref validation line | Manual / after bulk skill additions |
+| [`gen-references-index.py`](./tools/gen-references-index.py) | Rebuilds REFERENCES-INDEX.md: every skill's `references/*.md` with its title, one line each; stdlib-only | After adding/removing/renaming reference docs |
+| [`check-router-coverage.py`](./tools/check-router-coverage.py) | Router coverage gate: every skill in `skill-flow-router`'s declared scope is either routed or declined with a reason | Gate in verify-all.py |
 | [`gen-claude-plugin.py`](./tools/gen-claude-plugin.py) | Rebuilds `.claude-plugin/plugin.json` and `marketplace.json` so Claude Code can load the nested skill tree (its loader does not walk category folders); stdlib-only | After adding/removing/renaming skills |
 | [`run-skill-tests.py`](./tools/run-skill-tests.py) | Discovery-based pytest runner: finds every `<skill>/tests/` suite at runtime and runs each; exit 1 on any failure, empty scan is FATAL | CI job `skill-tests`; manual before shipping a new test suite |
 | [`run-self-tests.py`](./tools/run-self-tests.py) | Discovery-based runner for the standalone `*_verify.py` / `*-verify.py` harnesses (the repo's other fail-loud mechanism). Registered manifest of auto-run vs excluded; missing optional deps classify as SKIP, real regressions FAIL. New unregistered verify scripts make it exit 1 until someone decides how to handle them | CI job `self-test-harnesses`; also a gate in verify-all.py |
 | [`mutation-test-selftest-gate.py`](./tools/mutation-test-selftest-gate.py) | Mutation self-test for run-self-tests.py: proves PASS / SKIP(rc77) / SKIP(missing dep) / FAIL classification and manifest-drift detection on throwaway temp fixtures — a gate that cannot be proven to fail is worse than no gate | Final gate in verify-all.py (always runs, stdlib-only) |
+| [`mutation-test-doc-gate.py`](./tools/mutation-test-doc-gate.py), [`mutation-test-secret-gate.py`](./tools/mutation-test-secret-gate.py), [`mutation-test-cron-gate.py`](./tools/mutation-test-cron-gate.py), [`mutation-test-router-gate.py`](./tools/mutation-test-router-gate.py) | The other four gates' mutation self-tests: each plants defects in a temp copy (a wrong count, a fake credential, a phantom threshold key, an unrouted skill) and asserts its gate fails | Gates in verify-all.py |
 | [`install-claude-code.ps1`](./tools/install-claude-code.ps1) | Junctions this repo into `~/.claude/skills/hermes` so every Claude Code session on the machine loads it; `-Uninstall` removes the link, never the repo | Once per machine |
 | [`validate-skill-refs.py`](./.hermes/cron/validate-skill-refs.py) | Validates all skill references in cronjob JSON configs resolve to existing in-repo skill directories | Pre-flight check before scheduling any cronjob |
 | [`validate-cronjobs.py`](./.hermes/cron/validate-cronjobs.py) | Comprehensive cronjob JSON validation: structural schema, skill ref resolution, threshold key alignment (every no_agent threshold/report-template key must be a string the script actually emits — phantom keys are errors; out-of-repo scripts skip with a label), no_agent consistency. `--job <file>` validates one config | Run before committing any cronjob config change |
@@ -571,17 +309,15 @@ line -- never a quiet "clean" result. Individually:
 
 ```bash
 # Run the audit (exit 0 = within thresholds, exit 1 = threshold breached or scan failed)
-py tools/audit-skills.py         # Windows: use `py`. Bare `python`/`python3` are
-                                 # Microsoft Store alias stubs -- they exit 49 without
-                                 # running the script. Linux/macOS: python3 tools/audit-skills.py
-
-# .hermes/cron/active/skill-audit.json defines a weekly (Sun 3 AM, no_agent=true)
-# job for this -- REGISTERED with the live scheduler as `hermes-skills-audit`
-# and verified end-to-end through the real scheduler on 2026-09-14. It runs
-# unattended every Sunday; verify-all.py still covers manual pre-commit use.
+py tools/audit-skills.py
 ```
 
-The audit script is referenced by `.hermes/cron/active/skill-audit.json` — a weekly cronjob definition that emits its report via the cronjob system's `deliver: local` target. That job **is registered** with the live scheduler as `hermes-skills-audit` (Sun 3 AM) and was verified end-to-end through the real scheduler on 2026-09-14, so the audit now runs unattended weekly; `verify-all.py` remains the manual pre-commit path.
+On Windows, use `py` wherever bare `python` is the Microsoft Store alias stub (it exits 49 without
+running anything; true on the Owner machine, not on the Loggg one). Linux/macOS: `python3`.
+
+`.hermes/cron/active/skill-audit.json` runs the same audit weekly (Sun 3 AM, `no_agent`, `deliver: local`)
+as `hermes-skills-audit`; see [Cron Job Authoring](#cron-job-authoring) for where it is registered.
+`verify-all.py` remains the pre-commit path.
 
 ### CI (GitHub Actions)
 
@@ -622,7 +358,7 @@ skill_view(name='<skill-name>')
 MIT, see [`LICENSE`](LICENSE). That covers this repository's own work: the
 indexes, the root documentation and the skills written here. Individual skills
 carry a `license:` field in their SKILL.md frontmatter, and that field governs
-the skill it sits in. 410 of 413 are MIT. Three are CC-BY-SA-4.0:
+the skill it sits in. All but three are MIT. Those three are CC-BY-SA-4.0:
 `security/semgrep-rule-creator`, `software-development/modern-python-tooling`
 and `software-development/property-based-testing`. One,
 `devops/system-design-scaling`, is MIT but distilled from
