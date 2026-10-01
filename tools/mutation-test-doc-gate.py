@@ -256,6 +256,13 @@ def build_mutations(tmp: Path):
         if readme.count(old) == 1:
             mutations.append(("gate count ('NNN gates')", "README.md",
                               old, f"# {n_gates + 1} gates;"))
+        # the qualified form ('NN health gates', DESCRIPTION's CI line) — round-46 widened the
+        # gate's regex after this exact line sat at a stale '15' for three rounds.
+        desc = (tmp / "DESCRIPTION.md").read_text(encoding="utf-8")
+        old = f"all {n_gates} health gates"
+        if desc.count(old) == 1:
+            mutations.append(("gate count ('NN health gates')", "DESCRIPTION.md",
+                              old, f"all {n_gates - 3} health gates"))
 
     return live, xrefs, exposed, refdocs, mutations
 
@@ -280,12 +287,13 @@ def main():
                                          ("plugin exposure", exposed),
                                          ("ref docs", refdocs)) if v is None]
         # 10 claim classes (skills total bold+prose, xrefs, plugin exposure, ref docs,
-        # category table row, pytest suite count + count-word, category count, gate count).
+        # category table row, pytest suite count + count-word, category count, gate count in
+        # both its bare and qualified forms).
         # The floor counts BUILT mutations; each class contributes at least one when its truths are
         # present. A missing anchor means a doc's wording drifted from what this test
         # expects — fail loudly rather than silently stop guarding that class.
-        if len(mutations) < 10:
-            print(f"[FAIL] only {len(mutations)}/10 mutations built — truths missing: "
+        if len(mutations) < 11:
+            print(f"[FAIL] only {len(mutations)}/11 mutations built — truths missing: "
                   f"{missing_truths or 'none'}; a doc's wording must have drifted from an anchor")
             return 1
 

@@ -12,7 +12,7 @@ This repository is the **second brain** of its owner's Hermes Agent environment:
 - **[REFERENCES-INDEX.md](./REFERENCES-INDEX.md)** — flat index of all 406 reference docs living inside skills' `references/` dirs (nested subdirs included); `grep -i <term>` REFERENCES-INDEX.md finds verified API maps / gotchas tables by topic without knowing which skill owns them.
 - **[DEPENDENCY.md](./DEPENDENCY.md)** — relationship map: hub skills, standalone skills, full cross-reference validation.
 - **[docs/](./docs/README.md)** — **knowledge-layer index**: verified API references + working code patterns from the 41-repo starred deep dive, reorganized 2026-09-07 to live inside each owning skill's `references/` dir (astro-toolkit-selection carries brahe/skyfield/OpenSCvx/catalog/optimization refs; economicspace-pipeline carries Δv-oracles + soft-assumption sources; python-data-science carries polars/pymc; nicegui-app-builder carries frontend tooling; github-pr-workflow carries git recipes). Skills say *how to work*; their references say *what exists in these libraries and what breaks*.
-- **[README.md](./README.md)** — human-facing overview with the full catalog and verification status.
+- **[README.md](./README.md)** — human-facing overview: categories with skill counts, conventions, cron authoring, Claude Code install, verification.
 
 ## Task → Skill Quick Table
 
@@ -21,7 +21,7 @@ The fastest way from a job you have in mind to the skill that does it:
 | You want to… | Start with |
 |---|---|
 | Find any capability in this brain (any task below) | `grep -i <term>` on [SKILLS-INDEX.md](./SKILLS-INDEX.md) — one line per skill, zero parsing cost |
-| Don't know which planning/spec/debug/review flow fits | `skill-flow-router` (main flow + 3 on-ramps mapped to installed skills)
+| Don't know which planning/spec/debug/review flow fits | `skill-flow-router` (main flow + 3 on-ramps mapped to installed skills) |
 | Plan a big ambiguous build / stress-test an idea | `grilling-interview` → `wayfinder-map-planning` (multi-session map of decision tickets) |
 | Turn a design discussion into a spec | `conversation-to-spec` |
 | Triage issues/PRs, write agent-ready briefs | `github/issue-triage-state-machine` (+ its AGENT-BRIEF / OUT-OF-SCOPE references) |
@@ -52,37 +52,12 @@ The fastest way from a job you have in mind to the skill that does it:
 | Ship UI that doesn't look templated — pick the aesthetic first | `design-taste-frontend` (anti-slop default), presets: `soft-premium-ui`, `editorial-minimalism-ui`, `industrial-brutalist-ui`; motion-heavy → `awwwards-gsap-motion`; Google Stitch DESIGN.md → `stitch` |
 | Publish a site/dashboard/docs build with versioned deploys + rollback | `publish-site` (GitHub Pages → Cloudflare → Netlify ladder, live-URL verification) |
 | Design a scalable system / prep a system design interview (CAP, caching, sharding, fan-out) | `system-design-scaling` (primer-distilled trade-off tables + 8 case-study patterns; runnable LRU/base62/MapReduce-top-k/availability scripts inside) |
-55| Verify this repo's own health | `py tools/verify-all.py` — all 18 gates in one run (`python` is a Store stub on Windows)
+| Verify this repo's own health | `py tools/verify-all.py` — all 18 gates in one run |
 
 ## Organization
 
-Skills are organized into 23 categories (each has a `DESCRIPTION.md`):
-
-| Category | Focus |
-|----------|-------|
-| [apple/](./apple/) | Apple platform integrations (macOS, iOS) |
-| [autonomous-ai-agents/](./autonomous-ai-agents/) | Multi-agent orchestration, cronjob patterns |
-| [communication/](./communication/) | Decision-brief formats (1-3-1 rule) |
-| [creative/](./creative/) | Creative content generation, design, media, diagrams |
-| [data-science/](./data-science/) | Data science workflows, Python, SQL, orbital mechanics, space pipelines |
-| [devops/](./devops/) | Docker, REST APIs, SSH, SQLite |
-| [doc-coauthoring/](./doc-coauthoring/) | Structured documentation co-authoring |
-| [dogfood/](./dogfood/) | Exploratory QA and adversarial UX testing |
-| [email/](./email/) | Email management and triage |
-| [frontend-design/](./frontend-design/) | Visual design for AI-generated UI + Python reactive-UI builders (NiceGUI) |
-| [github/](./github/) | GitHub workflows, PR review, issues, CI, issue-triage state machine |
-| [huggingface-trackio/](./huggingface-trackio/) | ML experiment tracking |
-| [mcp/](./mcp/) | Model Context Protocol servers (FastMCP) |
-| [media/](./media/) | GIF search, audio analysis, YouTube content |
-| [mlops/](./mlops/) | Evaluation harnesses, HuggingFace Hub, vLLM, W&B |
-| [note-taking/](./note-taking/) | Obsidian vault + multi-layer knowledge-base ops (ingest/sync/dedupe/retrieve) |
-| [productivity/](./productivity/) | Documents, spreadsheets, meetings, calendars, website audits |
-| [research/](./research/) | Paper writing pipeline, citation verification, monitoring + bioinformatics (PubMed/gget) & scholarly evaluation |
-| [security/](./security/) | Code security review |
-| [smart-home/](./smart-home/) | Philips Hue control |
-| [social-media/](./social-media/) | X/Twitter via xurl CLI |
-| [software-development/](./software-development/) | TDD, spec-driven dev, debugging, planning (grilling/wayfinder), Python, Node + repo onboarding & living-docs governance |
-| [web-development/](./web-development/) | Web/API client derivation from HAR recordings |
+Skills are organized into 23 categories, each with its own `DESCRIPTION.md`. The category table,
+with skill counts checked against disk, is in [README.md](./README.md#categories).
 
 Non-skill content: [`memories/`](./memories/DESCRIPTION.md) (the agent's persistent notes + user profile — the "brain" part), and [`profile/`](./profile/DESCRIPTION.md) (a historical reference snapshot of one live Hermes profile, taken 2026-08-24). The plural `profiles-export/` directory is a different thing: a gitignored local mirror that sync writes on every run — it never enters git. See each directory's `DESCRIPTION.md`.
 
@@ -101,15 +76,14 @@ category/
 
 - **`verify-all.py`** — **the one command**: runs all 18 gates (audit incl. the zero-threshold hardcoded-secret scan over every skill script + SKILL.md, links, index drift x6: SKILLS/CODE/REFERENCES/DEPENDENCY/.claude-plugin/installed-plugins, cron validators x2 — the config validator proves every no_agent threshold key is a string its script actually emits, doc-count consistency, router coverage — every skill in the router's declared scope is either routed or explicitly declined with a reason, self-test harness execution via `run-self-tests.py` — and mutation self-tests of the doc-count gate, the secret gate, the harness runner, the cron contract check AND the router gate) and prints a pass/fail table. Run before every commit.
 - **`audit-skills.py`** — validates all skills against repo conventions; exit 0 = clean. Hard-fails if pyyaml is missing or the scan finds <100 skills, so an unrunnable audit can never report clean.
-
 - **`check-links.py`** — broken-link gate: every relative markdown link must resolve (skips URLs, code spans, historical `profiles-export/` snapshots). Run alongside the audit before committing doc changes.
 - **`gen-skills-index.py`** — rebuilds `SKILLS-INDEX.md` + every category `DESCRIPTION.md` from live frontmatter (stdlib-only). `--check` reports drift without writing.
 - **`gen-code-index.py`** — rebuilds `CODE-INDEX.md` from every code file in the repo: path, kind (script/helper/test/template), language, size, one-line purpose extracted from its docstring/header comment. Run after adding/removing/renaming scripts.
 - **`gen-references-index.py`** — rebuilds `REFERENCES-INDEX.md` from every skill's `references/*.md`: flat grep index with each doc's frontmatter description and owning skill. Run after adding/removing reference docs.
 - **`regen-dependency-map.py`** — rebuilds `DEPENDENCY.md` from live frontmatter (safe standalone; sync-hermes-skills.py's step 5.5 shells out to it rather than carrying a second copy).
-- **`sync-hermes-skills.py`** — full bidirectional GitHub↔local-Hermes sync. A weekly cron job is *defined* for it in `.hermes/cron/active/`, registered with the live scheduler as `hermes-skills-bidirectional-sync` (Sun 2 AM) and verified end-to-end once via manual trigger on 2026-09-14; currently **paused by design** until the owner opts it on, so today it only runs when invoked. Has `--dry-run` — always dry-run before a first live run (round 19b caught two latent phantom-action bugs this way: an un-skipped repo `docs/` dir and an orphaned local stub). Its delete phase is capped at `MAX_DELETIONS = 25` files per run (override: `--allow-mass-delete`), it only treats top-level dirs containing a SKILL.md as skill categories, and its pre-push gate runs the FULL health suite (`tools/verify-all.py`, all gates) after regenerating every machine-generated index — refusing commit+push when any of them fails or could not run.
+- **`sync-hermes-skills.py`** — full bidirectional GitHub↔local-Hermes sync. A weekly cron job is defined for it in `.hermes/cron/active/`; where it is registered and whether it is paused is recorded once, in README's [Cron Job Authoring](./README.md#cron-job-authoring) section. Has `--dry-run` — always dry-run before a first live run (round 19b caught two latent phantom-action bugs this way: an un-skipped repo `docs/` dir and an orphaned local stub). Its delete phase is capped at `MAX_DELETIONS = 25` files per run (override: `--allow-mass-delete`), it only treats top-level dirs containing a SKILL.md as skill categories, and its pre-push gate runs the FULL health suite (`tools/verify-all.py`, all gates) after regenerating every machine-generated index — refusing commit+push when any of them fails or could not run.
 - **`_index_output.py`** — shared write-guard behind the four generators: blocks an empty-scan overwrite, and provides their `--check` drift mode (compare against disk, exit 1 if stale, write nothing).
-- **CI ([`.github/workflows/ci.yml`](./.github/workflows/ci.yml))** — three jobs on every push/PR: all 15 health gates; the seven skill pytest suites (comfyui, docx, pdf, powerpoint, xlsx, regex-vs-llm-structured-text, sqlite-queries) with deps from [`test-requirements.txt`](./test-requirements.txt); and a dedicated `self-test-harnesses` job that executes every registered `*_verify.py` harness against real duckdb/polars/pyarrow/numpy/pyomo/highspy installs (deps from [`selftest-requirements.txt`](./selftest-requirements.txt)) — so an upstream engine change breaks CI instead of quietly rotting the docs.
+- **CI ([`.github/workflows/ci.yml`](./.github/workflows/ci.yml))** — three jobs on every push/PR: all 18 health gates; the seven skill pytest suites (comfyui, docx, pdf, powerpoint, xlsx, regex-vs-llm-structured-text, sqlite-queries) with deps from [`test-requirements.txt`](./test-requirements.txt); and a dedicated `self-test-harnesses` job that executes every registered `*_verify.py` harness against real duckdb/polars/pyarrow/numpy/pyomo/highspy installs (deps from [`selftest-requirements.txt`](./selftest-requirements.txt)) — so an upstream engine change breaks CI instead of quietly rotting the docs.
 
 ## Getting Started
 
@@ -124,7 +98,7 @@ hermes skill load <category>/<skill-name>
 skill_view(name='<skill-name>')
 
 # Run the audit / regenerate generated docs
-# (Windows: `py`. Bare `python`/`python3` are Store alias stubs that run nothing.)
+# (Windows: `py` wherever bare `python` is the Store alias stub, as on the Owner machine.)
 py tools/audit-skills.py
 py tools/gen-skills-index.py && py tools/regen-dependency-map.py
 ```
