@@ -159,7 +159,7 @@ Final review checklist (verify each before delivery):
 
 5. **Python path on Windows often needs explicit venv reference.** System python may not have `python-docx` installed — use:
    ```bash
-   C:/Users/Owner/AppData/Local/hermes/hermes-agent/venv/Scripts/python.exe script.py
+   "$LOCALAPPDATA/hermes/hermes-agent/venv/Scripts/python.exe" script.py
    ```
    If that fails, check with `where.exe python` or verify via terminal if standard `python3` works.
 

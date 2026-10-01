@@ -4,7 +4,7 @@ Self-contained: no fixtures needed, everything is built inline. Requires polars 
 
     uv venv %LOCALAPPDATA%\Temp\polars-dive-venv --python 3.11
     uv pip install --python <that venv's python> "polars==2.0.0rc1" numpy pyarrow pandas
-    <that venv's python> C:\Users\Owner\AppData\Local\hermes\skills\data-science\python-data-science\references\polars-v2-verify.py
+    <that venv's python> <repo>\data-science\python-data-science\references\polars-v2-verify.py
 
 Every check prints PASS / FAIL with a short detail. Exit code = number of failures (0 = all green).
 Last full run: 2026-09-14, 39/39 PASS on polars 2.0.0-rc.1.

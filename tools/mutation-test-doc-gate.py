@@ -40,11 +40,13 @@ except (AttributeError, ValueError):
     pass
 
 _HERE = Path(__file__).resolve()
-# parents[1] is correct once this file lives in tools/; while it sits elsewhere
-# (e.g. Temp during development) fall back to the known repo location.
+# parents[1] is the repo only while this file lives in tools/. A copy run from anywhere
+# else exits instead of falling back to a hard-coded checkout: that path existed on one
+# machine only, and on it the test would have silently exercised a different tree.
 REPO = _HERE.parents[1]
 if not (REPO / "tools" / "verify-all.py").exists():
-    REPO = Path(r"C:\Users\Owner\OneDrive\Documents\GitHub\Hermes_Skills")
+    raise SystemExit(f"[FATAL] {_HERE.name} must run from the repo's tools/ dir "
+                     f"(no tools/verify-all.py under {REPO})")
 
 
 def load_gate():

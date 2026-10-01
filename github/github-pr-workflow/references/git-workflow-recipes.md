@@ -89,7 +89,7 @@ git config --global alias.cleanup '!git branch --merged | grep -v "*" | xargs gi
 
 ## Windows-specific notes for this machine
 - `core.autocrlf=true` + `.gitattributes text=auto` is the standing config here — never commit CRLF-normalized diffs by hand; let git do it.
-- OneDrive-backed repos (`C:\Users\Owner\OneDrive\Documents\GitHub`) can show phantom index churn: if `git status` shows mass deletions that aren't real, verify with `git ls-files -d | head` before acting — re-run after a short wait; the cloud placeholder sync usually settles.
+- OneDrive-backed repos (`%USERPROFILE%\OneDrive\Documents\GitHub`) can show phantom index churn: if `git status` shows mass deletions that aren't real, verify with `git ls-files -d | head` before acting — re-run after a short wait; the cloud placeholder sync usually settles.
 - Long paths are fine (core.longpaths default on modern git); avoid them in *tool* arguments anyway (MSYS path translation is disabled for native tools here).
 
 ## What was deliberately left out of this file

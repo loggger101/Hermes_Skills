@@ -74,5 +74,5 @@ This setting lives in the **profile config** file, not the global config:
 
 For the `the-skill-maker` profile:
 ```
-C:\Users\Owner\AppData\Local\hermes\profiles\the-skill-maker\config.yaml
+%LOCALAPPDATA%\hermes\profiles\the-skill-maker\config.yaml
 ```
