@@ -36,9 +36,12 @@ except (AttributeError, ValueError):
     pass
 
 _HERE = Path(__file__).resolve()
+# No hard-coded fallback checkout: a copy run outside tools/ exits instead of testing
+# whichever tree happened to sit at one machine's path.
 REPO = _HERE.parents[1]
 if not (REPO / "tools" / "audit-skills.py").exists():
-    REPO = Path(r"C:\Users\Owner\OneDrive\Documents\GitHub\Hermes_Skills")
+    raise SystemExit(f"[FATAL] {_HERE.name} must run from the repo's tools/ dir "
+                     f"(no tools/audit-skills.py under {REPO})")
 
 
 def load_auditor():

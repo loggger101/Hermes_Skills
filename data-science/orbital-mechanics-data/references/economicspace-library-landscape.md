@@ -7,7 +7,7 @@ what is actually useful to wire in vs. what is a dead end.
 
 ## The pipeline it maps onto
 
-economicspace = `C:/Users/Owner/OneDrive/Documents/GitHub/economicspace` (owner loggger101).
+economicspace = `~/OneDrive/Documents/GitHub/economicspace` (GitHub loggger101/economicspace).
 Four stages, hand off via CSVs on disk:
 
 | stage | module | does |

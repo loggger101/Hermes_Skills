@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **159 code files** (39,517 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **159 code files** (39,522 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -290,9 +290,9 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `tools/gen-references-index.py` (repo tooling, python, 100 lines) — Rebuild REFERENCES-INDEX.md from every skill's references/ directory
 - `tools/gen-skills-index.py` (repo tooling, python, 159 lines) — Regenerate SKILLS-INDEX.md from live skill frontmatter (flat, grep-friendly)
 - `tools/mutation-test-cron-gate.py` (repo tooling, python, 92 lines) — Mutation self-test for the cron threshold-key verification (round-36)
-- `tools/mutation-test-doc-gate.py` (repo tooling, python, 337 lines) — Mutation test for verify-all.check_doc_counts — the doc-count gate tests itself
+- `tools/mutation-test-doc-gate.py` (repo tooling, python, 339 lines) — Mutation test for verify-all.check_doc_counts — the doc-count gate tests itself
 - `tools/mutation-test-router-gate.py` (repo tooling, python, 157 lines) — Mutation self-test for check-router-coverage.py (round-43)
-- `tools/mutation-test-secret-gate.py` (repo tooling, python, 145 lines) — Mutation test for audit-skills.scan_repo_for_secrets — the secret scan tests itself
+- `tools/mutation-test-secret-gate.py` (repo tooling, python, 148 lines) — Mutation test for audit-skills.scan_repo_for_secrets — the secret scan tests itself
 - `tools/mutation-test-selftest-gate.py` (repo tooling, python, 104 lines) — Mutation self-test for tools/run-self-tests.py (the self-test harness gate)
 - `tools/regen-dependency-map.py` (repo tooling, python, 101 lines) — Regenerate DEPENDENCY.md from live related_skills frontmatter (same format as repo convention).
 - `tools/run-self-tests.py` (repo tooling, python, 220 lines) — Discovery-based runner for the skill self-test harnesses (*_verify.py)
