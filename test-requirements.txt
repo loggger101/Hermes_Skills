@@ -4,6 +4,8 @@
 #   productivity/powerpoint/tests  (21 tests)  -> python-pptx (+ lxml via it), pytest
 #   productivity/xlsx/tests        (12 tests)  -> openpyxl, pytest
 #   creative/comfyui/tests         (117 tests) -> requests; everything else stdlib
+# The other suites run-skill-tests.py discovers (sqlite-queries,
+# regex-vs-llm-structured-text) are stdlib-only and need nothing here.
 #
 # Verified complete by running all five suites in a clean venv on 2026-09-09:
 # docx 29 passed / pdf 21 passed / powerpoint 21 passed / xlsx 11+1 skip /

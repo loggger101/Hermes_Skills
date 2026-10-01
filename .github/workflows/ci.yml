@@ -1,5 +1,5 @@
 # CI gate for the second brain: every push and pull request runs the full
-# health check (tools/verify-all.py — 17 gates, including self-tests of the
+# health check (tools/verify-all.py — every gate in its GATE_LABELS, incl. self-tests of the
 # doc-count checker, the hardcoded-secret scan, the harness runner, the
 # cron threshold-key contract, and the skill-flow-router coverage gate) plus
 # the pytest suites that ship inside skills AND a dedicated job that executes
@@ -49,7 +49,7 @@ jobs:
           python-version: "3.12"
 
       # Single source of truth for test deps (see its header comment): created
-      # 2026-09-09 by running all five suites in a clean venv until green. All
+      # 2026-09-09 by running the five library-backed suites in a clean venv until green. All
       # pure wheels: fast on ubuntu, no poppler binary needed.
       - name: Install test deps
         run: pip install -r test-requirements.txt
