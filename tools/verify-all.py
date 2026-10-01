@@ -312,10 +312,12 @@ def check_doc_counts():
 
     # 8) gate counts — 'NNN gates' prose vs the GATE_LABELS list that main() actually runs.
     #    (round-42: every round added a gate and hand-edited four doc lines; nothing checked.)
+    #    One qualifier word is allowed ('18 health gates'): round-46 found DESCRIPTION's CI line
+    #    still saying '15 health gates' three gates later, invisible to the bare 'NN gates' form.
     if len(GATE_LABELS):
         for name in ("README.md", "DESCRIPTION.md"):
             text = (REPO / name).read_text(encoding="utf-8")
-            for m in re.finditer(r"\b(\d{2}) gates\b", text):
+            for m in re.finditer(r"\b(\d{2}) (?:[a-z]+ )?gates\b", text):
                 if int(m.group(1)) != len(GATE_LABELS):
                     problems.append(f"{name}: claims {m.group(1)} gates, "
                                     f"verify-all runs {len(GATE_LABELS)}")
