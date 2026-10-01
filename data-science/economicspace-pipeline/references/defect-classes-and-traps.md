@@ -2,6 +2,8 @@
 
 From CLAUDE.md "Durable lessons from the release history". Read before optimising anything or re-introducing a trap. The recurring defect classes are in the order they keep recurring; each has cost someone a day.
 
+> **Re-checked 2026-10-01** against economicspace `29a0309` (master v1.40.0): the five defect classes, the bit-identity refusals, the GPU measurement, the open structural item, the cache rule and the perf-stamp rules all still stand as written. Added since the first distillation: the quarter-ceilings refusal and five traps from the market-ceiling work (calc 1.21.x–1.22.0).
+
 ## The five defect classes
 
 **1. A mass in one cascade with no price in the other.** The mass cascade and cost cascade live in different places; nothing checks that every kg in one has a price in the other, or that every kg the cost model pays for is actually flown. Look here FIRST (v1.11.0 introduced three fresh instances while fixing three older ones). One-line assertion catching the whole family:
@@ -45,6 +47,7 @@ Releases are argued from bit-identity, so an operation-reordering "cleanup" is a
 | `viability_only` on `max_return_payload_kg` | 519 ns of a 2,105 ns call but only 31% of calls in raw cell | declined at under 1%, against a new branch in the hottest function in the model |
 | rig block in `_mission_cost_tail` | 3.2% priced alone | **taken in 1.17.5** — once priced with the neighbour that shares its key: price the BLOCK, not the line |
 | Parquet instead of CSV for catalog | 19.7 s → 2.1 s | real and free, NOT taken: changes Module 1's output contract; no measured cell would move detectably |
+| **quarter ceilings** (`Qm/4`, the wall matching the curve's maximum revenue) | raw searched 18.57× → **27.29×**, beneficiated fleet median 7 → 2, rows at the fleet cap 11 → 2 | declined: it measures well and is wrong — contradicts the table's own anchors and calibrates to a desired output |
 | nickel-iron missing market ceiling | 7.7e−8 relative one mission / 7.7e−5 at N=100 | declined — breaks bit-identity on a destination not re-measured since 1.14.0; take it in that pass if earth_surface is ever re-run |
 
 ⚠️ Two of those figures went stale while being quoted forward, in opposite directions (the `max` figure by interpreter version; the prologue's by three releases of work around it). **Measure the remainder after taking the cheap items, not before** — the ranking changes.
@@ -62,7 +65,7 @@ Workload is the wrong shape anyway (branchy scalar Python with early exits, fixe
 ## The open structural item: branch-and-bound on the objective
 
 Pruning candidates that CAN close but cannot beat the incumbent needs an **admissible** upper bound on `selection_key` (lexicographic over profit and cost/revenue, revenue out of the payload knapsack) — a bound provably never optimistic is real work.
-🚨 **Do not approximate it**: a bound occasionally too tight silently drops winners WITHOUT changing row count — the one failure mode none of verify.py's six checks would catch. Neither 1.17.4's pre-filter (prunes on feasibility, monotone in two masses, provable in four lines) nor 1.17.7's cache bound (eviction value-neutral by construction) is a precedent — neither is monotone in anything the objective reads.
+🚨 **Do not approximate it**: a bound occasionally too tight silently drops winners WITHOUT changing row count — the one failure mode none of verify.py's checks would catch. Neither 1.17.4's pre-filter (prunes on feasibility, monotone in two masses, provable in four lines) nor 1.17.7's cache bound (eviction value-neutral by construction) is a precedent — neither is monotone in anything the objective reads.
 
 ## Traps in the code a reader will otherwise re-introduce
 
@@ -80,6 +83,11 @@ Pruning candidates that CAN close but cannot beat the incumbent needs an **admis
 - Non-electric candidates skip the stage-2 solver entirely — with no electric stage, the second pass IS the first.
 - Memo on the config VALUES a function reads, not `id(config)` (a config edited between runs must still be answered correctly).
 - Do NOT memoise a warning path: an unknown destination must shout every call; that loudness is the point of the warning.
+- **The market ceilings must never reach the SIZING path.** `_cargo_water_kg` calls `optimal_payload_mix` inside the fixed-point power solve; a `caps=` arriving there would make the whole mass cascade a function of fleet size, and that asymmetry is the only reason the programme ladder is affordable to search. Ceilings bound what a load may SELL, not what the rig digs or the hull carries; `caps` defaults to `None` so the sizing call cannot acquire one by accident.
+- **`optimal_payload_mix(caps=None)` must stay bit-identical to the unbounded walk**, because the sizing path passes no caps: if it moved, every mass cascade would. The guard adds a branch and no arithmetic; anything that reorders the `min` or folds the cap into it changes the rocket equation. calc 1.21.2 re-proved it with 16,000 randomised comparisons on raw IEEE bit patterns, zero differences — repeat that check, don't argue it.
+- **The tiered walk assumes a phase's full-price tier is reached first** (calc 1.22.0), which holds only while `surplus_price_fraction <= 1.0`. Above it the discounted tier sorts first and a capped load is worth MORE than an uncapped one (945,000 vs 900,000 at 1.5), inverting what `verify.py` check 7 enforces. Clamped in `optimal_payload_mix`, clamped where `surplus_frac` is resolved, refused by `market_config_check`: don't simplify any of the three away.
+- **The tier ledger is written BEFORE the `take <= 0` skip.** An exhausted full-price tier must still be recorded, or its surplus tier is read as the full-price one and the discount never fires on exactly the phases it exists for.
+- **`caps` is keyed by MARKET, not phase, and the walk consumes it** (calc 1.21.2). Two phases can sell into one market (`silicates` and the composition residual do, on every body); pass a dict you own, and build keys with `phase_market_key`, never `_PHASE_MARKET_ALIAS` directly.
 
 ## Where a cache is safe and where it isn't
 
@@ -87,7 +95,7 @@ Pruning candidates that CAN close but cannot beat the incumbent needs an **admis
 **Rule: `maxsize=None` is safe exactly when you can name the ceiling; if you cannot, bound it.** A replay of real keys showed hit rate flat at 83.9% from unbounded down to maxsize=64 (all reuse local to one candidate); bounded lru_cache not measurably slower than unbounded.
 🚨 It survived three releases because no full-catalog run was made in them — a 400-row verification cell shows 18,000 entries rather than 70 M. **A stride sample does not predict a full run's MEMORY either.**
 
-## Performance-stamp reading rules (the 1.17.x line)
+## Performance-stamp reading rules (the 1.17.x line; CLAUDE.md "Bump `pipeline_version`")
 
 - `1.17.2` is INERT on some cells and worth 1.45× on others: removes work that only exists when a programme LADDER exists → search-OFF 0.99–1.02×, search-ON 1.35–1.46×. Every previous perf stamp moved every cell — do not quote one number for it.
 - `1.17.4` is uneven the OTHER way (lands on MASS cascade): 2.04× beneficiated-without-search vs only 1.26× raw-with-search; plus fixed ~15 s off LOAD at any row cap and 3.44× off per-row walk (~67–78 s full cislunar pass). Quoting either release's number for the other gets it backwards.
