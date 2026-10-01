@@ -1,7 +1,7 @@
 ---
 name: economicspace-pipeline
 description: "Use on economicspace (asteroid-mining pipeline)."
-version: v0.11.0
+version: v0.11.1
 author: Hermes Agent (ported from starred-repo research)
 license: MIT
 platforms: [linux, macos, windows]
@@ -119,7 +119,8 @@ A sample predicts full-catalog runtime here **to no better than ~5×**, and the 
 - **The outbound Δv is OPTIMISTIC by ~0.4–1.3 km/s** — a standing limitation inherited by the whole 20-cell campaign, documented in README and versions.md rather than fixed: measured against a validated Izzo-Lambert porkchop oracle (research/starred-repos/orbital.py + probe_lambert.py), the closed-form estimator understates on **86% of bodies** (median +1.30 km/s / 11.9%). It simultaneously OVERcharges the plane change by a median 4.87%, and the two errors partially cancel — **correcting only the overcharge makes the model worse in every inclination band**. Neither term moves without the other; both measurements live in research/starred-repos/FINDINGS.md (F1, F4).
 - **Nothing is viable anywhere**: a configure-nothing run (default cislunar cell, master v1.40.0, 2026-09-30) answers **4.8379×** short of breakeven; README's "What a configure-nothing run answers today" holds the current figure. Zero profitable asteroids is the honest answer, and the ranking means "which target loses least". Launch is only ~2.3% of a mission; cheap launch does not rescue it. Rank by `total_cost_usd / gross_value_usd` (there is no cost_revenue_ratio column); profit_usd degenerates into a pure cost ranking.
 - **Taxonomy reliability**: 90.2% of NEOs have albedo-assumed spectral type; an independent SDSS cross-survey disagrees on ~34% where it overlaps, and the top-ranked bodies join it not at all — comp_* is a distribution reported as a point estimate (the standing argument for pymc credible intervals).
-- Launch windows are statistical (synodic), not ephemeris-based; composition uniform per class; beneficiation recovery 0.90 borrowed from terrestrial flotation; refinery priced but not flown; boil-off estimated, not integrated; C-type "ice" is bound water with extraction hardware uncosted; tank mass scales purely with volume (deliberately conservative direction).
+- Launch windows are statistical (synodic), not ephemeris-based; composition is set by spectral class; beneficiation recovery 0.90 borrowed from terrestrial flotation; boil-off estimated, not integrated; tank mass scales purely with volume (deliberately conservative direction). As of the 2026-09-07 distillation also: C-type "ice" is bound water with extraction hardware uncosted.
+- **No longer limitations (checked 2026-10-01):** since calc v1.24.0 the model reads each body's mineral phases (`model_mineral_phases`, the catalog's `comp_phases` column) instead of four coarse fractions; since calc v1.25.0 the refinery is FLOWN (`model_refinery`: its energy sizes the array, its plant rides with the rig) instead of being deducted from the price as a plant nobody launches; since calc v1.26.0 the detailed phases are sold (`model_detailed_phases`: pyrrhotite, pentlandite and so on rather than one "troilite"). All three default True; each `False` reproduces the earlier model to the bit.
 
 ## Console output: ASCII only, and the build anchors that depend on it
 
