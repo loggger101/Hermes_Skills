@@ -29,6 +29,7 @@ Child tools are launched with sys.executable, never a which() lookup.
 """
 import importlib.util
 import json
+import os
 import re
 import subprocess
 import sys
@@ -47,6 +48,10 @@ except (AttributeError, ValueError):
 
 REPO = Path(__file__).resolve().parents[1]
 PY = sys.executable or "python3"
+# Children print UTF-8 (most reconfigure stdout; this env makes the rest agree), so decode it
+# as UTF-8 — the Windows default codepage turned every '—' in the table into 'â€”'.
+CHILD_IO = dict(encoding="utf-8", errors="replace",
+                env=dict(os.environ, PYTHONIOENCODING="utf-8"))
 
 # Single source of truth for "how many gates verify-all runs". main() builds its result list
 # from this, and the doc-count gate checks every 'NNN gates' prose claim against it — so a new
@@ -77,7 +82,7 @@ def run(label, args, cwd=REPO):
     """Run a child tool; return (label, ok, first meaningful output line)."""
     try:
         proc = subprocess.run([PY] + args, cwd=str(cwd), capture_output=True,
-                              text=True, timeout=300)
+                              timeout=300, **CHILD_IO)
     except Exception as e:
         return label, False, str(e)[:200]
     out = (proc.stdout or "") + (proc.stderr or "")
@@ -97,7 +102,7 @@ def run_audit_gate():
     label = "audit-skills"
     try:
         proc = subprocess.run([PY, "tools/audit-skills.py"], cwd=str(REPO),
-                              capture_output=True, text=True, timeout=300)
+                              capture_output=True, timeout=300, **CHILD_IO)
     except Exception as e:
         return label, False, str(e)[:200]
     try:

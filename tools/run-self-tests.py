@@ -53,6 +53,9 @@ except (AttributeError, ValueError):
 
 REPO = Path(__file__).resolve().parents[1]
 PY = sys.executable or "python3"
+# Decode child output as UTF-8 (and make children emit it); the Windows codepage cannot.
+CHILD_IO = dict(encoding="utf-8", errors="replace",
+                env=dict(os.environ, PYTHONIOENCODING="utf-8"))
 TIMEOUT_S = 600  # big-data harness builds a 200k-row fixture; generous but bounded
 
 # --------------------------------------------------------------------------- manifest
@@ -130,7 +133,7 @@ def run_one(target: Path) -> tuple[str, bool, str]:
     try:
         proc = subprocess.run(
             [PY, str(target)], cwd=str(target.parent),
-            capture_output=True, text=True, timeout=TIMEOUT_S)
+            capture_output=True, timeout=TIMEOUT_S, **CHILD_IO)
     except subprocess.TimeoutExpired:
         return label, False, f"TIMEOUT after {TIMEOUT_S}s"
     out = (proc.stdout or "") + "\n" + (proc.stderr or "")
