@@ -128,7 +128,7 @@ Skills come from three sources (see [audit notes](docs/archive/audit-notes-skill
 2. **Pre-existing repo skills** — authored directly in this repository (e.g. the 22+ `mattpocock-*` methodology skills, devops and top-level category skills).
 3. **Research-harvest ports** — added across successive starred-repo deep-dive rounds, including hub installs (`hermes skills install official/...`) and external ports with their licenses carried in frontmatter.
 
-The per-skill origin is recorded in [audit notes](docs/archive/audit-notes-skills-repo-pass.md) round-by-round; the live set of record is always `SKILLS-INDEX.md` (regenerated from frontmatter).
+The per-skill origin is recorded round-by-round in [audit notes](docs/archive/audit-notes-skills-repo-pass.md) up to 2026-09-14 and in `round-NN` commit messages since; the live set of record is always `SKILLS-INDEX.md` (regenerated from frontmatter).
 
 ## Cron Job Authoring
 
@@ -337,7 +337,7 @@ as `hermes-skills-audit`; see [Cron Job Authoring](#cron-job-authoring) for wher
 - 📎 *Convention, not a gate:* repo-authored files end with a newline. Two exceptions are kept byte-for-byte as their source emits them: the vendored conference templates under `research/research-paper-writing/templates/`, and the sync-owned `memories/` files (the historical snapshot in singular `profile/` is likewise untouched by sync, which skips it). Trailing whitespace is **not** stripped — in markdown a double trailing space is a hard line break, so a blanket strip would silently reflow docs.
 - ✅ Broken-link gate: every relative markdown link resolves (`tools/check-links.py`, skips URLs/code spans/`profiles-export/` snapshots)
 
-One-off historical fixes (duplicate removals, ref repairs, header renames, sync setup) are logged round-by-round in [audit notes](docs/archive/audit-notes-skills-repo-pass.md).
+One-off historical fixes (duplicate removals, ref repairs, header renames, sync setup) are logged in [audit notes](docs/archive/audit-notes-skills-repo-pass.md) up to 2026-09-14, and in `round-NN` commit messages since.
 
 ## Usage
 

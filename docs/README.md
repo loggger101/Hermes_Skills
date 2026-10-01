@@ -4,7 +4,15 @@
 `references/` directory**, not in this flat layer. A doc sits next to the skill an agent loads for
 the job, so loading the skill surfaces both *how to work* and *what actually exists / what breaks*.
 
-## Where each reference lives now
+## Finding a reference
+
+[REFERENCES-INDEX.md](../REFERENCES-INDEX.md) lists every reference doc in the repo, one line
+each, generated from disk and drift-checked by `tools/verify-all.py`. Grep it first.
+
+## The original deep-dive references
+
+The nine docs moved here from the flat layer in the 2026-09-07 reorg, with the verification
+each one carries. Later reference docs are in the index above, not in this table.
 
 | Reference | Owning skill (path) | What you get | Verified |
 |---|---|---|---|
@@ -26,7 +34,7 @@ history (commit before the 2026-09-07 reorg); old paths resolve via `git log --f
 
 | File | What it is |
 |---|---|
-| [archive/audit-notes-skills-repo-pass.md](./archive/audit-notes-skills-repo-pass.md) | Historical audit log of the 127-skill frontmatter pass (duplicate removal, broken related_skills fixes, body-section additions). Point-in-time record — do not treat as current state; SKILLS-INDEX.md + tools/audit-skills.py are. |
+| [archive/audit-notes-skills-repo-pass.md](./archive/audit-notes-skills-repo-pass.md) | Change log from the 127-skill frontmatter pass through 2026-09-14 (duplicate removal, broken related_skills fixes, body-section additions, the early harvest rounds). Frozen: later rounds are logged in their `round-NN` commit messages. Not current state; SKILLS-INDEX.md + tools/audit-skills.py are. |
 
 ## How these references are maintained
 
@@ -48,4 +56,4 @@ history (commit before the 2026-09-07 reorg); old paths resolve via `git log --f
 ## Lookup order for this layer
 
 Task → [DESCRIPTION.md](../DESCRIPTION.md) quick table → owning skill's `## References` section →
-`grep -ri <term>` across the skills' references/ dirs → clone under `%LOCALAPPDATA%\Temp\starred-dive\`.
+`grep -i <term> REFERENCES-INDEX.md` → clone under `%LOCALAPPDATA%\Temp\starred-dive\`.
