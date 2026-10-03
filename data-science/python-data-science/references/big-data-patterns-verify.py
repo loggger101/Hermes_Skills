@@ -8,7 +8,7 @@ Portable: the fixture dir is a per-run tempdir (was a hardcoded Windows path,
 which broke on Linux CI). Needs numpy/pandas/duckdb/polars/pyarrow importable;
 exit code = number of failed checks (0 = all green), so it can run in CI.
 """
-import os, time, io, tempfile
+import os, time, tempfile
 import numpy as np
 import pandas as pd
 
@@ -129,10 +129,10 @@ bad = pl.DataFrame({"customer_id": [1, 1, 2], "x": [1, 2, 3]})   # customer 1 ap
 rejected = False
 try:
     (lf_cust.join(bad.lazy(), on="customer_id", how="left", validate="m:1").collect())
-except Exception as e:
+except Exception:
     rejected = True
 check("p3_validate_m1_rejects_many_to_one_bad_join", rejected)
-print(f"validate='m:1' correctly REJECTED the m:n join" if rejected else "BUG: validate did NOT fire")
+print("validate='m:1' correctly REJECTED the m:n join" if rejected else "BUG: validate did NOT fire")
 
 # ══ PATTERN 4: parquet zstd round-trip + row-group control at scale ════════════
 pq_path = os.path.join(out_dir, "orders.parquet")

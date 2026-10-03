@@ -83,7 +83,7 @@ def check(project, baseline):
         print("  VIOLATIONS:")
         for v in violations:
             print(f"   - {v}")
-        print(f"RESULT: DEGRADED — architecture got worse during this session")
+        print("RESULT: DEGRADED — architecture got worse during this session")
     else:
         print("RESULT: PASS — no structural degradation detected")
     return 1 if degraded else 0

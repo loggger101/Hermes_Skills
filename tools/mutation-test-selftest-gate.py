@@ -16,7 +16,6 @@ fixtures in a temp dir (explicit-path mode — never touches the repo tree):
 Exit 0 = every mutation caught. Exit 1 = the gate would have shipped blind.
 """
 import importlib.util
-import os
 import sys
 from pathlib import Path
 

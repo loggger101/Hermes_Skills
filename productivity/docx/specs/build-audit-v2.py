@@ -2,7 +2,7 @@
 """Append additional audit chapters to website-audit.docx."""
 
 from docx import Document
-from docx.shared import Pt, Inches, RGBColor
+from docx.shared import RGBColor
 
 
 def load_existing():
@@ -56,7 +56,7 @@ def main():
     # ---- SECTION 11: Responsive Design & Breakpoint Analysis ----
     add_heading_styled(doc, "11. Responsive Design & Breakpoint Analysis", level=1)
 
-    h = add_heading_styled(doc, "11.1 Mobile Layout Audit", level=2)
+    add_heading_styled(doc, "11.1 Mobile Layout Audit", level=2)
 
     doc.add_paragraph("The site defines a primary breakpoint at 640px in _homepage-cards.css and applies touch-device overrides via @media (hover: none). Below is the per-page mobile behavior assessment:")
 
@@ -74,7 +74,7 @@ def main():
 
     add_table(doc, resp_table)
 
-    h = add_heading_styled(doc, "11.2 Breakpoint Strategy Assessment", level=2)
+    add_heading_styled(doc, "11.2 Breakpoint Strategy Assessment", level=2)
 
     bp_items = [
         '<strong>Single breakpoint strategy (640px):</strong> The site uses one primary mobile breakpoint at 640px plus a hover:none media query for touch detection. This is adequate but limited -- it does not account for the growing diversity of viewport widths between phones and tablets.',
@@ -86,7 +86,7 @@ def main():
     for item in bp_items:
         add_bullet_with_bold(doc, item)
 
-    h = add_heading_styled(doc, "11.3 Horizontal Scroll Issues", level=2)
+    add_heading_styled(doc, "11.3 Horizontal Scroll Issues", level=2)
 
     hs_table = [
         ["Element", "Overflow Behavior"],
@@ -116,7 +116,7 @@ def main():
 
     doc.add_paragraph("Overall assessment: <strong>No significant specificity conflicts detected.</strong> The site avoids !important overrides entirely (verified across all seven CSS modules), and uses the BEM-like naming convention to keep selector weights low. The @import chaining in style.css means all rules are loaded at cascade priority order, but since no file imports another partial, there is no risk of later-imported styles accidentally overriding earlier ones within a single module.")
 
-    h = add_heading_styled(doc, "12.1 Potential Specificity Risks", level=2)
+    add_heading_styled(doc, "12.1 Potential Specificity Risks", level=2)
 
     spec_risks = [
         '<strong>Adding features to site.js will create inline style manipulation:</strong> The visited-state tracking adds/removes .is-unvisited/.is-visited classes directly on DOM elements. If future JavaScript adds more inline styles (style.setProperty calls), these would carry higher specificity than any CSS class and could become difficult to override.',
@@ -144,7 +144,7 @@ def main():
 
     add_table(doc, sub_table)
 
-    h = add_heading_styled(doc, "13.1 Cross-Page Structural Patterns", level=2)
+    add_heading_styled(doc, "13.1 Cross-Page Structural Patterns", level=2)
 
     pattern_items = [
         '<strong>TL;DR Summary card:</strong> Present on drone-target.html and star-catalog.html but NOT on aspire-cures.html or ortega-exposure.html. This is an intentional design choice -- the TL;DR card provides a quick-scan summary for data-heavy project pages (CV + ML), while simpler descriptive pages skip it.',
@@ -172,7 +172,7 @@ def main():
 
     add_table(doc, js_err_table)
 
-    h = add_heading_styled(doc, "14.1 DOMContentLoaded Race Conditions", level=2)
+    add_heading_styled(doc, "14.1 DOMContentLoaded Race Conditions", level=2)
 
     race_items = [
         '<strong>All scripts use defer="defer":</strong> This means site.js and project-specific scripts execute after the HTML is fully parsed but before DOMContentLoaded fires. This timing is correct -- all elements referenced by querySelectorAll will exist in the DOM when each setup function runs.',
@@ -204,7 +204,7 @@ def main():
 
     doc.add_paragraph("The blackjack game is a well-implemented client-side simulation. The pure logic functions (makeDeck, shuffle, handTotal) are properly separated from DOM bindings and tested under Node.js -- this is excellent architecture for interactive entertainment code.")
 
-    h = add_heading_styled(doc, "15.1 Blackjack Game UX Observations", level=2)
+    add_heading_styled(doc, "15.1 Blackjack Game UX Observations", level=2)
 
     bj_ux_items = [
         '<strong>Game log panel:</strong> Uses a monospace font with fixed 280px scrollable height -- this provides clear separation between game state history and current hand display.',
@@ -249,7 +249,7 @@ def main():
 
     add_table(doc, deploy_table)
 
-    h = add_heading_styled(doc, "17.1 Operational Recommendations", level=2)
+    add_heading_styled(doc, "17.1 Operational Recommendations", level=2)
 
     ops_items = [
         '<strong>Automate sitemap.xml generation:</strong> Add a simple GitHub Actions workflow that scans the repo for .html files and regenerates sitemap.xml on each push to main. This eliminates manual maintenance.',
@@ -277,7 +277,7 @@ def main():
 
     add_table(doc, img_table)
 
-    h = add_heading_styled(doc, "18.1 Lazy Loading Strategy", level=2)
+    add_heading_styled(doc, "18.1 Lazy Loading Strategy", level=2)
 
     lazy_items = [
         '<strong>CSS-generated backgrounds (no <img> elements):</strong> The site uses CSS gradients and pseudo-elements for most visual effects -- these are rendered by the browser as part of element painting and do not benefit from loading="lazy" attributes. This is correct behavior since they are generated, not fetched.',
@@ -305,7 +305,7 @@ def main():
 
     add_table(doc, sr_table)
 
-    h = add_heading_styled(doc, "19.1 Screen Reader Gaps", level=2)
+    add_heading_styled(doc, "19.1 Screen Reader Gaps", level=2)
 
     sr_gaps_items = [
         '<strong>No skip-to-content landmark:</strong> While the manual skip link works well, adding <main role="main"> (already present as semantic HTML5 element) with an explicit id="main" ensures assistive technologies can reliably locate it. Verify that all pages use <main id="main"> consistently.',

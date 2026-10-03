@@ -72,7 +72,7 @@ from openpyxl.comments import Comment
 from openpyxl.formatting.rule import CellIsRule, ColorScaleRule
 from openpyxl.styles import (Alignment, Border, Font, PatternFill,
                              Protection, Side)
-from openpyxl.utils import column_index_from_string, range_boundaries
+from openpyxl.utils import range_boundaries
 from openpyxl.workbook.defined_name import DefinedName
 from openpyxl.worksheet.datavalidation import DataValidation
 from openpyxl.worksheet.table import Table, TableStyleInfo
@@ -224,7 +224,18 @@ def build_sheet(ws, spec):
         ws.protection.sheet = True
 
 
+def _reconfigure_stdio() -> None:
+    """Explicit UTF-8 stdio: a Windows console/pipe defaults to cp1252 and
+    cannot encode the non-ASCII cell text these scripts emit as JSON/CSV."""
+    for stream in (sys.stdin, sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8")
+        except Exception:
+            pass
+
+
 def main(argv=None):
+    _reconfigure_stdio()
     ap = argparse.ArgumentParser(description="Create .xlsx from a JSON spec.")
     ap.add_argument("spec", help="path to JSON spec, or '-' for stdin")
     ap.add_argument("output", help="output .xlsx path")

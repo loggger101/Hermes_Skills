@@ -4,10 +4,10 @@ A comprehensive collection of **212 Hermes Agent skills** across 23 categories �
 
 ## Table of Contents
 
+- [Quick Start](#quick-start)
 - [Overview](#overview)
 - [Skills Index (flat, grep-friendly)](./SKILLS-INDEX.md)
 - [Code Index (scripts/helpers/tests, flat)](./CODE-INDEX.md)
-- [Quick Start](#quick-start)
 - [Skill Structure](#skill-structure)
 - [Provenance](#provenance)
 - [Cron Job Authoring](#cron-job-authoring)
@@ -83,20 +83,19 @@ skill's frontmatter by `python tools/gen-skills-index.py` and drift-checked by v
 Browse a category folder above for the files themselves. (This README used to carry a
 hand-written copy of that list; it drifted twice, so it was removed in round-45.)
 
-
 ## Skill Structure
 
 Each skill follows the standard Hermes skill format:
 
 ```
 category/
-├── skill-name/
-│   ├── SKILL.md          # Main skill definition with frontmatter
-│   ├── DESCRIPTION.md    # Category-level description (optional)
-│   ├── references/        # Supporting reference docs
-│   ├── scripts/           # Helper scripts
-│   ├── tests/            # Test files
-│   └── templates/         # Template files
+├── DESCRIPTION.md        # Category-level description (required when >1 skill)
+└── skill-name/
+    ├── SKILL.md          # Main skill definition with frontmatter
+    ├── references/       # Supporting reference docs
+    ├── scripts/          # Helper scripts
+    ├── tests/            # Test files
+    └── templates/        # Template files
 ```
 
 ### SKILL.md Format
@@ -118,7 +117,7 @@ metadata:
 ---
 ```
 
-> **Note:** Some older imported skills use a simpler frontmatter style (e.g. `category:` and `tags:` as top-level keys instead of nested under `metadata.hermes`). All skills have been checked and normalized to the current standard format.
+> **Note:** The audit enforces the fields above. Some imported skills also carry extra top-level keys from their upstream format (`category:`, `triggers:`, `prerequisites:`, `dependencies:`); they are left as shipped because Hermes may read them.
 
 ## Provenance
 
@@ -173,6 +172,7 @@ The recommended pattern for repo-automation cronjobs uses a **two-agent split**:
 This split allows the cronjob to run fully autonomously (no user interaction) while a separate agent handles the repo-write phase that may need to surface edge cases to the user.
 
 ### Cron Job Tool API
+
 ```python
 # Create a recurring job
 cronjob(action='create',
@@ -263,9 +263,9 @@ This repository includes Python scripts in the `tools/` directory that automate 
 
 | Tool | Purpose | Cron Integration |
 |------|---------|------------------|
-| [`verify-all.py`](./tools/verify-all.py) | **Start here.** Runs every gate in one shot: audit (incl. zero-threshold hardcoded-secret scan), links, index drift (the four generated indexes, the Claude Code manifests and the per-machine installed-plugins doc), cron validators (config validator proves no_agent threshold keys match script output), README/DESCRIPTION count consistency, self-test harness execution, router coverage (skill-flow-router vs the catalog it maps), and mutation self-tests of five gates. Exit 0 = all 18 gates pass | Manual; run before any commit |
-| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 212 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks Weekly job `hermes-skills-audit` ([registration status](#cron-job-authoring)) |
-| [`sync-hermes-skills.py`](./tools/sync-hermes-skills.py) | Bidirectional sync between GitHub repo and local Hermes env: git pull, skill/memories/profiles sync, full index regeneration (all five machine-generated indexes), audit + FULL verify-all as the pre-push gate (refuses commit+push when any gate fails or could not run), git push. Has `--dry-run` — always dry-run before a first live run (round 19b caught two latent phantom-action bugs this way; round-34 fixed a third: profile counts now hash-compare instead of counting every file) Weekly job in `sync-hermes-skills.json` ([registration status](#cron-job-authoring)); verified end-to-end once via manual trigger 2026-09-14 |
+| [`verify-all.py`](./tools/verify-all.py) | **Start here.** Runs every gate in one shot: audit (incl. zero-threshold hardcoded-secret scan), links, index drift (the four generated indexes, the Claude Code manifests and the per-machine installed-plugins doc), cron validators (config validator proves no_agent threshold keys match script output), README/DESCRIPTION count consistency, self-test harness execution, router coverage (skill-flow-router vs the catalog it maps), and mutation self-tests of six gates. Exit 0 = all 19 gates pass | Manual; run before any commit |
+| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 212 skills: YAML frontmatter, description length, `related_skills` resolution, body section presence, `skill_view()` call sync, category `DESCRIPTION.md` checks | Weekly job `hermes-skills-audit` ([registration status](#cron-job-authoring)) |
+| [`sync-hermes-skills.py`](./tools/sync-hermes-skills.py) | Bidirectional sync between GitHub repo and local Hermes env: git pull, skill/memories/profiles sync, full index regeneration (all five machine-generated indexes), audit + FULL verify-all as the pre-push gate (refuses commit+push when any gate fails or could not run), git push. Has `--dry-run` — always dry-run before a first live run (round 19b caught two latent phantom-action bugs this way; round-34 fixed a third: profile counts now hash-compare instead of counting every file) | Weekly job in `sync-hermes-skills.json` ([registration status](#cron-job-authoring)); verified end-to-end once via manual trigger 2026-09-14 |
 | [`_index_output.py`](./tools/_index_output.py) | Shared write-guard for the generators: refuses to overwrite an index when the scan came back suspiciously empty, and implements their `--check` (compare-don't-write) drift mode | Imported by the four generators |
 | [`check-links.py`](./tools/check-links.py) | Broken-link gate: verifies every relative markdown link in the repo resolves (skips URLs, code spans, historical profiles-export snapshots); exit 1 on any broken link | After doc edits; pairs with audit as a pre-commit pair |
 | [`gen-skills-index.py`](./tools/gen-skills-index.py) | Rebuilds SKILLS-INDEX.md (flat one-line-per-skill index, the cheapest lookup path in the repo); stdlib-only | After adding/removing/renaming skills |
@@ -277,7 +277,7 @@ This repository includes Python scripts in the `tools/` directory that automate 
 | [`run-skill-tests.py`](./tools/run-skill-tests.py) | Discovery-based pytest runner: finds every `<skill>/tests/` suite at runtime and runs each; exit 1 on any failure, empty scan is FATAL | CI job `skill-tests`; manual before shipping a new test suite |
 | [`run-self-tests.py`](./tools/run-self-tests.py) | Discovery-based runner for the standalone `*_verify.py` / `*-verify.py` harnesses (the repo's other fail-loud mechanism). Registered manifest of auto-run vs excluded; missing optional deps classify as SKIP, real regressions FAIL. New unregistered verify scripts make it exit 1 until someone decides how to handle them | CI job `self-test-harnesses`; also a gate in verify-all.py |
 | [`mutation-test-selftest-gate.py`](./tools/mutation-test-selftest-gate.py) | Mutation self-test for run-self-tests.py: proves PASS / SKIP(rc77) / SKIP(missing dep) / FAIL classification and manifest-drift detection on throwaway temp fixtures — a gate that cannot be proven to fail is worse than no gate | Final gate in verify-all.py (always runs, stdlib-only) |
-| [`mutation-test-doc-gate.py`](./tools/mutation-test-doc-gate.py), [`mutation-test-secret-gate.py`](./tools/mutation-test-secret-gate.py), [`mutation-test-cron-gate.py`](./tools/mutation-test-cron-gate.py), [`mutation-test-router-gate.py`](./tools/mutation-test-router-gate.py) | The other four gates' mutation self-tests: each plants defects in a temp copy (a wrong count, a fake credential, a phantom threshold key, an unrouted skill) and asserts its gate fails | Gates in verify-all.py |
+| [`mutation-test-doc-gate.py`](./tools/mutation-test-doc-gate.py), [`mutation-test-secret-gate.py`](./tools/mutation-test-secret-gate.py), [`mutation-test-audit-gate.py`](./tools/mutation-test-audit-gate.py), [`mutation-test-cron-gate.py`](./tools/mutation-test-cron-gate.py), [`mutation-test-router-gate.py`](./tools/mutation-test-router-gate.py) | The other five gates' mutation self-tests: each plants defects in a temp copy (a wrong count, a fake credential, a skill with no frontmatter, a phantom threshold key, an unrouted skill) and asserts its gate fails | Gates in verify-all.py |
 | [`install-claude-code.ps1`](./tools/install-claude-code.ps1) | Junctions this repo into `~/.claude/skills/hermes` so every Claude Code session on the machine loads it; `-Uninstall` removes the link, never the repo | Once per machine |
 | [`validate-skill-refs.py`](./.hermes/cron/validate-skill-refs.py) | Validates all skill references in cronjob JSON configs resolve to existing in-repo skill directories | Pre-flight check before scheduling any cronjob |
 | [`validate-cronjobs.py`](./.hermes/cron/validate-cronjobs.py) | Comprehensive cronjob JSON validation: structural schema, skill ref resolution, threshold key alignment (every no_agent threshold/report-template key must be a string the script actually emits — phantom keys are errors; out-of-repo scripts skip with a label), no_agent consistency. `--job <file>` validates one config | Run before committing any cronjob config change |
@@ -300,7 +300,7 @@ Requires **pyyaml** (`pip install -r requirements.txt`). Without it the audit re
 The single command that runs everything:
 
 ```bash
-py tools/verify-all.py      # 18 gates; exit 0 = all pass
+py tools/verify-all.py      # 19 gates; exit 0 = all pass
 ```
 
 Every tool fails **closed**: a wrong interpreter, a missing pyyaml, an unreadable file, a scan that
@@ -321,7 +321,14 @@ as `hermes-skills-audit`; see [Cron Job Authoring](#cron-job-authoring) for wher
 
 ### CI (GitHub Actions)
 
-[`.github/workflows/ci.yml`](./.github/workflows/ci.yml) makes "the repo passes its own gates" a property of the remote, not just local discipline: every push to `main` and every PR runs three jobs — **Health gates** (`pip install pyyaml`, then `python tools/verify-all.py`), **Skill test suites**, which [`tools/run-skill-tests.py`](./tools/run-skill-tests.py) discovers at runtime (every `<skill>/tests/` dir with a pytest file is picked up automatically — no workflow edit needed when a new suite ships). Seven suites currently: comfyui 117 / docx 29 / pdf 21 / powerpoint 21 / xlsx 12 / regex-vs-llm-structured-text 14 / sqlite-queries 20 (gate-enforced since round-33 — verify-all's doc-count check recomputes every count from the live `def test_` definitions and fails on drift; originally counted by hand 2026-09-09. The sqlite suite is stdlib-only and its four `sqlite3`-CLI tests skip on hosts without the binary, so it adds zero new dependencies). Test deps for the library-backed suites come from [`test-requirements.txt`](./test-requirements.txt) — a single source of truth created by running all suites in a clean venv until green (verified 2026-09-09: all pass, pure wheels only, no poppler binary needed because `pypdfium2` covers rasterization). When you add test dependencies to any skill's suite, update that file too. The third job, **Self-test harnesses**, runs [`tools/run-self-tests.py`](./tools/run-self-tests.py) against a real install of duckdb/polars/pyarrow/numpy/pyomo/highspy (deps from [`selftest-requirements.txt`](./selftest-requirements.txt)) so the standalone `*_verify.py` harnesses — which re-execute documented engine behavior against concrete cases — actually execute on Linux instead of classifying as SKIP; an upstream API change therefore breaks CI loudly rather than quietly rotting a reference doc.
+[`.github/workflows/ci.yml`](./.github/workflows/ci.yml) makes "the repo passes its own gates" a property of the remote, not just local discipline. Every push to `main` and every PR runs three jobs:
+
+1. **Health gates** — `pip install pyyaml`, then `python tools/verify-all.py`.
+2. **Skill test suites** — [`tools/run-skill-tests.py`](./tools/run-skill-tests.py) discovers them at runtime: every `<skill>/tests/` dir with a pytest file is picked up automatically, so no workflow edit is needed when a new suite ships.
+   - Seven suites currently: comfyui 117 / docx 29 / pdf 21 / powerpoint 21 / xlsx 12 / regex-vs-llm-structured-text 14 / sqlite-queries 20 (gate-enforced since round-33 — verify-all's doc-count check recomputes every count from the live `def test_` definitions and fails on drift; originally counted by hand 2026-09-09).
+   - The sqlite suite is stdlib-only and its four `sqlite3`-CLI tests skip on hosts without the binary, so it adds zero new dependencies.
+   - Test deps for the library-backed suites come from [`test-requirements.txt`](./test-requirements.txt), a single source of truth created by running all suites in a clean venv until green (verified 2026-09-09: all pass, pure wheels only, no poppler binary needed because `pypdfium2` covers rasterization). When you add test dependencies to any skill's suite, update that file too.
+3. **Self-test harnesses** — runs [`tools/run-self-tests.py`](./tools/run-self-tests.py) against a real install of duckdb/polars/pyarrow/numpy/pyomo/highspy (deps from [`selftest-requirements.txt`](./selftest-requirements.txt)), so the standalone `*_verify.py` harnesses — which re-execute documented engine behavior against concrete cases — actually execute on Linux instead of classifying as SKIP. An upstream API change therefore breaks CI loudly rather than quietly rotting a reference doc.
 
 ### Live Invariants
 

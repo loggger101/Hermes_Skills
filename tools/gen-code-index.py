@@ -87,7 +87,7 @@ def first_summary(path: Path, lang: str) -> str:
 def clean(s: str, limit: int = 110) -> str:
     s = re.sub(r"\s+", " ", s).strip().rstrip(".")
     # strip trailing quote residue from single-line docstrings
-    s = s.rstrip('"""').rstrip("'''").strip()
+    s = s.rstrip("\"'").strip()
     return (s[:limit] + "\u2026") if len(s) > limit else s
 
 

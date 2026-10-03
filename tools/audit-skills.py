@@ -19,7 +19,6 @@ Exit codes: 0 = pass within thresholds, 1 = threshold breached.
 """
 import datetime
 import json
-import os
 import re
 import sys
 from pathlib import Path
@@ -116,27 +115,33 @@ def find_skill_files(root):
         if "profiles-export/" in path_str or "memories-export/" in path_str or "memories/" in path_str:
             continue
         rel = path.relative_to(root)
+        text = ""
         # Extract name from frontmatter
         try:
             text = path.read_text(encoding="utf-8")
             m = re.match(r'^---\n(.*?)\n---', text, re.DOTALL)
-            if m:
-                fm = yaml.safe_load(m.group(1))
-                name = fm.get("name", path.parent.name)
-                if name in skills:
-                    duplicates.append({
-                        "name": name,
-                        "path": str(rel),
-                        "existing_path": skills[name]["path"],
-                    })
-                else:
-                    skills[name] = {
-                        "path": str(rel),
-                        "path_obj": path,
-                        "frontmatter": fm,
-                        "body_start": m.end(),
-                        "body": text[m.end():].strip(),
-                    }
+            if not m:
+                # No frontmatter block at all (missing, BOM, stray first line). Raising
+                # routes it to the fallback below, which registers the skill with empty
+                # frontmatter so it is reported as a yaml_error -- before this, such a
+                # file was silently left out of the audit altogether.
+                raise ValueError("no frontmatter block")
+            fm = yaml.safe_load(m.group(1))
+            name = fm.get("name", path.parent.name)
+            if name in skills:
+                duplicates.append({
+                    "name": name,
+                    "path": str(rel),
+                    "existing_path": skills[name]["path"],
+                })
+            else:
+                skills[name] = {
+                    "path": str(rel),
+                    "path_obj": path,
+                    "frontmatter": fm,
+                    "body_start": m.end(),
+                    "body": text[m.end():].strip(),
+                }
         except Exception:
             fallback_name = path.parent.name
             if fallback_name in skills:
@@ -151,7 +156,7 @@ def find_skill_files(root):
                     "path_obj": path,
                     "frontmatter": {},
                     "body_start": 0,
-                    "body": text if "text" in dir() else "",
+                    "body": text,
                 }
     return skills, duplicates
 
@@ -480,21 +485,34 @@ def scan_repo_for_secrets():
     return findings
 
 
+def _script_fields(node):
+    """Yield every string value stored under a `script` key, at any depth of the frontmatter."""
+    if isinstance(node, dict):
+        for key, value in node.items():
+            if key == "script" and isinstance(value, str):
+                yield value
+            else:
+                yield from _script_fields(value)
+    elif isinstance(node, list):
+        for item in node:
+            yield from _script_fields(item)
+
+
 def find_stale_script_refs(all_skills):
-    """Check for referenced scripts that don't exist on disk."""
+    """Check for referenced scripts that don't exist on disk.
+
+    Walks the parsed frontmatter rather than regex-matching a JSON dump of it: the old
+    pattern `script:\\s*"..."` could never match JSON's `"script": "..."`, so the check
+    reported zero on every run whatever was on disk.
+    """
     issues = []
-    script_pattern = re.compile(r'script:\s*"([^"]+)"')
     for skill_name, skill_info in all_skills.items():
         frontmatter = skill_info["frontmatter"]
         if not frontmatter:
             continue
-        text = json.dumps(frontmatter, default=str)
-        matches = script_pattern.findall(text)
-        for script_ref in matches:
-            # Resolve relative to skill dir
-            skill_dir = skill_info["path_obj"].parent
-            script_path = skill_dir / script_ref
-            if not script_path.exists():
+        skill_dir = skill_info["path_obj"].parent
+        for script_ref in _script_fields(frontmatter):
+            if not (skill_dir / script_ref).exists():
                 issues.append(f"{skill_name}: referenced script not found: {script_ref}")
     return issues
 

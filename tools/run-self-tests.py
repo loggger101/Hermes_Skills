@@ -164,7 +164,7 @@ def main(argv: list[str]) -> int:
         targets = [Path(p).resolve() for p in positions]
         missing = [str(t) for t in targets if not t.exists()]
         if missing:
-            print(f"[FATAL] explicit harness path(s) do not exist:\n  " + "\n  ".join(missing))
+            print("[FATAL] explicit harness path(s) do not exist:\n  " + "\n  ".join(missing))
             return 1
     else:
         candidates = discover()

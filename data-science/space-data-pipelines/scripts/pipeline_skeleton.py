@@ -192,7 +192,7 @@ def main() -> int:
     except ImportError:
         path = out / "nhats.csv"
         df.to_csv(path, index=False)
-        print(f"  (pyarrow not installed — wrote CSV instead of parquet)")
+        print("  (pyarrow not installed — wrote CSV instead of parquet)")
     # status.json is the row-trend guard's memory across runs.
     sf = out / "status.json"
     prev = json.loads(sf.read_text()) if sf.exists() else {"_rows": {}}

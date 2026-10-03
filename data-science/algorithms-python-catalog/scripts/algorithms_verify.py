@@ -17,7 +17,6 @@ import bisect
 import math
 import random
 import re
-import sys
 import zlib
 
 PASS = 0

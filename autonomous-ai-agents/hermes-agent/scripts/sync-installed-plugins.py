@@ -275,7 +275,6 @@ def parse_tools_list(stdout):
     """
     enabled = []
     disabled = []
-    section = None
     for line in stdout.splitlines():
         line = line.rstrip()
         m = re.match(
@@ -455,10 +454,10 @@ def generate_doc(plugins, metadata, config_enabled, tools_enabled, tools_disable
     L.append("")
     L.append("This reference is machine-generated from the live Hermes environment:")
     L.append("")
-    L.append(f"- `python3 hermes-agent/scripts/sync-installed-plugins.py` — regenerate from live env")
-    L.append(f"- `python3 hermes-agent/scripts/sync-installed-plugins.py --check` — verify no drift")
-    L.append(f"- Data sources: `hermes plugins list --json`, `.install-metadata.json`, `config.yaml`, `hermes tools list`, `desktop-plugins/` dir scan")
-    L.append(f"- CI note: when no local Hermes installation is found, the gate skips gracefully (exit 0)")
+    L.append("- `python3 hermes-agent/scripts/sync-installed-plugins.py` — regenerate from live env")
+    L.append("- `python3 hermes-agent/scripts/sync-installed-plugins.py --check` — verify no drift")
+    L.append("- Data sources: `hermes plugins list --json`, `.install-metadata.json`, `config.yaml`, `hermes tools list`, `desktop-plugins/` dir scan")
+    L.append("- CI note: when no local Hermes installation is found, the gate skips gracefully (exit 0)")
     L.append("")
 
     return "\n".join(L) + "\n"

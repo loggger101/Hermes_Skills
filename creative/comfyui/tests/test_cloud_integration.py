@@ -90,6 +90,7 @@ class TestHealthCheckLive:
         # Should produce JSON
         import json
         report = json.loads(captured.out)
+        assert rc == 0
         assert report["server"]["reachable"] is True
         assert report["checkpoints"]["queryable"] is True
         assert report["checkpoints"]["count"] > 0

@@ -503,7 +503,7 @@ def main():
         sf = ", ".join(r["stable_foundations"][:8]) or "(none)"
         print(f"  stable foundations (SDP): {sf} | SDP coupling score: {r['sdp_coupling_score']}")
         tg = r["test_gaps"]
-        print(f"  test gaps top-5: " +
+        print("  test gaps top-5: " +
               ", ".join(f"{g['file'].split('.')[-1]}(cc={g['max_cc']},fi={g['fan_in']})" for g in tg[:5]) or "(none)")
         if r.get("dsm"):
             print("\n".join(r["dsm"]["lines"]))

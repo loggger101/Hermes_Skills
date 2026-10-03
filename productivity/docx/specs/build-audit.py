@@ -2,7 +2,7 @@
 """Build the website audit .docx directly with python-docx."""
 
 from docx import Document
-from docx.shared import Pt, Inches, RGBColor
+from docx.shared import RGBColor
 
 
 def add_heading_styled(doc, text, level=1):
@@ -70,7 +70,7 @@ def main():
     r = subtitle.add_run("Logan M Edwards Portfolio — loganmedwardsastrophy.com")
     r.italic = True
 
-    meta = doc.add_paragraph(
+    doc.add_paragraph(
         "Generated: August 30, 2026 | Files analyzed: 19 source files across HTML, CSS modules, and JavaScript"
     )
 
@@ -80,7 +80,7 @@ def main():
     # ---- SECTION 1: Architecture Overview ----
     add_heading_styled(doc, "1. Architecture Overview", level=1)
 
-    h = add_heading_styled(doc, "1.1 Technology Stack", level=2)
+    add_heading_styled(doc, "1.1 Technology Stack", level=2)
 
     doc.add_paragraph("Your site uses a pure vanilla stack - no frameworks, build tools, or bundlers:")
 

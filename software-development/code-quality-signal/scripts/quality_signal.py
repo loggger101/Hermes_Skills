@@ -22,7 +22,7 @@ import ast
 import hashlib
 import json
 import sys
-from collections import defaultdict, deque
+from collections import defaultdict
 from pathlib import Path
 
 SKIP_DIRS = {".git", ".venv", "venv", "__pycache__", "node_modules", ".tox",
@@ -60,7 +60,6 @@ def build_graph(files, root: Path):
             mods[m] = str(p)
 
     def resolve(dotted):
-        cands = []
         parts = dotted.split(".")
         for i in range(len(parts), 0, -1):
             prefix = ".".join(parts[:i])

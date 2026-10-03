@@ -72,20 +72,28 @@ def check_oracles() -> float:
     return max_err
 
 
-def check_live_lgrs() -> None:
-    """Re-generate oracle vectors from the installed lgrs package (Python >= 3.13)."""
+def check_live_lgrs() -> float:
+    """Re-generate oracle vectors from the installed lgrs package (Python >= 3.13).
+
+    Returns the max error vs the embedded oracles; 0.0 when lgrs is unavailable (SKIP).
+    """
     try:
         import lgrs  # noqa: F401
         from lgrs.coords import LatLonPoint
     except Exception as exc:  # ImportError or version gate
         print(f"  [SKIP] live lgrs check unavailable ({exc.__class__.__name__}: {exc})")
-        return
+        return 0.0
 
+    max_err = 0.0
     for name, lat, lon, e_ref, n_ref in ORACLES:
         p = LatLonPoint(lat, lon)  # (latitude, longitude) order — the classic swap trap
         lps = p.to_lps()           # LpsPoint object; .easting/.northing attrs (not subscriptable)
         de, dn = abs(float(lps.easting) - e_ref), abs(float(lps.northing) - n_ref)
-        print(f"  [OK] live lgrs {name:24s} vs embedded oracle dE={de:.3e} m")
+        max_err = max(max_err, de, dn)
+        status = "OK" if max(de, dn) <= TOLERANCE_M else "FAIL"
+        print(f"  [{status}] live lgrs {name:24s} vs embedded oracle "
+              f"dE={de:.3e} m dN={dn:.3e} m")
+    return max_err
 
 
 def main(argv: list[str]) -> int:
@@ -94,7 +102,7 @@ def main(argv: list[str]) -> int:
 
     if "--oracle" in argv:
         print("\nLive lgrs cross-check:")
-        check_live_lgrs()
+        max_err = max(max_err, check_live_lgrs())
 
     # Domain-limit sanity: the -80 deg cutoff AEGIS uses for its viewport domain radius.
     r_domain = 2 * MOON_MEAN_RADIUS * K0 * math.tan(math.radians((90 + (-80)) / 2))

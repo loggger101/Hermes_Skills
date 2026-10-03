@@ -1,6 +1,7 @@
 # CI gate for the second brain: every push and pull request runs the full
 # health check (tools/verify-all.py — every gate in its GATE_LABELS, incl. self-tests of the
-# doc-count checker, the hardcoded-secret scan, the harness runner, the
+# doc-count checker, the hardcoded-secret scan, the audit's other checks,
+# the harness runner, the
 # cron threshold-key contract, and the skill-flow-router coverage gate) plus
 # the pytest suites that ship inside skills AND a dedicated job that executes
 # the standalone *_verify.py self-test harnesses against real duckdb/polars/

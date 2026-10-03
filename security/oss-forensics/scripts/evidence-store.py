@@ -27,6 +27,7 @@ import os
 import datetime
 import hashlib
 import sys
+from typing import Optional
 
 EVIDENCE_TYPES = [
     "git",           # Local git repository data (commits, reflog, fsck)
@@ -92,12 +93,12 @@ class EvidenceStore:
         source: str,
         content: str,
         evidence_type: str,
-        actor: str = None,
-        url: str = None,
-        timestamp: str = None,
-        ioc_type: str = None,
+        actor: Optional[str] = None,
+        url: Optional[str] = None,
+        timestamp: Optional[str] = None,
+        ioc_type: Optional[str] = None,
         verification: str = "unverified",
-        notes: str = None,
+        notes: Optional[str] = None,
     ) -> str:
         evidence_id = self._next_id()
         entry = {
@@ -124,7 +125,7 @@ class EvidenceStore:
         self._save()
         return evidence_id
 
-    def list_evidence(self, filter_type: str = None, filter_actor: str = None):
+    def list_evidence(self, filter_type: Optional[str] = None, filter_actor: Optional[str] = None):
         results = self.data["evidence"]
         if filter_type:
             results = [e for e in results if e.get("type") == filter_type]

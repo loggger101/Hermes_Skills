@@ -36,6 +36,16 @@ def run_validator(jobs_dir, extra=()):
         cwd=REPO, timeout=120, env=env)
 
 
+def read_json(path):
+    with open(path, encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def write_json(path, data):
+    with open(path, "w", encoding="utf-8") as fh:
+        json.dump(data, fh, indent=2)
+
+
 def copy_real_configs(tmp):
     for f in sorted(os.listdir(ACTIVE)):
         if f.endswith(".json"):
@@ -49,9 +59,9 @@ tmp = tempfile.mkdtemp(prefix="cron-mut-")
 try:
     copy_real_configs(tmp)
     p = os.path.join(tmp, "sync-hermes-skills.json")
-    d = json.load(open(p, encoding="utf-8"))
+    d = read_json(p)
     d["threshold"]["total_skills"] = 0  # audit emits skill_count; sync emits neither
-    json.dump(d, open(p, "w", encoding="utf-8"), indent=2)
+    write_json(p, d)
     r = run_validator(tmp)
     if r.returncode == 0 or "never emitted" not in (r.stdout + r.stderr):
         failures.append("M1 phantom threshold key NOT caught")
@@ -59,7 +69,7 @@ try:
     # M2: same key planted in report_template.summary instead of threshold
     d["threshold"].pop("total_skills", None)
     d.setdefault("report_template", {}).setdefault("summary", {})["total_skills"] = 0
-    json.dump(d, open(p, "w", encoding="utf-8"), indent=2)
+    write_json(p, d)
     r = run_validator(tmp)
     if r.returncode == 0 or "never emitted" not in (r.stdout + r.stderr):
         failures.append("M2 phantom report_template key NOT caught")

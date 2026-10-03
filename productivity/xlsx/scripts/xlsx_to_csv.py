@@ -34,7 +34,18 @@ def to_text(value):
     return value
 
 
+def _reconfigure_stdio() -> None:
+    """Explicit UTF-8 stdio: a Windows console/pipe defaults to cp1252 and
+    cannot encode the non-ASCII cell text these scripts emit as JSON/CSV."""
+    for stream in (sys.stdin, sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8")
+        except Exception:
+            pass
+
+
 def main(argv=None):
+    _reconfigure_stdio()
     ap = argparse.ArgumentParser(description=".xlsx sheet -> CSV exporter.")
     ap.add_argument("file", help="input .xlsx path")
     ap.add_argument("output", help="output CSV path")

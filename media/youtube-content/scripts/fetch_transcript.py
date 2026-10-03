@@ -21,6 +21,7 @@ import argparse
 import json
 import re
 import sys
+from typing import Optional
 
 
 def extract_video_id(url_or_id: str) -> str:
@@ -47,7 +48,7 @@ def format_timestamp(seconds: float) -> str:
     return f"{m}:{s:02d}"
 
 
-def fetch_transcript(video_id: str, languages: list = None):
+def fetch_transcript(video_id: str, languages: Optional[list] = None):
     """Fetch transcript segments from YouTube.
 
     Returns a list of dicts with 'text', 'start', and 'duration' keys.
