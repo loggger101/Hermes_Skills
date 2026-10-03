@@ -56,7 +56,7 @@ duck_top = duckdb.sql("""
 
 Real output on the 200k-row fixture:
 
-```
+```text
    segment  n_orders       total
     retail    136963 10959329.77
  wholesale     41501  3319823.19

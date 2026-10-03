@@ -49,7 +49,7 @@ def jpl_query(endpoint: str, params=None, timeout: int = 120) -> dict:
         if attempt < 2:
             wait = 5 * (2**attempt)
             print(f"  JPL API {resp.status_code}, retrying in {wait}s ({attempt + 1}/3)...")
-    time.sleep(5)
+            time.sleep(wait)
     resp.raise_for_status()
     return resp.json()
 

@@ -80,7 +80,7 @@ The four patterns: **watermark** (process only past `cursor`; advance it at the 
 
 Append one line per run whether or not it acted:
 
-```
+```text
 2026-09-15T09:00Z  checked=312  acted=2   note="2 newly at-risk, staged"
 2026-09-16T09:00Z  checked=298  acted=0   note="no action"
 ```
@@ -98,7 +98,7 @@ It answers two questions: **Is it a vanity loop?** — every run `acted=0` for w
 
 Four layers; data flows down, learnings flow back up:
 
-```
+```text
 SENSING     (detect what changed; trust the numbers first) — tracking-QA + periodic full-board review
    ▼
 DIAGNOSTIC  (per-signal watchers figure out what to do about it)

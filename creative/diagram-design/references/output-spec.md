@@ -155,7 +155,7 @@ The Hiragino/Yu Gothic stack carries no Hangul glyphs, so Korean labels need the
 
 Any time output is smaller than input — every `balanced` and `simplified` run, and most `faithful` ones — report what you cut, in chat, after the file path. Short and specific:
 
-```
+```text
 Detail: balanced · 18 source nodes → 9 drawn
 Merged:  worker-01..06 → "Ingest Worker ×6"
 Collapsed: "Observability" group (Grafana, Loki, Tempo) → one node

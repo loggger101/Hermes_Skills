@@ -43,8 +43,15 @@ exposes (screens × states, API routes × error shapes) and all NINE implicit-re
 landing as *a criterion already in the source / existing behaviour / n/a with reason / Unresolved* — never a landing
 the walk invented. The nine:
 
-1. validation 2. failure modes 3. idempotency & retry 4. authorization 5. concurrency & ordering 6. data lifecycle
-7. external-dependency failure 8. state transitions 9. observability
+1. validation
+2. failure modes
+3. idempotency & retry
+4. authorization
+5. concurrency & ordering
+6. data lifecycle
+7. external-dependency failure
+8. state transitions
+9. observability
 
 `Swept` is one line each, every time — "All nine, one line each" is the format rule; an n/a must say why it does not
 apply. This is the same family as spec-driven-eval's E_recall rubric (10 categories there) — both exist because LLMs

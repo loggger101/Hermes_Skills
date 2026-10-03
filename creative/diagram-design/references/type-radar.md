@@ -18,7 +18,7 @@
 
 For axis `i` (0-indexed) of `N`, value `v` on scale `S`, center `(cx, cy)`, outer radius `R`:
 
-```
+```text
 angle = -π/2 + 2π · i / N
 x = cx + (v / S) · R · cos(angle)
 y = cy + (v / S) · R · sin(angle)

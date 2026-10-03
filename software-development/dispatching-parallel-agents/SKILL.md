@@ -52,7 +52,7 @@ When agents return: read each summary; verify fixes don't conflict (did two agen
 
 Good prompts are: 1) **Focused** — one clear problem domain; 2) **Self-contained** — all context needed (paste error messages and test names, don't assume); 3) **Specific about output** — what should come back?
 
-```
+```text
 Fix the 3 failing tests in src/agents/test_abort.py:
 1. "should abort tool with partial output capture" - expects 'interrupted at' in message
 2. "should handle mixed completed and aborted tools" - fast tool aborted instead of completed

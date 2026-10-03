@@ -14,7 +14,7 @@ Three source methods are supported. Jump to the relevant section:
 
 ## The flow (all methods)
 
-```
+```text
 Source you provide (URL / skill name / folder path)
       ↓
 [1] read / fetch the source
@@ -298,7 +298,7 @@ Or the gate offers this as option (c) and the user provides the path.
 
 Glob the folder (recursively, up to 3 levels deep) for:
 
-```
+```text
 **/*.css
 **/*.scss        (read @forward / $variable declarations)
 **/tokens.json

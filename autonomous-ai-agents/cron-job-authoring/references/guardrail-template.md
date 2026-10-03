@@ -4,7 +4,7 @@ This is the annotated starter for the autonomy section of any cron job prompt. C
 
 ## Full block (copy-paste)
 
-```
+```text
 === AUTONOMY & NO-INTERACTION GUARDRAILS ===
 This job runs autonomously on a schedule with no human present. You must NEVER pause to ask the user for anything — no API keys, no tokens, no credentials, no confirmations, no clarifications, and no manual intervention of any kind. If at any point you would normally want to use the clarify tool, do NOT use it — instead record the gap as an unresolved item and continue.
 

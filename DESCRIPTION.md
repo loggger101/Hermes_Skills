@@ -64,7 +64,7 @@ Non-skill content: [`memories/`](./memories/DESCRIPTION.md) (the agent's persist
 
 ## Structure
 
-```
+```text
 category/
 ├── DESCRIPTION.md        # Category description (generated from the skills' frontmatter)
 └── skill-name/

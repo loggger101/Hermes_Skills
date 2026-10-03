@@ -26,7 +26,7 @@ Short identifier for the area of the codebase: `auth`, `api`, `db`, `ui`, `cli`,
 
 Add `!` after type or `BREAKING CHANGE:` in footer:
 
-```
+```text
 feat(api)!: change authentication to use bearer tokens
 
 BREAKING CHANGE: API endpoints now require Bearer token instead of API key header.
@@ -37,7 +37,7 @@ Migration guide: https://docs.example.com/migrate-auth
 
 Wrap at 72 characters. Use bullet points for multiple changes:
 
-```
+```text
 feat(auth): add JWT-based user authentication
 
 - Add login/register endpoints with input validation
@@ -52,7 +52,7 @@ Closes #42
 
 In the commit body or footer:
 
-```
+```text
 Closes #42          ← closes the issue when merged
 Fixes #42           ← same effect
 Refs #42            ← references without closing

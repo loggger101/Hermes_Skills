@@ -23,7 +23,7 @@ A daily "watchdog" job that keeps a fleet of scheduled pipeline runs healthy wit
 
 ## The state machine (per dataset/job)
 
-```
+```text
 stale?  = today - last_success > period + GRACE_DAYS   OR never succeeded
 period  = derived from the schedule expression (see below), not hardcoded per job
 

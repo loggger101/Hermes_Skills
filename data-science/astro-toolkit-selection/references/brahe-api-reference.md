@@ -70,7 +70,7 @@ print(resp.path)
 # verified output (live network run): C:\Users\Owner\.cache\brahe\horizons\DES_20000001_a6a0c3fd79a45e7b.bsp
 ```
 
-### The small-body recipe (`examples/examples/dawn_ceres_orbit.py`) — the pattern for ANY body brahe lacks built-in constants for (asteroid, comet nucleus, dwarf planet):
+### The small-body recipe (`examples/examples/dawn_ceres_orbit.py`) — the pattern for ANY body brahe lacks built-in constants for (asteroid, comet nucleus, dwarf planet)
 
 1. Resolve the body in **SBDB** → NAIF/SPK ID + SI GM/radius (brahe has no built-ins beyond Earth/Moon/Mars).
 2. Fetch + load a targeted **Horizons SPK** so third-body/SRP perturbations resolve around it.

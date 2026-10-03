@@ -159,7 +159,7 @@ sessions have no prior context. Include all guardrails with enough detail to exe
 
 ### Step 6: Create the cronjob
 
-```
+```python
 cronjob(action='create', prompt=<body>, schedule=<cron>, workdir=<repo_root>,
   skills=[...], deliver='origin')
 ```

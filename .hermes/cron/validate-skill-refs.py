@@ -24,7 +24,7 @@ JOBS_DIR = os.path.join(BASE, ".hermes", "cron", "active")
 SKIP = ("/.git/", "/.hermes/cron/", "profiles-export/", "memories-export/", "/memories/")
 
 valid = {}
-for path, dirs, files in os.walk(BASE):
+for path, _dirs, files in os.walk(BASE):
     if any(s in path.replace("\\", "/") for s in SKIP):
         continue
     if "SKILL.md" in files:

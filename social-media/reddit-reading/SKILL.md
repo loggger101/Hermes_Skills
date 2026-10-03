@@ -40,7 +40,7 @@ returns thinner data (no scores, top-level comments only), which is fine for a f
 data, register a free "script" type app at https://www.reddit.com/prefs/apps and put its
 two values in `~/.hermes/.env`:
 
-```
+```dotenv
 REDDIT_CLIENT_ID=...
 REDDIT_CLIENT_SECRET=...
 ```

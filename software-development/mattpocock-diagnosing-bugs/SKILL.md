@@ -35,7 +35,7 @@ Show commands, outputs and captured artifacts. **Redact every secret first**: wr
 
 **This is the skill.** If you have a **tight** pass/fail signal for the bug (one that goes red on *this* bug), you will find the cause. Be aggressive. Be creative. Refuse to give up.
 
-#### Ways to construct one, in roughly this order:
+#### Ways to construct one, in roughly this order
 
 1. **Failing test** at whatever seam reaches the bug — load `skill_view(name='mattpocock-tdd')` for the test-first workflow
 2. **Curl / HTTP script** against a running dev server

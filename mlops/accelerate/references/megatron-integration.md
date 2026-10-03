@@ -36,7 +36,7 @@ accelerate config
 
 **Questions**:
 
-```
+```text
 In which compute environment are you running?
 > This machine
 

@@ -20,7 +20,7 @@ curl -sL -H "Authorization: token $GITHUB_TOKEN" \
 
 **Signatures in logs:**
 
-```
+```text
 FAILED tests/test_foo.py::test_bar - AssertionError
 E       assert 42 == 43
 ERROR tests/test_foo.py - ModuleNotFoundError
@@ -45,7 +45,7 @@ ERROR tests/test_foo.py - ModuleNotFoundError
 
 **Signatures in logs:**
 
-```
+```text
 src/auth.py:45:1: E302 expected 2 blank lines, got 1
 src/models.py:12:80: E501 line too long (95 > 88 characters)
 error: would reformat src/utils.py
@@ -68,7 +68,7 @@ error: would reformat src/utils.py
 
 **Signatures in logs:**
 
-```
+```text
 src/api.py:23: error: Argument 1 to "process" has incompatible type "str"; expected "int"
 src/models.py:45: error: Missing return statement
 ```
@@ -90,7 +90,7 @@ src/models.py:45: error: Missing return statement
 
 **Signatures in logs:**
 
-```
+```text
 ModuleNotFoundError: No module named 'some_package'
 ERROR: Could not find a version that satisfies the requirement foo==1.2.3
 npm ERR! Could not resolve dependency
@@ -113,7 +113,7 @@ npm ERR! Could not resolve dependency
 
 **Signatures in logs:**
 
-```
+```text
 fatal: could not read Username for 'https://github.com': No such device or address
 Error: Resource not accessible by integration
 403 Forbidden
@@ -136,7 +136,7 @@ Error: Resource not accessible by integration
 
 **Signatures in logs:**
 
-```
+```text
 Error: The operation was canceled.
 The job running on runner ... has exceeded the maximum execution time
 ```
@@ -158,7 +158,7 @@ The job running on runner ... has exceeded the maximum execution time
 
 **Signatures in logs:**
 
-```
+```text
 docker: Error response from daemon
 failed to solve: ... not found
 COPY failed: file not found in build context
@@ -179,7 +179,7 @@ COPY failed: file not found in build context
 
 ## Auto-Fix Decision Tree
 
-```
+```text
 CI Failed
 ├── Test failure
 │   ├── Assertion mismatch → update test or fix logic

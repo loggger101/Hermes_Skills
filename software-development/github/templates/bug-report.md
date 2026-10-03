@@ -27,7 +27,7 @@
 
 <!-- Paste relevant error messages, stack traces, or logs -->
 
-```
+```text
 ```
 
 ## Additional Context

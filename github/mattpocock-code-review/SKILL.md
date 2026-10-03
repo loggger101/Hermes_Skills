@@ -84,7 +84,7 @@ Spawn two `delegate_task` calls — Standards sub-agent and Spec sub-agent. Each
 
 ## Format for Sub-agent Prompts
 
-```
+```text
 You are a code standards reviewer. Review the diff for adherence to coding
 standards. Focus on the smell baseline: Mysterious Name, Duplicated Code,
 Long Function, Data Clumps, Feature Envy. Return findings with file:line

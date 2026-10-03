@@ -43,7 +43,7 @@ The **pragmatism filter** (Phase 3) is what makes this useful instead of just en
 
 Tell the agent:
 
-```
+```text
 "Run an adversarial UX test on [URL]"
 "Be a grumpy [persona type] and test [app name]"
 "Do an asshole user test on my staging site"
@@ -100,7 +100,7 @@ The persona must be **specific enough to stay in character** for 20 minutes of t
 
 Write the feedback AS THE PERSONA — in their voice, with their frustrations. This is not a bug report. This is a real human venting.
 
-```
+```text
 [PERSONA NAME]'s Review of [PRODUCT]
 
 Overall: [Would they keep using it? Yes/No/Maybe with conditions]

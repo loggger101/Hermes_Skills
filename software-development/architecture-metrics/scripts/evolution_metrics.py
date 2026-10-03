@@ -112,7 +112,7 @@ def main():
 
     # ── change coupling: Jaccard co-change pairs (sentrux: min count 3) ──
     pair_count = defaultdict(int)
-    for i, fa in enumerate(commit_files):
+    for fa in commit_files:
         flist = sorted(fa)
         for j in range(len(flist)):
             for k in range(j + 1, len(flist)):

@@ -49,7 +49,7 @@ multi-language graph builder:
 
 The binary contains ZERO language knowledge: every language = a directory in `~/.sentrux/plugins/<name>/` with:
 
-```
+```text
 plugin.toml        # name, version, extensions, grammar source+ref+abi, capabilities, [semantics]
 grammars/lib<lang>.so   # compiled tree-sitter grammar (cc -shared)
 queries/tags.scm   # tree-sitter queries — the actual language knowledge

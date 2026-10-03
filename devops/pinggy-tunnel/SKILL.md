@@ -112,7 +112,7 @@ grep -oE 'https://[a-z0-9-]+\.[a-z]+\.pinggy\.link' /tmp/pinggy-8000.log | head 
 
 Expected output looks like:
 
-```
+```text
 You are not authenticated.
 Your tunnel will expire in 60 minutes.
 http://yqycl-98-162-69-48.a.free.pinggy.link

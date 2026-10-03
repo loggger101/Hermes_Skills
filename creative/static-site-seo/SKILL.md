@@ -380,7 +380,7 @@ A real pattern from aspirecures: a weekly GitHub Action fetches new papers (Euro
 
 **Pipeline structure:**
 
-```
+```text
 config.json → fetch_curate.mjs (CI) → data/research/<slug>.json → render.pl → <page>.html
               │  Europe PMC + PubMed (articles) + ClinicalTrials.gov (trials)
               │  structural validation + retraction screen

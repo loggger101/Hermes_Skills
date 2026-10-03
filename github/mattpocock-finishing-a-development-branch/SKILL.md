@@ -50,7 +50,7 @@ The base is whatever this work forked from — usually named in the plan, conver
 
 ### Step 4: Present Options (exactly as written)
 
-```
+```text
 Implementation complete. What would you like to do?
 1. Merge back to <base-branch> locally
 2. Push and create a Pull Request
@@ -85,7 +85,7 @@ Create the PR against base with whatever forge tooling exists (its CLI if availa
 
 **If (and only if) the user explicitly asks to discard:** confirm first with a typed word:
 
-```
+```text
 This will permanently delete: Branch <name>, all commits <list>, worktree at <path>.
 Type 'discard' to confirm.
 ```

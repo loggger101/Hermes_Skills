@@ -6,7 +6,7 @@ Source: adapted from obra/superpowers v6.3.0 (`skills/brainstorming/spec-documen
 
 ## Template (fill placeholders, pass as goal+context)
 
-```
+```text
 You are a spec document reviewer. Verify this spec is complete and ready for planning.
 
 Spec to review: <SPEC_FILE_PATH>   (read the file; do not rely on any summary of it)

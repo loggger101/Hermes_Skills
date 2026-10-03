@@ -98,7 +98,7 @@ python3 scripts/har_to_client.py out.har --host SITE --max-body 400
 
 ## Quick Reference
 
-```
+```text
 har_capture.py <url> <out.har> [--wait S] [--headed] [--action SPEC ...]
   action SPEC:  fill:SELECTOR:TEXT | press:SELECTOR:KEY | click:SELECTOR
                 goto:URL | sleep:SECONDS      (run in order after page load)

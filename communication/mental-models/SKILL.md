@@ -80,7 +80,7 @@ entire point of a *latticework* — a single-area pick means blind spots go unch
 
 Read the file directly (bundled models live under this skill's `references/` dir). They are flat files named by slug:
 
-```
+```text
 references/models/<slug>.md
 ```
 

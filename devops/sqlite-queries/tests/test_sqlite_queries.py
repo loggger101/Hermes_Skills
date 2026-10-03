@@ -173,7 +173,8 @@ def test_csv_import_values_arrive_as_text_no_type_inference(sample_csv):
     con = sqlite3.connect(":memory:")
     try:
         cur = con.cursor()
-        rows = list(csv.reader(open(sample_csv, newline="", encoding="utf-8")))
+        with open(sample_csv, newline="", encoding="utf-8") as f:
+            rows = list(csv.reader(f))
         header, data = rows[0], rows[1:]
         # .import into a missing table declares the columns from the header — no types inferred
         cur.execute(f"CREATE TABLE imported ({', '.join(header)})")  # untyped -> NUMERIC affinity

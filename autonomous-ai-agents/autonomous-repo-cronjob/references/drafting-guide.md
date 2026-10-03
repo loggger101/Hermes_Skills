@@ -142,7 +142,7 @@ and re-date everything on the first run.
 Look at what the script prints for its summary, and what the CI workflow echoes. Use
 that as your model:
 
-```
+```text
 Research pipeline — model X, window 14d, 9 pages, spend cap 200/300000
   csf1r-alsp        +1 article(s) +0 trial(s)  (total 15/8)  updated -> 2026-08-25
   aars1aars2         +0 article(s) +0 trial(s)  (total 10/3)  no change (still 2026-08-18)

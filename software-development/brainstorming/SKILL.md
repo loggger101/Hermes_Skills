@@ -88,7 +88,7 @@ Classify first, announce the path, then work through each item in order.
 
 ## Process Flow
 
-```
+```text
 classify + announce path
         |
    explore context

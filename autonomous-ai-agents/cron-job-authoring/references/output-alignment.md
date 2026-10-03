@@ -21,7 +21,7 @@ don't match what the script **actually** emits to stdout/JSON. This produces:
 3. **Never invent `--flags`** — if the script has no argparse, provide JSON
    extraction one-liners instead:
 
-   ```
+   ```bash
    python -c "import json,sys; d=json.load(sys.stdin); print(json.dumps(d['issues']['broken_refs'], indent=2))"
    ```
 
