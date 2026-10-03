@@ -9,20 +9,18 @@ metadata:
   hermes:
     tags: [planning, plan-mode, implementation, workflow, design, documentation]
     related_skills: [mattpocock-subagent-driven-development, test-driven-development, requesting-code-review]
-
 ---
 
 # Plan Mode
 
-
 ## When to Use
 
-Use when the user needs `plan`.
+- The user wants a written plan instead of execution, or invokes `/plan`
+- Handing an implementation to someone (or some agent) with no context on the codebase
 
 ## What This Skill Does
 
 Write structured markdown plans to .hermes/plans/ for design and implementation without executing them.
-
 
 Use this skill when the user wants a plan instead of execution.
 

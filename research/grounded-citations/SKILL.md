@@ -10,7 +10,6 @@ metadata:
     tags: [Research, Citations, Grounding, Sources, Web, Reports]
     category: research
     related_skills: [research-paper-writing, arxiv, ocr-and-documents]
-
 ---
 
 # Grounded Citations

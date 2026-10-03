@@ -9,7 +9,6 @@ metadata:
   hermes:
     tags: [git, pr, commit, push, github-cli, staging]
     related_skills: [github-pr-workflow, autonomous-repo-cronjob, github-auth, mattpocock-gh-fix-ci]
-
 ---
 
 ## When to Use

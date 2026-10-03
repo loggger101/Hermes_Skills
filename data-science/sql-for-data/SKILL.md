@@ -10,7 +10,6 @@ metadata:
     tags: [sql, data-analysis, joins, window-functions, aggregation, query-patterns, sqlite, postgresql, performance]
     category: data-science
     related_skills: [python-data-science, xlsx]
-
 ---
 
 # SQL for Data Work

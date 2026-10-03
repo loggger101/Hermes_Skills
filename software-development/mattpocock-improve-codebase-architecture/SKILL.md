@@ -9,7 +9,6 @@ metadata:
   hermes:
     tags: [architecture, deep-modules, refactoring, codebase-health, survey]
     related_skills: [mattpocock-codebase-design, mattpocock-domain-modeling]
-
 ---
 
 ## When to Use

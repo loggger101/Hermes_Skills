@@ -12,20 +12,18 @@ metadata:
     tags: [twitter, x, social-media, xurl, official-api]
     homepage: https://github.com/xdevplatform/xurl
     upstream_skill: https://github.com/openclaw/openclaw/blob/main/skills/xurl/SKILL.md
-
 ---
 
 # xurl — X (Twitter) API via the Official CLI
 
-
 ## When to Use
 
-Use when the user needs `xurl`.
+- Posting, replying, searching posts, reading timelines or mentions on X (Twitter)
+- Engagement (likes, reposts, follows), DMs, media uploads, or raw X API v2 access
 
 ## What This Skill Does
 
-Process social media content and URLs from platforms like Twitter/X using the xurl CLI tool.
-
+Drives the X (Twitter) API through `xurl`, the X developer platform's official CLI: posting, search, timelines, engagement, DMs, media uploads and raw v2 endpoint access.
 
 `xurl` is the X developer platform's official CLI for the X API. It supports shortcut commands for common actions AND raw curl-style access to any v2 endpoint. All commands return JSON to stdout.
 

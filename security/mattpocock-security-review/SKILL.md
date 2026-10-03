@@ -9,7 +9,6 @@ metadata:
   hermes:
     tags: [security, vulnerability, owasp, code-review, python, typescript]
     related_skills: [requesting-code-review, mattpocock-code-review, mattpocock-multi-agent-code-review, security-audit, application-threat-model]
-
 ---
 
 ## When to Use

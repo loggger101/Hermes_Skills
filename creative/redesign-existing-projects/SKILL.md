@@ -13,12 +13,12 @@ metadata:
 
 ## When to Use
 
-- When working on: Audit-first redesign of existing sites to premium quality.
+- An existing site or app needs to look premium without a rewrite from scratch
+- Auditing a codebase's UI for generic patterns, weak typography, missing states and other AI-default tells
 
 ## What This Skill Does
 
-1. **Scan** — Read the codebase. Identify the framework, styling method (Tailwind, vanilla CSS, styled-components, etc.), and current design patterns. 2. **Diagnose** — Run through the audit below. List every generic pattern, weak point, and missing state you find.
-
+Upgrades an existing site to premium quality without a rewrite: scan the codebase and its styling stack, diagnose generic patterns, weak points and missing states against the design audit, then apply targeted fixes within the existing stack.
 
 # Redesign Skill
 

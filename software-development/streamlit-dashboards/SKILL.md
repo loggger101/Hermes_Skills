@@ -10,7 +10,6 @@ metadata:
     tags: [streamlit, dashboards, data-viz, python, caching, state-management, plotly, performance]
     category: software-development
     related_skills: [python-craft]
-
 ---
 
 # Streamlit Dashboard Craft

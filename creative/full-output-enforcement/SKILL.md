@@ -13,12 +13,12 @@ metadata:
 
 ## When to Use
 
-- When working on: Enforce complete output; ban placeholder/truncation patterns.
+- The user asks for a full file, every component or a complete answer, and a truncated output would be a broken one
+- Long or multi-deliverable generations where placeholder comments or "the rest follows the same pattern" tend to creep in
 
 ## What This Skill Does
 
-1. **Scope** — Read the full request. Count how many distinct deliverables are expected (files, functions, sections, answers). Lock that number. 2. **Build** — Generate every deliverable completely. No partial drafts, no "you can extend this later."
-
+Treats every task as production-critical: bans placeholder and truncation patterns (`// ...`, "the rest follows the same pattern", a skeleton where an implementation was asked for) and runs a scope, build, cross-check pass so every requested deliverable ships complete.
 
 # Full-Output Enforcement
 

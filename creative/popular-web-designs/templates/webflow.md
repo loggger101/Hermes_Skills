@@ -72,7 +72,8 @@ Webflow's website is a visually rich, tool-forward platform that communicates "d
 | Caption | 14px | 400–500 | 1.40–1.60 | normal | |
 | Badge Uppercase | 12.8px | 550 | 1.20 | normal | uppercase |
 | Micro Uppercase | 10px | 500–600 | 1.30 | 1px | uppercase |
-| Code: Inconsolata (companion monospace font)
+
+Code: Inconsolata (companion monospace font)
 
 ## 4. Component Stylings
 

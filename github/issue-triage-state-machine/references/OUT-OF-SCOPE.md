@@ -16,7 +16,7 @@ One file per **concept**, not per issue. Multiple issues requesting the same thi
 ## File format
 Relaxed, readable style — a short design document, not a database entry. Paragraphs, code samples, examples.
 
-```markdown
+````markdown
 # Dark Mode
 
 This project does not support dark mode or user-facing theming.
@@ -43,7 +43,7 @@ interface ThemeConfig {
 - #42: "Add dark mode support"
 - #87: "Night theme for accessibility"
 - #134: "Dark theme option"
-```
+````
 
 ### Writing the reason
 Substantive, not "we don't want this". Good reasons reference project scope/philosophy ("This project focuses on X; theming is downstream"), technical constraints ("would require Y, conflicting with Z architecture"), or strategic decisions. **Durable**: avoid temporary circumstances ("too busy right now") — those are deferrals, not rejections.

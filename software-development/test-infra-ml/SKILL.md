@@ -10,7 +10,6 @@ metadata:
     tags: [testing, ML, simulation, evolutionary-algorithms, tournaments, checkpoints, deterministic, pytest]
     category: software-development
     related_skills: [python-craft, test-driven-development, evolutionary-ml]
-
 ---
 
 # Testing Infrastructure for ML Systems

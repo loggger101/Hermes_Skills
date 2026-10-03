@@ -9,7 +9,6 @@ metadata:
   hermes:
     tags: [prototype, design, validation, spike, experimentation]
     related_skills: [sketch, spike]
-
 ---
 
 ## When to Use

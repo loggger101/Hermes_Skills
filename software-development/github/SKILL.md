@@ -13,12 +13,12 @@ metadata:
 
 ## When to Use
 
-- When working on: GitHub via gh CLI: PRs, issues, reviews, repos, auth.
+- Any GitHub work through the `gh` CLI: auth, issues, PRs, code review, repo management
+- Carrying an issue through to a merged PR
 
 ## What This Skill Does
 
-Work GitHub end to end with the `gh` CLI (REST fallback where noted): auth, issues, the PR lifecycle, issue-to-PR delivery, code review, and repo
-
+Work GitHub end to end with the `gh` CLI (REST fallback where noted): auth, issues, the PR lifecycle, issue-to-PR delivery, code review, and repo management.
 
 # GitHub
 

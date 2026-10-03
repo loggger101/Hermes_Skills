@@ -11,7 +11,6 @@ metadata:
     category: creative
     homepage: https://github.com/blader/humanizer
     related_skills: [no-ai-slop, songwriting-and-ai-music]
-
 ---
 
 # Humanizer: Remove AI Writing Patterns

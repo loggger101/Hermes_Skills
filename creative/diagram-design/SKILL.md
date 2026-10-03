@@ -13,12 +13,12 @@ metadata:
 
 ## When to Use
 
-- When working on: Create 39 diagram types as standalone HTML/SVG/PNG files.
+- A reader will learn more from a visual than from prose, a table or a bulleted list, in any of the 39 types
+- Not for quick unicode diagrams (use wiretext), lists, simple before/after comparisons or one-shape "diagrams"
 
 ## What This Skill Does
 
-- Every node represents a distinct idea. Two nodes that always travel together are one node. - Every connection carries information. If the relationship is obvious from layout, remove the line.
-
+Creates 39 types of diagram as self-contained HTML files with inline SVG and CSS, following an opinionated editorial design system. Every node is a distinct idea and every connection carries information.
 
 # Diagram Design
 
@@ -524,7 +524,7 @@ Every diagram ships in three variants (see `assets/`):
 | **Minimal light** (default) | `assets/template.html`, `example-<type>.html` | Screenshot-ready. Diagram + title. Warm paper. |
 | **Minimal dark** | `assets/template-dark.html`, `example-<type>-dark.html` | Dark mode sites, slides, high-contrast posts. |
 | **Full editorial** | `assets/template-full.html`, `example-<type>-full.html` | Long-form posts where the diagram is the hero. |
-| **Consultant special** (quadrant only) | `example-quadrant-consultant.html` | BCG/McKinsey-style 2×2 scenario matrix. Clinical sans-serif, white bg, bold blue double-ended axes, named scenario cells. See [type-quadrant.md](references/type-quadrant.md#consultant-special-2x2-scenario-matrix). |
+| **Consultant special** (quadrant only) | `example-quadrant-consultant.html` | BCG/McKinsey-style 2×2 scenario matrix. Clinical sans-serif, white bg, bold blue double-ended axes, named scenario cells. See [type-quadrant.md](references/type-quadrant.md#consultant-special-22-scenario-matrix). |
 
 **Sketchy variant** (optional, applied to any of the above) — see [primitive-sketchy.md](references/primitive-sketchy.md). SVG turbulence filter wobbles strokes for a hand-drawn feel. Good for essays, not for technical docs.
 

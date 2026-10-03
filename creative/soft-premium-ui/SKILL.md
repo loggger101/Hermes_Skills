@@ -21,6 +21,7 @@ metadata:
 ## What This Skill Does
 
 Engineers Awwwards-tier digital experiences via a variance engine (3 vibe archetypes x 3 layout archetypes, one conscious pick per project), the Double-Bezel nested-card technique ("glass plate in an aluminum tray"), button-in-button CTA architecture, spring-physics cubic-bezier motion choreography, and GPU-safe performance guardrails. Bans Inter/Roboto/Arial/Open Sans/Helvetica, thick-stroke icon sets, harsh shadows, linear/ease-in-out transitions, and edge-to-edge sticky navbars.
+
 # Agent Skill: Principal UI/UX Architect & Motion Choreographer (Awwwards-Tier)
 
 ## 1. Meta Information & Core Directive

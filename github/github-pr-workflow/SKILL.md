@@ -9,20 +9,18 @@ metadata:
   hermes:
     tags: [GitHub, Pull-Requests, CI/CD, Git, Automation, Merge]
     related_skills: [github-auth, github-code-review]
-
 ---
 
 # GitHub Pull Request Workflow
 
-
 ## When to Use
 
-Use when the user needs `github-pr-workflow`.
+- Taking a change through the PR lifecycle: branch, commit, push, open, CI, review, merge
+- Working without `gh`: each step has a `git` + `curl` fallback
 
 ## What This Skill Does
 
 Manage the full GitHub PR lifecycle: branch, commit, push, open, CI, and review.
-
 
 Complete guide for managing the PR lifecycle. Each section shows the `gh` way first, then the `git` + `curl` fallback for machines without `gh`.
 

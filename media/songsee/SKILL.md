@@ -9,7 +9,6 @@ metadata:
   hermes:
     tags: [Audio, Spectrogram, Features, MFCC, Chroma, Mel, Signal-Processing]
     related_skills: [comfyui, youtube-content]
-
 ---
 
 # Songsee — Audio Feature Extraction

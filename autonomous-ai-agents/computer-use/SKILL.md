@@ -10,20 +10,19 @@ metadata:
     tags: [computer-use, desktop, automation, gui, cross-platform]
     category: desktop
     related_skills: [inspecting-hermes-desktop-dom]
-
 ---
 
 # Computer Use (universal, any-model, cross-platform)
 
-
 ## When to Use
 
-Use when the user needs `computer-use`.
+- The task needs the user's native desktop apps (Finder/Explorer, Mail/Outlook, native chat clients, Figma, games, anything non-web)
+- Driving a GUI in the background without stealing the user's focus
+- Not for web automation the headless `browser_*` tools can do, or for file edits (use the file tools)
 
 ## What This Skill Does
 
 Drive the Windows desktop in the background without stealing focus. Screenshots, mouse, keyboard, scroll, drag via cua-driver.
-
 
 You have a `computer_use` tool that drives the user's desktop in the
 **background** — your actions do NOT move the user's cursor, steal

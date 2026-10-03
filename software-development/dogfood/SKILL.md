@@ -9,20 +9,18 @@ metadata:
   hermes:
     tags: [qa, testing, browser, web, dogfood]
     related_skills: [adversarial-ux-test]
-
 ---
 
 # Dogfood: Systematic Web Application QA Testing
 
-
 ## When to Use
 
-Use when the user needs `dogfood`.
+- Exploratory QA of a web application through the browser: finding bugs and capturing evidence
+- Producing a structured bug report from a testing session
 
 ## What This Skill Does
 
 Exploratory QA of web apps — find bugs, collect evidence, and generate reports about discovered issues.
-
 
 ## Overview
 

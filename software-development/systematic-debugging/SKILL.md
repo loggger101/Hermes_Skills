@@ -9,7 +9,6 @@ metadata:
   hermes:
     tags: [debugging, troubleshooting, problem-solving, root-cause, investigation]
     related_skills: [test-driven-development, plan, mattpocock-subagent-driven-development, failure-signal-audit]
-
 ---
 
 # Systematic Debugging

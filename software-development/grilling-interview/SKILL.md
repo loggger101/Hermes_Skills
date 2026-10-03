@@ -11,8 +11,10 @@ metadata:
     related_skills: [conversation-to-spec, wayfinder-map-planning]
 ---
 
-
 <!-- source: mattpocock/skills (productivity/grilling), ported 2026-09-05 -->
+
+# Grilling Interview
+
 ## When to Use
 
 - "Grill this plan / idea"
@@ -20,11 +22,6 @@ metadata:
 - Any decision tree with unresolved branches
 
 ## What This Skill Does
-
-``` ❓ **Q1** - **<question title>**: <question body, may include multiple choices>
-
-
-# Grilling Interview
 
 Interview the user relentlessly until you reach shared understanding. Map the work as a **design tree**: every decision branches into the decisions that hang off it.
 

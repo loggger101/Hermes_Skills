@@ -9,20 +9,19 @@ metadata:
   hermes:
     tags: [spike, prototype, experiment, feasibility, throwaway, exploration, research, planning, mvp, proof-of-concept]
     related_skills: [sketch, mattpocock-subagent-driven-development, plan]
-
 ---
 
 # Spike
 
-
 ## When to Use
 
-Use when the user needs `spike`.
+- "Let me try this", "spike this out", "is this even possible?"
+- Validating feasibility or comparing approaches with throwaway code before committing to a build
+- Not when docs or the code already answer it, or for production-path work (use `plan`)
 
 ## What This Skill Does
 
 Run throwaway experiments to validate ideas before committing to a full build implementation.
-
 
 Use this skill when the user wants to **feel out an idea** before committing to a real build — validating feasibility, comparing approaches, or surfacing unknowns that no amount of research will answer. Spikes are disposable by design. Throw them away once they've paid their debt.
 

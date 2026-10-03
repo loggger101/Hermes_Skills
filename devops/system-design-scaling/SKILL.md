@@ -9,7 +9,6 @@ metadata:
   hermes:
     tags: [system-design, scalability, architecture, CAP-theorem, caching, sharding, interview-prep]
     related_skills: [rest-api-client, sql-for-data, python-craft]
-
 ---
 
 # System Design & Scalability

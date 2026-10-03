@@ -20,8 +20,7 @@ metadata:
 
 ## What This Skill Does
 
-- **GitHub repo**: map = an issue labelled `wayfinder:map`; tickets = child issues (linked via "Development" section or body links); blocking = native GitHub dependencies where available, else a `Blocked by:` line in the ticket body; claim = assign to yourself (`gh issue edit N --add-assignee <you>`
-
+Charts an effort too big for one session as a shared map of decision tickets (GitHub issues or local `.wayfinder/` files) and works them until nothing remains to decide before someone goes and does the thing.
 
 # Wayfinder Map Planning
 

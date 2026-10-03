@@ -9,20 +9,19 @@ metadata:
   hermes:
     tags: [PDF, Documents, Research, Arxiv, Text-Extraction, OCR]
     related_skills: [pdf, docx, powerpoint]
-
 ---
 
 # PDF & Document Extraction
 
-
 ## When to Use
 
-Use when the user needs `ocr-and-documents`.
+- Extracting text from PDFs or scanned documents, including OCR of pages with no text layer
+- A `read_file` EXTRACTION COVERAGE WARNING listed pages that yielded no text
+- Not for creating or editing DOCX, PPTX or PDF files (use `docx`, `powerpoint` or `pdf`)
 
 ## What This Skill Does
 
 Extract text from PDFs and scans using pymupdf and marker-pdf for document processing.
-
 
 For DOCX: see the `docx` skill (create/edit) or use `python-docx` for structured reads.
 For PPTX: see the `powerpoint` skill (full create/read/edit support).

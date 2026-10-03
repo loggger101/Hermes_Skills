@@ -12,7 +12,6 @@ metadata:
     related_skills: [computer-use]
 prerequisites:
   commands: [openhue]
-
 ---
 
 # OpenHue CLI

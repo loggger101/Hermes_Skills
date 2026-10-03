@@ -12,8 +12,6 @@ metadata:
     related_skills: [decision-questionnaire, grilling-interview, one-three-one-rule]
 ---
 
-
-
 # Mental Models
 
 Apply cognitive frameworks from several disciplines — systems, economics, psychology,
@@ -27,7 +25,6 @@ markdown.
 Applies a latticework of mental models — the 21 sourced ones bundled here, or your own files in Open Knowledge Format — to any problem. The agent reads `references/models/index.md`, checks for user-supplied model directories, selects 2-4 models from different areas (selection is reasoning, not keyword matching), walks each model's Thinking Steps against the actual facts, surfaces 'When to Avoid' conditions, and reports where models agree or disagree plus concrete next steps. Everything is plain markdown: no install, no dependencies.
 
 ## When to Use
-
 
 - User names a specific model ("apply inversion", "use bottlenecks")
 - User asks "help me think through X" or "what model fits X"

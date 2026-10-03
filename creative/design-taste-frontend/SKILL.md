@@ -13,14 +13,15 @@ metadata:
 
 ## When to Use
 
-- When working on: Anti-slop frontend skill: brief-inferred design direction.
+- Building or redesigning a landing page, portfolio or marketing site that must not look AI-generated
+- The brief implies a design system (Fluent, Material, Carbon, Primer...) or a named aesthetic (glassmorphism, bento, brutalism, editorial)
+- Not for dashboards, data tables or multi-step product UI
 
 ## What This Skill Does
 
-> Landing pages, portfolios, and redesigns. Not dashboards, not data tables, not multi-step product UI. > Every rule below is **contextual**. None of it fires automatically. First read the brief, then pull only what fits.
+Infers a design direction from the brief, then applies only the anti-slop frontend rules that fit it. Scope: landing pages, portfolios and redesigns, not dashboards, data tables or multi-step product UI.
 
 **Image-first variant:** for visually important tasks where a design reference should exist before any code (landing heroes, marketing sites, premium multi-section pages), load `references/image-first-workflow.md` — generate section-specific frames first, analyze them deeply, implement third; per-frame consistency contract and anti-slop lists included.
-
 
 # tasteskill: Anti-Slop Frontend Skill
 

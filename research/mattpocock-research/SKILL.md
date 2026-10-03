@@ -9,7 +9,6 @@ metadata:
   hermes:
     tags: [research, background-agent, primary-sources, citations]
     related_skills: [parallel-cli, arxiv, grounded-citations]
-
 ---
 
 ## When to Use

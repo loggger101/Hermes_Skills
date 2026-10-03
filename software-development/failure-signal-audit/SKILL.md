@@ -11,7 +11,6 @@ metadata:
     category: software-development
     homepage: https://github.com/rlaope/oh-my-hermes
     related_skills: [verification-culture, systematic-debugging, mattpocock-security-review]
-
 ---
 
 # Failure Signal Audit (port)

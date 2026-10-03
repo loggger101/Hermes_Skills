@@ -15,20 +15,18 @@ metadata:
     tags: [Google, Gmail, Calendar, Drive, Sheets, Docs, Contacts, Email, OAuth]
     homepage: https://github.com/NousResearch/hermes-agent
     related_skills: [himalaya]
-
 ---
 
 # Google Workspace
 
-
 ## When to Use
 
-Use when the user needs `google-workspace`.
+- Gmail, Calendar, Drive, Contacts, Sheets or Docs work through Hermes-managed OAuth
+- A morning brief or meeting prep built from Gmail and Calendar
 
 ## What This Skill Does
 
 Access Gmail, Calendar, Drive, Docs, and Sheets through the gws CLI or Python API.
-
 
 Gmail, Calendar, Drive, Contacts, Sheets, and Docs — through Hermes-managed OAuth and a thin CLI wrapper. When `gws` is installed, the skill uses it as the execution backend for broader Google Workspace coverage; otherwise it falls back to the bundled Python client implementation.
 

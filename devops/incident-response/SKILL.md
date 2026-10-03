@@ -11,7 +11,6 @@ metadata:
     category: devops
     homepage: https://github.com/rlaope/oh-my-hermes
     related_skills: [cron-pipeline-watchdog, system-design-scaling, verification-culture]
-
 ---
 
 # Live Incident Response (port)

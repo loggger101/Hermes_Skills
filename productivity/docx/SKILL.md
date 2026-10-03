@@ -10,7 +10,6 @@ metadata:
     tags: [word, docx, documents, office, templates, revisions, comments]
     category: productivity
     related_skills: [pdf, xlsx, powerpoint]
-
 ---
 
 # Docx Skill

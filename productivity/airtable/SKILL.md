@@ -13,20 +13,18 @@ metadata:
     tags: [Airtable, Productivity, Database, API]
     related_skills: [notion]
     homepage: https://airtable.com/developers/web/api/introduction
-
 ---
 
 # Airtable — Bases, Tables & Records
 
-
 ## When to Use
 
-Use when the user needs `airtable`.
+- Reading, creating, updating, upserting or deleting Airtable records, or filtering a table
+- Inspecting a base's schema (exact field names, select options) before mutating it
 
 ## What This Skill Does
 
 Interacts with Airtable via REST API — records CRUD, filters, and upserts for base/table operations.
-
 
 Work with Airtable's REST API directly via `curl` using the `terminal` tool. No MCP server, no OAuth flow, no Python SDK — just `curl` and a personal access token.
 

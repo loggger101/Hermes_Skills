@@ -10,7 +10,6 @@ metadata:
     tags: [data-science, python, pandas, numpy, scikit-learn, EDA, modeling, visualization, experiment-tracking, reproducibility]
     category: data-science
     related_skills: [weights-and-biases, huggingface-trackio, systematic-debugging, test-driven-development]
-
 ---
 
 # Python Data Science Workflow

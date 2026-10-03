@@ -9,7 +9,6 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [Distributed Training, HuggingFace, Accelerate, DeepSpeed, FSDP, Mixed Precision, PyTorch, DDP, Unified API, Simple]
-
 ---
 
 # HuggingFace Accelerate - Unified Distributed Training
@@ -358,6 +357,3 @@ set_seed(42)
 - Tutorial: "Accelerate your scripts"
 - Examples: https://github.com/huggingface/accelerate/tree/main/examples
 - Used by: HuggingFace Transformers, TRL, PEFT, all HF libraries
-
-
-

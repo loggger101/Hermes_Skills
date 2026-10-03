@@ -21,6 +21,7 @@ metadata:
 ## What This Skill Does
 
 Enforces premium utilitarian minimalism: high-contrast warm monochrome palette with scarce desaturated pastel accents, bespoke typographic hierarchy (geometric sans + editorial serif + mono), flat bento grids on 1px #EAEAEA borders, macro-whitespace, and invisible motion. Actively bans Inter/Roboto/Open Sans, generic icon sets, heavy shadows, gradients, pill-shaped large containers, and emojis.
+
 # Protocol: Premium Utilitarian Minimalism UI Architect
 
 ## 1. Protocol Overview

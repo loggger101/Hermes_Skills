@@ -12,7 +12,6 @@ metadata:
     requires_toolsets: [terminal]
     supersedes: [find-nearby]
     related_skills: [findmy, algorithms-python-catalog]
-
 ---
 
 # Maps Skill

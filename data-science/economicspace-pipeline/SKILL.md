@@ -13,12 +13,12 @@ metadata:
 
 ## When to Use
 
-- When working on: Use on economicspace (asteroid-mining pipeline).
+- Any work in the economicspace (asteroid-mining profitability) repo: reading results, running stages or reviewing changes
+- Questions about its bit-identity release rules, data sources or known traps
 
 ## What This Skill Does
 
 Repo: `~/OneDrive/Documents/GitHub/economicspace` on either machine (GitHub loggger101/economicspace). Argues from **BIT-IDENTITY**: releases are defended by exact float hashes of output CSVs, not tolerance.
-
 
 # economicspace — asteroid-mining profitability pipeline
 

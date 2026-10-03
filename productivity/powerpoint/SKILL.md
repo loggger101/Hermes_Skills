@@ -10,7 +10,6 @@ metadata:
     tags: [pptx, powerpoint, presentations, slides, office, python-pptx]
     category: productivity
     related_skills: [docx, xlsx, pdf]
-
 ---
 
 # Powerpoint Skill

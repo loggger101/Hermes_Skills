@@ -11,7 +11,6 @@ metadata:
     related_skills: [obsidian, apple-reminders]
 prerequisites:
   commands: [memo]
-
 ---
 
 # Apple Notes

@@ -9,20 +9,19 @@ metadata:
   hermes:
     tags: [sketch, mockup, design, ui, prototype, html, variants, exploration, wireframe, comparison]
     related_skills: [spike, claude-design, popular-web-designs, excalidraw, architecture-diagram]
-
 ---
 
 # Sketch
 
-
 ## When to Use
 
-Use when the user needs `sketch`.
+- "Sketch this screen", "show me what X could look like", "give me 2-3 takes on this UI"
+- Seeing a design direction as disposable HTML mockups before committing to one
+- Not for production components or polished one-off artifacts (use `claude-design`), or diagrams
 
 ## What This Skill Does
 
 Create throwaway HTML mockups with 2-3 design variants for rapid comparison and prototyping.
-
 
 Use this skill when the user wants to **see a design direction before committing** to one — exploring a UI/UX idea as disposable HTML mockups. The point is to generate 2-3 interactive variants so the user can compare visual directions side-by-side, not to produce shippable code.
 

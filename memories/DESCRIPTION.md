@@ -30,4 +30,4 @@ not a link to follow), and the repo cannot fix a link inside a file the sync wil
 **Before committing an update, scan for credentials.** These files record live environment detail; the
 standing rule is that keys, tokens and passwords are replaced with `[REDACTED]` and never committed.
 
-*Last mirrored from the live store: 2026-09-08 (26 entries).*
+*When these were last mirrored: `git log -1 -- memories/MEMORY.md memories/USER.md` (2026-09-21 at the time of writing; a hand-kept date here went stale).*

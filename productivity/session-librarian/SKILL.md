@@ -10,7 +10,6 @@ metadata:
     tags: [Sessions, Organization, Cleanup, Library, Productivity]
     category: productivity
     related_skills: [weekly-review-planning]
-
 ---
 
 # Session Librarian
