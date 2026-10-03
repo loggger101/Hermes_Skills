@@ -65,7 +65,7 @@ Preserve both intents where possible. Where incompatible, pick the one matching 
 
 For each conflict:
 
-```
+```text
 <<<<<<< HEAD
 (our version)
 =======
@@ -108,7 +108,7 @@ git rebase --skip  # if nothing to commit
 
 ### Pattern: Added vs Modified (same function)
 
-```
+```text
 <<<<<<< HEAD
 def process(data):
     return data.strip()
@@ -124,7 +124,7 @@ def process(data, normalize=False):
 
 ### Pattern: Modified vs Deleted (same line)
 
-```
+```text
 <<<<<<< HEAD
 import { oldHelper } from './utils'
 =======
@@ -136,7 +136,7 @@ import { oldHelper } from './utils'
 
 ### Pattern: Competing additions
 
-```
+```text
 <<<<<<< HEAD
 // Validation
 const isValid = email.includes('@')

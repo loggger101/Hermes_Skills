@@ -26,7 +26,7 @@ Code review reception with technical rigor: read feedback without reacting, rest
 
 ## The Response Pattern
 
-```
+```text
 WHEN receiving code review feedback:
 
 1. READ: Complete feedback without reacting
@@ -54,7 +54,7 @@ WHEN receiving code review feedback:
 
 ## Handling Unclear Feedback
 
-```
+```text
 IF any item is unclear:
   STOP - do not implement anything yet
   ASK for clarification on unclear items
@@ -64,7 +64,7 @@ WHY: Items may be related. Partial understanding = wrong implementation.
 
 **Example:**
 
-```
+```text
 user: "Fix 1-6"
 You understand 1,2,3,6. Unclear on 4,5.
 
@@ -81,7 +81,7 @@ RIGHT: "I understand items 1,2,3,6. Need clarification on 4 and 5 before proceed
 
 ### From External Reviewers
 
-```
+```text
 BEFORE implementing:
   1. Check: Technically correct for THIS codebase?
   2. Check: Breaks existing functionality?
@@ -98,7 +98,7 @@ Standing rule: external feedback — be skeptical, but check carefully.
 
 ## YAGNI Check for "Professional" Features
 
-```
+```text
 IF reviewer suggests "implementing properly":
   grep codebase for actual usage
   IF unused: "This endpoint isn't called. Remove it (YAGNI)?"
@@ -109,7 +109,7 @@ Standing rule: if the user and the reviewer both report to the same owner, and w
 
 ## Implementation Order
 
-```
+```text
 FOR multi-item feedback:
   1. Clarify anything unclear FIRST
   2. Then implement in this order:
@@ -137,7 +137,7 @@ Push back when:
 
 When feedback IS correct:
 
-```
+```text
 OK:   "Fixed. [Brief description of what changed]"
 OK:   "Good catch - [specific issue]. Fixed in [location]."
 OK:   Just fix it and show in the code.
@@ -151,7 +151,7 @@ NO:   "You're absolutely right!" / "Great point!" / "Thanks for catching that!" 
 
 If you pushed back and were wrong:
 
-```
+```text
 OK:  "You were right - I checked [X] and it does [Y]. Implementing now."
 OK:  "Verified this and you're correct; my initial understanding was wrong because [reason]. Fixing."
 
@@ -176,21 +176,21 @@ State the correction factually and move on.
 
 **Performative agreement (bad):**
 
-```
+```text
 Reviewer: "Remove legacy code"
 WRONG: "You're absolutely right! Let me remove that..."
 ```
 
 **Technical verification (good):**
 
-```
+```text
 Reviewer: "Remove legacy code"
 RIGHT: "Checking... build target is 10.15+, this API needs 13+. Need the legacy path for backward compat. Current impl has the wrong bundle ID — fix it or drop pre-13 support?"
 ```
 
 **YAGNI (good):**
 
-```
+```text
 Reviewer: "Implement proper metrics tracking with database, date filters, CSV export"
 RIGHT: "Grepped codebase - nothing calls this endpoint. Remove it (YAGNI)? Or is there usage I'm missing?"
 ```

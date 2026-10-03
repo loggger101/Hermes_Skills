@@ -11,7 +11,7 @@ verified_date: "2026-09-06"
 
 `nicegui/ui_run.py`, main branch as of 2026-09-05. **33 named parameters** (the "71 params" figure in earlier notes was wrong):
 
-```
+```text
 root, host, port, title, viewport, favicon, dark, language, binding_refresh_interval,
 reconnect_timeout, message_history_length, cache_control_directives, gzip_middleware_factory,
 fastapi_docs, show, on_air, native, window_size, fullscreen, frameless, reload,

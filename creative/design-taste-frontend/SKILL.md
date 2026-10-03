@@ -935,7 +935,7 @@ The Reference Vocabulary (Section 10) names patterns. The Block Library implemen
 
 ### 12.A File Location
 
-```
+```text
 skills/taste-skill/blocks/
   hero/
     asymmetric-split.md

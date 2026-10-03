@@ -39,7 +39,7 @@ End-to-end test automation for Windows native desktop apps (WPF, WinForms, Win32
 
 All Windows desktop automation relies on **UI Automation (UIA)**, a Windows-built-in accessibility API. Every supported framework exposes a tree of UIA elements with properties the agent can read and act on:
 
-```
+```text
 Your test (Python)
     └── pywinauto (UIA backend)
         └── Windows UI Automation API   ← built into Windows, framework-agnostic
@@ -115,7 +115,7 @@ lblError.AccessibleName = "lblError";
 
 ## Page Object Model
 
-```
+```text
 tests/
 ├── conftest.py          # app launch fixture, failure screenshot
 ├── pytest.ini
@@ -323,7 +323,7 @@ addopts = -v --tb=short --html=artifacts/report.html --self-contained-html
 
 ## Locator Strategy
 
-```
+```text
 AutomationId  >  Name (text)  >  ClassName + index  >  XPath
   (stable)         (readable)       (fragile)           (last resort)
 ```

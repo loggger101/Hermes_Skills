@@ -112,7 +112,7 @@ if __name__ == "__main__":
 
 ## Reporting Format
 
-```
+```text
 AUDIT REPORT: Hermes_Skills Repository
 Date: YYYY-MM-DD
 Total Skills: 127

@@ -6,7 +6,7 @@ When a cron job is **unpinned** (no explicit `model`/`provider` in `cron/jobs.js
 
 ### Log output (errors.log)
 
-```
+```text
 RuntimeError: [drift_skip] Skipped to prevent unintended spend: global inference config drifted since this job was created
 (provider 'nous' -> 'opencode-free'; model 'upstage/solar-pro4:free' -> 'laguna-s-2.1-free'),
 and this job is unpinned. No inference call was made. To run on the new config,

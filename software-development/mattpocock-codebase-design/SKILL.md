@@ -35,7 +35,7 @@ Use these terms **exactly**:
 
 ## Deep vs Shallow
 
-```
+```text
 Shallow Module (BAD):
   Interface: parse_a(), parse_b(), parse_c(), validate_a(), validate_b(), clean_x(), clean_y()
   Implementation: 50 lines of duplicated parsing logic

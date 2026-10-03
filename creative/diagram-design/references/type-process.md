@@ -60,7 +60,7 @@ dark: false
 
 ## 2. Layout formulas — deterministic geometry
 
-```
+```text
 label_col_w      = 140
 step_slot_w      = 112                                # 100-px node + 12-px corridor
 right_pad        = 28
@@ -114,7 +114,7 @@ legend_row_y     = [legend_y_top + 16, legend_y_top + 37,
 
 Per step `j`:
 
-```
+```text
 chip_w(j)        = 20 if len(step.number) >= 2 else 16
 chip_x(j)        = step_cx(j) - chip_w(j)/2
 number_anchor    = (step_cx(j), chip_y + 11)
@@ -147,7 +147,7 @@ Per-lane `color` override (§4): replaces the label fill with `C` and the lane s
 
 ### 2.4 Node content layout (inside the 100×64 rect)
 
-```
+```text
 role_chip          rect 14×10 at (node_x+4, node_y+4),  rx=2
 role_chip_text     centered at (node_x+11, node_y+12), font-size=6, weight=600
                                                                 # text = lanes[k].key (3-letter lane code)

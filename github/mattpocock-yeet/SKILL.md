@@ -59,7 +59,7 @@ git commit -m "{type}: {clear message}"
 
 Examples:
 
-```
+```text
 feat: add pancreatic cancer disease page with 12 research summaries
 fix: handle arxiv API rate limit with retry logic
 docs: update weekly cronjob setup instructions

@@ -76,7 +76,7 @@ Every coordinate below is derived from the inputs. **No hardcoded numbers in exa
 
 ### 2.1 Canvas
 
-```
+```text
 has_vertical       = any(c.vertical or c.name in reserved_names for c in chevrons)
 right_strip_w      = 28  if has_vertical else 0
 strip_margin       = 8   if has_vertical else 0   # gap between body and right strip
@@ -94,7 +94,7 @@ Every horizontal element (chevron banner, cluster, orchestration bar, identity /
 
 ### 2.2 Horizontal chevron banner
 
-```
+```text
 y_banner           = 4
 h_banner           = 28
 horizontals        = [c for c in chevrons if not c.vertical and c.name not in reserved_names]
@@ -123,7 +123,7 @@ Fills alternate `#2d3142` / `#3d4460` (light mode) or `#3d4460` / `#4a5270` (dar
 
 ### 2.3 Source zone (dashed, external)
 
-```
+```text
 sources_x          = 4
 sources_y          = 40
 sources_w          = x_boundaries[1] - 8           # width of the first chevron, minus 4px gutter each side
@@ -134,7 +134,7 @@ Stroke: `rgba(45,49,66,0.20)`, `stroke-width=0.8`, `stroke-dasharray=6,3`, `rx=6
 
 ### 2.4 Cluster boundary (solid)
 
-```
+```text
 cluster_x          = x_boundaries[1] + 4           # starts at end of source zone + 4px gutter
 cluster_y          = 40
 cluster_w          = effective_w - cluster_x       # extends to right strip / canvas edge
@@ -147,7 +147,7 @@ Stroke: `rgba(45,49,66,0.18)`, `stroke-width=1.2`, `rx=8`. Fill: `rgba(45,49,66,
 
 Zero or more `kind: cross-cutting` components stack below the cluster. Each gets its own 40-px row with a 4-px gap.
 
-```
+```text
 crosscuts          = [c for c in components if c.kind == "cross-cutting"]   # ordered as declared
 cross_x            = 4
 cross_y(k)         = 388 + k * 44                  # 388, 432, 476, …
@@ -169,7 +169,7 @@ Each cross-cutting bar pairs 1:1 with a vertical chevron in the right strip (§5
 
 ### 2.6 Orchestration bar component (inside cluster)
 
-```
+```text
 bar_x              = cluster_x + 12
 bar_y              = 52
 bar_w              = cluster_w - 24
@@ -180,7 +180,7 @@ Stroke: `rgba(45,49,66,0.18)`, `stroke-width=0.8`, `rx=4`. Fill: `rgba(45,49,66,
 
 ### 2.7 Component nodes (inside cluster)
 
-```
+```text
 node_w             = 152
 node_h             = 80                            # focal same height, accent border
 node_cx(N)         = chevron_cx(N.chevron)         # ← non-negotiable
@@ -189,7 +189,7 @@ node_x(N)          = node_cx(N) - node_w/2
 
 If a chevron has K nodes assigned, stack them vertically:
 
-```
+```text
 first_top_y        = 120 if any bar in this column else 64
 gap                = 16
 row_top(k)         = first_top_y + k * (node_h + gap)   # k = 0..K-1
@@ -201,7 +201,7 @@ Role badge top-left at `(node_x+8, node_y+6)`, size 12 high. Icon top-right at `
 
 ### 2.8 Source nodes (inside dashed zone)
 
-```
+```text
 src_node_w         = sources_w - 8
 src_node_h         = 64                            # uniform; chosen to fit ≤ 4 sources
 src_node_x         = sources_x + 4
@@ -214,7 +214,7 @@ Same role-badge / icon / name / subtitle pattern as cluster nodes (icon at `src_
 
 ### 2.9 Right strip — vertical chevrons
 
-```
+```text
 strip_x            = 1000 - right_strip_w       # 972 when present
 strip_w            = 28
 verticals          = [c for c in chevrons if c.vertical or c.name in reserved_names]
@@ -332,7 +332,7 @@ The single biggest reproducibility hazard. Fix these rules and the diagram becom
 
 ### 4.1 Source fan-out (one source → N components)
 
-```
+```text
 exit_x   = source.right
 trunk_x  = cluster_x - 8                     # 4-px gutter before cluster border
 ```
@@ -341,7 +341,7 @@ Path per target: `M exit_x,source_cy → H trunk_x → V target_cy → H target.
 
 ### 4.2 Component fan-out (one component → N components)
 
-```
+```text
 exit_x   = node.right
 trunk_x  = x_boundaries[index(source.chevron) + 1] + 4   # 4 px past the chevron divider
 ```
@@ -354,7 +354,7 @@ Path per target: `M exit_x,source_cy → H trunk_x → V target_cy → H target.
 
 ### 4.4 Bar drops (Airflow → N nodes)
 
-```
+```text
 drop_x(target) = target.cx
 drop_y_start   = bar.bottom
 drop_y_end     = target.top
@@ -366,7 +366,7 @@ Straight vertical line, `style: trigger`. One per target. No bends — bar drops
 
 When multiple sources connect to the same single target (e.g. four sources → NiFi), stagger their entry y on the target:
 
-```
+```text
 entry_y(k) = target.top + 8 + k * (target_h - 16) / (N - 1)   # k = 0..N-1, evenly spaced
 ```
 

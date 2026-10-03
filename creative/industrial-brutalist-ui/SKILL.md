@@ -81,13 +81,13 @@ The color architecture is uncompromising. Gradients, soft drop shadows, and mode
 
 **CRITICAL: Choose ONE substrate palette per project and use it consistently. Never mix light and dark substrates within the same interface.**
 
-### If Swiss Industrial Print (Light):
+### If Swiss Industrial Print (Light)
 
 - **Background:** `#F4F4F0` or `#EAE8E3` (Matte, unbleached documentation paper).
 - **Foreground:** `#050505` to `#111111` (Carbon Ink).
 - **Accent:** `#E61919` or `#FF2A2A` (Aviation/Hazard Red). This is the ONLY accent color. Used for strike-throughs, thick structural dividing lines, or vital data highlights.
 
-### If Tactical Telemetry (Dark):
+### If Tactical Telemetry (Dark)
 
 - **Background:** `#0A0A0A` or `#121212` (Deactivated CRT. Avoid pure `#000000`).
 - **Foreground:** `#EAEAEA` (White phosphor). This is the primary text color.

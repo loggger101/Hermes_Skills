@@ -56,7 +56,7 @@ Render **the original HTML** (not the extracted SVG) and screenshot only the `<s
 
 Before running anything, verify Playwright is installed:
 
-```
+```text
 python -c "import playwright" 2>NUL || python -c "import playwright"
 ```
 
@@ -64,7 +64,7 @@ If the import fails, surface this exact instruction to the user and stop:
 
 > Playwright isn't installed. To enable PNG export, run:
 >
-> ```
+> ```bash
 > pip install playwright
 > playwright install chromium
 > ```
@@ -114,7 +114,7 @@ The PNG's pixel dimensions are the SVG's `viewBox` × `device_scale_factor`. So 
 
 When the user needs specific dimensions (an OG card at exactly 1200×630, a slide image at 1920×1080), compute the scale factor instead of guessing — Playwright accepts fractional values:
 
-```
+```text
 scale = target_width / viewBox_width
 ```
 

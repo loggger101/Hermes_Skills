@@ -12,7 +12,7 @@ The cron system handles delivery automatically: the agent's final response is wh
 
 Add this to the prompt for every LLM-driven cron job:
 
-```
+```text
 IMPORTANT: You are running as a scheduled cron job. Your final response will be automatically delivered to the user — do NOT use send_message or try to deliver the output yourself. Just produce your report/output as your final response and the system handles the rest.
 ```
 

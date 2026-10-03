@@ -42,13 +42,13 @@ state incrementally, explore APIs, inspect DataFrames, or iterate on complex cod
 
 The hamelnb script location:
 
-```
+```bash
 SCRIPT="$HOME/.agent-skills/hamelnb/skills/jupyter-live-kernel/scripts/jupyter_live_kernel.py"
 ```
 
 If not cloned yet:
 
-```
+```bash
 git clone https://github.com/hamelsmu/hamelnb.git ~/.agent-skills/hamelnb
 ```
 
@@ -56,13 +56,13 @@ git clone https://github.com/hamelsmu/hamelnb.git ~/.agent-skills/hamelnb
 
 Check if a server is already running:
 
-```
+```bash
 uv run "$SCRIPT" servers
 ```
 
 If no servers found, start one:
 
-```
+```bash
 jupyter-lab --no-browser --port=8888 --notebook-dir=$HOME/notebooks \
   --IdentityProvider.token='' --ServerApp.password='' > /tmp/jupyter.log 2>&1 &
 sleep 3
@@ -74,14 +74,14 @@ Note: Token/password disabled for local agent access. The server runs headless.
 
 If you just need a REPL (no existing notebook), create a minimal notebook file:
 
-```
+```bash
 mkdir -p ~/notebooks
 ```
 
 Write a minimal .ipynb JSON file with one empty code cell, then start a kernel
 session via the Jupyter REST API:
 
-```
+```bash
 curl -s -X POST http://127.0.0.1:8888/api/sessions \
   -H "Content-Type: application/json" \
   -d '{"path":"scratch.ipynb","type":"notebook","name":"scratch.ipynb","kernel":{"name":"python"}}'
@@ -93,14 +93,14 @@ All commands return structured JSON. Always use `--compact` to save tokens.
 
 ### 1. Discover servers and notebooks
 
-```
+```bash
 uv run "$SCRIPT" servers --compact
 uv run "$SCRIPT" notebooks --compact
 ```
 
 ### 2. Execute code (primary operation)
 
-```
+```bash
 uv run "$SCRIPT" execute --path <notebook.ipynb> --code '<python code>' --compact
 ```
 
@@ -108,20 +108,20 @@ State persists across execute calls. Variables, imports, objects all survive.
 
 Multi-line code works with $'...' quoting:
 
-```
+```bash
 uv run "$SCRIPT" execute --path scratch.ipynb --code $'import os\nfiles = os.listdir(".")\nprint(f"Found {len(files)} files")' --compact
 ```
 
 ### 3. Inspect live variables
 
-```
+```bash
 uv run "$SCRIPT" variables --path <notebook.ipynb> list --compact
 uv run "$SCRIPT" variables --path <notebook.ipynb> preview --name <varname> --compact
 ```
 
 ### 4. Edit notebook cells
 
-```
+```bash
 # View current cells
 uv run "$SCRIPT" contents --path <notebook.ipynb> --compact
 
@@ -142,7 +142,7 @@ uv run "$SCRIPT" edit --path <notebook.ipynb> delete --cell-id <id> --compact
 Only use when the user asks for a clean verification or you need to confirm
 the notebook runs top-to-bottom:
 
-```
+```bash
 uv run "$SCRIPT" restart-run-all --path <notebook.ipynb> --save-outputs --compact
 ```
 

@@ -29,7 +29,7 @@ Work the tree in **rounds**. The **frontier** is every decision whose prerequisi
 
 Format a round like so:
 
-```
+```text
 ❓ **Q1** - **<question title>**: <question body, may include multiple choices>
 
 ➡️ <your recommended answer>

@@ -35,7 +35,7 @@ Every autonomous cron job prompt should open with an explicit autonomy section t
 
 ### Minimum guardrail block
 
-```
+```text
 === AUTONOMY & NO-INTERACTION GUARDRAILS ===
 This job runs autonomously on a schedule with no human present. You must NEVER pause to ask the user for anything — no API keys, no tokens, no credentials, no confirmations, no clarifications, and no manual intervention of any kind. If at any point you would normally want to use the clarify tool, do NOT use it — instead record the gap as an unresolved item and continue.
 
@@ -74,7 +74,7 @@ For *storing* per-user/per-profile secrets at rest (when a pipeline needs its ow
 
 The cron system handles delivery automatically. The agent's job is to produce its final output as its last response — never to call `send_message`, `clarify`, or any delivery tool itself. The prompt should reinforce this:
 
-```
+```text
 IMPORTANT: You are running as a scheduled cron job. Your final response will be automatically delivered to the user — do NOT use send_message or try to deliver the output yourself. Just produce your report/output as your final response and the system handles the rest.
 ```
 

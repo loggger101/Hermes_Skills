@@ -359,13 +359,13 @@ The MCP tools accept structured JSON queries for multi-mode search:
 
 When MCP is not configured, use qmd directly via terminal:
 
-```
+```python
 terminal(command="qmd query 'what was decided about the API redesign' --json", timeout=30)
 ```
 
 For setup and management tasks, always use terminal:
 
-```
+```python
 terminal(command="qmd collection add ~/Documents/notes --name notes")
 terminal(command="qmd context add qmd://notes 'Personal research notes and ideas'")
 terminal(command="qmd embed")

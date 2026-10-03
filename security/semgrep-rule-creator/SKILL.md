@@ -131,7 +131,7 @@ This skill guides creation of Semgrep rules that detect security vulnerabilities
 
 **Output structure** - exactly 2 files in a directory named after the rule-id:
 
-```
+```text
 <rule-id>/
 ├── <rule-id>.yaml     # Semgrep rule
 └── <rule-id>.<ext>    # Test file with ruleid/ok annotations
@@ -173,7 +173,7 @@ Run tests (from rule directory): `semgrep --test --config <rule-id>.yaml <rule-i
 
 Copy this checklist and track progress:
 
-```
+```markdown
 Semgrep Rule Progress:
 - [ ] Step 1: Analyze the Problem
 - [ ] Step 2: Write Tests First

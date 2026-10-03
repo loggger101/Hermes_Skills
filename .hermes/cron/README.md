@@ -9,7 +9,7 @@ cronjob(action='create', prompt=<prompt body>, schedule='...')
 
 ## Structure
 
-```
+```text
 .hermes/cron/
 ├── README.md              # This file
 ├── validate-cronjobs.py   # Structural + threshold + no_agent validation for job JSONs

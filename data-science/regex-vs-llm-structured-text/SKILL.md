@@ -27,7 +27,7 @@ Decision framework plus reference implementation: regex handles 95–98% of stru
 
 ## Decision Framework
 
-```
+```text
 Is the text format consistent and repeating?
 +-- Yes (>90% follows a pattern) -> Start with Regex
 |   +-- Regex handles 95%+ -> Done, no LLM needed
@@ -37,7 +37,7 @@ Is the text format consistent and repeating?
 
 ## Architecture Pattern
 
-```
+```text
 Source Text
     |
 [Regex Parser] ---- Extracts structure (95-98% accuracy)

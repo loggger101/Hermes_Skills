@@ -44,7 +44,7 @@ Implications:
 
 ## Project Layout
 
-```
+```text
 dashboard/
   app.py                 # entrypoint — st.write("run `streamlit run app.py`")
   config.py             # shared config, constants

@@ -35,7 +35,7 @@ Skip for UI rendering, DB query tuning, or DNS/firewall infra (escalate).
 
 **Isolate the layer, then fix.** A 200 OK can hide broken data. A 500 can mask a one-character auth typo. Walk the chain in order; never skip a step.
 
-```
+```text
 1. Connectivity   → can we reach the host at all?
 1.5 Timeouts      → connect-slow vs read-slow?
 2. TLS/SSL        → cert valid and trusted?
@@ -353,7 +353,7 @@ if resp.status_code >= 400:
 
 **Vendor bug-report template:**
 
-```
+```text
 Endpoint:    POST /api/v1/orders
 Request ID:  req_abc123xyz
 Timestamp:   2026-03-17T14:30:00Z
@@ -498,7 +498,7 @@ Output: pass/fail per endpoint + correlation IDs for failures.
 
 When reporting findings:
 
-```
+```markdown
 ## Finding
 Endpoint: POST /api/v1/users
 Status:   422 Unprocessable Entity

@@ -9,13 +9,13 @@ description: "Windows os.path.relpath yields backslashes; cross-platform path-st
 
 On Windows, `os.path.relpath()` and `str(Path(...))` produce backslash-separated strings:
 
-```
+```text
 C:\Users\Loggg\repo\research\arxiv       ← from os.path.relpath
 ```
 
 But cross-platform config strings (JSON skill refs, regex patterns, substring filters) use forward slashes:
 
-```
+```text
 research/arxiv                           ← from cronjob JSON skill id
 ```
 

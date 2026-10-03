@@ -38,7 +38,7 @@ The baseline: a small body orbiting a much larger one, no perturbations, point m
 
 The core equation. Relates speed, orbital radius, and semi-major axis:
 
-```
+```text
 v² = μ (2/r − 1/a)
 ```
 
@@ -51,7 +51,7 @@ Use it to compute the speed at any point in a Keplerian orbit. For a circular or
 
 ### Circular orbit velocity
 
-```
+```text
 v_circ = sqrt(μ / r)
 ```
 
@@ -59,7 +59,7 @@ The speed of a circular orbit at radius `r`. Baseline for "how fast am I going" 
 
 ### Escape velocity
 
-```
+```text
 v_esc = sqrt(2μ / r) = sqrt(2) · v_circ
 ```
 
@@ -67,7 +67,7 @@ Speed needed to escape (reach infinity with zero residual velocity). A burn that
 
 ### Specific orbital energy
 
-```
+```text
 ε = v²/2 − μ/r = −μ/(2a)
 ```
 
@@ -75,7 +75,7 @@ Negative for bound (elliptical) orbits, zero for parabolic, positive for hyperbo
 
 ### Orbital period
 
-```
+```text
 T = 2π · sqrt(a³/μ)
 ```
 
@@ -127,13 +127,13 @@ The classic two-impulse transfer between two circular, coplanar orbits.
 
 An ellipse with periapsis at the inner orbit radius `r₁` and apoapsis at the outer orbit radius `r₂`:
 
-```
+```text
 a_trans = (r₁ + r₂) / 2
 ```
 
 ### Delta-v
 
-```
+```text
 v₁ = sqrt(μ/r₁)                              # initial circular speed
 v_trans_peri = sqrt(μ · (2/r₁ − 1/a_trans))  # speed at periapsis of transfer
 Δv₁ = v_trans_peri − v₁                       # burn to enter transfer (prograde at inner)
@@ -151,7 +151,7 @@ For a transfer from outer to inner, reverse the burns (retrograde at outer, retr
 
 Half the period of the transfer orbit:
 
-```
+```text
 t_trans = π · sqrt(a_trans³ / μ)
 ```
 
@@ -165,7 +165,7 @@ For two circular, coplanar orbits, Hohmann is the minimum-delta-v two-impulse tr
 
 Three burns: raise apoapsis to a high intermediate radius `r_b`, circularize at the target, then (optionally) lower the intermediate. Useful when `r₂/r₁` is large.
 
-```
+```text
 a₁ = (r₁ + r_b)/2
 a₂ = (r₂ + r_b)/2
 
@@ -180,7 +180,7 @@ The benefit over Hohmann grows with `r_b` up to a point; very large `r_b` takes 
 
 Changing inclination costs delta-v. The cost of a pure plane change (same speed, new direction) is:
 
-```
+```text
 Δv = 2v · sin(Δi/2)
 ```
 
@@ -210,7 +210,7 @@ For a small phase change via a phasing orbit:
 
 For an interplanetary or intercept transfer, you need the target to be at the right place when you arrive. The phase angle at departure is:
 
-```
+```text
 θ_launch = (target angular rate − transfer angular rate) · transfer_time   (mod 2π)
 ```
 
@@ -238,7 +238,7 @@ This is an approximation (ignores the third body's gravity inside the SOI, assum
 
 ### Sphere of influence radius
 
-```
+```text
 r_SOI ≈ a · (m / M)^(2/5)
 ```
 

@@ -23,12 +23,12 @@ and uses it to push malicious code, create backdoored releases, or exfiltrate CI
 
 **Hypothesis Starters**:
 
-```
+```text
 [HYPOTHESIS] Actor <HANDLE>'s account was compromised on or around <DATE>, 
 based on anomalous commit timing [EV-XXXX] and geographic access patterns [EV-YYYY].
 ```
 
-```
+```text
 [HYPOTHESIS] Release <VERSION> was published by the compromised account to push 
 malicious code to downstream users, evidenced by the malicious commit [EV-XXXX] 
 being added <N> hours before the release [EV-YYYY].
@@ -51,7 +51,7 @@ or a new malicious dependency is injected into an existing package.
 
 **Hypothesis Starters**:
 
-```
+```text
 [HYPOTHESIS] Commit <SHA> [EV-XXXX] introduced dependency <PACKAGE@VERSION> 
 which appears to be a malicious package published by actor <HANDLE> [EV-YYYY], 
 designed to execute <BEHAVIOR> during installation.
@@ -74,7 +74,7 @@ or inject malicious artifacts into the build output.
 
 **Hypothesis Starters**:
 
-```
+```text
 [HYPOTHESIS] Workflow file <FILE> was modified in commit <SHA> [EV-XXXX] to 
 exfiltrate repository secrets via <METHOD>, as evidenced by the added network 
 call pattern [EV-YYYY].
@@ -97,7 +97,7 @@ call pattern [EV-YYYY].
 
 **Hypothesis Starters**:
 
-```
+```text
 [HYPOTHESIS] Package <MALICIOUS_NAME> was registered on <DATE> [EV-XXXX] to 
 typosquat on <LEGITIMATE_NAME>, targeting users who misspell the package name. 
 The package contains <BEHAVIOR> [EV-YYYY].
@@ -122,7 +122,7 @@ force-pushes to remove the malicious commit from branch history.
 
 **Hypothesis Starters**:
 
-```
+```text
 [HYPOTHESIS] Actor <HANDLE> force-pushed branch <BRANCH> on <DATE> [EV-XXXX] 
 to erase commit <SHA> [EV-YYYY], which contained <MALICIOUS_CONTENT>. 
 The erased commit was recovered via <METHOD> [EV-ZZZZ].

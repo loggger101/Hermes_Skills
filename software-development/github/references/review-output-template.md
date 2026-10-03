@@ -52,20 +52,20 @@ Use this as the structure for PR review summary comments. Copy and fill in the s
 
 Prefix inline comments with the severity icon so they're scannable:
 
-```
+```text
 🔴 **Critical:** User input passed directly to SQL query — use parameterized queries to prevent injection.
 ```
 
-```
+```text
 ⚠️ **Warning:** This error is silently swallowed. At minimum, log it.
 ```
 
-```
+```text
 💡 **Suggestion:** This could be simplified with a dict comprehension:
 `{k: v for k, v in items if v is not None}`
 ```
 
-```
+```text
 ✅ **Nice:** Good use of context manager here — ensures cleanup on exceptions.
 ```
 

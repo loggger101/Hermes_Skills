@@ -45,7 +45,7 @@ def find_py_files(root: Path):
     out = []
     for p in sorted(root.rglob("*.py")):
         if any(
-            part in SKIP_DIRS or part.startswith(".") and part != ".github"
+            part in SKIP_DIRS or (part.startswith(".") and part != ".github")
             for part in p.relative_to(root).parts[:-1]
         ):
             continue
@@ -307,7 +307,7 @@ def structural_hash(tree):
 def redundancy(cache):
     """cache: {modname: (tree, path, src)}. Returns (dead, dups, total_fns, ratio)."""
     names_used = set()
-    for m, (tree, _, _) in cache.items():
+    for tree, _, _ in cache.values():
         for node in ast.walk(tree):
             if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Load):
                 names_used.add(node.id)
@@ -315,7 +315,7 @@ def redundancy(cache):
     dead = 0
     total_fns = 0
     hashes = defaultdict(list)
-    for m, (tree, path, text) in sorted(cache.items()):
+    for m, (tree, _path, _text) in sorted(cache.items()):
         # module-level functions only count toward "dead"
         for node in tree.body:
             if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):

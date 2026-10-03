@@ -42,7 +42,7 @@ migration from legacy tooling.
 
 ## Decision Tree
 
-```
+```text
 Single-file script with dependencies?      → PEP 723 inline metadata (below)
 New multi-file project, not distributed?   → Minimal uv setup (Quick Start)
 New reusable package/library?              → Full setup: uv init --package + pyproject config below

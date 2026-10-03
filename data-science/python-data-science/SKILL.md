@@ -34,7 +34,7 @@ Python DS: EDA, cleaning, modeling, eval, viz.
 
 ## Pipeline Overview
 
-```
+```text
 inspect → EDA → clean → feature eng → split → model → evaluate → compare → report
 ```
 

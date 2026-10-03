@@ -74,7 +74,7 @@ dark: false
 
 ## 2. Layout formulas — deterministic geometry
 
-```
+```text
 # Constants
 left_pad         = 12
 right_pad        = 48

@@ -56,7 +56,7 @@ Releases are argued from bit-identity, so an operation-reordering "cleanup" is a
 
 ## Why the GPU is not the answer (measured on RTX 2080 Ti)
 
-```
+```text
 numpy fp64 exp, 40M elements   0.222 s
 cupy  fp64 exp, 40M elements   1.695 s   <- 7.6x SLOWER than CPU (TU102's 1:32 FP64 rate; property of every consumer GeForce)
 cupy  fp32 exp                 0.137 s   <- unusable: every verification is a bit-identity check

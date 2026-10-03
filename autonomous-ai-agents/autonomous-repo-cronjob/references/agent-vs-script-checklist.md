@@ -59,7 +59,7 @@ Option 1 is less error-prone. Document which serializer the script uses and matc
 
 ## Decision Tree
 
-```
+```text
 Does the script's key-gated branch write to the data file?
   → YES: The agent must replicate the write logic, including format + signature check.
      If the agent's write format differs from the script's, the date-churn check

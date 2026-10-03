@@ -83,7 +83,7 @@ dark: false
 
 ## 2. Layout formulas — deterministic geometry
 
-```
+```text
 # Horizontal orientation (default)
 left_pad        = 16
 right_pad       = 16
@@ -158,7 +158,7 @@ Icon takes 24 × 24 → 36-px total horizontal footprint with the 12-px left pad
 
 **Name + sub baselines** (left-aligned, with icon to the left):
 
-```
+```text
 name_x = comp_x + 44
 name_y = comp_y + (comp_h/2) - 2
 sub_y  = comp_y + (comp_h/2) + 14
@@ -166,7 +166,7 @@ sub_y  = comp_y + (comp_h/2) + 14
 
 ### 2.3 Connector geometry (§3 holds the routing rules)
 
-```
+```text
 src_right  = comp_x(i_src) + comp_w(i_src)
 src_left   = comp_x(i_src)
 src_top    = comp_y(i_src, k_src)

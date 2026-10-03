@@ -73,7 +73,7 @@ Each ticket must declare what **blocks** it (other tickets that must finish firs
 
 **Example**:
 
-```
+```markdown
 # 3: Implement disease-page renderer
 **Blocked by:** #1 (parser seam), #2 (domain model)
 **What to build:** Given a disease_data dict, produce complete HTML

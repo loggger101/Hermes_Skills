@@ -57,7 +57,7 @@ py -3.12-32 -m nuitka --standalone ...your flags...
 
 Safe to exclude at runtime — saves **30–50 MB**:
 
-```
+```text
 unittest,test,pytest,_pytest,doctest,pdb,pdbpp,
 setuptools,pip,distutils,pkg_resources,
 email.mime,http.server,xmlrpc,pydoc
