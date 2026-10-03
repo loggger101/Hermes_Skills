@@ -9,7 +9,6 @@ metadata:
   hermes:
     tags: [SQLite, SQL, database, query, export]
     related_skills: [sql-for-data]
-
 ---
 
 # SQLite Queries

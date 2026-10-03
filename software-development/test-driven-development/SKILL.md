@@ -9,7 +9,6 @@ metadata:
   hermes:
     tags: [testing, tdd, development, quality, red-green-refactor]
     related_skills: [systematic-debugging, plan, mattpocock-subagent-driven-development]
-
 ---
 
 # Test-Driven Development (TDD)

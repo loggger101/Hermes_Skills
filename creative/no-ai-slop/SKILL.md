@@ -11,7 +11,6 @@ metadata:
     category: creative
     homepage: https://github.com/petergyang/no-ai-slop
     related_skills: [humanizer, songwriting-and-ai-music]
-
 ---
 
 # No AI slop (port)
@@ -121,4 +120,4 @@ Often-empty phrases: it's worth noting, it's important to note, at the end of th
 
 ## Attribution
 
-Ported verbatim from [petergyang/no-ai-slop](https://github.com/petergyang/no-ai-slop) v1.0.6 (MIT, Peter Yang). The upstream repo also ships an OpenAI/Codex plugin package: `.codex-plugin/plugin.json` manifest + `scripts/build_plugin.py` validator + a GitHub Actions release pipeline — the packaging anatomy is recorded in [hermes-agent/references/cross-harness-skill-porting.md](../../autonomous-ai-agents/hermes-agent/references/cross-harness-skill-porting.md#openaicodex-plugin-packaging). The self-check list ships unchanged at `references/eval.md`.
+Ported verbatim from [petergyang/no-ai-slop](https://github.com/petergyang/no-ai-slop) v1.0.6 (MIT, Peter Yang). The upstream repo also ships an OpenAI/Codex plugin package: `.codex-plugin/plugin.json` manifest + `scripts/build_plugin.py` validator + a GitHub Actions release pipeline — the packaging anatomy is recorded in [hermes-agent/references/cross-harness-skill-porting.md](../../autonomous-ai-agents/hermes-agent/references/cross-harness-skill-porting.md#openaicodex-plugin-packaging-verified-from-petergyangno-ai-slop-v106). The self-check list ships unchanged at `references/eval.md`.

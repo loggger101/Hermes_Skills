@@ -9,20 +9,18 @@ metadata:
   hermes:
     tags: [GitHub, Repositories, Git, Releases, Secrets, Configuration]
     related_skills: [github-auth, github-pr-workflow, github-issues]
-
 ---
 
 # GitHub Repository Management
 
-
 ## When to Use
 
-Use when the user needs `github-repo-management`.
+- Cloning, creating or forking repositories
+- Managing remotes, releases or repository settings via `gh` or the REST API
 
 ## What This Skill Does
 
 Clone, create, and fork GitHub repositories; manage remotes, releases, and repository settings.
-
 
 Create, clone, fork, configure, and manage GitHub repositories. Each section shows `gh` first, then the `git` + `curl` fallback.
 

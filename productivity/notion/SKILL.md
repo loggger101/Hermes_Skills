@@ -12,20 +12,18 @@ metadata:
     tags: [Notion, Productivity, Notes, Database, API, CLI, Workers]
     related_skills: [airtable]
     homepage: https://developers.notion.com
-
 ---
 
 # Notion
 
-
 ## When to Use
 
-Use when the user needs `notion`.
+- Reading, searching, creating or editing Notion pages and databases
+- Notion Workers or file uploads via the `ntn` CLI, or plain HTTP + curl where `ntn` is unavailable (e.g. Windows)
 
 ## What This Skill Does
 
 Read, search, create, and edit Notion pages and databases via the ntn CLI or Notion API.
-
 
 Talk to Notion two ways. Same integration token works for both — pick by what's available.
 

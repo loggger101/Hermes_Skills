@@ -21,6 +21,7 @@ metadata:
 ## What This Skill Does
 
 Fuses mid-century Swiss typographic print with aerospace/military terminal interfaces: rigid modular grids, extreme type-scale contrast, utilitarian color (one substrate palette + hazard red), and simulated analog degradation (halftones, scanlines, dithering). Pick ONE of the two visual archetypes per project and commit to it.
+
 # SKILL: Industrial Brutalism & Tactical Telemetry UI
 
 ## 1. Skill Meta

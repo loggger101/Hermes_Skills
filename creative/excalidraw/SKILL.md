@@ -10,7 +10,6 @@ metadata:
   hermes:
     tags: [Excalidraw, Diagrams, Flowcharts, Architecture, Visualization, JSON]
     related_skills: [architecture-diagram]
-
 ---
 
 # Excalidraw Diagram Skill

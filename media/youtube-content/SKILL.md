@@ -9,7 +9,6 @@ metadata:
   hermes:
     tags: [YouTube, Video, Transcripts, Media]
     related_skills: [blogwatcher, songsee]
-
 ---
 
 # YouTube Content Tool

@@ -13,20 +13,18 @@ metadata:
 prerequisites:
   commands: [himalaya]
   setup_verification: "himalaya --version prints a version; himalaya account list works with configured account"
-
 ---
 
 # Himalaya Email CLI
 
-
 ## When to Use
 
-Use when the user needs `himalaya`.
+- Reading, searching, sending or organizing email from the terminal over IMAP/SMTP
+- Not for the Hermes Email gateway adapter, which lets people email the agent
 
 ## What This Skill Does
 
 Send, receive, search, and manage email from the terminal using the Himalaya CLI (IMAP/SMTP).
-
 
 Himalaya is a CLI email client that lets you manage emails from the terminal using IMAP, SMTP, Notmuch, or Sendmail backends.
 

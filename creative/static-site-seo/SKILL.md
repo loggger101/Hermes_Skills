@@ -10,7 +10,6 @@ metadata:
     tags: [static-site, SEO, JSON-LD, analytics, CSP, form-backend, serverless, meta-tags, sitemap, canonical]
     category: creative
     related_skills: [python-craft]
-
 ---
 
 # Static Site Generation, SEO, and Analytics

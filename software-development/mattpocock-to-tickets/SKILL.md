@@ -9,7 +9,6 @@ metadata:
   hermes:
     tags: [tickets, planning, vertical-slices, blocking-edges, spec-breakdown]
     related_skills: [mattpocock-spec-driven-development, mattpocock-handoff, mattpocock-code-review, github-issues, doc-coauthoring, mattpocock-domain-modeling, mattpocock-subagent-driven-development, hermes-agent]
-
 ---
 
 ## When to Use

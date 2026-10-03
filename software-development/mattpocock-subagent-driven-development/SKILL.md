@@ -9,7 +9,6 @@ metadata:
   hermes:
     tags: [subagents, delegation, task-review, parallel-agents, planning]
     related_skills: [mattpocock-to-tickets, mattpocock-multi-agent-code-review, mattpocock-using-git-worktrees, mattpocock-finishing-a-development-branch, requesting-code-review, mattpocock-evidence-driven, test-driven-development, executing-plans, dispatching-parallel-agents]
-
 ---
 <!-- source: obra/superpowers (skills/subagent-driven-development v6.3.0), adapted 2026-09-11 -->
 

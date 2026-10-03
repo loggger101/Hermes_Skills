@@ -13,12 +13,12 @@ metadata:
 
 ## When to Use
 
-- When working on: Choose trajectory computation method: closed-form vs propagation.
+- Deciding how to compute a trajectory, delta-v budget or transfer window: closed-form, propagation, convex optimization, global optimization or Monte Carlo
+- Choosing the cheapest method that answers the actual question at the accuracy it needs
 
 ## What This Skill Does
 
-The five distinct ways to compute trajectories / delta-v / transfer windows that show up in the user's `for-econ-space-pipeline` star list. They are NOT interchangeable — each answers a different
-
+The five distinct ways to compute trajectories / delta-v / transfer windows that show up in the user's `for-econ-space-pipeline` star list. They are NOT interchangeable: each answers a different question at a different cost/accuracy tradeoff.
 
 # Space Mission Computation Paradigms
 

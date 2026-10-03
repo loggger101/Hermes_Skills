@@ -19,20 +19,18 @@ metadata:
   hermes:
     tags: [design, css, html, ui, web-development, design-systems, templates]
     related_skills: [claude-design, sketch, excalidraw, architecture-diagram, design-md, pretext]
-
 ---
 
 # Popular Web Designs
 
-
 ## When to Use
 
-Use when the user needs `popular-web-designs`.
+- "Build a page that looks like Stripe / Linear / Vercel...": matching one of the 54 bundled real-world design systems
+- Landing pages, dashboards or general web UI that need a concrete, proven visual system to start from
 
 ## What This Skill Does
 
 Generate 54 real-world design systems (Stripe, Linear, Vercel, etc.) as HTML/CSS components.
-
 
 54 real-world design systems ready for use when generating HTML/CSS. Each template captures a
 site's complete visual language: color palette, typography hierarchy, component styles, spacing

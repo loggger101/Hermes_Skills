@@ -20,8 +20,7 @@ metadata:
 
 ## What This Skill Does
 
-Every comment posted during triage starts with: ```
-
+Moves issues (and external PRs, treated as issues with attached code) through a small state machine of triage roles on the project's GitHub tracker via `gh`: one category role and one state role per item, with rejected enhancements recorded in `.out-of-scope/`.
 
 # Issue Triage State Machine
 

@@ -9,7 +9,6 @@ metadata:
   hermes:
     tags: [REST, API, HTTP, curl, integration, SSRF, security]
     related_skills: [ssh-remote, docker-containers, mattpocock-security-review]
-
 ---
 
 # REST API Client

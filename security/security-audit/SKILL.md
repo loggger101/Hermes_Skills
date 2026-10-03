@@ -11,7 +11,6 @@ metadata:
     category: security
     homepage: https://github.com/cloudflare/security-audit-skill
     related_skills: [mattpocock-security-review, oss-forensics, semgrep-rule-creator]
-
 ---
 # Security Audit (port)
 

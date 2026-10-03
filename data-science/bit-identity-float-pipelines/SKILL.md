@@ -13,12 +13,12 @@ metadata:
 
 ## When to Use
 
-- When working on: Verify correctness via exact float hashes / bit-identity CSVs.
+- A pipeline whose releases are defended by exact float hashes of its outputs rather than tolerances
+- Proving that a refactor, dependency bump or platform change did not move a single output number
 
 ## What This Skill Does
 
-For projects that defend releases by **exact float hashes** (bit-identity) rather than tolerance. Distilled from the economicspace pipeline's CLAUDE.md — a repo whose entire release process is an
-
+For projects that defend releases by **exact float hashes** (bit-identity) rather than tolerance. Distilled from the economicspace pipeline's CLAUDE.md; the lessons transfer to any pipeline where "the number didn't move" must be *proven*, not assumed.
 
 # Bit-Identity Float Pipelines & Verification Discipline
 

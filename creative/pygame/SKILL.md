@@ -13,12 +13,13 @@ metadata:
 
 ## When to Use
 
-- When working on: Use when building or testing pygame/SDL games.
+- Windowed games and SDL-based apps, or image/audio processing via pygame's C-accelerated surface ops
+- Headless rendering (thumbnails, procedural textures) or game logic that must be testable without a display
+- Not for browser games (use `p5js`) or video output (use `manim-video` / `ascii-video`)
 
 ## What This Skill Does
 
-Distilled from the pygame/pygame repo itself (`examples/aliens.py`, `examples/headless_no_windows_needed.py`, `test/__main__.py` runner + `base_test.py`, main branch as of 2026-09-04). The API reference lives in their docs;
-
+Patterns and traps for pygame (SDL2) games, distilled from the pygame/pygame repo's own examples and test runner: what an agent gets wrong or re-discovers painfully.
 
 # Pygame (SDL2) — patterns and traps
 

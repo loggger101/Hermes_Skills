@@ -20,8 +20,7 @@ metadata:
 
 ## What This Skill Does
 
-1. Explore the repo to understand current state (if not done). Use the project's domain glossary vocabulary throughout; respect ADRs in the area being touched. 2. Sketch the **seams** at which you'll test the feature. Prefer existing seams over new ones, and use the highest seam possible — fewer sea
-
+Turns the current conversation and codebase understanding into a spec without interviewing the user: explore the repo, sketch the test seams, then publish the spec as a GitHub issue or a `.specs/<slug>.md` file.
 
 # Conversation → Spec
 

@@ -10,7 +10,6 @@ metadata:
     tags: [model-export, ONNX, TorchScript, serialization, model-versioning, deployment, HDF5, NumPy, JSON]
     category: data-science
     related_skills: [python-craft, evolutionary-ml]
-
 ---
 
 # Model Export and Deployment

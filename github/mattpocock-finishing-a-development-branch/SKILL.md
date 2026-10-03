@@ -9,7 +9,6 @@ metadata:
   hermes:
     tags: [git, merge, pr, cleanup, worktrees, branch-management]
     related_skills: [mattpocock-yeet, mattpocock-using-git-worktrees, github-pr-workflow, requesting-code-review]
-
 ---
 <!-- source: obra/superpowers (skills/finishing-a-development-branch v6.3.0), adapted 2026-09-11 -->
 

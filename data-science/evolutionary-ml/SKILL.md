@@ -10,7 +10,6 @@ metadata:
     tags: [evolutionary-algorithms, neuroevolution, genetic-algorithms, NEAT, tournament-evaluation, parallel-simulation, population-based-training]
     category: data-science
     related_skills: [python-data-science, python-craft, weights-and-biases]
-
 ---
 
 # Evolutionary ML: GA, Neuroevolution, Tournament Evaluation

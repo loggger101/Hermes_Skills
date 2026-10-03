@@ -16,17 +16,16 @@ metadata:
       - /docs/guides/microsoft-graph-app-registration
       - /docs/user-guide/messaging/teams-meetings
       - /docs/guides/operate-teams-meeting-pipeline
-
 ---
 
 # Teams Meeting Pipeline
 
 Use this skill whenever the user asks about Microsoft Teams meeting summaries, transcripts, recordings, action items, Graph subscriptions, or any operational question about the Teams meeting pipeline. Works in any language — the triggers below are examples, not an exhaustive list.
 
-
 ## When to Use
 
-Use when the user needs `teams-meeting-pipeline`.
+- Summarizing a Teams meeting, extracting action items or pulling meeting notes
+- Operating the pipeline: status, replaying stored jobs, validating Graph setup, managing webhook subscriptions
 
 ## What This Skill Does
 

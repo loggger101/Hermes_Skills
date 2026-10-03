@@ -13,21 +13,20 @@ metadata:
 prerequisites:
   commands: [blogwatcher-cli]
   setup_verification: "blogwatcher-cli --version prints a version; blogwatcher-cli add with a URL succeeds"
-
 ---
 
 # Blogwatcher
 
-
 ## When to Use
 
-Use when the user needs `blogwatcher`.
+- Following blogs or RSS/Atom feeds for new posts, including sites without a feed (HTML scraping fallback)
+- Importing an OPML list, or tracking read/unread articles
 
 ## What This Skill Does
 
 Tracks blog and RSS/Atom feed updates using the `blogwatcher-cli` tool. Supports automatic feed discovery, HTML scraping for non-RSS pages, content formatting, and real-time monitoring via cron. Loads `skill_view(name='competitor-news-monitor')` for company-focused tracking and `skill_view(name='parallel-cli')` for deep research enrichment.
 
-Track blog and RSS/Atom feed updates with the \`blogwatcher-cli\` tool. Supports automatic feed discovery, HTML scraping fallback, OPML import, and read/unread article management.
+Track blog and RSS/Atom feed updates with the `blogwatcher-cli` tool. Supports automatic feed discovery, HTML scraping fallback, OPML import, and read/unread article management.
 
 ## Installation
 

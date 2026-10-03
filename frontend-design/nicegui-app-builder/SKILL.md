@@ -11,16 +11,15 @@ metadata:
     related_skills: [streamlit-dashboards]
 ---
 
-
 <!-- source: zauberzeug/nicegui starred repo deep-dive 2026-09-05; API verified from source clone -->
 ## When to Use
 
-- When working on: Build Python reactive web/desktop apps with NiceGUI.
+- Building a web or desktop UI in plain Python (dashboards, internal tools, control panels) without writing JS
+- Using `ui.run(native=True)` for a desktop window, or wiring NiceGUI bindings, storage or FastAPI routes
 
 ## What This Skill Does
 
-```python from nicegui import ui
-
+Builds reactive web and desktop apps in plain Python with NiceGUI (FastAPI + Vue): elements are declared as functions, state syncs via bindings, and one `ui.run()` call runs the whole app.
 
 # NiceGUI App Builder
 

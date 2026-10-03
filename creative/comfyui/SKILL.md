@@ -15,7 +15,6 @@ metadata:
     tags: [comfyui, image-generation, stable-diffusion, flux, sd3, wan-video, hunyuan-video, creative, generative-ai, video-generation]
     related_skills: [baoyu-infographic]
     category: creative
-
 ---
 
 # ComfyUI

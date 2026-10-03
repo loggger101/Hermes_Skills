@@ -9,15 +9,14 @@ metadata:
   hermes:
     tags: [Research, Archives, Wayback, Paywall, WAF, Fallback]
     related_skills: [grounded-citations, parallel-cli]
-
 ---
 
 # Blocked-Page Recovery
 
-
 ## When to Use
 
-Use when the user needs `blocked-page-recovery`.
+- A page fetch fails with 403/429, a Cloudflare interstitial, a paywall or another bot-detection wall
+- Retrying the same URL has stopped working and a cached or archived copy would do
 
 ## What This Skill Does
 

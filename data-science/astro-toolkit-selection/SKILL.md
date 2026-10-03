@@ -13,12 +13,12 @@ metadata:
 
 ## When to Use
 
-- When working on: Choose astrodynamics tools: brahe, nyx, OpenSCvx, skyfield.
+- Choosing a library to propagate orbits, optimize a trajectory, simulate a launch vehicle or search a mission design space
+- Cross-checking results between astrodynamics tools, or checking a tool's license before building on it
 
 ## What This Skill Does
 
-| Job | Tool | Why | |---|---|---|
-
+Picks the astrodynamics library for the job (skyfield, brahe, nyx, OpenSCvx, CamPyRoS or pygmo) from a source-verified decision table, with verified usage patterns and the unit and licensing gotchas.
 
 # Astrodynamics Toolkit Selection
 

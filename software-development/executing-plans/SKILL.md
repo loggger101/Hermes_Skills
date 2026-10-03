@@ -9,7 +9,6 @@ metadata:
   hermes:
     tags: [planning, execution, checkpoints, inline-workflow]
     related_skills: [plan, mattpocock-subagent-driven-development, mattpocock-using-git-worktrees, mattpocock-finishing-a-development-branch, test-driven-development]
-
 ---
 
 <!-- source: obra/superpowers (skills/executing-plans), adapted 2026-09-11 -->

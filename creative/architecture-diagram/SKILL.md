@@ -10,15 +10,15 @@ metadata:
   hermes:
     tags: [architecture, diagrams, SVG, HTML, visualization, infrastructure, cloud]
     related_skills: [excalidraw, sketch, system-atlas]
-
 ---
 
 # Architecture Diagram Skill
 
-
 ## When to Use
 
-Use when the user needs `architecture-diagram`.
+- Software system architecture (frontend / backend / database layers) as a standalone dark-themed HTML/SVG diagram
+- Cloud infrastructure (VPC, regions, subnets, managed services) or microservice / service-mesh topology
+- Not for scientific subjects, physical objects, floor plans or hand-drawn sketches (consider `excalidraw`)
 
 ## What This Skill Does
 

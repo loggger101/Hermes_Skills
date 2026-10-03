@@ -9,20 +9,18 @@ metadata:
   hermes:
     tags: [Research, Arxiv, Papers, Academic, Science, API]
     related_skills: [ocr-and-documents]
-
 ---
 
 # arXiv Research
 
-
 ## When to Use
 
-Use when the user needs `arxiv`.
+- Searching arXiv by keyword, author, category or ID
+- Pulling an abstract, metadata or full text into a research workflow
 
 ## What This Skill Does
 
 Search and retrieve academic papers from arXiv. Returns markdown content, abstracts, and metadata for research workflows.
-
 
 Search and retrieve academic papers from arXiv via their free REST API. No API key, no dependencies — just curl.
 

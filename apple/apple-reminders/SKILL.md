@@ -11,7 +11,6 @@ metadata:
     related_skills: [apple-notes, findmy, imessage, cron-job-authoring, hermes-agent]
 prerequisites:
   commands: [remindctl]
-
 ---
 
 # Apple Reminders

@@ -10,20 +10,18 @@ metadata:
     tags: [wiki, knowledge-base, research, notes, markdown, rag-alternative]
     category: research
     related_skills: [obsidian, arxiv]
-
 ---
 
 # Karpathy's LLM Wiki
 
-
 ## When to Use
 
-Use when the user needs `llm-wiki`.
+- Creating a wiki or knowledge base, or ingesting a source into one
+- Answering a question when a wiki exists at the configured path, or linting / health-checking it
 
 ## What This Skill Does
 
 Build and query interlinked markdown knowledge bases using Karpathy's LLM Wiki pattern.
-
 
 Build and maintain a persistent, compounding knowledge base as interlinked markdown files.
 Based on [Andrej Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f).

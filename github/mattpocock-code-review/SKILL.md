@@ -9,7 +9,6 @@ metadata:
   hermes:
     tags: [code-review, standards, spec, parallel-sub-agents, smells]
     related_skills: [github-code-review, requesting-code-review, mattpocock-tdd, hermes-agent-skill-authoring]
-
 ---
 
 ## When to Use

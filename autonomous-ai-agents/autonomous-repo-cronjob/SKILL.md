@@ -9,7 +9,6 @@ metadata:
   hermes:
     tags: [cronjob, autonomous, repo-automation, pipeline, agent-as-gatekeeper]
     related_skills: [hermes-agent]
-
 ---
 
 # Autonomous Repo Cronjob Skill

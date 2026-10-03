@@ -10,20 +10,18 @@ metadata:
   hermes:
     tags: [ASCII, Art, Banners, Creative, Unicode, Text-Art, pyfiglet, figlet, cowsay, boxes]
     related_skills: [excalidraw]
-
 ---
 
 # ASCII Art Skill
 
-
 ## When to Use
 
-Use when the user needs `ascii-art`.
+- Text banners, cowsay-style speech bubbles or decorative boxes in a terminal or plain-text context
+- Converting an image to ASCII art
 
 ## What This Skill Does
 
 Generate ASCII art from text (pyfiglet, cowsay, boxes) and convert images to ASCII representations.
-
 
 Multiple tools for different ASCII art needs. All tools are local CLI programs or free REST APIs — no API keys required.
 

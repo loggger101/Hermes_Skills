@@ -9,20 +9,18 @@ metadata:
   hermes:
     tags: [TouchDesigner, MCP, twozero, creative-coding, real-time-visuals, generative-art, audio-reactive, VJ, installation, GLSL]
     related_skills: [ascii-video, manim-video]
-
 ---
 
 # TouchDesigner Integration (twozero MCP)
 
-
 ## When to Use
 
-Use when the user needs `touchdesigner-mcp`.
+- Building or debugging a TouchDesigner network through the twozero MCP server
+- Real-time generative or audio-reactive visuals, GLSL in TouchDesigner, or recording a TD output to video
 
 ## What This Skill Does
 
 Control TouchDesigner visual programming via the twozero MCP server for real-time graphics.
-
 
 ## CRITICAL RULES
 

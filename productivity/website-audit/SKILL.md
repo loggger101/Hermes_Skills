@@ -13,8 +13,7 @@ metadata:
 
 ## What This Skill Does
 
-- User wants an improvement/fix report as a document (usually `.docx`) from analyzing their website or codebase - Analysis-only workflow required — no refactoring, feature development, or source edits permitted
-
+Generates a comprehensive `.docx` audit report for a website or codebase through read-only analysis. Zero source modifications: the report is the only deliverable.
 
 # Website Audit Report Skill
 

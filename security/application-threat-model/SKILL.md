@@ -11,7 +11,6 @@ metadata:
     category: security
     homepage: https://github.com/rlaope/oh-my-hermes
     related_skills: [mattpocock-security-review, security-audit, system-design-scaling]
-
 ---
 
 # Application Threat Model (port)

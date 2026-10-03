@@ -9,7 +9,6 @@ metadata:
   hermes:
     tags: [codebase-design, deep-modules, seams, interfaces, leverage, locality]
     related_skills: [mattpocock-tdd, mattpocock-improve-codebase-architecture]
-
 ---
 
 ## When to Use

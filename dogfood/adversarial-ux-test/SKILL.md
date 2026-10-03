@@ -9,15 +9,14 @@ metadata:
   hermes:
     tags: [qa, ux, testing, adversarial, dogfood, personas, user-testing]
     related_skills: [dogfood]
-
 ---
 
 # Adversarial UX Test
 
-
 ## When to Use
 
-Use when the user needs `adversarial-ux-test`.
+- Stress-testing a product's UX from a hostile, low-tech user's point of view
+- Finding friction (confusing terminology, too many steps) that conventional QA misses, then triaging it into tickets
 
 ## What This Skill Does
 

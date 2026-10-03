@@ -10,7 +10,6 @@ metadata:
     tags: [CLI, argparse, subcommands, config-validation, env-substitution, config-inheritance, click, typer]
     category: software-development
     related_skills: [python-craft]
-
 ---
 
 # CLI Tool Craft

@@ -9,7 +9,6 @@ metadata:
   hermes:
     tags: [skills, authoring, hermes-agent, conventions, skill-md]
     related_skills: [plan, requesting-code-review]
-
 ---
 
 # Authoring Hermes-Agent Skills (in-repo)

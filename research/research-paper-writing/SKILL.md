@@ -13,7 +13,6 @@ metadata:
     category: research
     related_skills: [arxiv, mattpocock-subagent-driven-development, plan, excalidraw, python-data-science]
     requires_toolsets: [terminal, files]
-
 ---
 
 # Research Paper Writing Pipeline

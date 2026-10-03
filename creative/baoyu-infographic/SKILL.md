@@ -10,7 +10,6 @@ metadata:
     tags: [infographic, visual-summary, creative, image-generation]
     related_skills: [comfyui]
     homepage: https://github.com/JimLiu/baoyu-skills#baoyu-infographic
-
 ---
 
 # Infographic Generator

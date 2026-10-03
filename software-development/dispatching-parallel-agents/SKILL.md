@@ -9,7 +9,6 @@ metadata:
   hermes:
     tags: [subagents, parallelism, delegation, debugging, concurrency]
     related_skills: [mattpocock-subagent-driven-development, systematic-debugging, test-driven-development, dynamic-workflow]
-
 ---
 
 <!-- source: obra/superpowers (skills/dispatching-parallel-agents), adapted 2026-09-11 -->

@@ -10,11 +10,9 @@ metadata:
   hermes:
     tags: [Evaluation, LM Evaluation Harness, Benchmarking, MMLU, HumanEval, GSM8K, EleutherAI, Model Quality, Academic Benchmarks, Industry Standard]
     related_skills: [weights-and-biases]
-
 ---
 
 # lm-evaluation-harness - LLM Benchmarking
-
 
 ## What This Skill Does
 
@@ -22,7 +20,9 @@ lm-eval-harness: benchmark LLMs (MMLU, GSM8K, etc.).
 
 ## When to Use
 
-Use when the user needs `evaluating-llms-harness`.
+- Benchmarking a model on standard tasks (MMLU, GSM8K, HumanEval...) for papers, comparisons or training-progress tracking
+- Reproducible, standardized metrics where everyone uses the same prompts
+- Consider HELM and the other alternatives listed below for broader evaluation (fairness, efficiency, calibration)
 
 ## What's inside
 
@@ -503,6 +503,3 @@ code execution.
 - Docs: https://github.com/EleutherAI/lm-evaluation-harness/tree/main/docs
 - Task library: 60+ tasks including MMLU, GSM8K, HumanEval, TruthfulQA, HellaSwag, ARC, WinoGrande, etc.
 - Leaderboard: https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard (uses this harness)
-
-
-

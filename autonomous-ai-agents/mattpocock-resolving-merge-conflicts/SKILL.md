@@ -9,7 +9,6 @@ metadata:
   hermes:
     tags: [merge-conflicts, git, rebase, conflict-resolution]
     related_skills: [merge-reconciler, systematic-debugging, mattpocock-diagnosing-bugs]
-
 ---
 
 ## What This Skill Does

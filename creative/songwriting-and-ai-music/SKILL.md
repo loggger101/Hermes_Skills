@@ -17,20 +17,18 @@ metadata:
   hermes:
     tags: [songwriting, music, suno, parody, lyrics, creative]
     related_skills: [comfyui, claude-design, humanizer]
-
 ---
 
 # Songwriting & AI Music Generation
 
-
 ## When to Use
 
-Use when the user needs `songwriting-and-ai-music`.
+- Writing, adapting or parodying song lyrics
+- Writing Suno (or other AI music) prompts
 
 ## What This Skill Does
 
 Craft songwriting workflows and generate AI music using Suno AI prompts and techniques.
-
 
 Everything here is a GUIDELINE, not a rule. Art breaks rules on purpose.
 Use what serves the song. Ignore what doesn't.
