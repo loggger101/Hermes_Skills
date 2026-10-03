@@ -25,9 +25,11 @@ Completes a development branch with a clear, safety-first decision flow: verify 
 ## Process
 
 ### Step 1: Verify Tests
+
 Run the project's FULL test suite (`pytest tests/ -q` / `npm test` / ...). If tests fail, report failures and STOP — the menu comes after a green suite ("tests passed earlier this session" proves only the tree it ran on; run it on the tree you're about to integrate).
 
 ### Step 2: Detect Environment
+
 ```bash
 GIT_DIR=$(cd "$(git rev-parse --git-dir)" 2>/dev/null && pwd -P)
 GIT_COMMON=$(cd "$(git rev-parse --git-common-dir)" 2>/dev/null && pwd -P)
@@ -43,9 +45,11 @@ BRANCH=$(git branch --show-current)   # empty = detached HEAD
 | Detached HEAD (`BRANCH` empty) | Reduced 2 options — no merge | Externally managed: leave in place |
 
 ### Step 3: Determine Base Branch
+
 The base is whatever this work forked from — usually named in the plan, conversation, or branch upstream. If not already known, ask: "This branch split from <best guess> — correct?" Confirm before merging; merging into the wrong base is expensive to undo.
 
 ### Step 4: Present Options (exactly as written)
+
 ```
 Implementation complete. What would you like to do?
 1. Merge back to <base-branch> locally
@@ -53,43 +57,54 @@ Implementation complete. What would you like to do?
 3. Keep the branch as-is (I'll handle it later)
 Which option?
 ```
+
 Detached HEAD: present exactly 2 options — "Push as new branch and create a PR" / "Keep as-is". **Do not offer to discard.** Discard exists only in response to an explicit user request for it (below). Wait for the answer.
 
 ### Step 5: Execute Choice
+
 **Option 1 — Merge locally:** merge FIRST, verify success before removing anything:
+
 ```bash
 MAIN_ROOT=$(git -C "$(git rev-parse --git-common-dir)/.." rev-parse --show-toplevel)
 cd "$MAIN_ROOT"
 git checkout <base-branch> && git pull && git merge <feature-branch>
 <test command on the merged result>
 ```
+
 If tests fail on the merged result: STOP, leave worktree and branch in place, investigate — nothing was pushed, so it's local and recoverable. ("Probably flaky" is not a reason to continue.) Once green: clean up (Step 6), then `git branch -d <feature-branch>`.
 
 **Option 2 — Push + PR:**
+
 ```bash
 git push -u origin <feature-branch>        # detached HEAD: git push origin HEAD:refs/heads/<new-branch>
 ```
+
 Create the PR against base with whatever forge tooling exists (its CLI if available, or the creation URL most forges print on push) — following the repo's PR template; report the URL. Use `skill_view(name='mattpocock-yeet')` / `github-pr-workflow`. **Keep the worktree** — PR feedback gets fixed there until the work lands. A rejected push means the remote moved: investigate, force-push only on explicit user request.
 
 **Option 3 — Keep as-is:** report "Keeping branch <name>. Worktree preserved at <path>."
 
 **If (and only if) the user explicitly asks to discard:** confirm first with a typed word:
+
 ```
 This will permanently delete: Branch <name>, all commits <list>, worktree at <path>.
 Type 'discard' to confirm.
 ```
+
 Only that exact confirmation authorizes deletion, then clean up + `git branch -D`.
 
 ### Step 6: Cleanup Workspace (Option 1 and confirmed discards only)
+
 Both callers have already cd'd to the main repo root — removal must run from OUTSIDE the worktree — using the values captured in Step 2.
 
 - **Normal repo:** nothing to clean up. Done.
 - **`WORKTREE_PATH` under `.worktrees/` or `worktrees/`:** this skill's family created it — we own cleanup: `git worktree remove "$WORKTREE_PATH" && git worktree prune`.
   - **If removal is REFUSED (contains modified/untracked files):** the worktree holds files that exist nowhere else. NEVER `--force` on your own initiative ("just finishing the cleanup" destroys them permanently). Show what's at stake and ask:
+
     ```bash
     git -C "$WORKTREE_PATH" status --porcelain -uall
     # 1. Commit them to <branch> before cleanup / 2. Move them into main repo root / 3. Delete (unrecoverable) — which?
     ```
+
 - **Otherwise:** the host environment owns this workspace — leave it in place; use a platform workspace-exit tool if one exists.
 
 ## Decision Matrix

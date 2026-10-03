@@ -5,6 +5,7 @@
 Accelerate supports Megatron-LM for massive model training with tensor parallelism and pipeline parallelism.
 
 **Megatron capabilities**:
+
 - **Tensor Parallelism (TP)**: Split layers across GPUs
 - **Pipeline Parallelism (PP)**: Split model depth across GPUs
 - **Data Parallelism (DP)**: Replicate model across GPU groups
@@ -34,6 +35,7 @@ accelerate config
 ```
 
 **Questions**:
+
 ```
 In which compute environment are you running?
 > This machine
@@ -70,6 +72,7 @@ Where to perform activation partitioning? ['SEQUENTIAL', 'UNIFORM']
 ```
 
 **Generated config** (`~/.cache/huggingface/accelerate/default_config.yaml`):
+
 ```yaml
 compute_environment: LOCAL_MACHINE
 distributed_type: MEGATRON_LM
@@ -111,16 +114,19 @@ use_cpu: false
 ```
 
 **TP degree recommendations**:
+
 - **TP=1**: No tensor parallelism (single GPU per layer)
 - **TP=2**: 2 GPUs per layer (good for 7-13B models)
 - **TP=4**: 4 GPUs per layer (good for 20-40B models)
 - **TP=8**: 8 GPUs per layer (good for 70B+ models)
 
 **Benefits**:
+
 - Reduces memory per GPU
 - All-reduce communication (fast)
 
 **Drawbacks**:
+
 - Requires fast inter-GPU bandwidth (NVLink)
 - Communication overhead per layer
 
@@ -137,16 +143,19 @@ use_cpu: false
 ```
 
 **PP degree recommendations**:
+
 - **PP=1**: No pipeline parallelism
 - **PP=2**: 2 pipeline stages (good for 20-40B models)
 - **PP=4**: 4 pipeline stages (good for 70B+ models)
 - **PP=8**: 8 pipeline stages (good for 175B+ models)
 
 **Benefits**:
+
 - Linear memory reduction (4× PP = 4× less memory)
 - Works across nodes (slower interconnect OK)
 
 **Drawbacks**:
+
 - Pipeline bubbles (idle time)
 - Requires micro-batching
 
@@ -161,10 +170,12 @@ use_cpu: false
 ```
 
 **DP degree**:
+
 - `DP = total_gpus / (TP × PP)`
 - Example: 8 GPUs, TP=2, PP=2 → DP=2
 
 **Benefits**:
+
 - Increases throughput
 - Scales batch size
 
@@ -179,10 +190,12 @@ use_cpu: false
 ```
 
 **Benefits**:
+
 - Enables very long sequences (100K+ tokens)
 - Reduces activation memory
 
 **Requirements**:
+
 - Must use with TP > 1
 - RoPE/ALiBi position encodings work best
 
@@ -320,6 +333,7 @@ megatron_plugin = MegatronLMPlugin(
 ```
 
 **Strategies**:
+
 - `SELECTIVE`: Checkpoint transformer blocks only
 - `FULL`: Checkpoint all layers
 - `NONE`: No checkpointing
@@ -337,10 +351,12 @@ megatron_plugin = MegatronLMPlugin(
 ```
 
 **Benefits**:
+
 - Reduces optimizer memory by DP degree
 - Example: DP=4 → 4× less optimizer memory per GPU
 
 **Compatible with**:
+
 - AdamW, Adam, SGD
 - Mixed precision training
 
@@ -360,6 +376,7 @@ megatron_plugin = MegatronLMPlugin(
 ```
 
 **Recommendations**:
+
 - More micro-batches → less pipeline bubble
 - Typical: 4-16 micro-batches
 
@@ -379,6 +396,7 @@ megatron_plugin = MegatronLMPlugin(
 ### GPU Topology
 
 **NVLink required for TP**:
+
 ```bash
 # Check NVLink topology
 nvidia-smi topo -m
@@ -392,6 +410,7 @@ nvidia-smi topo -m
 ```
 
 **Recommendations**:
+
 - **TP**: Within same node (NVLink)
 - **PP**: Across nodes (slower interconnect OK)
 - **DP**: Any topology
@@ -450,6 +469,7 @@ python merge_megatron_checkpoint.py \
 ### Issue: OOM with Pipeline Parallelism
 
 **Solution**: Increase micro-batches
+
 ```python
 megatron_plugin = MegatronLMPlugin(
     pp_degree=4,
@@ -460,6 +480,7 @@ megatron_plugin = MegatronLMPlugin(
 ### Issue: Slow Training
 
 **Check 1**: Pipeline bubbles (PP too high)
+
 ```python
 # Reduce PP, increase TP
 tp_degree=4  # Increase
@@ -467,6 +488,7 @@ pp_degree=2  # Decrease
 ```
 
 **Check 2**: Micro-batch size too small
+
 ```python
 num_micro_batches=8  # Increase
 ```

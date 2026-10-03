@@ -23,6 +23,7 @@ Why this works: freeform coding collapses into repetitive defaults (one giant co
 The single most important rule across all four skills: **generate enough separate images — one per major section** (hero, features/bento, media/scroll-story, pricing/action, footer) instead of one compressed full-page board. The failure mode it prevents is text becoming too small to read and "nice-looking but unextractable" designs.
 
 Supporting rules:
+
 - **Large, readable, section-specific images over tiny compressed boards.** If a frame contains more than ~2 sections, split it.
 - **Fresh standalone regeneration beats cropping old images** — for detail views or second passes, regenerate at the right aspect ratio instead of slicing an existing board (cropping destroys composition and resolution).
 - **Don't crop to fit; regenerate to fit.** Same principle for mobile screens: generate each screen at its own 9:16 frame.

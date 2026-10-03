@@ -94,16 +94,21 @@ LANGUAGES: dict[str, list[str]] = {
 
 # Aliases that ast-grep CLI accepts; we normalize to the canonical name.
 LANG_ALIASES: dict[str, str] = {
-    "js": "javascript", "jsx": "javascript",
+    "js": "javascript",
+    "jsx": "javascript",
     "ts": "typescript",
-    "py": "python", "py3": "python",
+    "py": "python",
+    "py3": "python",
     "rb": "ruby",
     "rs": "rust",
     "kt": "kotlin",
     "ex": "elixir",
     "hs": "haskell",
-    "sh": "bash", "zsh": "bash",
-    "cc": "cpp", "c++": "cpp", "cxx": "cpp",
+    "sh": "bash",
+    "zsh": "bash",
+    "cc": "cpp",
+    "c++": "cpp",
+    "cxx": "cpp",
     "cs": "csharp",
     "yml": "yaml",
     "sol": "solidity",
@@ -115,6 +120,7 @@ DEFAULT_TIMEOUT_S = 300
 
 
 # ---------- logging ----------
+
 
 def trace(msg: str) -> None:
     """Print a trace line to stderr (suppressible via --quiet, default off)."""
@@ -131,6 +137,7 @@ _QUIET = False
 
 
 # ---------- binary resolution ----------
+
 
 def script_dir() -> Path:
     return Path(__file__).resolve().parent
@@ -203,6 +210,7 @@ def homebrew_binary() -> Optional[Path]:
 
 
 # --- OMO runtime resolution (vendored patch) ---
+
 
 def omo_env_binary() -> Optional[Path]:
     raw_path = os.environ.get("OMO_AST_GREP_SG_PATH")
@@ -286,15 +294,21 @@ def require_binary() -> Path:
 # Regex anti-patterns that ast-grep does NOT support but LLMs frequently emit.
 # Each tuple: (regex_to_detect, hint_message)
 REGEX_ANTIPATTERNS: list[tuple[re.Pattern[str], str]] = [
-    (re.compile(r"\\w|\\d|\\s|\\b"),
-     "Backslash escapes (\\w, \\d, \\s, \\b) are regex syntax, not ast-grep. "
-     "Use $VAR to capture any identifier, or switch to grep for text patterns."),
-    (re.compile(r"(?<!\$)\.\*|(?<!\$)\.\+"),
-     "'.*' and '.+' are regex wildcards, not ast-grep. "
-     "Use $$$ between AST fragments to match many nodes, or $VAR for one node."),
-    (re.compile(r"\[[a-zA-Z0-9-]+\]"),
-     "Character classes like '[a-z]' are regex syntax. "
-     "ast-grep has no AST equivalent - use grep for character-level patterns."),
+    (
+        re.compile(r"\\w|\\d|\\s|\\b"),
+        "Backslash escapes (\\w, \\d, \\s, \\b) are regex syntax, not ast-grep. "
+        "Use $VAR to capture any identifier, or switch to grep for text patterns.",
+    ),
+    (
+        re.compile(r"(?<!\$)\.\*|(?<!\$)\.\+"),
+        "'.*' and '.+' are regex wildcards, not ast-grep. "
+        "Use $$$ between AST fragments to match many nodes, or $VAR for one node.",
+    ),
+    (
+        re.compile(r"\[[a-zA-Z0-9-]+\]"),
+        "Character classes like '[a-z]' are regex syntax. "
+        "ast-grep has no AST equivalent - use grep for character-level patterns.",
+    ),
 ]
 
 
@@ -335,8 +349,7 @@ def lang_specific_hints(pattern: str, lang: Optional[str]) -> list[str]:
     if canonical == "go":
         if re.search(r"^\s*func\s+\$?\w+\s*$", pattern):
             hints.append(
-                "Go function pattern is incomplete. Add params and body: "
-                "'func $NAME($$$) { $$$ }'."
+                "Go function pattern is incomplete. Add params and body: 'func $NAME($$$) { $$$ }'."
             )
 
     if canonical == "rust":
@@ -380,6 +393,7 @@ def normalize_lang(lang: Optional[str]) -> Optional[str]:
 
 # ---------- subprocess helpers ----------
 
+
 def run_sg(
     binary: Path,
     args: list[str],
@@ -403,6 +417,7 @@ def run_sg(
 
 
 # ---------- subcommands ----------
+
 
 def cmd_search(args: argparse.Namespace) -> int:
     pattern: str = args.pattern
@@ -489,8 +504,10 @@ def cmd_replace(args: argparse.Namespace) -> int:
 
     if not args.apply:
         # Show the dry-run preview and exit.
-        print(f"DRY-RUN: would rewrite {len(matches)} match(es) across "
-              f"{len({m['file'] for m in matches})} file(s):")
+        print(
+            f"DRY-RUN: would rewrite {len(matches)} match(es) across "
+            f"{len({m['file'] for m in matches})} file(s):"
+        )
         format_matches(matches, show_replacement=True)
         print()
         print("Re-run with --apply to mutate files.")
@@ -510,8 +527,10 @@ def cmd_replace(args: argparse.Namespace) -> int:
         sys.stderr.write(proc2.stderr or "")
         return 4
 
-    print(f"APPLIED: rewrote {len(matches)} match(es) across "
-          f"{len({m['file'] for m in matches})} file(s).")
+    print(
+        f"APPLIED: rewrote {len(matches)} match(es) across "
+        f"{len({m['file'] for m in matches})} file(s)."
+    )
     return 0
 
 
@@ -622,6 +641,7 @@ def cmd_validate(args: argparse.Namespace) -> int:
 
 # ---------- output formatting ----------
 
+
 def parse_compact_json(text: str) -> list[dict]:
     """Parse `sg --json=compact` output. Salvages partial output when truncated."""
     if not text.strip():
@@ -672,6 +692,7 @@ def format_matches(matches: list[dict], *, show_replacement: bool = False) -> No
 
 # ---------- argparse ----------
 
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="ast-grep-helper",
@@ -686,7 +707,9 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("pattern", help="AST pattern, e.g. 'console.log($MSG)'")
     s.add_argument("paths", nargs="*", help="Paths to search (default: '.')")
     s.add_argument("--lang", "-l", help="Language (e.g. ts, py, go, rust). See: langs subcommand.")
-    s.add_argument("--globs", action="append", help="Include/exclude glob (repeat; prefix '!' to exclude).")
+    s.add_argument(
+        "--globs", action="append", help="Include/exclude glob (repeat; prefix '!' to exclude)."
+    )
     s.add_argument("--context", "-C", type=int, help="Lines of context around each match.")
     s.add_argument("--json-out", action="store_true", help="Emit raw JSON instead of human format.")
     s.add_argument("--force", action="store_true", help="Skip pattern hint validation.")
@@ -708,7 +731,9 @@ def build_parser() -> argparse.ArgumentParser:
     sc.add_argument("--rule", "-r", help="Single rule file.")
     sc.add_argument("--inline-rules", help="Inline YAML rule string.")
     sc.add_argument("--report-style", choices=["rich", "medium", "short"], help="Report style.")
-    sc.add_argument("--apply", "-U", action="store_true", help="Apply fixes (default: report only).")
+    sc.add_argument(
+        "--apply", "-U", action="store_true", help="Apply fixes (default: report only)."
+    )
     sc.set_defaults(func=cmd_scan)
 
     t = sub.add_parser("test", help="Run ast-grep snapshot tests.")
@@ -725,8 +750,12 @@ def build_parser() -> argparse.ArgumentParser:
     n.set_defaults(func=cmd_new)
 
     sub.add_parser("langs", help="List supported languages.").set_defaults(func=cmd_langs)
-    sub.add_parser("doctor", help="Check ast-grep binary availability.").set_defaults(func=cmd_doctor)
-    sub.add_parser("install", help="Run the install script for this OS.").set_defaults(func=cmd_install)
+    sub.add_parser("doctor", help="Check ast-grep binary availability.").set_defaults(
+        func=cmd_doctor
+    )
+    sub.add_parser("install", help="Run the install script for this OS.").set_defaults(
+        func=cmd_install
+    )
 
     v = sub.add_parser("validate", help="Validate a pattern offline (pattern hint check only).")
     v.add_argument("pattern", help="AST pattern.")

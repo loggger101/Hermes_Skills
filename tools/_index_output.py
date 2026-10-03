@@ -15,6 +15,7 @@ Two failure modes this closes:
 
 Stdlib only. Import from a sibling tool: `from _index_output import emit, wants_check`.
 """
+
 import sys
 from pathlib import Path
 
@@ -54,9 +55,15 @@ def emit(path, content: str, *, count: int, floor: int, label: str, check: bool)
                 print("[DRIFT] " + _shown(path) + " does not exist (would be created)")
             else:
                 cur_lines, new_lines = current.splitlines(), content.splitlines()
-                print("[DRIFT] " + _shown(path) + " is stale: "
-                      + str(len(cur_lines)) + " lines on disk vs "
-                      + str(len(new_lines)) + " generated")
+                print(
+                    "[DRIFT] "
+                    + _shown(path)
+                    + " is stale: "
+                    + str(len(cur_lines))
+                    + " lines on disk vs "
+                    + str(len(new_lines))
+                    + " generated"
+                )
                 for i, (a, b) in enumerate(zip(cur_lines, new_lines)):
                     if a != b:
                         print("        first difference at line " + str(i + 1) + ":")

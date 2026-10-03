@@ -30,25 +30,30 @@ Loads `skill_view(name='mattpocock-writing-for-agents')` for guidance on writing
 ## Handoff Document Structure
 
 ### 1. Summarise the state
+
 - What problem are we solving?
 - What's been built so far?
 - What's in progress or blocked?
 
 ### 2. Capture decisions
+
 - Every design decision made
 - Every alternative considered and why it was rejected
 - Every assumption made
 
 ### 3. Document the context
+
 - Key files and their roles
 - Project conventions and patterns followed
 - Gotchas, edge cases discovered
 - Dependencies or setup steps
 
 ### 4. List next steps
+
 Concrete, actionable tasks in priority order.
 
 ### 5. Write and save
+
 Write to the path the user specifies, or `.scratch/handoff.md` by default.
 
 ## Handoff Document Template

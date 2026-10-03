@@ -4,7 +4,6 @@ The prompts, vocabularies, and test shapes the workflow body points at. Open thi
 
 This models an application. The agent's own prompt, tool, file, credential, and dependency surface is `security-safety-review`, which emits `threat_surface_map/v1` — a different artifact, and the reason this reference never asks about prompts or tool permissions.
 
-
 > **Port note.** `security-safety-review` (upstream sibling) models the *agent's own* prompt/tool/credential surface — it has no counterpart in this brain. If a request is about that subject, stop: it is out of scope here; say so rather than modeling the agent as if it were an application.
 
 ## 1. Assets

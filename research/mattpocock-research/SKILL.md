@@ -56,6 +56,7 @@ delegate_task(
 ### 2. The agent investigates
 
 The agent should:
+
 - Seek primary sources (official docs, source code, specs, first-party APIs)
 - Follow every claim back to its owning source
 - Capture direct quotes, code snippets, or screenshots
@@ -64,6 +65,7 @@ The agent should:
 ### 3. The agent writes findings
 
 Produce a single Markdown file that:
+
 - Answers the research question directly
 - Cites each claim's source with a link
 - Matches the repo's existing convention for notes
@@ -72,6 +74,7 @@ Produce a single Markdown file that:
 ### 4. Verify findings
 
 Read back the output file and verify:
+
 - Each claim has a citation
 - Sources are primary (not blog summaries of blog summaries)
 - The research question is directly answered

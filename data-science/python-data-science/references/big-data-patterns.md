@@ -23,6 +23,7 @@ this file is about *which pattern for which job*.
 ## Environment note (this machine)
 
 The default Python env has **none** of duckdb/polars/pyarrow installed. Isolated venv used here:
+
 ```bash
 uv venv %LOCALAPPDATA%\Temp\star-scan2 --python 3.11
 # activate, then:
@@ -54,12 +55,14 @@ duck_top = duckdb.sql("""
 ```
 
 Real output on the 200k-row fixture:
+
 ```
    segment  n_orders       total
     retail    136963 10959329.77
  wholesale     41501  3319823.19
 enterprise     21536  1728395.38
 ```
+
 **Matches the pandas `merge`+`groupby` ground truth exactly (bit-for-bit on these values).**
 
 Gotchas: use **forward-slash paths** inside SQL strings (Windows backslashes break the parser);

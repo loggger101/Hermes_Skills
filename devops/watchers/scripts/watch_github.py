@@ -59,8 +59,7 @@ def _flatten_issue_or_release(item):
         "url": item.get("html_url") or item.get("url"),
         "body": (item.get("body") or "").strip(),
         "state": item.get("state"),
-        "author": (item.get("user") or {}).get("login")
-        or (item.get("author") or {}).get("login"),
+        "author": (item.get("user") or {}).get("login") or (item.get("author") or {}).get("login"),
         "created_at": item.get("created_at"),
     }
 
@@ -68,20 +67,29 @@ def _flatten_issue_or_release(item):
 def main() -> int:
     p = argparse.ArgumentParser(description="Watch GitHub issues / pulls / releases / commits.")
     p.add_argument("--name", required=True, help="Watcher name (used for state file)")
-    p.add_argument("--repo", default="",
-                   help="owner/name of the repo (one of --repo or --search is required)")
-    p.add_argument("--scope", default="issues", choices=VALID_SCOPES,
-                   help="What to poll (default: issues)")
-    p.add_argument("--search", default="",
-                   help="GitHub issues search query (alternative to --repo/--scope)")
-    p.add_argument("--per-page", type=int, default=30,
-                   help="Results per page (default: 30, max: 100)")
-    p.add_argument("--max", type=int, default=20,
-                   help="Max new items to emit per tick (default: 20)")
-    p.add_argument("--with-body", action="store_true",
-                   help="Include issue/commit body as a snippet under each item")
-    p.add_argument("--timeout", type=float, default=30.0,
-                   help="HTTP timeout in seconds (default: 30)")
+    p.add_argument(
+        "--repo", default="", help="owner/name of the repo (one of --repo or --search is required)"
+    )
+    p.add_argument(
+        "--scope", default="issues", choices=VALID_SCOPES, help="What to poll (default: issues)"
+    )
+    p.add_argument(
+        "--search", default="", help="GitHub issues search query (alternative to --repo/--scope)"
+    )
+    p.add_argument(
+        "--per-page", type=int, default=30, help="Results per page (default: 30, max: 100)"
+    )
+    p.add_argument(
+        "--max", type=int, default=20, help="Max new items to emit per tick (default: 20)"
+    )
+    p.add_argument(
+        "--with-body",
+        action="store_true",
+        help="Include issue/commit body as a snippet under each item",
+    )
+    p.add_argument(
+        "--timeout", type=float, default=30.0, help="HTTP timeout in seconds (default: 30)"
+    )
     args = p.parse_args()
 
     if not args.repo and not args.search:
@@ -143,8 +151,7 @@ def main() -> int:
     if items_path:
         data = data.get(items_path) if isinstance(data, dict) else None
     if not isinstance(data, list):
-        print(f"watch_github: expected a list of items; got {type(data).__name__}",
-              file=sys.stderr)
+        print(f"watch_github: expected a list of items; got {type(data).__name__}", file=sys.stderr)
         return 2
 
     items = [flatten(i) for i in data if isinstance(i, dict)]

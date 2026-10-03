@@ -12,6 +12,7 @@ Also prints "### Replay hints": the browser User-Agent plus whether cookies or
 auth/token headers were present -- send those in the derived client or you may
 get a 403/401.
 """
+
 import argparse
 import json
 import re
@@ -20,11 +21,26 @@ from collections import OrderedDict
 from urllib.parse import urlsplit
 
 BORING_HEADERS = {
-    "accept-encoding", "accept-language", "connection", "content-length",
-    "host", "origin", "referer", "sec-ch-ua", "sec-ch-ua-mobile",
-    "sec-ch-ua-platform", "sec-fetch-dest", "sec-fetch-mode", "sec-fetch-site",
-    "user-agent", "pragma", "cache-control", "priority", "te",
-    "upgrade-insecure-requests", "cookie",
+    "accept-encoding",
+    "accept-language",
+    "connection",
+    "content-length",
+    "host",
+    "origin",
+    "referer",
+    "sec-ch-ua",
+    "sec-ch-ua-mobile",
+    "sec-ch-ua-platform",
+    "sec-fetch-dest",
+    "sec-fetch-mode",
+    "sec-fetch-site",
+    "user-agent",
+    "pragma",
+    "cache-control",
+    "priority",
+    "te",
+    "upgrade-insecure-requests",
+    "cookie",
 }
 ID_SEG = re.compile(r"^(\d+|[0-9a-f]{8}-[0-9a-f-]{27,}|[0-9a-f]{16,})$", re.I)
 STATIC_EXT = re.compile(r"\.(js|css|png|jpe?g|gif|svg|webp|ico|woff2?|ttf|mp4|map)$", re.I)
@@ -77,8 +93,9 @@ def main() -> int:
             if STATIC_EXT.search(url.path) or not is_api_entry(entry):
                 continue
         key = (req["method"], url.netloc, path_template(url.path))
-        g = groups.setdefault(key, {"count": 0, "queries": set(), "headers": {},
-                                    "req_body": None, "resp": None})
+        g = groups.setdefault(
+            key, {"count": 0, "queries": set(), "headers": {}, "req_body": None, "resp": None}
+        )
         g["count"] += 1
         for q in req.get("queryString", []):
             g["queries"].add((q["name"], trunc(q["value"], 80)))
@@ -93,8 +110,11 @@ def main() -> int:
         resp = entry.get("response", {})
         if g["resp"] is None and resp:
             content = resp.get("content", {})
-            g["resp"] = (resp.get("status"), content.get("mimeType", ""),
-                         trunc(content.get("text") or "", args.max_body))
+            g["resp"] = (
+                resp.get("status"),
+                content.get("mimeType", ""),
+                trunc(content.get("text") or "", args.max_body),
+            )
 
     if not groups:
         print("No API-looking entries found. Re-run with --include-static to see everything.")

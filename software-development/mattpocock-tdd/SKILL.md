@@ -37,6 +37,7 @@ A **seam** is the public boundary you test at. Test only at pre-agreed seams.
 ### Choosing Seams
 
 For each module:
+
 1. Ask: what would change most often without affecting callers? That's your seam.
 2. Ask: what external system does this module talk to? Mock/stub it.
 3. Ask: what's the smallest test that validates real behavior?
@@ -50,6 +51,7 @@ For each module:
 ## The Loop: Red → Green → Refactor
 
 ### Red: Write a Failing Test
+
 Write exactly one test that captures the next piece of behavior. Assert on the **symptom**, not the implementation:
 
 ```python
@@ -65,6 +67,7 @@ def test_parser_handles_missing_abstract():
 **Pitfall**: Don't write a test that passes trivially — it must fail first.
 
 ### Green: Write the Minimum Code
+
 Write just enough code to make the test pass. Don't over-engineer:
 
 ```python
@@ -78,6 +81,7 @@ def parse_arxiv_entry(xml):
 **Pitfall**: Don't write extra features "while you're in there."
 
 ### Refactor: Improve Without Changing Behavior
+
 Clean up the code. The test suite is your safety net:
 
 ```python

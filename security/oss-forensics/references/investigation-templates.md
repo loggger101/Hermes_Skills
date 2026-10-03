@@ -13,6 +13,7 @@ and uses it to push malicious code, create backdoored releases, or exfiltrate CI
 **Real-world examples**: XZ Utils (2024), Codecov (2021), event-stream (2018)
 
 **Key Evidence to Collect**:
+
 - [ ] Push events from maintainer account outside normal working hours/timezone
 - [ ] Commits adding new dependencies, obfuscated code, or modified build scripts
 - [ ] Release creation immediately after suspicious push (to maximize package distribution)
@@ -21,10 +22,12 @@ and uses it to push malicious code, create backdoored releases, or exfiltrate CI
 - [ ] Account login location changes (check social media, conference talks for corroboration)
 
 **Hypothesis Starters**:
+
 ```
 [HYPOTHESIS] Actor <HANDLE>'s account was compromised on or around <DATE>, 
 based on anomalous commit timing [EV-XXXX] and geographic access patterns [EV-YYYY].
 ```
+
 ```
 [HYPOTHESIS] Release <VERSION> was published by the compromised account to push 
 malicious code to downstream users, evidenced by the malicious commit [EV-XXXX] 
@@ -39,6 +42,7 @@ being added <N> hours before the release [EV-YYYY].
 or a new malicious dependency is injected into an existing package.
 
 **Key Evidence to Collect**:
+
 - [ ] Diff of `package.json`/`requirements.txt`/`go.mod` before and after suspicious commit
 - [ ] The new dependency's publication timestamp vs. the injection commit timestamp
 - [ ] Whether the new dependency exists on npm/PyPI and who owns it
@@ -46,6 +50,7 @@ or a new malicious dependency is injected into an existing package.
 - [ ] Install-time scripts (`postinstall`, `setup.py`, etc.) that execute code on install
 
 **Hypothesis Starters**:
+
 ```
 [HYPOTHESIS] Commit <SHA> [EV-XXXX] introduced dependency <PACKAGE@VERSION> 
 which appears to be a malicious package published by actor <HANDLE> [EV-YYYY], 
@@ -60,6 +65,7 @@ designed to execute <BEHAVIOR> during installation.
 or inject malicious artifacts into the build output.
 
 **Key Evidence to Collect**:
+
 - [ ] Diff of all `.github/workflows/*.yml` files before/after suspicious period
 - [ ] WorkflowRunEvents triggered by the modified workflows
 - [ ] Any `curl`, `wget`, or network calls added to workflow steps
@@ -67,6 +73,7 @@ or inject malicious artifacts into the build output.
 - [ ] Artifacts produced by modified workflow runs
 
 **Hypothesis Starters**:
+
 ```
 [HYPOTHESIS] Workflow file <FILE> was modified in commit <SHA> [EV-XXXX] to 
 exfiltrate repository secrets via <METHOD>, as evidenced by the added network 
@@ -81,6 +88,7 @@ call pattern [EV-YYYY].
 (or an internal package name) to intercept installs from users who mistype.
 
 **Key Evidence to Collect**:
+
 - [ ] Registration timestamp of the suspicious package on the registry
 - [ ] Package content: does it contain malicious code or is it a stub?
 - [ ] Download statistics for the suspicious package
@@ -88,6 +96,7 @@ call pattern [EV-YYYY].
 - [ ] Any references to the legitimate package in the malicious one's metadata
 
 **Hypothesis Starters**:
+
 ```
 [HYPOTHESIS] Package <MALICIOUS_NAME> was registered on <DATE> [EV-XXXX] to 
 typosquat on <LEGITIMATE_NAME>, targeting users who misspell the package name. 
@@ -104,6 +113,7 @@ force-pushes to remove the malicious commit from branch history.
 **Detection is key** — this template focuses on proving the erasure happened.
 
 **Key Evidence to Collect**:
+
 - [ ] GH Archive PushEvent with `distinct_size=0` (force push indicator) [EV-XXXX]
 - [ ] The SHA of the commit BEFORE the force push (from GH Archive `payload.before`)
 - [ ] Recovery of the erased commit via direct URL or `git fetch origin SHA`
@@ -111,6 +121,7 @@ force-pushes to remove the malicious commit from branch history.
 - [ ] Timeline gap in git log (N commits visible in archive but M < N in current repo)
 
 **Hypothesis Starters**:
+
 ```
 [HYPOTHESIS] Actor <HANDLE> force-pushed branch <BRANCH> on <DATE> [EV-XXXX] 
 to erase commit <SHA> [EV-YYYY], which contained <MALICIOUS_CONTENT>. 

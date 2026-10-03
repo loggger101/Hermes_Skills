@@ -205,7 +205,7 @@ def clean_label(value: str) -> str:
     text = re.sub(r"\*\*(.*?)\*\*", r"\1", text)
     text = re.sub(r"__(.*?)__", r"\1", text)
     text = re.sub(r"(?<!\w)[*_](.*?)[*_](?!\w)", r"\1", text)
-    text = text.replace("\\\"", '"').replace("\\'", "'")
+    text = text.replace('\\"', '"').replace("\\'", "'")
     return "\n".join(part.strip() for part in text.splitlines()).strip()
 
 
@@ -216,9 +216,7 @@ def _read_bounded(path: Path) -> str:
     except OSError as error:
         _fail(f"{path}: {error}")
     if len(data) > MAX_SOURCE_BYTES:
-        _fail(
-            f"source exceeds the {MAX_SOURCE_BYTES // (1024 * 1024)} MiB limit"
-        )
+        _fail(f"source exceeds the {MAX_SOURCE_BYTES // (1024 * 1024)} MiB limit")
     try:
         return data.decode("utf-8")
     except UnicodeDecodeError:
@@ -326,9 +324,7 @@ def _kind_and_direction(
             return "erDiagram", "TD", position
         token = text.split(maxsplit=1)[0]
         if token.casefold() in UNSUPPORTED_KINDS:
-            _fail(
-                f"unsupported diagram kind: `{token}` (supported: {SUPPORTED_KINDS})"
-            )
+            _fail(f"unsupported diagram kind: `{token}` (supported: {SUPPORTED_KINDS})")
         _fail(f"not a Mermaid file at line {line_number}")
     _fail("not a Mermaid file")
 
@@ -421,10 +417,7 @@ def _logical_statements(
         combined = "\n".join(pending)
         if not _statement_complete(combined):
             continue
-        logical.extend(
-            (start_line, statement)
-            for statement in _split_top_level(combined, ";")
-        )
+        logical.extend((start_line, statement) for statement in _split_top_level(combined, ";"))
         pending = []
     if pending:
         _fail(f"unterminated statement at line {start_line}")
@@ -591,9 +584,9 @@ def _operator_style(token: str) -> tuple[str, str, bool, bool]:
     style = "dashed" if "." in token else "thick" if "=" in token else "solid"
     arrowhead = "cross" if token.endswith("x") else "circle" if token.endswith("o") else "arrow"
     undirected = ">" not in token and not token.endswith(("x", "o"))
-    bidirectional = (
-        token.startswith("<") and token.endswith(">")
-    ) or (token.startswith(("x", "o")) and token.endswith(("x", "o")))
+    bidirectional = (token.startswith("<") and token.endswith(">")) or (
+        token.startswith(("x", "o")) and token.endswith(("x", "o"))
+    )
     return style, arrowhead, bidirectional, undirected
 
 
@@ -652,9 +645,7 @@ def _edge_operators(text: str) -> list[_Operator]:
         )
         occupied.append((operator_start, match.end()))
 
-    pattern = re.compile(
-        r"[xo][-=.]+[xo]|<[-=.]+>|-+\.-+>|=+>|-+(?:>|x|o)|-+\.-+|={3,}|-{3,}"
-    )
+    pattern = re.compile(r"[xo][-=.]+[xo]|<[-=.]+>|-+\.-+>|=+>|-+(?:>|x|o)|-+\.-+|={3,}|-{3,}")
     for match in pattern.finditer(mask):
         if any(start <= match.start() < end for start, end in occupied):
             continue
@@ -668,17 +659,13 @@ def _edge_operators(text: str) -> list[_Operator]:
                 end = close + 1
         style, arrowhead, bidirectional, undirected = _operator_style(token)
         operators.append(
-            _Operator(
-                match.start(), end, label, style, arrowhead, bidirectional, undirected
-            )
+            _Operator(match.start(), end, label, style, arrowhead, bidirectional, undirected)
         )
         occupied.append((match.start(), end))
     return sorted(operators, key=lambda operator: operator.start)
 
 
-def _endpoint_group(
-    diagram: Diagram, text: str, parent: str | None
-) -> list[str] | None:
+def _endpoint_group(diagram: Diagram, text: str, parent: str | None) -> list[str] | None:
     identifiers: list[str] = []
     for raw in _split_top_level(text.strip(), "&"):
         parsed = _parse_node_expression(raw)
@@ -704,9 +691,7 @@ def _discard_nonsemantic(diagram: Diagram, text: str) -> bool:
     return False
 
 
-def _parse_flowchart(
-    diagram: Diagram, lines: list[tuple[int, str]], header_position: int
-) -> None:
+def _parse_flowchart(diagram: Diagram, lines: list[tuple[int, str]], header_position: int) -> None:
     containers: list[str] = []
     for line_number, raw in _logical_statements(lines[header_position + 1 :]):
         text = raw.strip()
@@ -725,7 +710,9 @@ def _parse_flowchart(
             spec = text.split(maxsplit=1)[1].strip()
             parsed = _parse_node_expression(spec)
             if parsed is None:
-                generated = f"subgraph-{len([node for node in diagram.nodes if node.container]) + 1}"
+                generated = (
+                    f"subgraph-{len([node for node in diagram.nodes if node.container]) + 1}"
+                )
                 node_id, label = generated, clean_label(spec)
             else:
                 node_id, label, _shape = parsed
@@ -774,9 +761,7 @@ def _parse_flowchart(
             diagram.add_node(node_id, label, shape, parent)
 
 
-def _parse_sequence(
-    diagram: Diagram, lines: list[tuple[int, str]], header_position: int
-) -> None:
+def _parse_sequence(diagram: Diagram, lines: list[tuple[int, str]], header_position: int) -> None:
     fragment_stack: list[dict[str, Any]] = []
     participant_re = re.compile(
         r"^(?:create\s+)?(participant|actor)\s+"
@@ -866,9 +851,7 @@ def _parse_sequence(
                 source,
                 target,
                 clean_label(label),
-                "dashed"
-                if token.startswith("--") or token.startswith("<<--")
-                else "solid",
+                "dashed" if token.startswith("--") or token.startswith("<<--") else "solid",
                 arrowhead,
                 bidirectional=token.startswith("<<"),
                 undirected=arrowhead == "none",
@@ -899,9 +882,7 @@ def _state_endpoint(
     return node_id
 
 
-def _parse_state(
-    diagram: Diagram, lines: list[tuple[int, str]], header_position: int
-) -> None:
+def _parse_state(diagram: Diagram, lines: list[tuple[int, str]], header_position: int) -> None:
     containers: list[str] = []
     for line_number, raw in lines[header_position + 1 :]:
         text = raw.strip()
@@ -928,9 +909,7 @@ def _parse_state(
         if alias:
             diagram.add_node(alias.group(2), clean_label(alias.group(1)), "state", parent)
             continue
-        stereotype = re.match(
-            r"^state\s+([\w.:-]+)\s+<<(fork|join|choice)>>$", text, re.I
-        )
+        stereotype = re.match(r"^state\s+([\w.:-]+)\s+<<(fork|join|choice)>>$", text, re.I)
         if stereotype:
             diagram.add_node(
                 stereotype.group(1), stereotype.group(1), stereotype.group(2).casefold(), parent
@@ -960,9 +939,7 @@ def _parse_state(
             diagram.add_node(plain.group(1), plain.group(1), "state", parent)
 
 
-def _parse_er(
-    diagram: Diagram, lines: list[tuple[int, str]], header_position: int
-) -> None:
+def _parse_er(diagram: Diagram, lines: list[tuple[int, str]], header_position: int) -> None:
     current: Node | None = None
     relationship = re.compile(
         r"^([A-Za-z_][\w.-]*)\s+(\S*(?:--|\.\.)\S*)\s+"
@@ -1197,8 +1174,7 @@ def digest(
             output.append(
                 "- hubs (focal candidates): "
                 + ", ".join(
-                    f"{_escape_markdown(hub['label'])}({hub['degree']})"
-                    for hub in info["hubs"]
+                    f"{_escape_markdown(hub['label'])}({hub['degree']})" for hub in info["hubs"]
                 )
             )
         if info["entry_points"]:
@@ -1237,9 +1213,7 @@ def digest(
                 f"{_escape_table('; '.join(node.fields)) or '-'} |"
             )
         if len(diagram.nodes) > max_rows:
-            output.append(
-                f"| … | +{len(diagram.nodes) - max_rows} more (use --json) | | | | | |"
-            )
+            output.append(f"| … | +{len(diagram.nodes) - max_rows} more (use --json) | | | | | |")
 
         output.extend(
             [
@@ -1263,9 +1237,7 @@ def digest(
                 f"{_escape_table(edge.label) or '-'} | {' '.join(marks)} |"
             )
         if len(diagram.edges) > max_rows:
-            output.append(
-                f"| … | +{len(diagram.edges) - max_rows} more (use --json) | | |"
-            )
+            output.append(f"| … | +{len(diagram.edges) - max_rows} more (use --json) | | |")
     output.append("")
     return "\n".join(output)
 
@@ -1313,9 +1285,7 @@ def select_diagrams(diagrams: list[Diagram], selector: str | None) -> list[Diagr
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("file", help=".mmd, .mermaid, or Markdown with mermaid fences")
-    parser.add_argument(
-        "--diagram", help="diagram index or 'all' (default: first diagram)"
-    )
+    parser.add_argument("--diagram", help="diagram index or 'all' (default: first diagram)")
     parser.add_argument("--json", action="store_true", help="emit the full IR as JSON")
     parser.add_argument(
         "--max-rows",

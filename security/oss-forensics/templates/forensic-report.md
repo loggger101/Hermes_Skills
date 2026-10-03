@@ -38,6 +38,7 @@
 **Claim**: _Full statement of the hypothesis._
 
 **Supporting Evidence**:
+
 - [EV-XXXX]: _What this evidence shows_
 - [EV-YYYY]: _What this evidence shows_
 

@@ -36,12 +36,14 @@ Create directory and test file with annotations (`# ruleid:`, `# ok:` only). See
 ```
 
 **CRITICAL**:
+
 1. The comment (`# ruleid:` or `# ok:` ) must be on the line IMMEDIATELY BEFORE the code. Semgrep reports findings on the line after the annotation.
 2. The comment must contain ONLY the comment marker and annotation (e.g., `# ruleid: my-rule`). No other text, comments, or code on the same line.
 
 ### Test Case Design
 
 You must include test cases for:
+
 - Clear vulnerable cases (must match)
 - Clear safe cases (must not match)
 - Edge cases and variations
@@ -59,6 +61,7 @@ semgrep --dump-ast --lang <language> <rule-id>.<ext>
 ```
 
 Example output helps understand:
+
 - How function calls are represented
 - How variables are bound
 - How control flow is structured
@@ -93,6 +96,7 @@ semgrep --test --config <rule-id>.yaml <rule-id>.<ext>
 #### Debug Failures
 
 If tests fail, check:
+
 1. **Missed lines**: Rule didn't match when it should
    - Pattern too specific
    - Missing pattern variant
@@ -107,12 +111,14 @@ semgrep --dataflow-traces --config <rule-id>.yaml <rule-id>.<ext>
 ```
 
 Shows:
+
 - Source locations
 - Sink locations
 - Data flow path
 - Why taint didn't propagate (if applicable)
 
 ## Step 5: Iterate Until Tests Pass
+
 Work on writing Semgrep rule (patterns) iteratively to ensure the Semgrep rule works correctly.
 
 Each time when you introduce any changes, test Semgrep rule:
@@ -122,14 +128,15 @@ semgrep --test --config <rule-id>.yaml <rule-id>.<ext>
 ```
 
 For debugging taint mode rules:
+
 ```bash
 semgrep --dataflow-traces --config <rule-id>.yaml <rule-id>.<ext>
 ```
 
 **Verification checkpoint**: Output MUST show "All tests passed". **Only proceed when validation passes**.
 
-
 **Verification checkpoint**: Proceed to Step 6: Optimize the Rule when:
+
 - "All tests passed"
 - No "missed lines" (false negatives)
 - No "incorrect lines" (false positives)
@@ -163,6 +170,7 @@ Semgrep treats certain patterns as equivalent:
 **1. Quote Variants** (depends on the language)
 
 Before:
+
 ```yaml
 pattern-either:
   - pattern: hashlib.new("md5", ...)
@@ -170,6 +178,7 @@ pattern-either:
 ```
 
 After:
+
 ```yaml
 pattern-either:
   - pattern: hashlib.new("md5", ...)
@@ -178,6 +187,7 @@ pattern-either:
 **2. Ellipsis Subsets**
 
 Before:
+
 ```yaml
 pattern-either:
   - pattern: dangerous($X, ...)
@@ -186,6 +196,7 @@ pattern-either:
 ```
 
 After:
+
 ```yaml
 pattern: dangerous($X, ...)
 ```
@@ -193,6 +204,7 @@ pattern: dangerous($X, ...)
 **3. Consolidate with Metavariables**
 
 Before:
+
 ```yaml
 pattern-either:
   - pattern: md5($X)
@@ -201,6 +213,7 @@ pattern-either:
 ```
 
 After:
+
 ```yaml
 patterns:
   - pattern: $FUNC($X)
@@ -229,11 +242,12 @@ semgrep --test --config <rule-id>.yaml <rule-id>.<ext>
 
 **Task complete ONLY when**: All tests pass after optimization.
 
-
 ## Step 7: Final Run
+
 Run the Semgrep rule you created using: `semgrep --config <rule-id>.yaml <rule-id>.<ext>`.
 
 Ensure that message:
+
  1. Contains a short and concise explanation of the matched pattern
  2. Has no uninterpolated metavariables (e.g., $OP, $VAR). All metavariables referenced in the message must be captured by the pattern so they interpolate to actual code.
 

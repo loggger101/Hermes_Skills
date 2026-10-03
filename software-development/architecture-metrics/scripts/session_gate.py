@@ -15,6 +15,7 @@ Usage:
   python session_gate.py save  <project-dir> [--baseline PATH]   # before agent writes code
   python session_gate.py check <project-dir> [--baseline PATH]   # after; prints diff + violations
 """
+
 import json
 import subprocess
 import sys
@@ -22,13 +23,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 AM = str(Path(__file__).with_name("architecture_metrics.py"))
-SIGNAL_DROP = 2.0      # points on the 0–100 composite (sentrux: 0.02 on [0,1])
-COUPLING_RISE = 0.05   # sentrux ArchDiff threshold
+SIGNAL_DROP = 2.0  # points on the 0–100 composite (sentrux: 0.02 on [0,1])
+COUPLING_RISE = 0.05  # sentrux ArchDiff threshold
 
 
 def scan(root):
-    r = subprocess.run([sys.executable, AM, str(root), "--json"],
-                       capture_output=True, text=True)
+    r = subprocess.run([sys.executable, AM, str(root), "--json"], capture_output=True, text=True)
     if r.returncode != 0:
         raise SystemExit(f"scan failed:\n{r.stderr.strip()}")
     return json.loads(r.stdout)
@@ -36,16 +36,29 @@ def scan(root):
 
 def save(project, baseline):
     snap = scan(project)
-    doc = {"saved_at": datetime.now(timezone.utc).isoformat(), "project": str(project),
-           **{k: snap[k] for k in ("quality_signal", "sdp_coupling_score", "cycle_count",
-                                   "complex_functions_gt15")},
-           "god_file_count": len(snap["god_files"]),
-           "modules": snap["modules"], "edges": snap["edges"]}
+    doc = {
+        "saved_at": datetime.now(timezone.utc).isoformat(),
+        "project": str(project),
+        **{
+            k: snap[k]
+            for k in (
+                "quality_signal",
+                "sdp_coupling_score",
+                "cycle_count",
+                "complex_functions_gt15",
+            )
+        },
+        "god_file_count": len(snap["god_files"]),
+        "modules": snap["modules"],
+        "edges": snap["edges"],
+    }
     baseline.write_text(json.dumps(doc, indent=2), encoding="utf-8")
     print(f"Baseline saved — {baseline}")
-    print(f"  signal={doc['quality_signal']} coupling={doc['sdp_coupling_score']} "
-          f"cycles={doc['cycle_count']} god_files={doc['god_file_count']} "
-          f"complex_fns={doc['complex_functions_gt15']}")
+    print(
+        f"  signal={doc['quality_signal']} coupling={doc['sdp_coupling_score']} "
+        f"cycles={doc['cycle_count']} god_files={doc['god_file_count']} "
+        f"complex_fns={doc['complex_functions_gt15']}"
+    )
 
 
 def check(project, baseline):
@@ -57,11 +70,14 @@ def check(project, baseline):
     violations = []
     delta = round(cur["quality_signal"] - base["quality_signal"], 2)
     if delta < -SIGNAL_DROP:
-        violations.append(f"Quality signal dropped: {base['quality_signal']} → "
-                          f"{cur['quality_signal']} ({delta:+.1f})")
+        violations.append(
+            f"Quality signal dropped: {base['quality_signal']} → "
+            f"{cur['quality_signal']} ({delta:+.1f})"
+        )
     if cur["sdp_coupling_score"] > base["sdp_coupling_score"] + COUPLING_RISE:
-        violations.append("Coupling degraded: "
-                          f"{base['sdp_coupling_score']:.3f} → {cur['sdp_coupling_score']:.3f}")
+        violations.append(
+            f"Coupling degraded: {base['sdp_coupling_score']:.3f} → {cur['sdp_coupling_score']:.3f}"
+        )
     if cur["cycle_count"] > base["cycle_count"]:
         violations.append(f"Cycles increased: {base['cycle_count']} → {cur['cycle_count']}")
     gf = len(cur["god_files"])
@@ -69,16 +85,19 @@ def check(project, baseline):
         violations.append(f"God files increased: {base.get('god_file_count', 0)} → {gf}")
     cf = cur["complex_functions_gt15"]
     if cf > base.get("complex_functions_gt15", 0):
-        violations.append(f"Complex functions (CC>15) increased: "
-                          f"{base.get('complex_functions_gt15', 0)} → {cf}")
+        violations.append(
+            f"Complex functions (CC>15) increased: {base.get('complex_functions_gt15', 0)} → {cf}"
+        )
 
     degraded = delta < -SIGNAL_DROP or bool(violations)
     print("Session gate — " + str(project))
     print(f"  signal: {base['quality_signal']} → {cur['quality_signal']} ({delta:+.1f})")
     print(f"  coupling: {base['sdp_coupling_score']:.3f} → {cur['sdp_coupling_score']:.3f}")
-    print(f"  cycles: {base['cycle_count']} → {cur['cycle_count']} | "
-          f"god files: {base.get('god_file_count', '?')} → {gf} | complex fns: "
-          f"{base.get('complex_functions_gt15', '?')} → {cf}")
+    print(
+        f"  cycles: {base['cycle_count']} → {cur['cycle_count']} | "
+        f"god files: {base.get('god_file_count', '?')} → {gf} | complex fns: "
+        f"{base.get('complex_functions_gt15', '?')} → {cf}"
+    )
     if violations:
         print("  VIOLATIONS:")
         for v in violations:

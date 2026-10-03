@@ -40,6 +40,7 @@ This skill teaches the pattern for drafting that prompt body correctly.
   separate commit agent does the actual repo writes (see references/two-agent-architecture.md).
 
 **Don't use for:**
+
 - Simple one-off scripts with no existing repo conventions to mirror.
 - Tasks where the agent can just read and call scripts directly without replicating their
   internal logic.
@@ -111,6 +112,7 @@ cronjob(action='create',
 ### Step 1: Identify the existing CI run sequence
 
 Read the workflow YAML(s). Document each step in order — every `step:` block is a cronjob step. Note:
+
 - `fetch-depth` requirements (pagedate.pl and similar tools walk git history)
 - Node version pins
 - Env var sources (`secrets.X` vs optional)

@@ -7,7 +7,9 @@ The brief states what the agent should do, which stretches to both surfaces: for
 ## Principles
 
 ### Durability over precision
+
 The item may sit in `ready-for-agent` for days or weeks; the codebase will change meanwhile. Write so the brief stays useful as files are renamed, moved, refactored:
+
 - **Do** describe interfaces, types, behavioral contracts
 - **Do** name specific types, function signatures, config shapes to look for or modify
 - **Don't** reference file paths (they go stale)
@@ -15,16 +17,21 @@ The item may sit in `ready-for-agent` for days or weeks; the codebase will chang
 - **Don't** assume current implementation structure remains
 
 ### Behavioral, not procedural
+
 Describe **what** the system should do, not **how**. The agent explores fresh and makes its own implementation decisions.
+
 - Good: "The `SkillConfig` type should accept an optional `schedule` field of type `CronExpression`"
 - Bad: "Open src/types/skill.ts and add a schedule field on line 42"
 
 ### Complete acceptance criteria
+
 Every brief needs concrete, testable, independently verifiable criteria.
+
 - Good: "`gh issue list --label needs-triage` returns issues that have been through initial classification"
 - Bad: "Triage should work correctly"
 
 ### Explicit scope boundaries
+
 State what is out of scope — prevents gold-plating and assumptions about adjacent features.
 
 ## Template
@@ -58,6 +65,7 @@ What should happen after the work is complete. Specific about edge cases and err
 ## Examples
 
 ### Good (bug)
+
 ```markdown
 ## Agent Brief
 **Category:** bug
@@ -81,6 +89,7 @@ What should happen after the work is complete. Specific about edge cases and err
 ```
 
 ### Good (enhancement)
+
 ```markdown
 ## Agent Brief
 **Category:** enhancement
@@ -104,7 +113,9 @@ What should happen after the work is complete. Specific about edge cases and err
 ```
 
 ### Good (PR)
+
 For a PR, "Current behavior" describes the state of the diff and the brief asks to finish/fix it:
+
 ```markdown
 ## Agent Brief
 **Category:** enhancement
@@ -128,10 +139,12 @@ For a PR, "Current behavior" describes the state of the diff and the brief asks 
 ```
 
 ### Bad (what to avoid)
+
 ```markdown
 ## Agent Brief
 **Summary:** Fix the triage bug
 **What to do:** The triage thing is broken. Look at the main file and fix it. The function around line 150 has the issue.
 **Files to change:** src/triage/handler.ts (line 150), src/types.ts (line 42)
 ```
+
 Bad because: no category; vague description; stale-prone paths/lines; no acceptance criteria; no scope boundaries; no current-vs-desired behavior.

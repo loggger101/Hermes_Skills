@@ -15,7 +15,6 @@ metadata:
 
 Build, run, inspect, and debug Docker containers and Docker Compose stacks.
 
-
 ## What This Skill Does
 
 Build and debug Docker containers and Compose stacks.
@@ -81,12 +80,15 @@ docker compose up --build --force-recreate
 ## Procedure
 
 ### 1. Verify the daemon
+
 ```bash
 docker info
 ```
+
 Failures: Docker not running or permission issue. Linux: try `sudo docker info`. macOS/Windows: check Docker Desktop is running.
 
 ### 2. Image: pull or build
+
 - **Pull**: `docker pull <image>`
 - **Build**: `docker build -t <name>:<tag> .`
   - Context is the directory you run from (or `-f` for a specific Dockerfile)
@@ -94,12 +96,14 @@ Failures: Docker not running or permission issue. Linux: try `sudo docker info`.
   - `--progress=plain` for verbose output when debugging
 
 ### 3. Run
+
 - **One-shot**: `docker run --rm <image> <cmd>`
 - **Daemon**: `docker run -d --name <name> -p <host>:<container> <image>`
 - **Interactive**: `docker run -it --rm <image> bash` (or `sh`)
 - **Env/volume**: `docker run -e KEY=val -v /host/path:/container/path ...`
 
 ### 4. Debug a failing container
+
 ```bash
 # 1. Why did it exit?
 docker logs <name>
@@ -118,6 +122,7 @@ docker run -it --rm -v /host/path:/work <image> sh
 ```
 
 ### 5. Compose stacks
+
 ```bash
 docker compose up -d
 docker compose ps
@@ -129,6 +134,7 @@ docker compose down -v
 ```
 
 ### 6. Cleanup (periodically, not by default)
+
 ```bash
 docker container prune       # stopped containers
 docker image prune           # unused images

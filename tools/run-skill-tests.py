@@ -20,6 +20,7 @@ Usage:
     py tools/run-skill-tests.py            # run every discovered suite
     py tools/run-skill-tests.py --list     # print what would run, exit 0
 """
+
 import os
 import re
 import subprocess
@@ -27,9 +28,7 @@ import sys
 from pathlib import Path
 
 if sys.version_info < (3, 8):
-    raise SystemExit(
-        "[FATAL] run-skill-tests.py needs Python 3.8+, got " + sys.version.split()[0]
-    )
+    raise SystemExit("[FATAL] run-skill-tests.py needs Python 3.8+, got " + sys.version.split()[0])
 try:
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
@@ -39,8 +38,7 @@ except (AttributeError, ValueError):
 REPO = Path(__file__).resolve().parents[1]
 PY = sys.executable or "python3"
 # Decode child output as UTF-8 (and make children emit it); the Windows codepage cannot.
-CHILD_IO = dict(encoding="utf-8", errors="replace",
-                env=dict(os.environ, PYTHONIOENCODING="utf-8"))
+CHILD_IO = dict(encoding="utf-8", errors="replace", env=dict(os.environ, PYTHONIOENCODING="utf-8"))
 
 # Historical snapshots and non-skill trees never contain runnable suites.
 SKIP_DIRS = {".git", ".hermes", ".github", "profiles-export", "docs"}
@@ -82,7 +80,10 @@ def discover_suites(root=None):
 def run_suite(label: str, tests_dir: Path) -> tuple[str, bool, str]:
     proc = subprocess.run(
         [PY, "-m", "pytest", "--tb=line", "-q", "."],
-        cwd=str(tests_dir), capture_output=True, timeout=900, **CHILD_IO,
+        cwd=str(tests_dir),
+        capture_output=True,
+        timeout=900,
+        **CHILD_IO,
     )
     out = (proc.stdout or "") + "\n" + (proc.stderr or "")
     # pull the pytest short-summary line ("29 passed in 10.9s", "3 passed, 18 errors in
@@ -95,9 +96,13 @@ def run_suite(label: str, tests_dir: Path) -> tuple[str, bool, str]:
     # FAILED test (file::test - reason), and collection/fixture errors print as
     # ERROR lines; cap so one pathological suite can't flood.
     if proc.returncode != 0:
-        failed_lines = [ln.strip() for ln in out.splitlines()
-                        if ln.startswith(("FAILED ", "ERROR "))]
-        detail = "\n".join(f"      {ln[:300]}" for ln in failed_lines[:25]) or "      (no FAILED or ERROR lines parsed — see CI log)"
+        failed_lines = [
+            ln.strip() for ln in out.splitlines() if ln.startswith(("FAILED ", "ERROR "))
+        ]
+        detail = (
+            "\n".join(f"      {ln[:300]}" for ln in failed_lines[:25])
+            or "      (no FAILED or ERROR lines parsed — see CI log)"
+        )
         note += f"\n{detail}"
     return label, proc.returncode == 0, note
 

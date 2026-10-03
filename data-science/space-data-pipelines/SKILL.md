@@ -24,6 +24,7 @@ Pattern for self-maintaining public space/astronomy datasets, distilled from the
 ## One script per dataset (6 steps)
 
 Every pipeline is ONE script following the same shape:
+
 1. **Fetch** — HTTP to public API/file; set `timeout=`, sleep between sequential calls, use one shared retry helper.
 2. **Transform** — pandas: type coercion (`pd.to_numeric(errors="coerce")`), snake_case rename (`distance_au` not `dist`), derived columns. JPL returns some numerics as strings — coerce after unwrap; NHATS nests `min_dv`/`min_dur` as `{"dv":…, "dur":…}` dicts.
 3. **Validate** — gate with `check_dataset(df)` BEFORE upload: min rows, expected columns present, entirely-null column = hard fail, critical-column null thresholds, row-count trend vs last run (catches silent source breakage). Incremental pipelines set `fail_on_drop=True` — data loss is the real failure mode there.
@@ -36,6 +37,7 @@ Every pipeline is ONE script following the same shape:
 ## Per-source parser families (full detail in `references/source-parser-families.md`)
 
 How each distinct source format is actually parsed — six families, all portable:
+
 - **TLE two-line elements**: fixed-position char slices (`norad [2:7]`, epoch year `[18:20]` with the century rule `>=57→1900s else 2000s`, bstar/eccentricity as implicit-decimal scientific), stateful line-1/line-2 pairing, Kepler-derived altitude column as a data-quality signal, PyArrow schema-enforced writes so one bad day can't mutate the year file's schema, empty-response = warning+skip (not an error) for lagging Space-Track.
 - **PDS3/PDS4 fixed-width `.tab`**: colspecs from the source's own `.lbl` files; `dtype=str` then strip/sentinel-map then coerce; dual-key merge split by numbered-vs-unnumbered objects (join provisional designations separately or you lose them); PDS3 proper-elements sentinel `0.0 = unavailable`.
 - **GOES netCDF**: discover the versioned filename via directory-listing regex at run time; long-format status rows (EVENT_START/PEAK/END) pivoted to one-row-per-flare by dict-keying on flare_id; seconds-since-2000-01-01T12:00 epoch.
@@ -45,6 +47,7 @@ How each distinct source format is actually parsed — six families, all portabl
 ## Shared-library internals (full deep read in `references/shared-library-internals.md`)
 
 The upstream repo's `hf_dataset_utils` package is the reference implementation of every pattern above; source-read 2026-09-12:
+
 - **Retry budget**: one helper, waits `(30, 60, 120, 240, 480)` (~21 min worst case) — sized to outlast a real CelesTrak TCP black-hole outage (Aug–Sep 2026: 6+ min stretches from GitHub runners). Safe only because non-retryable statuses (404/401/400) raise immediately; 403 IS retried (CelesTrak transiently blocks runner IPs).
 - **HEASARC TAP**: query failures arrive as **HTTP 200** with a plain-text `---- Messages ----` block containing a `Failure:` line — unguarded, it parses into a bogus one-column DataFrame that passes non-empty checks. Guard for the `Failure:` prefix before parsing (re-probed live on this machine 2026-09-12).
 - **MAST TAP**: sync cap 100K rows/request; keyset pagination on primary key beats composite ORDER BY; on 504 halve page size down to a 5,000 floor and never ramp back up.

@@ -71,6 +71,7 @@ problem.settings.prp.dt = 10.0                 # proximal-relaxation step size k
 ```
 
 ## Key API facts (from `openscvx/__init__.py` export list)
+
 - **Expr algebra**: build dynamics from JAX-traceable expressions — `ox.Concat`, `ox.linalg.Norm`, arithmetic on States, indexing (`position[0]`).
 - **Constraint types**: `ox.ctcs(...)` continuous-time inequality; `Equality`/`Inequality`; `Fixed`/`Free` for time endpoints.
 - **Discretizers**: `LinearizeDiscretizeVectorize`, `DiscretizeLinearizeSparse`, ode solvers incl `"Dopri8"`.
@@ -82,6 +83,7 @@ problem.settings.prp.dt = 10.0                 # proximal-relaxation step size k
 - **Solvers**: CVXPY-backed (`CVXPyPTRSolver` visible in exports).
 
 ## Example catalog (examples/spacecraft/) — all read from clone
+
 | File | What it demonstrates |
 |---|---|
 | `hohmann_transfer.py` | impulsive Δv at 2 nodes, scalar cost state = Σ‖dv‖, fixed half-period; analytic Weber comparison in `__main__` (LEO→GEO) |
@@ -92,6 +94,7 @@ problem.settings.prp.dt = 10.0                 # proximal-relaxation step size k
 | `capstone/` | Capstone-style mission (multi-phase) |
 
 ## Gotchas
+
 - **Reality check on the economicspace audit (verified 2026-09-07):** `research/starred-repos/SECOND-PASS.md` in that repo claims "OpenSCvx still has no orbital transfer example; the examples are robot arms, aircraft and abstract control." That is **wrong against live main**: `examples/spacecraft/` exists upstream (added 2026-08-22, commit f2ea6fc "Expand the example suite for the arXiv release") with hohmann_transfer.py, let_transfer.py, halo_orbit.py + proxops/inspection examples — confirmed via GitHub API contents listing AND our clone. The audit likely read a stale checkout or an older tag. Lesson (the repo's own rule): re-read before trusting a rejection; here the *rejection* was wrong in the other direction — capability exists that the audit said didn't.
 - **Initial guess must avoid r≈0** — the two-body dynamics are singular at the origin; the example builds an arc that never crosses it. A bad guess = solver divergence, not an error message.
 - `cost.final = [("minimize", bound)]` is the idiom for "free final value, minimize it" — a plain number pins it instead.

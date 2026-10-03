@@ -49,6 +49,7 @@ OR the byte-level date-churn check will see a cosmetic format difference as a co
 change and re-date everything.
 
 **Options:**
+
 1. Let the script write the file (run it, let it handle Mode A writes, then the agent
    patches the file directly with new items — but must match the script's format).
 2. Have the agent write the file entirely (skip the script's write, do everything
@@ -76,11 +77,13 @@ Does the script strip em/en dashes before writing?
 ## What This Session Taught
 
 The aspirecures repo's `fetch_curate.mjs` has this exact split:
+
 - Mode A (no key): runs `recheckRetractions()`, `refreshTrialStatuses()`, country
   normalization, date clamping — writes the file. (TODO.md C7, fixed 2026-08-17.)
 - Mode B (with key): ALSO runs `fetchArticles()` → `verdict()` → append-only merge.
 
 When the cronjob agent substitutes for the key, the agent:
+
 1. Lets Mode A run (the script writes refreshed statuses/retractions).
 2. Collects candidates separately (using `check_queries.pl` as a starting point).
 3. Gates each candidate itself.
@@ -107,6 +110,7 @@ does NOT write to the repo's data files directly. Instead:
    → schema.pl → dedach.pl → gen-feeds.pl → lint-feed.pl → verify.sh → commit + push.
 
 This split is used when:
+
 - The user explicitly wants the cronjob to NOT touch repo files: "i dont want the cronjob
   to make any acctual edits to the repo rather i want it to prepare the articles and their
   in-website frameworks, with this report i want to be able to give it to another agent."

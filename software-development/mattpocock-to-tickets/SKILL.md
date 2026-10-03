@@ -24,13 +24,17 @@ Breaks a plan, spec, or conversation into **tickets**: tracer-bullet vertical sl
 ## Process
 
 ### 1. Gather context
+
 Work from conversation context. If a reference is passed (spec path, issue URL), fetch and read it. Load `skill_view(name='doc-coauthoring')` if the spec needs to be written first.
 
 ### 2. Explore the codebase
+
 Ticket titles should use domain glossary vocabulary and respect ADRs. Check `CONTEXT.md` or `docs/adr/` for existing terminology. Load `skill_view(name='mattpocock-domain-modeling')` if domain terms are unclear.
 
 ### 3. Draft vertical slices
+
 Each slice must be:
+
 - **Complete**: COMPLETE path through every layer (schema, API, UI, tests)
 - **Demoable** or verifiable on its own
 - **Sized** to fit in a single fresh context window
@@ -48,6 +52,7 @@ Each slice must be:
 ```
 
 ### 4. Publish
+
 - **Local**: one file per ticket under `.scratch/<slug>/issues/<NN>-<slug>.md`
 - **GitHub/Linear**: one issue per ticket, blockers first — load `skill_view(name='github-issues')`
 
@@ -67,6 +72,7 @@ Each slice must be:
 Each ticket must declare what **blocks** it (other tickets that must finish first). This is the critical part — without explicit edges, a parallel executor (`skill_view(name='mattpocock-subagent-driven-development')`) will pick up tickets it can't complete.
 
 **Example**:
+
 ```
 # 3: Implement disease-page renderer
 **Blocked by:** #1 (parser seam), #2 (domain model)

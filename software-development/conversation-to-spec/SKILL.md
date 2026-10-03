@@ -27,6 +27,7 @@ Turns the current conversation and codebase understanding into a spec without in
 Take the current conversation context and codebase understanding and produce a spec. **Do NOT interview the user** — synthesize what you already know. If something essential is genuinely missing, note it as an open question in Further Notes rather than stalling.
 
 ## Process
+
 1. Explore the repo to understand current state (if not done). Use the project's domain glossary vocabulary throughout; respect ADRs in the area being touched.
 2. Sketch the **seams** at which you'll test the feature. Prefer existing seams over new ones, and use the highest seam possible — fewer seams is better; ideal is one. If new seams are needed, propose them at the highest point available. Check with the user that these seams match their expectations (this is the only confirmation step).
 3. Write the spec from the template below and publish it: GitHub issue (`gh issue create`) when a tracker exists, else `.specs/<slug>.md` in the repo root or project docs dir.

@@ -40,11 +40,13 @@ WHEN receiving code review feedback:
 ## Forbidden Responses
 
 **NEVER:**
+
 - "You're absolutely right!" (performative)
 - "Great point!" / "Excellent feedback!" (performative)
 - "Let me implement that now" (before verification)
 
 **INSTEAD:**
+
 - Restate the technical requirement.
 - Ask clarifying questions.
 - Push back with technical reasoning if wrong.
@@ -61,6 +63,7 @@ WHY: Items may be related. Partial understanding = wrong implementation.
 ```
 
 **Example:**
+
 ```
 user: "Fix 1-6"
 You understand 1,2,3,6. Unclear on 4,5.
@@ -72,10 +75,12 @@ RIGHT: "I understand items 1,2,3,6. Need clarification on 4 and 5 before proceed
 ## Source-Specific Handling
 
 ### From the user (you)
+
 - **Trusted** — implement after understanding.
 - **Still ask** if scope unclear. No performative agreement; skip to action or a technical acknowledgment.
 
 ### From External Reviewers
+
 ```
 BEFORE implementing:
   1. Check: Technically correct for THIS codebase?
@@ -118,6 +123,7 @@ FOR multi-item feedback:
 ## When To Push Back
 
 Push back when:
+
 - Suggestion breaks existing functionality.
 - Reviewer lacks full context.
 - Violates YAGNI (unused feature).
@@ -130,6 +136,7 @@ Push back when:
 ## Acknowledging Correct Feedback
 
 When feedback IS correct:
+
 ```
 OK:   "Fixed. [Brief description of what changed]"
 OK:   "Good catch - [specific issue]. Fixed in [location]."
@@ -143,12 +150,14 @@ NO:   "You're absolutely right!" / "Great point!" / "Thanks for catching that!" 
 ## Gracefully Correcting Your Pushback
 
 If you pushed back and were wrong:
+
 ```
 OK:  "You were right - I checked [X] and it does [Y]. Implementing now."
 OK:  "Verified this and you're correct; my initial understanding was wrong because [reason]. Fixing."
 
 NO:  Long apology, defending why you pushed back, over-explaining.
 ```
+
 State the correction factually and move on.
 
 ## Common Mistakes
@@ -166,18 +175,21 @@ State the correction factually and move on.
 ## Real Examples
 
 **Performative agreement (bad):**
+
 ```
 Reviewer: "Remove legacy code"
 WRONG: "You're absolutely right! Let me remove that..."
 ```
 
 **Technical verification (good):**
+
 ```
 Reviewer: "Remove legacy code"
 RIGHT: "Checking... build target is 10.15+, this API needs 13+. Need the legacy path for backward compat. Current impl has the wrong bundle ID — fix it or drop pre-13 support?"
 ```
 
 **YAGNI (good):**
+
 ```
 Reviewer: "Implement proper metrics tracking with database, date filters, CSV export"
 RIGHT: "Grepped codebase - nothing calls this endpoint. Remove it (YAGNI)? Or is there usage I'm missing?"

@@ -20,13 +20,16 @@ Unreachable or empty sources are tolerated and the run continues; since v1.34.0 
 ### History: when Stage 1 built the catalog (before master v1.34.0)
 
 Kept for the lessons, which generalise; the catalog-side code now lives in AsteroidCatalog. **A soft failure silently changed the population being measured**, invalidating comparisons without warning:
+
 - Missing spectral types are backfilled by inferring coarse type from albedo → an outage does not SHRINK the catalog, it **INFLATES it with guessed taxonomy**. Check `spectral_type_source` (`source`/`tholen`/`albedo`/`albedo_assumed`/`unknown`) before comparing any run to a committed number.
 - The startup banner's "Active sources" line lists what was ENABLED, not what ANSWERED — read the `Source summary: {...}` dict instead.
 - ⚠️ **`Source summary` reports what was FETCHED, not what was USED** — and that gap is where NEOWISE hid for four releases (printed 183,408 on runs contributing zero rows; failure in merge key, not fetch). Since v1.1.0 `merge_sources` also reports how many of each supplement's designations MATCHED the backbone: read the `Merged <source>: N supplement records (M matched the backbone, +K new entries)` line — **M = 0 on a source that fetched rows is always a bug in that fetcher**, never an empty upstream table.
 - One-line check against any catalog you didn't watch being built:
+
 ```bash
 py -c "import pandas as pd; d=pd.read_csv('asteroid_pipeline/asteroid_catalog.csv',low_memory=False); print({c:int(d[c].notna().sum()) for c in d.columns if c.startswith('source_')})"
 ```
+
 A `source_*` column at 0 while its fetcher reported success is the signature.
 
 **A 2026-08 cislunar 2×2 was produced with TWO sources at zero rows and it didn't matter — but check before assuming that of the next one**: IRSA (NEOWISE) returned 502 all evening, MP3C contributed nothing (`{'JPL SBDB': 1555569, 'SsODNet': 1552868, 'NEOWISE': 0, 'MP3C': 0}`). The catalog was unharmed and the PROVENANCE COLUMNS say so rather than row counts: measured diameters 149,590 / taxonomy-from-source 171,007 / albedo-derivations 105,905 — all identical to committed v1.1.0 figures. That outage also quantified NEOWISE's worth: `diameter_source = derived_h_measured_albedo` is **20 rows of 1,555,667** (a body with measured albedo almost always has a measured diameter too — same thermal-IR fit). The v1.1.0 note that NEOWISE recovers IR albedo "for 132,691 bodies" is about COLUMNS and reads as though those rows were sized off it; they aren't.
@@ -43,6 +46,7 @@ ssoBFT renamed identity columns (`sso_number`/`sso_name`/`sso_id` → `number`/`
 | V-type bodies | 3,988 | 2,614 |
 
 Every number committed before v1.0.9 was measured on the degraded catalog (~1,900 real-taxonomy bodies instead of ~24,700). The V-type count is the tell: V-types are rare; 3,988 was an artefact of guessing from albedo. Three separate things kept it quiet — each a trap worth not rebuilding:
+
 - **The drift warning only fired when fewer than 5 of 24 columns matched.** Fourteen still matched → losing every merge key read as healthy. A projection that tolerates missing columns must still ASSERT the ones it can't work without (`_SSODNET_REQUIRED`).
 - **The row-cap sort key sat behind an `if in df.columns` guard** — truncation silently stopped sorting and took an arbitrary 50,000 rows starting near asteroid 367488 instead of Ceres. A guard that turns a wrong answer into a quiet one is worse than no guard.
 - **`pq.ParquetFile.schema` is the PHYSICAL parquet schema**, naming nested list columns by inner path (`spins.period.value` read as absent). Test membership against `schema_arrow` — what `read(columns=…)` accepts.
@@ -52,18 +56,22 @@ Every number committed before v1.0.9 was measured on the degraded catalog (~1,90
 ## Google Drive makes the tree look dirty: run the hooks
 
 🚨 **FIRST check which working copy you're in.** This section describes a checkout on a Drive File Stream mount whose `.git` is a ONE-LINE POINTER to an external git dir. A plain clone with a real `.git` directory has neither bug nor need for the hooks:
+
 ```bash
 ls -d .git && cat .git 2>/dev/null   # "gitdir: ..." = Drive setup
 git rev-parse --show-toplevel
 ```
+
 ⚠️ **More than one working copy is the documented divergence hazard, not a convenience** (the parallel-repo divergence shipped `1.0.6`/`1.1.4`/`1.3.6` as two different things). A second checkout many merges behind happily rebuilds master.py from ITS modules → CSV stamped with a version that means something else. Before building/measuring anywhere: confirm branch + up to date with remote.
 
 Symptom: `git status` reports modified, `git diff` shows nothing, every blob hash matches; then `checkout`/`merge --ff-only` aborts "your local changes would be overwritten" — a merged PR silently fails to land locally (bit twice before diagnosed).
 Cause: Drive File Stream reports placeholder size 16384 when git stats right after writing during checkout; git caches that in the index stat (`git ls-files --debug master.py` → `size: 16384` vs actual 328,335); every later status sees mismatch and reports modified WITHOUT reading the file. NOT a stat-metadata problem — `core.checkStat=minimal`, `core.trustctime=false`, `core.fscache=false` each tried, none help; don't re-add them.
 Fix: `.githooks/drive-restat.sh` (re-stats entries whose content already matches index) wired to post-checkout/post-merge/post-rewrite. Fresh clone opts in once: `git config core.hooksPath .githooks`. Run by hand any time the tree looks wrong: `sh .githooks/drive-restat.sh`. Only touches files whose hash equals the index blob — cannot stage/hide/discard a real edit. Heavier reset when badly tangled (safe when working tree matches HEAD; discards staging only):
+
 ```bash
 rm -f "$(git rev-parse --git-dir)/index" && git reset
 ```
+
 A checkout moving BACK to a commit predating the hooks deletes them mid-checkout — repair by hand afterwards.
 
 **The mount can also serve a file as ABSENT or STALE to Python** while `git status` stays clean (2026-09-15: a harness ran an older version of itself and printed OK). `tree_check.py` catches both: it hashes every tracked file through `git hash-object` (never raw sha256, since `.gitattributes` normalises line endings) against the index, and uses `git status` to tell an edit from a bad read: content differs + status clean = changed underneath you; missing + clean = a tracked file is not there. Whole tree, ~0.4 s, and **every harness runs it first and refuses on a finding**: `py tree_check.py`. One gap: a harness's own source is compiled before the check runs.
@@ -74,10 +82,12 @@ A checkout moving BACK to a commit predating the hooks deletes them mid-checkout
 
 - Windows, invoked as `py` (bare `python` hits the Microsoft Store alias and fails). Working tree on Google Drive with git dir outside it.
 - **The interpreter version is NOT stated in CLAUDE.md, and that IS the fix.** It was wrong in three directions inside a week (3.13 vs 3.14 installs appearing and disappearing; by 2026-09-08 `py` was back on 3.13). Ask the machine:
+
 ```bash
 py -VV && py -0
 py platform_check.py   # prints running versions beside the reference host's
 ```
+
 - **Don't type library versions either**: `platform_reference.json` records them, `requirements-lock.txt` and the `Dockerfile` pin them, `platform_check.py` prints both sets. Why pandas matters: pandas **3.0** infers a plain text column as Arrow-backed `str` where 2.x gives `object`, and every dtype trap lives on the object path.
 - **The numeric probes govern hash comparability** (libm, numpy kernels, the CRLF pin, the float round trip); when they match, cell hashes are comparable with versions.md. `platform_check.py` has five probes: `probe_libm`, `probe_numpy`, `probe_csv`, `probe_pandas_dtypes`, `probe_spawn`.
 - ⚠️ `platform_check.py` once failed for five days on the host its own reference names: `str_dtype` had been recorded on a transient 3.14/pandas 3.0 install while every other key came from 3.13. Fixed 2026-09-08 by re-recording on one host (exactly that key moved). Rules: record a reference file on ONE host in ONE `--record` run; and a library version is not a defect — `pandas.*` has its own report bucket now ("contract differs, no float moved").
@@ -86,6 +96,7 @@ py platform_check.py   # prints running versions beside the reference host's
 ### Another host: Linux / DGX Spark (GB10, aarch64) — what does not travel
 
 `SPARK_SETUP.md` is the long form. Four traps:
+
 - 🚨 **`lineterminator="\r\n"` IS PINNED in the five CSV writers AND verify.py and must NOT be "cleaned up".** `pandas.to_csv` defaults it to os.linesep; cell_hash is taken over exactly that text, so every hash in versions.md is a hash of CRLF. Unpin → byte-perfect Linux run reports DIFFER on all four cells with every float identical (reads like a Windows leftover — precisely why called out). On Windows the pin is a measured no-op (`5fc52123ed1ecc3a` either way; LF gives `9f6e314f49dc64ef`).
 - 🚨 **THE INPUTS ARE NOT IN GIT** and that's what stops a second host first: `asteroid_pipeline/` is gitignored in full — fresh clone has code + frozen Stage-2 prices under `campaign/stage2/`, none of the ~868 MB Stage 4 reads. `preflight()` refuses that run in a second; `run_pipeline.py --check-inputs` (`./run.sh inputs`) answers before a campaign is queued. **Copy them, do not regenerate.** Stage 1 is the exception now: it installs the pinned catalog release, the same bytes on every host. Stages 2 and 3 re-fetch live prices, so a regenerated Stage 2 or 3 table is comparable with nothing already measured.
 - ⚠️ **BIT-IDENTITY IS NOT PROMISED ACROSS HOSTS and cannot be made so**: math.exp/log/cos are platform libm; numpy picks SIMD kernels per architecture; none IEEE-required correctly rounded (only sqrt etc.). The rocket equation is `math.exp(dv/ve)` and estimated_mass_kg comes out of `np.power(10.0, -H/5.0)` — not a corner. platform_check.py answers in ten seconds by hashing raw IEEE bit patterns over the model's own argument ranges (sqrt as control). If it reports divergence: re-baseline on that host, compare across hosts with tolerance. **Do NOT file deltas as regressions.**

@@ -25,10 +25,10 @@ import math
 import sys
 
 # --- Constants: nasa/aegis src/utils/consts.ts (cross-checked against lgrs output) -------------
-MOON_MEAN_RADIUS = 1737.4e3   # m
-K0 = 0.994                    # central scale factor at the pole
-FALSE_EASTING = 500_000.0     # m — LPS easting of the south pole
-FALSE_NORTHING = 500_000.0    # m — LPS northing of the south pole
+MOON_MEAN_RADIUS = 1737.4e3  # m
+K0 = 0.994  # central scale factor at the pole
+FALSE_EASTING = 500_000.0  # m — LPS easting of the south pole
+FALSE_NORTHING = 500_000.0  # m — LPS northing of the south pole
 
 # --- Oracle vectors: lgrs 0.3.0, generated 2026-09-13 -----------------------------------------
 ORACLES = [
@@ -48,15 +48,20 @@ def lat_lon_to_south_lps(lat_deg: float, lon_deg: float) -> tuple[float, float]:
     phi_o = -math.pi / 2.0
     lam_o = 0.0
 
-    denom = 1 + (math.sin(phi_o) * math.sin(phi)
-                 + math.cos(phi_o) * math.cos(phi) * math.cos(lam - lam_o))
+    denom = 1 + (
+        math.sin(phi_o) * math.sin(phi) + math.cos(phi_o) * math.cos(phi) * math.cos(lam - lam_o)
+    )
     scale = (2 * K0) / denom
 
     easting = MOON_MEAN_RADIUS * scale * math.cos(phi) * math.sin(lam) + FALSE_EASTING
-    northing = (MOON_MEAN_RADIUS * scale
-                * (math.cos(phi_o) * math.sin(phi)
-                   - math.sin(phi_o) * math.cos(phi) * math.cos(lam - lam_o))
-                ) + FALSE_NORTHING
+    northing = (
+        MOON_MEAN_RADIUS
+        * scale
+        * (
+            math.cos(phi_o) * math.sin(phi)
+            - math.sin(phi_o) * math.cos(phi) * math.cos(lam - lam_o)
+        )
+    ) + FALSE_NORTHING
     return easting, northing
 
 
@@ -67,8 +72,10 @@ def check_oracles() -> float:
         de, dn = abs(e - e_ref), abs(n - n_ref)
         max_err = max(max_err, de, dn)
         status = "OK" if max(de, dn) <= TOLERANCE_M else "FAIL"
-        print(f"  [{status}] {name:24s} ({lat:+8.4f}, {lon:+7.3f}) -> "
-              f"e={e:.6f} n={n:.6f} | dE={de:.3e} m dN={dn:.3e} m")
+        print(
+            f"  [{status}] {name:24s} ({lat:+8.4f}, {lon:+7.3f}) -> "
+            f"e={e:.6f} n={n:.6f} | dE={de:.3e} m dN={dn:.3e} m"
+        )
     return max_err
 
 
@@ -87,12 +94,11 @@ def check_live_lgrs() -> float:
     max_err = 0.0
     for name, lat, lon, e_ref, n_ref in ORACLES:
         p = LatLonPoint(lat, lon)  # (latitude, longitude) order — the classic swap trap
-        lps = p.to_lps()           # LpsPoint object; .easting/.northing attrs (not subscriptable)
+        lps = p.to_lps()  # LpsPoint object; .easting/.northing attrs (not subscriptable)
         de, dn = abs(float(lps.easting) - e_ref), abs(float(lps.northing) - n_ref)
         max_err = max(max_err, de, dn)
         status = "OK" if max(de, dn) <= TOLERANCE_M else "FAIL"
-        print(f"  [{status}] live lgrs {name:24s} vs embedded oracle "
-              f"dE={de:.3e} m dN={dn:.3e} m")
+        print(f"  [{status}] live lgrs {name:24s} vs embedded oracle dE={de:.3e} m dN={dn:.3e} m")
     return max_err
 
 
@@ -109,8 +115,9 @@ def main(argv: list[str]) -> int:
     print(f"\nViewport domain radius (to lat=-80): {r_domain:.1f} m")
 
     if max_err <= TOLERANCE_M:
-        print(f"PASS — max error vs lgrs 0.3.0 oracle: {max_err:.3e} m "
-              f"(tolerance {TOLERANCE_M:g} m)")
+        print(
+            f"PASS — max error vs lgrs 0.3.0 oracle: {max_err:.3e} m (tolerance {TOLERANCE_M:g} m)"
+        )
         return 0
     print(f"FAIL — max error {max_err:.3e} m exceeds tolerance {TOLERANCE_M:g} m")
     return 1

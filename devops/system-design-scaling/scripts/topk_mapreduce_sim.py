@@ -38,7 +38,7 @@ def stage1_mapper(lines):
     """Emit ((category, product), qty) for in-window rows (filter by timestamp)."""
     for line in lines:
         ts, product_id, category_id, qty, _price, _seller, _buyer = line.split("\t")
-        if ts.startswith("t9"):            # stand-in for within_past_week(timestamp)
+        if ts.startswith("t9"):  # stand-in for within_past_week(timestamp)
             continue
         yield (category_id, product_id), int(qty)
 
@@ -65,7 +65,7 @@ def top_k_per_category(lines, k=3):
     """
     totals = stage1_reduce(stage1_mapper(lines))
     grouped = defaultdict(list)
-    for (cat, _total), prod in sorted(stage2_mapper(totals)):   # 'distributed sort' step
+    for (cat, _total), prod in sorted(stage2_mapper(totals)):  # 'distributed sort' step
         grouped[cat].append(prod)
     out = {}
     for cat, prods in grouped.items():
@@ -80,7 +80,7 @@ def _self_test() -> None:
     # Expected (from the primer's own worked example):
     expected = {
         "category1": [("product2", 3), ("product1", 2), ("product4", 1)],
-        "category2": [("product3", 7), ("product1", 3)],   # only two products in cat2
+        "category2": [("product3", 7), ("product1", 3)],  # only two products in cat2
     }
     assert result == expected, f"mismatch:\n got {result}\nwant {expected}"
 
@@ -98,8 +98,10 @@ def _self_test() -> None:
     for cat in sorted(result):
         for rank, (prod, qty) in enumerate(result[cat], start=1):
             print(f"  {cat}: #{rank} {prod} ({qty})")
-    print("topk_mapreduce_sim: all self-tests passed "
-          "(stage-1 sum, past-week filter, stage-2 key-sort trick, k-limit)")
+    print(
+        "topk_mapreduce_sim: all self-tests passed "
+        "(stage-1 sum, past-week filter, stage-2 key-sort trick, k-limit)"
+    )
 
 
 if __name__ == "__main__":

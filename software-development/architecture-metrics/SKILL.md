@@ -21,6 +21,7 @@ graph — the layer above `code-quality-signal`'s root-cause scores. Stdlib-only
 repos, ~5s on this 190-script repo).
 
 Three scripts:
+
 - **`architecture_metrics.py`** — static structural report (+ `--json`, + `--dsm N`)
 - **`session_gate.py`** — sentrux's baseline-gate workflow made runnable here (save before an agent session, check after; exit 0/1 for CI)
 - **`evolution_metrics.py`** — git-history metrics: churn, change coupling, temporal hotspots, code age, bus factor
@@ -94,6 +95,7 @@ OSError and are skipped silently — hydrate before scanning if a repo reports 0
 ## sentrux Parity Notes (2026-09-12 pass)
 
 Ported from source in this round, beyond round 1's metrics layer:
+
 - **Mod-declaration edge filter** (`is_mod_declaration_edge`): edges FROM `__init__.py` TO the same dir or a direct child subdir are package structure, not functional dependencies — dropped before any metric (sentrux filters these so barrel re-exports don't inflate coupling/cycles/depth).
 - **Composite quality_signal** in `--json`: 0–100 weighted sum of the five root causes (cycles 25 / god files 20 / SDP coupling 25 / layering violations 15 / depth 15) — sentrux's same idea normalized to 0–10000 with per-language inputs; fixed scale here so baseline diffs are comparable.
 - **Session gate** = sentrux `ArchBaseline`/`ArchDiff` rules: signal drop >2 pts OR coupling rise >0.05 OR any increase in cycles / god files / complex functions (CC>15) ⇒ degraded, exit 1. Baseline JSON at `<project>/.sentrux-baseline.json` by default (`--baseline PATH` to override).

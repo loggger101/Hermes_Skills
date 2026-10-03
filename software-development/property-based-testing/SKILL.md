@@ -53,6 +53,7 @@ stronger or this is honestly a poor PBT candidate (rule out the first before set
    exhausted-filter guard (a warning nobody reads). Reserve `assume()` for relations between two
    already-generated values.
 2. **Derive dependent fields** with `st.composite`/`.flatmap`, don't generate independently + filter:
+
    ```python
    @st.composite
    def sized_list_and_index(draw):
@@ -60,6 +61,7 @@ stronger or this is honestly a poor PBT candidate (rule out the first before set
        i = draw(st.integers(min_value=0, max_value=len(xs) - 1))
        return xs, i
    ```
+
 3. **Pin known edge cases** with `@example([])` / `@example([1])` — empty, single, all-duplicates,
    zero, negative, max-representable recur every time; they run on every invocation and document intent.
 4. **Settings by context:** 10 examples for local iteration, ~200 for CI, 1000 + `deadline=None`

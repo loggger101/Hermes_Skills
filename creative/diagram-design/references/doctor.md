@@ -30,12 +30,14 @@ If no flags are provided, run in standard mode.
 Run all checks in this order and report each as `pass`, `warn`, or `fail`.
 
 1. Python runtime
+
 - Resolve `python3` first, then `python`.
 - Require version >= 3.10.
 - `fail` if no Python interpreter is found.
 - `fail` if version is below 3.10.
 
 2. Playwright availability for PNG export
+
 - Check whether Playwright import works in the active Python interpreter (`import playwright`).
 - Check whether Chromium is installed for Playwright (`playwright install --help` availability is sufficient for command presence; prefer also checking browser cache when practical).
 - If missing, mark `warn` and print exact setup hint:
@@ -43,6 +45,7 @@ Run all checks in this order and report each as `pass`, `warn`, or `fail`.
 - Never auto-install dependencies.
 
 3. Expected script presence (maintainer-checkout mode only)
+
 - Verify these repository scripts exist:
   - `scripts/verify-drawio-import.py`
   - `scripts/verify-mermaid-import.py`
@@ -54,6 +57,7 @@ Run all checks in this order and report each as `pass`, `warn`, or `fail`.
   their absence is not a warning or failure.
 
 4. Plugin wiring surfaces (maintainer-checkout mode only)
+
 - Verify Claude command files exist and point to their references:
   - `commands/export-diagram.md` -> `references/export.md`
   - `commands/import-drawio.md` -> `references/import-drawio.md`
@@ -71,6 +75,7 @@ Run all checks in this order and report each as `pass`, `warn`, or `fail`.
   applicable; partial or absent repository routing trees are not failures.
 
 5. Common path mistakes
+
 - Verify `SKILL.md` beneath the resolved installation root. Do not search for it
   relative to the user's current project and do not instruct users to enter the
   maintainer repository.
@@ -85,9 +90,11 @@ Run all checks in this order and report each as `pass`, `warn`, or `fail`.
 Always print:
 
 1. A compact summary line:
+
 - `Doctor summary: <PASS|WARN|FAIL> (<pass_count> pass, <warn_count> warn, <fail_count> fail)`
 
 2. A checklist with one line per check:
+
 - `[PASS] Python 3.11.9 found at ...`
 - `[WARN] Playwright not installed ...`
 - `[FAIL] Missing scripts/verify-docs-sync.py`
@@ -95,6 +102,7 @@ Always print:
 3. A `Next actions` section only when warn/fail exists.
 
 4. If `--json` is present, append JSON object with:
+
 - `status`, `counts`, `checks[]` (`name`, `status`, `message`, `fix` optional), `timestamp`.
 
 ## Safety and behavior rules

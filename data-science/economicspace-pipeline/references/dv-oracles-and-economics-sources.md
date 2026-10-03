@@ -27,12 +27,12 @@ That is wrong: bulk-scan rows simply never carried a `dv` key — **targeted que
 | Targeted | `query={"name":"Eros"}` or `{"pdes":"1999 AO10"}` | **YES** | Eros 6.112354 · Icarus 15.298098 · Apophis 5.687675 · Itokawa 4.637086 · 2010 PS66 4.425463 |
 
 Consequences (corrected):
+
 - **Asterank remains an external Δv oracle** for targeted bodies, alongside JPL NHATS — but it is a per-body HTTP call at population scale (~600K), so its role stays *spot-check / top-N*, not full-catalog. The `asterank_sigma_probe.py` script (this skill's scripts/) exercises both modes and prints the schema notes automatically.
 - **The query param is a JSON object, not free text** — `query=433` returns HTTP 500; working keys verified: `name` (proper names), `pdes` (MPC designation strings like "1999 AO10"; numeric for numbered bodies). Plain-number lookups must go through `pdes`.
 - **Economics fields are still partially garbage** in both modes (`price`/`profit`: Ceres $8.1T real, Juno 2.7e-44 nonsense — same failure mode SECOND-PASS flagged as `1e-42`). Treat them as order-of-magnitude priors only.
 - **NEW: per-element orbit sigmas** (both modes): `sigma_a`, `sigma_e`, `sigma_i`, `sigma_om`, `sigma_w`, `sigma_ma` + derived `sigma_q/ad/per/n/tp` — a free covariance DIAGONAL for ~600K bodies with zero extra calls in bulk mode (Eros: σa 4.4e-10 au, σi 2.8e-06). Complements NEODyS's full 6×6 matrix on the top-N.
 - **NEW: observation provenance**: `n_del_obs_used`, `n_dop_obs_used` alongside existing `data_arc`, `rms`, `condition_code`, `orbit_id`.
-
 
 ## NHATS — JPL's population-scale Δv oracle (~7k bodies, keyless single call) [SRC + HF live]
 

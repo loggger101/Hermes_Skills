@@ -31,8 +31,23 @@ NS = {
     "content": "http://purl.org/rss/1.0/modules/content/",
     "media": "http://search.yahoo.com/mrss/",
 }
-FEED_TYPES = ("application/rss+xml", "application/atom+xml", "application/feed+json", "application/json")
-COMMON_FEED_PATHS = ("/feed", "/feed.xml", "/rss", "/rss.xml", "/atom.xml", "/index.xml", "/feed.json", "/blog/feed", "/blog/rss.xml")
+FEED_TYPES = (
+    "application/rss+xml",
+    "application/atom+xml",
+    "application/feed+json",
+    "application/json",
+)
+COMMON_FEED_PATHS = (
+    "/feed",
+    "/feed.xml",
+    "/rss",
+    "/rss.xml",
+    "/atom.xml",
+    "/index.xml",
+    "/feed.json",
+    "/blog/feed",
+    "/blog/rss.xml",
+)
 _TAG_RE = re.compile(r"<[^>]+>")
 _WS_RE = re.compile(r"\s+")
 
@@ -94,27 +109,45 @@ def parse_xml(data: bytes) -> dict:
         title = strip_html(_text(root, "atom:title"))
         entries = []
         for e in root.findall("atom:entry", NS):
-            entries.append({
-                "title": strip_html(_text(e, "atom:title")),
-                "link": _atom_link(e),
-                "published": parse_date(_text(e, "atom:published", "atom:updated")),
-                "author": strip_html(_text(e, "atom:author/atom:name", "dc:creator")),
-                "summary": strip_html(_text(e, "atom:summary", "atom:content"))[:2000],
-            })
+            entries.append(
+                {
+                    "title": strip_html(_text(e, "atom:title")),
+                    "link": _atom_link(e),
+                    "published": parse_date(_text(e, "atom:published", "atom:updated")),
+                    "author": strip_html(_text(e, "atom:author/atom:name", "dc:creator")),
+                    "summary": strip_html(_text(e, "atom:summary", "atom:content"))[:2000],
+                }
+            )
         return {"format": "atom", "title": title, "entries": entries}
     channel = root.find("channel") if tag == "rss" else root  # RSS 2.0 vs RDF/RSS 1.0
     if channel is None:
         raise ValueError(f"unrecognised XML root <{tag}>")
     entries = []
-    for item in channel.iter("item") if tag == "rss" else root.iter("{http://purl.org/rss/1.0/}item"):
-        entries.append({
-            "title": strip_html(_text(item, "title", "{http://purl.org/rss/1.0/}title")),
-            "link": (_text(item, "link", "{http://purl.org/rss/1.0/}link") or "").strip() or None,
-            "published": parse_date(_text(item, "pubDate", "dc:date")),
-            "author": strip_html(_text(item, "dc:creator", "author")),
-            "summary": strip_html(_text(item, "content:encoded", "description", "{http://purl.org/rss/1.0/}description"))[:2000],
-        })
-    return {"format": "rss", "title": strip_html(_text(channel, "title", "{http://purl.org/rss/1.0/}title")), "entries": entries}
+    for item in (
+        channel.iter("item") if tag == "rss" else root.iter("{http://purl.org/rss/1.0/}item")
+    ):
+        entries.append(
+            {
+                "title": strip_html(_text(item, "title", "{http://purl.org/rss/1.0/}title")),
+                "link": (_text(item, "link", "{http://purl.org/rss/1.0/}link") or "").strip()
+                or None,
+                "published": parse_date(_text(item, "pubDate", "dc:date")),
+                "author": strip_html(_text(item, "dc:creator", "author")),
+                "summary": strip_html(
+                    _text(
+                        item,
+                        "content:encoded",
+                        "description",
+                        "{http://purl.org/rss/1.0/}description",
+                    )
+                )[:2000],
+            }
+        )
+    return {
+        "format": "rss",
+        "title": strip_html(_text(channel, "title", "{http://purl.org/rss/1.0/}title")),
+        "entries": entries,
+    }
 
 
 def parse_json_feed(data: bytes) -> dict:
@@ -122,13 +155,18 @@ def parse_json_feed(data: bytes) -> dict:
     entries = []
     for item in doc.get("items", []):
         authors = item.get("authors") or ([item["author"]] if item.get("author") else [])
-        entries.append({
-            "title": strip_html(item.get("title")),
-            "link": item.get("url") or item.get("external_url"),
-            "published": parse_date(item.get("date_published") or item.get("date_modified")),
-            "author": ", ".join(a.get("name", "") for a in authors if isinstance(a, dict)) or None,
-            "summary": strip_html(item.get("summary") or item.get("content_text") or item.get("content_html"))[:2000],
-        })
+        entries.append(
+            {
+                "title": strip_html(item.get("title")),
+                "link": item.get("url") or item.get("external_url"),
+                "published": parse_date(item.get("date_published") or item.get("date_modified")),
+                "author": ", ".join(a.get("name", "") for a in authors if isinstance(a, dict))
+                or None,
+                "summary": strip_html(
+                    item.get("summary") or item.get("content_text") or item.get("content_html")
+                )[:2000],
+            }
+        )
     return {"format": "jsonfeed", "title": strip_html(doc.get("title")), "entries": entries}
 
 
@@ -166,7 +204,13 @@ def discover(page_url: str, page_html: bytes | None = None) -> list[str]:
 
 def looks_like_feed(data: bytes, content_type: str) -> bool:
     head = data.lstrip()[:300].lower()
-    return head.startswith(b"{") and b"items" in data[:2000] or b"<rss" in head or b"<feed" in head or b"<rdf" in head
+    return (
+        head.startswith(b"{")
+        and b"items" in data[:2000]
+        or b"<rss" in head
+        or b"<feed" in head
+        or b"<rdf" in head
+    )
 
 
 def read(url: str) -> dict:
@@ -188,15 +232,25 @@ def read(url: str) -> dict:
             feed["url"] = cand
             feed["discovered_from"] = url
             return feed
-    raise SystemExit(f"no feed found at {url}; tried {len(candidates)} candidates\n" + "\n".join(errors))
+    raise SystemExit(
+        f"no feed found at {url}; tried {len(candidates)} candidates\n" + "\n".join(errors)
+    )
 
 
 def filter_entries(entries: list[dict], limit: int, since: str | None) -> list[dict]:
     if since:
-        cutoff = datetime.fromisoformat(since).replace(tzinfo=timezone.utc) if "T" not in since else datetime.fromisoformat(since.replace("Z", "+00:00"))
+        cutoff = (
+            datetime.fromisoformat(since).replace(tzinfo=timezone.utc)
+            if "T" not in since
+            else datetime.fromisoformat(since.replace("Z", "+00:00"))
+        )
         if cutoff.tzinfo is None:
             cutoff = cutoff.replace(tzinfo=timezone.utc)
-        entries = [e for e in entries if e["published"] and datetime.fromisoformat(e["published"]) >= cutoff]
+        entries = [
+            e
+            for e in entries
+            if e["published"] and datetime.fromisoformat(e["published"]) >= cutoff
+        ]
     entries.sort(key=lambda e: e["published"] or "", reverse=True)
     return entries[:limit]
 
@@ -213,7 +267,9 @@ def render_text(feed: dict) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     sub = ap.add_subparsers(dest="cmd", required=True)
     r = sub.add_parser("read", help="read a feed (or discover one behind a page URL)")
     r.add_argument("url")

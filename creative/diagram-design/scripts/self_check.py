@@ -131,10 +131,7 @@ class DiagramParser(HTMLParser):
             and len(self._element_stack) <= self._motion_root_depth
         ):
             self._motion_root_depth = None
-        if (
-            self._controls_depth is not None
-            and len(self._element_stack) <= self._controls_depth
-        ):
+        if self._controls_depth is not None and len(self._element_stack) <= self._controls_depth:
             self._controls_depth = None
 
     def handle_data(self, data: str) -> None:
@@ -257,11 +254,15 @@ def check_scripts(parser: DiagramParser, errors: list[str]) -> None:
         if not script["closed"]:
             errors.append(f"script {number} must have a closing script tag")
         if attr_names != ["data-diagram-controls"] or attrs.get("data-diagram-controls") != "":
-            errors.append(f"script {number} must carry only the canonical data-diagram-controls attribute")
+            errors.append(
+                f"script {number} must carry only the canonical data-diagram-controls attribute"
+            )
             continue
         try:
             if normalized_controller("".join(body)) != canonical_controller():
-                errors.append(f"script {number} must exactly match the controller in template-motion.html")
+                errors.append(
+                    f"script {number} must exactly match the controller in template-motion.html"
+                )
         except RuntimeError as exc:
             errors.append(str(exc))
 
@@ -302,14 +303,18 @@ def check_motion(parser: DiagramParser, source: str, errors: list[str]) -> None:
             if not item.get("aria-label", "").strip():
                 errors.append(f"semantic motion item {index} needs a non-color aria-label")
         elif item.get("aria-hidden") != "true" or item.get("focusable") != "false":
-            errors.append(f"decorative motion item {index} needs aria-hidden=true and focusable=false")
+            errors.append(
+                f"decorative motion item {index} needs aria-hidden=true and focusable=false"
+            )
         inline = item.get("style", "").replace(" ", "").lower()
         if any(token in inline for token in ("display:none", "visibility:hidden", "opacity:0")):
             errors.append(f"motion item {index} is hidden in source; the fallback must be visible")
 
     expected = set(range(1, count + 1)) if count > 0 else set()
     if set(semantic_steps) != expected:
-        errors.append(f"semantic steps must be contiguous 1..{count}; found {sorted(set(semantic_steps))}")
+        errors.append(
+            f"semantic steps must be contiguous 1..{count}; found {sorted(set(semantic_steps))}"
+        )
     crowded = {step: n for step, n in Counter(semantic_steps).items() if n > 2}
     if crowded:
         errors.append(f"no more than two semantic items may share a step; found {crowded}")
@@ -321,7 +326,9 @@ def check_motion(parser: DiagramParser, source: str, errors: list[str]) -> None:
     controlled = mode == "step" or (mode == "reveal" and bool(parser.scripts))
     if controlled:
         if parser.controls != 1:
-            errors.append(f"controlled mode needs one in-root control group; found {parser.controls}")
+            errors.append(
+                f"controlled mode needs one in-root control group; found {parser.controls}"
+            )
         missing = ACTIONS - parser.actions
         if missing:
             errors.append(f"controlled mode is missing actions: {', '.join(sorted(missing))}")

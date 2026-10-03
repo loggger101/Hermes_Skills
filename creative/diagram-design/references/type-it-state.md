@@ -309,6 +309,7 @@ Per-component, same shape as every other parametric type in this skill.
 `C_light` = the same hex lightened ~15 % for dark-mode contrast (e.g., `#7a8c47` → `#9aac67`, `#b85450` → `#d97a78`).
 
 **Rules:**
+
 - **Never on focal components.** `kind: focal` always renders accent; `color` is silently ignored.
 - **Never on connectors.** Connector style is topology-driven; if you want a colored edge, pick `style: accent` / `link` / `neutral`, not a component color.
 - **Cap: ≤ 3 custom-colored components per diagram** (in addition to focal components). Above 3 the visual signal fragments.
@@ -458,6 +459,7 @@ dark: false
   - **C6** (Analyst Machines → LegacyPortal) cannot use a direct H+Q+V into LegacyPortal's left edge — Analyst Machines and LegacyPortal are in different rows, and the direct horizontal at `y = 268` would cross NatStat Website. It detours through the zone gap and **over** LegacyPortal: `H 654 Q 662,268 662,260 V 72 Q 662,64 670,64 H 800 Q 808,64 808,72 V 80` — vertical at `x = 662` (in zone gap), horizontal at `y = 64` (above LegacyPortal top), then down into LegacyPortal's top center. The path enters LegacyPortal from **above** going down, so the arrow body lives above the box (visible) and only the 1-px tip enters the box.
 
 **Marker-visibility rule of thumb:** with the standard arrow marker (`markerWidth = 8`, `refX = 7`), the arrow body extends 7 px *backwards* along the path direction from the endpoint. For the arrow to remain visible, that 7-px tail must sit *outside* the destination box. Translation:
+
 - Entering a **TOP edge going UP** (path direction up, box below) → body inside box, **only 1 px visible. Avoid this.**
 - Entering a **TOP edge going DOWN** (path direction down, box below) → body above box, ~7 px visible. ✓
 - Entering a **LEFT edge going RIGHT** → body to the left of box, ~7 px visible. ✓

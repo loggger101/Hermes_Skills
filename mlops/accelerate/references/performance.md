@@ -124,6 +124,7 @@ model = accelerator.prepare(model)
 ### 3. Mixed Precision
 
 **BF16 (A100/H100)**:
+
 ```python
 accelerator = Accelerator(mixed_precision='bf16')
 
@@ -136,6 +137,7 @@ for batch in dataloader:
 ```
 
 **FP16 (V100, older GPUs)**:
+
 ```python
 from accelerate.utils import GradScalerKwargs
 
@@ -210,6 +212,7 @@ accelerator = Accelerator(kwargs_handlers=[ddp_kwargs])
 ```
 
 **Recommended bucket sizes**:
+
 - Small models (<1B): 25 MB
 - Medium models (1-10B): 50-100 MB
 - Large models (>10B): 100-200 MB
@@ -240,6 +243,7 @@ accelerate launch train.py
 ```
 
 **NCCL_P2P_LEVEL options**:
+
 - `NVL`: NVLink (fastest, within node)
 - `PIX`: PCIe (fast, within node)
 - `PHB`: PCIe host bridge (slow, cross-node)
@@ -264,6 +268,7 @@ train_loader = accelerator.prepare(train_loader)
 ```
 
 **Recommendations**:
+
 - `num_workers`: 2-4 per GPU (8 GPUs → 16-32 workers)
 - `pin_memory`: Always True for GPU training
 - `prefetch_factor`: 2-4 (higher for slow data loading)
@@ -331,6 +336,7 @@ model = accelerator.prepare(model)
 **Speedup**: 10-50% depending on model
 
 **Compilation modes**:
+
 - `default`: Balanced (best for most cases)
 - `reduce-overhead`: Min overhead (best for small batches)
 - `max-autotune`: Max performance (slow compile, best for production)
@@ -435,6 +441,7 @@ for name, kwargs in strategies:
 ## Performance Checklist
 
 **Before training**:
+
 - [ ] Use BF16/FP16 mixed precision
 - [ ] Enable gradient checkpointing (if OOM)
 - [ ] Set appropriate `num_workers` (2-4 per GPU)
@@ -443,18 +450,21 @@ for name, kwargs in strategies:
 - [ ] Compile model with `torch.compile` (PyTorch 2.0+)
 
 **For large models**:
+
 - [ ] Use FSDP or DeepSpeed ZeRO-3
 - [ ] Enable CPU offloading (if still OOM)
 - [ ] Use Flash Attention
 - [ ] Increase gradient accumulation
 
 **For multi-node**:
+
 - [ ] Check network topology (InfiniBand > Ethernet)
 - [ ] Tune NCCL settings
 - [ ] Use larger bucket sizes for DDP
 - [ ] Verify NVLink for tensor parallelism
 
 **Profiling**:
+
 - [ ] Profile first 10-100 batches
 - [ ] Check GPU utilization (`nvidia-smi dmon`)
 - [ ] Check data loading time (should be <5% of iteration)
@@ -465,6 +475,7 @@ for name, kwargs in strategies:
 ### Issue: Low GPU Utilization (<80%)
 
 **Cause 1**: Data loading bottleneck
+
 ```python
 # Solution: Increase workers and prefetch
 num_workers=8
@@ -472,6 +483,7 @@ prefetch_factor=4
 ```
 
 **Cause 2**: Small batch size
+
 ```python
 # Solution: Increase batch size or use gradient accumulation
 batch_size=32  # Increase
@@ -481,17 +493,20 @@ gradient_accumulation_steps=4  # Or accumulate
 ### Issue: High Memory Usage
 
 **Solution 1**: Gradient checkpointing
+
 ```python
 model.gradient_checkpointing_enable()
 ```
 
 **Solution 2**: Reduce batch size, increase accumulation
+
 ```python
 batch_size=8  # Reduce from 32
 gradient_accumulation_steps=16  # Maintain effective batch
 ```
 
 **Solution 3**: Use FSDP or DeepSpeed ZeRO-3
+
 ```python
 accelerator = Accelerator(fsdp_plugin=fsdp_plugin)
 ```
@@ -501,17 +516,20 @@ accelerator = Accelerator(fsdp_plugin=fsdp_plugin)
 **Cause**: Communication bottleneck
 
 **Check 1**: Gradient bucket size
+
 ```python
 ddp_kwargs = DistributedDataParallelKwargs(bucket_cap_mb=100)
 ```
 
 **Check 2**: NCCL settings
+
 ```bash
 export NCCL_DEBUG=INFO
 # Check for "Using NVLS" (good) vs "Using PHB" (bad)
 ```
 
 **Check 3**: Network bandwidth
+
 ```bash
 # Test inter-GPU bandwidth
 nvidia-smi nvlink -s

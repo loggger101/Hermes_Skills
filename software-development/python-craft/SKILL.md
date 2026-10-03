@@ -16,7 +16,6 @@ metadata:
 
 Guide for writing Python that holds up under review, across engineers, and over time. Covers style, typing, common patterns, testing approach, and packaging. Not a tutorial — assume Python competency; focus on what separates "works" from "good."
 
-
 ## What This Skill Does
 
 Python craft: style, typing, patterns, testing, packaging.
@@ -88,11 +87,13 @@ pre-commit install
 
 - 4 spaces, no tabs.
 - 100 chars soft limit. Break lines before a binary operator:
+
   ```python
   result = (some_long_function(argument_one, argument_two)
             + another_value
             - final_thing)
   ```
+
 - Wrap docstrings at 72 chars for CLI readability.
 
 ### Imports

@@ -26,12 +26,15 @@ Dispatches one subagent per independent problem domain and lets them work concur
 ## The Pattern
 
 ### 1. Identify Independent Domains
+
 Group failures by what's broken: File A tests = tool approval flow; File B tests = batch completion; File C tests = abort logic. Each domain is independent — fixing one doesn't affect the others. If domains share files or state, they are NOT parallelizable.
 
 ### 2. Create Focused Agent Tasks
+
 Each agent gets: **specific scope** (one test file/subsystem), **clear goal** ("make these tests pass"), **constraints** ("do not change other code" / "fix tests only"), **expected output** (summary of what you found and fixed).
 
 ### 3. Dispatch in Parallel
+
 Issue ALL dispatches in the same response — multiple tool calls per turn = parallel execution; one per turn = sequential:
 
 ```python
@@ -42,6 +45,7 @@ delegate_task(goal="Fix the race conditions in src/approval/test_approval.py ...
 ```
 
 ### 4. Review and Integrate
+
 When agents return: read each summary; verify fixes don't conflict (did two agents edit the same code?); run the full test suite; integrate all changes. **Spot check** — parallel agents can make systematic errors in the same direction.
 
 ## Agent Prompt Structure

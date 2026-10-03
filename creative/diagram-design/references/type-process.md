@@ -48,6 +48,7 @@ dark: false
 ```
 
 **Reserved field semantics:**
+
 - `lanes[k].key` — the 3-letter role badge text shown inside every node in that lane.
 - `lanes[k].name` — 1 or 2 line lane label; uppercase mono.
 - `steps[j].focal: true` — exactly **one** step may declare this. Header chip renders in accent.
@@ -121,11 +122,13 @@ label_anchor     = (step_cx(j), 32)              # 8-px gap below chip
 ```
 
 **Chip** (the numbered pill at the top of each column):
+
 - Default fill: `rgba(45,49,66,0.12)`, number text ink.
 - Focal fill: `rgba(235,108,54,0.20)`, number text accent (§5).
 - Per-step `color` override (§4): replaces the fill with `rgba(C, 0.20)` and the number fill with `C`.
 
 **Label** (the uppercase mono text below the chip):
+
 - Renders `steps[j].label` (uppercased), anchored at `label_anchor`.
 - Font: Geist Mono 6 px, weight 500, `letter-spacing="0.12em"`, `text-anchor="middle"`.
 - Default fill: muted (`#4f5d75` light / `#bfc0c0` dark).
@@ -136,6 +139,7 @@ label_anchor     = (step_cx(j), 32)              # 8-px gap below chip
 ### 2.3 Lane labels
 
 One or two-line mono label, all uppercase, letter-spacing 0.08em, font-size 8, fill muted. Centered at `(lane_label_x, lane_y_mid(k))`:
+
 - Single-line: anchored at `(lane_label_x, lane_y_mid(k) + 4)`
 - Two-line: lines at `(lane_label_x, lane_y_mid(k) - 4)` and `(lane_label_x, lane_y_mid(k) + 4)`
 

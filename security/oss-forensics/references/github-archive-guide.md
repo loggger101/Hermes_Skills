@@ -53,6 +53,7 @@ ORDER BY
 ### Force-Push Detection
 
 Force-pushes produce PushEvents where commits are overwritten. Key indicators:
+
 - `payload.distinct_size = 0` with `payload.size > 0` → commits were erased
 - `payload.before` contains the SHA before the rewrite (recoverable)
 
@@ -166,11 +167,13 @@ ORDER BY event_count DESC
 ## Accessing via Hermes
 
 **Option A: BigQuery CLI** (if `gcloud` is installed)
+
 ```bash
 bq query --use_legacy_sql=false --format=json "YOUR QUERY"
 ```
 
 **Option B: Python** (via `execute_code`)
+
 ```python
 from google.cloud import bigquery
 client = bigquery.Client()

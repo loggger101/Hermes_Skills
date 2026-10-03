@@ -151,18 +151,22 @@ Rules that matter: **always set `width`/`height`** (kills CLS — see below); ge
 ## Core Web Vitals, vanilla edition
 
 **LCP (largest contentful paint)** — from `largest-contentful-paint` + `fetchpriority-attribute`:
+
 ```html
 <!-- The hero image IS the LCP candidate: preload it in <head> and boost priority -->
 <link rel="preload" href="/hero.webp" as="image" type="image/webp">
 <img src="/hero.webp" alt="..." width="1600" height="900" fetchpriority="high">
 ```
+
 Everything else below the fold gets `loading="lazy"` (images AND iframes — a lazy YouTube embed is the classic critical-path killer).
 
 **CLS (cumulative layout shift)** — from `cumulative-layout-shift`:
+
 - Every `<img>`/`<iframe>` carries explicit `width` + `height` (or CSS `aspect-ratio: 16/9`).
 - Never inject content above existing content without reserving its space first.
 
 **Performance budget for a static site** — from `performance-budget`, adapted away from bundlers to what a hand-authored repo can check with zero dependencies: total page weight per HTML file (HTML + linked CSS + JS + images) against a ceiling, enforced in CI or a pre-commit script:
+
 ```bash
 # crude but effective budget check for a static repo (no deps):
 for f in *.html; do du -cb "$f" css/*.css js/*.js assets/* 2>/dev/null | tail -1; done
@@ -173,6 +177,7 @@ for f in *.html; do du -cb "$f" css/*.css js/*.js assets/* 2>/dev/null | tail -1
 From `event-delegation` + `modern-array-methods` — the two highest-leverage upgrades for a hand-written site script:
 
 **Event delegation** (one listener instead of N, and it survives dynamically added nodes):
+
 ```js
 // BAD: one listener per item; breaks on items added later
 document.querySelectorAll('.project-card').forEach((el) => el.addEventListener('click', onClick));
@@ -187,6 +192,7 @@ grid.addEventListener('click', (event) => {
 ```
 
 **Modern array/object methods** replacing `for`-loop idioms:
+
 ```js
 const names    = projects.map((p) => p.title);                       // transform all
 const visible  = projects.filter((p) => p.tag === 'astro');          // select subset
@@ -199,6 +205,7 @@ const allItems = orders.flatMap((o) => o.items);                     // map + fl
 ## CSS: dark mode and reduced motion without a framework
 
 From `dark-mode-css` — semantic tokens, OS preference by default, optional manual override:
+
 ```css
 /* Light values are the DEFAULT on :root */
 :root {
@@ -220,9 +227,11 @@ From `dark-mode-css` — semantic tokens, OS preference by default, optional man
 [data-theme="light"] { /* light values again */ }
 [data-theme="dark"]  { --color-surface: #0f172a; color-scheme: dark; }
 ```
+
 Toggle = `document.documentElement.setAttribute('data-theme', t)` + persist in localStorage.
 
 From `reduced-motion` — mandatory for any site with ambient animation (starfields, parallax):
+
 ```css
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

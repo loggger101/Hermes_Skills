@@ -49,6 +49,7 @@ float in the last bit.
 ## What is actually useful to wire in
 
 ### brahe -- the clean dv cross-check (top pick)
+
 MIT, `pip install brahe`, JOSS peer-reviewed (arXiv 2601.06452), active (pushed 2026-09-03,
 only 6 open issues). Rust core + Python bindings; clean reference frames / time handling /
 propagators. Use it to **independently cross-check** the hand-coded patched-conic dv in
@@ -82,7 +83,7 @@ summary here:
    AOT-compiled multishooting. Solves the actual fuel/time-optimal thrust profile under hard
    constraints -- but iterative + heavy GPU dep chain (breaks bit-identity if it leaks in).
 4. **Parallel global multiobjective optimization** (pygmo/pagmo): one interface over CMA-ES/DE/PSO
-   + NLP solvers, run across a generalized island model for massively parallel population search;
+   - NLP solvers, run across a generalized island model for massively parallel population search;
    Pareto fronts + uncertainty quantification. Right for "best mission given N uncertain params."
    PyPI wheels are Linux x86_64/aarch64 only (Windows needs conda-forge/source).
 5. **6DOF forward-integration Monte Carlo** (CamPyRoS): full 3-trans + 3-rot dynamics, variable
@@ -124,21 +125,25 @@ pymc is the most likely future addition (uncertainty on prices/densities); Pyomo
 relevant if the project scope expands to constrained allocation, invariant proving, or market dynamics.
 
 ### skyfield -- precise ephemerides / phase angles
+
 MIT, pure Python, **only binary dep is numpy** -> lowest-risk addition. DE421/DE430 planetary
 positions at any epoch. Useful to compute exact launch-window phase angles and to validate the
 `synodic_period_yr` approximation in calc.py against a real ephemeris.
 
 ### astroquery -- catalog enrichment (stage 1)
+
 BSD-3-Clause, astropy-affiliated. Sub-packages for JPL Horizons, SIMBAD, NEOWISE, etc. Could
 add sources to `catalog.py` beyond the current SBDB/MP3C/ssoBFT/NEOWISE set. Watch rate limits
 on large catalogs (it's a query layer over web services).
 
 ### pymc -- optional uncertainty layer (stage 2)
+
 Apache-2.0, Bayesian inference. If point estimates for mineral prices / densities should become
 distributions with credible intervals on the profit ranking, this is the tool. Heavy dep chain
 (pytensor/Aesara lineage) -- only add if the uncertainty question is actually wanted.
 
 ### space-datasets -- bulk data source (stage 1)
+
 200+ auto-updated datasets on Hugging Face from NASA/NOAA/ESA/JPL/SpaceX/Wikidata. Could feed
 catalog.py or mineral_value.py without per-source scraping. License shows NOASSERTION -- check
 the actual dataset licenses before relying on it.
@@ -181,7 +186,7 @@ Per-repo action items beyond "wire in" — what each would actually do here and 
 | brahe | Gated cross-check script (research/ level): closed-form dv vs numerical per body + exact phase angles → comparison CSV that never feeds ranking math. Its SBDB/Horizons clients could also enrich stage 1 without new scraping code. | One-off validation run; pin version during their transitional deprecation window |
 | skyfield | Quantify the synodic-window approximation: `synodic_period_yr` is a closed-form mean-motion ratio — compare against ephemeris-derived exact phase angles per body, report distribution of deltas (km/s and days). Feeds directly into documenting calc 1.19.2's window_phasing_au fix margin. | numpy-only; cheap enough to run on the full catalog once |
 | astroquery | SDSS cross-survey at scale: manual spot check found ~34% albedo disagreement between surveys — turn it into a per-body provenance column for every body in the SDSS footprint, converting the 90.2%-albedo-assumed problem from population statistic to per-row uncertainty flags (natural input to the pymc layer). | Batch queries; cache results as CSV like other stage-1 data |
-| pymc | Uncertainty layer on comp_* / price elasticities with engine selection: NUTS MCMC for a handful of load-bearing global constants (exact-ish posteriors, high cost); ADVI variational inference for per-body comp_* at ~1.5M-row scale (fast approximate). Both PyTensor-based; heavy dep chain — gated + pinned in both requirements files. | Do NOT run NUTS per body; that's the engine-selection trap |
+| pymc | Uncertainty layer on `comp_*` / price elasticities with engine selection: NUTS MCMC for a handful of load-bearing global constants (exact-ish posteriors, high cost); ADVI variational inference for per-body `comp_*` at ~1.5M-row scale (fast approximate). Both PyTensor-based; heavy dep chain — gated + pinned in both requirements files. | Do NOT run NUTS per body; that's the engine-selection trap |
 | Pyomo (+ COIN-OR) | MIQP fleet-allocation study: "which subset of top-N candidates maximizes net value under N launches/yr and fleet bounds" — calc.py's per-row outputs are exactly the coefficient vector. One-off research script unless a result is promoted into stage 4. | BSD-3 (COIN-OR); solver choice matters more than modeling layer here |
 | z3 | Invariant proofs for harness structure, one-time + re-run on schema changes: preflight covers every destination pair; mass-ledger identity over config space; window_phasing_au total across all seven destinations. Empirical checks catch data regressions; a proof catches the structural class calc 1.19.2 just fixed (a conditional naming one member of a set instead of asking the set). | MIT; no runtime cost — proofs run at build/verify time only |
 | mesa | Market-dynamics sandbox: competing-firm agents against static saturation constants; stress-tests geo's role as the smallest in-space market (40,000 kg/yr anchor) from a fixed number into a process. Long-term research item, not pipeline work. | Agent-based emergent dynamics — different paradigm entirely |

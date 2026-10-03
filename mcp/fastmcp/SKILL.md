@@ -20,7 +20,6 @@ prerequisites:
 
 Builds, tests, and deploys Model Context Protocol servers in Python using FastMCP: tool/resource/prompt definitions from plain functions, typed arguments via Pydantic, local testing with the built-in client, and packaging for distribution. Ships templates + scripts so a working server goes from zero to tested in one session.
 
-
 Build MCP servers in Python with FastMCP, validate them locally, install them into MCP clients, and deploy them as HTTP endpoints.
 
 ## When to Use

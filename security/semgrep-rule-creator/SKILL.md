@@ -34,6 +34,7 @@ Create production-quality Semgrep rules with proper testing and validation.
 ## When to Use
 
 **Ideal scenarios:**
+
 - Writing Semgrep rules for specific bug patterns
 - Writing rules to detect security vulnerabilities in your codebase
 - Writing taint mode rules for data flow vulnerabilities
@@ -42,6 +43,7 @@ Create production-quality Semgrep rules with proper testing and validation.
 ## When NOT to Use
 
 Do NOT use this skill for:
+
 - Running existing Semgrep rulesets
 - General static analysis without custom rules (use `static-analysis` skill)
 
@@ -59,6 +61,7 @@ When writing Semgrep rules, reject these common shortcuts:
 ## Anti-Patterns
 
 **Too broad** - matches everything, useless for detection:
+
 ```yaml
 # BAD: Matches any function call
 pattern: $FUNC(...)
@@ -68,6 +71,7 @@ pattern: eval(...)
 ```
 
 **Missing safe cases in tests** - leads to undetected false positives:
+
 ```python
 # BAD: Only tests vulnerable case
 # ruleid: my-rule
@@ -85,6 +89,7 @@ dangerous("hardcoded_safe_value")
 ```
 
 **Overly specific patterns** - misses variations:
+
 ```yaml
 # BAD: Only matches exact format
 pattern: os.system("rm " + $VAR)
@@ -100,6 +105,7 @@ pattern-sinks:
 ## Strictness Level
 
 This workflow is **strict** - do not skip steps:
+
 - **Read documentation first**: See [Documentation](#documentation) before writing Semgrep rules
 - **Test-first is mandatory**: Never write a rule without tests
 - **100% test pass is required**: "Most tests pass" is not acceptable
@@ -115,6 +121,7 @@ This workflow is **strict** - do not skip steps:
 This skill guides creation of Semgrep rules that detect security vulnerabilities and code patterns. Rules are created iteratively: analyze the problem, write tests first, analyze AST structure, write the rule, iterate until all tests pass, optimize the rule.
 
 **Approach selection:**
+
 - **Taint mode** (prioritize): Data flow issues where untrusted input reaches dangerous sinks
 - **Pattern matching**: Simple syntactic patterns without data flow requirements
 
@@ -123,6 +130,7 @@ This skill guides creation of Semgrep rules that detect security vulnerabilities
 **Iterating between approaches:** It's okay to experiment. If you start with taint mode and it's not working well (e.g., taint doesn't propagate as expected, too many false positives/negatives), switch to pattern matching. Conversely, if pattern matching produces too many false positives on safe cases, try taint mode instead. The goal is a working rule—not rigid adherence to one approach.
 
 **Output structure** - exactly 2 files in a directory named after the rule-id:
+
 ```
 <rule-id>/
 ├── <rule-id>.yaml     # Semgrep rule
@@ -145,6 +153,7 @@ rules:
 ```
 
 Test file (`insecure-eval.py`):
+
 ```python
 # ruleid: insecure-eval
 eval(request.args.get('code'))

@@ -26,6 +26,7 @@ sanity notes (empty strings = not populated; garbage economics fields are known)
 Read-only research tool. Endpoint is keyless and paginated — be polite (one page
 per run by default).
 """
+
 import argparse
 import json
 import re
@@ -37,21 +38,34 @@ API = "http://www.asterank.com/api/asterank"
 
 
 def fetch_page(query: str, limit: int, offset: int) -> list[dict]:
-    resp = requests.get(API, params={"query": query, "limit": limit,
-                                     "offset": offset}, timeout=120)
+    resp = requests.get(API, params={"query": query, "limit": limit, "offset": offset}, timeout=120)
     resp.raise_for_status()
     return resp.json()
 
 
-SIGMA_COLS = ["sigma_a", "sigma_e", "sigma_i", "sigma_om", "sigma_w", "sigma_ma",
-              "sigma_q", "sigma_ad", "sigma_per", "sigma_n", "sigma_tp"]
-PROVENANCE = ["n_del_obs_used", "n_dop_obs_used", "data_arc", "rms",
-              "condition_code", "orbit_id"]
+SIGMA_COLS = [
+    "sigma_a",
+    "sigma_e",
+    "sigma_i",
+    "sigma_om",
+    "sigma_w",
+    "sigma_ma",
+    "sigma_q",
+    "sigma_ad",
+    "sigma_per",
+    "sigma_n",
+    "sigma_tp",
+]
+PROVENANCE = ["n_del_obs_used", "n_dop_obs_used", "data_arc", "rms", "condition_code", "orbit_id"]
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("designations", nargs="*", help="bodies to look up (MPC des like '1999 AO10', or proper name like 'Eros')")
+    ap.add_argument(
+        "designations",
+        nargs="*",
+        help="bodies to look up (MPC des like '1999 AO10', or proper name like 'Eros')",
+    )
     ap.add_argument("--top", type=int, default=10, help="--top mode: sample N rows")
     args = ap.parse_args()
 
@@ -61,11 +75,11 @@ def main() -> int:
         frames = []
         for des in args.designations[:25]:  # politeness cap
             rows, tried = [], None
-            if re.match(r"^\d{4}\s", des.strip()):       # MPC-style temporary/permanent des
+            if re.match(r"^\d{4}\s", des.strip()):  # MPC-style temporary/permanent des
                 qobj = {"pdes": des}
-            elif des.isdigit():                            # plain number -> pdes is numeric for numbered bodies
+            elif des.isdigit():  # plain number -> pdes is numeric for numbered bodies
                 qobj = {"pdes": des}
-            else:                                          # proper names and anything else
+            else:  # proper names and anything else
                 qobj = {"name": des}
             tried = json.dumps(qobj)
             try:
@@ -108,25 +122,34 @@ def main() -> int:
 
     # Schema sanity notes (the 2026-09-07 re-probe findings, checked live each run).
     missing = [c for c in SIGMA_COLS if c not in df.columns]
-    empty_frac = {c: float((df[c].astype(str) == "").mean())
-                  for c in SIGMA_COLS if c in df.columns}
+    empty_frac = {c: float((df[c].astype(str) == "").mean()) for c in SIGMA_COLS if c in df.columns}
     print("\nSchema notes:")
-    print(f"  sigma columns present: {len(SIGMA_COLS) - len(missing)}/{len(SIGMA_COLS)}"
-          + (f" MISSING: {missing}" if missing else ""))
+    print(
+        f"  sigma columns present: {len(SIGMA_COLS) - len(missing)}/{len(SIGMA_COLS)}"
+        + (f" MISSING: {missing}" if missing else "")
+    )
     for c, f_ in empty_frac.items():
         flag = "  <-- EMPTY on every sampled row" if f_ >= 1.0 else ""
         print(f"  {c}: empty-string fraction {f_:.0%}{flag}")
     dead = [c for c in ("dv",) if c in df.columns]
     new_keys = [c for c in ("two_body", "DT") if c in df.columns]
-    print(f"  legacy dv column: {'present on these rows' if dead else 'absent from this projection'} — NOTE the two API modes differ:")
+    print(
+        f"  legacy dv column: {'present on these rows' if dead else 'absent from this projection'} — NOTE the two API modes differ:"
+    )
     if dead:
         nonempty_dv = sum(1 for v in df["dv"] if str(v).strip() not in ("", "None"))
-        print(f"    targeted-query rows carry real Shoemaker-Helin values ({nonempty_dv}/{len(df)} populated here);")
-        print("    bulk-scan (query={}) projections have NO dv key at all — the 2026-09-07 'dv column gone' finding was a projection artifact.")
+        print(
+            f"    targeted-query rows carry real Shoemaker-Helin values ({nonempty_dv}/{len(df)} populated here);"
+        )
+        print(
+            "    bulk-scan (query={}) projections have NO dv key at all — the 2026-09-07 'dv column gone' finding was a projection artifact."
+        )
     if new_keys:
         all_empty = all((df[c].astype(str) == "").all() for c in new_keys)
-        print(f"  placeholder keys {new_keys}: "
-              f"{'empty on every sampled row' if all_empty else 'NOW POPULATED — re-audit!'}")
+        print(
+            f"  placeholder keys {new_keys}: "
+            f"{'empty on every sampled row' if all_empty else 'NOW POPULATED — re-audit!'}"
+        )
     return 0
 
 

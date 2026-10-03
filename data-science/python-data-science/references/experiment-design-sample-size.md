@@ -31,6 +31,7 @@ Reading: at a 3% baseline you need ~120k per variant to detect a *relative* 10% 
 ## Duration floors and ceilings (the part sample-size math misses)
 
 **Minimum duration even with enough samples:**
+
 - **≥1 full week** — captures day-of-week variation (weekday vs weekend behavior is a real confound).
 - **2 business cycles for B2B** — decision patterns differ by phase.
 - **Through paydays/period boundaries for e-commerce** — beginning/end of month effects.
@@ -50,6 +51,7 @@ A 4-day "significant" result that straddles only weekdays is measuring the weekd
 ## Sequential testing (peeking) — when and how
 
 Checking results before reaching sample size inflates false-positive rate (each look is another chance to cross the threshold by noise). If you genuinely must peek (high-risk change where a bad variant should stop early):
+
 - Use a method that **adjusts for multiple looks** (alpha-spending boundaries / always-valid p-values; Bayesian approaches with decision thresholds rather than point estimates — PostHog-style, Optimizely Stats Accelerator, VWO SmartStats).
 - Tradeoffs: more flexibility to stop early, slightly larger required sample, more complex analysis.
 - Never: run a fixed-horizon design and eyeball the p-value daily "just in case."

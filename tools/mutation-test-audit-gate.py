@@ -19,6 +19,7 @@ frontmatter `script:` existence check could never match anything (M7).
 Run:  py tools/mutation-test-audit-gate.py     (also invoked by verify-all as a gate)
 Exit 0 = every mutation caught AND the control is clean; exit 1 otherwise.
 """
+
 import importlib.util
 import shutil
 import sys
@@ -39,8 +40,10 @@ except (AttributeError, ValueError):
 _HERE = Path(__file__).resolve()
 REPO = _HERE.parents[1]
 if not (REPO / "tools" / "audit-skills.py").exists():
-    raise SystemExit(f"[FATAL] {_HERE.name} must run from the repo's tools/ dir "
-                     f"(no tools/audit-skills.py under {REPO})")
+    raise SystemExit(
+        f"[FATAL] {_HERE.name} must run from the repo's tools/ dir "
+        f"(no tools/audit-skills.py under {REPO})"
+    )
 
 
 def load_auditor():
@@ -104,7 +107,7 @@ def main():
             p.parent.mkdir(parents=True)
             p.write_text(text, encoding="utf-8")
         (tmp / "cat" / "DESCRIPTION.md").write_text("cat\n", encoding="utf-8")
-        mod.REPO_ROOT = tmp          # same monkeypatch trick as the other gate self-tests
+        mod.REPO_ROOT = tmp  # same monkeypatch trick as the other gate self-tests
         mod.MIN_EXPECTED_SKILLS = 1  # the fixture is tiny by design
 
         report = mod.run_audit()
@@ -117,8 +120,9 @@ def main():
             if not hit:
                 failures.append(f"{label} not reported under {cls}")
 
-        polluted = [f"{cls}: {f}" for cls, found in issues.items()
-                    for f in found if f.startswith("clean")]
+        polluted = [
+            f"{cls}: {f}" for cls, found in issues.items() for f in found if f.startswith("clean")
+        ]
         print(f"  {'CLEAN ' if not polluted else 'FALSE-POSITIVE'}: control skill")
         failures.extend(f"control flagged: {p}" for p in polluted)
 
@@ -130,7 +134,9 @@ def main():
             failures.append(f"threshold class(es) with no planted mutation: {sorted(uncovered)}")
 
         if not failures:
-            print(f"ALL {len(MUTATIONS)} MUTATIONS CAUGHT, CONTROL CLEAN — audit gate verified fail-loud.")
+            print(
+                f"ALL {len(MUTATIONS)} MUTATIONS CAUGHT, CONTROL CLEAN — audit gate verified fail-loud."
+            )
             return 0
         print("\nFAILED: " + "; ".join(failures))
         return 1

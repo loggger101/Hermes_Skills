@@ -49,6 +49,7 @@ dark: false
 ```
 
 **Reserved field semantics:**
+
 - `tiers[i].style` — one of `outer`, `default`, `focal`, `cold`. Drives the card's fill/stroke palette (§2.4).
 - `tiers[i].focal: true` — exactly **one** tier may declare this. Overrides `style` to `focal` and switches the promotion arrow *into* this tier to `focal` automatically.
 - `tiers[i].fields` — `{tool, format, writer, example}`. `example` is a 1- or 2-item list; the section heading uses `example_label`.
@@ -164,6 +165,7 @@ Each promotion is a **cubic Bézier arc** anchored at the **top-center** of each
 ```
 
 Concrete for the canonical 5-tier shape (`tier_y = 80`, tier centers at x = 102, 290, 478, 666, 854):
+
 - 0→1: `M 102,80 C 102,0 290,0 290,80`
 - 1→2: `M 290,80 C 290,0 478,0 478,80`
 - 2→3: `M 478,80 C 478,0 666,0 666,80`  (focal — accent)
@@ -182,11 +184,13 @@ The cubic geometry: anchor y = 80 (tier top), control y = 0 (top of viewBox). Cu
 | `lifecycle` | `muted` | 1.4 | `4,3` | `arrow` |
 
 **Auto-style rules:**
+
 - If `promotions[k].to` references the **focal tier**, the style auto-promotes to `focal` (accent, width 1.6, `arrow-accent` marker).
 - If `promotions[k].to` references a tier with a **`color` override** (§4), the arrow inherits that hex — stroke = `C`, label fill = `C`, marker-end uses a color-matched marker (e.g., `arrow-yellow` for `#c9a23a`). Width stays at 1.4 — the color override is a "concern" signal, not a focal promotion. Lifecycle/dashed arrows keep their dash but adopt the color.
 - Focal wins if both apply (a colored tier marked focal still uses accent).
 
 **Label inside the arc:**
+
 - Anchored at `(arc_peak_x(k), arc_label_y)` = `((arc_src_x + arc_dst_x) / 2, 50)`.
 - `arrow-label` role at 10px with `letter-spacing=0.08em`, uppercase. Color matches the arrow stroke.
 - **No mask rect needed** — the cubic curve peaks at y ≈ 20 and the label sits at y=50, well below the curve. The label floats inside the open space *enclosed* by the arc, reading "X transforms into Y" with the arc itself as the visual frame.
@@ -209,6 +213,7 @@ path_w[1]   = 460
 (Both paths land 460-wide despite the viewBox being 1040 — the right pad is taken from the card's tier strip, not the path strip. Keep `path_w=460` for the canonical 5-tier shape. For other tier counts, derive `path_w = (viewBox_w - 2*left_pad - path_gap) / 2`.)
 
 Per-card content:
+
 - Container rect: white fill, `ink @ 0.20` stroke width 1, `rx=6`.
 - Tag chip: rect at `(path_x + 8, path_y + 6)`, `h=12 rx=2`, fill transparent, stroke `ink @ 0.30` width 0.8. Tag text centered inside in the `eyebrow` role with letter-spacing 0.08em, ink.
 - Title at `(path_x + 80, path_y + 30)`: `node-name` role at 11px, ink.
@@ -286,6 +291,7 @@ Same palette as the other parametric types so a reader scanning multiple diagram
 Exactly **one** focal tier per diagram. Defaults to the tier marked `focal: true` in inputs; if none is marked, defaults to the analytical pivot tier (typically `Aggregated` or whichever tier downstream consumers query).
 
 The focal tier:
+
 - Uses `style: focal` (accent fill + stroke 1.6 + accent header band).
 - Renders bucket text and example-value lines in accent.
 - Has its **incoming** promotion arrow auto-promoted to `style: focal` (accent).

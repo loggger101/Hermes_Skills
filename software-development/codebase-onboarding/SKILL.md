@@ -182,10 +182,13 @@ Generate or update a project-specific `AGENTS.md` (or `CLAUDE.md`, whichever har
 ## Examples
 
 ### Example 1: First time in a new repo
+
 **User**: "Onboard me to this codebase" → Run full 4-phase workflow; Onboarding Guide printed to conversation plus `AGENTS.md` written to project root.
 
 ### Example 2: Generate instructions for existing project
+
 **User**: "Generate an AGENTS.md for this project" → Phases 1–3 only, produce the instruction file with detected conventions.
 
 ### Example 3: Enhance existing instructions
+
 **User**: "Update the AGENTS.md with current project conventions" → Read existing file, run Phases 1–3, merge new findings with additions clearly marked.

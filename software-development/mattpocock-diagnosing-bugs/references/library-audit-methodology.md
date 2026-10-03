@@ -9,9 +9,11 @@ Use when the "bug" is not a code bug but a quality gap across a collection of do
 ## Two Audit Modes
 
 ### Mode A: Scoring Rubric (section-by-section quality)
+
 Use when you need to assess content depth and structural completeness. Apply the scoring rubric below to rank skills by quality.
 
 ### Mode B: Structural Validation (bulk frontmatter checks)
+
 Use when you suspect systemic issues across the library — broken references, duplicate names, missing frontmatter fields, or descriptions violating formatting rules. Write a one-off Python script that walks all `SKILL.md` files, parses YAML frontmatter, and cross-references the skill name set. This catches data-quality issues a human eyeballing individual files would miss.
 
 Apply the same tight-feedback-loop discipline from `mattpocock-diagnosing-bugs`:
@@ -51,6 +53,7 @@ done | sort -n
 ### 4. Fix Specifically
 
 For each low-scoring artifact:
+
 1. Identify the specific missing section or issue
 2. Add the missing section with content specific to this skill
 3. Re-score to confirm improvement

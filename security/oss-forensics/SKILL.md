@@ -38,7 +38,6 @@ When investigating a suspected supply-chain compromise or malicious release in a
 
 GitHub supply-chain forensics: given an incident (compromised package, malicious release), recovers evidence — who published what and when, tag/commit tampering indicators, IOC extraction from the repo's own history — then produces a structured report. Opens with anti-hallucination guardrails because forensic claims must be grounded in retrieved artifacts, not model memory.
 
-
 A 7-phase multi-agent investigation framework for researching open-source supply chain attacks.
 Adapted from RAPTOR's forensics system. Covers GitHub Archive, Wayback Machine, GitHub API,
 local git analysis, IOC extraction, evidence-backed hypothesis formation and validation,
@@ -77,18 +76,24 @@ Read these before every investigation step. Violating them invalidates the repor
 ## Phase 0: Initialization
 
 1. Create investigation working directory:
+
    ```bash
    mkdir investigation_$(echo "REPO_NAME" | tr '/' '_')
    cd investigation_$(echo "REPO_NAME" | tr '/' '_')
    ```
+
 2. Initialize the evidence store:
+
    ```bash
    python SKILL_DIR/scripts/evidence-store.py --store evidence.json list
    ```
+
 3. Copy the forensic report template:
+
    ```bash
    cp SKILL_DIR/templates/forensic-report.md ./investigation-report.md
    ```
+
 4. Create an `iocs.md` file to track Indicators of Compromise as they are discovered.
 5. Record the investigation start time, target repository, and stated investigation goal.
 
@@ -99,6 +104,7 @@ Read these before every investigation step. Violating them invalidates the repor
 **Goal**: Extract all structured investigative targets from the user's request.
 
 **Actions**:
+
 - Parse the user prompt and extract:
   - Target repository (`owner/repo`)
   - Target actors (GitHub handles, email addresses)
@@ -109,6 +115,7 @@ Read these before every investigation step. Violating them invalidates the repor
 **Tools**: Reasoning only, or `execute_code` for regex extraction from large text blocks.
 
 **Output**: Populate `iocs.md` with extracted IOCs. Each IOC must have:
+
 - Type (from: COMMIT_SHA, FILE_PATH, API_KEY, SECRET, IP_ADDRESS, DOMAIN, PACKAGE_NAME, ACTOR_USERNAME, MALICIOUS_URL, OTHER)
 - Value
 - Source (user-provided, inferred)
@@ -130,6 +137,7 @@ Spawn up to 5 specialist investigator sub-agents using `delegate_task` (batch mo
 **ROLE BOUNDARY**: You query the LOCAL GIT REPOSITORY ONLY. Do not call any external APIs.
 
 **Actions**:
+
 ```bash
 # Clone repository
 git clone https://github.com/OWNER/REPO.git target_repo && cd target_repo
@@ -154,6 +162,7 @@ git log --show-signature --format="%H %ai %aN" > ../signature_check.txt 2>&1
 ```
 
 **Evidence to collect** (add via `python SKILL_DIR/scripts/evidence-store.py add`):
+
 - Each dangling commit SHA → type: `git`
 - Force-push evidence (reflog showing history rewrite) → type: `git`
 - Unsigned commits from verified contributors → type: `git`
@@ -168,6 +177,7 @@ git log --show-signature --format="%H %ai %aN" > ../signature_check.txt 2>&1
 **ROLE BOUNDARY**: You query the GITHUB REST API ONLY. Do not run git commands locally.
 
 **Actions**:
+
 ```bash
 # Commits (paginated)
 curl -s "https://api.github.com/repos/OWNER/REPO/commits?per_page=100" > api_commits.json
@@ -195,6 +205,7 @@ curl -s "https://api.github.com/repos/OWNER/REPO/commits/SHA" | jq .sha
 ```
 
 **Cross-reference targets** (flag discrepancies as evidence):
+
 - PR exists in archive but missing from API → evidence of deletion
 - Contributor in archive events but not in contributors list → evidence of permission revocation
 - Commit in archive PushEvents but not in API commit list → evidence of force-push/deletion
@@ -210,6 +221,7 @@ curl -s "https://api.github.com/repos/OWNER/REPO/commits/SHA" | jq .sha
 **Goal**: Recover deleted GitHub pages (READMEs, issues, PRs, releases, wiki pages).
 
 **Actions**:
+
 ```bash
 # Search for archived snapshots of the repo main page
 curl -s "https://web.archive.org/cdx/search/cdx?url=github.com/OWNER/REPO&output=json&limit=100&from=YYYYMMDD&to=YYYYMMDD" > wayback_main.json
@@ -232,6 +244,7 @@ curl -s "https://web.archive.org/cdx/search/cdx?url=github.com/OWNER/REPO/wiki/*
 ```
 
 **Evidence to collect**:
+
 - Archived snapshots of deleted issues/PRs with their content
 - Historical README versions showing changes
 - Evidence of content present in archive but missing from current GitHub state
@@ -247,6 +260,7 @@ curl -s "https://web.archive.org/cdx/search/cdx?url=github.com/OWNER/REPO/wiki/*
 > **Prerequisites**: Requires Google Cloud credentials with BigQuery access (`gcloud auth application-default login`). If unavailable, skip this investigator and note it in the report.
 
 **Cost Optimization Rules** (MANDATORY):
+
 1. ALWAYS run a `--dry_run` before every query to estimate cost.
 2. Use `_TABLE_SUFFIX` to filter by date range and minimize scanned data.
 3. Only SELECT the columns you need.
@@ -280,6 +294,7 @@ LIMIT 200
 ```
 
 **Evidence to collect**:
+
 - Force-push events (payload.size > 0, payload.distinct_size = 0)
 - DeleteEvents for branches/tags
 - WorkflowRunEvents for suspicious CI/CD automation
@@ -294,6 +309,7 @@ LIMIT 200
 **ROLE BOUNDARY**: You enrich EXISTING IOCs from Phase 1 using passive public sources ONLY. Do not execute any code from the target repository.
 
 **Actions**:
+
 - For each commit SHA: attempt recovery via direct GitHub URL (`github.com/OWNER/REPO/commit/SHA.patch`)
 - For each domain/IP: check passive DNS, WHOIS records (via `web_extract` on public WHOIS services)
 - For each package name: check npm/PyPI for matching malicious package reports
@@ -320,12 +336,14 @@ After all investigators complete:
 ## Phase 4: Hypothesis Formation
 
 A hypothesis must:
+
 - State a specific claim (e.g., "Actor X force-pushed to BRANCH on DATE to erase commit SHA")
 - Cite at least 2 evidence IDs that support it (`EV-XXXX`, `EV-YYYY`)
 - Identify what evidence would disprove it
 - Be labeled `[HYPOTHESIS]` until validated
 
 **Common hypothesis templates** (see [investigation-templates.md](./references/investigation-templates.md)):
+
 - Maintainer Compromise: legitimate account used post-takeover to inject malicious code
 - Dependency Confusion: package name squatting to intercept installs
 - CI/CD Injection: malicious workflow changes to run code during builds
@@ -347,6 +365,7 @@ The validator sub-agent MUST mechanically check:
 5. Check for alternative explanations: could the same evidence pattern arise from a benign cause?
 
 **Output**:
+
 - `VALIDATED`: All evidence cited, verified, logically consistent, no plausible alternative explanation.
 - `INCONCLUSIVE`: Evidence supports hypothesis but alternative explanations exist or evidence is insufficient.
 - `REJECTED`: Missing evidence IDs, unverified evidence cited as fact, logical inconsistency detected.
@@ -360,6 +379,7 @@ Rejected hypotheses feed back into Phase 4 for refinement (max 3 iterations).
 Populate `investigation-report.md` using the template in [forensic-report.md](./templates/forensic-report.md).
 
 **Mandatory sections**:
+
 - Executive Summary: one-paragraph verdict (Compromised / Clean / Inconclusive) with confidence level
 - Timeline: chronological reconstruction of all significant events with evidence citations
 - Validated Hypotheses: each with status and supporting evidence IDs
@@ -369,6 +389,7 @@ Populate `investigation-report.md` using the template in [forensic-report.md](./
 - Recommendations: immediate mitigations if compromise detected; monitoring recommendations
 
 **Report rules**:
+
 - Every factual claim must have at least one `[EV-XXXX]` citation
 - Executive Summary must state confidence level (High / Medium / Low)
 - All secrets/credentials must be redacted to `[REDACTED]`
@@ -399,6 +420,7 @@ This skill is designed for **defensive security investigation** — protecting o
 Investigations should be conducted with the principle of **minimal intrusion**: collect only the evidence necessary to validate or refute the hypothesis. When publishing results, follow responsible disclosure practices and coordinate with affected maintainers before public disclosure.
 
 If the investigation reveals a genuine compromise, follow the coordinated vulnerability disclosure process:
+
 1. Notify the repository maintainers privately first
 2. Allow reasonable time for remediation (typically 90 days)
 3. Coordinate with package registries (npm, PyPI, etc.) if published packages are affected
@@ -414,6 +436,7 @@ GitHub REST API enforces rate limits that will interrupt large investigations if
 **Unauthenticated requests**: 60/hour (unusable for investigations)
 
 **Best practices**:
+
 - Always authenticate: `export GITHUB_TOKEN=ghp_...` or use `gh` CLI (auto-authenticates)
 - Use conditional requests (`If-None-Match` / `If-Modified-Since` headers) to avoid consuming quota on unchanged data
 - For paginated endpoints, fetch all pages in sequence — don't parallelize against the same endpoint

@@ -18,6 +18,7 @@ Usage:
   python quality_signal.py <project-dir> --save-baseline FILE.json
   python quality_signal.py <project-dir> --baseline FILE.json   # exits 0/1
 """
+
 import ast
 import hashlib
 import json
@@ -25,15 +26,28 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
-SKIP_DIRS = {".git", ".venv", "venv", "__pycache__", "node_modules", ".tox",
-             ".mypy_cache", ".ruff_cache", "build", "dist", ".eggs"}
+SKIP_DIRS = {
+    ".git",
+    ".venv",
+    "venv",
+    "__pycache__",
+    "node_modules",
+    ".tox",
+    ".mypy_cache",
+    ".ruff_cache",
+    "build",
+    "dist",
+    ".eggs",
+}
 
 
 def find_py_files(root: Path):
     out = []
     for p in sorted(root.rglob("*.py")):
-        if any(part in SKIP_DIRS or part.startswith(".") and part != ".github"
-               for part in p.relative_to(root).parts[:-1]):
+        if any(
+            part in SKIP_DIRS or part.startswith(".") and part != ".github"
+            for part in p.relative_to(root).parts[:-1]
+        ):
             continue
         try:
             src = p.read_text(encoding="utf-8", errors="replace")
@@ -82,7 +96,7 @@ def build_graph(files, root: Path):
                 targets += [a.name for a in node.names]
             elif isinstance(node, ast.ImportFrom) and node.module:
                 lvl = node.level or 0
-                base = pkg_parts[:len(pkg_parts) - (lvl - 1)] if lvl else []
+                base = pkg_parts[: len(pkg_parts) - (lvl - 1)] if lvl else []
                 dotted = ".".join(base + node.module.split("."))
                 targets.append(dotted)
             for t in targets:
@@ -210,9 +224,18 @@ def cyclomatic(tree):
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             cc = 1
             for sub in ast.walk(node):
-                if isinstance(sub, (ast.If, ast.For, ast.AsyncFor, ast.While,
-                                    ast.ExceptHandler, ast.Assert,
-                                    ast.comprehension)):
+                if isinstance(
+                    sub,
+                    (
+                        ast.If,
+                        ast.For,
+                        ast.AsyncFor,
+                        ast.While,
+                        ast.ExceptHandler,
+                        ast.Assert,
+                        ast.comprehension,
+                    ),
+                ):
                     cc += 1
                 elif isinstance(sub, ast.BoolOp):
                     cc += len(sub.values) - 1
@@ -353,9 +376,14 @@ def main():
         "modules": len(nodes),
         "edges": len(edges),
         "functions": total_fns,
-        "raw": {"newman_q": round(q, 4), "cycles": cycles, "max_depth": depth,
-                "cc_gini": round(gini_cc, 4), "dead_functions": dead,
-                "duplicate_extras": dups},
+        "raw": {
+            "newman_q": round(q, 4),
+            "cycles": cycles,
+            "max_depth": depth,
+            "cc_gini": round(gini_cc, 4),
+            "dead_functions": dead,
+            "duplicate_extras": dups,
+        },
         "scores": {k: round(v, 4) for k, v in scores.items()},
         "quality_signal": signal,
         "bottleneck": bottleneck,
@@ -366,14 +394,18 @@ def main():
         r = result["raw"]
         s = result["scores"]
         print(f"Quality {signal}  (bottleneck: {bottleneck})")
-        print(f"  files={result['files']} modules={result['modules']} "
-              f"edges={result['edges']} functions={total_fns}")
+        print(
+            f"  files={result['files']} modules={result['modules']} "
+            f"edges={result['edges']} functions={total_fns}"
+        )
         print(f"  modularity   Q={r['newman_q']:+.3f}      score {s['modularity']:.4f}")
         print(f"  acyclicity   cycles={r['cycles']:<5d}     score {s['acyclicity']:.4f}")
         print(f"  depth        max_chain={r['max_depth']:<3d}    score {s['depth']:.4f}")
         print(f"  equality     cc_gini={r['cc_gini']:.3f}   score {s['equality']:.4f}")
-        print(f"  redundancy   dead={r['dead_functions']} dup_extra={r['duplicate_extras']:>3d}"
-              f"             score {s['redundancy']:.4f}")
+        print(
+            f"  redundancy   dead={r['dead_functions']} dup_extra={r['duplicate_extras']:>3d}"
+            f"             score {s['redundancy']:.4f}"
+        )
 
 
 if __name__ == "__main__":

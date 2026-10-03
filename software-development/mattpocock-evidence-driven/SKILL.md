@@ -45,26 +45,33 @@ Implements evidence-driven method pack for AI coding agents. Every change must b
 Before merging any change:
 
 ### 1. Run the test suite
+
 ```bash
 pytest tests/ -v
 ```
+
 All tests must pass, including new tests that would fail without this change.
 
 ### 2. Run security scan
+
 ```bash
 # Use mattpocock-security-review for OWASP checklist
 skill_view(name='mattpocock-security-review')
 ```
+
 No new critical or high-severity findings.
 
 ### 3. Run code review
+
 ```bash
 # Use mattpocock-code-review for two-axis parallel review
 skill_view(name='mattpocock-code-review')
 ```
+
 Invoke with the fixed point (e.g. `main` branch).
 
 ### 4. Run the actual pipeline (if applicable)
+
 For your project: run the end-to-end pipeline and verify the output is correct.
 
 ## Evidence Collection Table

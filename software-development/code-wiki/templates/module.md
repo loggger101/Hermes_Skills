@@ -20,6 +20,7 @@
 {{ONE_LINE_DESCRIPTION}}
 
 **Parameters:**
+
 - `{{PARAM}}` ({{TYPE}}) — {{DESCRIPTION}}
 
 **Returns:** {{TYPE}} — {{DESCRIPTION}}

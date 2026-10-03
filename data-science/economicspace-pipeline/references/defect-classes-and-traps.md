@@ -7,9 +7,11 @@ From CLAUDE.md "Durable lessons from the release history". Read before optimisin
 ## The five defect classes
 
 **1. A mass in one cascade with no price in the other.** The mass cascade and cost cascade live in different places; nothing checks that every kg in one has a price in the other, or that every kg the cost model pays for is actually flown. Look here FIRST (v1.11.0 introduced three fresh instances while fixing three older ones). One-line assertion catching the whole family:
+
 ```python
 hardware_total_kg == mining_hardware_kg + power_system_kg + ep_system_kg
 ```
+
 ⚠️ `mining_hardware_kg` is NOT an output column — the rig is a config constant (2,000 kg). Written verbatim against the CSV it raises KeyError; has done so to two harnesses.
 
 **2. A reference row that is internally contradictory**, holding two mutually exclusive physical states and collecting both benefits. Argon carried a cryogenic liquid's density AND an ambient gas's zero boil-off — its own comments contradicting each other three lines apart. Neither number was crazy alone. Check that a row's fields describe a single physical article.
@@ -60,6 +62,7 @@ cupy  fp64 exp, 40M elements   1.695 s   <- 7.6x SLOWER than CPU (TU102's 1:32 F
 cupy  fp32 exp                 0.137 s   <- unusable: every verification is a bit-identity check
 host->device, 320 MB           0.055 s
 ```
+
 Workload is the wrong shape anyway (branchy scalar Python with early exits, fixed-point loop, knapsack with sorted()); the one GPU-shaped piece — the pre-filter — is ~14 GFLOP for the entire catalog, under a second on either processor. RAM not a constraint (~6 GB peak vs 64 GB) except what 1.17.7 closed.
 
 ## The open structural item: branch-and-bound on the objective

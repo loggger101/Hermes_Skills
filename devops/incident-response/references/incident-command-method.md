@@ -4,7 +4,6 @@ The ladders, entry shapes, and cadences the workflow body points at. Open this w
 
 This commands an incident that is still running. Once it is closed, the postmortem, the SLO consequence, and the remediation follow-ups belong to `reliability-review`, which reads the timeline this workflow wrote.
 
-
 > **Port note.** Two upstream sibling-skill names appear below and have no counterpart in this brain: `reliability-review` = postmortem/SLO/error-budget review-phase work (out of scope — hand off), and `connector-operator` = the send channel for pages/status-page/customer notices (whatever exists on your host; a send is observed only when that channel returns a result).
 
 ## 1. Severity is declared state, not an adjective

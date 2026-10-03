@@ -16,7 +16,6 @@ metadata:
 
 Practical guide for evolutionary approaches to ML — from simple genetic algorithms over fixed-weight vectors to NEAT-style topology evolution and tournament-based evaluation. Covers the patterns that show up repeatedly in evolved-agent projects: genome representation, selection/crossover/mutation, parallel evaluation, Elo tracking, speciation, and the common defects that silently kill learning.
 
-
 ## What This Skill Does
 
 Evolutionary ML: GA, NEAT, tournaments, parallel eval.
@@ -240,6 +239,7 @@ NEAT evolves both weights and topology. It starts minimally and adds complexity 
 ### Genome structure
 
 A NEAT genome is a list of connection genes, each with:
+
 - **in_node**, **out_node** — which nodes it connects
 - **weight** — the connection weight
 - **enabled** — whether it's active (can be disabled by mutation)
@@ -285,6 +285,7 @@ Tune c1, c2, c3 on your problem — they control how aggressively you split spec
 ### NEAT crossover
 
 For two genomes with different innovation numbers:
+
 - Matching genes (same innovation number): pick randomly from either parent, or from the fitter parent with some bias.
 - Disjoint/excess genes: come from the fitter parent (the one with more genes, typically).
 
@@ -293,11 +294,13 @@ This preserves the historical structure that speciation depends on.
 ### When NEAT helps vs hurts
 
 NEAT shines when:
+
 - The optimal architecture is unknown and you want the algorithm to find it.
 - The problem benefits from increasing complexity over time.
 - You have a small population and want to preserve diversity.
 
 NEAT adds overhead:
+
 - Compatibility distance computation is O(N²·G) where G is genome size — expensive on large populations.
 - Speciation adds bookkeeping.
 - For fixed-architecture problems, a simple GA over weights is usually faster per unit of progress.
@@ -408,6 +411,7 @@ Plateau detection is a trigger for: raising mutation, switching opponents, or st
 ### Diversity monitoring
 
 A population that converges to a single genome too fast is stuck. Track:
+
 - Number of species (NEAT)
 - Mean pairwise distance in weight space
 - Unique genome count (hash the genomes)
@@ -455,6 +459,7 @@ Patterns that show up repeatedly in working evolutionary ML systems — drawn fr
 For a population of N agents where fitness comes from matches:
 
 **Swiss pairing (default for large populations):**
+
 - ⌈log₂ N⌉ rounds; each agent plays ~log₂(N) matches instead of N−1.
 - Pair agents with similar current scores — strong vs strong, weak vs weak.
 - Byes (odd number of agents) score as half points.
@@ -462,12 +467,14 @@ For a population of N agents where fitness comes from matches:
 - At N=200: 800 matchups vs 19,900 for round-robin — the practical difference between "runs in an hour" and "doesn't run."
 
 **ELO tracking:**
+
 - K=32 is the working default for game-like domains (adjust lower for stable long-running populations, higher for fast-converging ones).
 - Track ELO per agent and use *best ELO across generations* as the champion metric, not raw fitness — raw fitness isn't comparable between generations when the field changes.
 - `update_elo(rating_a, rating_b, actual_a, k=32)` where `actual_a` is 1/0.5/0 for win/draw/loss.
 - Compute expected from ratings (`1 / (1 + 10^((rb-ra)/400))`), derive actual from the *result*, not from the ratings.
 
 **Hall of fame:**
+
 - Carry past champions across generations as non-reproducing benchmarks.
 - Without a hall of fame, the population can drift/cycle without anything actually improving — fitness rises while the champion can't beat its own ancestor.
 - Track best agent by ELO (comparable across generations) not fitness (not comparable between fields).
@@ -490,11 +497,13 @@ Fitness differences should reflect genome differences, not match luck:
 When you have conflicting objectives (e.g., thrust vs. efficiency in KSP, win rate vs. match length in CR):
 
 **NSGA-II style ranking (the common approach for 2–3 objectives):**
+
 - Rank individuals by non-dominated front number (front 0 = Pareto front — the set of individuals not dominated by any other).
 - Within a front, rank by crowding distance — prefer diverse solutions along the front, not clustered in one corner.
 - Select by rank first, then crowding distance.
 
 **Scalarization alternatives:**
+
 - Weighted sum (`w1*obj1 + w2*obj2`) — simple, but can't represent non-convex fronts.
 - Rank-based sum — rank each objective separately, sum ranks. Handles trade-offs better than raw values when objectives have different scales.
 - Epsilon-constraint — optimize one objective, constrain the others to be above a threshold. Useful when one objective is clearly primary.
@@ -510,6 +519,7 @@ For large populations of neural networks, batch inference on GPU can be much fas
 - Collect actions and continue the simulation on CPU.
 
 Watch for:
+
 - GPU memory limits with large populations — profile before scaling.
 - Transfer overhead: moving state to/from GPU per tick can dominate if the simulation is CPU-bound (game logic, physics). GPU evaluation of the policy helps most when the policy is the bottleneck.
 - The KSP_pipeline `gpu_net.py` pattern: a Torch network that lives on GPU, with the simulation loop feeding it batched states and collecting batched outputs.
@@ -519,17 +529,20 @@ Watch for:
 The KSP_pipeline `neat.py` pattern (simplified NEAT — evolves weights AND topology):
 
 **Genome structure:**
+
 - Connection genes: (in_node, out_node, weight, enabled, innovation_number).
 - Node genes: (node_id, activation_function).
 - Network built by walking enabled connections from inputs through hidden to outputs.
 
 **Innovation numbering:**
+
 - Global counter mapping (from_node, to_node, activation) → innovation number.
 - New mutations (add node, add connection) get the next number.
 - Two genomes sharing an innovation number have a common historical origin — those genes are homologous and can be crossed over meaningfully.
 - In single-process runs, this is just a counter. In parallel runs, you need a shared counter or deterministic allocation.
 
 **Speciation:**
+
 - Compatibility distance: disjoint genes + excess genes + weight differences, weighted by coefficients (c1, c2, c3).
 - Cluster into species by distance threshold.
 - Each species gets fitness relative to its own members, not the whole population.
@@ -537,12 +550,14 @@ The KSP_pipeline `neat.py` pattern (simplified NEAT — evolves weights AND topo
 - c1/c2/c3 tuned per problem — they control how aggressively you split species. Too aggressive = everyone is their own species. Too lenient = one species dominates.
 
 **Mutation operators (rates are starting points, tune per problem):**
+
 - Add connection: 0.1–0.3 per genome per generation.
 - Add node: 0.05–0.15 (splits an existing connection, inserts a node).
 - Mutate weight: 0.9–1.0 (most genomes get this every generation).
 - Enable/disable connection: 0.1–0.2.
 
 **When NEAT vs simple GA:**
+
 - NEAT: optimal architecture unknown, problem benefits from increasing complexity over time, small population where you want to preserve diversity.
 - Simple GA over weights: fixed architecture is fine, you want speed per unit of progress, population is large enough to explore without speciation.
 - NEAT overhead: O(N²·G) compatibility distance computation (N = population, G = genome size). For large populations, this dominates. Profile before committing to NEAT on a big population.
@@ -550,10 +565,12 @@ The KSP_pipeline `neat.py` pattern (simplified NEAT — evolves weights AND topo
 ### Population management and checkpointing
 
 **Population initialization:**
+
 - Don't construct the full Torch network at init — build lazily. CR-pipeline went from ~0.87s/20 agents to ~0.02s by storing only the policy genome at init and building the Torch network on demand.
 - For a NumPy policy, the genome *is* the population state — store the flat vector, not a wrapper object.
 
 **Checkpoint/resume:**
+
 - Save the population (genomes + fitnesses + metadata), the generation number, and the RNG state.
 - Resume: load the population, restore the RNG, continue from the saved generation.
 - If resuming mid-generation, decide whether to re-run the incomplete generation or skip to the next. CR-pipeline seeds chosen agents intact and fills remaining slots with mutated copies — that's one reconciliation strategy.
@@ -578,11 +595,13 @@ When you want to evolve not just weights but the network structure itself — th
 **Separate the evolved policy from the architecture under evolution.** CR-pipeline keeps the 2,311-parameter NumPy policy as the primary representation; the Torch architectures (CNN+LSTM, MLP, ResNet, Transformer, GRU, and variants — 9 of them in `architecture.py`) are for NAS, export, and ensembling. The genome is the thing selection operates on; the architecture is a separate axis you can search over when you want to.
 
 **Architecture representation for evolution:**
+
 - Encode the architecture as part of the genome or as a parallel structure: layer types, filter sizes, number of layers, attention heads, activation functions, connectivity.
 - Keep it tractable — the space is combinatorially large. Constrain the search to a sensible subset (e.g., choose from 9 known-good architectures rather than inventing arbitrary topologies).
 - The KSP_pipeline `neat.py` approach is the more general case: evolve topology from scratch (add node, add connection), starting minimal and growing. The CR-pipeline approach is the pragmatic case: pick from a curated set and evolve weights on top.
 
 **When to use NAS vs fixed architecture:**
+
 - Fixed architecture + evolved weights: you know the architecture is approximately right, you want the best weights. Fast, predictable.
 - NAS: you don't know the architecture, the problem is novel, or you suspect the architecture is the bottleneck. Expensive, but can find structures a human wouldn't pick.
 - The CR-pipeline hybrid: keep the lightweight NumPy policy for the main evolution loop (fast evaluation), use the Torch architectures for export, ensembling, and when you want to try a different inductive bias.
@@ -592,25 +611,30 @@ When you want to evolve not just weights but the network structure itself — th
 When you have a population of good agents and want to combine them — the CR-pipeline `ensemble.py` pattern.
 
 **Weight averaging (performance-weighted):**
+
 - Combine the genomes of top agents, weighted by their fitness or ELO.
 - Simple, often effective, preserves the population's learned structure.
 - The combination weight optimization: find the weights that maximize tournament fitness of the ensemble, not just the average of individual fitnesses.
 
 **Geometric mean:**
+
 - For genomes that are positive-valued or can be made so, the geometric mean is more robust to outliers than the arithmetic mean.
 - Use when individual genomes vary widely and you want a conservative combination.
 
 **Stacking with a meta-learner:**
+
 - Train a small model to combine the outputs of the top agents.
 - More powerful than simple averaging, but adds a layer that can overfit.
 - Useful when the agents have complementary strengths (one is good on one opponent type, another on another) and you want the combination to exploit that.
 
 **When ensembling helps:**
+
 - The population has converged to several distinct good solutions (diversity survived), and combining them is better than any one.
 - You want a more robust agent for deployment (less sensitive to a particular opponent or condition).
 - You're exporting a model and want the best single artifact — the ensemble is often more robust than the best single genome.
 
 **When ensembling doesn't help:**
+
 - The population has collapsed to one good genome (no diversity to combine).
 - The agents are all correlated (they learned the same thing), so averaging doesn't add information.
 - The evaluation cost of the ensemble is prohibitive (you have to run N agents per decision).
@@ -620,20 +644,24 @@ When you have a population of good agents and want to combine them — the CR-pi
 When the problem is too hard to learn from scratch — start easy, ramp up.
 
 **Phase-based curriculum:**
+
 - Phase 1: easy opponents, simple conditions, small population.
 - Phase 2: harder opponents, more variation, larger population (seeded from Phase 1's best).
 - Phase 3: full difficulty, full population, the real evaluation conditions.
 
 **Automatic phase transitions (CR-pipeline's convergence detection):**
+
 - Detect when the population has converged in the current phase (fitness plateau, diversity drop).
 - Transition to the next phase automatically — don't wait for a human to decide.
 - Log the transition (what phase, why, what the population looked like).
 
 **Seeding across phases:**
+
 - Phase N's best agents seed Phase N+1 — don't start from random.
 - Carry the hall of fame across phases so the new phase is benchmarked against the old.
 
 **Pitfalls:**
+
 - Curriculum that's too easy → the population learns the easy problem and can't generalize to the hard one.
 - Curriculum that's too coarse → the jump between phases is too big, the population collapses.
 - Phase transition that loses diversity → the new phase starts from a narrow base. Carry diversity metrics across the transition.
@@ -643,6 +671,7 @@ When the problem is too hard to learn from scratch — start easy, ramp up.
 Evolution runs can take hours or days. You need to know if something goes wrong before the run finishes.
 
 **Alerts to implement (CR-pipeline's `alerting/` pattern):**
+
 - **Convergence alert:** fitness plateau detected (std over a window below threshold). Not necessarily a failure — it's a signal to raise mutation, switch opponents, or check if the run is done.
 - **Bottleneck alert:** evaluation is slower than expected (time per generation rising). Could be a resource issue (CPU/GPU saturation), a sim bug (matches getting longer), or a population that's grown too large.
 - **Fitness milestone alert:** best fitness crosses a threshold. Useful for long runs where you want to know when the agent reaches a certain capability.
@@ -650,11 +679,13 @@ Evolution runs can take hours or days. You need to know if something goes wrong 
 - **GPU error alert:** CUDA OOM, device loss, or other GPU failures. These are common in long GPU runs and should alert immediately, not after the run crashes.
 
 **Channels:**
+
 - Console (always on — the run's stdout is the default channel).
 - File (log file that persists beyond the run, useful for post-mortem).
 - Optional: webhook, email, desktop notification (for runs that are being watched).
 
 **What alerts should NOT do:**
+
 - Stop the run automatically (an alert is information, not a decision — the run might be supposed to plateau).
 - Spam (coalesce alerts, don't fire one per generation when the condition persists).
 
@@ -668,6 +699,7 @@ Watch the resources the run is using, not just the ML metrics.
 **Disk:** space for checkpoints, logs, run artifacts. A long run that fills the disk crashes late.
 
 **Bottleneck detection (CR-pipeline's `monitoring/` pattern):**
+
 - Collect metrics over time (CPU, GPU, memory, evaluation time per generation).
 - Detect when a resource is the bottleneck (sustained high utilization + slow evaluation).
 - Surface the bottleneck: "evaluation is slow because GPU memory is saturated" is actionable; "evaluation is slow" is not.
@@ -677,15 +709,18 @@ Watch the resources the run is using, not just the ML metrics.
 Don't just report mean fitness — report whether differences are real.
 
 **Confidence intervals on fitness:**
+
 - Mean fitness with a confidence interval (bootstrap or standard error) tells you the precision of the estimate.
 - If two runs' confidence intervals overlap heavily, the difference may not be meaningful.
 
 **Statistical significance testing (CR-pipeline's dashboard pattern):**
+
 - When comparing two populations, two runs, or two configurations, test whether the difference is significant.
 - For tournament results: a paired test (same opponents, same seeds) is more powerful than an unpaired one.
 - Report the p-value or confidence interval alongside the raw difference.
 
 **Effect size:**
+
 - A statistically significant difference can be tiny in practice. Report effect size (how big is the difference, in meaningful units) alongside significance.
 - "Run B is significantly better than Run A (p<0.05) but by 0.01 fitness units" — significant but not useful.
 - "Run B is 0.3 fitness units better than Run A with non-overlapping confidence intervals" — significant and meaningful.
@@ -695,17 +730,20 @@ Don't just report mean fitness — report whether differences are real.
 When you have multiple runs and want to compare them — the CR-pipeline `runs_manager.py` + `experiment_tracking.py` pattern.
 
 **What to compare:**
+
 - Fitness curves (mean, best, over generations) — the primary comparison.
 - Final population metrics (best fitness, diversity, ELO distribution).
 - Tournament results between champions of different runs.
 - Evaluation time and resource usage (was one run more efficient?).
 
 **Run discovery:**
+
 - Runs stored in a directory tree, each run a subdirectory with its metrics, checkpoints, and metadata.
 - A runs manager that discovers runs, reads their metadata, and presents them for comparison.
 - Metadata: run ID, seed, config, start/end time, generations, final fitness, status (completed, stopped, failed).
 
 **Report generation:**
+
 - A report subcommand or function that produces a summary of one or more runs.
 - Human-readable (console or markdown) and/or machine-readable (JSON).
 - Include: what ran, what the result was, whether it was significant, what to do next.
@@ -715,30 +753,35 @@ When you have multiple runs and want to compare them — the CR-pipeline `runs_m
 Categories of defects that show up repeatedly, with the test or observation that catches them:
 
 **Evaluation defects (the fitness signal is wrong):**
+
 - Evaluation silently fails and returns a default (zero, negative infinity) — fitness signal is noise.
 - Evaluation ignores the genome (returns a random or constant value) — selection can't work.
 - Evaluation is non-deterministic in a way that adds noise larger than the signal — selection sorts noise.
 - Evaluation is too expensive to run properly (truncated, sampled badly) — fitness is approximate in a biased way.
 
 **Selection defects (the selection pressure is wrong):**
+
 - Selection operates on the wrong data (the Torch network instead of the genome) — selection is on something that doesn't affect behavior.
 - Selection pressure too weak (small tournament, too much randomness) — no convergence.
 - Selection pressure too strong (large tournament, too few elites) — premature convergence, loss of diversity.
 - Elitism wrong (elites not preserved, or too many elites) — best solutions lost or population can't explore.
 
 **Crossover/mutation defects (the variation is wrong):**
+
 - Crossover produces invalid genomes (wrong size, out of bounds, broken structure) — offspring don't work.
 - Mutation rate too high (genome destroyed faster than selection can improve it) — no convergence.
 - Mutation rate too low (no exploration) — population stuck on a local optimum.
 - Mutation operator wrong for the representation (e.g., Gaussian mutation on a discrete genome) — variation doesn't make sense.
 
 **Evaluation design defects (the fitness landscape is wrong):**
+
 - Fitness is noisy (match luck, environment randomness) — selection sorts noise.
 - Fitness is not comparable across generations (field changes, opponents change, seeds change) — can't tell if the population is improving.
 - Fitness is overfit to the evaluation conditions (agent learns the evaluation, not the problem) — looks good in training, bad in deployment.
 - Fitness has the wrong shape (flat regions, discontinuities, local optima that trap the population) — evolution can't navigate.
 
 **Deployment defects (the exported model is wrong):**
+
 - Export doesn't include the architecture or config — loaded model can't run or runs wrong.
 - Export/load changes the model (rounding, ordering, precision) — loaded model behaves differently.
 - Exported model not validated against the training-time model — you don't know if the export is correct.

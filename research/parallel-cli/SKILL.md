@@ -18,17 +18,18 @@ Use `parallel-cli` when the user explicitly wants Parallel, or when a terminal-n
 This is an optional third-party workflow, not a Hermes core capability.
 
 Important expectations:
+
 - Parallel is a paid service with a free tier, not a fully free local tool.
 - It overlaps with Hermes native `web_search` / `web_extract`, so do not prefer it by default for ordinary lookups.
 - Prefer this skill when the user mentions Parallel specifically or needs capabilities like Parallel's enrichment, FindAll, or monitor workflows.
 
 `parallel-cli` is designed for agents:
+
 - JSON output via `--json`
 - Non-interactive command execution
 - Async long-running jobs with `--no-wait`, `status`, and `poll`
 - Context chaining with `--previous-interaction-id`
 - Search, extract, research, enrichment, entity discovery, and monitoring in one CLI
-
 
 ## What This Skill Does
 
@@ -37,6 +38,7 @@ Agent-native web search, deep research, and enrichment.
 ## When to Use
 
 Prefer this skill when:
+
 - The user explicitly mentions Parallel or `parallel-cli`
 - The task needs richer workflows than a simple one-shot search/extract pass
 - You need async deep research jobs that can be launched and polled later
@@ -135,6 +137,7 @@ parallel-cli
 ## Common flags and patterns
 
 Commonly useful flags:
+
 - `--json` for structured output
 - `--no-wait` for async jobs
 - `--previous-interaction-id <id>` for follow-up tasks that reuse earlier context
@@ -164,6 +167,7 @@ parallel-cli search "AI coding agent enterprise reviews" --mode agentic --json
 ```
 
 Useful constraints:
+
 - `--include-domains` to narrow trusted sources
 - `--exclude-domains` to strip noisy domains
 - `--after-date` for recency filtering
@@ -176,6 +180,7 @@ parallel-cli search "latest React 19 changes" --json -o /tmp/react-19-search.jso
 ```
 
 When summarizing results:
+
 - lead with the answer
 - include dates, names, and concrete facts
 - cite only returned sources
@@ -199,6 +204,7 @@ Use `--objective` when the page is broad and you only need one slice of informat
 Use for deeper multi-step research tasks that may take time.
 
 Common processor tiers:
+
 - `lite` / `base` for faster, cheaper passes
 - `core` / `pro` for more thorough synthesis
 - `ultra` for the heaviest research jobs
@@ -237,6 +243,7 @@ parallel-cli research run \
 ```
 
 Recommended Hermes workflow:
+
 1. launch with `--no-wait --json`
 2. capture the returned run/task ID
 3. if the user wants to continue other work, keep moving
@@ -332,22 +339,26 @@ Use this when the user wants recurring tracking of a page or source rather than 
 ## Recommended Hermes usage patterns
 
 ### Fast answer with citations
+
 1. Run `parallel-cli search ... --json`
 2. Parse titles, URLs, dates, excerpts
 3. Summarize with inline citations from the returned URLs only
 
 ### URL investigation
+
 1. Run `parallel-cli extract URL --json`
 2. If needed, rerun with `--objective` or `--full-content`
 3. Quote or summarize the extracted markdown
 
 ### Long research workflow
+
 1. Run `parallel-cli research run ... --no-wait --json`
 2. Store the returned ID
 3. Continue other work or periodically poll
 4. Summarize the final report with citations
 
 ### Structured enrichment workflow
+
 1. Inspect the input file and columns
 2. Use `enrich suggest` or provide explicit enriched columns
 3. Run `enrich run`
@@ -357,6 +368,7 @@ Use this when the user wants recurring tracking of a page or source rather than 
 ## Error handling and exit codes
 
 The CLI documents these exit codes:
+
 - `0` success
 - `2` bad input
 - `3` auth error
@@ -364,6 +376,7 @@ The CLI documents these exit codes:
 - `5` timeout
 
 If you hit auth errors:
+
 1. check `parallel-cli auth`
 2. confirm `PARALLEL_API_KEY` or run `parallel-cli login` / `parallel-cli login --device`
 3. verify `parallel-cli` is on `PATH`

@@ -44,6 +44,7 @@ Classify every action a scheduled job can take:
 - **Tier 2 — gated** (human checkpoint by default): spend money, shift budget, send messages, publish anything public, delete/suppress records, change live account settings.
 
 A Tier-2 action may run unattended only if the user has **explicitly authorized it AND** it is bounded by caps + an allowlist:
+
 - **Hard caps:** a daily/weekly ceiling the job can never exceed; halt and alert when approached.
 - **Per-run change limit:** cap how much can move in one run (e.g. ≤20%), so one bad read can't reallocate everything.
 - **Allowlist:** only named targets are eligible for autonomous changes; everything else is staged.
@@ -78,10 +79,12 @@ The four patterns: **watermark** (process only past `cursor`; advance it at the 
 ### Run logging = the vanity-loop detector
 
 Append one line per run whether or not it acted:
+
 ```
 2026-09-15T09:00Z  checked=312  acted=2   note="2 newly at-risk, staged"
 2026-09-16T09:00Z  checked=298  acted=0   note="no action"
 ```
+
 It answers two questions: **Is it a vanity loop?** — every run `acted=0` for weeks and nobody misses it → delete it. Or does it act *every* run? — that's chasing noise; the self-check is broken. "A job that emails a dashboard nobody reads is worse than nothing."
 
 ## When NOT to loop

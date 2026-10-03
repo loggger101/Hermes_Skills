@@ -16,7 +16,6 @@ metadata:
 
 Guide for orchestrating data build pipelines — from small scripts that produce a CSV to multi-module systems that concatenate into a production runner, with version stamping, idempotency, and the patterns that keep large data builds from becoming unmaintainable.
 
-
 ## What This Skill Does
 
 Data build systems: orchestration, versioning, CSV at scale
@@ -112,6 +111,7 @@ A build is idempotent if running it twice with the same inputs produces the same
 ### Verifying idempotency
 
 Run the build twice and diff the outputs. If they differ, find out why:
+
 - Timestamps? Ordering? RNG? External dependency?
 - Fix the cause or accept it as a known non-idempotency (and document it).
 
@@ -131,6 +131,7 @@ A production run is the full pipeline from source to final artifact, run end-to-
 ### Intermediate artifacts
 
 Keep intermediates — they let you re-run a single step without re-running the whole pipeline. But they also accumulate. Have a strategy:
+
 - Keep intermediates in a scratch directory, clean it periodically.
 - Or keep them in versioned storage (one intermediate set per run).
 - Or don't keep them at all and re-run from source when needed (cheap steps only).
@@ -158,6 +159,7 @@ with open("output.csv", "w", newline="") as f:
 ```
 
 For large CSV writes, use buffered I/O and write in chunks. Watch for:
+
 - **Dialect issues**: comma vs tab, quoting, encoding. Specify explicitly (`delimiter=`, `quoting=`, `encoding=`).
 - **Float formatting**: default `str(float)` can produce unexpectedly long representations. Format consistently if precision matters.
 - **Missing values**: decide on a representation (empty string, `NA`, `null`) and use it consistently.
@@ -200,6 +202,7 @@ def write_large_csv(rows_iterator, path, chunk_size=100000):
 ### Accumulation across runs
 
 For projects that produce data cumulatively (each run adds to a growing dataset):
+
 - Append to existing files, or maintain a partitioned layout (one file per run, read across them).
 - Track what's been incorporated — a manifest or a high-water mark — so you don't double-count.
 - Watch for schema drift across runs (a column appears or changes type). Validate schema on load.
@@ -224,31 +227,37 @@ For projects that produce data cumulatively (each run adds to a growing dataset)
 A real pattern from economicspace: 4 modules concatenated into one ~9600-line `master.py`, with version stamping, production-run orchestration, and a CSV output at scale (1.5M+ rows).
 
 **Why concatenation here:**
+
 - 4 modules (prospecting logic, economics, orbital mechanics, output/write) developed and tested independently.
 - The production run is a single artifact — one file, runnable without assembling at runtime, deployable as one unit.
 - Version stamping is simpler — one file carries one version.
 
 **How the concatenation works:**
+
 - Each module is a self-contained section with a clear boundary (markers between sections).
 - The assembler combines them in the canonical order (module 1, module 2, module 3, module 4) with clear separators.
 - The result is a valid Python file that can be run directly.
 
 **What the build system owns:**
+
 - The assembly order and validation (syntax check after assembly, smoke run).
 - The version stamp (which module versions went into this master.py, what version the assembly is).
 - The production-run orchestration (run master.py with the right config, validate the output, stamp the artifact).
 
 **Version stamping in practice:**
+
 - The master.py carries a version stamp (header comment or metadata) that records which module versions and what assembly version produced it.
 - The production run records the version of the master.py it ran, the config, the seed, the input data version, and the output artifact version.
 - The output CSV carries a version stamp (header rows or a sidecar) that ties it to the master.py version and the run parameters.
 
 **Idempotency:**
+
 - Running master.py twice with the same inputs should produce the same CSV (byte-identical or content-identical).
 - This means: no live timestamps in the output, deterministic ordering, stable seeds, stable dependencies.
 - If the output changes between runs with the same inputs, find out why (timestamp? ordering? RNG? dependency change?) and fix it or document it.
 
 **Production-run orchestration:**
+
 - Validate inputs (source data exists, is the right version, is readable).
 - Run master.py with the right config and parameters.
 - Validate the output (correct shape, correct schema, size in expected range, no NaN where not expected, checksum or version stamp present).
@@ -256,16 +265,19 @@ A real pattern from economicspace: 4 modules concatenated into one ~9600-line `m
 - Place the output where consumers expect it (the catalog, the CSV, the report).
 
 **Intermediate artifacts:**
+
 - If the 4 modules produce intermediates (partial results, intermediate files), keep them or reconstruct them so a single step can be re-run.
 - Or don't keep them (if the run is fast enough to re-run from scratch when needed).
 - Decide based on the cost of re-running vs the cost of storing.
 
 **Testing the assembled artifact:**
+
 - Test the modules in isolation (each module's logic is correct).
 - Test the assembled master.py (the concatenation didn't introduce collisions, order issues, or duplicate definitions).
 - A smoke run of master.py with a small config produces the expected small output — catches assembly-order and collision bugs.
 
 **What can go wrong with this pattern:**
+
 - A module is updated but the assembly isn't re-run (the master.py is stale — it doesn't reflect the current module versions).
 - The assembly order is wrong (module B expects module A's output, but B is assembled before A — the master.py breaks or produces wrong output).
 - Duplicate definitions across modules (two modules define the same function — the later one wins silently).
@@ -273,6 +285,7 @@ A real pattern from economicspace: 4 modules concatenated into one ~9600-line `m
 - Non-idempotent output (timestamps, RNG, non-deterministic ordering in one of the modules — the CSV changes between runs with the same inputs).
 
 **Mitigation:**
+
 - Canonical assembly order, documented and validated.
 - Namespace isolation between modules (no ambiguous shared globals; explicit interfaces).
 - No duplicate definitions (check in the build).
@@ -285,32 +298,38 @@ A real pattern from economicspace: 4 modules concatenated into one ~9600-line `m
 When the output is a large CSV (economicspace: 1.5M+ rows) — write it efficiently and correctly.
 
 **Writing large CSV efficiently:**
+
 - Buffered I/O (Python's `open()` is buffered by default, but be aware of buffer size for very large writes).
 - Write in chunks (accumulate N rows, write them, clear the buffer) — avoids holding the entire dataset in memory.
 - Use `csv.writer` for correct CSV encoding (quoting, escaping, dialect).
 - Specify dialect explicitly (delimiter, quoting, encoding) — don't rely on defaults that might vary.
 
 **Writing large Parquet efficiently:**
+
 - Parquet is usually better for large typed datasets (smaller files, faster reads, type safety).
 - Write with `pandas.to_parquet` or `pyarrow` directly.
 - Compression (Snappy, Gzip, etc.) — Snappy is a good default (fast, decent compression).
 - Chunked writing if the dataset doesn't fit in memory (write partitions to separate Parquet files, or use PyArrow's chunked writer).
 
 **Schema consistency:**
+
 - Define the schema explicitly (column names, types) and write to that schema.
 - Validate the output against the schema (correct columns, correct types, no unexpected nullability).
 - For cumulative runs, validate that the schema hasn't drifted across runs (a column added, a type changed, a column dropped).
 
 **Float formatting:**
+
 - Default `str(float)` can produce unexpectedly long representations (many decimal places). If precision matters, format floats consistently (e.g., `f"{value:.6f}"`).
 - For CSV that will be read by other tools, consistent float formatting avoids parser differences.
 
 **Missing values:**
+
 - Decide on a representation (empty string, `NA`, `null`, `NaN`) and use it consistently across the output.
 - Document the representation (in the schema, in a header comment, in the README).
 - For Parquet, missing values are represented natively (null) — no need for a string sentinel.
 
 **Chunked reads for verification:**
+
 - When verifying a large output, read it in chunks (don't load 1.5M rows into memory to check it).
 - Check schema, shape, and a sample of rows — not every row (unless the dataset is small enough).
 - Check the version stamp and checksum (if present) — that's the provenance check.
@@ -320,24 +339,28 @@ When the output is a large CSV (economicspace: 1.5M+ rows) — write it efficien
 When the build is more than one script — orchestrate it.
 
 **Make:**
+
 - Good for: dependency-driven builds (rebuild X if Y changed), simple pipelines, projects that already use Make.
 - A Makefile with targets for each step (assemble, test, run, validate, clean) and dependencies between them.
 - `make` handles the dependency graph — don't rebuild steps whose inputs haven't changed.
 - Pitfall: Make's dependency detection is file-based — if the build depends on something that isn't a file (a config value, a git revision), Make may not detect the change.
 
 **just:**
+
 - Good for: command recipes (like a Makefile but without the dependency-graph semantics), projects that want a simple command registry.
 - A `justfile` with recipes for each operation (assemble, test, run, validate).
 - Simpler than Make for command orchestration; doesn't try to be a dependency solver.
 - Pitfall: just is less common than Make — contributors may not know it. Document it.
 
 **Custom script:**
+
 - Good for: builds with custom logic that doesn't fit Make/just (conditional steps, complex validation, API calls, interactive steps).
 - A script (Python, shell, etc.) that orchestrates the build: validates inputs, runs steps in order, validates outputs, stamps artifacts, reports results.
 - More flexible than Make/just, but you're writing and maintaining the orchestration logic.
 - Pitfall: the script becomes a second codebase to maintain. Keep it thin — delegate to the step scripts, don't reimplement them.
 
 **What the orchestrator should do:**
+
 - Validate inputs (exist, right version, readable).
 - Run steps in the canonical order.
 - Validate outputs (schema, size, version stamp, checksum).
@@ -346,6 +369,7 @@ When the build is more than one script — orchestrate it.
 - Report results (what was built, what the output is, any warnings).
 
 **What the orchestrator should NOT do:**
+
 - Reimplement the steps (delegate to the step scripts, don't re-encode their logic).
 - Hidden state (the build should be understandable from the orchestrator + step scripts, not from hidden globals or side channels).
 - Non-determinism (the orchestrator should produce the same result for the same inputs — no live timestamps, no random IDs, no non-deterministic ordering).

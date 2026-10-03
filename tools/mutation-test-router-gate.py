@@ -18,7 +18,12 @@ and asserts the gate exits 1 with the right class tag:
 
 Exit code = number of failed checks (0 = gate proven fail-loud).
 """
-import os, shutil, subprocess, sys, tempfile
+
+import os
+import shutil
+import subprocess
+import sys
+import tempfile
 from pathlib import Path
 
 if sys.version_info < (3, 8):
@@ -53,30 +58,53 @@ tags: [router]
 
 
 def skill(tags):
-    return "---\nname: x\ndescription: \"d\"\nmetadata:\n  hermes:\n    tags: [%s]\n---\n\n# X\n" % tags
+    return (
+        '---\nname: x\ndescription: "d"\nmetadata:\n  hermes:\n    tags: [%s]\n---\n\n# X\n' % tags
+    )
 
 
-def build(tmp, *, extra_lane="", optout_name="gamma-tool", optout_reason="stack-specific.",
-          dash="— ", extra_skills=()):
+def build(
+    tmp,
+    *,
+    extra_lane="",
+    optout_name="gamma-tool",
+    optout_reason="stack-specific.",
+    dash="— ",
+    extra_skills=(),
+):
     root = Path(tmp)
-    for name, tags in [("alpha-planner", "planning"), ("beta-debug", "debugging"),
-                       ("gamma-tool", "debugging"), ("delta-unrelated", "python")] + list(extra_skills):
+    for name, tags in [
+        ("alpha-planner", "planning"),
+        ("beta-debug", "debugging"),
+        ("gamma-tool", "debugging"),
+        ("delta-unrelated", "python"),
+    ] + list(extra_skills):
         d = root / "software-development" / name
         d.mkdir(parents=True, exist_ok=True)
         (d / "SKILL.md").write_text(skill(tags), encoding="utf-8")
     rd = root / "software-development" / "skill-flow-router"
     rd.mkdir(parents=True, exist_ok=True)
     (rd / "SKILL.md").write_text(
-        ROUTER_TMPL.format(extra_lane=extra_lane, optout_name=optout_name,
-                           dash=dash, optout_reason=optout_reason), encoding="utf-8")
+        ROUTER_TMPL.format(
+            extra_lane=extra_lane, optout_name=optout_name, dash=dash, optout_reason=optout_reason
+        ),
+        encoding="utf-8",
+    )
     return root
 
 
 def run(root):
     env = dict(os.environ, ROUTER_SCAN_ROOT=str(root))
-    return subprocess.run([sys.executable, str(GATE)], capture_output=True, text=True,
-                          encoding="utf-8", errors="replace", cwd=str(REPO),
-                          timeout=120, env=env)
+    return subprocess.run(
+        [sys.executable, str(GATE)],
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        cwd=str(REPO),
+        timeout=120,
+        env=env,
+    )
 
 
 failures = []
@@ -104,8 +132,10 @@ tmp = tempfile.mkdtemp(prefix="router-mut-")
 try:
     root = build(tmp)
     rp = root / "software-development" / "skill-flow-router" / "SKILL.md"
-    rp.write_text(rp.read_text(encoding="utf-8").replace("`alpha-planner`, then debug with ", ""),
-                  encoding="utf-8")
+    rp.write_text(
+        rp.read_text(encoding="utf-8").replace("`alpha-planner`, then debug with ", ""),
+        encoding="utf-8",
+    )
     r = run(root)
     if r.returncode == 0 or "[A]" not in (r.stdout + r.stderr):
         failures.append("M1 routed-skill-removed NOT caught as [A]")
@@ -115,35 +145,43 @@ finally:
     shutil.rmtree(tmp, ignore_errors=True)
 
 # M2: a new in-scope skill lands on disk, router never mentions it (the real rot class)
-expect_fail("M2 new in-scope skill unrouted", "[A]",
-            extra_skills=[("epsilon-newflow", "planning")])
+expect_fail("M2 new in-scope skill unrouted", "[A]", extra_skills=[("epsilon-newflow", "planning")])
 # M3: opt-out with no reason
 expect_fail("M3 opt-out without reason", "[C]", optout_reason="", dash="")
 # M4: opt-out names a phantom skill
 expect_fail("M4 opt-out phantom", "[B]", optout_name="zeta-does-not-exist")
 # M5: gamma-tool both routed and opted out
-expect_fail("M5 routed AND opted out", "[D]",
-            extra_lane="2. Also try `gamma-tool` for containers.\n\n")
+expect_fail(
+    "M5 routed AND opted out", "[D]", extra_lane="2. Also try `gamma-tool` for containers.\n\n"
+)
 # M6: hardcoded catalog size returns
-expect_fail("M6 hardcoded count", "[E]",
-            extra_lane="This brain has 160+ skills.\n\n")
+expect_fail("M6 hardcoded count", "[E]", extra_lane="This brain has 160+ skills.\n\n")
 
 # M7: unmutated fixture must pass
 tmp = tempfile.mkdtemp(prefix="router-mut-")
 try:
     r = run(build(tmp))
     if r.returncode != 0:
-        failures.append(f"M7 clean fixture FAILED (false positive): {(r.stdout+r.stderr).strip()[:160]}")
+        failures.append(
+            f"M7 clean fixture FAILED (false positive): {(r.stdout + r.stderr).strip()[:160]}"
+        )
     else:
         print("  [OK] M7 clean fixture passes (no false positive)")
 finally:
     shutil.rmtree(tmp, ignore_errors=True)
 
 # M8: the real repo must pass
-r = subprocess.run([sys.executable, str(GATE)], capture_output=True, text=True,
-                   encoding="utf-8", errors="replace", cwd=str(REPO), timeout=120)
+r = subprocess.run(
+    [sys.executable, str(GATE)],
+    capture_output=True,
+    text=True,
+    encoding="utf-8",
+    errors="replace",
+    cwd=str(REPO),
+    timeout=120,
+)
 if r.returncode != 0:
-    failures.append(f"M8 real repo FAILED: {(r.stdout+r.stderr).strip()[:160]}")
+    failures.append(f"M8 real repo FAILED: {(r.stdout + r.stderr).strip()[:160]}")
 else:
     print("  [OK] M8 real repo passes clean")
 

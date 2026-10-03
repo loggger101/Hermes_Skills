@@ -7,6 +7,7 @@ Source: https://github.com/petergyang/no-ai-slop — `main` @ `000650b` (= v1.0.
 The skill optimizes for compression; **compression is where factual links break**. Failure mode: two adjacent paragraphs, each correct and about a different subject, get merged during tightening — a measurement belonging to subject A now explains subject B. Nothing misspelled, no number changed, the claim is fabricated, and it survives re-readings (happened on a real technical email; an outside reviewer caught it). The existing rules don't prevent this: "keep the user's meaning" guards against *adding* claims, not *rebinding* them.
 
 Rules when the draft contains numbers, units, named entities, attributions, or causal claims:
+
 - **Never merge, split, or reorder across a subject boundary** (any point where the thing described changes: material, dataset, tool, version, run, person) without re-checking each fact against the original.
 - **Numbers, units, entity names, and attributions are frozen byte-identical.** Rounding a figure, dropping a unit, or replacing a specific name with a general one is a content change, not style.
 - **Verify subject-fact binding as a separate pass**, reading edited draft against the original — not from memory of it. For every claim carrying a number/name: still attached to the same subject?
@@ -20,6 +21,7 @@ Companion eval block (PR #24): 6 checks, answered only when technical content is
 ## 2. Signs you over-edited (PR #21)
 
 The skill's differentiator is removing slop without flattening voice, but nothing concrete to check against made "would the writer recognize their own voice?" default to yes. Nine tells — any one means flattened; **the fix is to restore the original line, not write a better version of it**:
+
 - Every paragraph came out about the same length.
 - An unusual word became the common synonym, with no rule behind the swap.
 - A joke is gone, or explained.
@@ -72,6 +74,7 @@ Ranked second of four tools replayed. The 17/18 is exactly the failure class PR 
 ## 8. Language-specific pattern files (PR #50 Korean, PR #17 Chinese)
 
 Anti-slop lists do NOT transfer across languages — each language has its own AI tells, and both open PRs add per-language reference files instead of bloating the main skill:
+
 - **Korean** (`references/korean.md`, PR #50): 번역투 (translated-English stiffness), 이중 피동 (double passive), 명사화 (unnecessary nominalization), 사물존칭 (honorifics applied to objects — a tell no English list has), 빈 수식어 (empty modifiers). The build script gains an `if references.is_dir(): copytree(...)` so the file ships in the package.
 - **Chinese** (PR #17): empty officialese ("高度重视", "持续推进", "取得积极成效"), framework padding without content ("以X为引领、以Y为抓手..."), four-character phrase stacks, public-account hook templates ("很多人不知道的是...").
 

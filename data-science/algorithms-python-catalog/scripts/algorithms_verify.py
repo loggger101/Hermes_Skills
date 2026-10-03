@@ -33,6 +33,7 @@ def check(name: str, cond: bool) -> None:
 
 # ---------------------------------------------------------------- string matching
 
+
 def get_failure_array(pattern):
     failure, i, j = [0], 0, 1
     while j < len(pattern):
@@ -102,9 +103,9 @@ def aho_corasick_build(keywords):
 
     q = deque()
     for node in root.next.values():
-        node.fail = root          # depth-1 nodes fail to root — CRITICAL; skipping this line
-                                  # makes every depth-2 fail link skip a level (verified bug:
-                                  # keywords ['ab','b'] on 'bbbbbabbaa...' missed half the matches)
+        node.fail = root  # depth-1 nodes fail to root — CRITICAL; skipping this line
+        # makes every depth-2 fail link skip a level (verified bug:
+        # keywords ['ab','b'] on 'bbbbbabbaa...' missed half the matches)
         q.append(node)
     while q:
         r = q.popleft()
@@ -113,9 +114,9 @@ def aho_corasick_build(keywords):
             while f is not root and ch not in f.next:
                 f = f.fail
             c.fail = f.next.get(ch, root)
-            if c.fail is c:       # self-loop guard (single-char keyword at depth 1)
+            if c.fail is c:  # self-loop guard (single-char keyword at depth 1)
                 c.fail = root
-            c.out = c.out + c.fail.out   # inherit outputs of fail ancestors ("er" inside "ver")
+            c.out = c.out + c.fail.out  # inherit outputs of fail ancestors ("er" inside "ver")
             q.append(c)
     return root
 
@@ -143,16 +144,16 @@ def rabin_karp(pattern, text):
         return False
 
     def H(s):
-        h = 0                                  # seed MUST be 0 for init/roll to stay consistent
+        h = 0  # seed MUST be 0 for init/roll to stay consistent
         for ch in s:
             h = (ord(ch) + h * base) % mod
         return h
 
     p_hash = H(pattern)
     t_hash = H(text[:m])
-    h_pow = pow(base, m - 1, mod)              # weight of the oldest char; constant across windows
+    h_pow = pow(base, m - 1, mod)  # weight of the oldest char; constant across windows
     for i in range(n - m + 1):
-        if t_hash == p_hash and text[i : i + m] == pattern:   # hash match => VERIFY the substring
+        if t_hash == p_hash and text[i : i + m] == pattern:  # hash match => VERIFY the substring
             return True
         if i == n - m:
             break
@@ -187,7 +188,10 @@ for _ in range(500):
     n = rng.randint(2, 120)
     text = "".join(rng.choice("abc") for _ in range(n))
     pat = "".join(rng.choice("abc") for _ in range(rng.randint(1, min(4, n))))
-    assert count_overlapping(pat, text) == len(re.findall("(?=" + re.escape(pat) + ")", text)), (text, pat)
+    assert count_overlapping(pat, text) == len(re.findall("(?=" + re.escape(pat) + ")", text)), (
+        text,
+        pat,
+    )
 check("Z-function doctest value + overlap counts vs regex on 500 random cases", True)
 
 # Aho-Corasick: per-pattern overlapping occurrence positions vs regex ground truth.
@@ -203,7 +207,10 @@ for _ in range(300):
         assert sorted(got.get(kw, [])) == truth, (text, kw, got.get(kw), truth)
 # the repo's own doctest case, verbatim
 assert aho_corasick_search(["what", "hat", "ver", "er"], "whatever, err ... , wherever") == {
-    "what": [0], "hat": [1], "ver": [5, 25], "er": [6, 10, 22, 26]
+    "what": [0],
+    "hat": [1],
+    "ver": [5, 25],
+    "er": [6, 10, 22, 26],
 }
 # nested-keyword case verified against regex truth
 assert aho_corasick_search(["a", "aa"], "aaa") == {"a": [0, 1, 2], "aa": [0, 1]}
@@ -245,14 +252,14 @@ def djb2(s: str) -> int:
     return h
 
 
-def sdbm_unmasked(s: str) -> int:   # as shipped by TheAlgorithms (no wrap mask)
+def sdbm_unmasked(s: str) -> int:  # as shipped by TheAlgorithms (no wrap mask)
     h = 0
     for ch in s.encode("ascii"):
         h = ch + (h << 6) + (h << 16) - h
     return h
 
 
-def sdbm_64(s: str) -> int:         # C-style 64-bit wrap — the cross-language value
+def sdbm_64(s: str) -> int:  # C-style 64-bit wrap — the cross-language value
     h = 0
     for ch in s.encode("ascii"):
         h = (ch + (h << 6) + (h << 16) - h) & ((1 << 64) - 1)
@@ -272,7 +279,7 @@ check("djb2 doctest values (seed 5381, *33+c)", True)
 # the documented pitfall: unmasked Python int != C-style 64-bit wrap for the same input
 assert sdbm_unmasked("Algorithms") == 1462174910723540325254304520539387479031000036
 assert sdbm_64("Algorithms") == 7428168923269278692
-assert sdbm_unmasked("Algorithms") != sdbm_64("Algorithms")   # the pitfall, made explicit
+assert sdbm_unmasked("Algorithms") != sdbm_64("Algorithms")  # the pitfall, made explicit
 check("sdbm: unmasked (repo) vs 64-bit-wrapped values differ — pitfall documented", True)
 
 
@@ -296,9 +303,9 @@ def haversine_m(lat1, lon1, lat2, lon2):
     dlam = math.radians(lon2 - lon1)
     dphi = p2 - p1
     a = math.sin(dphi / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dlam / 2) ** 2
-    return 2 * 6_371_000 * math.asin(math.sqrt(a))   # sqrt is MANDATORY — a is the squared hav term;
-                                                     # dropping it underestimates by ~sqrt(1/a) (verified:
-                                                     # SF->Yosemite came out 5,052 m instead of 253,748 m)
+    return 2 * 6_371_000 * math.asin(math.sqrt(a))  # sqrt is MANDATORY — a is the squared hav term;
+    # dropping it underestimates by ~sqrt(1/a) (verified:
+    # SF->Yosemite came out 5,052 m instead of 253,748 m)
 
 
 assert round(haversine_m(37.774856, -122.424227, 37.864742, -119.537521)) == 253_748
@@ -323,10 +330,13 @@ def brent_method(f, left, right, tol=1e-8, max_iter=100):
             return right
         # NOTE: guard FIRST — on iteration 1, c==left so fc==fl exactly and the IQU
         # denominators (fl-fc) are zero; evaluating them before the check crashes.
-        if fc not in (fl, fr):   # inverse quadratic interpolation
-            s = (left * fr * fc / ((fl - fr) * (fl - fc)) + right * fl * fc / ((fr - fl) * (fr - fc))
-                 + c * fl * fr / ((fc - fl) * (fc - fr)))
-        else:                    # secant fallback
+        if fc not in (fl, fr):  # inverse quadratic interpolation
+            s = (
+                left * fr * fc / ((fl - fr) * (fl - fc))
+                + right * fl * fc / ((fr - fl) * (fr - fc))
+                + c * fl * fr / ((fc - fl) * (fc - fr))
+            )
+        else:  # secant fallback
             s = right - fr * (right - left) / (fr - fl)
         bisection_conditions = [
             not ((3 * left + right) / 4 < s < right),
@@ -427,7 +437,11 @@ def lis_length_dp(v):  # O(n^2) reference oracle
 for _ in range(300):
     arr = [rng.randint(-50, 50) for _ in range(rng.randint(0, 60))]
     assert lis_length(arr) == lis_length_dp(arr), arr[:20]
-assert lis_length([2, 5, 3, 7, 11, 8, 10, 13, 6]) == 6 and lis_length([5, 4, 3, 2, 1]) == 1 and lis_length([]) == 0
+assert (
+    lis_length([2, 5, 3, 7, 11, 8, 10, 13, 6]) == 6
+    and lis_length([5, 4, 3, 2, 1]) == 1
+    and lis_length([]) == 0
+)
 check("LIS O(n log n) tails == O(n^2) DP on 300 random arrays + doctest values", True)
 
 

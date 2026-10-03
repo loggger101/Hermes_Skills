@@ -28,18 +28,22 @@ Debugs failing GitHub Actions checks using the `gh` CLI. Fetches run logs, summa
 ## Process
 
 ### 1. Fetch the failing run
+
 ```bash
 gh run list --limit 20  # find recent runs
 gh run view {run_id}
 ```
 
 ### 2. Get job details
+
 ```bash
 gh run view {run_id} --jobs
 ```
+
 This shows each job in the run, its status, and how long it took. Focus on jobs that show `failure` or `cancelled`.
 
 ### 3. Fetch specific log
+
 ```bash
 gh run view {run_id} --log
 # Or for a specific job:
@@ -47,13 +51,16 @@ gh run job view {job_id} --log
 ```
 
 For large logs, pipe to grep or save to a file:
+
 ```bash
 gh run view {run_id} --log > ci-failure.log
 grep -i "error\|failed\|exception\|traceback" ci-failure.log
 ```
 
 ### 4. Identify the failure point
+
 Look for the red step (the last step that failed). Extract the error message — look for:
+
 - Compiler/linker errors
 - Test failures with stack traces
 - Missing dependencies
@@ -61,12 +68,14 @@ Look for the red step (the last step that failed). Extract the error message —
 - Timeout / resource exhaustion
 
 **Key distinction**: Did your change introduce this failure, or was it pre-existing?
+
 ```bash
 # Check if the failure exists on the base branch too
 gh pr checks --base main  # compare against base
 ```
 
 ### 5. Propose fix
+
 Categorize the failure and apply the right remedy:
 
 | Failure Type | Diagnosis | Fix |
@@ -80,6 +89,7 @@ Categorize the failure and apply the right remedy:
 | Build error | Compiler errors | Fix compilation |
 
 ### 6. Apply and verify
+
 ```bash
 # Fix the issue, then push
 git add .
@@ -95,11 +105,13 @@ gh run rerun {run_id}
 ## Advanced Debugging
 
 ### Download artifacts
+
 ```bash
 gh run download {run_id} --name {artifact-name}
 ```
 
 ### View workflow file
+
 ```bash
 # Find the workflow file from the run
 gh api repos/{owner}/{repo}/actions/runs/{run_id} --jq '.path'
@@ -108,6 +120,7 @@ gh api repos/{owner}/{repo}/contents/{path} | jq -r '.content' | base64 -d
 ```
 
 ### Compare two runs
+
 ```bash
 diff <(gh run view {run_a} --log) <(gh run view {run_b} --log)
 ```

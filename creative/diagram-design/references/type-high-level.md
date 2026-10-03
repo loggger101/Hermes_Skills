@@ -52,6 +52,7 @@ dark: false
 **Reserved chevron names** (always vertical, even if `vertical: true` is omitted): `Orchestration`, `Security`, `Observability`, `Governance`, `Backup`.
 
 **Reserved `kind` values:**
+
 - `node` — a standard box inside the cluster (default).
 - `bar` — a horizontal strip spanning the cluster top. Typically one (Orchestration); see §5 for the pairing rule.
 - `cross-cutting` — a horizontal strip spanning the body width (stops at the strip margin), stacked below the cluster. **Zero or more allowed**; each stacks 44 px below the previous (§2.5) and pairs 1:1 with a vertical chevron (§5).
@@ -59,6 +60,7 @@ dark: false
 **Optional `color`** (per component, hex string): tints the component's container and content while leaving connectors untouched. See §3.4. Use sparingly — a custom color is a semantic flag (e.g., red = security concern), not decoration.
 
 **Source `type` values** → icon mapping (use `references/primitive-icons.md`):
+
 - `db` → `database`
 - `ftp` → `bucket` or upload arrow
 - `web` → `internet`
@@ -105,6 +107,7 @@ chevron_cx(C)      = (x_boundaries[index(C)] + x_boundaries[index(C)+1]) / 2
 ```
 
 **Polygon shapes:**
+
 - First (leftmost): `(x0,4) (x1-12,4) (x1,18) (x1-12,32) (x0,32)`
 - Middle: `(x0,4) (x1-12,4) (x1,18) (x1-12,32) (x0,32) (x0+12,18)`
 - Last (rightmost): `(x0,4) (effective_w,4) (effective_w,32) (x0,32) (x0+12,18)`
@@ -155,6 +158,7 @@ cross_h            = 40
 Stroke: `rgba(45,49,66,0.20)`, `stroke-width=0.8`, `rx=6`. Fill: `rgba(45,49,66,0.05)`. Icon at `(16, cross_y(k) + 10)`, name centered at `(effective_w / 2, cross_y(k) + 22)`, subtitle at `(effective_w / 2, cross_y(k) + 34)`.
 
 Reserved cross-cutting *concerns* (informational; user can name the actual bar whatever they want):
+
 - **Identity / Security** — Keycloak, LDAP/AD, Okta, Auth0, OIDC providers
 - **Observability** — Prometheus + Grafana, Datadog, OpenTelemetry, Loki
 - **Backup / DR** — Velero, Restic, snapshot orchestrators
@@ -222,12 +226,14 @@ heights[-1]       += strip_h_total - sum(heights)       # last absorbs remainder
 ```
 
 Examples:
+
 - 2 verticals (Orchestration + Security), 1 crosscut → `heights = [192, 196]`, layout `[40..232, 232..428]`.
 - 3 verticals (Orchestration + Security + Observability), 2 crosscuts → `strip_y_bot = 472`, `strip_h_total = 432`, `heights = [144, 144, 144]`, layout `[40..184, 184..328, 328..472]`.
 
 Adjacent edges share the same y (no gap), like horizontal chevrons share x at their boundary.
 
 **Polygon shapes** (top-to-bottom flow, mirrors horizontal §2.2):
+
 - First (topmost): flat top, point at bottom — `(strip_x, y0) (strip_x+strip_w, y0) (strip_x+strip_w, y1-12) (strip_x+strip_w/2, y1) (strip_x, y1-12)`
 - Middle: notch on top, point on bottom — `(strip_x, y0) (strip_x+strip_w/2, y0+12) (strip_x+strip_w, y0) (strip_x+strip_w, y1-12) (strip_x+strip_w/2, y1) (strip_x, y1-12)`
 - Last (bottommost): notch on top, flat bottom — `(strip_x, y0) (strip_x+strip_w/2, y0+12) (strip_x+strip_w, y0) (strip_x+strip_w, y1) (strip_x, y1)`
@@ -310,6 +316,7 @@ The subtitle stays muted because it's parenthetical metadata — only the primar
 - **No color on connectors.** If you find yourself wanting a colored edge, the right move is to pick a different `style` from §3, not to override.
 
 **Semantic uses** (recommended):
+
 - `#b85450` (rust-red) — Security / Identity (Keycloak, Vault)
 - `#5a7d9a` (slate-blue) — Observability (Prometheus, Datadog)
 - `#7a8c47` (olive-green) — Governance / Lineage (OpenMetadata)

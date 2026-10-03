@@ -93,6 +93,7 @@ When the job produces an evaluation or audit, use a consistent table shape so th
 ### Blocked items
 
 Always include a "Blocked" or "Flagged for Human Review" section. The difference:
+
 - **Blocked** = the job tried and couldn't proceed (cross-profile write refused, credential missing, tool blocked). Record the reason and the recommended next step.
 - **Flagged for human review** = the job found something that needs judgment (structural failure, accuracy concern, speculative fix). Don't auto-fix; describe and recommend.
 

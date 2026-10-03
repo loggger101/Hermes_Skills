@@ -100,9 +100,7 @@ def _inflate(payload: str) -> str | None:
         try:
             text = _decompress_limited(raw, wbits).decode("utf-8", "replace")
         except PayloadTooLarge:
-            _fail(
-                f"decoded diagram exceeds the {MAX_XML_BYTES // (1024 * 1024)} MiB limit"
-            )
+            _fail(f"decoded diagram exceeds the {MAX_XML_BYTES // (1024 * 1024)} MiB limit")
         except Exception:
             continue
         # draw.io URL-encodes before deflating; unquote is a no-op if it didn't.
@@ -139,10 +137,7 @@ def _png_embedded_xml(data: bytes) -> str | None:
                 tail = rest[2:].split(b"\x00", 2)[-1]
                 value = _decompress_limited(tail, 15) if flag == b"\x01" else tail
         except PayloadTooLarge:
-            _fail(
-                f"embedded PNG diagram exceeds the "
-                f"{MAX_XML_BYTES // (1024 * 1024)} MiB limit"
-            )
+            _fail(f"embedded PNG diagram exceeds the {MAX_XML_BYTES // (1024 * 1024)} MiB limit")
         except (IndexError, ValueError, zlib.error):
             _fail("PNG has invalid compressed draw.io metadata")
         return unquote(value.decode("utf-8", "replace"))
@@ -164,8 +159,7 @@ def load_mxfile(path: Path) -> str:
     size = path.stat().st_size
     if size > MAX_INPUT_BYTES:
         _fail(
-            f"{path.name}: input is {size} bytes; maximum is "
-            f"{MAX_INPUT_BYTES // (1024 * 1024)} MiB"
+            f"{path.name}: input is {size} bytes; maximum is {MAX_INPUT_BYTES // (1024 * 1024)} MiB"
         )
     data = path.read_bytes()
     if data.startswith(PNG_MAGIC):
@@ -386,9 +380,7 @@ def parse_page(diagram: ET.Element, index: int) -> Page:
             if cell is None:
                 continue
             attrs = {
-                k: v
-                for k, v in element.attrib.items()
-                if k not in ("id", "label", "placeholders")
+                k: v for k, v in element.attrib.items() if k not in ("id", "label", "placeholders")
             }
             cid = element.get("id") or cell.get("id") or ""
             value = element.get("label", "")
@@ -417,9 +409,7 @@ def parse_page(diagram: ET.Element, index: int) -> Page:
             continue
         # An edge label is a vertex parented to an edge; fold it into the edge.
         parent_entry = raw.get(parent or "")
-        parent_is_edge = bool(
-            parent_entry and parent_entry["cell"].get("edge") == "1"
-        )
+        parent_is_edge = bool(parent_entry and parent_entry["cell"].get("edge") == "1")
         if parent_is_edge or "edgeLabel" in style:
             if parent:
                 text = clean_label(entry["value"])
@@ -444,11 +434,7 @@ def parse_page(diagram: ET.Element, index: int) -> Page:
             rounded=style.get("rounded") == "1",
             container=style.get("container") == "1" or "swimlane" in style,
             link=entry["attrs"].get("link", ""),
-            attrs={
-                k: v
-                for k, v in entry["attrs"].items()
-                if k not in ("link", "tooltip")
-            },
+            attrs={k: v for k, v in entry["attrs"].items() if k not in ("link", "tooltip")},
         )
         page.nodes.append(node)
 
@@ -483,9 +469,7 @@ def parse_page(diagram: ET.Element, index: int) -> Page:
         geom = cell.find("mxGeometry")
         waypoints = 0
         if geom is not None:
-            waypoints = len(
-                [p for p in geom.findall(".//mxPoint") if p.get("as") is None]
-            )
+            waypoints = len([p for p in geom.findall(".//mxPoint") if p.get("as") is None])
         label = clean_label(entry["value"])
         extra = edge_label_parts.get(cid, [])
         if extra:
@@ -499,8 +483,7 @@ def parse_page(diagram: ET.Element, index: int) -> Page:
                 target=target if target in node_map else None,
                 label=label,
                 dashed=style.get("dashed") == "1",
-                bidirectional=style.get("startArrow", "none")
-                not in ("none", "0", "")
+                bidirectional=style.get("startArrow", "none") not in ("none", "0", "")
                 and style.get("endArrow", "classic") not in ("none", "0"),
                 undirected=style.get("endArrow") in ("none", "0")
                 and style.get("startArrow", "none") in ("none", "0", ""),
@@ -595,11 +578,9 @@ def analyze(page: Page) -> dict[str, Any]:
         shapes[shape_family(node.shape)] = shapes.get(shape_family(node.shape), 0) + 1
 
     def name_of(node: Node) -> str:
-        return (node.label.replace("\n", " · ") or node.id)
+        return node.label.replace("\n", " · ") or node.id
 
-    ranked = sorted(
-        leaves, key=lambda n: (n.in_degree + n.out_degree), reverse=True
-    )
+    ranked = sorted(leaves, key=lambda n: n.in_degree + n.out_degree, reverse=True)
     hubs = [
         {"id": n.id, "label": name_of(n), "degree": n.in_degree + n.out_degree}
         for n in ranked[:5]
@@ -717,8 +698,7 @@ def digest(path: Path, pages: list[Page], selected: list[Page], max_rows: int) -
     out.append(
         f"{len(pages)} page(s): "
         + ", ".join(
-            f"[{p.index}] {_escape_inline(p.name)} ({len(p.nodes)}n/{len(p.edges)}e)"
-            for p in pages
+            f"[{p.index}] {_escape_inline(p.name)} ({len(p.nodes)}n/{len(p.edges)}e)" for p in pages
         )
     )
     for page in selected:
@@ -749,8 +729,7 @@ def digest(path: Path, pages: list[Page], selected: list[Page], max_rows: int) -
         )
         if info["hubs"]:
             hubs = ", ".join(
-                f"{_escape_inline(h['label'] or h['id'])}({h['degree']})"
-                for h in info["hubs"]
+                f"{_escape_inline(h['label'] or h['id'])}({h['degree']})" for h in info["hubs"]
             )
             out.append(f"- hubs (focal candidates): {hubs}")
         if info["entry_points"]:
@@ -770,8 +749,7 @@ def digest(path: Path, pages: list[Page], selected: list[Page], max_rows: int) -
             for group in info["collapsible_groups"]:
                 kids = ", ".join(_escape_inline(label) for label in group["child_labels"])
                 out.append(
-                    f"  - {_escape_inline(group['label'])} — "
-                    f"{group['children']} children: {kids}"
+                    f"  - {_escape_inline(group['label'])} — {group['children']} children: {kids}"
                 )
 
         out.append("")

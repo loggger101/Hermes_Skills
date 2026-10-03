@@ -29,11 +29,13 @@ Run PyTorch training across GPUs with minimal changes: the 4-line `Accelerator` 
 Accelerate simplifies distributed training to 4 lines of code.
 
 **Installation**:
+
 ```bash
 pip install accelerate
 ```
 
 **Convert PyTorch script** (4 lines):
+
 ```python
 import torch
 + from accelerate import Accelerator
@@ -55,6 +57,7 @@ import torch
 ```
 
 **Run** (single command):
+
 ```bash
 accelerate launch train.py
 ```
@@ -64,6 +67,7 @@ accelerate launch train.py
 ### Workflow 1: From single GPU to multi-GPU
 
 **Original script**:
+
 ```python
 # train.py
 import torch
@@ -82,6 +86,7 @@ for epoch in range(10):
 ```
 
 **With Accelerate** (4 lines added):
+
 ```python
 # train.py
 import torch
@@ -105,17 +110,20 @@ for epoch in range(10):
 ```
 
 **Configure** (interactive):
+
 ```bash
 accelerate config
 ```
 
 **Questions**:
+
 - Which machine? (single/multi GPU/TPU/CPU)
 - How many machines? (1)
 - Mixed precision? (no/fp16/bf16/fp8)
 - DeepSpeed? (no/yes)
 
 **Launch** (works on any setup):
+
 ```bash
 # Single GPU
 accelerate launch train.py
@@ -133,6 +141,7 @@ accelerate launch --multi_gpu --num_processes 16 \
 ### Workflow 2: Mixed precision training
 
 **Enable FP16/BF16**:
+
 ```python
 from accelerate import Accelerator
 
@@ -157,6 +166,7 @@ for batch in dataloader:
 ### Workflow 3: DeepSpeed ZeRO integration
 
 **Enable DeepSpeed ZeRO-2** (pass a `DeepSpeedPlugin`, not a raw dict):
+
 ```python
 from accelerate import Accelerator, DeepSpeedPlugin
 
@@ -176,6 +186,7 @@ model, optimizer, dataloader = accelerator.prepare(model, optimizer, dataloader)
 ```
 
 **Or point at a full DeepSpeed JSON config via the plugin**:
+
 ```python
 from accelerate import Accelerator, DeepSpeedPlugin
 
@@ -185,6 +196,7 @@ accelerator = Accelerator(mixed_precision='bf16', deepspeed_plugin=deepspeed_plu
 ```
 
 **ds_config.json** (a raw DeepSpeed config — passed via the plugin, NOT via `--config_file`):
+
 ```json
 {
     "fp16": {"enabled": false},
@@ -199,6 +211,7 @@ accelerator = Accelerator(mixed_precision='bf16', deepspeed_plugin=deepspeed_plu
 ```
 
 **Or via interactive config**:
+
 ```bash
 accelerate config
 # Select: DeepSpeed → ZeRO-2
@@ -206,6 +219,7 @@ accelerate config
 ```
 
 **Launch** (`--config_file` expects an accelerate YAML, not a raw DeepSpeed JSON):
+
 ```bash
 # Uses the default accelerate config written by `accelerate config`
 accelerate launch train.py
@@ -217,6 +231,7 @@ accelerate launch --config_file accelerate_deepspeed.yaml train.py
 ### Workflow 4: FSDP (Fully Sharded Data Parallel)
 
 **Enable FSDP**:
+
 ```python
 from accelerate import Accelerator, FullyShardedDataParallelPlugin
 
@@ -235,6 +250,7 @@ model, optimizer, dataloader = accelerator.prepare(model, optimizer, dataloader)
 ```
 
 **Or via config**:
+
 ```bash
 accelerate config
 # Select: FSDP → Full Shard → No CPU Offload
@@ -243,6 +259,7 @@ accelerate config
 ### Workflow 5: Gradient accumulation
 
 **Accumulate gradients**:
+
 ```python
 from accelerate import Accelerator
 
@@ -263,6 +280,7 @@ for batch in dataloader:
 ## When to use vs alternatives
 
 **Use Accelerate when**:
+
 - Want simplest distributed training
 - Need single script for any hardware
 - Use HuggingFace ecosystem
@@ -270,6 +288,7 @@ for batch in dataloader:
 - Need quick prototyping
 
 **Key advantages**:
+
 - **4 lines**: Minimal code changes
 - **Unified API**: Same code for DDP, DeepSpeed, FSDP, Megatron
 - **Automatic**: Device placement, mixed precision, sharding
@@ -277,6 +296,7 @@ for batch in dataloader:
 - **Single launch**: Works everywhere
 
 **Use alternatives instead**:
+
 - **PyTorch Lightning**: Need callbacks, high-level abstractions
 - **Ray Train**: Multi-node orchestration, hyperparameter tuning
 - **DeepSpeed**: Direct API control, advanced features
@@ -287,6 +307,7 @@ for batch in dataloader:
 **Issue: Wrong device placement**
 
 Don't manually move to device:
+
 ```python
 # WRONG
 batch = batch.to('cuda')
@@ -298,6 +319,7 @@ batch = batch.to('cuda')
 **Issue: Gradient accumulation not working**
 
 Use context manager:
+
 ```python
 # CORRECT
 with accelerator.accumulate(model):
@@ -309,6 +331,7 @@ with accelerator.accumulate(model):
 **Issue: Checkpointing in distributed**
 
 Use accelerator methods:
+
 ```python
 # Save only on main process
 if accelerator.is_main_process:
@@ -321,6 +344,7 @@ accelerator.load_state('checkpoint/')
 **Issue: Different results with FSDP**
 
 Ensure same random seed:
+
 ```python
 from accelerate.utils import set_seed
 set_seed(42)
@@ -344,6 +368,7 @@ set_seed(42)
 - **Apple MPS**: Supported
 
 **Launcher requirements**:
+
 - **DDP**: `torch.distributed.run` (built-in)
 - **DeepSpeed**: `deepspeed` (pip install deepspeed)
 - **FSDP**: PyTorch 1.12+ (built-in)

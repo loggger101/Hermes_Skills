@@ -20,6 +20,7 @@ untested claim class is an unenforced one.
 Run:  py tools/mutation-test-doc-gate.py     (also invoked by verify-all as a gate)
 Exit 0 = baseline passes AND every mutation caught; exit 1 otherwise. Stdlib only.
 """
+
 import importlib.util
 import json
 import re
@@ -45,8 +46,10 @@ _HERE = Path(__file__).resolve()
 # machine only, and on it the test would have silently exercised a different tree.
 REPO = _HERE.parents[1]
 if not (REPO / "tools" / "verify-all.py").exists():
-    raise SystemExit(f"[FATAL] {_HERE.name} must run from the repo's tools/ dir "
-                     f"(no tools/verify-all.py under {REPO})")
+    raise SystemExit(
+        f"[FATAL] {_HERE.name} must run from the repo's tools/ dir "
+        f"(no tools/verify-all.py under {REPO})"
+    )
 
 
 def load_gate():
@@ -67,8 +70,13 @@ def build_fixture(tmp: Path):
         d.mkdir(parents=True, exist_ok=True)
         shutil.copy2(p, d / "SKILL.md")
 
-    for fname in ("README.md", "DESCRIPTION.md", "DEPENDENCY.md", "REFERENCES-INDEX.md",
-                  "SKILLS-INDEX.md"):
+    for fname in (
+        "README.md",
+        "DESCRIPTION.md",
+        "DEPENDENCY.md",
+        "REFERENCES-INDEX.md",
+        "SKILLS-INDEX.md",
+    ):
         src = REPO / fname
         if not src.exists():
             raise SystemExit(f"[FATAL] expected {fname} at the repo root — layout changed?")
@@ -111,16 +119,23 @@ def mutate(tmp: Path, fname: str, old: str, new: str):
 
 def live_truths():
     """Same truths the gate compares against (each machine-generated and drift-gated)."""
-    skills = [p for p in REPO.rglob("SKILL.md")
-              if not any(part in (".git", ".hermes", "profiles-export", "memories",
-                                  "memories-export") for part in p.relative_to(REPO).parts)]
+    skills = [
+        p
+        for p in REPO.rglob("SKILL.md")
+        if not any(
+            part in (".git", ".hermes", "profiles-export", "memories", "memories-export")
+            for part in p.relative_to(REPO).parts
+        )
+    ]
     live = len(skills)
 
     xrefs = None
     dep = REPO / "DEPENDENCY.md"
     if dep.exists():
-        m = re.search(r"\*\*Network stats:\*\* (\d+) `related_skills` cross-references",
-                      dep.read_text(encoding="utf-8"))
+        m = re.search(
+            r"\*\*Network stats:\*\* (\d+) `related_skills` cross-references",
+            dep.read_text(encoding="utf-8"),
+        )
         xrefs = int(m.group(1)) if m else None
 
     exposed = None
@@ -134,8 +149,7 @@ def live_truths():
     refdocs = None
     refs_index = REPO / "REFERENCES-INDEX.md"
     if refs_index.exists():
-        m = re.search(r"\*\*(\d+) reference documents?\*\*",
-                      refs_index.read_text(encoding="utf-8"))
+        m = re.search(r"\*\*(\d+) reference documents?\*\*", refs_index.read_text(encoding="utf-8"))
         refdocs = int(m.group(1)) if m else None
 
     return live, xrefs, exposed, refdocs
@@ -153,21 +167,39 @@ def build_mutations(tmp: Path):
     if exposed is not None:
         old = f"and {exposed} skills load"
         if readme.count(old) == 1:
-            mutations.append(("plugin exposure ('skills load')", "README.md",
-                              old, f"and {exposed - 4} skills load"))
+            mutations.append(
+                (
+                    "plugin exposure ('skills load')",
+                    "README.md",
+                    old,
+                    f"and {exposed - 4} skills load",
+                )
+            )
 
     # 2) prose skill total — DESCRIPTION's 'index of all NNN skills'.
     old = f"index of all {live} skills"
     if desc.count(old) == 1:
-        mutations.append(("prose skill total ('all NNN skills')", "DESCRIPTION.md",
-                          old, f"index of all {live - 1} skills"))
+        mutations.append(
+            (
+                "prose skill total ('all NNN skills')",
+                "DESCRIPTION.md",
+                old,
+                f"index of all {live - 1} skills",
+            )
+        )
 
     # 3) bold skill total — README's '**Total: NNN skills across ...**' (the unique
     #    full phrase; the bare tagline '**NNN Hermes Agent skills**' appears twice).
     m = re.search(r"\*\*Total: (\d+) skills across \d+ categories\*\*", readme)
     if m and int(m.group(1)) == live:
-        mutations.append(("bold skill total ('**Total: NNN skills')", "README.md",
-                          f"**Total: {live} skills", f"**Total: {live + 1} skills"))
+        mutations.append(
+            (
+                "bold skill total ('**Total: NNN skills')",
+                "README.md",
+                f"**Total: {live} skills",
+                f"**Total: {live + 1} skills",
+            )
+        )
 
     # 4) cross-reference count — README carries the xref number in two wordings;
     #    try each full phrase as a unique anchor (the bare 'NNN references' is not).
@@ -178,36 +210,51 @@ def build_mutations(tmp: Path):
         ]
         for old in candidates:
             if readme.count(old) == 1:
-                mutations.append(("cross-reference count (prose)", "README.md",
-                                  old, old.replace(str(xrefs), str(xrefs - 1), 1)))
+                mutations.append(
+                    (
+                        "cross-reference count (prose)",
+                        "README.md",
+                        old,
+                        old.replace(str(xrefs), str(xrefs - 1), 1),
+                    )
+                )
                 break
 
     # 5) category table row — the full line is unique per row (its [cat/](./cat/) link).
     #    Pick the largest-count row; strip its trailing count cell and append +1.
     rows = re.findall(
-        r"\|\s*\[([a-z0-9_-]+)/\]\(\./[a-z0-9_-]+/\)\s*\|[^\n|]*\|\s*(\d+)\s*\|", readme)
+        r"\|\s*\[([a-z0-9_-]+)/\]\(\./[a-z0-9_-]+/\)\s*\|[^\n|]*\|\s*(\d+)\s*\|", readme
+    )
     if rows:
         cat, count = max(rows, key=lambda r: int(r[1]))
         link = f"[{cat}/](./{cat}/)"
-        row_line = next((l for l in readme.splitlines() if link in l), None)
+        row_line = next((line for line in readme.splitlines() if link in line), None)
         suffix = f"| {count} |"
         if row_line is not None and row_line.rstrip().endswith(suffix):
             body = row_line.rstrip()[: -len(suffix)]
-            mutations.append((f"category table row ({cat}/)", "README.md",
-                              row_line, body + f"| {int(count) + 1} |"))
+            mutations.append(
+                (
+                    f"category table row ({cat}/)",
+                    "README.md",
+                    row_line,
+                    body + f"| {int(count) + 1} |",
+                )
+            )
 
     # 6) reference-docs count — DESCRIPTION's 'all NNN reference docs'.
     if refdocs is not None:
         old = f"all {refdocs} reference docs"
         if desc.count(old) == 1:
-            mutations.append(("reference-docs count", "DESCRIPTION.md",
-                              old, f"all {refdocs - 1} reference docs"))
+            mutations.append(
+                ("reference-docs count", "DESCRIPTION.md", old, f"all {refdocs - 1} reference docs")
+            )
 
     # 7+8) pytest suite counts — README's 'Seven suites currently: comfyui N / ...' line.
     #      Truth comes from run-skill-tests.discover_suites() — the SAME imported path
     #      verify-all uses, so this test and the gate can never disagree on what a suite is.
     spec = importlib.util.spec_from_file_location(
-        "run_skill_tests", REPO / "tools" / "run-skill-tests.py")
+        "run_skill_tests", REPO / "tools" / "run-skill-tests.py"
+    )
     rst = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(rst)
     suite_counts = {}
@@ -226,18 +273,33 @@ def build_mutations(tmp: Path):
         name, n = max(suite_counts.items(), key=lambda kv: kv[1])
         old = f"{name} {n}"
         if readme.count(old) == 1 and m.group(2).count(old):
-            mutations.append(("pytest suite count (listed pair)", "README.md",
-                              old, f"{name} {n + 1}"))
+            mutations.append(
+                ("pytest suite count (listed pair)", "README.md", old, f"{name} {n + 1}")
+            )
         # 8) the count-word itself ('Seven suites' vs disk truth)
-        word_to_n = {"One": 1, "Two": 2, "Three": 3, "Four": 4, "Five": 5,
-                     "Six": 6, "Seven": 7, "Eight": 8, "Nine": 9, "Ten": 10}
+        word_to_n = {
+            "One": 1,
+            "Two": 2,
+            "Three": 3,
+            "Four": 4,
+            "Five": 5,
+            "Six": 6,
+            "Seven": 7,
+            "Eight": 8,
+            "Nine": 9,
+            "Ten": 10,
+        }
         if m.group(1) in word_to_n and word_to_n[m.group(1)] == len(suite_counts):
-            wrong = {v: k for k, v in word_to_n.items()}[len(suite_counts) - 1] \
-                if len(suite_counts) >= 2 else "Six"
+            wrong = (
+                {v: k for k, v in word_to_n.items()}[len(suite_counts) - 1]
+                if len(suite_counts) >= 2
+                else "Six"
+            )
             old = f"{m.group(1)} suites currently:"
             if readme.count(old) == 1 and wrong != m.group(1):
-                mutations.append(("pytest suite count-word", "README.md",
-                                  old, f"{wrong} suites currently:"))
+                mutations.append(
+                    ("pytest suite count-word", "README.md", old, f"{wrong} suites currently:")
+                )
 
     # 9) category counts — README's '**Total: NNN skills across M categories**' line.
     #    (The bare '23 categories' appears twice in README + DESCRIPTION; this full bold
@@ -246,9 +308,14 @@ def build_mutations(tmp: Path):
     sk_footer = (tmp / "SKILLS-INDEX.md").read_text(encoding="utf-8")
     fm_ = re.search(r"\*\s*\d+ skills across (\d+) categories\b", sk_footer)
     if m and fm_ and int(m.group(1)) == int(fm_.group(1)):
-        mutations.append(("category count ('across NNN categories')", "README.md",
-                          f"skills across {m.group(1)} categories**",
-                          f"skills across {int(m.group(1)) + 1} categories**"))
+        mutations.append(
+            (
+                "category count ('across NNN categories')",
+                "README.md",
+                f"skills across {m.group(1)} categories**",
+                f"skills across {int(m.group(1)) + 1} categories**",
+            )
+        )
 
     # 10) gate counts — README's 'NNN gates' prose vs GATE_LABELS (the list verify-all runs).
     #     Class-9 truth (ci.yml job count) lives outside the fixture, so only class 8 is
@@ -256,15 +323,22 @@ def build_mutations(tmp: Path):
     if n_gates:
         old = f"# {n_gates} gates;"
         if readme.count(old) == 1:
-            mutations.append(("gate count ('NNN gates')", "README.md",
-                              old, f"# {n_gates + 1} gates;"))
+            mutations.append(
+                ("gate count ('NNN gates')", "README.md", old, f"# {n_gates + 1} gates;")
+            )
         # the qualified form ('NN health gates', DESCRIPTION's CI line) — round-46 widened the
         # gate's regex after this exact line sat at a stale '15' for three rounds.
         desc = (tmp / "DESCRIPTION.md").read_text(encoding="utf-8")
         old = f"all {n_gates} health gates"
         if desc.count(old) == 1:
-            mutations.append(("gate count ('NN health gates')", "DESCRIPTION.md",
-                              old, f"all {n_gates - 3} health gates"))
+            mutations.append(
+                (
+                    "gate count ('NN health gates')",
+                    "DESCRIPTION.md",
+                    old,
+                    f"all {n_gates - 3} health gates",
+                )
+            )
 
     return live, xrefs, exposed, refdocs, mutations
 
@@ -285,9 +359,16 @@ def main():
         print(f"baseline OK ({note})")
 
         live, xrefs, exposed, refdocs, mutations = build_mutations(tmp)
-        missing_truths = [n for n, v in (("skills", live), ("xrefs", xrefs),
-                                         ("plugin exposure", exposed),
-                                         ("ref docs", refdocs)) if v is None]
+        missing_truths = [
+            n
+            for n, v in (
+                ("skills", live),
+                ("xrefs", xrefs),
+                ("plugin exposure", exposed),
+                ("ref docs", refdocs),
+            )
+            if v is None
+        ]
         # 10 claim classes (skills total bold+prose, xrefs, plugin exposure, ref docs,
         # category table row, pytest suite count + count-word, category count, gate count in
         # both its bare and qualified forms).
@@ -295,8 +376,10 @@ def main():
         # present. A missing anchor means a doc's wording drifted from what this test
         # expects — fail loudly rather than silently stop guarding that class.
         if len(mutations) < 11:
-            print(f"[FAIL] only {len(mutations)}/11 mutations built — truths missing: "
-                  f"{missing_truths or 'none'}; a doc's wording must have drifted from an anchor")
+            print(
+                f"[FAIL] only {len(mutations)}/11 mutations built — truths missing: "
+                f"{missing_truths or 'none'}; a doc's wording must have drifted from an anchor"
+            )
             return 1
 
         failures = []
@@ -326,8 +409,10 @@ def main():
             return 1
 
         if failures:
-            print(f"\nFAILED ({len(failures)}/{len(mutations)} mutations missed): "
-                  f"{', '.join(failures)}")
+            print(
+                f"\nFAILED ({len(failures)}/{len(mutations)} mutations missed): "
+                f"{', '.join(failures)}"
+            )
             return 1
         print(f"ALL {len(mutations)} MUTATIONS CAUGHT — doc-count gate verified fail-loud.")
         return 0

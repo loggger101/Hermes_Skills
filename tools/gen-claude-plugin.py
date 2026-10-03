@@ -27,6 +27,7 @@ Usage:
 Stdlib only -- name/description come out of the frontmatter with the same regex
 approach as gen-skills-index.py; audit-skills.py owns the strict validation.
 """
+
 import json
 import re
 import sys
@@ -86,49 +87,55 @@ def collect():
 
 
 def render_plugin(paths):
-    return json.dumps(
-        {
-            "name": PLUGIN_NAME,
-            "version": PLUGIN_VERSION,
-            "description": (
-                f"Hermes second brain: {len(paths)} skills across "
-                f"{len({p.split('/')[1] for p in paths})} categories."
-            ),
-            "author": {"name": "Hermes Agent", "url": f"https://github.com/{OWNER}"},
-            "homepage": f"https://github.com/{OWNER}/Hermes_Skills",
-            "license": "MIT",
-            "skills": paths,
-        },
-        indent=2,
-        ensure_ascii=False,
-    ) + "\n"
+    return (
+        json.dumps(
+            {
+                "name": PLUGIN_NAME,
+                "version": PLUGIN_VERSION,
+                "description": (
+                    f"Hermes second brain: {len(paths)} skills across "
+                    f"{len({p.split('/')[1] for p in paths})} categories."
+                ),
+                "author": {"name": "Hermes Agent", "url": f"https://github.com/{OWNER}"},
+                "homepage": f"https://github.com/{OWNER}/Hermes_Skills",
+                "license": "MIT",
+                "skills": paths,
+            },
+            indent=2,
+            ensure_ascii=False,
+        )
+        + "\n"
+    )
 
 
 def render_marketplace(paths):
-    return json.dumps(
-        {
-            "name": MARKETPLACE_NAME,
-            "owner": {"name": OWNER, "url": f"https://github.com/{OWNER}"},
-            "metadata": {
-                "description": "Hermes Agent skills, installable into Claude Code.",
-                "version": PLUGIN_VERSION,
-            },
-            "plugins": [
-                {
-                    "name": PLUGIN_NAME,
-                    "source": "./",
-                    "description": (
-                        f"Hermes second brain: {len(paths)} skills across "
-                        f"{len({p.split('/')[1] for p in paths})} categories."
-                    ),
+    return (
+        json.dumps(
+            {
+                "name": MARKETPLACE_NAME,
+                "owner": {"name": OWNER, "url": f"https://github.com/{OWNER}"},
+                "metadata": {
+                    "description": "Hermes Agent skills, installable into Claude Code.",
                     "version": PLUGIN_VERSION,
-                    "license": "MIT",
-                }
-            ],
-        },
-        indent=2,
-        ensure_ascii=False,
-    ) + "\n"
+                },
+                "plugins": [
+                    {
+                        "name": PLUGIN_NAME,
+                        "source": "./",
+                        "description": (
+                            f"Hermes second brain: {len(paths)} skills across "
+                            f"{len({p.split('/')[1] for p in paths})} categories."
+                        ),
+                        "version": PLUGIN_VERSION,
+                        "license": "MIT",
+                    }
+                ],
+            },
+            indent=2,
+            ensure_ascii=False,
+        )
+        + "\n"
+    )
 
 
 def main():
@@ -138,10 +145,22 @@ def main():
 
     # Floor is well under the real count (202 on disk at time of writing) but far
     # above anything a broken scan would produce -- see _index_output.emit.
-    emit(OUT_DIR / "plugin.json", render_plugin(paths),
-         count=len(paths), floor=150, label="claude plugin manifest", check=check)
-    emit(OUT_DIR / "marketplace.json", render_marketplace(paths),
-         count=len(paths), floor=150, label="claude marketplace manifest", check=check)
+    emit(
+        OUT_DIR / "plugin.json",
+        render_plugin(paths),
+        count=len(paths),
+        floor=150,
+        label="claude plugin manifest",
+        check=check,
+    )
+    emit(
+        OUT_DIR / "marketplace.json",
+        render_marketplace(paths),
+        count=len(paths),
+        floor=150,
+        label="claude marketplace manifest",
+        check=check,
+    )
 
     if not check:
         print(f"[OK] .claude-plugin/plugin.json -- {len(paths)} skills exposed")

@@ -5,6 +5,7 @@
 **Not for the physical schema.** ER is entity-level: relationship lines join *boxes* and carry cardinality at each end. When the point is real tables with SQL types, constraint chips, indexes, and foreign keys that anchor **column to column**, use [`type-db-schema.md`](type-db-schema.md) instead.
 
 ## Layout conventions
+
 - Each entity is a two-section box:
   - **Header**: type tag (`ENTITY`) + entity name in Geist.
   - **Body**: field list in Geist Mono, one per line. PK prefixed with `#`, FK prefixed with `→`.
@@ -15,11 +16,13 @@
 - Coral on the aggregate root or central entity of the model.
 
 ## Anti-patterns
+
 - Drawing an arrow for every FK on a model with dozens — lay out by cluster instead.
 - Inconsistent cardinality notation between ends of the same relationship.
 - Fields padded to equal-height boxes — natural height by content is fine.
 
 ## Examples
+
 - `assets/example-er.html` — minimal light
 - `assets/example-er-dark.html` — minimal dark
 - `assets/example-er-full.html` — full editorial

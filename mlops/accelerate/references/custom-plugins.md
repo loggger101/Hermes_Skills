@@ -157,6 +157,7 @@ accelerator = Accelerator(deepspeed_plugin=ds_plugin)
 ```
 
 **Example config** (`deepspeed_config.json`):
+
 ```json
 {
   "train_batch_size": "auto",

@@ -18,7 +18,6 @@ metadata:
 
 AST-aware structural code search and rewrite via the `ast-grep` CLI. Patterns are real code snippets, not regex — matching respects syntax structure across files/languages, with safe batch rewrites (`--update-all`) and machine-readable output (`--json`). Covers the three traps that silently break naive usage: patterns must be valid parseable code, `--update-all` and `--json` are mutually exclusive (silently), and metavariables bind by name.
 
-
 `ast-grep` (binary also named `sg`) is an **AST-aware search and rewrite tool** across 25 languages. It treats your pattern as code, parses it the same way it parses your project, and matches structurally. It is the right tool whenever your question depends on **code shape** rather than text bytes.
 
 This skill ships a Python wrapper at `scripts/ast_grep_helper.py` and platform install scripts at `install.sh` (POSIX) and `install.ps1` (Windows). The helper adds offline pattern validation, the two-pass write trick, and binary auto-resolution. Use it as your default entry point.
@@ -43,6 +42,7 @@ Use it whenever the question is about **code structure**, not bytes:
 Switch to `search_files` (or plain `rg`) when the question is text-shaped (string literal contents, comments, license headers, file names, cross-language regex). When in doubt, ask: "does the answer depend on the language's syntax tree, or just on the file's bytes?" If the former, ast-grep. If the latter, search_files.
 
 Hermes integration notes:
+
 - Run the helper and `sg` through the `terminal` tool. Single-quote every pattern so the shell never expands `$VAR`.
 - For find→read chains around matches, use `--json-out` and process with `execute_code` rather than piping through interpreters.
 - This complements (does not replace) Hermes's `patch` tool: `patch` is for targeted edits you author; ast-grep is for pattern-driven bulk rewrites across many sites.
@@ -94,6 +94,7 @@ python scripts/ast_grep_helper.py search 'console.log($MSG)' --lang ts src/
 Validates the pattern offline first. If the pattern looks like regex (`\w`, `.*`, `|`, etc.) the helper exits with a hint and never calls `sg` — saves a round-trip. Pass `--force` to skip validation.
 
 Flags:
+
 - `--lang ts` (or any of the 25 languages; aliases like `js`, `py`, `rs`, `kt` accepted)
 - `--globs '!**/*.test.ts'` (repeatable; prefix `!` to exclude)
 - `-C 3` (context lines)
@@ -110,6 +111,7 @@ python scripts/ast_grep_helper.py replace 'console.log($MSG)' 'logger.info($MSG)
 ```
 
 The helper:
+
 1. Validates both `pattern` and `rewrite` for hint-detectable mistakes.
 2. Runs pass 1 with `--json=compact` to collect matches and show a preview.
 3. If `--apply` is set, runs pass 2 with `--update-all` to mutate files.
@@ -245,11 +247,13 @@ Do not blindly retry with variations. Each failure has a reason; surface it.
 ## When to use YAML rules vs inline `-p` patterns
 
 **Use inline `-p`** when:
+
 - One-off ad-hoc query.
 - The pattern is simple (no constraints, no fix template).
 - You're exploring.
 
 **Use YAML rules** (file under `rules/`, run via `sg scan`) when:
+
 - The pattern is reused (lint rule, codemod that runs in CI).
 - You need `constraints`, `transform`, complex `inside`/`has`, or composite logic.
 - You want auto-fix (`fix:` field).
