@@ -68,7 +68,7 @@ benchmarks against nyx, so it is a fair cross-check target.
 ## The different computational calculations (paradigms)
 
 The list contains five genuinely different ways to compute trajectories/dv/windows -- not
-interchangeable. Full decision guide lives in the `space-mission-computation-paradigms` skill;
+interchangeable. Full decision guide lives in the `astro-toolkit-selection` skill;
 summary here:
 
 1. **Closed-form patched conics** (economicspace's own `calc.py`): analytic two-body + SOI

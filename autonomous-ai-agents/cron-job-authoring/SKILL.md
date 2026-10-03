@@ -1,22 +1,22 @@
 ---
 name: cron-job-authoring
 description: "Author autonomous cron prompts with guardrails."
-version: 1.2.0
+version: 1.3.0
 author: Hermes Agent (vault crypto pattern verified from reconurge/flowsint 2026-09-15)
 license: MIT
 platforms: [linux, macos, windows]
 metadata:
   hermes:
-    tags: [cron, scheduling, autonomous, guardrails, prompt-design, no-interaction]
+    tags: [cron, scheduling, autonomous, guardrails, prompt-design, no-interaction, repo-automation, pipeline, agent-as-gatekeeper]
     category: autonomous-ai-agents
-    related_skills: [hermes-agent]
+    related_skills: [hermes-agent, cron-config-authoring]
 ---
 
 # Cron Job Authoring
 
 ## What This Skill Does
 
-Teaches the pattern for writing prompts for cron jobs that run autonomously on a schedule with no human present. Covers the no-interaction guardrail pattern (never use `clarify`, never prompt for credentials, never present interactive UI), credential handling (skip-and-record strategy when credentials are missing), delivery discipline (the cron system auto-delivers the final response; never call `send_message` yourself), and structural conventions (phased prompts, scorecards, blocked-item handling). Includes loop engineering for *recurring* jobs — nine-part anatomy, cadence-vs-signal-speed matching, two-tier action model with spend caps/allowlists, idempotency state patterns, kill switches, and the vanity-loop detector (`references/loop-engineering.md`). Also includes troubleshooting for common failures like `[drift_skip]` errors and `approvals.cron_mode` blocking.
+Teaches the pattern for writing prompts for cron jobs that run autonomously on a schedule with no human present. Covers the no-interaction guardrail pattern (never use `clarify`, never prompt for credentials, never present interactive UI), credential handling (skip-and-record strategy when credentials are missing), delivery discipline (the cron system auto-delivers the final response; never call `send_message` yourself), and structural conventions (phased prompts, scorecards, blocked-item handling). Includes loop engineering for *recurring* jobs — nine-part anatomy, cadence-vs-signal-speed matching, two-tier action model with spend caps/allowlists, idempotency state patterns, kill switches, and the vanity-loop detector (`references/loop-engineering.md`). Also includes troubleshooting for common failures like `[drift_skip]` errors and `approvals.cron_mode` blocking, and the full procedure for jobs that automate an existing repository's CI pipeline (`references/repo-cronjob.md`).
 
 Writing prompts for cron jobs that run on a schedule with no human present requires different discipline than writing prompts for interactive sessions. The job cannot ask questions, wait for approvals, or pause for credentials. Every decision point that would normally trigger a `clarify` or a prompt must be resolved in the prompt itself — either with a rule ("skip and note"), a fallback, or an explicit blocker record.
 
@@ -28,6 +28,7 @@ This skill covers the guardrail pattern, credential handling, delivery disciplin
 - You are editing an existing job's prompt via `cronjob(action='edit', ...)` or `hermes cron edit`.
 - You are reviewing whether an existing job's prompt is safe to run autonomously.
 - You are troubleshooting a cron job that stalled, hung, or delivered nothing because it hit an interactive prompt.
+- The job runs against an existing repository with its own CI pipeline, and its prompt must mirror that pipeline's run sequence and guardrails — see [Jobs against an existing repository](#jobs-against-an-existing-repository).
 
 ## The No-Interaction Guardrail Pattern
 
@@ -133,8 +134,28 @@ This is especially important for scripts that invoke `audit-skills.py` or other 
 
 - **Threshold keys in cron configs not matching actual script output.** When you define a `threshold` block in `.hermes/cron/active/*.json`, every key must correspond to an actual field in the invoked script's JSON output — not to a conceptual check you wish existed. For example, if `audit-skills.py` outputs `summary.broken_refs` (an integer count), the threshold should be `broken_refs: 0`, not a conceptual `no_broken_refs: true`. Keys that the script never emits as booleans lead to a config that silently never validates. Always read the script's `main()` and its output dict, then grep for each threshold key to confirm the script actually produces it.
 
+## Jobs against an existing repository
+
+When a job automates work in a repository that already has a CI pipeline (GitHub Actions, a Makefile), its prompt must be self-contained and must embed that repository's own guardrails, data formats and conventions. Often the agent also **stands in for an API-key-gated model step** in the pipeline: the agent IS the model, so a script's `ANTHROPIC_API_KEY` call becomes the agent's own judgment.
+
+The procedure, in [`references/repo-cronjob.md`](references/repo-cronjob.md):
+
+1. Read the CI workflow end to end — it is the canonical run sequence (one cron step per CI step).
+2. Read the pipeline script for its guardrails: append-only merge, date-churn signature, safe-fail, dedup keys, spend caps.
+3. Find the key-gated step; document the maintenance-only branch the script still runs without the key, and never skip it.
+4. Separate rendered fields from stored-only ones; stored-only fields stay out of the date-churn signature.
+5. Write the prompt body from [`references/prompt-template.md`](references/prompt-template.md) following [`references/drafting-guide.md`](references/drafting-guide.md), and self-check it with [`references/agent-vs-script-checklist.md`](references/agent-vs-script-checklist.md).
+6. Create the job. For a preparer that reports and a separate agent that commits, see [`references/two-agent-architecture.md`](references/two-agent-architecture.md).
+
+The two mistakes that corrupt data most often: treating a no-change run as failure (silent runs ARE success; the agent fabricates changes otherwise) and writing the date stamp unconditionally instead of only when the signature changed.
+
 ## References
 
+- `references/repo-cronjob.md` — the full procedure for jobs against an existing repository (above): run-sequence survey, guardrail table, key-gated step, pitfalls, verification.
+- `references/prompt-template.md` — fill-in-the-blank template for a repository job's prompt body.
+- `references/drafting-guide.md` — how to turn repository research into that prompt (7-phase process).
+- `references/agent-vs-script-checklist.md` — decision checklist + lint-feed.pl validation matrix + autonomous mode guidance + self-validation layer.
+- `references/two-agent-architecture.md` — when and how to split a job into a preparer agent (emits report) + commit agent (does repo writes + render + commit).
 - `references/guardrail-template.md` — annotated copy-paste starter for the no-interaction guardrail block, with notes on each rule's purpose.
 - `references/credential-strategy.md` — decision tree for what to do when a cron job hits missing credentials, with worked examples.
 - `references/delivery-discipline.md` — why the delivery reminder matters, what goes wrong without it, and the exact wording to use.

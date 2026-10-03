@@ -1,54 +1,80 @@
 ---
 name: python-craft
-description: "Python craft: style, typing, patterns, testing, packaging."
-version: 1.0.0
-author: Hermes Agent
+description: "Python craft: uv/ruff/ty setup, style, typing, testing."
+version: 1.1.0
+author: Hermes Agent (toolchain reference adapted from trailofbits/skills modern-python)
 license: MIT
 platforms: [linux, macos, windows]
 metadata:
   hermes:
-    tags: [python, coding-style, typing, patterns, testing, packaging, maintainability, best-practices]
+    tags: [python, coding-style, typing, patterns, testing, packaging, maintainability, best-practices, uv, ruff, pyproject, pep723, tooling]
     category: software-development
     related_skills: [test-driven-development, requesting-code-review, systematic-debugging, simplify-code]
 ---
 
 # Python Craft
 
-Guide for writing Python that holds up under review, across engineers, and over time. Covers style, typing, common patterns, testing approach, and packaging. Not a tutorial — assume Python competency; focus on what separates "works" from "good."
+Guide for writing Python that holds up under review, across engineers, and over time. Covers project setup and tooling, style, typing, common patterns, testing approach, and packaging. Not a tutorial — assume Python competency; focus on what separates "works" from "good."
 
 ## What This Skill Does
 
-Python craft: style, typing, patterns, testing, packaging.
+Sets up Python projects on the current toolchain (uv, ruff, ty, PEP 723 scripts) and gives the style, typing, pattern, testing and packaging baseline to write and review Python against.
 
 ## When to Use
 
-- Starting a new Python project and want a style/pattern baseline
+- Starting a new Python project or package and want a toolchain and style/pattern baseline
+- Writing a single-file script with external dependencies (PEP 723 inline metadata)
 - Reviewing Python code and need a reference for what to flag
 - Refactoring Python that's grown awkward
-- Setting up a project's linting, typing, and testing toolchain
+- Setting up a project's linting, typing, and testing toolchain, or migrating one from pip/Poetry/mypy/black (only when the user asks)
 
 ## Toolchain Defaults
 
-| Concern | Tool | Why |
+**New projects use the uv toolchain.** The full setup lives in [`references/modern-python-tooling.md`](references/modern-python-tooling.md): the library `pyproject.toml` template, PEP 723 scripts, the uv command reference, the migration guide and security tooling. Its rules in short: always `uv add` / `uv remove`, run everything through `uv run`, never activate a venv by hand, and put dev tools in `[dependency-groups]`.
+
+| Concern | New project | Why |
 |---|---|---|
-| Formatting | `ruff format` (or `black`) | Deterministic, zero debate |
-| Linting | `ruff check` | Fast, replaces flake8/isort/pylint for most projects |
-| Type checking | `mypy --strict` (or `--ignore-missing-imports`) | Catches whole classes of bugs; strict is the goal |
+| Environments and dependencies | `uv` (`uv add`, `uv run`, commit `uv.lock`) | One tool, a lock file, no hand-managed venvs |
+| Formatting | `ruff format` | Deterministic, zero debate |
+| Linting | `ruff check` | Fast, replaces flake8/isort/pyupgrade/black |
+| Type checking | `ty` (`uv run ty check src/`) | Astral's faster mypy alternative |
 | Testing | `pytest` | fixture model, parametrize, no boilerplate |
 | Coverage | `pytest --cov` + `coverage` | Know what you're not testing |
-| Pre-commit | `pre-commit` framework | Run lint/format/type on commit, not after |
+| Commit hooks | `prek` (reads `.pre-commit-config.yaml`) or `pre-commit` | Run lint/format/type on commit, not after |
 
 ```bash
-pip install ruff mypy pytest pytest-cov pre-commit
+uv init --package myproject && cd myproject
+uv add --group dev ruff ty pytest pytest-cov
+uv run ruff check . && uv run ty check src/ && uv run pytest
 ```
+
+**Existing projects keep their toolchain.** A repo already on pip, mypy, black or pre-commit stays there unless the user asks to migrate (steps in the reference). The mypy and pre-commit configs below are for those projects, and for projects pinned below Python 3.11, which the uv/ty setup does not target.
 
 ### Ruff config (pyproject.toml)
 
-Pin the Ruff version in your pre-commit config and update it periodically — Ruff ships new rules frequently, and an unpinned install can change behavior across machines.
+Pin the Ruff version in your pre-commit config (or dev dependency group) and update it periodically — Ruff ships new rules frequently, and an unpinned install can change behavior across machines.
 
 ```toml
+[tool.ruff]
+line-length = 100
+target-version = "py311"
 
-### Mypy config
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM"]   # a solid baseline for existing code
+```
+
+On a new project, start strict instead: `select = ["ALL"]` with explicit ignores (`ignore = ["D", "COM812", "ISC001"]`), as in the reference template. Never quiet a rule without naming it.
+
+### Type checker config
+
+New projects: ty, configured under `[tool.ty.environment]` (not `[tool.ty]`):
+
+```toml
+[tool.ty.environment]
+python-version = "3.11"
+```
+
+Projects already on mypy:
 
 ```toml
 [tool.mypy]
@@ -61,7 +87,11 @@ check_untyped_defs = true
 
 Start permissive if the codebase isn't typed yet; tighten over time. The goal is `disallow_untyped_defs = true` eventually.
 
+On a mypy project, a migration to ty is the user's call, not a drive-by change.
+
 ### Pre-commit config (.pre-commit-config.yaml)
+
+For projects on `pre-commit` (and `prek`, which runs the same file). The mypy hook applies to mypy projects only.
 
 ```yaml
 repos:
@@ -136,7 +166,7 @@ def log_event(event: object) -> None:
 
 - Prefer `X | None` over `Optional[X]`.
 - Prefer `collections.abc` abstracts over concrete types for parameters (`Sequence`, `Mapping`, `Iterable`) unless you need mutability.
-- Avoid `Any` unless genuinely unconstrained — it silences mypy.
+- Avoid `Any` unless genuinely unconstrained — it silences the type checker.
 - Return types and parameter types are mandatory in new code. Local variable types can be omitted when obvious from assignment — but function signatures must be fully typed.
 
 ### Docstrings
@@ -491,46 +521,43 @@ Modern Python uses `pyproject.toml` for everything — build system, metadata, d
 
 ```toml
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["uv_build>=0.8.17,<0.9.0"]   # what `uv init --package` writes; hatchling works too
+build-backend = "uv_build"
 
 [project]
 name = "myproject"
 version = "0.1.0"
 description = "What this does"
 readme = "README.md"
-license = {text = "MIT"}
+license = "MIT"
 requires-python = ">=3.11"
 dependencies = [
     "requests>=2.28",
     "pydantic>=2.0",
 ]
 
-[project.optional-dependencies]
-dev = [
-    "ruff",
-    "mypy",
-    "pytest",
-    "pytest-cov",
-    "pre-commit",
-]
-
 [project.scripts]
 mycli = "myproject.cli:main"
 
-[tool.ruff]
-# ... ruff config ...
+[dependency-groups]
+dev = ["ruff", "ty", "pytest", "pytest-cov"]
 
-[tool.mypy]
-# ... mypy config ...
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ty.environment]
+python-version = "3.11"
 ```
+
+Verified with uv 0.8.17: `uv sync --all-groups`, `uv run ruff check .`, `uv run ty check src/`, `uv run mycli` and `uv build` all succeed on this file.
 
 ### Dependency management
 
 - Pin direct dependencies with a minimum version (`requests>=2.28`), not an exact pin, unless specific reason.
-- Use a lock file for reproducible environments: `uv pip compile` or `pip-compile` from pip-tools.
-- Keep dev dependencies separate (`project.optional-dependencies.dev`).
-- Don't commit virtual environments. Commit `pyproject.toml` and optionally a `requirements.txt` / `uv.lock`.
+- Use a lock file for reproducible environments: commit `uv.lock` (written by `uv add` / `uv sync`); pip-based projects use `pip-compile` from pip-tools.
+- Keep dev tools in `[dependency-groups]` (PEP 735), not `[project.optional-dependencies]`, which is for optional runtime features users install.
+- Don't commit virtual environments. Commit `pyproject.toml` and the lock file.
 
 ### Versioning
 
@@ -541,9 +568,9 @@ mycli = "myproject.cli:main"
 
 ### Publishing
 
-- Build with `python -m build` (needs `build` package).
-- Upload with `twine upload dist/*` or `uv publish`.
-- Test the distribution locally before publishing: `pip install dist/myproject-0.1.0.tar.gz` in a fresh venv.
+- Build with `uv build` (pip-based projects: `python -m build`, needs the `build` package).
+- Upload with `uv publish` (or `twine upload dist/*`).
+- Test the built wheel in a clean environment before publishing: `uv run --isolated --no-project --with dist/myproject-0.1.0-py3-none-any.whl python -c "import myproject"`.
 
 ## Common Code Smells in Python
 
@@ -568,9 +595,9 @@ mycli = "myproject.cli:main"
 
 For new Python code:
 
-- [ ] Formatted with `ruff format` (or black)
+- [ ] Formatted with `ruff format` (or the project's existing formatter)
 - [ ] Lint-clean with `ruff check` (or equivalent)
-- [ ] Type-checked with mypy (no new untyped defs in public API)
+- [ ] Type-checked with ty, or mypy on mypy projects (no new untyped defs in public API)
 - [ ] Public functions have docstrings (args, returns, raises)
 - [ ] No mutable default arguments
 - [ ] No wildcard imports

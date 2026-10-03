@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [codebase-indexing, mcp-server, token-optimization, agent-context, git-signals, code-health]
-    related_skills: [hermes-agent, fastmcp, mcporter, code-quality-signal, codebase-onboarding]
+    related_skills: [hermes-agent, fastmcp, mcporter, architecture-metrics, codebase-onboarding]
 ---
 
 <!-- source: repowise-dev/repowise (AGPL-3.0) — docs/layers/* + docs/agent/* mined 2026-09-10 at clone HEAD 9f52f0a; every operational claim re-tested live on this Windows box with v0.49.0 in an isolated uv venv, then RE-PROBED against v0.51.0 (PyPI latest) on 2026-09-17 — the table below is current as of that date. AGPL means knowledge distillation only — never port its code into MIT-licensed skills -->

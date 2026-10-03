@@ -6,11 +6,10 @@ description: Development tools and coding workflows.
 
 Development tools and coding workflows.
 
-- [`architecture-metrics`](./architecture-metrics/SKILL.md) — Dependency-graph architecture metrics for Python repos
+- [`architecture-metrics`](./architecture-metrics/SKILL.md) — Python code health: quality signal + architecture metrics
 - [`ast-grep`](./ast-grep/SKILL.md) — AST-aware structural code search and rewrite via ast-grep
 - [`brainstorming`](./brainstorming/SKILL.md) — Triage as spike/bounded/architectural; approve first
 - [`cli-tool-craft`](./cli-tool-craft/SKILL.md) — CLI tools: subcommands, config validation, env substitution
-- [`code-quality-signal`](./code-quality-signal/SKILL.md) — Score Python repos on 5 ungameable structural metrics
 - [`code-wiki`](./code-wiki/SKILL.md) — Generate wiki docs + Mermaid diagrams for any codebase
 - [`codebase-onboarding`](./codebase-onboarding/SKILL.md) — Onboard to a new repo: arch map + starter AGENTS.md
 - [`conversation-to-spec`](./conversation-to-spec/SKILL.md) — Turn a conversation into a publishable spec
@@ -19,30 +18,25 @@ Development tools and coding workflows.
 - [`executing-plans`](./executing-plans/SKILL.md) — Execute a written plan inline with checkpoints
 - [`failure-signal-audit`](./failure-signal-audit/SKILL.md) — Find swallowed errors, bad fallbacks, gaps, false green
 - [`generating-python-installer`](./generating-python-installer/SKILL.md) — Nuitka + Inno Setup: smallest, fastest Windows installers
-- [`github`](./github/SKILL.md) — GitHub via gh CLI: PRs, issues, reviews, repos, auth
-- [`grill-me`](./grill-me/SKILL.md) — Adversarial plan interview before implementation
 - [`grilling-interview`](./grilling-interview/SKILL.md) — Stress-test a plan by interviewing in design-tree rounds
 - [`hermes-agent-skill-authoring`](./hermes-agent-skill-authoring/SKILL.md) — Author in-repo SKILL.md files: frontmatter and structure
 - [`inspecting-hermes-desktop-dom`](./inspecting-hermes-desktop-dom/SKILL.md) — Read the live Hermes desktop DOM/CSS over CDP
 - [`living-docs-governance`](./living-docs-governance/SKILL.md) — Docs governance: constitution, map, status, history roles
 - [`mattpocock-ask-if-underspecified`](./mattpocock-ask-if-underspecified/SKILL.md) — Ask clarifying questions when a request is ambiguous
-- [`mattpocock-codebase-design`](./mattpocock-codebase-design/SKILL.md) — Design deep modules with small interfaces
+- [`mattpocock-codebase-design`](./mattpocock-codebase-design/SKILL.md) — Deep modules: design seams, survey code for shallow ones
 - [`mattpocock-diagnosing-bugs`](./mattpocock-diagnosing-bugs/SKILL.md) — Diagnose hard bugs via tight feedback loops and bisection
 - [`mattpocock-domain-modeling`](./mattpocock-domain-modeling/SKILL.md) — Sharpen domain terms and update CONTEXT.md and ADRs inline
 - [`mattpocock-evidence-driven`](./mattpocock-evidence-driven/SKILL.md) — Validate code changes with evidence and testing gates
-- [`mattpocock-improve-codebase-architecture`](./mattpocock-improve-codebase-architecture/SKILL.md) — Survey code for module deepening, fix opportunities
-- [`mattpocock-multi-agent-code-review`](./mattpocock-multi-agent-code-review/SKILL.md) — Multi-agent PR review: bug-hunter, security, contracts
 - [`mattpocock-spec-driven-development`](./mattpocock-spec-driven-development/SKILL.md) — Spec-driven development with planning and quality gates
 - [`mattpocock-subagent-driven-development`](./mattpocock-subagent-driven-development/SKILL.md) — Dispatch fresh subagents per task with task review
 - [`mattpocock-tdd`](./mattpocock-tdd/SKILL.md) — TDD red-green-refactor at pre-agreed seams
 - [`mattpocock-to-tickets`](./mattpocock-to-tickets/SKILL.md) — Break a plan or spec into tracer-bullet tickets with edges
 - [`mattpocock-using-git-worktrees`](./mattpocock-using-git-worktrees/SKILL.md) — Set up isolated git worktrees for feature work
 - [`mattpocock-writing-for-agents`](./mattpocock-writing-for-agents/SKILL.md) — Write docs agents can consume: skills, AGENTS.md, specs
-- [`modern-python-tooling`](./modern-python-tooling/SKILL.md) — Set up Python projects with uv, ruff, ty, PEP 723
 - [`node-inspect-debugger`](./node-inspect-debugger/SKILL.md) — Debug Node.js via --inspect + Chrome DevTools Protocol CLI
 - [`plan`](./plan/SKILL.md) — Write a markdown plan to .hermes/plans/; no execution
 - [`property-based-testing`](./property-based-testing/SKILL.md) — Hypothesis property tests: roundtrip, oracle, invariant
-- [`python-craft`](./python-craft/SKILL.md) — Python craft: style, typing, patterns, testing, packaging
+- [`python-craft`](./python-craft/SKILL.md) — Python craft: uv/ruff/ty setup, style, typing, testing
 - [`python-debugpy`](./python-debugpy/SKILL.md) — Debug Python: pdb REPL + debugpy remote (DAP)
 - [`receiving-code-review`](./receiving-code-review/SKILL.md) — Verify review feedback against the codebase before acting
 - [`requesting-code-review`](./requesting-code-review/SKILL.md) — Pre-commit review: security scan, quality gates, auto-fix

@@ -10,7 +10,7 @@ metadata:
     tags: [cron, polling, rss, github, http, automation, monitoring]
     category: devops
     requires_toolsets: [terminal]
-    related_skills: [blogwatcher, cron-job-authoring]
+    related_skills: [blogwatcher, cron-job-authoring, rss-feeds]
 ---
 
 # Watchers
@@ -27,6 +27,8 @@ Poll external sources on an interval and react only to new items. Three ready-ma
 - User wants to watch a GitHub repo's issues / pulls / releases / commits
 - User wants to poll an arbitrary JSON endpoint and get notified on new items
 - User asks for "a watcher for X" or "notify me when X changes"
+
+To read a feed once, or to find the feed URL behind an ordinary page before watching it, load `skill_view(name='rss-feeds')`; this skill is for being told about *new* entries on a schedule.
 
 ## Mental model
 

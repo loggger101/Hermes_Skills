@@ -17,6 +17,7 @@ metadata:
 
 - Marketing/landing pages that must be motion-rich and award-level, where the agent keeps defaulting to the same left-text/right-image layout every time
 - User asks for GSAP ScrollTrigger work (pinning, stacking, scrubbing) with editorial typography
+- Usually reached from `design-taste-frontend`, which picks the preset from the brief and supplies the general anti-slop rules this one overrides
 
 ## What This Skill Does
 

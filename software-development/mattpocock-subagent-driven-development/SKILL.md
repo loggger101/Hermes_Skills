@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [subagents, delegation, task-review, parallel-agents, planning]
-    related_skills: [mattpocock-to-tickets, mattpocock-multi-agent-code-review, mattpocock-using-git-worktrees, mattpocock-finishing-a-development-branch, requesting-code-review, mattpocock-evidence-driven, test-driven-development, executing-plans, dispatching-parallel-agents]
+    related_skills: [mattpocock-to-tickets, mattpocock-code-review, mattpocock-using-git-worktrees, mattpocock-finishing-a-development-branch, requesting-code-review, mattpocock-evidence-driven, test-driven-development, executing-plans, dispatching-parallel-agents]
 ---
 <!-- source: obra/superpowers (skills/subagent-driven-development v6.3.0), adapted 2026-09-11 -->
 
@@ -20,7 +20,7 @@ Use when executing implementation plans with mostly independent tasks in the cur
 
 ## What This Skill Does
 
-Executes a plan by dispatching a fresh implementer subagent per task, a task review (spec compliance + code quality) after each, and a broad whole-branch review at the end. Loads `skill_view(name='mattpocock-evidence-driven')` for verification gates and `skill_view(name='mattpocock-multi-agent-code-review')` for the final broad review.
+Executes a plan by dispatching a fresh implementer subagent per task, a task review (spec compliance + code quality) after each, and a broad whole-branch review at the end. Loads `skill_view(name='mattpocock-evidence-driven')` for verification gates and `skill_view(name='mattpocock-code-review')` in panel mode for the final broad review.
 
 **Core principle:** Fresh subagent per task + task review (spec + quality) + broad final review = high quality, fast iteration.
 
@@ -64,7 +64,7 @@ Least powerful model that can handle the role; **always specify the model explic
 
 ## Final Review
 
-Package the whole branch (`git diff` from merge-base) to one file. Dispatch on the MOST CAPABLE model using `skill_view(name='mattpocock-multi-agent-code-review')`; point it at the ledger's deferred-minor and parked lines so it triages pre-merge fixes. If findings: dispatch ONE fix subagent with the complete list (not one per finding — "a real session's final-review fix wave cost more than all its tasks combined"), then exactly ONE scoped re-review; adjudicate residuals as in the breaker. No second fix wave — residual load-bearing findings surface when finishing presents the options.
+Package the whole branch (`git diff` from merge-base) to one file. Dispatch on the MOST CAPABLE model using `skill_view(name='mattpocock-code-review')` in panel mode; point it at the ledger's deferred-minor and parked lines so it triages pre-merge fixes. If findings: dispatch ONE fix subagent with the complete list (not one per finding — "a real session's final-review fix wave cost more than all its tasks combined"), then exactly ONE scoped re-review; adjudicate residuals as in the breaker. No second fix wave — residual load-bearing findings surface when finishing presents the options.
 
 **Finish report:** before deleting anything, collect EVERY ledger line containing `Ruling:` (preflight rulings, parked findings, breaker adjudications) into a "Rulings I made" list, each with what it costs if wrong. That list is the only place on-behalf decisions reach the user — "a ruling that dies with the workspace was a decision made in secret." When final review is clean: delete this plan's workspace (git history is the record now; leave sibling plans' dirs alone), then `skill_view(name='mattpocock-finishing-a-development-branch')`.
 

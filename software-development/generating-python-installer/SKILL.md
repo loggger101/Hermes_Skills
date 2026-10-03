@@ -8,7 +8,7 @@ platforms: [windows]
 metadata:
   hermes:
     tags: [packaging, nuitka, inno-setup, windows-installer, python-deployment, dll-analysis]
-    related_skills: [modern-python-tooling, test-driven-development]
+    related_skills: [python-craft, test-driven-development]
 ---
 
 <!-- source: affaan-m/ECC (MIT), ported 2026-09-09; Chinese original translated to English with all commands/flags preserved verbatim -->

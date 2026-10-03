@@ -7,7 +7,7 @@ description: Data science workflows and tools.
 Data science workflows and tools.
 
 - [`algorithms-python-catalog`](./algorithms-python-catalog/SKILL.md) — Python algorithm catalog: when to hand-roll vs stdlib
-- [`astro-toolkit-selection`](./astro-toolkit-selection/SKILL.md) — Choose astrodynamics tools: brahe, nyx, OpenSCvx, skyfield
+- [`astro-toolkit-selection`](./astro-toolkit-selection/SKILL.md) — Space trajectory work: pick the method, then the library
 - [`bit-identity-float-pipelines`](./bit-identity-float-pipelines/SKILL.md) — Verify correctness via exact float hashes / bit-identity
 - [`build-systems-data`](./build-systems-data/SKILL.md) — Data build systems: orchestration, versioning, CSV at scale
 - [`duckdb-querying`](./duckdb-querying/SKILL.md) — Query CSV/Parquet/S3 data ad-hoc via DuckDB Friendly SQL
@@ -20,7 +20,6 @@ Data science workflows and tools.
 - [`python-data-science`](./python-data-science/SKILL.md) — Python DS: EDA, cleaning, modeling, eval, viz
 - [`regex-vs-llm-structured-text`](./regex-vs-llm-structured-text/SKILL.md) — Regex-first parsing; LLM only for flagged edge cases
 - [`space-data-pipelines`](./space-data-pipelines/SKILL.md) — Build space/astro data pipelines with verified API gotchas
-- [`space-mission-computation-paradigms`](./space-mission-computation-paradigms/SKILL.md) — Choose trajectory method: closed-form vs propagation etc
 - [`sql-for-data`](./sql-for-data/SKILL.md) — SQL for data: queries, joins, windows, aggregation
 
 *Regenerated from live frontmatter — keep in sync with `tools/gen-skills-index.py`.*

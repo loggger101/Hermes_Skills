@@ -1,26 +1,23 @@
----
-name: modern-python-tooling
-description: "Set up Python projects with uv, ruff, ty, PEP 723."
-version: v1.0.0
-author: Hermes Agent (ported from trailofbits/skills modern-python)
-license: CC-BY-SA-4.0
-platforms: [linux, macos, windows]
-metadata:
-  hermes:
-    tags: [python, uv, ruff, pyproject, pep723, tooling]
-    related_skills: [python-craft, test-driven-development]
----
+# Modern Python tooling: uv, ruff, ty, PEP 723
 
-<!-- source: trailofbits/skills plugins/modern-python (starred-repo deep-dive 2026-09-05); based on trailofbits/cookiecutter-python; uv is already installed in this environment. Upstream license CC-BY-SA 4.0 — attribution retained per that license. -->
+<!-- source: trailofbits/skills plugins/modern-python (starred-repo deep-dive 2026-09-05); based on
+     trailofbits/cookiecutter-python. Was the standalone skill `modern-python-tooling` until round-57
+     merged it into python-craft. -->
 
-## What This Skill Does
+> **License:** this file is CC-BY-SA-4.0 (Trail of Bits, trailofbits/skills), unlike the MIT-licensed
+> python-craft SKILL.md that links to it. Attribution retained per that license; derivatives of this
+> file stay CC-BY-SA-4.0.
+
+The full setup behind python-craft's Toolchain Defaults.
+
+## What This Covers
 
 Modern Python project setup with the current toolchain: **uv** (deps/envs), **ruff**
 (lint+format, replaces flake8/black/isort/pyupgrade), **ty** (type check, Astral's faster
 mypy alternative). Covers new projects, standalone scripts via PEP 723 inline metadata, and
 migration from legacy tooling.
 
-## When to Use
+## When It Applies
 
 - Creating any new Python project or package; writing a script with external dependencies
 - Migrating requirements.txt/pip/Poetry/mypy/black setups (only when the user asks)

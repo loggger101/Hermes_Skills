@@ -7,7 +7,7 @@ verified_date: "2026-09-06"
 
 # Optimization & Simulation Toolkit (round-2 deep dive)
 
-Decision rule lives in skill `space-mission-computation-paradigms`; this file is the **what-exists** layer.
+Decision rule lives in this skill's SKILL.md (Step 1: method, Step 2: library); this file is the **what-exists** layer.
 ⚠️ Corrections to round-1 notes are marked — trust these over older memory entries.
 
 ## nyx-py — ⚠️ LIVE (round 1 said "disabled" — wrong) [SRC]
