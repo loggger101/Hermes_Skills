@@ -122,7 +122,7 @@ def verify_threshold_keys(job_name, data, script_literals_cache):
 
 # ── Load all valid skills ──
 valid_skills = {}
-for path, dirs, files in os.walk(BASE):
+for path, _dirs, files in os.walk(BASE):
     np = path.replace("\\", "/")
     if any(
         s in np

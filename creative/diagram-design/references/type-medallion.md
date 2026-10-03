@@ -61,7 +61,7 @@ dark: false
 
 ## 2. Layout formulas — deterministic geometry
 
-```
+```text
 # Tier dimensions
 tier_w           = 172
 tier_h           = 380
@@ -106,7 +106,7 @@ Solid paper fill across the full viewBox. No dot pattern.
 
 Each tier renders as a rounded-rect card with a tinted header band, a centered bucket name, four labeled field rows, and a separated `example_label` section near the bottom.
 
-```
+```text
 tier_x(i),  tier_y       =  card top-left  (tier_y = 80, just below the arc band)
 header_band_h            = 40            # band from y=tier_y to y=tier_y+40 (i.e., 80..120)
 header_band_extra        = 10            # 10-px extension below band, same tint
@@ -201,7 +201,7 @@ For shorter inter-tier gaps (if `tier_gap` is overridden below the default 16 px
 
 Up to **2** write-method cards. The canonical 5-tier shape (with `arc_band_h = 80`):
 
-```
+```text
 path_y      = 476       # tier_y + tier_h + path_gap = 80 + 380 + 16
 path_h      = 56
 path_x[0]   = 16

@@ -79,7 +79,7 @@ dark: false
 
 ## 2. Layout formulas — deterministic geometry
 
-```
+```text
 # Canvas
 viewBox_w        = 1200
 n_sources        = len(sources)
@@ -130,7 +130,7 @@ row_gap          = 16
 
 Allocate each `platform.rows` entry top-to-bottom. The single `row` (or first row when N>1) anchors to side-column row 2 so its connectors stay horizontal:
 
-```
+```text
 primary_row_idx  = index of first kind=row in platform.rows
 primary_row_top  = col_node_y(1) - (row_h - col_node_h)/2     # 176 by default
                                                               # 4-px nudge so cy aligns with side row 2
@@ -162,7 +162,7 @@ This produces the canonical layout for the standard shape (top bar / 3-node row 
 
 ### 2.2 Node placement inside a `row` entry
 
-```
+```text
 N            = len(row.nodes)
 node_w       = (zone_w - 2*zone_pad_x - (N-1) * 16) / N
 node_x(j)    = zone_x + zone_pad_x + j * (node_w + 16)
@@ -173,7 +173,7 @@ For the canonical 3-node row: `node_w = (696 - 32 - 32) / 3 = 210.67`. The shipp
 
 ### 2.3 Bar (full-zone-width) placement
 
-```
+```text
 bar_x      = zone_x + zone_pad_x         # 276
 bar_w      = zone_w - 2*zone_pad_x       # 664
 bar_cx     = zone_cx                     # 608
@@ -183,7 +183,7 @@ Bars span the full zone width minus 16-px padding on each side. Bars marked `foc
 
 ### 2.4 Source / consumer placement (side columns)
 
-```
+```text
 source_y(k)       = col_top + k * 88            # 92, 180, 268, 356, …
 source_cy(k)      = source_y(k) + col_node_h/2  # 124, 212, 300, 388, …
 consumer_y(k)     = source_y(k)                 # mirrored
@@ -243,7 +243,7 @@ When N=1 footer: single vertical line at `x = zone_cx` from `footer_y(0)` to `zo
 
 When N≥2 footers: stagger AUTH lines so they don't overlap stacked footers. For footer index `k`:
 
-```
+```text
 footer_auth_x(k) = zone_cx + (k - (N-1)/2) * 32     # 32-px stride per footer
 ```
 

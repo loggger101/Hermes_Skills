@@ -95,7 +95,7 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 ## devops/sqlite-queries
 
 - `devops/sqlite-queries/tests/conftest.py` (test, python, 55 lines) — Shared fixtures: a small deterministic SQLite DB exercising users/orders/FKs.
-- `devops/sqlite-queries/tests/test_sqlite_queries.py` (test, python, 274 lines) — Verify the sqlite-queries skill's documented workflow against real SQLite behavior
+- `devops/sqlite-queries/tests/test_sqlite_queries.py` (test, python, 275 lines) — Verify the sqlite-queries skill's documented workflow against real SQLite behavior
 
 ## devops/system-design-scaling
 
@@ -219,7 +219,7 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 ## research/rss-feeds
 
-- `research/rss-feeds/scripts/feed.py` (script, python, 302 lines) — Read RSS / Atom / JSON Feed sources and discover feeds behind a page URL
+- `research/rss-feeds/scripts/feed.py` (script, python, 301 lines) — Read RSS / Atom / JSON Feed sources and discover feeds behind a page URL
 
 ## security/oss-forensics
 

@@ -51,7 +51,7 @@ When a response approaches the token limit:
 - Write at full quality up to a clean breakpoint (end of a function, end of a file, end of a section).
 - End with:
 
-```
+```text
 [PAUSED — X of Y complete. Send "continue" to resume from: next section name]
 ```
 

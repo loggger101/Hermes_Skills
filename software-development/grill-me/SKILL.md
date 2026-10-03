@@ -49,7 +49,7 @@ LATER round, not this one.
 
 Format each round like so:
 
-```
+```text
 ❓ Q1 — <question title>: <question body, options if relevant>
 ➡️ Recommendation: <your recommended answer + one-line why>
 

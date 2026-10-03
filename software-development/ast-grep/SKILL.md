@@ -196,7 +196,7 @@ When using `sg` directly in a shell, **always single-quote patterns** so `$VAR` 
 
 ## Decision tree — what to use, when
 
-```
+```text
 USER asks for "find/rewrite/codemod"
 │
 ├─ structural pattern (function shape, call, class, import, control flow)

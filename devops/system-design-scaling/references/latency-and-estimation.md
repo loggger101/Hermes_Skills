@@ -4,7 +4,7 @@ Distilled from donnemartin/system-design-primer (CC BY 4.0), master branch, mine
 
 ## Powers of two table
 
-```
+```text
 Power           Exact Value         Approx Value        Bytes
 ---------------------------------------------------------------
 7                             128
@@ -19,7 +19,7 @@ Power           Exact Value         Approx Value        Bytes
 
 ## Latency numbers every programmer should know
 
-```
+```text
 Latency Comparison Numbers
 --------------------------
 L1 cache reference                           0.5 ns
@@ -50,7 +50,7 @@ Why these matter in design conversations: they justify *why* you cache (RAM is 4
 
 ## Request-rate conversion guide (used across all 8 case studies)
 
-```
+```text
 2,500,000 seconds per month
 1   request/s = 2.5 million requests/month
 40    requests/s = 100 million requests/month

@@ -23,7 +23,7 @@ Implements **spec-driven development (SDD)**: a disciplined workflow that moves 
 
 ## The Workflow
 
-```
+```text
 Plan → Tickets → Architecture → Implement (TDD) → Quality Gates → Review
 ```
 

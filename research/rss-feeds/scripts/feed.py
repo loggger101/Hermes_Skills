@@ -205,8 +205,7 @@ def discover(page_url: str, page_html: bytes | None = None) -> list[str]:
 def looks_like_feed(data: bytes, content_type: str) -> bool:
     head = data.lstrip()[:300].lower()
     return (
-        head.startswith(b"{")
-        and b"items" in data[:2000]
+        (head.startswith(b"{") and b"items" in data[:2000])
         or b"<rss" in head
         or b"<feed" in head
         or b"<rdf" in head

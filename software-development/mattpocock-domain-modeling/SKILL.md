@@ -21,7 +21,7 @@ Actively builds and sharpens the project's domain model: maintains a `CONTEXT.md
 
 ## File Structure
 
-```
+```text
 /
 ├── CONTEXT.md          # Glossary — every term → definition
 ├── docs/
@@ -47,7 +47,7 @@ Before introducing any term, check `CONTEXT.md`. Terms should be:
 
 **Good entry:**
 
-```
+```markdown
 | Term | Definition |
 |------|-----------|
 | disease profile | A compiled summary of research findings for one rare brain disease, rendered into a single webpage |
@@ -55,13 +55,13 @@ Before introducing any term, check `CONTEXT.md`. Terms should be:
 
 **Bad entry (too vague):**
 
-```
+```markdown
 | Thing | Something we work with |
 ```
 
 **Bad entry (technical, not domain):**
 
-```
+```markdown
 | Parser | Class that parses XML |
 ```
 

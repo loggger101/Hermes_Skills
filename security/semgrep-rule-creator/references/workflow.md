@@ -29,7 +29,7 @@ Create directory and test file with annotations (`# ruleid:`, `# ok:` only). See
 
 ### Directory Structure
 
-```
+```text
 <rule-id>/
 ├── <rule-id>.yaml     # Semgrep rule
 └── <rule-id>.<ext>    # Test file with ruleid/ok annotations
@@ -89,7 +89,7 @@ semgrep --test --config <rule-id>.yaml <rule-id>.<ext>
 
 #### Expected Output
 
-```
+```text
 1/1: ✓ All tests passed
 ```
 

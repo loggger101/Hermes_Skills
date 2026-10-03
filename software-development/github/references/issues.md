@@ -129,7 +129,7 @@ curl -s -X POST \
 
 ### Bug Report Template
 
-```
+```markdown
 ## Bug Description
 <What's happening>
 
@@ -150,7 +150,7 @@ curl -s -X POST \
 
 ### Feature Request Template
 
-```
+```markdown
 ## Feature Description
 <What you want>
 
@@ -264,7 +264,7 @@ curl -s -X PATCH \
 
 Issues are automatically closed when a PR merges with the right keywords in the body:
 
-```
+```text
 Closes #42
 Fixes #42
 Resolves #42

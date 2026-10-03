@@ -15,13 +15,13 @@
 
 For a spine at `y = CY` with the effect box's left edge at `x = HEAD`, bone `k` (1-indexed, k = 1..6) attaches to the spine at:
 
-```
+```text
 attach_x(k) = HEAD - 160 - k * 160
 ```
 
 Bones alternate above (`k` odd) and below (`k` even) the spine. A bone's far endpoint — where the category tag sits — is the integer-rounded 60° offset from its attach point:
 
-```
+```text
 dx = -96
 dy = ∓168        (minus = above, plus = below)
 far_x(k) = attach_x(k) + dx
@@ -42,7 +42,7 @@ A 6th bone (below) would attach at `x=80`, far endpoint `(-16, 488)`, and its ca
 
 **Sub-cause ticks** sit at fractions `m/6` along the bone (`m = 2, 4` for two ticks; `m = 3` for one), so their coordinates stay on the 4px grid:
 
-```
+```text
 tick_x(k, m) = attach_x(k) - 16 * m
 tick_y(k, m) = CY ∓ 28 * m
 ```

@@ -183,12 +183,12 @@ def main():
     for key in ordered_keys:
         title = key if key != "(repo-level)" else "Repo-level tooling (`tools/`, `.hermes/cron/`)"
         lines.append(f"\n## {title}\n")
-        for owner_name, owner_path, kind, lang, n_lines, summary, rel in sorted(
+        for _owner, _owner_path, kind, lang, n_lines, summary, rel in sorted(
             groups[key], key=lambda r: (kind_rank.get(r[2], 9), r[6])
         ):
             # escape "<" so placeholders like <outDir> render instead of parsing as HTML tags
-            summary = summary.replace("<", "\\<")
-            suffix = f" — {summary}" if summary else ""
+            purpose = summary.replace("<", "\\<")
+            suffix = f" — {purpose}" if purpose else ""
             lines.append(f"- `{rel}` ({kind}, {lang}, {n_lines} lines){suffix}")
 
     n_scripts = sum(1 for r in rows if r[2] == "script")

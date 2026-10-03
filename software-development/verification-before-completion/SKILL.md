@@ -26,7 +26,7 @@ Enforces one iron law: **NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENC
 
 ## The Gate Function
 
-```
+```text
 BEFORE claiming any status or expressing satisfaction:
 
 1. IDENTIFY: What command proves this claim?
@@ -79,35 +79,35 @@ Skip any step = lying, not verifying
 
 **Tests:**
 
-```
+```text
 OK:   [run test command] [see: 34/34 pass] -> "All tests pass"
 NO:   "Should pass now" / "Looks correct"
 ```
 
 **Regression tests (TDD red-green):**
 
-```
+```text
 OK: write -> run (pass) -> revert fix -> run (MUST FAIL) -> restore -> run (pass)
 NO: "I've written a regression test" without the red step
 ```
 
 **Build:**
 
-```
+```text
 OK: [run build] [see: exit 0] -> "Build passes"
 NO: "Linter passed" (linter doesn't check compilation)
 ```
 
 **Requirements:**
 
-```
+```text
 OK: re-read plan -> checklist -> verify each item -> report gaps or completion
 NO: "Tests pass, phase complete"
 ```
 
 **Agent delegation:**
 
-```
+```text
 OK: agent reports success -> check VCS diff -> verify changes -> report actual state
 NO: trust the agent's self-report
 ```

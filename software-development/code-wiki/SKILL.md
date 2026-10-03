@@ -384,7 +384,7 @@ EOF
 
 State exactly what was generated and where:
 
-```
+```text
 Generated wiki at ~/.hermes/wikis/<repo-name>/:
   README.md                   project overview, module map
   architecture.md             system architecture + flowchart

@@ -65,7 +65,7 @@ metadata:
 
 ### Body Structure
 
-```
+```markdown
 ## When to Use
 ## What This Skill Does  (scope + boundaries)
 ## Prerequisites         (auth, tools, setup)
@@ -141,7 +141,7 @@ This project [does X]. It is used by [audience] to [achieve Y].
 
 ### Template
 
-```
+```text
 You are a [role] running a [frequency] task. Your job: [one-sentence purpose].
 
 Context: [all prerequisites embedded here]

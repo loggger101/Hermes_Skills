@@ -71,8 +71,8 @@ set +e
 $HELPER validate '\w+' --lang ts > "$OUTPUT_DIR/v1.out" 2>&1
 RC=$?
 set -e
-[ $RC -eq 2 ] || fail "validate '\\w+' should exit 2, got $RC (output: $(cat $OUTPUT_DIR/v1.out))"
-grep -qi 'regex' "$OUTPUT_DIR/v1.out" || fail "validate '\\w+' should mention regex (output: $(cat $OUTPUT_DIR/v1.out))"
+[ $RC -eq 2 ] || fail "validate '\\w+' should exit 2, got $RC (output: $(cat "$OUTPUT_DIR/v1.out"))"
+grep -qi 'regex' "$OUTPUT_DIR/v1.out" || fail "validate '\\w+' should mention regex (output: $(cat "$OUTPUT_DIR/v1.out"))"
 pass "validate detects \\w regex misuse"
 
 # 4. valid pattern
@@ -80,7 +80,7 @@ set +e
 $HELPER validate 'console.log($MSG)' --lang ts > "$OUTPUT_DIR/v2.out" 2>&1
 RC=$?
 set -e
-[ $RC -eq 0 ] || fail "validate 'console.log(\$MSG)' should exit 0, got $RC (output: $(cat $OUTPUT_DIR/v2.out))"
+[ $RC -eq 0 ] || fail "validate 'console.log(\$MSG)' should exit 0, got $RC (output: $(cat "$OUTPUT_DIR/v2.out"))"
 pass "validate accepts plausible pattern"
 
 # 5. Python trailing colon
@@ -153,13 +153,13 @@ case "$RC" in
     pass "search without binary prints install hint"
     ;;
   *)
-    fail "search returned unexpected rc=$RC: $(cat $OUTPUT_DIR/s1.out)"
+    fail "search returned unexpected rc=$RC: $(cat "$OUTPUT_DIR/s1.out")"
     ;;
 esac
 
 # 10. install.sh syntax check + --help
 bash -n "$SKILL_DIR/install.sh" || fail "install.sh has syntax errors"
-$SKILL_DIR/install.sh --help > "$OUTPUT_DIR/inst.out" 2>&1 || true
+"$SKILL_DIR/install.sh" --help > "$OUTPUT_DIR/inst.out" 2>&1 || true
 grep -qi 'install' "$OUTPUT_DIR/inst.out" || fail "install.sh --help missing keyword 'install'"
 pass "install.sh syntax + --help"
 

@@ -88,7 +88,7 @@ git diff main...HEAD | grep -n "<<<<<<\|>>>>>>\|======="
 
 When reviewing local changes, present findings in this structure:
 
-```
+```markdown
 ## Code Review Summary
 
 ### Critical

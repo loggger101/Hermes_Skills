@@ -432,7 +432,7 @@ def test_filter_returns_list():      # vague
 
 ### Test organization
 
-```
+```text
 project/
   src/myapp/
     __init__.py
@@ -470,7 +470,7 @@ def test_send_notification_calls_gateway(mocker):
 
 ### Project layout
 
-```
+```text
 myproject/
   pyproject.toml          # build system + metadata + tool config
   src/

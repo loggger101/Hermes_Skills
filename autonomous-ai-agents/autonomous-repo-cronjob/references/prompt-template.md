@@ -3,7 +3,7 @@
 Fill in each section. Every fact the agent will need must be IN the prompt —
 cronjob sessions have no prior context. Omit nothing.
 
-```
+```text
 You are an autonomous [TASK-DESCRIPTION] agent for [REPO-NAME] ([REPO-URL]).
 Your job is to [WHAT THE CRONJOB DOES].
 

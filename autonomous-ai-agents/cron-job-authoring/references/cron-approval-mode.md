@@ -40,7 +40,7 @@ hermes cron run <job_id>
 
 ### In the audit log (errors.log)
 
-```
+```text
 BLOCKED: Command flagged as dangerous (…) but cron jobs run without a user present to approve it.
 ```
 
@@ -60,7 +60,7 @@ The run may appear to fail with a cryptic error, or the agent may silently skip 
 
 **Important:** Setting `cron_mode: approve` does **NOT** enable `execute_code` in cron jobs. The `execute_code` tool runs arbitrary local Python (including subprocess calls that bypass shell-string approval checks) and is **hard-blocked** in all cron contexts by design:
 
-```
+```text
 BLOCKED: execute_code runs arbitrary local Python (including subprocess calls that bypass shell-string approval checks). Cron jobs run without a user present to approve it
 ```
 
@@ -70,12 +70,12 @@ Cron jobs that need shell access must use `terminal` instead. The `terminal` too
 
 This setting lives in the **profile config** file, not the global config:
 
-```
+```text
 ~/AppData/Local/hermes/profiles/<profile>/config.yaml
 ```
 
 For the `the-skill-maker` profile:
 
-```
+```text
 %LOCALAPPDATA%\hermes\profiles\the-skill-maker\config.yaml
 ```

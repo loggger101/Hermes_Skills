@@ -87,7 +87,7 @@ hand-written copy of that list; it drifted twice, so it was removed in round-45.
 
 Each skill follows the standard Hermes skill format:
 
-```
+```text
 category/
 ├── DESCRIPTION.md        # Category-level description (required when >1 skill)
 └── skill-name/
