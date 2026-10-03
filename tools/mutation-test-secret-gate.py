@@ -105,7 +105,6 @@ def main():
         mod.REPO_ROOT = tmp   # same monkeypatch trick as mutation-test-doc-gate.py
 
         findings = mod.scan_repo_for_secrets()
-        text = "\n".join(findings)
 
         expected_positives = {rel for rel in POSITIVE_FILES} | set(ORPHAN_FILE)
         missed = [rel for rel in sorted(expected_positives) if not any(rel.replace("\\", "/") in f for f in findings)]

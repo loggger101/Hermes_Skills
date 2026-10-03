@@ -237,7 +237,7 @@ def main():
     print(f"  Recommended conf.  : {TIER_NAME[tier]}")
     print(f"  Winner evidence avg: {winner_grade:.2f} (A=4 .. D=1)")
     if caps:
-        print(f"  Confidence caps    : " + "; ".join(caps))
+        print("  Confidence caps    : " + "; ".join(caps))
     print()
     print("  Reminders for the foreman:")
     print("   - This is a recommendation. You still emit the verdict.")

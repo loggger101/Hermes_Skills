@@ -26,7 +26,6 @@ never feeds ranking math.
 """
 import argparse
 import math
-import sys
 
 import pandas as pd
 import requests
@@ -144,7 +143,7 @@ def main() -> int:
         return 1
 
     overall = spearman(both["min_delta_v_kms"], both.iloc[:, 1])
-    print(f"\n=== NHATS rank cross-check ===")
+    print("\n=== NHATS rank cross-check ===")
     print(f"Bodies overlapping with NHATS: {len(m):,} | usable pairs: {len(both):,}")
     print(f"NHATS min_dv vs shipped ranking ({label}): Spearman = {overall:.3f}")
 

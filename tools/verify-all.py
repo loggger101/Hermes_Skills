@@ -72,6 +72,7 @@ GATE_LABELS = [
     "self-test harnesses",    # run-self-tests.py executes the standalone *_verify.py harnesses
     "gate self-test",         # mutation-test-doc-gate.py — proves every doc-count class fails loud
     "secret gate self-test",  # mutation-test-secret-gate.py — plants fake creds, asserts zero misses
+    "audit gate self-test",   # mutation-test-audit-gate.py — one planted defect per audit threshold class
     "harness gate self-test", # mutation-test-selftest-gate.py — PASS/SKIP/FAIL classification proven
     "cron gate self-test",    # mutation-test-cron-gate.py — phantom threshold keys caught
     "router gate self-test",  # mutation-test-router-gate.py — proves all 5 coverage classes fail loud
@@ -377,6 +378,10 @@ def main():
         # pattern class plus env/placeholder negative controls in a temp fixture and
         # asserts every positive is caught with zero false positives.
         run("secret gate self-test", ["tools/mutation-test-secret-gate.py"]),
+        # The rest of the audit tests itself: one planted defect per threshold-gated class
+        # (no frontmatter, missing field, long description, broken ref, duplicate name,
+        # missing sections, missing script) plus a clean control that must stay clean.
+        run("audit gate self-test", ["tools/mutation-test-audit-gate.py"]),
         # The harness runner (gate 6) tests itself: proves PASS/SKIP-rc77/SKIP-dep/FAIL
         # classification and manifest-drift detection on throwaway temp fixtures.
         run("harness gate self-test", ["tools/mutation-test-selftest-gate.py"]),

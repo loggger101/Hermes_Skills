@@ -188,7 +188,18 @@ def shift_dimensions(dims, idx, n, delete, is_row):
     return len(saved)
 
 
+def _reconfigure_stdio() -> None:
+    """Explicit UTF-8 stdio: a Windows console/pipe defaults to cp1252 and
+    cannot encode the non-ASCII cell text these scripts emit as JSON/CSV."""
+    for stream in (sys.stdin, sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8")
+        except Exception:
+            pass
+
+
 def main(argv=None):
+    _reconfigure_stdio()
     ap = argparse.ArgumentParser(
         description="Insert/delete rows or columns AND rewrite formula "
                     "references, merges, filters, validations, tables, and "

@@ -1,11 +1,11 @@
 # CODE-INDEX
 
-Flat index of all **159 code files** (39,522 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **160 code files** (39,793 lines total) in this second brain — one line each, grep-friendly.
 Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
 
-- `autonomous-ai-agents/hermes-agent/scripts/sync-installed-plugins.py` (script, python, 550 lines) — Sync the installed-plugins reference doc from the live Hermes environment
+- `autonomous-ai-agents/hermes-agent/scripts/sync-installed-plugins.py` (script, python, 549 lines) — Sync the installed-plugins reference doc from the live Hermes environment
 - `autonomous-ai-agents/hermes-agent/templates/clock.mjs` (template, javascript, 51 lines) — * Reference user widget: a live clock docked above the status bar. * Copy to ~/.hermes/tui-widgets/clock.mjs, …
 - `autonomous-ai-agents/hermes-agent/templates/plugin.js` (template, javascript, 97 lines) — * Hermes desktop plugin template. Save as: * <hermes home>/desktop-plugins/<id>/plugin.js (folder name == id) …
 
@@ -24,9 +24,9 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `creative/comfyui/scripts/_common.py` (shared helper, python, 835 lines)
 - `creative/comfyui/tests/conftest.py` (test, python, 64 lines) — Pytest configuration for the comfyui skill test suite
 - `creative/comfyui/tests/test_check_deps.py` (test, python, 68 lines) — Tests for check_deps.py — focuses on parsing logic that doesn't need a server.
-- `creative/comfyui/tests/test_cloud_integration.py` (test, python, 95 lines) — Integration tests against the live Comfy Cloud API
+- `creative/comfyui/tests/test_cloud_integration.py` (test, python, 96 lines) — Integration tests against the live Comfy Cloud API
 - `creative/comfyui/tests/test_common.py` (test, python, 443 lines) — Unit tests for _common.py — pure logic only, no network.
-- `creative/comfyui/tests/test_extract_schema.py` (test, python, 184 lines) — Tests for extract_schema.py.
+- `creative/comfyui/tests/test_extract_schema.py` (test, python, 182 lines) — Tests for extract_schema.py.
 - `creative/comfyui/tests/test_run_workflow.py` (test, python, 210 lines) — Tests for run_workflow.py — focuses on logic that doesn't require a server.
 
 ## creative/diagram-design
@@ -61,12 +61,12 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 
 ## data-science/algorithms-python-catalog
 
-- `data-science/algorithms-python-catalog/scripts/algorithms_verify.py` (script, python, 491 lines) — Re-runnable verification harness for data-science/algorithms-python-catalog
+- `data-science/algorithms-python-catalog/scripts/algorithms_verify.py` (script, python, 490 lines) — Re-runnable verification harness for data-science/algorithms-python-catalog
 
 ## data-science/economicspace-pipeline
 
 - `data-science/economicspace-pipeline/scripts/asterank_sigma_probe.py` (script, python, 134 lines) — Asterank orbit-sigma + Shoemaker-Helin dv probe
-- `data-science/economicspace-pipeline/scripts/nhats_rank_crosscheck.py` (script, python, 188 lines) — NHATS rank cross-check for the economicspace closed-form dv estimator
+- `data-science/economicspace-pipeline/scripts/nhats_rank_crosscheck.py` (script, python, 187 lines) — NHATS rank cross-check for the economicspace closed-form dv estimator
 
 ## data-science/optimization-modeling-pyomo
 
@@ -75,17 +75,17 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 ## data-science/python-data-science
 
 - `data-science/python-data-science/references/big-data-patterns-verify.py` (script, python, 222 lines) — Verify the general big-data patterns for python-data-science reference doc
-- `data-science/python-data-science/references/polars-v2-verify.py` (script, python, 507 lines) — Live verification of polars 2.0.0rc1 behavior claims (from docs/source/releases/upgrade/2.md)
+- `data-science/python-data-science/references/polars-v2-verify.py` (script, python, 515 lines) — Live verification of polars 2.0.0rc1 behavior claims (from docs/source/releases/upgrade/2.md)
 
 ## data-science/regex-vs-llm-structured-text
 
 - `data-science/regex-vs-llm-structured-text/scripts/hybrid_parser.py` (script, python, 176 lines) — Hybrid structured-text parser: regex first, LLM only for flagged edge cases
-- `data-science/regex-vs-llm-structured-text/tests/test_hybrid_parser.py` (test, python, 160 lines) — Tests for the hybrid regex/LLM structured-text parser
+- `data-science/regex-vs-llm-structured-text/tests/test_hybrid_parser.py` (test, python, 161 lines) — Tests for the hybrid regex/LLM structured-text parser
 
 ## data-science/space-data-pipelines
 
 - `data-science/space-data-pipelines/scripts/cap_grid_verify.py` (script, python, 199 lines) — Verify AEGIS cap-grid tiling invariants + LGRS converter logic (stdlib only)
-- `data-science/space-data-pipelines/scripts/lps_projection_verify.py` (script, python, 112 lines) — Verify the south-pole Lunar Polar Stereographic (LPS) projection math used by nasa/aegis (AEGIS)
+- `data-science/space-data-pipelines/scripts/lps_projection_verify.py` (script, python, 120 lines) — Verify the south-pole Lunar Polar Stereographic (LPS) projection math used by nasa/aegis (AEGIS)
 - `data-science/space-data-pipelines/scripts/pipeline_skeleton.py` (script, python, 206 lines) — Runnable reference implementation of the space-datasets pipeline pattern
 
 ## devops/rest-api-client
@@ -133,7 +133,7 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 
 ## media/youtube-content
 
-- `media/youtube-content/scripts/fetch_transcript.py` (script, python, 124 lines)
+- `media/youtube-content/scripts/fetch_transcript.py` (script, python, 125 lines)
 
 ## productivity/docx
 
@@ -191,17 +191,17 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 - `productivity/powerpoint/scripts/pptx_from_template.py` (script, python, 88 lines) — Build a deck from a .pptx template (brand deck) and fill placeholders
 - `productivity/powerpoint/scripts/pptx_read.py` (script, python, 131 lines) — Read a .pptx file: JSON outline, notes, or export embedded images
 - `productivity/powerpoint/scripts/pptx_render.py` (script, python, 93 lines) — Render every slide of a .pptx to per-slide PNG images
-- `productivity/powerpoint/tests/test_powerpoint_skill.py` (test, python, 475 lines) — End-to-end tests for the powerpoint skill helper scripts
+- `productivity/powerpoint/tests/test_powerpoint_skill.py` (test, python, 474 lines) — End-to-end tests for the powerpoint skill helper scripts
 
 ## productivity/xlsx
 
-- `productivity/xlsx/scripts/csv_to_xlsx.py` (script, python, 104 lines) — Convert a CSV file to a styled .xlsx workbook with type inference
-- `productivity/xlsx/scripts/xlsx_create.py` (script, python, 259 lines) — Create an .xlsx workbook from a JSON spec
-- `productivity/xlsx/scripts/xlsx_edit.py` (script, python, 263 lines) — Edit an existing .xlsx workbook in place (or to --out)
-- `productivity/xlsx/scripts/xlsx_read.py` (script, python, 160 lines) — Read an .xlsx workbook: inventory, JSON/CSV dumps, formula listing
-- `productivity/xlsx/scripts/xlsx_recalc.py` (script, python, 111 lines) — Recalculate a workbook's formulas headlessly with LibreOffice
-- `productivity/xlsx/scripts/xlsx_restructure.py` (script, python, 337 lines) — Reference-aware row/column insert and delete for .xlsx workbooks
-- `productivity/xlsx/scripts/xlsx_to_csv.py` (script, python, 69 lines) — Export one sheet of an .xlsx workbook to CSV
+- `productivity/xlsx/scripts/csv_to_xlsx.py` (script, python, 115 lines) — Convert a CSV file to a styled .xlsx workbook with type inference
+- `productivity/xlsx/scripts/xlsx_create.py` (script, python, 270 lines) — Create an .xlsx workbook from a JSON spec
+- `productivity/xlsx/scripts/xlsx_edit.py` (script, python, 274 lines) — Edit an existing .xlsx workbook in place (or to --out)
+- `productivity/xlsx/scripts/xlsx_read.py` (script, python, 171 lines) — Read an .xlsx workbook: inventory, JSON/CSV dumps, formula listing
+- `productivity/xlsx/scripts/xlsx_recalc.py` (script, python, 122 lines) — Recalculate a workbook's formulas headlessly with LibreOffice
+- `productivity/xlsx/scripts/xlsx_restructure.py` (script, python, 348 lines) — Reference-aware row/column insert and delete for .xlsx workbooks
+- `productivity/xlsx/scripts/xlsx_to_csv.py` (script, python, 80 lines) — Export one sheet of an .xlsx workbook to CSV
 - `productivity/xlsx/tests/test_xlsx_skill.py` (test, python, 542 lines) — End-to-end tests for the xlsx skill helper scripts
 
 ## research/arxiv
@@ -223,7 +223,7 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 
 ## security/oss-forensics
 
-- `security/oss-forensics/scripts/evidence-store.py` (script, python, 313 lines)
+- `security/oss-forensics/scripts/evidence-store.py` (script, python, 314 lines)
 
 ## security/security-audit
 
@@ -250,7 +250,7 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 
 ## software-development/code-quality-signal
 
-- `software-development/code-quality-signal/scripts/quality_signal.py` (script, python, 381 lines) — Code quality signal: 5 ungameable root-cause metrics on a Python codebase
+- `software-development/code-quality-signal/scripts/quality_signal.py` (script, python, 380 lines) — Code quality signal: 5 ungameable root-cause metrics on a Python codebase
 
 ## software-development/dispatching-parallel-agents
 
@@ -277,28 +277,29 @@ Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with 
 
 ## Repo-level tooling (`tools/`, `.hermes/cron/`)
 
-- `tools/_index_output.py` (shared helper, python, 61 lines) — Shared write-guard for the index generators (gen-*.py, regen-dependency-map.py)
+- `tools/_index_output.py` (shared helper, python, 69 lines) — Shared write-guard for the index generators (gen-*.py, regen-dependency-map.py)
 - `.hermes/cron/templates/repo-automation.py` (template, python, 69 lines) — Repo Automation Cronjob Template (Two-Agent Split)
 - `.hermes/cron/templates/skill-watchdog.py` (template, python, 47 lines) — Skill Watchdog Cronjob Template
 - `.hermes/cron/validate-cronjobs.py` (repo tooling, python, 247 lines) — Validate cronjob JSON config files for structural correctness + cross-consistency
 - `.hermes/cron/validate-skill-refs.py` (repo tooling, python, 56 lines) — Lightweight JSON + skill-ref validator (no_agent-compatible).
-- `tools/audit-skills.py` (repo tooling, python, 507 lines)
+- `tools/audit-skills.py` (repo tooling, python, 525 lines)
 - `tools/check-links.py` (repo tooling, python, 146 lines) — Broken-link checker for this second brain (stdlib only)
 - `tools/check-router-coverage.py` (repo tooling, python, 140 lines) — Gate: the skill-flow-router must keep pace with the catalog it claims to map
 - `tools/gen-claude-plugin.py` (repo tooling, python, 153 lines) — Regenerate the Claude Code plugin manifests from live skill frontmatter
 - `tools/gen-code-index.py` (repo tooling, python, 186 lines) — Regenerate CODE-INDEX.md from live code files (flat, grep-friendly)
 - `tools/gen-references-index.py` (repo tooling, python, 100 lines) — Rebuild REFERENCES-INDEX.md from every skill's references/ directory
 - `tools/gen-skills-index.py` (repo tooling, python, 159 lines) — Regenerate SKILLS-INDEX.md from live skill frontmatter (flat, grep-friendly)
-- `tools/mutation-test-cron-gate.py` (repo tooling, python, 92 lines) — Mutation self-test for the cron threshold-key verification (round-36)
+- `tools/mutation-test-audit-gate.py` (repo tooling, python, 142 lines) — Mutation test for audit-skills.run_audit — the per-skill audit checks test themselves
+- `tools/mutation-test-cron-gate.py` (repo tooling, python, 102 lines) — Mutation self-test for the cron threshold-key verification (round-36)
 - `tools/mutation-test-doc-gate.py` (repo tooling, python, 339 lines) — Mutation test for verify-all.check_doc_counts — the doc-count gate tests itself
 - `tools/mutation-test-router-gate.py` (repo tooling, python, 157 lines) — Mutation self-test for check-router-coverage.py (round-43)
-- `tools/mutation-test-secret-gate.py` (repo tooling, python, 148 lines) — Mutation test for audit-skills.scan_repo_for_secrets — the secret scan tests itself
-- `tools/mutation-test-selftest-gate.py` (repo tooling, python, 104 lines) — Mutation self-test for tools/run-self-tests.py (the self-test harness gate)
+- `tools/mutation-test-secret-gate.py` (repo tooling, python, 147 lines) — Mutation test for audit-skills.scan_repo_for_secrets — the secret scan tests itself
+- `tools/mutation-test-selftest-gate.py` (repo tooling, python, 103 lines) — Mutation self-test for tools/run-self-tests.py (the self-test harness gate)
 - `tools/regen-dependency-map.py` (repo tooling, python, 101 lines) — Regenerate DEPENDENCY.md from live related_skills frontmatter (same format as repo convention).
 - `tools/run-self-tests.py` (repo tooling, python, 220 lines) — Discovery-based runner for the skill self-test harnesses (*_verify.py)
 - `tools/run-skill-tests.py` (repo tooling, python, 140 lines) — Discover and run every pytest suite that ships inside a skill, one command
 - `tools/sync-hermes-skills.py` (repo tooling, python, 996 lines)
-- `tools/verify-all.py` (repo tooling, python, 410 lines) — Run every health gate in this repo and report one verdict
+- `tools/verify-all.py` (repo tooling, python, 415 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*159 code files: 112 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*160 code files: 112 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*

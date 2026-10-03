@@ -7,13 +7,19 @@ Self-contained: no fixtures needed, everything is built inline. Requires polars 
     <that venv's python> <repo>\data-science\python-data-science\references\polars-v2-verify.py
 
 Every check prints PASS / FAIL with a short detail. Exit code = number of failures (0 = all green).
-Last full run: 2026-09-14, 39/39 PASS on polars 2.0.0-rc.1.
+Last full run: 2026-10-02, 39/39 PASS on polars 2.0.0-rc.1 (checks 20/30/33 gained the
+assertions their PASS details claim; each was shown to fail on a planted wrong value).
 """
 from __future__ import annotations
 
 import io
 import re
 import sys
+
+try:  # FAIL details can carry DataFrame reprs (box-drawing chars) a cp1252 pipe cannot encode
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except (AttributeError, ValueError):
+    pass
 
 try:
     import polars as pl
@@ -112,7 +118,6 @@ check("5. pl.collect_all(iterable) with common-subplan elimination", c_collect_a
 
 
 def c_batches_async():
-    import inspect
     assert hasattr(pl.LazyFrame, "collect_batches") and hasattr(pl.LazyFrame, "collect_async")
     return "collect_batches + collect_async present on LazyFrame"
 
@@ -136,7 +141,7 @@ def c_schema_overrides_full():
     try:
         pl.read_csv(data, schema_overrides=[pl.String])
         raise AssertionError("partial schema_overrides list did NOT raise")
-    except SchemaError as e:
+    except SchemaError:
         return "partial schema_overrides raises polars.exceptions.SchemaError (must cover every column)"
 
 check("8. read_csv schema_overrides must now cover ALL columns", c_schema_overrides_full)
@@ -268,6 +273,7 @@ def c_bytesio_seek():
         assert "Parquet" in str(e) or "parquet" in str(e), f"{type(e)}: {str(e)[:120]}"
     buf.seek(0)
     df = pl.read_parquet(buf)
+    assert df["a"].to_list() == [1, 2], f"round-trip after seek(0) -> {df}"
     return "BytesIO round-trip now REQUIRES explicit seek(0)"
 
 check("20. file-like scans no longer auto-rewind (seek(0) required)", c_bytesio_seek)
@@ -377,7 +383,7 @@ def c_categorical_ordering():
     try:
         pl.Categorical(ordering="lexical")
         raise AssertionError("ordering param still accepted")
-    except TypeError as e:
+    except TypeError:
         return "pl.Categorical(ordering=...) raises TypeError (always lexical now)"
 
 check("29. Categorical ordering param removed (always lexical)", c_categorical_ordering)
@@ -391,6 +397,7 @@ def c_struct_cast_strict():
     except Exception as e:
         assert "same number of fields" in str(e), f"{type(e)}: {str(e)[:150]}"
     ok = s.cast(pl.Struct({"a": pl.Int64}), strict=False)
+    assert ok.struct.fields == ["a"], f"strict=False kept fields {ok.struct.fields} (expected truncation to ['a'])"
     return "struct casts are field-count-strict by default; strict=False truncates as before"
 
 check("30. struct->struct cast validates field count (strict=True default)", c_struct_cast_strict)
@@ -426,6 +433,7 @@ def c_hash_single_seed():
     import inspect
     sig = inspect.signature(pl.Expr.hash)
     n_pos = sum(1 for p in list(sig.parameters.values())[1:] if p.kind in (p.POSITIONAL_ONLY, p.POSITIONAL_OR_KEYWORD))
+    assert n_pos == 1, f"Expr.hash takes {n_pos} positional seed(s): {sig}"
     return f"Expr.hash signature: {sig} (single seed; multi-seed removed)"
 
 check("33. hash API single-seed", c_hash_single_seed)

@@ -7,10 +7,10 @@ Uses python-docx to build a professional .docx document with sections, tables, a
 
 import os
 from docx import Document
-from docx.shared import Pt, Inches, RGBColor, Cm
+from docx.shared import Pt, RGBColor, Cm
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.enum.table import WD_TABLE_ALIGNMENT
-from docx.oxml.ns import qn, nsdecls
+from docx.oxml.ns import nsdecls
 from docx.oxml import parse_xml
 
 # ── helpers ────────────────────────────────────────────────────────────────
@@ -804,4 +804,4 @@ output_path = r'C:/Users/Owner/AppData/Local/hermes/output/website-audit-v3.docx
 os.makedirs(os.path.dirname(output_path), exist_ok=True)
 doc.save(output_path)
 print(f'Document saved to {output_path}')
-print(f'Total sections: 14')
+print('Total sections: 14')

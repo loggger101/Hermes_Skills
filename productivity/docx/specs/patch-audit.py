@@ -25,7 +25,7 @@ for para in doc.paragraphs:
         if new_text != old_text:
             para.clear()  # clear runs from this paragraph
             r = para.add_run(new_text)
-            errors_fixed.append(f"Fixed !important claim (was 'avoids entirely', now documents the two touch-device exceptions)")
+            errors_fixed.append("Fixed !important claim (was 'avoids entirely', now documents the two touch-device exceptions)")
 
 # Also fix section 6 "Code Quality & Maintainability" where I claimed no !important at all
 for para in doc.paragraphs:

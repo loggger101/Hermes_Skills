@@ -166,14 +166,14 @@ for job in job_files:
     # No-agent vs LLM-driven consistency
     no_agent = data.get('no_agent', False)
     if no_agent:
-        print(f'  [OK] no_agent=true (script-only watchdog)')
+        print('  [OK] no_agent=true (script-only watchdog)')
         if 'script' not in data:
-            print(f'  [ERROR] no_agent=true but no "script" field — job has no executable action')
+            print('  [ERROR] no_agent=true but no "script" field — job has no executable action')
             errors.append(f'{job}: no_agent=true but no script field')
     else:
-        print(f'  [OK] no_agent=false (LLM-driven)')
+        print('  [OK] no_agent=false (LLM-driven)')
         if 'prompt' not in data:
-            print(f'  [WARN] no_agent=false but no "prompt" field — agent has no instructions')
+            print('  [WARN] no_agent=false but no "prompt" field — agent has no instructions')
             warnings.append(f'{job}: no_agent=false without prompt')
 
     # Skills validation
@@ -183,7 +183,7 @@ for job in job_files:
         loaded = [loaded]
 
     if not loaded:
-        print(f'  (no skills array — script-only job)')
+        print('  (no skills array — script-only job)')
     else:
         for s in loaded:
             sid = s if isinstance(s, str) else s.get('id', '?')
@@ -217,17 +217,17 @@ for job in job_files:
         if 'model' in data and 'provider' in data:
             print(f'  [OK] model pinned: {data["provider"]}/{data["model"]}')
         else:
-            print(f'  [WARN] no_agent=false but model/provider not pinned (drift_skip risk)')
+            print('  [WARN] no_agent=false but model/provider not pinned (drift_skip risk)')
             warnings.append(f'{job}: unpinned model (drift_skip risk)')
     else:
         if 'model' in data:
             print(f'  [OK] model pinned (for drift safety): {data.get("provider")}/{data.get("model")}')
 
 # 2. Check the audit script itself runs
-print(f'\n=== Audit Script Self-Check ===')
+print('\n=== Audit Script Self-Check ===')
 print(f'  Valid skills in repo: {len(valid_skills)}')
 
-print(f'\n=== Summary ===')
+print('\n=== Summary ===')
 print(f'  Errors: {len(errors)}')
 print(f'  Warnings: {len(warnings)}')
 if skips:

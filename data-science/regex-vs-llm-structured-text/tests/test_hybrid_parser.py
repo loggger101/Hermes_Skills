@@ -6,6 +6,7 @@ or directly with stdlib unittest if pytest is unavailable::
     python tests/test_hybrid_parser.py
 """
 
+import dataclasses
 import os
 import sys
 import unittest
@@ -96,7 +97,7 @@ class TestConfidence(unittest.TestCase):
 class TestImmutability(unittest.TestCase):
     def test_parsed_item_is_frozen(self):
         item = ParsedItem(id="9", text="x")
-        with self.assertRaises(Exception):
+        with self.assertRaises(dataclasses.FrozenInstanceError):
             item.answer = "A"  # type: ignore[misc]
 
     def test_validate_returns_new_instance(self):

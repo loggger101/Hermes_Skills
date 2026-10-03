@@ -9,7 +9,7 @@ This repository is the **second brain** of its owner's Hermes Agent environment:
 ## Start here (cheapest → most thorough)
 - **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 212 skills; `grep -i <term>` is the fastest way to find a capability.
 - **[CODE-INDEX.md](./CODE-INDEX.md)** — flat index of every script, shared helper, test, and template (the executable knowledge layer); `grep -i <term> CODE-INDEX.md` finds runnable code by purpose or owner skill.
-- **[REFERENCES-INDEX.md](./REFERENCES-INDEX.md)** — flat index of all 406 reference docs living inside skills' `references/` dirs (nested subdirs included); `grep -i <term>` REFERENCES-INDEX.md finds verified API maps / gotchas tables by topic without knowing which skill owns them.
+- **[REFERENCES-INDEX.md](./REFERENCES-INDEX.md)** — flat index of all 406 reference docs living inside skills' `references/` dirs (nested subdirs included); `grep -i <term> REFERENCES-INDEX.md` finds verified API maps / gotchas tables by topic without knowing which skill owns them.
 - **[DEPENDENCY.md](./DEPENDENCY.md)** — relationship map: hub skills, standalone skills, full cross-reference validation.
 - **[docs/](./docs/README.md)** — **knowledge-layer index**: verified API references + working code patterns from the 41-repo starred deep dive, reorganized 2026-09-07 to live inside each owning skill's `references/` dir (astro-toolkit-selection carries brahe/skyfield/OpenSCvx/catalog/optimization refs; economicspace-pipeline carries Δv-oracles + soft-assumption sources; python-data-science carries polars/pymc; nicegui-app-builder carries frontend tooling; github-pr-workflow carries git recipes). Skills say *how to work*; their references say *what exists in these libraries and what breaks*.
 - **[README.md](./README.md)** — human-facing overview: categories with skill counts, conventions, cron authoring, Claude Code install, verification.
@@ -52,7 +52,7 @@ The fastest way from a job you have in mind to the skill that does it:
 | Ship UI that doesn't look templated — pick the aesthetic first | `design-taste-frontend` (anti-slop default), presets: `soft-premium-ui`, `editorial-minimalism-ui`, `industrial-brutalist-ui`; motion-heavy → `awwwards-gsap-motion`; Google Stitch DESIGN.md → `stitch` |
 | Publish a site/dashboard/docs build with versioned deploys + rollback | `publish-site` (GitHub Pages → Cloudflare → Netlify ladder, live-URL verification) |
 | Design a scalable system / prep a system design interview (CAP, caching, sharding, fan-out) | `system-design-scaling` (primer-distilled trade-off tables + 8 case-study patterns; runnable LRU/base62/MapReduce-top-k/availability scripts inside) |
-| Verify this repo's own health | `py tools/verify-all.py` — all 18 gates in one run |
+| Verify this repo's own health | `py tools/verify-all.py` — all 19 gates in one run |
 
 ## Organization
 
@@ -65,16 +65,18 @@ Non-skill content: [`memories/`](./memories/DESCRIPTION.md) (the agent's persist
 
 ```
 category/
-├── SKILL.md          # Skill definition (frontmatter + body; required sections enforced by audit)
-├── DESCRIPTION.md    # Category description
-├── references/       # Supporting reference docs (loaded on demand)
-├── scripts/          # Helper scripts
-└── templates/        # Template files
+├── DESCRIPTION.md        # Category description (generated from the skills' frontmatter)
+└── skill-name/
+    ├── SKILL.md          # Skill definition (frontmatter + body; required sections enforced by audit)
+    ├── references/       # Supporting reference docs (loaded on demand)
+    ├── scripts/          # Helper scripts
+    ├── tests/            # Test files
+    └── templates/        # Template files
 ```
 
 ## Tooling (`tools/`)
 
-- **`verify-all.py`** — **the one command**: runs all 18 gates (audit incl. the zero-threshold hardcoded-secret scan over every skill script + SKILL.md, links, index drift x6: SKILLS/CODE/REFERENCES/DEPENDENCY/.claude-plugin/installed-plugins, cron validators x2 — the config validator proves every no_agent threshold key is a string its script actually emits, doc-count consistency, router coverage — every skill in the router's declared scope is either routed or explicitly declined with a reason, self-test harness execution via `run-self-tests.py` — and mutation self-tests of the doc-count gate, the secret gate, the harness runner, the cron contract check AND the router gate) and prints a pass/fail table. Run before every commit.
+- **`verify-all.py`** — **the one command**: runs all 19 gates (audit incl. the zero-threshold hardcoded-secret scan over every skill script + SKILL.md, links, index drift x6: SKILLS/CODE/REFERENCES/DEPENDENCY/.claude-plugin/installed-plugins, cron validators x2 — the config validator proves every no_agent threshold key is a string its script actually emits, doc-count consistency, router coverage — every skill in the router's declared scope is either routed or explicitly declined with a reason, self-test harness execution via `run-self-tests.py` — and mutation self-tests of the doc-count gate, the secret gate, the rest of the audit, the harness runner, the cron contract check AND the router gate) and prints a pass/fail table. Run before every commit.
 - **`audit-skills.py`** — validates all skills against repo conventions; exit 0 = clean. Hard-fails if pyyaml is missing or the scan finds <100 skills, so an unrunnable audit can never report clean.
 - **`check-links.py`** — broken-link gate: every relative markdown link must resolve (skips URLs, code spans, historical `profiles-export/` snapshots). Run alongside the audit before committing doc changes.
 - **`gen-skills-index.py`** — rebuilds `SKILLS-INDEX.md` + every category `DESCRIPTION.md` from live frontmatter (stdlib-only). `--check` reports drift without writing.
@@ -83,7 +85,7 @@ category/
 - **`regen-dependency-map.py`** — rebuilds `DEPENDENCY.md` from live frontmatter (safe standalone; sync-hermes-skills.py's step 5.5 shells out to it rather than carrying a second copy).
 - **`sync-hermes-skills.py`** — full bidirectional GitHub↔local-Hermes sync. A weekly cron job is defined for it in `.hermes/cron/active/`; where it is registered and whether it is paused is recorded once, in README's [Cron Job Authoring](./README.md#cron-job-authoring) section. Has `--dry-run` — always dry-run before a first live run (round 19b caught two latent phantom-action bugs this way: an un-skipped repo `docs/` dir and an orphaned local stub). Its delete phase is capped at `MAX_DELETIONS = 25` files per run (override: `--allow-mass-delete`), it only treats top-level dirs containing a SKILL.md as skill categories, and its pre-push gate runs the FULL health suite (`tools/verify-all.py`, all gates) after regenerating every machine-generated index — refusing commit+push when any of them fails or could not run.
 - **`_index_output.py`** — shared write-guard behind the four generators: blocks an empty-scan overwrite, and provides their `--check` drift mode (compare against disk, exit 1 if stale, write nothing).
-- **CI ([`.github/workflows/ci.yml`](./.github/workflows/ci.yml))** — three jobs on every push/PR: all 18 health gates; the seven skill pytest suites (comfyui, docx, pdf, powerpoint, xlsx, regex-vs-llm-structured-text, sqlite-queries) with deps from [`test-requirements.txt`](./test-requirements.txt); and a dedicated `self-test-harnesses` job that executes every registered `*_verify.py` harness against real duckdb/polars/pyarrow/numpy/pyomo/highspy installs (deps from [`selftest-requirements.txt`](./selftest-requirements.txt)) — so an upstream engine change breaks CI instead of quietly rotting the docs.
+- **CI ([`.github/workflows/ci.yml`](./.github/workflows/ci.yml))** — three jobs on every push/PR: all 19 health gates; the seven skill pytest suites (comfyui, docx, pdf, powerpoint, xlsx, regex-vs-llm-structured-text, sqlite-queries) with deps from [`test-requirements.txt`](./test-requirements.txt); and a dedicated `self-test-harnesses` job that executes every registered `*_verify.py` harness against real duckdb/polars/pyarrow/numpy/pyomo/highspy installs (deps from [`selftest-requirements.txt`](./selftest-requirements.txt)) — so an upstream engine change breaks CI instead of quietly rotting the docs.
 
 ## Getting Started
 

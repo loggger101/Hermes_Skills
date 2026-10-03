@@ -175,9 +175,7 @@ class TestDuplicateDeduplication:
         }
         schema = extract_schema(wf)
         params = schema["parameters"]
-        # Both seeds present with disambiguated names
-        seed_keys = [k for k in params if "seed" in k]
-        # Symmetric: both renamed (no bare "seed")
+        # Both seeds present with disambiguated names, symmetrically (no bare "seed")
         assert "seed" not in params
         assert "seed_3" in params and "seed_4" in params
         assert params["seed_3"]["value"] == 42
