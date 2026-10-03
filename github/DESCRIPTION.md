@@ -14,7 +14,7 @@ GitHub workflow skills for managing repositories, pull requests, code reviews, i
 - [`github-pr-workflow`](./github-pr-workflow/SKILL.md) — GitHub PR lifecycle: branch, commit, open, CI, merge
 - [`github-repo-management`](./github-repo-management/SKILL.md) — Clone/create/fork repos; manage remotes, releases
 - [`issue-triage-state-machine`](./issue-triage-state-machine/SKILL.md) — Triage issues/PRs: categorise, verify, grill, agent briefs
-- [`mattpocock-code-review`](./mattpocock-code-review/SKILL.md) — Two-axis code review: Standards and Spec via sub-agents
+- [`mattpocock-code-review`](./mattpocock-code-review/SKILL.md) — Sub-agent code review: two-axis, or a 5-reviewer panel
 - [`mattpocock-finishing-a-development-branch`](./mattpocock-finishing-a-development-branch/SKILL.md) — Complete git branches with merge or PR options
 - [`mattpocock-gh-fix-ci`](./mattpocock-gh-fix-ci/SKILL.md) — Debug failing GitHub Actions checks on a PR
 - [`mattpocock-yeet`](./mattpocock-yeet/SKILL.md) — Git workflow: stage, commit, push, open PR

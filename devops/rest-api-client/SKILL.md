@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [REST, API, HTTP, curl, integration, SSRF, security]
-    related_skills: [ssh-remote, docker-containers, mattpocock-security-review]
+    related_skills: [ssh-remote, docker-containers, mattpocock-security-review, rest-graphql-debug]
 ---
 
 # REST API Client
@@ -24,10 +24,10 @@ Implements a complete REST API client workflow: read the API contract, test conn
 - "Call this API endpoint"
 - "Pull all pages of results from this API"
 - "Post data to this service"
-- "Debug why the API call is failing"
 - "Find the right auth header / token setup"
+- "Why is this call failing?" — first-pass checks only (step 5 below); for systematic diagnosis (verbose capture, status and auth decoding, schema validation, a minimal repro) load `skill_view(name='rest-graphql-debug')`
 
-Don't use for: GraphQL endpoints (different query shape); SOAP/XML-RPC; browser-based OAuth flows (stop and ask); APIs that require a SDK when a clean REST fallback exists.
+Don't use for: GraphQL endpoints (different query shape; `rest-graphql-debug` covers them); SOAP/XML-RPC; browser-based OAuth flows (stop and ask); APIs that require a SDK when a clean REST fallback exists.
 
 ## Prerequisites
 
@@ -227,4 +227,4 @@ For robust pagination, prefer `execute_code` (Python + `requests` or `urllib`) w
 
 ## Related
 
-For APIs that require browser-based OAuth flow (e.g., "click here to authorize"), stop and ask the user — this skill covers token-based auth only. For GraphQL, use the GraphQL endpoint with a JSON `query` payload but expect a different response shape. For long-running integrations with rate limits and state, consider `cronjob` for scheduled polling. For local services, combine with `skill_view(name='docker-containers')` or `skill_view(name='ssh-remote')` if the API is on another host. When the question shifts from *calling* an API to *designing/choosing one* (RPC vs REST trade-offs, verb idempotency rules, HATEOAS), load `skill_view(name='system-design-scaling')` — its `references/asynchronism-communication-security.md` has the full comparison table and selection rules.
+For APIs that require browser-based OAuth flow (e.g., "click here to authorize"), stop and ask the user — this skill covers token-based auth only. For GraphQL, use the GraphQL endpoint with a JSON `query` payload but expect a different response shape; `rest-graphql-debug` has the GraphQL quickstart and introspection checks. For long-running integrations with rate limits and state, consider `cronjob` for scheduled polling. For local services, combine with `skill_view(name='docker-containers')` or `skill_view(name='ssh-remote')` if the API is on another host. When the question shifts from *calling* an API to *designing/choosing one* (RPC vs REST trade-offs, verb idempotency rules, HATEOAS), load `skill_view(name='system-design-scaling')` — its `references/asynchronism-communication-security.md` has the full comparison table and selection rules.

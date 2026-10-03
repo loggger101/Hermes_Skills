@@ -17,6 +17,7 @@ metadata:
 
 - Data-heavy dashboards, portfolios, or editorial sites that should feel like declassified blueprints / military terminals
 - User asks for brutalist, Swiss-print, industrial, tactical-telemetry, or CRT aesthetics
+- Usually reached from `design-taste-frontend`, which picks the preset from the brief and supplies the general anti-slop rules this one overrides
 
 ## What This Skill Does
 

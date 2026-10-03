@@ -17,6 +17,7 @@ metadata:
 
 - Clean editorial/document-style interfaces (workspace tools, docs sites, portfolios) that should read Notion/Linear-tier
 - User asks for minimalist, utilitarian-minimalism, or "document-style" UI
+- Usually reached from `design-taste-frontend`, which picks the preset from the brief and supplies the general anti-slop rules this one overrides
 
 ## What This Skill Does
 

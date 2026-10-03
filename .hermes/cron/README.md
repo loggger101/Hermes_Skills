@@ -30,7 +30,7 @@ Every cronjob prompt must be **self-contained** — it cannot rely on session co
 See:
 
 - [`cron-job-authoring` skill](../../autonomous-ai-agents/cron-job-authoring/SKILL.md)
-- [`autonomous-repo-cronjob` skill](../../autonomous-ai-agents/autonomous-repo-cronjob/SKILL.md)
+- [Jobs against an existing repository](../../autonomous-ai-agents/cron-job-authoring/references/repo-cronjob.md) (`cron-job-authoring` reference)
 - [No-interaction guardrail template](../../autonomous-ai-agents/cron-job-authoring/references/guardrail-template.md)
 - [Delivery discipline guide](../../autonomous-ai-agents/cron-job-authoring/references/delivery-discipline.md)
 
@@ -73,7 +73,7 @@ cronjob(
     prompt=prompt,
     schedule='0 9 * * 1',  # Weekly Monday at 9 AM
     workdir='.',
-    skills=['autonomous-ai-agents/autonomous-repo-cronjob'],
+    skills=['autonomous-ai-agents/cron-job-authoring'],
     deliver='origin',
     continuity=True
 )

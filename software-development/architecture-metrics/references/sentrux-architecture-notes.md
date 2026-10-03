@@ -2,7 +2,7 @@
 
 Deep-dive of `sentrux/sentrux` (MIT, 318+ commits at clone times 2026-09-11/12, ~34k lines of Rust).
 Sentrux = "real-time architectural sensor for AI agents": scan → score → agent improves → rescan.
-The `code-quality-signal` skill already ports its 5-metric quality signal; this file holds the
+`scripts/quality_signal.py` (the former `code-quality-signal` skill) already ports its 5-metric quality signal; this file holds the
 rest — patterns and formulas worth reusing even without the binary (which is Rust + tree-sitter,
 not pip-installable on arbitrary machines). Pass 2 (2026-09-12): mod-declaration edge filter (§3),
 git-walker skip rules (§5), exact ArchDiff gate rules + incremental rescan design + CI grammar-bundle

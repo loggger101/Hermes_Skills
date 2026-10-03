@@ -24,15 +24,15 @@ Answers "which skill or flow fits this situation?" for this brain's whole catalo
 
 ## The main flow: idea → ship
 
-1. **Sharpen by interview** → `grilling-interview`. Start here whenever you are working in a real repo: it's stateful, retaining what it learns in CONTEXT.md and ADRs (domain terms via `mattpocock-domain-modeling`). For a plan that already exists and needs attacking rather than eliciting, use `grill-me` — adversarial interview of *your* plan before any code. Unsure whether the idea is even a spike vs. a real build? `brainstorming` triages that first.
-2. **Branch — can every question be settled in conversation?** If one needs a runnable answer (state, business logic, UI you must see), detour through throwaway code: `spike` or `mattpocock-prototype`, bridged by `mattpocock-handoff` out and back so the original thread keeps what was learned.
+1. **Sharpen by interview** → `grilling-interview`. Start here whenever you are working in a real repo: it's stateful, retaining what it learns in CONTEXT.md and ADRs (domain terms via `mattpocock-domain-modeling`). For a plan that already exists and needs attacking rather than eliciting, run it in attack mode ("grill me") — an adversarial interview of *your* plan before any code. Unsure whether the idea is even a spike vs. a real build? `brainstorming` triages that first.
+2. **Branch — can every question be settled in conversation?** If one needs a runnable answer (state, business logic, UI you must see), detour through throwaway code with `spike`, bridged by `mattpocock-handoff` out and back so the original thread keeps what was learned.
 3. **Branch — multi-session build?**
    - **Yes** → `conversation-to-spec` (thread into a spec; `mattpocock-spec-driven-development` if the spec itself is the artifact you'll drive from), then `plan` to sequence it and `mattpocock-to-tickets` to split into tracer-bullet tickets with declared blocking edges; work blockers-first, each ticket self-contained so its context is disposable when done.
    - **No** → build in the current session.
 
    Either way, building means driving TDD (`test-driven-development` / `mattpocock-tdd`, one red-green slice at a time) with evidence gates (`mattpocock-evidence-driven`); reach for `property-based-testing` when the invariant matters more than the example. Working from a plan someone already wrote → `executing-plans` (inline checkpoints, no re-planning). Independent work splits across agents via `mattpocock-subagent-driven-development` or `dispatching-parallel-agents`; codify a re-runnable fan-out with `dynamic-workflow`.
 
-   Close out with review — pick by axis, don't run all four: `requesting-code-review` (pre-commit gate), `mattpocock-code-review` (two-axis Standards + Spec of the diff), `mattpocock-multi-agent-code-review` (independent reviewers, high-stakes diffs), `mattpocock-security-review` (attack surface). On the receiving end, `receiving-code-review` verifies feedback against the codebase before you act on it. Before claiming done, `verification-before-completion`. Ship via `mattpocock-finishing-a-development-branch` / `mattpocock-yeet`.
+   Close out with review — pick by axis, don't run all three: `requesting-code-review` (pre-commit gate), `mattpocock-code-review` (two-axis Standards + Spec of the diff; panel mode with five independent reviewers for high-stakes diffs), `mattpocock-security-review` (attack surface). On the receiving end, `receiving-code-review` verifies feedback against the codebase before you act on it. Before claiming done, `verification-before-completion`. Ship via `mattpocock-finishing-a-development-branch` / `mattpocock-yeet`.
 
 ### Context hygiene
 
@@ -41,13 +41,13 @@ Keep steps 1–3 in **one unbroken context window** — don't compact until afte
 ## On-ramps (situations that generate work)
 
 - **Bugs/requests piling up** → `issue-triage-state-machine`: moves issues through triage roles into agent-ready briefs (+ its AGENT-BRIEF / OUT-OF-SCOPE references). Only for issues you didn't create — tickets from the main flow are already agent-ready, don't re-triage them.
-- **Something's broken (the hard kind)** → `systematic-debugging` + `mattpocock-diagnosing-bugs`: refuses to theorise until there is a tight feedback loop (one command that goes red on *this* bug), fixes with a regression test; post-mortem hands off to `mattpocock-improve-codebase-architecture` when the real finding is "no good seam exists".
+- **Something's broken (the hard kind)** → `systematic-debugging` + `mattpocock-diagnosing-bugs`: refuses to theorise until there is a tight feedback loop (one command that goes red on *this* bug), fixes with a regression test; post-mortem hands off to `mattpocock-codebase-design` (survey mode) when the real finding is "no good seam exists".
 - **Production is on fire (right now)** → `incident-response`: a *different lane* from debugging — it commands the open incident (declared severity, named roles, append-only timeline, mitigation before fix, signal-based recovery). Root-causing waits; when the incident closes, hand off to `systematic-debugging` for the real fix and `retro` for the environment changes that follow.
 - **Huge, foggy effort** (greenfield or feature too big for one session) → `wayfinder-map-planning`: charts a shared map of decision tickets and resolves them one at a time — producing *decisions*, not deliverables. When the map clears it hands off to `conversation-to-spec`, which collapses linked decisions into a buildable plan; don't loop straight into implementation or you throw the detail away.
 
 ## Codebase health (not feature work)
 
-- Spare moment → `mattpocock-improve-codebase-architecture`: surfaces deepening opportunities; picking one *generates an idea* for the main flow at step 1. Designing that chosen piece happens on the bench: `mattpocock-codebase-design`.
+- Spare moment → `mattpocock-codebase-design` in survey mode: surfaces deepening opportunities; picking one *generates an idea* for the main flow at step 1. Designing that chosen piece happens on the bench, in the same skill's design mode.
 - New to the repo → `codebase-onboarding` (architecture map + starter AGENTS.md) before you touch anything.
 - Suspect the green is lying → `failure-signal-audit`: swallowed errors, dangerous fallbacks, propagation gaps, false-green status claims. Use it when checks pass but confidence doesn't follow.
 - Want the health claim to be a number → `architecture-metrics` (dependency-graph metrics); to *act* on it, `simplify-code`.

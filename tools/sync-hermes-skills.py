@@ -13,15 +13,17 @@ Designed for autonomous cron execution (no_agent=true):
 
 Direction of flow:
   1. PULL  — git pull upstream → copy new/updated skill files to ~/.hermes/skills/
-  2. PUSH  — copy new/modified local skills to repo, delete removed skills
-  3. MEMORIES — copy new/modified memory entries from ~/.hermes/memories/ into repo's memories/ directory
-  4. PROFILES — export new/modified profile data into the repo
-  5. INDEXES — regenerate ALL five machine-generated indexes (SKILLS/CODE/REFERENCES/
+  2. RETIRE — move local copies of skills listed in tools/retired-skills.txt (merged or
+     duplicate skills) to ~/.hermes/retired-skills/; PUSH never copies them back
+  3. PUSH  — copy new/modified local skills to repo, delete removed skills
+  4. MEMORIES — copy new/modified memory entries from ~/.hermes/memories/ into repo's memories/ directory
+  5. PROFILES — export new/modified profile data into the repo
+  6. INDEXES — regenerate ALL five machine-generated indexes (SKILLS/CODE/REFERENCES/
      DEPENDENCY + Claude-plugin manifests) whenever skills changed, so a sync push can
      never leave an index stale for CI to catch later (round-34: it used to regen only
      DEPENDENCY.md; the other four rotted silently between runs).
-  6. AUDIT — run tools/audit-skills.py to validate frontmatter/thresholds
-  7. VERIFY — run tools/verify-all.py (ALL health gates) as the pre-push gate: a tree
+  7. AUDIT — run tools/audit-skills.py to validate frontmatter/thresholds
+  8. VERIFY — run tools/verify-all.py (ALL health gates) as the pre-push gate: a tree
      that fails ANY gate is refused commit+push, not just one the audit covers.
 
 Exit codes:
@@ -87,6 +89,13 @@ else:
     HERMES_HOME = Path.home() / ".hermes"
 
 LOCAL_SKILLS_DIR = HERMES_HOME / "skills"
+
+# Skills merged into another skill or retired as duplicates. Without this list the PUSH step
+# would copy a retired skill straight back from the local tree (it reads "missing in repo"
+# as "new locally"), undoing the merge on the next run. Local copies are moved, never
+# deleted, to LOCAL_RETIRED_DIR, which sits outside the skills tree Hermes loads from.
+RETIRED_SKILLS_FILE = REPO_ROOT / "tools" / "retired-skills.txt"
+LOCAL_RETIRED_DIR = HERMES_HOME / "retired-skills"
 
 # Safety cap on the destructive half of the sync. The weekly cron runs unattended;
 # a wrong local tree must not be able to wipe the repo in one pass.
@@ -154,6 +163,49 @@ def list_repo_files(directory: Path):
                 continue
             files[rel_path] = path
     return files
+
+
+def load_retired_skills(path: Path) -> list:
+    """Repo-relative skill dirs from tools/retired-skills.txt (`<dir> -> <replacement>` lines)."""
+    if not path.exists():
+        return []
+    retired = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        entry = line.split("#", 1)[0].strip()
+        if entry:
+            retired.append(entry.split("->", 1)[0].strip().strip("/"))
+    return retired
+
+
+def is_retired(rel_path: str, retired) -> bool:
+    return any(rel_path == d or rel_path.startswith(d + "/") for d in retired)
+
+
+def retire_local_skills(local_dir: Path, archive_dir: Path, retired, dry_run: bool = False) -> dict:
+    """Move local copies of retired skills out of the skills tree. Never deletes anything:
+    move a folder back from archive_dir to restore it."""
+    result = {"action": "retire_local_skills", "success": True, "moved": 0, "details": []}
+    for rel in retired:
+        src = local_dir / rel
+        if not src.is_dir():
+            continue
+        dest = archive_dir / rel
+        if dest.exists():  # retired before and restored since: keep both copies
+            stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+            dest = dest.with_name(f"{dest.name}-{stamp}")
+        if dry_run:
+            result["moved"] += 1
+            result["details"].append(f"Would retire: {rel} -> {dest}")
+            continue
+        try:
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.move(str(src), str(dest))
+            result["moved"] += 1
+            result["details"].append(f"Retired: {rel} -> {dest}")
+        except Exception as e:
+            result["success"] = False
+            result["details"].append(f"Error retiring {rel}: {e}")
+    return result
 
 
 def list_memory_files(directory: Path):
@@ -366,8 +418,8 @@ def git_add_commit_push(
 # ── Sync Functions ───────────────────────────────────────────────
 
 
-def sync_skills_pull(repo_root: Path, local_dir: Path, dry_run: bool = False) -> dict:
-    """Copy skill files from repo to local Hermes environment."""
+def sync_skills_pull(repo_root: Path, local_dir: Path, dry_run: bool = False, retired=()) -> dict:
+    """Copy skill files from repo to local Hermes environment (never a retired skill)."""
     result = {"action": "pull_skills", "files_copied": 0, "files_skipped": 0, "details": []}
 
     if not local_dir.exists():
@@ -398,6 +450,9 @@ def sync_skills_pull(repo_root: Path, local_dir: Path, dry_run: bool = False) ->
             # Skip the profile/ directory — repo documentation, not user skills
             if rel_path.startswith("profile/"):
                 continue
+            # Skip retired skills: a stale repo copy would be re-retired on every run
+            if is_retired(rel_path, retired):
+                continue
             # Skip top-level repo files (README.md, DEPENDENCY.md, NOTES.md, .gitignore)
             # — these are repo-specific, not agent-environment files
             parts = rel_path.split("/")
@@ -423,11 +478,16 @@ def sync_skills_pull(repo_root: Path, local_dir: Path, dry_run: bool = False) ->
 
 
 def sync_skills_push(
-    repo_root: Path, local_dir: Path, dry_run: bool = False, allow_mass_delete: bool = False
+    repo_root: Path,
+    local_dir: Path,
+    dry_run: bool = False,
+    allow_mass_delete: bool = False,
+    retired=(),
 ) -> dict:
     """Copy skill files from local Hermes environment to repo.
 
-    Handles new files, updated files, and deleted files (bidirectional sync).
+    Handles new files, updated files, and deleted files (bidirectional sync). Files under a
+    retired skill dir (tools/retired-skills.txt) are never copied back into the repo.
     """
     result = {
         "action": "push_skills",
@@ -484,6 +544,11 @@ def sync_skills_push(
 
         # Skip non-skill categories (orphaned stubs like web/DESCRIPTION.md)
         if parts[0] not in skill_categories:
+            result["files_skipped"] += 1
+            continue
+
+        # Skip retired skills: a local copy that could not be moved must not resurrect it
+        if is_retired(rel_path, retired):
             result["files_skipped"] += 1
             continue
 
@@ -927,12 +992,25 @@ def main():
     report["steps"].append(pull_result)
 
     # Step 2: Sync skills from repo → local (PULL direction)
-    pull_skills = sync_skills_pull(REPO_ROOT, LOCAL_SKILLS_DIR, dry_run=args.dry_run)
+    retired = load_retired_skills(RETIRED_SKILLS_FILE)
+    pull_skills = sync_skills_pull(
+        REPO_ROOT, LOCAL_SKILLS_DIR, dry_run=args.dry_run, retired=retired
+    )
     report["steps"].append(pull_skills)
+
+    # Step 2.5: Move local copies of retired skills out of the skills tree
+    retire_result = retire_local_skills(
+        LOCAL_SKILLS_DIR, LOCAL_RETIRED_DIR, retired, dry_run=args.dry_run
+    )
+    report["steps"].append(retire_result)
 
     # Step 3: Sync skills from local → repo (PUSH direction)
     push_skills = sync_skills_push(
-        REPO_ROOT, LOCAL_SKILLS_DIR, dry_run=args.dry_run, allow_mass_delete=args.allow_mass_delete
+        REPO_ROOT,
+        LOCAL_SKILLS_DIR,
+        dry_run=args.dry_run,
+        allow_mass_delete=args.allow_mass_delete,
+        retired=retired,
     )
     report["steps"].append(push_skills)
 
@@ -1078,6 +1156,7 @@ def main():
         else True,
         "dep_map_updated": dep_updated,
         "empty_dirs_removed": repo_empty + local_empty,
+        "local_skills_retired": retire_result["moved"],
     }
 
     # Silent mode: only output if there are changes, errors, or threshold breach.
@@ -1086,11 +1165,13 @@ def main():
     has_errors = any(
         not step.get("success", True)
         for step in report["steps"]
-        if step.get("action") in ("pull", "push", "push_skills", "audit", "indexes", "verify_all")
+        if step.get("action")
+        in ("pull", "push", "push_skills", "retire_local_skills", "audit", "indexes", "verify_all")
     )
     has_threshold_breach = audit_result.get("threshold_breached", False)
 
-    if total_changes > 0 or has_errors or has_threshold_breach:
+    # A retirement moves folders in the user's local skills tree: always report it.
+    if total_changes > 0 or retire_result["moved"] > 0 or has_errors or has_threshold_breach:
         print(json.dumps(report, indent=2))
         sys.exit(1 if has_threshold_breach or has_errors else 0)
     else:

@@ -1,21 +1,12 @@
----
-name: autonomous-repo-cronjob
-description: "Write self-contained cronjob prompts for existing repos."
-version: v1.0.0
-author: Hermes Agent
-license: MIT
-platforms: [linux, macos, windows]
-metadata:
-  hermes:
-    tags: [cronjob, autonomous, repo-automation, pipeline, agent-as-gatekeeper]
-    related_skills: [hermes-agent]
----
+# Cron jobs that run against an existing repository
 
-# Autonomous Repo Cronjob Skill
+<!-- Was the standalone skill `autonomous-repo-cronjob` until round-57 merged it into cron-job-authoring.
+     The four companion files it names (prompt-template, drafting-guide, agent-vs-script-checklist,
+     two-agent-architecture) sit next to this one in references/. -->
 
 ## Overview
 
-**What This Skill Does:** Teaches the pattern for drafting self-contained cronjob prompts that automate work against existing repositories with their own CI pipelines. The cronjob's prompt body must embed the repository's guardrails, data formats, and conventions so it runs autonomously without session context.
+**What this covers:** Teaches the pattern for drafting self-contained cronjob prompts that automate work against existing repositories with their own CI pipelines. The cronjob's prompt body must embed the repository's guardrails, data formats, and conventions so it runs autonomously without session context.
 
 When a Hermes `cronjob` needs to automate work against an existing repository that already
 has its own CI pipeline (GitHub Actions, Makefile, etc.), the cronjob's prompt body must
@@ -24,7 +15,7 @@ data formats, and conventions. In some cases the agent **substitutes its own mod
 for an API-key-gated step** in the existing pipeline — for example, replacing a script's
 direct Anthropic API call with the agent's own Claude judgments.
 
-This skill teaches the pattern for drafting that prompt body correctly.
+This reference teaches the pattern for drafting that prompt body correctly.
 
 ## When to Use
 
@@ -56,7 +47,7 @@ This skill teaches the pattern for drafting that prompt body correctly.
 
 ## How to Run
 
-This is a **prompt-authoring skill** — it doesn't execute code. It produces a cronjob prompt
+This is a **prompt-authoring** procedure — it doesn't execute code. It produces a cronjob prompt
 that is then passed to `cronjob(action='create', ...)`.
 
 The workflow:

@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **160 code files** (41,202 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **158 code files** (41,148 lines total) in this second brain — one line each, grep-friendly.
 Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -240,6 +240,7 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 - `software-development/architecture-metrics/scripts/architecture_metrics.py` (script, python, 612 lines) — Architecture metrics: levels, violations, blast radius, A/I/D distance,
 - `software-development/architecture-metrics/scripts/evolution_metrics.py` (script, python, 253 lines) — Git evolution metrics: churn, change coupling, temporal hotspots, code age, bus factor
+- `software-development/architecture-metrics/scripts/quality_signal.py` (script, python, 412 lines) — Code quality signal: 5 ungameable root-cause metrics on a Python codebase
 - `software-development/architecture-metrics/scripts/session_gate.py` (script, python, 129 lines) — Session quality gate: save an architectural baseline before an agent session,
 
 ## software-development/ast-grep
@@ -248,10 +249,6 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `software-development/ast-grep/scripts/ast_grep_helper.py` (script, python, 790 lines) — ast-grep-helper: a thin LLM-friendly wrapper around `sg` (ast-grep)
 - `software-development/ast-grep/tests/smoke.sh` (test, bash, 212 lines) — Smoke test for the ast-grep skill on POSIX (macOS / Linux / WSL / Git Bash)
 
-## software-development/code-quality-signal
-
-- `software-development/code-quality-signal/scripts/quality_signal.py` (script, python, 412 lines) — Code quality signal: 5 ungameable root-cause metrics on a Python codebase
-
 ## software-development/dispatching-parallel-agents
 
 - `software-development/dispatching-parallel-agents/scripts/tally_jury.py` (script, python, 313 lines) — Ported verbatim from tech-leads-club/agent-skills (CC-BY-4.0), skill "the-jury" v1.0.0,
@@ -259,11 +256,6 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 ## software-development/generating-python-installer
 
 - `software-development/generating-python-installer/scripts/analyze_dlls.py` (script, python, 143 lines) — DLL dependency footprint analyzer for a Nuitka standalone dist folder
-
-## software-development/github
-
-- `software-development/github/scripts/gh-env.sh` (script, bash, 66 lines) — GitHub environment detection helper for Hermes Agent skills
-- `software-development/github/scripts/git-credential-token.py` (script, python, 69 lines) — Print the first unambiguous GitHub token in a git credential-store file.
 
 ## software-development/systematic-debugging
 
@@ -298,8 +290,8 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `tools/regen-dependency-map.py` (repo tooling, python, 141 lines) — Regenerate DEPENDENCY.md from live related_skills frontmatter (same format as repo convention).
 - `tools/run-self-tests.py` (repo tooling, python, 240 lines) — Discovery-based runner for the skill self-test harnesses (*_verify.py)
 - `tools/run-skill-tests.py` (repo tooling, python, 145 lines) — Discover and run every pytest suite that ships inside a skill, one command
-- `tools/sync-hermes-skills.py` (repo tooling, python, 1102 lines)
+- `tools/sync-hermes-skills.py` (repo tooling, python, 1183 lines)
 - `tools/verify-all.py` (repo tooling, python, 462 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*160 code files: 112 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*158 code files: 110 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*

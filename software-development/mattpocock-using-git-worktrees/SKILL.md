@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [git, worktrees, isolation, branching, feature-work]
-    related_skills: [autonomous-repo-cronjob, mattpocock-yeet, github-pr-workflow, mattpocock-finishing-a-development-branch]
+    related_skills: [cron-job-authoring, mattpocock-yeet, github-pr-workflow, mattpocock-finishing-a-development-branch]
 ---
 
 ## When to Use

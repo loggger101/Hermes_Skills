@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **212 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **202 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -12,8 +12,6 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 
 ## autonomous-ai-agents
 
-- `agent-merge-conflict-arbiter` — Neutral arbiter for merge conflicts between two agents _(autonomous-ai-agents)_
-- `autonomous-repo-cronjob` — Write self-contained cronjob prompts for existing repos _(autonomous-ai-agents)_
 - `claude-code` — Delegate coding to Claude Code CLI (features, PRs) _(autonomous-ai-agents)_
 - `codex` — Delegate coding to OpenAI Codex CLI (features, PRs) _(autonomous-ai-agents)_
 - `computer-use` — Drive the desktop in the background without stealing focus _(autonomous-ai-agents)_
@@ -50,7 +48,6 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `humanizer` — Humanize text: strip AI-isms and add real voice _(creative)_
 - `industrial-brutalist-ui` — Swiss-print + CRT-terminal brutalist UI engineering _(creative)_
 - `manim-video` — Manim CE animations: 3Blue1Brown math/algo videos _(creative)_
-- `mattpocock-prototype` — Build a throwaway prototype to answer a design question _(creative)_
 - `no-ai-slop` — Edit drafts into human writing; detect AI-slop patterns _(creative)_
 - `p5js` — p5.js sketches: gen art, shaders, interactive, 3D _(creative)_
 - `popular-web-designs` — 54 real design systems as HTML/CSS _(creative)_
@@ -68,7 +65,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 ## data-science
 
 - `algorithms-python-catalog` — Python algorithm catalog: when to hand-roll vs stdlib _(data-science)_
-- `astro-toolkit-selection` — Choose astrodynamics tools: brahe, nyx, OpenSCvx, skyfield _(data-science)_
+- `astro-toolkit-selection` — Space trajectory work: pick the method, then the library _(data-science)_
 - `bit-identity-float-pipelines` — Verify correctness via exact float hashes / bit-identity _(data-science)_
 - `build-systems-data` — Data build systems: orchestration, versioning, CSV at scale _(data-science)_
 - `duckdb-querying` — Query CSV/Parquet/S3 data ad-hoc via DuckDB Friendly SQL _(data-science)_
@@ -81,7 +78,6 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `python-data-science` — Python DS: EDA, cleaning, modeling, eval, viz _(data-science)_
 - `regex-vs-llm-structured-text` — Regex-first parsing; LLM only for flagged edge cases _(data-science)_
 - `space-data-pipelines` — Build space/astro data pipelines with verified API gotchas _(data-science)_
-- `space-mission-computation-paradigms` — Choose trajectory method: closed-form vs propagation etc _(data-science)_
 - `sql-for-data` — SQL for data: queries, joins, windows, aggregation _(data-science)_
 
 ## devops
@@ -126,7 +122,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `github-pr-workflow` — GitHub PR lifecycle: branch, commit, open, CI, merge _(github)_
 - `github-repo-management` — Clone/create/fork repos; manage remotes, releases _(github)_
 - `issue-triage-state-machine` — Triage issues/PRs: categorise, verify, grill, agent briefs _(github)_
-- `mattpocock-code-review` — Two-axis code review: Standards and Spec via sub-agents _(github)_
+- `mattpocock-code-review` — Sub-agent code review: two-axis, or a 5-reviewer panel _(github)_
 - `mattpocock-finishing-a-development-branch` — Complete git branches with merge or PR options _(github)_
 - `mattpocock-gh-fix-ci` — Debug failing GitHub Actions checks on a PR _(github)_
 - `mattpocock-yeet` — Git workflow: stage, commit, push, open PR _(github)_
@@ -224,11 +220,10 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 
 ## software-development
 
-- `architecture-metrics` — Dependency-graph architecture metrics for Python repos _(software-development)_
+- `architecture-metrics` — Python code health: quality signal + architecture metrics _(software-development)_
 - `ast-grep` — AST-aware structural code search and rewrite via ast-grep _(software-development)_
 - `brainstorming` — Triage as spike/bounded/architectural; approve first _(software-development)_
 - `cli-tool-craft` — CLI tools: subcommands, config validation, env substitution _(software-development)_
-- `code-quality-signal` — Score Python repos on 5 ungameable structural metrics _(software-development)_
 - `code-wiki` — Generate wiki docs + Mermaid diagrams for any codebase _(software-development)_
 - `codebase-onboarding` — Onboard to a new repo: arch map + starter AGENTS.md _(software-development)_
 - `conversation-to-spec` — Turn a conversation into a publishable spec _(software-development)_
@@ -237,30 +232,25 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `executing-plans` — Execute a written plan inline with checkpoints _(software-development)_
 - `failure-signal-audit` — Find swallowed errors, bad fallbacks, gaps, false green _(software-development)_
 - `generating-python-installer` — Nuitka + Inno Setup: smallest, fastest Windows installers _(software-development)_
-- `github` — GitHub via gh CLI: PRs, issues, reviews, repos, auth _(software-development)_
-- `grill-me` — Adversarial plan interview before implementation _(software-development)_
 - `grilling-interview` — Stress-test a plan by interviewing in design-tree rounds _(software-development)_
 - `hermes-agent-skill-authoring` — Author in-repo SKILL.md files: frontmatter and structure _(software-development)_
 - `inspecting-hermes-desktop-dom` — Read the live Hermes desktop DOM/CSS over CDP _(software-development)_
 - `living-docs-governance` — Docs governance: constitution, map, status, history roles _(software-development)_
 - `mattpocock-ask-if-underspecified` — Ask clarifying questions when a request is ambiguous _(software-development)_
-- `mattpocock-codebase-design` — Design deep modules with small interfaces _(software-development)_
+- `mattpocock-codebase-design` — Deep modules: design seams, survey code for shallow ones _(software-development)_
 - `mattpocock-diagnosing-bugs` — Diagnose hard bugs via tight feedback loops and bisection _(software-development)_
 - `mattpocock-domain-modeling` — Sharpen domain terms and update CONTEXT.md and ADRs inline _(software-development)_
 - `mattpocock-evidence-driven` — Validate code changes with evidence and testing gates _(software-development)_
-- `mattpocock-improve-codebase-architecture` — Survey code for module deepening, fix opportunities _(software-development)_
-- `mattpocock-multi-agent-code-review` — Multi-agent PR review: bug-hunter, security, contracts _(software-development)_
 - `mattpocock-spec-driven-development` — Spec-driven development with planning and quality gates _(software-development)_
 - `mattpocock-subagent-driven-development` — Dispatch fresh subagents per task with task review _(software-development)_
 - `mattpocock-tdd` — TDD red-green-refactor at pre-agreed seams _(software-development)_
 - `mattpocock-to-tickets` — Break a plan or spec into tracer-bullet tickets with edges _(software-development)_
 - `mattpocock-using-git-worktrees` — Set up isolated git worktrees for feature work _(software-development)_
 - `mattpocock-writing-for-agents` — Write docs agents can consume: skills, AGENTS.md, specs _(software-development)_
-- `modern-python-tooling` — Set up Python projects with uv, ruff, ty, PEP 723 _(software-development)_
 - `node-inspect-debugger` — Debug Node.js via --inspect + Chrome DevTools Protocol CLI _(software-development)_
 - `plan` — Write a markdown plan to .hermes/plans/; no execution _(software-development)_
 - `property-based-testing` — Hypothesis property tests: roundtrip, oracle, invariant _(software-development)_
-- `python-craft` — Python craft: style, typing, patterns, testing, packaging _(software-development)_
+- `python-craft` — Python craft: uv/ruff/ty setup, style, typing, testing _(software-development)_
 - `python-debugpy` — Debug Python: pdb REPL + debugpy remote (DAP) _(software-development)_
 - `receiving-code-review` — Verify review feedback against the codebase before acting _(software-development)_
 - `requesting-code-review` — Pre-commit review: security scan, quality gates, auto-fix _(software-development)_
@@ -285,4 +275,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*212 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*202 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*

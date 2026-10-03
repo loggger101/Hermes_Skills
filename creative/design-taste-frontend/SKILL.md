@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [design, frontend, anti-slop]
-    related_skills: [redesign-existing-projects, stitch, soft-premium-ui, editorial-minimalism-ui]
+    related_skills: [redesign-existing-projects, stitch, soft-premium-ui, editorial-minimalism-ui, industrial-brutalist-ui, awwwards-gsap-motion]
 ---
 
 ## When to Use
@@ -20,6 +20,13 @@ metadata:
 ## What This Skill Does
 
 Infers a design direction from the brief, then applies only the anti-slop frontend rules that fit it. Scope: landing pages, portfolios and redesigns, not dashboards, data tables or multi-step product UI.
+
+**Named-aesthetic presets:** when the brief names one of these looks, load its skill. Each carries that look's full spec (palette, type, components, bans); where a preset and this skill disagree, the preset wins for that project. Pick one per project.
+
+- Soft, premium, Apple-esque / Linear-tier finish → `skill_view(name='soft-premium-ui')`
+- Editorial, minimalist, document-style (Notion-tier) → `skill_view(name='editorial-minimalism-ui')`
+- Brutalist, Swiss-print, industrial, CRT / tactical terminal → `skill_view(name='industrial-brutalist-ui')`
+- Motion-rich, Awwwards-level, GSAP ScrollTrigger → `skill_view(name='awwwards-gsap-motion')`
 
 **Image-first variant:** for visually important tasks where a design reference should exist before any code (landing heroes, marketing sites, premium multi-section pages), load `references/image-first-workflow.md` — generate section-specific frames first, analyze them deeply, implement third; per-frame consistency contract and anti-slop lists included.
 

@@ -9,7 +9,7 @@ metadata:
   hermes:
     tags: [api, rest, graphql, http, debugging, testing, curl, integration]
     category: software-development
-    related_skills: [systematic-debugging, test-driven-development]
+    related_skills: [systematic-debugging, test-driven-development, rest-api-client]
 ---
 
 # API Testing & Debugging
@@ -29,7 +29,7 @@ Drive REST and GraphQL diagnosis through Hermes tools — `terminal` for `curl`,
 - Building or reviewing API integration tests
 - Rate limiting or pagination issues
 
-Skip for UI rendering, DB query tuning, or DNS/firewall infra (escalate).
+Skip for UI rendering, DB query tuning, or DNS/firewall infra (escalate). To build a working REST client rather than diagnose one (auth setup, pagination, error handling, response parsing), load `skill_view(name='rest-api-client')`.
 
 ## Core Principle
 

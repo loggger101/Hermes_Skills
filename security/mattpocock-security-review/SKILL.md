@@ -8,12 +8,12 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [security, vulnerability, owasp, code-review, python, typescript]
-    related_skills: [requesting-code-review, mattpocock-code-review, mattpocock-multi-agent-code-review, security-audit, application-threat-model]
+    related_skills: [requesting-code-review, mattpocock-code-review, security-audit, application-threat-model]
 ---
 
 ## When to Use
 
-Use when auditing a codebase for security vulnerabilities, reviewing code for production deploy, or writing new code with secure-by-default patterns. Also covers static analysis tooling (CodeQL/Semgrep). Loads `skill_view(name='requesting-code-review')` for the full pre-commit security pipeline, and `skill_view(name='mattpocock-multi-agent-code-review')` for specialized security auditor sub-agent review.
+Use when auditing a codebase for security vulnerabilities, reviewing code for production deploy, or writing new code with secure-by-default patterns. Also covers static analysis tooling (CodeQL/Semgrep). Loads `skill_view(name='requesting-code-review')` for the full pre-commit security pipeline, and `skill_view(name='mattpocock-code-review')` in panel mode for specialized security auditor sub-agent review.
 
 ## What This Skill Does
 

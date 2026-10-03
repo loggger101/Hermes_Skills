@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [optimization, pyomo, mip, nlp, gdp, solvers, modeling]
-    related_skills: [economicspace-pipeline, space-mission-computation-paradigms]
+    related_skills: [economicspace-pipeline, astro-toolkit-selection]
 ---
 
 <!-- source: Pyomo/pyomo (COIN-OR, BSD-3-Clause) cloned + read at 2026-09-12; every behavior in this skill and its references was executed live against pyomo 6.10.2.dev0 built from that clone with highspy 1.15.1 on Windows -->
