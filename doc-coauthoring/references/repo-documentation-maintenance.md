@@ -3,6 +3,7 @@
 ## When to Update
 
 Update repo-level documentation (`README.md`, `DEPENDENCY.md`, and the historical audit log at `docs/archive/audit-notes-skills-repo-pass.md`) whenever the skill set changes:
+
 - After adding/removing/reorganizing skills
 - After changing `related_skills` metadata in any SKILL.md
 - After renaming skills or merging duplicates
@@ -21,6 +22,7 @@ find C:/path/to/Hermes_Skills -name "SKILL.md" -not -path '*/.git/*' | \
 Or use the Python audit script in `_audit_repo.py`.
 
 **Key things to verify:**
+
 1. Category counts match actual SKILL.md files per top-level directory
 2. Total count matches `find ... | wc -l`
 3. The "Pre-existing vs Imported" split is correct (audit each skill's origin)
@@ -31,6 +33,7 @@ Or use the Python audit script in `_audit_repo.py`.
 This maps `related_skills` cross-references. It degrades quickly — any skill that changes its `related_skills` or any skill that gets renamed/deleted breaks the graph.
 
 **Regenerate by:**
+
 1. Parse every SKILL.md's frontmatter for `metadata.hermes.related_skills`
 2. Build a reverse map: target → list of referrers
 3. Identify hub skills (referenced by ≥2 others)
@@ -42,6 +45,7 @@ This maps `related_skills` cross-references. It degrades quickly — any skill t
 ## Historical audit log (`docs/archive/audit-notes-skills-repo-pass.md`)
 
 The repo's issue log (formerly root `NOTES.md`, archived 2026-09-07) tracks known data-quality issues that needed human review:
+
 - Duplicate skill names
 - Broken `related_skills` references
 - Incomplete frontmatter (missing version/author/platforms)

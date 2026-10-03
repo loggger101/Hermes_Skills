@@ -140,9 +140,7 @@ class TestProcessDocument(unittest.TestCase):
 
         def validator(item, content):
             calls.append(item.id)
-            return ParsedItem(
-                id=item.id, text=item.text, choices=item.choices, answer="C"
-            )
+            return ParsedItem(id=item.id, text=item.text, choices=item.choices, answer="C")
 
         out = process_document(DOC, llm_validator=validator)
         self.assertEqual(calls, ["3"])  # only the flagged item

@@ -3,6 +3,7 @@
 **Best for:** intersection of concepts/domains, shared attributes between categories, "where A meets B", ikigai-style frames (desirable × feasible × viable).
 
 ## Layout conventions
+
 - **Prefer 2 or 3 circles.** Avoid 4+ (unreadable — use a matrix instead).
 - Circle stroke: 1px hairline, color per-set (ink, muted, soft).
 - Circle fill: very low-opacity tint — `rgba(45,49,66,0.04)` for ink set, `rgba(79,93,117,0.05)` for muted. Tints compound naturally in overlap regions.
@@ -13,6 +14,7 @@
 - Circle centers and radii divisible by 4.
 
 ## Anti-patterns
+
 - Unlabeled regions — reader can't tell which set is which.
 - Circles that don't overlap when overlap is the point.
 - Equal-sized circles when sets are obviously different (dishonest).
@@ -21,6 +23,7 @@
 - 4+ circles where 2–3 would do.
 
 ## Examples
+
 - `assets/example-venn.html` — minimal light
 - `assets/example-venn-dark.html` — minimal dark
 - `assets/example-venn-full.html` — full editorial

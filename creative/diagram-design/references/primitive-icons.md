@@ -11,6 +11,7 @@ Generic icons are stroked (1.5px, hairline, like the rest of the skill); brand s
 ## Compute
 
 ### laptop
+
 User laptop or workstation.
 
 ```svg
@@ -20,6 +21,7 @@ User laptop or workstation.
 Source: Tabler Icons / `device-laptop` (MIT)
 
 ### phone
+
 Mobile phone or tablet client.
 
 ```svg
@@ -29,6 +31,7 @@ Mobile phone or tablet client.
 Source: Tabler Icons / `device-mobile` (MIT)
 
 ### desktop
+
 Desktop computer.
 
 ```svg
@@ -38,6 +41,7 @@ Desktop computer.
 Source: Tabler Icons / `device-desktop` (MIT)
 
 ### server
+
 Physical server or VM host.
 
 ```svg
@@ -47,6 +51,7 @@ Physical server or VM host.
 Source: Tabler Icons / `server` (MIT)
 
 ### container
+
 Container image or running instance.
 
 ```svg
@@ -56,6 +61,7 @@ Container image or running instance.
 Source: Tabler Icons / `package` (MIT)
 
 ### vm
+
 Virtual machine.
 
 ```svg
@@ -67,6 +73,7 @@ Source: Tabler Icons / `cube` (MIT)
 ## People
 
 ### user
+
 End user or single actor.
 
 ```svg
@@ -76,6 +83,7 @@ End user or single actor.
 Source: Tabler Icons / `user` (MIT)
 
 ### users
+
 Group / cohort / team.
 
 ```svg
@@ -85,6 +93,7 @@ Group / cohort / team.
 Source: Tabler Icons / `users` (MIT)
 
 ### admin
+
 Privileged user / admin.
 
 ```svg
@@ -94,6 +103,7 @@ Privileged user / admin.
 Source: Tabler Icons / `user-shield` (MIT)
 
 ### robot
+
 Bot, agent, or automated process.
 
 ```svg
@@ -105,6 +115,7 @@ Source: Tabler Icons / `robot` (MIT)
 ## Network
 
 ### cloud
+
 Cloud provider or boundary.
 
 ```svg
@@ -114,6 +125,7 @@ Cloud provider or boundary.
 Source: Tabler Icons / `cloud` (MIT)
 
 ### internet
+
 Public internet.
 
 ```svg
@@ -123,6 +135,7 @@ Public internet.
 Source: Tabler Icons / `world` (MIT)
 
 ### cdn
+
 CDN or edge cache.
 
 ```svg
@@ -132,6 +145,7 @@ CDN or edge cache.
 Source: Tabler Icons / `world-www` (MIT)
 
 ### firewall
+
 Firewall or perimeter control.
 
 ```svg
@@ -141,6 +155,7 @@ Firewall or perimeter control.
 Source: Tabler Icons / `wall` (MIT)
 
 ### vpn
+
 VPN or encrypted tunnel.
 
 ```svg
@@ -150,6 +165,7 @@ VPN or encrypted tunnel.
 Source: Tabler Icons / `shield-lock` (MIT)
 
 ### load-balancer
+
 Load balancer / traffic split.
 
 ```svg
@@ -159,6 +175,7 @@ Load balancer / traffic split.
 Source: Tabler Icons / `arrows-split` (MIT)
 
 ### gateway
+
 API gateway or ingress door.
 
 ```svg
@@ -168,6 +185,7 @@ API gateway or ingress door.
 Source: Tabler Icons / `door-enter` (MIT)
 
 ### dns
+
 DNS / name resolution.
 
 ```svg
@@ -179,6 +197,7 @@ Source: Tabler Icons / `tag` (MIT)
 ## Data
 
 ### database
+
 Relational or document database.
 
 ```svg
@@ -188,6 +207,7 @@ Relational or document database.
 Source: Tabler Icons / `database` (MIT)
 
 ### file
+
 Generic file.
 
 ```svg
@@ -197,6 +217,7 @@ Generic file.
 Source: Tabler Icons / `file` (MIT)
 
 ### log
+
 Log file / event stream.
 
 ```svg
@@ -206,6 +227,7 @@ Log file / event stream.
 Source: Tabler Icons / `file-text` (MIT)
 
 ### queue
+
 Message queue / FIFO.
 
 ```svg
@@ -215,6 +237,7 @@ Message queue / FIFO.
 Source: Tabler Icons / `stack-2` (MIT)
 
 ### cache
+
 Cache layer.
 
 ```svg
@@ -224,6 +247,7 @@ Cache layer.
 Source: Tabler Icons / `bolt` (MIT)
 
 ### bucket
+
 Object storage / S3 bucket.
 
 ```svg
@@ -233,6 +257,7 @@ Object storage / S3 bucket.
 Source: Tabler Icons / `bucket` (MIT)
 
 ### backup
+
 Backup or snapshot.
 
 ```svg
@@ -242,6 +267,7 @@ Backup or snapshot.
 Source: Tabler Icons / `device-floppy` (MIT)
 
 ### search
+
 Search index / query.
 
 ```svg
@@ -253,6 +279,7 @@ Source: Tabler Icons / `search` (MIT)
 ## Kubernetes
 
 ### pod
+
 Pod (smallest deployable unit).
 
 ```svg
@@ -262,6 +289,7 @@ Pod (smallest deployable unit).
 Source: Tabler Icons / `hexagon` (MIT)
 
 ### node
+
 Cluster node.
 
 ```svg
@@ -271,6 +299,7 @@ Cluster node.
 Source: Tabler Icons / `topology-star` (MIT)
 
 ### service
+
 K8s service / virtual endpoint.
 
 ```svg
@@ -280,6 +309,7 @@ K8s service / virtual endpoint.
 Source: Tabler Icons / `world-cog` (MIT)
 
 ### deployment
+
 Deployment rollout.
 
 ```svg
@@ -289,6 +319,7 @@ Deployment rollout.
 Source: Tabler Icons / `rocket` (MIT)
 
 ### ingress
+
 Ingress controller / route in.
 
 ```svg
@@ -298,6 +329,7 @@ Ingress controller / route in.
 Source: Tabler Icons / `arrow-right-rhombus` (MIT)
 
 ### volume
+
 Persistent volume.
 
 ```svg
@@ -309,6 +341,7 @@ Source: Tabler Icons / `device-sd-card` (MIT)
 ## Action
 
 ### api
+
 API surface / endpoint.
 
 ```svg
@@ -318,6 +351,7 @@ API surface / endpoint.
 Source: Tabler Icons / `braces` (MIT)
 
 ### request
+
 Outbound request.
 
 ```svg
@@ -327,6 +361,7 @@ Outbound request.
 Source: Tabler Icons / `arrow-right` (MIT)
 
 ### response
+
 Inbound response.
 
 ```svg
@@ -336,6 +371,7 @@ Inbound response.
 Source: Tabler Icons / `arrow-left` (MIT)
 
 ### sync
+
 Sync / reconcile loop.
 
 ```svg
@@ -345,6 +381,7 @@ Sync / reconcile loop.
 Source: Tabler Icons / `refresh` (MIT)
 
 ### lock
+
 Locked / authenticated.
 
 ```svg
@@ -354,6 +391,7 @@ Locked / authenticated.
 Source: Tabler Icons / `lock` (MIT)
 
 ### key
+
 Key / secret.
 
 ```svg
@@ -363,6 +401,7 @@ Key / secret.
 Source: Tabler Icons / `key` (MIT)
 
 ### alert
+
 Warning / paged alert.
 
 ```svg
@@ -374,6 +413,7 @@ Source: Tabler Icons / `alert-triangle` (MIT)
 ## DevOps
 
 ### git-branch
+
 Branch / fork point.
 
 ```svg
@@ -383,6 +423,7 @@ Branch / fork point.
 Source: Tabler Icons / `git-branch` (MIT)
 
 ### terminal
+
 Shell / CLI.
 
 ```svg
@@ -392,6 +433,7 @@ Shell / CLI.
 Source: Tabler Icons / `terminal` (MIT)
 
 ### pipeline
+
 CI/CD pipeline.
 
 ```svg
@@ -401,6 +443,7 @@ CI/CD pipeline.
 Source: Tabler Icons / `git-merge` (MIT)
 
 ### bug
+
 Bug / defect.
 
 ```svg
@@ -410,6 +453,7 @@ Bug / defect.
 Source: Tabler Icons / `bug` (MIT)
 
 ### monitoring
+
 Metrics / observability.
 
 ```svg
@@ -419,6 +463,7 @@ Metrics / observability.
 Source: Tabler Icons / `chart-line` (MIT)
 
 ### test
+
 Test / experiment.
 
 ```svg
@@ -430,6 +475,7 @@ Source: Tabler Icons / `test-pipe` (MIT)
 ## Brand
 
 ### docker
+
 Docker engine / image.
 
 ```svg
@@ -439,6 +485,7 @@ Docker engine / image.
 Source: Tabler Icons / `brand-docker` (MIT)
 
 ### terraform
+
 Terraform IaC.
 
 ```svg
@@ -448,6 +495,7 @@ Terraform IaC.
 Source: Tabler Icons / `brand-terraform` (MIT)
 
 ### aws
+
 Amazon Web Services.
 
 ```svg
@@ -457,6 +505,7 @@ Amazon Web Services.
 Source: Tabler Icons / `brand-aws` (MIT)
 
 ### azure
+
 Microsoft Azure.
 
 ```svg
@@ -466,6 +515,7 @@ Microsoft Azure.
 Source: Tabler Icons / `brand-azure` (MIT)
 
 ### github
+
 GitHub.
 
 ```svg
@@ -475,6 +525,7 @@ GitHub.
 Source: Tabler Icons / `brand-github` (MIT)
 
 ### kubernetes
+
 Kubernetes.
 
 ```svg
@@ -484,6 +535,7 @@ Kubernetes.
 Source: Simple Icons / `kubernetes` (CC0)
 
 ### gcp
+
 Google Cloud.
 
 ```svg
@@ -493,6 +545,7 @@ Google Cloud.
 Source: Simple Icons / `googlecloud` (CC0)
 
 ### postgres
+
 PostgreSQL.
 
 ```svg
@@ -502,6 +555,7 @@ PostgreSQL.
 Source: Simple Icons / `postgresql` (CC0)
 
 ### redis
+
 Redis.
 
 ```svg
@@ -511,6 +565,7 @@ Redis.
 Source: log-z/logos / `redis` (MIT)
 
 ### nginx
+
 Nginx.
 
 ```svg
@@ -520,6 +575,7 @@ Nginx.
 Source: Simple Icons / `nginx` (CC0)
 
 ### gitea
+
 Gitea self-hosted git.
 
 ```svg
@@ -529,6 +585,7 @@ Gitea self-hosted git.
 Source: Simple Icons / `gitea` (CC0)
 
 ### keycloak
+
 Keycloak identity / SSO.
 
 ```svg
@@ -538,6 +595,7 @@ Keycloak identity / SSO.
 Source: Simple Icons / `keycloak` (CC0)
 
 ### active-directory
+
 Active Directory / LDAP identity directory.
 
 ```svg
@@ -547,6 +605,7 @@ Active Directory / LDAP identity directory.
 Source: Tabler Icons / `address-book` (MIT)
 
 ### minio
+
 MinIO S3-compatible object storage.
 
 ```svg
@@ -556,6 +615,7 @@ MinIO S3-compatible object storage.
 Source: Simple Icons / `minio` (CC0)
 
 ### mysql
+
 MySQL.
 
 ```svg
@@ -565,6 +625,7 @@ MySQL.
 Source: log-z/logos / `mysql` (MIT)
 
 ### oracle
+
 Oracle Database.
 
 ```svg
@@ -574,6 +635,7 @@ Oracle Database.
 Source: Simple Icons / `oracle` (CC0)
 
 ### sqlserver
+
 Microsoft SQL Server.
 
 ```svg
@@ -583,6 +645,7 @@ Microsoft SQL Server.
 Source: Simple Icons / `microsoftsqlserver` (CC0)
 
 ### sqlite
+
 SQLite embedded database.
 
 ```svg
@@ -592,6 +655,7 @@ SQLite embedded database.
 Source: Simple Icons / `sqlite` (CC0)
 
 ### hive
+
 Apache Hive data warehouse.
 
 ```svg
@@ -601,6 +665,7 @@ Apache Hive data warehouse.
 Source: Simple Icons / `apachehive` (CC0)
 
 ### starrocks
+
 StarRocks MPP analytical DB.
 
 ```svg
@@ -612,6 +677,7 @@ Source: log-z/logos / `starrocks` (MIT)
 ## Data stack
 
 ### nifi
+
 Apache NiFi data flow.
 
 ```svg
@@ -621,6 +687,7 @@ Apache NiFi data flow.
 Source: Simple Icons / `apachenifi` (CC0)
 
 ### airflow
+
 Apache Airflow scheduler / DAG runner.
 
 ```svg
@@ -630,6 +697,7 @@ Apache Airflow scheduler / DAG runner.
 Source: Simple Icons / `apacheairflow` (CC0)
 
 ### hop
+
 Apache Hop data orchestration / ETL.
 
 ```svg
@@ -639,6 +707,7 @@ Apache Hop data orchestration / ETL.
 Source: Direct fetch / `hop.apache.org` — verify license before use
 
 ### pentaho
+
 Pentaho PDI (Kettle) ETL & data integration.
 
 ```svg
@@ -648,6 +717,7 @@ Pentaho PDI (Kettle) ETL & data integration.
 Source: Direct fetch / `cdn.worldvectorlogo.com` — verify license before use
 
 ### dagster
+
 Dagster data orchestration platform.
 
 ```svg
@@ -657,6 +727,7 @@ Dagster data orchestration platform.
 Source: Direct fetch / `cdn.prod.website-files.com` — verify license before use
 
 ### trino
+
 Trino distributed SQL query engine.
 
 ```svg
@@ -666,6 +737,7 @@ Trino distributed SQL query engine.
 Source: Simple Icons / `trino` (CC0)
 
 ### superset
+
 Apache Superset BI / dashboards.
 
 ```svg
@@ -675,6 +747,7 @@ Apache Superset BI / dashboards.
 Source: Simple Icons / `apachesuperset` (CC0)
 
 ### redash
+
 Redash open-source BI & dashboards.
 
 ```svg
@@ -684,6 +757,7 @@ Redash open-source BI & dashboards.
 Source: Simple Icons / `redash` (CC0)
 
 ### tableau
+
 Tableau data visualization.
 
 ```svg
@@ -693,6 +767,7 @@ Tableau data visualization.
 Source: Simple Icons / `tableau` (CC0)
 
 ### powerbi
+
 Microsoft Power BI.
 
 ```svg
@@ -702,6 +777,7 @@ Microsoft Power BI.
 Source: Simple Icons / `powerbi` (CC0)
 
 ### jupyter
+
 Jupyter / JupyterLab notebooks.
 
 ```svg
@@ -713,6 +789,7 @@ Source: Simple Icons / `jupyter` (CC0)
 ## Language
 
 ### python
+
 Python.
 
 ```svg
@@ -722,6 +799,7 @@ Python.
 Source: Simple Icons / `python` (CC0)
 
 ### r
+
 R statistical language.
 
 ```svg
@@ -731,6 +809,7 @@ R statistical language.
 Source: Simple Icons / `r` (CC0)
 
 ### sql
+
 SQL / generic relational query.
 
 ```svg
@@ -742,6 +821,7 @@ Source: Tabler Icons / `sql` (MIT)
 ## Statistical tools
 
 ### spss
+
 IBM SPSS Statistics.
 
 ```svg
@@ -751,6 +831,7 @@ IBM SPSS Statistics.
 Source: Devicon / `spss-plain` (MIT)
 
 ### sas
+
 SAS analytics platform.
 
 ```svg
@@ -760,6 +841,7 @@ SAS analytics platform.
 Source: Direct fetch / `upload.wikimedia.org` — verify license before use
 
 ### stata
+
 Stata statistical software.
 
 ```svg
@@ -769,6 +851,7 @@ Stata statistical software.
 Source: Direct fetch / `icon.icepanel.io` — verify license before use
 
 ### rstudio
+
 RStudio / Posit IDE for R and Python.
 
 ```svg
@@ -778,6 +861,7 @@ RStudio / Posit IDE for R and Python.
 Source: Devicon / `rstudio-plain` (MIT)
 
 ### qgis
+
 QGIS open-source GIS platform.
 
 ```svg
@@ -789,6 +873,7 @@ Source: Simple Icons / `qgis` (CC0)
 ## File formats
 
 ### excel
+
 Microsoft Excel spreadsheet.
 
 ```svg
@@ -798,6 +883,7 @@ Microsoft Excel spreadsheet.
 Source: Tabler Icons / `file-type-xls` (MIT)
 
 ### csv
+
 Comma-separated values file.
 
 ```svg
@@ -807,6 +893,7 @@ Comma-separated values file.
 Source: Tabler Icons / `file-type-csv` (MIT)
 
 ### txt
+
 Plain text file.
 
 ```svg

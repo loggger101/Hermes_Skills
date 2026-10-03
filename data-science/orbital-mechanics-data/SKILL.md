@@ -16,7 +16,6 @@ metadata:
 
 Practical orbital mechanics for data-driven and ML projects — the equations, patterns, and common mistakes that show up when you're computing trajectories, delta-v budgets, transfer windows, or interfacing with a simulator (KSP/KRPC, custom orbit sim). Focus on what you actually compute, not orbital mechanics as a physics course.
 
-
 ## What This Skill Does
 
 Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC
@@ -202,6 +201,7 @@ If you're ahead of the target, raise your orbit (longer period, you slow relativ
 Phase angle `θ` = angle from you to the target (in the direction of motion). To close a phase angle `θ` in time `t`, you need a period change that makes you gain/lose `θ` radians over `t`.
 
 For a small phase change via a phasing orbit:
+
 - Compute the required period difference `ΔT` to close the phase gap in the available time.
 - `Δv` for the phasing orbit is small (it's a small tweak to a near-circular orbit) — but it takes time.
 - The trade-off: fast rendezvous costs more delta-v; cheap rendezvous takes more orbits.
@@ -219,6 +219,7 @@ Wait for the target to reach that angle before launching. For circular coplanar 
 ### Intercept cost
 
 The cost to match up with a target in a different orbit is:
+
 - Transfer delta-v (get to the target's orbit).
 - Phasing/rendezvous delta-v (get to the target's position at the right time).
 - Capture/insertion delta-v (match the target's velocity, if needed).
@@ -228,6 +229,7 @@ The rendezvous cost is often dominated by phasing if the orbits are close; by th
 ## Patched Conics
 
 For multi-body trajectories (e.g., Earth → Moon, or interplanetary), patched conics approximate by:
+
 1. In the sphere of influence (SOI) of body A, treat body A as the only gravitating body (two-body with A).
 2. At the SOI boundary, patch to the two-body motion around body B.
 3. The velocity relative to B at the patch point is the incoming velocity (relative to A) transformed to B's frame, plus B's own motion.
@@ -280,6 +282,7 @@ For ML projects that use orbital state as input (e.g., a KSP control policy), co
 - **Energy / angular momentum**: specific orbital energy, specific angular momentum — invariants that summarize the orbit.
 
 Watch for:
+
 - **Circular orbit degeneracy**: for e=0, ω and the perifocal frame direction are undefined. Don't use ω as a feature for circular orbits without handling the degeneracy (e.g., use argument of latitude `u = ω + ν` instead, or the true longitude).
 - **Reference frame consistency**: position/velocity in one frame, angular momentum in another — make sure everything is in the same frame before computing derived features.
 - **Angles wrap**: true anomaly, phase angle, heading — all wrap at 2π. Use sin/cos of the angle as features, or a wrapped representation, to avoid the discontinuity at the wrap.
@@ -303,23 +306,27 @@ Watch for:
 When you're building a custom orbit simulator as the environment for an ML agent (KSP_pipeline's `orbit_sim.py` pattern) — the simulation needs to be fast, deterministic, and correct enough to train on.
 
 **Simulation choices for ML:**
+
 - **Patch conics, not N-body:** for ML training, the simulation should be fast and deterministic. Full N-body integration is expensive and non-deterministic in practice (floating-point sensitivity). Patched conics (two-body within each SOI, patch at the boundary) is the standard approximation and what KSP itself uses.
 - **Fixed time step:** a fixed-step integrator is deterministic given the same seed. Variable-step integrators are more accurate but harder to make deterministic. For ML, determinism matters more than high precision — you want the same seed to produce the same trajectory.
 - **Two-body inside each SOI:** within a body's sphere of influence, the orbit is a two-body Keplerian orbit around that body. This is fast to compute (closed-form position/velocity from orbital elements) and deterministic.
 - **Patch at SOI boundaries:** when the vessel leaves one body's SOI and enters another's, patch the state. The velocity relative to the new body is the incoming velocity (relative to the old body) transformed to the new body's frame, plus the new body's own motion.
 
 **What the sim needs to provide for ML:**
+
 - **State:** position, velocity (in a consistent frame), which body's SOI the vessel is in, orbital elements relative to the current body.
 - **Controls:** thrust direction, thrust magnitude (or throttle), RCS, staging — whatever the agent can command.
 - **Step:** advance the simulation by one time step given the current state and controls. Return the new state, any events (SOI transition, encounter, etc.), and whether the step was valid.
 - **Determinism:** same seed, same initial state, same control sequence → same trajectory. This is essential for reproducibility and for shared random numbers in evolution.
 
 **Feasibility checks the sim should support (KSP_pipeline's `checks.py` pattern):**
+
 - Is the current state feasible? (in orbit, not crashed, not out of fuel, etc.)
 - Is a proposed maneuver feasible? (enough fuel, thrust direction valid, not inside a body, etc.)
 - Pre-checks before the agent acts — filter out obviously infeasible actions so the agent doesn't waste evaluation on them.
 
 **Common sim defects for ML:**
+
 - Non-determinism (floating-point order, variable-step integrator, thread scheduling) — same seed gives different trajectories, fitness is irreproducible.
 - Incorrect patching at SOI boundaries — trajectory is wrong after the first SOI transition, and the error compounds.
 - Units inconsistency (km vs m, seconds vs game-time units) — the sim produces numbers in the wrong units, and the agent learns the wrong thing.
@@ -327,6 +334,7 @@ When you're building a custom orbit simulator as the environment for an ML agent
 - Drift (energy not conserved, orbit degrades over time) — the sim is wrong in a way that's hard to see from individual steps but visible over many steps.
 
 **Verification:**
+
 - Compare the sim's trajectories to a trusted reference (KSP itself, a high-precision integrator, or closed-form two-body solutions) for a set of test cases.
 - Check invariants (energy conservation in two-body regions, correct SOI patching) over long trajectories.
 - Check determinism (same seed → same trajectory) across multiple runs.
@@ -336,29 +344,34 @@ When you're building a custom orbit simulator as the environment for an ML agent
 The KSP_pipeline pattern: evolve neural networks that control a spacecraft in orbit. The features the network sees determine what it can learn.
 
 **State features:**
+
 - Position and velocity relative to the current body (in a consistent frame — typically body-centered, in orbital or local frame).
 - Orbital elements (a, e, i, Ω, ω, ν) — compact description of the orbit, useful for high-level decisions.
 - Altitude, speed, heading — intuitive low-level features.
 - Which body is the current primary, which SOI the vessel is in.
 
 **Target features (when rendezvousing with or transferring to something):**
+
 - Relative position and velocity to the target (body, vessel, orbit).
 - Phase angle to the target (angle in the direction of motion).
 - Time to periapsis, time to apoapsis, time to encounter.
 - Delta-v to target (computed transfer cost) — a high-level feature that tells the agent how much it needs.
 
 **Control features:**
+
 - Current throttle, current thrust direction (or the agent's last commanded direction).
 - Fuel remaining, stage state — resources the agent needs to manage.
 - Time to next event (periapsis, apoapsis, SOI boundary) — timing information.
 
 **Features to be careful with:**
+
 - **Circular orbit degeneracy:** for e≈0, ω and the perifocal frame are undefined. Don't feed ω directly to the network for near-circular orbits — use argument of latitude (u = ω + ν) or true longitude instead, or handle e≈0 specially.
 - **Angle wrap:** true anomaly, phase angle, heading — all wrap at 2π. Use sin/cos of the angle as features (two features that don't wrap) rather than the raw angle (one feature that jumps from 2π to 0).
 - **Reference frame:** keep everything in one consistent frame. Position and velocity in body-centered inertial, or in the orbital frame, but not mixed. Angular momentum, cross products, and dot products only make sense in a consistent frame.
 - **Scale:** features with very different scales (altitude in km, fuel in kg, time in seconds) can make neural network training harder. Normalize or scale features to a similar range, or let the network learn the scaling (but give it a chance).
 
 **Reward shaping for KSP:**
+
 - The reward should reflect what you want the agent to do (reach orbit, rendezvous, minimize fuel, etc.).
 - Sparse rewards (success/failure only) are simple but slow to learn from — the agent gets no signal until it succeeds or fails.
 - Dense rewards (reward for progress toward the goal — getting closer to the target orbit, reducing the phase angle, etc.) give the agent more signal but can be gamed (the agent optimizes the reward, not the goal, if the reward is misspecified).
@@ -369,29 +382,34 @@ The KSP_pipeline pattern: evolve neural networks that control a spacecraft in or
 KRPC exposes KSP's state and control over a gRPC connection. The KSP_pipeline pattern for using it.
 
 **Reading state:**
+
 - Connect to the KRPC server (KSP must be running with KRPC installed and the server started).
 - Read `vessel.position`, `vessel.velocity`, `vessel.orbit` (body, apoapsis, periapsis, inclination, eccentricity, semi-major axis, etc.), `vessel.surface_altitude`, `vessel.flight()` (dynamic data: speed, heading, vertical speed, etc.).
 - Read the current vessel, the current body, the list of bodies, the simulation time.
 - Read maneuver nodes (`vessel.control.desired_heading`, `vessel.auto_pilot` state, etc.) if the agent is using them.
 
 **Writing control:**
+
 - Set `vessel.control.throttle`, `vessel.control.gear`, `vessel.control.rcs`, `vessel.control.staging`.
 - Set the throttle direction: `vessel.control.throttle = 1.0` for full thrust, `0.0` for none. Direction is set via the vessel's orientation (`vessel.auto_pilot.reference_frame`, `vessel.auto_pilot.target_direction`, or direct control).
 - Use `vessel.auto_pilot` for controlled burns (engage, target a direction, disengage) — this is higher-level than raw throttle and direction.
 - Stage: `vessel.control.activate_next_stage()` to fire the next stage (separation, engine ignition, etc.).
 
 **Timing and throttling:**
+
 - Don't issue control commands faster than KSP can process them. Throttle the commands — wait for acknowledgment, or issue at a fixed rate.
 - Read state at a stable rate (don't read inside a tight loop without a sleep — you'll swamp the connection).
 - A common pattern: read state, compute the desired action, issue the action, sleep for the time step, repeat. The sleep rate is the control frequency.
 
 **Maneuver nodes:**
+
 - KSP's maneuver node system gives you a planned burn: the Δv vector, the time to the node, the resultant orbit.
 - Read maneuver nodes from `vessel.control.nodes`.
 - Use them to plan transfers (read the node's Δv, time it, execute the burn at the right time).
 - The agent can use maneuver nodes as a high-level interface (plan a transfer with a node, then execute it) or ignore them and control directly.
 
 **Common KRPC mistakes:**
+
 - Connecting to the server before KSP is ready (server not started yet) — connection fails.
 - Reading state before the vessel has an orbit (on the launch pad, in the atmosphere) — orbit data is invalid or absent.
 - Assuming the orbit is Keplerian when it's not (in the atmosphere, in a gravity turn, near a SOI boundary) — orbital elements are approximate or undefined.
@@ -403,32 +421,38 @@ KRPC exposes KSP's state and control over a gRPC connection. The KSP_pipeline pa
 The patched-conic approximation in detail — what it gives you, where it breaks.
 
 **The approximation:**
+
 - Within a body's SOI, the vessel orbits that body in a two-body Keplerian orbit (the body is the central mass, the vessel is the satellite, no other bodies matter).
 - At the SOI boundary, the vessel's orbit patches to the next body's two-body orbit.
 - The patch: the velocity relative to the new body = the velocity relative to the old body (at the patch point) transformed to the new body's frame + the new body's velocity relative to the old body.
 
 **What it gets right:**
+
 - Interplanetary transfers (Earth → Mars, etc.) — the spacecraft spends most of its time in heliocentric space, with brief patches at Earth's and Mars's SOIs. The approximation is good.
 - Moon transfers (Earth → Moon) — the same pattern, smaller scale.
 - Most KSP gameplay — KSP uses patched conics, so a patched-conic sim matches the game.
 
 **What it misses:**
+
 - The gravity of other bodies inside the SOI (the Moon's gravity affects things inside Earth's SOI, if you're close to the Moon). This is the third-body problem, and patched conics ignores it.
 - The transition region near the SOI boundary — the patch is instantaneous, but in reality the transition is gradual.
 - Perturbations (non-spherical bodies, atmospheric drag, solar radiation pressure) — patched conics assumes point masses and no perturbations.
 - N-body effects (Lagrange points, complex multi-body dynamics) — patched conics can't represent these.
 
 **When patched conics is good enough:**
+
 - Most interplanetary and cislunar transfers (the economicspace and KSP use cases).
 - When you need speed and determinism (ML training, large-scale prospecting).
 - When the bodies are far apart relative to their SOIs (the approximation is better when the SOIs don't overlap much).
 
 **When you need more:**
+
 - When third-body effects matter (operating near the Moon's SOI boundary while Earth is close, Lagrange-point navigation).
 - When high precision is required (real mission design, not game/sim).
 - When the bodies are close enough that their SOIs overlap or the transition matters (some moons of giant planets, close binaries).
 
 **The economicspace use case:**
+
 - Asteroid-mining profitability across **seven delivery destinations** (earth_surface, leo, geo, cislunar, lunar_surface, mars_orbit, mars_surface): which bodies are profitable to reach from Earth, given delta-v costs, mineral content, and transport economics.
 - Patched conics is the right approximation: the transfer is Earth SOI → heliocentric → target SOI (Mars destinations terminate at 1.524 AU as a separate leg), with patches at the boundaries. The delta-v cost is computed from the patched-conic transfer; which apsis to rendezvous at and whether aerocapture pays are SEARCHED per asteroid, not assumed.
 - The prospecting model adds economics on top of the orbital mechanics: mineral prices (per destination — in-space utility + launch-cost-avoided), transport costs, demand/market saturation, accessibility. The orbital mechanics gives the delta-v; the economics gives the profit.
@@ -438,7 +462,8 @@ The patched-conic approximation in detail — what it gives you, where it breaks
 The economicspace pattern: use orbital mechanics to compute the delta-v cost of reaching asteroids and lunar positions, then layer economics (mineral prices, demand, transport costs) to compute profitability.
 
 **The prospecting workflow:**
-1. ** enumerate targets:** asteroids (by orbit class — NEO, Main Belt, etc.), lunar positions (poles, peaks of eternal light, etc.), and other cislunar locations.
+
+1. **Enumerate targets:** asteroids (by orbit class — NEO, Main Belt, etc.), lunar positions (poles, peaks of eternal light, etc.), and other cislunar locations.
 2. **Compute delta-v to each target:** from Earth (or from a lunar base, or from a staging point), using patched conics. The delta-v is the cost to reach the target and (optionally) return.
 3. **Assess accessibility:** how hard is the target to reach? (delta-v, launch window frequency, rendezvous complexity, stay time if it's a fast-rotating body, etc.)
 4. **Assess resource content:** what minerals are there, in what concentration, how much total, how hard to extract.
@@ -446,12 +471,14 @@ The economicspace pattern: use orbital mechanics to compute the delta-v cost of 
 6. **Compute profitability:** resource value minus delta-v cost minus transport cost minus extraction cost. Rank targets by profitability.
 
 **Delta-v as the core orbital mechanics input:**
+
 - The delta-v to reach a target determines the transportation cost (fuel, staging, time).
 - The delta-v to return determines whether the target is worth it (you need to get the material back to market).
 - Delta-v budgets are computed from patched conics (Hohmann transfers, rendezvous, plane changes, capture).
 - A target with low delta-v from Earth and high mineral value is high-profitability. A target with high delta-v and low value is not.
 
 **The economics layer:**
+
 - Mineral prices (market price per unit mass of each mineral — platinum group metals, titanium, helium-3, water, etc.).
 - Demand (is there a market for this mineral, and how much?).
 - Extraction cost (how hard is it to get the mineral out of the target — concentration, processing, equipment).
@@ -459,11 +486,13 @@ The economicspace pattern: use orbital mechanics to compute the delta-v cost of 
 - Infrastructure requirements (do you need a base, a refinery, a depot — and what does that cost?).
 
 **Prospecting as a data pipeline:**
+
 - The prospecting computation produces a catalog: targets, their orbital parameters, delta-v costs, resource estimates, economic assessment, profitability ranking.
 - This is a data pipeline (enumerate → compute → assess → rank) that produces a data artifact (the catalog, typically a CSV or similar).
 - The pipeline can be re-run when inputs change (new mineral prices, new targets discovered, new orbital data).
 
 **Verification:**
+
 - Check delta-v computations against known references (Hohmann transfer costs for Earth-Moon, Earth-Mars, etc.).
 - For a curated library landscape mapped to the economicspace pipeline stages (which of the user's 17 starred repos are worth wiring in vs. dead ends — brahe/skyfield/astroquery/pymc as candidates; nyx/Celestia/CamPyRoS/pds4_tools as blockers), see `references/economicspace-library-landscape.md`.
 - Check that the delta-v is consistent across the catalog (same target, same starting point → same delta-v; same target from different starting points → plausible differences).

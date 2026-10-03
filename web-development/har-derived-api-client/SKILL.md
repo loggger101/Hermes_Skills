@@ -18,7 +18,6 @@ metadata:
 
 Records a real site's XHR traffic into a HAR file (via the Hermes browser or CDP), then derives a clean, typed HTTP client for that API — endpoints, auth headers, request/response shapes extracted from actual observed calls instead of guessed docs. Bridges "I can use this in a browser" to "my agent can call it."
 
-
 Drive a website once with a real browser while recording its network traffic
 to a HAR file, then distill that HAR into the site's private JSON API so you
 can call it directly with plain HTTP — far cheaper and faster than

@@ -49,21 +49,56 @@ TIER_NAME = {3: "HIGH", 2: "MEDIUM", 1: "LOW"}
 EXAMPLE = {
     "diversity": "high",
     "jurors": [
-        {"id": "j1", "role": "proponent", "initial_choice": "migrate",
-         "initial_confidence": 70, "final_choice": "tune", "final_confidence": 68,
-         "flip_reason": "conceded no dual-write validation plan exists", "evidence_grade": "B"},
-        {"id": "j2", "role": "devil's advocate", "initial_choice": "tune",
-         "initial_confidence": 80, "final_choice": "tune", "final_confidence": 82,
-         "flip_reason": "", "evidence_grade": "B"},
-        {"id": "j3", "role": "integrator", "initial_choice": "tune",
-         "initial_confidence": 65, "final_choice": "tune", "final_confidence": 70,
-         "flip_reason": "", "evidence_grade": "B"},
-        {"id": "j4", "role": "reliability", "initial_choice": "tune",
-         "initial_confidence": 80, "final_choice": "tune", "final_confidence": 80,
-         "flip_reason": "", "evidence_grade": "A"},
-        {"id": "j5", "role": "cost", "initial_choice": "migrate",
-         "initial_confidence": 55, "final_choice": "migrate", "final_confidence": 55,
-         "flip_reason": "", "evidence_grade": "C"},
+        {
+            "id": "j1",
+            "role": "proponent",
+            "initial_choice": "migrate",
+            "initial_confidence": 70,
+            "final_choice": "tune",
+            "final_confidence": 68,
+            "flip_reason": "conceded no dual-write validation plan exists",
+            "evidence_grade": "B",
+        },
+        {
+            "id": "j2",
+            "role": "devil's advocate",
+            "initial_choice": "tune",
+            "initial_confidence": 80,
+            "final_choice": "tune",
+            "final_confidence": 82,
+            "flip_reason": "",
+            "evidence_grade": "B",
+        },
+        {
+            "id": "j3",
+            "role": "integrator",
+            "initial_choice": "tune",
+            "initial_confidence": 65,
+            "final_choice": "tune",
+            "final_confidence": 70,
+            "flip_reason": "",
+            "evidence_grade": "B",
+        },
+        {
+            "id": "j4",
+            "role": "reliability",
+            "initial_choice": "tune",
+            "initial_confidence": 80,
+            "final_choice": "tune",
+            "final_confidence": 80,
+            "flip_reason": "",
+            "evidence_grade": "A",
+        },
+        {
+            "id": "j5",
+            "role": "cost",
+            "initial_choice": "migrate",
+            "initial_confidence": 55,
+            "final_choice": "migrate",
+            "final_confidence": 55,
+            "flip_reason": "",
+            "evidence_grade": "C",
+        },
     ],
 }
 
@@ -90,8 +125,11 @@ def margin_ratio(ranked):
 
 
 def avg_grade_for(jurors, choice_key, winner):
-    vals = [GRADE_VALUE.get(str(j.get("evidence_grade", "C")).upper(), 2)
-            for j in jurors if j[choice_key] == winner]
+    vals = [
+        GRADE_VALUE.get(str(j.get("evidence_grade", "C")).upper(), 2)
+        for j in jurors
+        if j[choice_key] == winner
+    ]
     if not vals:
         return 2.0
     return sum(vals) / len(vals)
@@ -130,7 +168,9 @@ def audit_flips(jurors, initial_ranked):
 def main():
     parser = argparse.ArgumentParser(description="Deterministic verdict tally for the-jury.")
     parser.add_argument("--input", help="Path to jury JSON. Reads stdin if omitted.")
-    parser.add_argument("--example", action="store_true", help="Print a sample input JSON and exit.")
+    parser.add_argument(
+        "--example", action="store_true", help="Print a sample input JSON and exit."
+    )
     args = parser.parse_args()
 
     if args.example:
@@ -138,12 +178,15 @@ def main():
         return 0
 
     if args.input:
-        with open(args.input, encoding='utf-8') as f:
+        with open(args.input, encoding="utf-8") as f:
             raw = f.read()
     else:
         raw = sys.stdin.read()
     if not raw.strip():
-        print("ERROR: no input. Pass --input FILE or pipe JSON on stdin. Try --example.", file=sys.stderr)
+        print(
+            "ERROR: no input. Pass --input FILE or pipe JSON on stdin. Try --example.",
+            file=sys.stderr,
+        )
         return 2
     try:
         data = json.loads(raw)
@@ -158,7 +201,7 @@ def main():
     for j in jurors:
         for k in ("initial_choice", "initial_confidence", "final_choice", "final_confidence"):
             if k not in j:
-                print(f"ERROR: juror {j.get('id','?')} missing field '{k}'.", file=sys.stderr)
+                print(f"ERROR: juror {j.get('id', '?')} missing field '{k}'.", file=sys.stderr)
                 return 2
 
     diversity = str(data.get("diversity", "medium")).lower()
@@ -184,8 +227,12 @@ def main():
     tie_flag = False
     if len(ranked) > 1 and margin_ratio(ranked) < 0.10:
         tie_flag = True
-        top = [opt for opt, _ in ranked if abs(dict(ranked)[opt] - ranked[0][1]) < 1e-9
-               or (ranked[0][1] > 0 and (ranked[0][1] - dict(ranked)[opt]) / ranked[0][1] < 0.10)]
+        top = [
+            opt
+            for opt, _ in ranked
+            if abs(dict(ranked)[opt] - ranked[0][1]) < 1e-9
+            or (ranked[0][1] > 0 and (ranked[0][1] - dict(ranked)[opt]) / ranked[0][1] < 0.10)
+        ]
         # why: near-tie broken by higher avg evidence grade; foreman still confirms.
         winner = max(top, key=lambda opt: avg_grade_for(jurors, choice_key, opt))
 
@@ -222,7 +269,7 @@ def main():
     print(f"Flips: {len(flips)}  (unjustified: {len(unjustified)})")
     for j in flips:
         why = str(j.get("flip_reason") or "").strip() or "NO REASON GIVEN"
-        print(f"  {j.get('id','?')}: {j['initial_choice']} -> {j['final_choice']}  [{why}]")
+        print(f"  {j.get('id', '?')}: {j['initial_choice']} -> {j['final_choice']}  [{why}]")
     print()
     print(f"Bandwagon check: {'SUSPECT - ' + bw_reason if bandwagon else 'clean'}")
     print(f"Aggregate used: {source}")
@@ -245,15 +292,20 @@ def main():
     print("   - On a flagged tie, decide on the rubric and survival against the devil's advocate.")
     print("   - There is always a verdict. Never abstain.")
     print()
-    print(json.dumps({
-        "winner": winner,
-        "confidence": TIER_NAME[tier],
-        "aggregate_source": "round1_independent" if bandwagon else "final",
-        "bandwagon_suspect": bandwagon,
-        "tie_flag": tie_flag,
-        "winner_evidence_avg": round(winner_grade, 2),
-        "caps": caps,
-    }, indent=2))
+    print(
+        json.dumps(
+            {
+                "winner": winner,
+                "confidence": TIER_NAME[tier],
+                "aggregate_source": "round1_independent" if bandwagon else "final",
+                "bandwagon_suspect": bandwagon,
+                "tie_flag": tie_flag,
+                "winner_evidence_avg": round(winner_grade, 2),
+                "caps": caps,
+            },
+            indent=2,
+        )
+    )
     return 0
 
 

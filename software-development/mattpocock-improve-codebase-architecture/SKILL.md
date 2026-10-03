@@ -42,13 +42,16 @@ Surveys the codebase for modules that are too shallow (large interface, little i
 ## Process
 
 ### 1. Survey the codebase
+
 Read each module at its interface. Ask:
+
 - Does this interface expose more than it should?
 - Does deleting this module remove or relocate its complexity? (the deletion test)
 - Is the seam clean?
 - Is behavior well-distributed or scattered?
 
 For each module, write down:
+
 - **Interface surface**: number of public methods, arguments each takes
 - **Implementation depth**: lines of code inside the module
 - **Callers**: how many places use this module, and for what purpose
@@ -66,15 +69,19 @@ For each candidate module, score on three axes (1-5 scale):
 **Prioritization**: High Impact + Low Effort + Low Risk = do first.
 
 ### 3. Score each candidate
+
 - **Impact**: how much does fixing this improve the codebase? (5 = core abstraction used everywhere)
 - **Effort**: how hard is the fix? (5 = weeks of work)
 - **Risk**: how likely is the fix to break things? (5 = many callers or critical path)
 
 ### 4. Present candidates
+
 Present candidates ranked by impact/effort/risk. Then implement whichever one the user picks.
 
 ### 5. Implement the fix
+
 For a shallow module:
+
 1. Identify the one concept it abstracts (collapse multiple methods into one purpose)
 2. Design a new interface with 1-2 public methods (down from 5+)
 3. Move all current logic behind the seam
@@ -82,6 +89,7 @@ For a shallow module:
 5. Run tests to verify behavior is preserved
 
 ### 6. Verify
+
 Run the deletion test: if removing this module doesn't reduce complexity elsewhere, it's still too shallow.
 
 ## Pitfalls

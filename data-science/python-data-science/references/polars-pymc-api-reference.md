@@ -21,6 +21,7 @@ which verified every fact against cloned source with file:line anchors. Re-check
 (larger-than-RAM) live (`docs/source/user-guide/lazy/using.md` in-repo). Eager works but you give up optimizer passes.
 
 ### Verified entry points & signatures (clone @ 2026-09-05)
+
 | What | Where | Notes |
 |---|---|---|
 | `read_csv` / `scan_csv` | `py-polars/src/polars/io/csv/functions.py:74` / `:558` | scan_* = lazy entry; prefer for any pipeline > RAM or multi-step transform chain |
@@ -30,9 +31,11 @@ which verified every fact against cloned source with file:line anchors. Re-check
 | `collect()` | signature: `engine: EngineType = "auto", background, optimizations` | pluggable query engines + async/background collection (see `tests/unit/lazyframe/test_async.py`, `test_engine_selection.py`). **⚠️-corrected (round-22):** in 2.0 `"auto"` resolves to the STREAMING engine for lazy queries — row order is no longer guaranteed on unpivot/group_by/joins; escapes are per-query `engine="in-memory"`, process-wide `pl.Config.set_engine_affinity("in-memory")` / env `POLARS_ENGINE_AFFINITY`. Also new in 2.0: `collect_batches()` (streaming batches) and `pl.collect_all([lf1, lf2])` which merges plans with common-subplan elimination |
 
 ### Module layout worth knowing
+
 `catalog/unity/` (lakehouse Unity Catalog client), `sql/` (**not an engine** — a 13-file Rust parser/resolver that translates SQL into expressions for the normal IR; every expression feature works from SQL and gets all optimizer passes, but also inherits v2 streaming/order semantics), `interchange/` (**⚠️-corrected round-22:** in 2.0 this now holds only `CompatLevel` — the DataFrame Interchange Protocol itself was removed along with `df.__dataframe__()`; use `.to_arrow()` / `.to_pandas()` for interop), `ml/torch.py` (unstable `PolarsDataset(TensorDataset)` bridge to torch), `datatype_expr/` (unstable `pl.dtype_of(col)` — lazily-referenced dtypes, e.g. as `map_batches(..., return_dtype=...)`).
 
 ### The idiom to internalize
+
 ```python
 lf = pl.scan_parquet("...")            # lazy entry
 out = (lf.filter(...)
@@ -45,6 +48,7 @@ out = (lf.filter(...)
 ## PyMC (Bayesian probabilistic programming, Apache-2.0)
 
 ### Verified facts (clone @ 2026-09-05)
+
 | What | Where | Notes |
 |---|---|---|
 | **`sample()`** | `pymc/sampling/mcmc.py:620`: `draws=1000, tune=None, chains/cores, random_seed, step=None, var_names, nuts_sampler: Literal["pymc","nutpie","numpyro",...]` | the one function to know; everything else is model-building around it |
@@ -53,12 +57,15 @@ out = (lf.filter(...)
 | convergence stats / model class | `pymc/stats/convergence.py` / `model/model.py:1680` | R-hat + ESS from the stats module; modern usage is the `pm.Model` context manager |
 
 ### Package layout
+
 `distributions/`, `step_methods/`, `smc/`, `variational/` (ADVI), `gp/` (Gaussian processes, own guide notebook). In-repo learning path: `docs/source/guides/*.ipynb` — pymc_overview, model_comparison, posterior_predictive, GLM_linear, Gaussian_Processes.
 
 ### Use-case mapping for this owner's work
+
 - **Uncertainty on pipeline outputs** (e.g., dv estimates with correlated errors) → hierarchical models + `sample()`; nutpie keeps it tractable.
 - **Model comparison across candidate dynamics** → `model_comparison` guide workflow, not ad-hoc BIC math.
 
 ## Discovery indexes (no code — curated lists only)
+
 - **oxnr/awesome-bigdata**: 867-line README spanning streaming (Kafka/Flink/Samza lineage), ML frameworks, storage engines. Use as a discovery index; most entries are links with one-liners.
 - **DataExpert-io/data-engineer-handbook**: bootcamp structure — `beginner-bootcamp/` (Docker + Python 3.11+ prereqs, free end-to-end project list incl. Uber BigQuery pipeline), `intermediate-bootcamp/`, plus books/interviews/newsletters/projects files. Value = curated learning path, not code.

@@ -9,6 +9,7 @@ size, and a one-line purpose extracted from its docstring/header comment.
 Usage: python tools/gen-code-index.py
 Stdlib only (no PyYAML needed). Run after adding/removing/renaming code files.
 """
+
 import os
 import re
 import sys
@@ -37,7 +38,13 @@ except (AttributeError, ValueError):
 
 REPO = Path(__file__).resolve().parents[1]
 SKIP_PARTS = (".git", "profiles-export")
-CODE_EXT = {".py": "python", ".sh": "bash", ".js": "javascript", ".mjs": "javascript", ".cjs": "javascript"}
+CODE_EXT = {
+    ".py": "python",
+    ".sh": "bash",
+    ".js": "javascript",
+    ".mjs": "javascript",
+    ".cjs": "javascript",
+}
 
 
 def first_summary(path: Path, lang: str) -> str:
@@ -54,7 +61,7 @@ def first_summary(path: Path, lang: str) -> str:
             s = ln.strip()
             if not s or s.startswith("#!") or s.startswith("# -*-"):
                 continue
-            m = re.match(r'^(?:from __future__ import .+|import \S+)$', s)
+            m = re.match(r"^(?:from __future__ import .+|import \S+)$", s)
             if m:
                 continue
             dm = re.match(r'^[rbfu]*"""(.*)$', s) or re.match(r"^[rbfu]*'''(.*)$", s)
@@ -67,7 +74,10 @@ def first_summary(path: Path, lang: str) -> str:
         joined = "\n".join(lines[:20])
         m = re.search(r"/\*\*?\s*(.+?)(?:\*/|$)", joined, re.S)
         if m:
-            return clean(m.group(1))
+            # drop the " * " gutter on each comment line, then keep the first paragraph
+            body = re.sub(r"(?m)^[ \t]*\*+[ \t]?", "", m.group(1))
+            first_para = next((p for p in re.split(r"\n\s*\n", body) if p.strip()), "")
+            return clean(first_para)
         for ln in lines[:20]:
             s = ln.strip()
             if s.startswith("//") and not s.startswith("#!"):
@@ -125,6 +135,7 @@ def kind_of(rel: str) -> str:
 
 MIN_CODE_FILES = 50  # write-guard floor
 
+
 def main():
     rows = []  # (owner_name, owner_path, kind, lang, lines, summary, rel)
     for dirpath, _, filenames in os.walk(REPO):
@@ -140,7 +151,17 @@ def main():
             lang = CODE_EXT[ext]
             n_lines = len(full.read_text(encoding="utf-8").splitlines())
             owner_name, owner_path = owner_of(rel)
-            rows.append((owner_name, owner_path, kind_of(rel), lang, n_lines, first_summary(full, lang), rel))
+            rows.append(
+                (
+                    owner_name,
+                    owner_path,
+                    kind_of(rel),
+                    lang,
+                    n_lines,
+                    first_summary(full, lang),
+                    rel,
+                )
+            )
 
     # group by owning skill path (repo tooling last); within a group: scripts before helpers/tests/templates
     groups = {}
@@ -149,13 +170,15 @@ def main():
         groups.setdefault(key, []).append(r)
 
     kind_rank = {"script": 0, "shared helper": 1, "template": 2, "test": 3, "repo tooling": 4}
-    ordered_keys = sorted(k for k in groups if k != "(repo-level)") + (["(repo-level)"] if "(repo-level)" in groups else [])
+    ordered_keys = sorted(k for k in groups if k != "(repo-level)") + (
+        ["(repo-level)"] if "(repo-level)" in groups else []
+    )
 
     lines = [
         "# CODE-INDEX",
         "",
         f"Flat index of all **{len(rows)} code files** ({sum(r[4] for r in rows):,} lines total) in this second brain — one line each, grep-friendly.",
-        "Format: `- `path` (kind, lang, N lines) — purpose _(owner)_`. Regenerate with `python tools/gen-code-index.py`.",
+        "Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate with `python tools/gen-code-index.py`.",
     ]
     for key in ordered_keys:
         title = key if key != "(repo-level)" else "Repo-level tooling (`tools/`, `.hermes/cron/`)"
@@ -163,6 +186,8 @@ def main():
         for owner_name, owner_path, kind, lang, n_lines, summary, rel in sorted(
             groups[key], key=lambda r: (kind_rank.get(r[2], 9), r[6])
         ):
+            # escape "<" so placeholders like <outDir> render instead of parsing as HTML tags
+            summary = summary.replace("<", "\\<")
             suffix = f" — {summary}" if summary else ""
             lines.append(f"- `{rel}` ({kind}, {lang}, {n_lines} lines){suffix}")
 
@@ -176,10 +201,18 @@ def main():
     ]
 
     check = wants_check()
-    emit(REPO / "CODE-INDEX.md", chr(10).join(lines) + chr(10),
-         count=len(rows), floor=MIN_CODE_FILES, label="gen-code-index", check=check)
+    emit(
+        REPO / "CODE-INDEX.md",
+        chr(10).join(lines) + chr(10),
+        count=len(rows),
+        floor=MIN_CODE_FILES,
+        label="gen-code-index",
+        check=check,
+    )
     if not check:
-        print(f"wrote CODE-INDEX.md: {len(rows)} code files, {sum(r[4] for r in rows):,} lines, {len(ordered_keys)} owner groups")
+        print(
+            f"wrote CODE-INDEX.md: {len(rows)} code files, {sum(r[4] for r in rows):,} lines, {len(ordered_keys)} owner groups"
+        )
 
 
 if __name__ == "__main__":

@@ -33,11 +33,13 @@ If the user explicitly asks for "a screenshot of the whole page including the ca
    - Ensure a `viewBox` is present. The skill's templates always include one; warn the user if absent rather than guessing.
    - Preserve `role="img"`, `aria-labelledby`, and the first-child `<title>` / `<desc>` exactly as authored.
    - Inject Google Fonts `@import` so the SVG renders with correct typography in a browser. **XML-escape the `&` separators as `&amp;`** — a standalone `.svg` is parsed as strict XML, where a bare `&` starts an entity reference and makes the whole file fail to parse. (Don't copy the raw URL from the HTML `<link href>`; that ampersand form is only valid in HTML.)
+
      ```svg
      <defs>
        <style>@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Geist:wght@400;500;600&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap');</style>
      </defs>
      ```
+
      If the SVG already contains a `<defs>` block, **merge** the `<style>` into it (don't add a second `<defs>`).
 4. Prepend `<?xml version="1.0" encoding="UTF-8"?>\n` so the file is well-formed XML.
 5. Write to `<basename>.svg` next to the source (e.g. `example-architecture.html` → `example-architecture.svg`). Honour an explicit output path if the user provides one.
@@ -61,10 +63,12 @@ python -c "import playwright" 2>NUL || python -c "import playwright"
 If the import fails, surface this exact instruction to the user and stop:
 
 > Playwright isn't installed. To enable PNG export, run:
+>
 > ```
 > pip install playwright
 > playwright install chromium
 > ```
+>
 > Then ask me to export again.
 
 Don't auto-install. The user asked for one feature, not a system change.

@@ -20,7 +20,6 @@ prerequisites:
 
 Scrapes sites with stealth browsing — Scrapling's adaptive fetchers handle Cloudflare-protected pages, JS-rendered content, and anti-bot measures that break plain HTTP clients. CLI + Python API; covers static extraction, dynamic (browser-backed) fetching, and the escalation ladder from simple GET to full browser emulation.
 
-
 [Scrapling](https://github.com/D4Vinci/Scrapling) is a web scraping framework with anti-bot bypass, stealth browser automation, and a spider framework. It provides three fetching strategies (HTTP, dynamic JS, stealth/Cloudflare) and a full CLI.
 
 **This skill is for educational and research purposes only.** Users must comply with local/international data scraping laws and respect website Terms of Service.
@@ -41,11 +40,13 @@ scrapling install
 ```
 
 Minimal install (HTTP only, no browser):
+
 ```bash
 pip install scrapling
 ```
 
 With browser automation only:
+
 ```bash
 pip install "scrapling[fetchers]"
 scrapling install
@@ -104,6 +105,7 @@ scrapling extract post 'https://example.com/api' output.json \
 ### Output Formats
 
 The output format is determined by the file extension:
+
 - `.html` -- raw HTML
 - `.md` -- converted to Markdown
 - `.txt` -- plain text

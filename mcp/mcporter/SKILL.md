@@ -32,6 +32,7 @@ Turns any machine with Node.js into an MCP client: list already-configured or ad
 ## Prerequisites
 
 Requires Node.js:
+
 ```bash
 # No install needed (runs via npx)
 npx mcporter list
@@ -106,6 +107,7 @@ Config file location: `./config/mcporter.json` (override with `--config`).
 ## Daemon
 
 For persistent server connections:
+
 ```bash
 mcporter daemon start
 mcporter daemon status

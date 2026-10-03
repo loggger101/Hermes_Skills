@@ -8,27 +8,40 @@ Clark 2000 DSM. Stdlib only (ast). Python codebases.
 
 Usage: python architecture_metrics.py <project-dir> [--json] [--dsm N]
 """
+
 import ast
 import json
 import sys
 from collections import defaultdict, deque
 from pathlib import Path
 
-SKIP_DIRS = {".git", ".venv", "venv", "__pycache__", "node_modules", ".tox",
-             ".mypy_cache", ".ruff_cache", "build", "dist", ".eggs"}
-GOD_FAN_OUT = 15          # per-file fan-out threshold (sentrux: per-language profile)
-HOTSPOT_FAN_IN = 8        # per-file fan-in threshold
-FOUNDATION_I = 0.30       # I <= this => foundation, excluded from D average (Martin stable zone)
+SKIP_DIRS = {
+    ".git",
+    ".venv",
+    "venv",
+    "__pycache__",
+    "node_modules",
+    ".tox",
+    ".mypy_cache",
+    ".ruff_cache",
+    "build",
+    "dist",
+    ".eggs",
+}
+GOD_FAN_OUT = 15  # per-file fan-out threshold (sentrux: per-language profile)
+HOTSPOT_FAN_IN = 8  # per-file fan-in threshold
+FOUNDATION_I = 0.30  # I <= this => foundation, excluded from D average (Martin stable zone)
 STABLE_FOUNDATION_I = 0.15  # SDP: mostly depended-on + little outgoing
-MIN_STABLE_FAN_IN = 3     # fan-in floor so leaves aren't "foundations"
+MIN_STABLE_FAN_IN = 3  # fan-in floor so leaves aren't "foundations"
 
 
 def find_py_files(root):
     out = []
     for p in sorted(root.rglob("*.py")):
         rel_parts = p.relative_to(root).parts[:-1]
-        if any(part in SKIP_DIRS or (part.startswith(".") and part != ".github")
-               for part in rel_parts):
+        if any(
+            part in SKIP_DIRS or (part.startswith(".") and part != ".github") for part in rel_parts
+        ):
             continue
         try:
             src = p.read_text(encoding="utf-8", errors="replace")
@@ -66,7 +79,7 @@ def is_mod_declaration_edge(from_path: str, to_path: str) -> bool:
     if from_dir == to_dir:
         return True
     if to_dir.startswith(from_dir + "/"):
-        remainder = to_dir[len(from_dir) + 1:]
+        remainder = to_dir[len(from_dir) + 1 :]
         return "/" not in remainder
     return False
 
@@ -101,7 +114,7 @@ def build_graph(files, root):
                 targets += [a.name for a in node.names]
             elif isinstance(node, ast.ImportFrom) and node.module:
                 lvl = node.level or 0
-                base = pkg_parts[:len(pkg_parts) - (lvl - 1)] if lvl else []
+                base = pkg_parts[: len(pkg_parts) - (lvl - 1)] if lvl else []
                 dotted = ".".join(base + node.module.split("."))
                 targets.append(dotted)
             for t in targets:
@@ -114,7 +127,7 @@ def build_graph(files, root):
         for node in ast.walk(tree):
             if isinstance(node, ast.ImportFrom) and node.module:
                 lvl = node.level or 0
-                base = pkg_parts[:len(pkg_parts) - (lvl - 1)] if lvl else []
+                base = pkg_parts[: len(pkg_parts) - (lvl - 1)] if lvl else []
                 dotted = ".".join(base + node.module.split("."))
                 for a in node.names:
                     sub = resolve(dotted + "." + a.name)
@@ -123,8 +136,9 @@ def build_graph(files, root):
     # sentrux parity: drop structural-containment edges (barrel re-exports from
     # __init__.py into the same dir / direct child subdir) — they are package
     # structure, not functional dependencies.
-    edges = {(s, d) for s, d in edges
-             if not is_mod_declaration_edge(mods.get(s, ""), mods.get(d, ""))}
+    edges = {
+        (s, d) for s, d in edges if not is_mod_declaration_edge(mods.get(s, ""), mods.get(d, ""))
+    }
     return nodes, edges, cache
 
 
@@ -224,8 +238,7 @@ def upward_violations(edges, levels):
         tl = levels.get(d, 0)
         if fl < tl:
             violations.append((s, d, fl, tl))
-        elif comp_id_of[s] == comp_id_of[d] and len(comps[comp_id_of[s]]) > 1 \
-                and s != d:
+        elif comp_id_of[s] == comp_id_of[d] and len(comps[comp_id_of[s]]) > 1 and s != d:
             violations.append((s, d, fl, tl))
     return sorted(violations, key=lambda v: -abs(v[3] - v[2]))
 
@@ -269,9 +282,18 @@ def cyclomatic(tree):
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             cc = 1
             for sub in ast.walk(node):
-                if isinstance(sub, (ast.If, ast.For, ast.While, ast.AsyncFor,
-                                    ast.ExceptHandler, ast.Assert,
-                                    ast.comprehension)):
+                if isinstance(
+                    sub,
+                    (
+                        ast.If,
+                        ast.For,
+                        ast.While,
+                        ast.AsyncFor,
+                        ast.ExceptHandler,
+                        ast.Assert,
+                        ast.comprehension,
+                    ),
+                ):
                     cc += 1
                 elif isinstance(sub, ast.BoolOp):
                     cc += len(sub.values) - 1
@@ -284,11 +306,12 @@ def is_test_file(path_str):
     name = p.name.lower()
     if "tests" in path_str.split("/") or "__tests__" in name:
         return True
-    return name.startswith("test_") or name.endswith("_test.py") \
-        or name == "conftest.py"
+    return name.startswith("test_") or name.endswith("_test.py") or name == "conftest.py"
 
 
-def _composite_signal(n_modules, n_cycles, n_violations, n_edges, god_fan_outs, max_level, coupling_score):
+def _composite_signal(
+    n_modules, n_cycles, n_violations, n_edges, god_fan_outs, max_level, coupling_score
+):
     """0–100 composite quality signal (higher = healthier).
 
     Adaptation of sentrux's root-cause weighting to this port's structural inputs:
@@ -332,21 +355,35 @@ def main():
         fan_out[s] += 1
         fan_in[d] += 1
 
-    entry_files = {m for m in nodes if Path(cache.get(m, ("", ""))[1]).name in
-                   {"__main__.py"} or "conftest" in cache.get(m, ("", ""))[1]}
-    god_files = sorted(((p, c) for p, c in fan_out.items()
-                        if c > GOD_FAN_OUT and p not in entry_files
-                        and Path(cache[p][1]).name != "__init__.py"),
-                       key=lambda x: -x[1])[:20]
+    entry_files = {
+        m
+        for m in nodes
+        if Path(cache.get(m, ("", ""))[1]).name in {"__main__.py"}
+        or "conftest" in cache.get(m, ("", ""))[1]
+    }
+    god_files = sorted(
+        (
+            (p, c)
+            for p, c in fan_out.items()
+            if c > GOD_FAN_OUT and p not in entry_files and Path(cache[p][1]).name != "__init__.py"
+        ),
+        key=lambda x: -x[1],
+    )[:20]
 
     def instability_of(m):
         ca, ce = fan_in[m], fan_out[m]
         return 0.5 if ca + ce == 0 else ce / (ca + ce)
 
-    hotspots = sorted(((p, c) for p, c in fan_in.items()
-                       if c > HOTSPOT_FAN_IN and Path(cache[p][1]).name != "__init__.py"
-                       and instability_of(p) >= STABLE_FOUNDATION_I),
-                      key=lambda x: -x[1])[:20]
+    hotspots = sorted(
+        (
+            (p, c)
+            for p, c in fan_in.items()
+            if c > HOTSPOT_FAN_IN
+            and Path(cache[p][1]).name != "__init__.py"
+            and instability_of(p) >= STABLE_FOUNDATION_I
+        ),
+        key=lambda x: -x[1],
+    )[:20]
 
     # ── Martin distance from main sequence, per top-level module ──
     mod_fan_out, mod_fan_in = defaultdict(set), defaultdict(set)
@@ -363,14 +400,18 @@ def main():
         for node in ast.walk(tree):
             if isinstance(node, (ast.ClassDef,)):
                 total_types_by_mod[top] += 1
-                bases = {b.id for b in node.bases
-                         if isinstance(b, (ast.Name,))} | \
-                        {b.attr for b in node.bases if isinstance(b, ast.Attribute)}
+                bases = {b.id for b in node.bases if isinstance(b, (ast.Name,))} | {
+                    b.attr for b in node.bases if isinstance(b, ast.Attribute)
+                }
                 has_abstract_method = any(
-                    (getattr(d, "id", None) == "abstractmethod" or
-                     getattr(getattr(d, "func", None), "id", "") == "abstractmethod")
-                    for fn in node.body if isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef))
-                    for d in fn.decorator_list)
+                    (
+                        getattr(d, "id", None) == "abstractmethod"
+                        or getattr(getattr(d, "func", None), "id", "") == "abstractmethod"
+                    )
+                    for fn in node.body
+                    if isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef))
+                    for d in fn.decorator_list
+                )
                 if bases & {"ABC", "Protocol"} or has_abstract_method:
                     abstract_by_mod[top] += 1
 
@@ -383,18 +424,30 @@ def main():
         ce, ca = len(mod_fan_out.get(top, ())), len(mod_fan_in.get(top, ()))
         i = 0.5 if ce + ca == 0 else ce / (ce + ca)
         d = abs(a + i - 1.0)
-        distances.append({"module": top, "A": round(a, 3), "I": round(i, 3),
-                          "D": round(d, 3), "types": total,
-                          "foundation": i <= FOUNDATION_I})
+        distances.append(
+            {
+                "module": top,
+                "A": round(a, 3),
+                "I": round(i, 3),
+                "D": round(d, 3),
+                "types": total,
+                "foundation": i <= FOUNDATION_I,
+            }
+        )
     non_foundation = [x for x in distances if not x["foundation"]]
-    avg_d = (sum(x["D"] for x in non_foundation) / len(non_foundation)) \
-        if non_foundation else 0.0
+    avg_d = (sum(x["D"] for x in non_foundation) / len(non_foundation)) if non_foundation else 0.0
 
     # ── SDP-aware coupling: cross-module edges to UNSTABLE targets only ──
-    stable_foundations = {top for top in set(list(mod_fan_out) + list(mod_fan_in))
-                          if (lambda ce, ca: (ca >= MIN_STABLE_FAN_IN and
-                                              (ce / (ca + ce) <= STABLE_FOUNDATION_I
-                                               if ca + ce else True)))(len(mod_fan_out.get(top, ())), len(mod_fan_in.get(top, ())))}
+    stable_foundations = {
+        top
+        for top in set(list(mod_fan_out) + list(mod_fan_in))
+        if (
+            lambda ce, ca: (
+                ca >= MIN_STABLE_FAN_IN
+                and (ce / (ca + ce) <= STABLE_FOUNDATION_I if ca + ce else True)
+            )
+        )(len(mod_fan_out.get(top, ())), len(mod_fan_in.get(top, ())))
+    }
     cross = [(s, d) for s, d in edges if s.split(".")[0] != d.split(".")[0]]
     bad_cross = [e for e in cross if e[1].split(".")[0] not in stable_foundations]
     coupling_score = len(bad_cross) / len(edges) if edges else 0.0
@@ -416,37 +469,58 @@ def main():
         ccs = [c for _, _, c in cyclomatic(cache[m][0])]
         if ccs:
             max_cc[m] = max(ccs)
-    gaps = sorted(((m, src_files[m], max_cc.get(m, 1), fan_in.get(m, 0))
-                   for m in src_files if m not in tested_by_tests and Path(src_files[m]).name != "__init__.py"),
-                  key=lambda g: -(g[2] * (g[3] + 1)))[:20]
+    gaps = sorted(
+        (
+            (m, src_files[m], max_cc.get(m, 1), fan_in.get(m, 0))
+            for m in src_files
+            if m not in tested_by_tests and Path(src_files[m]).name != "__init__.py"
+        ),
+        key=lambda g: -(g[2] * (g[3] + 1)),
+    )[:20]
 
     max_cc_fns = sum(1 for m in cache for _, _, c in cyclomatic(cache[m][0]) if c > 15)
 
     result = {
         "project": str(root),
-        "files": len(files), "modules": len(nodes), "edges": len(edges),
+        "files": len(files),
+        "modules": len(nodes),
+        "edges": len(edges),
         "max_level": max_level,
         # Composite 0–100 signal (sentrux root-cause weighting scheme adapted to
         # this port's structural inputs; sentrux normalizes the same idea to 0–10000).
         # Weights: cycles 25 / god files 20 / SDP coupling 25 / violations 15 / depth 15.
-        "quality_signal": round(_composite_signal(len(nodes), len(cyclic_sccs),
-                                                  len(violations), len(edges),
-                                                  [c for _, c in god_files], max_level,
-                                                  coupling_score), 2),
+        "quality_signal": round(
+            _composite_signal(
+                len(nodes),
+                len(cyclic_sccs),
+                len(violations),
+                len(edges),
+                [c for _, c in god_files],
+                max_level,
+                coupling_score,
+            ),
+            2,
+        ),
         "cycle_count": len(cyclic_sccs),
         "complex_functions_gt15": max_cc_fns,
-        "upward_violations": [{"from": s, "to": d, "levels": [fl, tl]}
-                              for s, d, fl, tl in violations[:20]],
-        "blast_radius_top": sorted(({"file": k, "reach": v} for k, v in br.items()),
-                                   key=lambda x: -x["reach"])[:10],
+        "upward_violations": [
+            {"from": s, "to": d, "levels": [fl, tl]} for s, d, fl, tl in violations[:20]
+        ],
+        "blast_radius_top": sorted(
+            ({"file": k, "reach": v} for k, v in br.items()), key=lambda x: -x["reach"]
+        )[:10],
         "god_files": [{"file": m, "fan_out": c} for m, c in god_files],
         "hotspots": [{"file": m, "fan_in": c} for m, c in hotspots],
-        "distance_from_main_sequence": {"avg_D_non_foundation": round(avg_d, 3),
-                                        "modules": distances},
+        "distance_from_main_sequence": {
+            "avg_D_non_foundation": round(avg_d, 3),
+            "modules": distances,
+        },
         "stable_foundations": sorted(stable_foundations),
         "sdp_coupling_score": round(coupling_score, 4),
-        "test_gaps": [{"file": m, "path": p, "max_cc": cc, "fan_in": fi,
-                       "risk": cc * (fi + 1)} for m, p, cc, fi in gaps],
+        "test_gaps": [
+            {"file": m, "path": p, "max_cc": cc, "fan_in": fi, "risk": cc * (fi + 1)}
+            for m, p, cc, fi in gaps
+        ],
     }
 
     if dsm_limit is not None:
@@ -456,41 +530,56 @@ def main():
         # convention as sentrux's DSM panel.
         ds = sorted(nodes)[:dsm_limit]
         lvl_of = {n: levels.get(n, 0) for n in ds}
-        order_key = lambda n: (-lvl_of[n], n)
-        ds2 = sorted(ds, key=order_key)
+        ds2 = sorted(ds, key=lambda n: (-lvl_of[n], n))
         idx = {n: i for i, n in enumerate(ds2)}
         marks = {(idx[s], idx[d]) for s, d in edges if s in idx and d in idx}
         labels = [n.split(".")[-1][:8].ljust(9) for n in ds2]
-        lines = ["DSM sorted by level desc (row imports col; '.'=edge):",
-                 "          " + "".join(labels)]
+        lines = [
+            "DSM sorted by level desc (row imports col; '.'=edge):",
+            "          " + "".join(labels),
+        ]
         above = below = same = 0
         for r, rn in enumerate(ds2):
             row = []
             for c, cn in enumerate(ds2):
                 if (r, c) in marks:
                     row.append(".")
-                    if lvl_of[rn] < lvl_of[cn]: above += 1   # inversion
-                    elif lvl_of[rn] > lvl_of[cn]: below += 1  # correct direction
-                    else: same += 1                           # lateral (incl. cycles)
+                    if lvl_of[rn] < lvl_of[cn]:  # inversion
+                        above += 1
+                    elif lvl_of[rn] > lvl_of[cn]:  # correct direction
+                        below += 1
+                    else:  # lateral (incl. cycles)
+                        same += 1
                 else:
                     row.append(" ")
             lines.append(f"L{lvl_of[rn]} {rn.split('.')[-1][:8].ljust(9)}" + "".join(row))
-        result["dsm"] = {"lines": lines, "above_diagonal_inversions": above,
-                         "below_diagonal_correct": below, "same_level_lateral": same}
+        result["dsm"] = {
+            "lines": lines,
+            "above_diagonal_inversions": above,
+            "below_diagonal_correct": below,
+            "same_level_lateral": same,
+        }
 
     if as_json:
         print(json.dumps(result, indent=2))
     else:
         r = result
         print(f"Architecture report — {r['project']}")
-        print(f"  files={r['files']} modules={r['modules']} edges={r['edges']} "
-              f"max_level={r['max_level']}")
+        print(
+            f"  files={r['files']} modules={r['modules']} edges={r['edges']} "
+            f"max_level={r['max_level']}"
+        )
         uv = r["upward_violations"]
-        print(f"  upward violations: {len(uv)} (top: " +
-              ", ".join(f"{v['from'].split('.')[-1]}->{v['to'].split('.')[-1]}" for v in uv[:5]) + ")")
+        print(
+            f"  upward violations: {len(uv)} (top: "
+            + ", ".join(f"{v['from'].split('.')[-1]}->{v['to'].split('.')[-1]}" for v in uv[:5])
+            + ")"
+        )
         bt = r["blast_radius_top"][:3]
-        print("  blast radius top-3: " +
-              (", ".join(f"{b['file'].split('.')[-1]}={b['reach']}" for b in bt) or "(none)"))
+        print(
+            "  blast radius top-3: "
+            + (", ".join(f"{b['file'].split('.')[-1]}={b['reach']}" for b in bt) or "(none)")
+        )
         gf = ", ".join(f"{g['file'].split('.')[-1]}(fo={g['fan_out']})" for g in r["god_files"][:5])
         print(f"  god files: {gf or '(none)'}")
         hs = ", ".join(f"{h['file'].split('.')[-1]}(fi={h['fan_in']})" for h in r["hotspots"][:5])
@@ -503,13 +592,20 @@ def main():
         sf = ", ".join(r["stable_foundations"][:8]) or "(none)"
         print(f"  stable foundations (SDP): {sf} | SDP coupling score: {r['sdp_coupling_score']}")
         tg = r["test_gaps"]
-        print("  test gaps top-5: " +
-              ", ".join(f"{g['file'].split('.')[-1]}(cc={g['max_cc']},fi={g['fan_in']})" for g in tg[:5]) or "(none)")
+        print(
+            "  test gaps top-5: "
+            + ", ".join(
+                f"{g['file'].split('.')[-1]}(cc={g['max_cc']},fi={g['fan_in']})" for g in tg[:5]
+            )
+            or "(none)"
+        )
         if r.get("dsm"):
             print("\n".join(r["dsm"]["lines"]))
             s = r["dsm"]
-            print(f"  DSM marks: inversions(above)={s['above_diagonal_inversions']} "
-                  f"correct(below)={s['below_diagonal_correct']} lateral(same-level)={s['same_level_lateral']}")
+            print(
+                f"  DSM marks: inversions(above)={s['above_diagonal_inversions']} "
+                f"correct(below)={s['below_diagonal_correct']} lateral(same-level)={s['same_level_lateral']}"
+            )
 
 
 if __name__ == "__main__":

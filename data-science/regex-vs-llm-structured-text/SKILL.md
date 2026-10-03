@@ -66,6 +66,7 @@ final = process_document(                              # full pipeline; llm_vali
 ```
 
 Key design rules (from the production run this came out of):
+
 - **Never mutate** parsed items — cleaning/validation return new instances (`ParsedItem` is frozen).
 - Regex pass first even when imperfect: it gives a measurable baseline and flags what needs help.
 - Use the cheapest capable model for validation; 500 max tokens is plenty for one item.

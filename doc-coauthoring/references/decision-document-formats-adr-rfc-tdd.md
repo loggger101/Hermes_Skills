@@ -16,6 +16,7 @@ Use RFC when **the decision itself** needs alignment. Use TDD when the decision 
 ## MADR as the default ADR shape [VERIFIED]
 
 Their default template is MADR (Markdown Any Decision Records) with these mandatory sections, in order:
+
 1. **Context and Problem Statement** — what situation forces a decision; the problem framed without presupposing an answer.
 2. **Decision Drivers** — the constraints/requirements that bound acceptable outcomes (separate from preferences).
 3. **Considered Options** — every option seriously weighed, each with its own pros/cons subsection (✅ marker on the chosen one).
@@ -28,5 +29,6 @@ Numbering discipline: ADR numbers are assigned from a sequential index in `docs/
 Their 51KB create-technical-design-doc skill is notable mainly for its MANDATORY-vs-OPTIONAL section split: mandatory = overview/problem statement/architecture/implementation plan/testing strategy; optional (include only when applicable) = performance, security, migration, rollout. The anti-pattern they name explicitly: a TDD that pads every optional section with "N/A" — ceremony wearing an apology. Same proportionality rule as tlc-discover ("a step with no input costs a line").
 
 ## Cross-links
+
 - `note-taking/living-docs-governance/SKILL.md` — ADR index placement, one-canonical-owner-per-fact discipline (the governance side).
 - `software-development/mattpocock-spec-driven-development/references/spec-driven-patterns-tlc.md` §6b — one-way doors: which decisions even DESERVE a decision document.

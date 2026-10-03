@@ -77,6 +77,7 @@ trackio.show()
 ```
 
 Or from terminal:
+
 ```bash
 trackio show --project my-project
 ```
@@ -144,6 +145,7 @@ trackio.finish()
 ## What Gets Logged
 
 With TRL/Transformers integration, trackio automatically captures:
+
 - Training loss
 - Learning rate
 - Eval metrics
@@ -205,6 +207,7 @@ Embed Space dashboards in websites with query parameters:
 ```
 
 Query parameters:
+
 - `project`: Filter to specific project
 - `metrics`: Comma-separated metric names to show
 - `sidebar`: `hidden` or `collapsed`

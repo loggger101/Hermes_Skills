@@ -41,6 +41,7 @@ Conducts a retrospective on a coding session and proposes **improvements to the 
 All work passes two stages. The **implementation** agent carries the most context pressure — exploration + writing code + debugging failures. The **review** agent has the least — it receives a diff, no exploration needed. Therefore coding standards belong to the reviewer, not the implementer; put new rules where they get enforced with minimal context cost.
 
 ## Where things live
+
 - `AGENTS.md`/steering files: pushed into every agent's context window in this repo — use **incredibly sparingly**, usually only navigation pointers elsewhere.
 - Coding standards docs: read during review, not implementation; add navigation pointers to docs folders if a standards file passes ~1000 lines.
 - Docs: reference material pointed to by other files — look for existing docs before writing new ones.

@@ -28,7 +28,11 @@ def _token_from_url(line: str) -> str:
         port = credential.port
     except ValueError:
         return ""
-    if credential.scheme != "https" or credential.hostname != "github.com" or port not in (None, 443):
+    if (
+        credential.scheme != "https"
+        or credential.hostname != "github.com"
+        or port not in (None, 443)
+    ):
         return ""
 
     username = _decode(credential.username)

@@ -29,16 +29,20 @@ A loose idea has arrived, too big for one session and wrapped in fog: the way fr
 The destination varies per effort — naming it is the first act: it shapes every ticket. It might be a spec to hand off, a decision to lock before planning starts, or an in-place change like a data-structure migration. The map is domain-agnostic.
 
 ## Plan, don't do
+
 Wayfinder is **planning** by default: each ticket resolves a decision; the map is done when nothing remains to decide before someone goes and does the thing. The pull to just execute work is usually the signal you've reached the edge of the map — hand off instead. An effort can override this in its Notes, carrying execution into the map itself.
 
 ## Refer by name
+
 Every map and ticket has a **name** (its title). In everything the human reads, refer by that name, never a bare id/number/slug. A wall of `#42 #43 #44` is illegible; names read at a glance. The id rides *inside* the link wrapped in the name.
 
 ## Tracker choice
+
 - **GitHub repo**: map = an issue labelled `wayfinder:map`; tickets = child issues (linked via "Development" section or body links); blocking = native GitHub dependencies where available, else a `Blocked by:` line in the ticket body; claim = assign to yourself (`gh issue edit N --add-assignee <you>`).
 - **No tracker / local project**: map file `.wayfinder/map.md` + one file per ticket under `.wayfinder/tickets/`; blocking via frontmatter `blocked_by: [ids]`; claim via frontmatter `claimed_by`.
 
 ## The Map body (index, not store)
+
 ```markdown
 ## Destination
 <what reaching the end looks like — 1-2 lines; every session orients to it first>
@@ -58,7 +62,9 @@ Every map and ticket has a **name** (its title). In everything the human reads, 
 ```
 
 ### Tickets
+
 Each ticket's body is one **Question**, sized to fit a single agent session. Carry a type label — `research`, `prototype`, `grilling`, or `task`:
+
 - **Research** (agent-alone): surface a fact from docs/APIs/knowledge bases that a decision waits on → use the research skill/subagent; capture findings as an asset linked from the ticket, not pasted in.
 - **Prototype** (with human): raise discussion fidelity with a cheap concrete artifact to react to → prototype skill. Use when "how should it look/behave" is the key question.
 - **Grilling** (with human): conversation — the default case → grilling-interview + domain-modeling skills. A HITL ticket only resolves through live exchange; never answer its own questions.
@@ -67,14 +73,17 @@ Each ticket's body is one **Question**, sized to fit a single agent session. Car
 A session **claims** a ticket first, before any work (assignee = claim), so concurrent sessions skip it. A ticket is **unblocked** when everything blocking it is closed; the **frontier** = open, unblocked, unclaimed children — the edge of the known.
 
 ## Fog of war
+
 The map is deliberately incomplete: don't chart what you can't yet see. Resolving a ticket clears fog ahead of it, graduating whatever's now specifiable into fresh tickets one at a time. **Fog or ticket?** The test is whether you can state the question *precisely now*, not whether you can answer it now. Sharp-but-blocked → ticket; unstateable → Not yet specified (coarser than a ticket; one patch may graduate into several, or none).
 
 Out of scope: work beyond the destination — its own section, never graduates, returns only if the destination is redrawn as a fresh effort. If an existing ticket turns out to sit past the destination, close it and leave one line in Out of scope (gist + why), linking the closed ticket; keep Decisions so far for the route actually walked.
 
 ## Invocation
+
 **Never resolve more than one ticket per session** (exception: research tickets).
 
 ### Chart the map (user brings a loose idea)
+
 1. **Name the destination.** Grill to pin down what this map is finding its way to — it fixes scope, so settle first.
 2. **Map the frontier.** Grill again, breadth-first across the whole space rather than deep on one thread. If no fog surfaces (journey fits one session), you don't need a map — stop and say so.
 3. **Create the map**: Destination + Notes filled, Decisions-so-far empty, fog sketched into Not yet specified.
@@ -83,6 +92,7 @@ Out of scope: work beyond the destination — its own section, never graduates, 
 6. Stop: charting is one session's work; it hand-resolves nothing.
 
 ### Work through the map (user brings a map)
+
 1. Load the map (low-res view, not every ticket body).
 2. Choose the ticket — user-named or first frontier in order. **Claim it before any work.**
 3. Resolve it: zoom into related/closed tickets on demand; consult whatever skills Notes names; when in doubt, grill + domain-model.

@@ -93,6 +93,7 @@ marked *doc-only*. "Silent" = no error, results or schema change — these are t
 bit-reproducibility discipline (the economicspace-style concern).
 
 ### Engines & execution
+
 | Change | Silent? | Verified |
 |---|---|---|
 | `engine="auto"` → streaming for lazy; row order not guaranteed on unpivot/group_by/joins | **yes** | #1, #3 |
@@ -102,6 +103,7 @@ bit-reproducibility discipline (the economicspace-style concern).
 | `collect_batches()` / `collect_async()` present on LazyFrame (batched + async collection) | — | #6 |
 
 ### CSV reading (read_csv is now literally scan_csv().collect())
+
 | Change | Silent? | Verified |
 |---|---|---|
 | Accepts a **list of sources**; gains `infer_schema_files`, `extra_columns`, `missing_columns` etc. | no | #7 |
@@ -113,6 +115,7 @@ bit-reproducibility discipline (the economicspace-style concern).
 | Multi-file scans infer schema from first **10 files only** (was all); type drift in file #11 now raises; `infer_schema_files=11` fixes it — check #13 reproduced the exact failure and fix | error at parse | #13 |
 
 ### Semantics that change results silently
+
 | Change | Verified |
 |---|---|
 | Int64 + UInt64 supertype is now **exact `Int128`** (was lossy Float64) — dtype AND values change, no error | #16: schema check returned `Int128` |
@@ -125,6 +128,7 @@ bit-reproducibility discipline (the economicspace-style concern).
 | `explode()` default `empty_as_null=False`: an empty list → **zero rows** (was one null row) — row counts change wherever lists can be empty; `keep_nulls` unaffected | #15: 3 vs 4 rows reproduced |
 
 ### Removed casts / ops (all now hard errors, verified raising on rc1)
+
 | Old behavior that died | Replacement (verified working) | Check |
 |---|---|---|
 | `cast(String → Date/Datetime/Time)` | `.str.to_date()` / `.to_datetime()` / `.to_time()` — #25 confirmed the error message names it | 25 |
@@ -135,6 +139,7 @@ bit-reproducibility discipline (the economicspace-style concern).
 | `std()`/`var()` on Duration dtype | `.dt.total_microseconds().std()` (doc-only) | upgrade guide |
 
 ### API reshapes & removals (typed errors are the new DX — see "general knowledge" below)
+
 - `melt(id_vars=, value_vars=)` → **`unpivot(index=, on=)`**; `with_row_count()` → `with_row_index()`
   with default column name now `"index"` (was `"row_nr"`) — both verified raising the typed removal
   error *and* the replacement working (#31, #32).

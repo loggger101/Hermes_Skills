@@ -5,6 +5,7 @@ libopenblas (26.85 MB), opengl32sw (15.25 MB). Stdlib only.
 
 Usage: py analyze_dlls.py <dist-dir>   e.g. py analyze_dlls.py dist/YourApp.dist
 """
+
 import sys
 from pathlib import Path
 
@@ -92,7 +93,7 @@ def analyze_dlls(dist_path):
     print("=" * 70)
 
     # Debug builds (MSVC debug suffix 'd' before .dll, e.g. opengl32swd.dll)
-    debug_dlls = [dll for dll, _ in dll_data if dll.stem.endswith('d')]
+    debug_dlls = [dll for dll, _ in dll_data if dll.stem.endswith("d")]
     if debug_dlls:
         print(f"\nWARNING: Found {len(debug_dlls)} debug-build DLL (deletable):")
         for dll in debug_dlls:
@@ -101,7 +102,9 @@ def analyze_dlls(dist_path):
         print("\nPASS: No debug-build DLLs found (already optimized)")
 
     # VC++ runtime inventory
-    vc_runtimes = [dll for dll, _ in dll_data if 'vcruntime' in dll.name.lower() or 'msvcp' in dll.name.lower()]
+    vc_runtimes = [
+        dll for dll, _ in dll_data if "vcruntime" in dll.name.lower() or "msvcp" in dll.name.lower()
+    ]
     if vc_runtimes:
         print(f"\n[VC++ Runtime] Found {len(vc_runtimes)}:")
         for dll in vc_runtimes:
@@ -119,7 +122,11 @@ def analyze_dlls(dist_path):
     for dll, size in dll_data[:20]:
         size_mb = size / 1024 / 1024
         relative_path = dll.relative_to(dist_dir)
-        location = str(relative_path.parent).replace("\\", "/") if relative_path.parent != Path('.') else "(root)"
+        location = (
+            str(relative_path.parent).replace("\\", "/")
+            if relative_path.parent != Path(".")
+            else "(root)"
+        )
         print(f"{size_mb:10.2f}  {dll.name:<34} {location}")
 
     if len(dll_data) > 20:

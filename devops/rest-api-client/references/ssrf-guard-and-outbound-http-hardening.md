@@ -1,7 +1,8 @@
 # SSRF Guard & Outbound-HTTP Hardening (verified from reconurge/flowsint @ 1820569, v1.2.12)
 
 Source: `flowsint-core/src/flowsint_core/templates/loader/yaml_loader.py` + `template_enricher.py`
-+ `templates/types.py`. Flowsint is an OSINT graph tool whose *user-supplied* YAML templates and
+
+- `templates/types.py`. Flowsint is an OSINT graph tool whose *user-supplied* YAML templates and
 n8n webhook URLs issue outbound HTTP — so it treats every rendered URL as hostile input. The whole
 pattern below is portable to any service where a user (or LLM) can influence the destination of an
 outbound request: webhooks, "add your API" integrations, template engines, agent tool calls.
@@ -48,6 +49,7 @@ BLOCKED_IP_RANGES = [
 4. **Scheme allowlist**: only `http`/`https` — blocks `file://`, `gopher://`, etc. in one line.
 
 **Two verified limitations (measured on this host 2026-09-15 while building the harness):**
+
 - No DNS resolution: a user-supplied *domain* whose A record points at an internal address passes —
   only literal IP hosts and the small hostname set are checked. If destinations can be domains, add a
   resolve-and-recheck step (or pin to known-good endpoints).
@@ -79,6 +81,7 @@ From `TemplateRetryConfig` + `_make_request_with_retry`:
 | retry_on_status | [429, 500, 502, 503, 504] | — | the canonical "transient" set |
 
 Decision logic worth copying verbatim:
+
 - Status in `retry_on_status` -> back off and retry.
 - Other **4xx**: re-raise immediately (client errors don't fix themselves) *unless* that code is
   explicitly in `retry_on_status`.

@@ -13,6 +13,7 @@ General-purpose engineering knowledge extracted from how repowise builds a preco
 The problem: most of what an agent reads back from a shell command is noise — 300 lines of passing tests around 4 failures, full commit bodies when it asked "what changed recently". The fix is to compress **before** the model sees it.
 
 Contract rules that make this safe (all verified live):
+
 - **Errors first**: failure blocks move to the top; everything else demoted or omitted.
 - **Exit code preserved exactly** — `distill` returns rc=0 for rc=0 and rc=1 for rc=1 of the wrapped command. An agent deciding "did it pass?" must never be able to mistake compression for success/failure. (Verified: both directions.)
 - **Lossless by construction**: every omission leaves an inline `[repowise#<ref>]` marker; `expand <ref>` reverses it byte-for-byte so the agent can pull detail back without re-running the command. Verified round-trip on a 12,448-token git log → 1,362 tokens (89%); only difference was CRLF normalization under Windows text-mode capture — i.e., normalize line endings before comparing if you build this yourself.
@@ -26,6 +27,7 @@ Generalization: any wrapper between an agent and a noisy command should be *reve
 The entire index (graph, git signals, wiki structure, decisions from 6/7 sources, health scores) builds with **zero LLM calls** and no API key — verified: `init --no-prose` on a scratch project produced graph + 8 structural wiki pages in ~2s. Model-written prose is an *upgrade* applied per page / directory / ranked slice, with cost shown before confirm ("pay only for what you pick").
 
 Why this matters as a pattern:
+
 - The free tier must be **complete**, not a crippled demo — every layer works keyless; the LLM only changes presentation quality.
 - Deterministic layers are bit-reproducible and testable without network or spend; that's why their benchmark numbers can be claimed at all (see §6).
 - For any agent tooling: separate "compute" from "polish". Polish is the part you bill, cache per-input, and can regenerate.
@@ -37,6 +39,7 @@ Static analysis cannot see *behaviour*; git history encodes it for free. The con
 **Hotspots**: exponentially-decayed sum of per-commit churn with **halflife 180d**, each commit contributing up to a capped weight (~3.0), plus activity floors so one-line files don't dominate on ratio alone. Raw decayed churn is unbounded (observed max ~23) — expose `churn_percentile` for a normalized 0–1 rank, keep the raw value only as an intermediate input.
 
 **Bug-fix history ("bug cache")**: count bug-fix commits per file in a trailing window; this is "the single most cost-effective defect predictor (defects cluster)" — Ostrand & Weyuker's classic result, and it holds here: prior-defect history adds +0.117 AUC vs churn alone (+0.100). Two refinements that make the number mean something:
+
 - **Recency decay with 90-day half-life** (swept against 60/90/180; 90 and 180 tied, 60 lost): a fix from a year ago counts as a half. The result is "recent-equivalent fixes", not a raw tally — files that broke constantly then settled decay away to zero.
 - **Anchor the clock to the change's own date, not today** — so re-scoring the same commit always yields the same number (idempotent). This is the subtle one: any score an agent consumes must be stable across runs or it becomes noise.
 
@@ -49,6 +52,7 @@ Static analysis cannot see *behaviour*; git history encodes it for free. The con
 ## 4. Confidence-scored graphs instead of binary edges
 
 Call resolution emits a **confidence score per edge**, not just resolved/unresolved:
+
 - Static analysis gives high-confidence import/attribute edges; dynamic dispatch (callbacks, DI containers, string-based routing) is low-confidence but still recorded — consumers threshold by use case rather than silently trusting everything.
 - Route→handler linkage across 22 frameworks is a separate resolution pass with its own confidence treatment.
 - Community detection (Leiden) + PageRank over the resulting graph give "where does this module sit" structure without any LLM.
@@ -68,6 +72,7 @@ Measured effect (their benchmark, django/django): 3.8 tool calls vs 7.2 for a ba
 ## 6. Benchmark discipline for claims about your own tool
 
 From docs/BENCHMARKS.md — the methodology is as valuable as the numbers:
+
 - **Sealed holdout**: a split of evaluation instances held out from *every* improvement round; improvements never see it. (Their file-coverage claim: 0.876 vs next-best 0.610 on 42 sealed instances, sign-test p=0.00004.)
 - **Deterministic grading**: no LLM-as-judge for the headline metric — file coverage is graded by exact match against gold files. (LLM judges are reserved only where judgment genuinely exists, and even then reported with confidence intervals.)
 - **Publish losses alongside wins** — "we publish the rows we lose" is a stated policy; they also self-report being *the slowest indexer in the comparison* on their own benchmark page.
@@ -89,6 +94,7 @@ A `.repowise-workspace.yaml` at a parent dir registers member repos with aliases
 ## 9. Agent hooks: push context at decision time
 
 Optional hooks inject context *when it matters* instead of dumping everything at session start:
+
 - **Pre-file-edit**: if the file is covered by a governing architectural decision, that decision arrives with its evidence span; if the file has a recent run of bug fixes, a warning does.
 - **Session start**: compact briefing (not the whole wiki).
 - **Transcript learning**: reads your own agent transcripts for repeated corrections ("use the shared HTTP client, not raw requests") and promotes durable ones into tracked decisions delivered back later — all local, deterministic, no LLM in that loop either.

@@ -30,6 +30,7 @@ git diff HEAD --name-only     # all changed files
 ```
 
 If rebasing, also check:
+
 ```bash
 git reflog                    # see where the rebase started
 git log -p --root..HEAD       # full history of what's being rebased
@@ -38,9 +39,11 @@ git log -p --root..HEAD       # full history of what's being rebased
 ## The Process
 
 ### 1. See the current state
+
 Check `git status`, history, and the conflicting files. Identify which branches/commits are in conflict.
 
 ### 2. Find the primary sources for each conflict
+
 Read commit messages, check PRs, check original issues/tickets. Understand deeply why each change was made and what the original intent was.
 
 ```bash
@@ -51,14 +54,17 @@ gh pr view --web --repo <owner>/<repo>
 ```
 
 **Key principle**: Every conflict resolves to one of three cases:
+
 - **Complementary** — both sides add something different, keep both
 - **Overlapping** — both touch the same lines, need to preserve intent from both
 - **Contradictory** — one side replaces what the other does, pick the newer/more correct approach
 
 ### 3. Resolve each hunk
+
 Preserve both intents where possible. Where incompatible, pick the one matching the merge's stated goal and note the trade-off. Do **not** invent new behaviour. Always resolve; never `--abort`.
 
 For each conflict:
+
 ```
 <<<<<<< HEAD
 (our version)
@@ -72,6 +78,7 @@ For each conflict:
 - Merge by hand: take the best from each, or pick one with confidence
 
 ### 4. Run automated checks
+
 Typecheck, then tests, then format. Fix anything the merge broke.
 
 ```bash
@@ -83,6 +90,7 @@ git add .
 ```
 
 ### 5. Finish the merge/rebase
+
 Stage everything and commit. If rebasing, continue until all commits are rebased.
 
 ```bash
@@ -99,6 +107,7 @@ git rebase --skip  # if nothing to commit
 ## Conflict Resolution Patterns
 
 ### Pattern: Added vs Modified (same function)
+
 ```
 <<<<<<< HEAD
 def process(data):
@@ -110,9 +119,11 @@ def process(data, normalize=False):
     return data
 >>>>>>> feature
 ```
+
 **Resolution**: Take the feature branch's enhanced version — it's backward compatible (default arg).
 
 ### Pattern: Modified vs Deleted (same line)
+
 ```
 <<<<<<< HEAD
 import { oldHelper } from './utils'
@@ -120,9 +131,11 @@ import { oldHelper } from './utils'
 // (file deleted by their side)
 >>>>>>> feature
 ```
+
 **Resolution**: Check if the import is still used. If not, remove it.
 
 ### Pattern: Competing additions
+
 ```
 <<<<<<< HEAD
 // Validation
@@ -132,6 +145,7 @@ const isValid = email.includes('@')
 const cleanEmail = email.trim()
 >>>>>>> feature
 ```
+
 **Resolution**: Keep both — they serve different purposes. Order matters: sanitize first, then validate.
 
 ## Pitfalls

@@ -60,6 +60,7 @@ Subdirs: `campaign/` = 20-cell campaign rig + frozen Stage-2 prices per destinat
 ## Version stamps (verified from module code 2026-10-01, `29a0309`)
 
 Current: **catalog `1.8.1`, mineral_value `1.12.0`, transportation `1.17.0`, calc `1.26.0`, master `1.40.0`** (the master literal lives in `build_master.py`: the module docstring line and the startup banner print). Re-read the `pipeline_version` fields in `modules/*.py` before quoting these.
+
 - **calc 1.20.0 (2026-09-04): both insurance premiums are OFF by default** behind new `charge_insurance=False`. Module 3 prices third-party liability ($1.5M flat/mission) + launch insurance (10% of launch+spacecraft book value); the cascade charged both on every mission. Rationale: a premium is priced off an underwriter's book, not a mass/dv/kW — out of scope for a marginal-physics model; it also double-prices risk that `model_reliability` already carries (premiums don't touch p_launch/p_cruise/p_mining). Measured effect on cislunar stride cells: premium = 2.4–4.3% of total cost but **improvement is 5.5–9.6%** — an upfront line compounds through contingency + WACC, effective multiplier 2.12–2.38×; quote the improvement, not the share. The programme search makes insurance matter MORE (per-launch charges don't amortise across N). **Every measurement up to the 20-cell campaign is a `charge_insurance=True` run**; set it True to reproduce any of them. The 28-cell matrix that replaced it flew with it False (one of four things that moved at once, so the two matrices are not comparable cell for cell). Read which setting a table used before comparing it with anything. With ON, calc 1.20.0 is bit-identical to 1.19.1 (all four verify cells MATCH). Winners do not change (premium ≈ proportional to launch stack: rescales the ranking far more than it reorders); evaluable set unchanged; columns stay at 141 with the two cost fields zeroed, so no consumer schema moves.
 - **Stage 1 no longer builds the catalog; it downloads one.** The catalog is built and published in the separate AsteroidCatalog repo (loggger101/AsteroidCatalog) as GitHub Releases tagged `data-YYYY-MM-DD`. `modules/catalog.py` pins one tag (`catalog_release`), checks every byte against the release manifest, and installs it where Stages 2 and 4 read it. Re-running Stage 1 at an unmoved pin is a no-op; moving to a newer catalog is a deliberate one-line repin that moves every number downstream and is recorded in versions.md. `verify_stage1.py` checks the pinned release against the pipeline's data contract and the on-disk catalog against the release's bytes. (Before this, a Stage 1 run replaced the 862 MB input every committed number was measured on. The catalog-build history, e.g. catalog 1.2.0's NEOWISE dedup-ordering fix, now belongs to AsteroidCatalog.)
 
@@ -72,6 +73,7 @@ Current: **catalog `1.8.1`, mineral_value `1.12.0`, transportation `1.17.0`, cal
 ## Destinations (7) & the campaign (5 measured)
 
 Destinations: `earth_surface` (default), `leo`, `cislunar`, `lunar_surface`, `mars_orbit`, `geo`, `mars_surface`.
+
 - **All seven destinations are measured.** The 28-cell matrix (7 destinations × {raw/beneficiated} × {search off/on}, `market_model = "capacity_cap"`, `charge_insurance=False`, a fresh price epoch, calc v1.21.2) replaced the 20-cell campaign of 2026-08-23/24 (five destinations, calc 1.17.7); README tabulates it and versions.md keeps the superseded one. `campaign/run_queue.py`'s `DESTS` holds all seven, with frozen Stage-2 prices for each under `campaign/stage2/`.
 - What still holds: **cislunar is the best case**, but narrowly (6.6622× on the default cell against `mars_orbit` at 7.3681×, within 11%, in that matrix), and **the programme search never changes the evaluable set** at any destination (N enters nothing in the mass cascade).
 - The cislunar cells have been re-measured at later releases while the other six destinations have not, so a cross-destination comparison has to use one matrix's numbers throughout.
@@ -81,6 +83,7 @@ Destinations: `earth_surface` (default), `leo`, `cislunar`, `lunar_surface`, `ma
 ## THE DESTINATION TRAP (the classic error)
 
 `delivery_destination` must be set in TWO places and they must agree: `MINERAL_CONFIG.delivery_destination` decides what a kg SELLS for; `CALC_CONFIG.delivery_destination` decides the architecture that PUTS it there. Disagreement = pricing cargo at a depot while paying to land it in Utah.
+
 - Stage 4's `destination_check()` catches it and **shouts on STDOUT** — where a harness is least likely to be listening, and which `grep` for result lines filters away, printing a clean-looking number. This was hit measuring v1.15.0: two figures recorded as "cislunar" were run against earth_surface prices; paired comparisons stayed valid (identical inputs) but LEVELS were not.
 - In `master.py` use `MASTER_CONFIG.delivery_destination`, which writes both. **Set the destination explicitly in any harness**; if you must filter stdout, keep `MISMATCH` in the pattern.
 - `run_pipeline.py` is the ONE entry point that cannot hit this: its `preflight()` reads the destination Module 2 stamped into the on-disk catalog and REFUSES (exit 2) before a stage starts when Stage 4 would fly elsewhere and Stage 2 isn't in `--stages`. A refusal, not a warning. If you add another Stage-4-only entry point that doesn't go through run_pipeline.py, call `preflight()` from it.
@@ -89,11 +92,13 @@ Destinations: `earth_surface` (default), `leo`, `cislunar`, `lunar_surface`, `ma
 ## Verification workflow (the six checks)
 
 `verify.py` runs these numbered checks (re-read its docstring for the current list): 1 BIT-IDENTITY vs baseline, 2 PRUNE ON vs OFF, 3 SERIAL vs PARALLEL, 4 MASS LEDGER (`hardware_total_kg == rig + power_system_kg + ep_system_kg`; the rig is a CONFIG CONSTANT — writing it verbatim against the CSV raises KeyError), 5 NEVER-WORSE (both invariants at cap 400; `median(1 − r)` convention), 6 STAGE-2 TABLES, 7 MARKET CEILINGS (a capacity ceiling may only ever cost, never pay). Checks 1–5 and 7 cover Stage 4, 6 covers Stage 2's tables; Stage 1 and Stage 3 have their own harnesses, `verify_stage1.py` and `verify_stage3.py`. Three commands:
+
 ```bash
 py verify.py baseline --tag 1.17.7   # clean tree, BEFORE editing
 # ... edit modules/, py build_master.py ...
 py verify.py check --tag 1.17.7      # AFTER; full ~30 min (check 2 dominates: pre-filter off)
 ```
+
 - `--skip prune parallel` = the ~5-minute loop for fast iteration; `invariants` runs checks 4–7 only, no baseline needed, works on any tree. The `if __name__ == "__main__": raise SystemExit(main())` guard is load-bearing: check 3 starts a process pool and on Windows a worker rebuilds the parent by importing `__main__`.
 - Baselines are read back with `float_precision="round_trip"` (the comparator-only rule) and `low_memory=False`; `_comparable()` deliberately does NOT sort columns.
 - **A check that cannot run must never say it passed.** The original harness skipped cells absent from baseline with a bare `continue` that never touched ok → missing/partial baseline compared nothing and printed ALL CHECKS PASSED. Now: `*** NOT VERIFIED ***`, names the cells, exit 1. Same shape as an empty mass-ledger cell printing `(no rows)` and passing, or a never-worse join coming back empty and being skipped.
@@ -179,6 +184,7 @@ Forward-looking items from the star-list audit that would benefit this repo but 
 7. No stage 1/2/3 re-fetch ran since the baseline (it destroys every `.verify` baseline + overwrites the only frozen-input copies)
 
 ## References (verified detail lives here, not in this file)
+
 - `references/load-bearing-assumptions.md` — model terms that look wrong but are deliberate; read before "fixing" any result.
 - `references/defect-classes-and-traps.md` — the recurring failure shapes, bit-identity refusals, code traps (incl. the market-ceiling ones), cache rules.
 - `references/data-sources-environment-entrypoints.md` — Stage 1's pinned release, soft price failures, the Drive mount (`tree_check.py`, silent reverts), cross-host notes, entry points.

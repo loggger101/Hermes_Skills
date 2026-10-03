@@ -17,6 +17,7 @@ Validates all SKILL.md files in the Hermes_Skills repository for:
 Output: JSON report suitable for cronjob delivery.
 Exit codes: 0 = pass within thresholds, 1 = threshold breached.
 """
+
 import datetime
 import json
 import re
@@ -72,10 +73,13 @@ THRESHOLDS = {
 # 331 skill-content files scanned, zero hits), so threshold-zero is safe on day one.
 SECRET_PATTERNS = [
     ("aws_access_key_id", re.compile(r"AKIA[0-9A-Z]{16}")),
-    ("github_token",      re.compile(r"\b(?:ghp|gho)_[A-Za-z0-9]{30,}\b|\bgitHub_pat_[A-Za-z0-9_]{20,}\b")),
+    (
+        "github_token",
+        re.compile(r"\b(?:ghp|gho)_[A-Za-z0-9]{30,}\b|\bgitHub_pat_[A-Za-z0-9_]{20,}\b"),
+    ),
     ("openai_style_secret", re.compile(r"\bsk-[A-Za-z0-9_-]{20,}")),
-    ("slack_token",       re.compile(r"xox[baprs]-[A-Za-z0-9-]{10,}")),
-    ("pem_private_key",   re.compile(r"BEGIN [A-Z ]*PRIVATE KEY")),
+    ("slack_token", re.compile(r"xox[baprs]-[A-Za-z0-9-]{10,}")),
+    ("pem_private_key", re.compile(r"BEGIN [A-Z ]*PRIVATE KEY")),
 ]
 # password/secret/token = "literal" — but only when the literal is not an obvious
 # placeholder/example and the line is not reading from env or argparse.
@@ -100,6 +104,7 @@ def _is_placeholder_literal(lit: str) -> bool:
 
 # ── Collect all skills ──────────────────────────────────────────────
 
+
 def find_skill_files(root):
     """Find all SKILL.md files and map name→path.
 
@@ -112,14 +117,18 @@ def find_skill_files(root):
         path_str = str(path).replace("\\", "/")  # Normalize for cross-platform matching
         if ".git/" in path_str or ".hermes/" in path_str:
             continue
-        if "profiles-export/" in path_str or "memories-export/" in path_str or "memories/" in path_str:
+        if (
+            "profiles-export/" in path_str
+            or "memories-export/" in path_str
+            or "memories/" in path_str
+        ):
             continue
         rel = path.relative_to(root)
         text = ""
         # Extract name from frontmatter
         try:
             text = path.read_text(encoding="utf-8")
-            m = re.match(r'^---\n(.*?)\n---', text, re.DOTALL)
+            m = re.match(r"^---\n(.*?)\n---", text, re.DOTALL)
             if not m:
                 # No frontmatter block at all (missing, BOM, stray first line). Raising
                 # routes it to the fallback below, which registers the skill with empty
@@ -129,27 +138,31 @@ def find_skill_files(root):
             fm = yaml.safe_load(m.group(1))
             name = fm.get("name", path.parent.name)
             if name in skills:
-                duplicates.append({
-                    "name": name,
-                    "path": str(rel),
-                    "existing_path": skills[name]["path"],
-                })
+                duplicates.append(
+                    {
+                        "name": name,
+                        "path": str(rel),
+                        "existing_path": skills[name]["path"],
+                    }
+                )
             else:
                 skills[name] = {
                     "path": str(rel),
                     "path_obj": path,
                     "frontmatter": fm,
                     "body_start": m.end(),
-                    "body": text[m.end():].strip(),
+                    "body": text[m.end() :].strip(),
                 }
         except Exception:
             fallback_name = path.parent.name
             if fallback_name in skills:
-                duplicates.append({
-                    "name": fallback_name,
-                    "path": str(rel),
-                    "existing_path": skills[fallback_name]["path"],
-                })
+                duplicates.append(
+                    {
+                        "name": fallback_name,
+                        "path": str(rel),
+                        "existing_path": skills[fallback_name]["path"],
+                    }
+                )
             else:
                 skills[fallback_name] = {
                     "path": str(rel),
@@ -168,7 +181,15 @@ def find_category_dirs(root):
     the latter three are sync-script outputs, not source category directories.
     """
     cats = {}
-    skip_dirs = {".git", ".hermes", "profiles-export", "memories-export", "memories", "profile", "tools"}
+    skip_dirs = {
+        ".git",
+        ".hermes",
+        "profiles-export",
+        "memories-export",
+        "memories",
+        "profile",
+        "tools",
+    }
     for entry in sorted(root.iterdir()):
         if entry.is_dir() and not entry.name.startswith(".") and entry.name not in skip_dirs:
             desc_path = entry / "DESCRIPTION.md"
@@ -249,11 +270,7 @@ def validate_body_sections(skill_name, skill_info):
         errors.append("Missing '## What This Skill Does' section")
 
     # Check for "When to Use" — accept standard header, non-standard capitalization, or bold-paragraph format
-    has_wtu = (
-        "## When to Use" in body
-        or "## When To Use" in body
-        or "**When to Use:**" in body
-    )
+    has_wtu = "## When to Use" in body or "## When To Use" in body or "**When to Use:**" in body
     if not has_wtu:
         errors.append("Missing '## When to Use' section")
     elif "## When To Use" in body and "## When to Use" not in body:
@@ -297,38 +314,46 @@ def check_stale_placeholders(skill_name, skill_info):
     flags = []
     intentional = []
     # LaTeX citation placeholder pattern: \cite{PLACEHOLDER_...}
-    latex_placeholder_pattern = r'\\cite\{PLACEHOLDER[^}]*\}'
+    latex_placeholder_pattern = r"\\cite\{PLACEHOLDER[^}]*\}"
     intentional_count = len(re.findall(latex_placeholder_pattern, body))
     if intentional_count:
-        intentional.append(f"Found {intentional_count}x intentional LaTeX \\cite{{PLACEHOLDER}} citation marker(s) — pedagogical, not stale")
+        intentional.append(
+            f"Found {intentional_count}x intentional LaTeX \\cite{{PLACEHOLDER}} citation marker(s) — pedagogical, not stale"
+        )
 
     # LaTeX citation TODO comments inside code blocks (e.g. "% TODO: Verify this citation exists")
     # These are pedagogical — they teach the user how to mark unverified citations
-    latex_todo_pattern = r'% TODO:'
+    latex_todo_pattern = r"% TODO:"
     latex_todo_count = len(re.findall(latex_todo_pattern, body))
     if latex_todo_count:
-        intentional.append(f"Found {latex_todo_count}x intentional LaTeX TODO comment(s) — pedagogical citation-verification guidance, not stale")
+        intentional.append(
+            f"Found {latex_todo_count}x intentional LaTeX TODO comment(s) — pedagogical citation-verification guidance, not stale"
+        )
 
     # Todo-list titles inside code blocks (e.g. "Research Paper TODO:")
     # These are template headings in code blocks, not stale development TODOs
-    todo_title_pattern = r'(?:Research Paper|Project|Sprint)\s+TODO:'
+    todo_title_pattern = r"(?:Research Paper|Project|Sprint)\s+TODO:"
     todo_title_count = len(re.findall(todo_title_pattern, body))
     if todo_title_count:
-        intentional.append(f"Found {todo_title_count}x intentional TODO-list title(s) in code blocks — pedagogical template headings, not stale")
+        intentional.append(
+            f"Found {todo_title_count}x intentional TODO-list title(s) in code blocks — pedagogical template headings, not stale"
+        )
 
     # HTML-comment placeholder slots (e.g. "<!-- TODO: hero product photo -->")
     # Design skills teach agents to leave labeled image-placeholder slots as part of the
     # output workflow; these are intended example markers, not development debt.
-    html_todo_pattern = r'<!--\s*TODO:'
+    html_todo_pattern = r"<!--\s*TODO:"
     html_todo_count = len(re.findall(html_todo_pattern, body))
     if html_todo_count:
-        intentional.append(f"Found {html_todo_count}x intentional HTML-comment placeholder slot(s) — pedagogical image-placeholder workflow markers, not stale")
+        intentional.append(
+            f"Found {html_todo_count}x intentional HTML-comment placeholder slot(s) — pedagogical image-placeholder workflow markers, not stale"
+        )
 
     # Remove intentional placeholders before scanning for stale ones
-    body_clean = re.sub(latex_placeholder_pattern, '', body)
-    body_clean = re.sub(latex_todo_pattern, '', body_clean)
-    body_clean = re.sub(todo_title_pattern, '', body_clean)
-    body_clean = re.sub(html_todo_pattern, '', body_clean)
+    body_clean = re.sub(latex_placeholder_pattern, "", body)
+    body_clean = re.sub(latex_todo_pattern, "", body_clean)
+    body_clean = re.sub(todo_title_pattern, "", body_clean)
+    body_clean = re.sub(html_todo_pattern, "", body_clean)
 
     for marker in ["TODO:", "FIXME:", "PLACEHOLDER"]:
         if marker in body_clean:
@@ -338,6 +363,7 @@ def check_stale_placeholders(skill_name, skill_info):
 
 
 # ── Main ──────────────────────────────────────────────────────────
+
 
 def run_audit():
     all_skills, duplicates = find_skill_files(REPO_ROOT)
@@ -364,7 +390,7 @@ def run_audit():
     # Report duplicate skill names (same name in different directories)
     for dup in duplicates:
         report["issues"]["duplicate_skills"].append(
-            f'{dup["name"]}: found at both {dup["path"]} and {dup["existing_path"]}'
+            f"{dup['name']}: found at both {dup['path']} and {dup['existing_path']}"
         )
 
     # Check each skill
@@ -419,9 +445,7 @@ def run_audit():
     report["issues"]["hardcoded_secrets"] = scan_repo_for_secrets()
 
     # Summary counts
-    report["summary"] = {
-        field: len(report["issues"][field]) for field in report["issues"]
-    }
+    report["summary"] = {field: len(report["issues"][field]) for field in report["issues"]}
 
     # Threshold check
     breaches = []
@@ -466,7 +490,7 @@ def scan_repo_for_secrets():
     for top in sorted(REPO_ROOT.iterdir()):
         if not top.is_dir() or top.name.startswith(".") or top.name in skip_top:
             continue
-        files = (list(top.rglob("*.py")) + list(top.rglob("*.sh")) + list(top.rglob("SKILL.md")))
+        files = list(top.rglob("*.py")) + list(top.rglob("*.sh")) + list(top.rglob("SKILL.md"))
         for path in sorted(set(files)):
             rel = path.relative_to(REPO_ROOT).as_posix()
             try:
@@ -479,8 +503,11 @@ def scan_repo_for_secrets():
                     if rx.search(line):
                         findings.append(f"{rel}:{lineno} — {name}: {line.strip()[:80]}")
                 m = SECRET_ASSIGN.search(line)
-                if (m and not _is_placeholder_literal(m.group(2))
-                        and not any(h in line for h in ENV_READ_HINTS)):
+                if (
+                    m
+                    and not _is_placeholder_literal(m.group(2))
+                    and not any(h in line for h in ENV_READ_HINTS)
+                ):
                     findings.append(f"{rel}:{lineno} — secret_assignment: {line.strip()[:80]}")
     return findings
 

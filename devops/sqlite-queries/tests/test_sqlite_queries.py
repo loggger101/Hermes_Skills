@@ -8,6 +8,7 @@ Stdlib only: no new CI dependencies needed. The sqlite3 CLI is exercised via
 subprocess where a claim is about the CLI itself; those tests skip cleanly on
 hosts without it (CI runs ubuntu-latest, which ships it).
 """
+
 import csv
 import json
 import shutil
@@ -29,12 +30,14 @@ def q(db_path, sql):
 
 # --- Step 1: locate & verify -------------------------------------------------
 
+
 def test_integrity_check_returns_ok(db_path):
     """SKILL.md step 1: PRAGMA integrity_check returns 'ok' on healthy DBs."""
     assert q(db_path, "PRAGMA integrity_check;") == [("ok",)]
 
 
 # --- Step 2: discover the schema ---------------------------------------------
+
 
 def test_schema_discovery_lists_both_tables(db_path):
     rows = q(
@@ -59,6 +62,7 @@ def test_index_list_reports_created_index(db_path):
 
 # --- Step 3: run the query ----------------------------------------------------
 
+
 def test_row_counts_per_table_via_union_pattern(db_path):
     """SKILL.md step 3 / Pitfall #1: count rows per table with UNION ALL of real tables."""
     rows = q(
@@ -70,9 +74,7 @@ def test_row_counts_per_table_via_union_pattern(db_path):
 
 def test_sqlite_master_is_schema_not_rows(db_path):
     """Pitfall #1: sqlite_master lists schema objects — counting it is the documented mistake."""
-    n_objects = q(
-        db_path, "SELECT COUNT(*) FROM sqlite_master WHERE type='table';"
-    )[0][0]
+    n_objects = q(db_path, "SELECT COUNT(*) FROM sqlite_master WHERE type='table';")[0][0]
     assert n_objects == 2  # two tables; NOT a row count of anything
 
 
@@ -85,6 +87,7 @@ def test_query_plan_uses_index(db_path):
 
 
 # --- Step 4: export ------------------------------------------------------------
+
 
 def test_csv_export_roundtrip(tmp_path, db_path):
     """SKILL.md step 4: export to CSV (header + rows), then read it back."""
@@ -115,6 +118,7 @@ def test_json_export_roundtrip(db_path):
 
 
 # --- Step 5: modify with transactions + backup ---------------------------------
+
 
 def test_transaction_commit_persists(db_path):
     """SKILL.md step 5: BEGIN/COMMIT multi-statement change survives re-open."""
@@ -155,11 +159,12 @@ def test_backup_copy_is_independent(db_path, tmp_path):
         con.commit()
     finally:
         con.close()
-    assert q(bak, "SELECT COUNT(*) FROM users;")[0][0] == 3   # backup intact
+    assert q(bak, "SELECT COUNT(*) FROM users;")[0][0] == 3  # backup intact
     assert q(db_path, "SELECT COUNT(*) FROM users;")[0][0] == 2
 
 
 # --- CSV import pitfall ---------------------------------------------------------
+
 
 def test_csv_import_values_arrive_as_text_no_type_inference(sample_csv):
     """Pitfall #2: .import builds a missing table from the CSV header and loads values as text —
@@ -192,7 +197,9 @@ def test_cli_import_creates_table_from_header(sample_csv):
     # newline makes .mode reject its argument ("bad argument") on every platform.
     subprocess.run(
         ["sqlite3", db, ".mode csv", f".import {sample_csv} imported"],
-        capture_output=True, text=True, check=True,
+        capture_output=True,
+        text=True,
+        check=True,
     )
     cols = [r[1] for r in q(db, "PRAGMA table_info(imported);")]
     assert cols == ["code", "label"]  # header row became the column names
@@ -200,6 +207,7 @@ def test_cli_import_creates_table_from_header(sample_csv):
 
 
 # --- date handling pitfall --------------------------------------------------------
+
 
 def test_iso8601_text_dates_compare_correctly(db_path):
     """Pitfall #3: dates as ISO-8601 TEXT compare correctly when format is consistent."""
@@ -211,11 +219,10 @@ def test_iso8601_text_dates_compare_correctly(db_path):
 
 # --- duplicate / missing-value checks (When to Use) --------------------------------
 
+
 def test_duplicate_detection_query(db_path):
     """SKILL.md 'When to Use': find duplicates — the GROUP BY/HAVING pattern works."""
-    dupes = q(
-        db_path, "SELECT email FROM users GROUP BY email HAVING COUNT(*) > 1;"
-    )
+    dupes = q(db_path, "SELECT email FROM users GROUP BY email HAVING COUNT(*) > 1;")
     assert dupes == []  # fixture has unique emails (UNIQUE constraint)
 
 
@@ -225,6 +232,7 @@ def test_missing_value_detection(db_path):
 
 
 # --- CLI-level claims (skip when sqlite3 binary absent) -------------------------------
+
 
 @pytest.mark.skipif(not HAS_CLI, reason="sqlite3 CLI not installed on this host")
 def test_cli_dot_commands_are_not_sql(db_path):
@@ -238,10 +246,16 @@ def test_cli_dot_commands_are_not_sql(db_path):
 @pytest.mark.skipif(not HAS_CLI, reason="sqlite3 CLI not installed on this host")
 def test_cli_header_csv_flag_shape(db_path):
     """Quick ref: `sqlite3 -header -csv db "SELECT ..."` emits header + CSV rows."""
-    out = subprocess.run(
-        ["sqlite3", "-header", "-csv", str(db_path), "SELECT id, name FROM users ORDER BY id;"],
-        capture_output=True, text=True, check=True,
-    ).stdout.strip().splitlines()
+    out = (
+        subprocess.run(
+            ["sqlite3", "-header", "-csv", str(db_path), "SELECT id, name FROM users ORDER BY id;"],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        .stdout.strip()
+        .splitlines()
+    )
     # The sqlite3 shell emits CRLF on Windows; splitlines() then yields spurious blank
     # lines between real rows — normalize so the test is platform-stable (LF in CI, CRLF here).
     out = [ln.strip() for ln in out if ln.strip()]
@@ -253,6 +267,8 @@ def test_cli_json_flag_requires_338(db_path):
     """Pitfall #5: -json exists only in SQLite >= 3.38; CI's sqlite ships it."""
     out = subprocess.run(
         ["sqlite3", "-json", str(db_path), "SELECT id FROM users ORDER BY id LIMIT 2;"],
-        capture_output=True, text=True, check=True,
+        capture_output=True,
+        text=True,
+        check=True,
     ).stdout
     assert [r["id"] for r in json.loads(out)] == [1, 2]

@@ -28,6 +28,7 @@ cronjob(action='create', prompt=<prompt body>, schedule='...')
 
 Every cronjob prompt must be **self-contained** — it cannot rely on session context.
 See:
+
 - [`cron-job-authoring` skill](../../autonomous-ai-agents/cron-job-authoring/SKILL.md)
 - [`autonomous-repo-cronjob` skill](../../autonomous-ai-agents/autonomous-repo-cronjob/SKILL.md)
 - [No-interaction guardrail template](../../autonomous-ai-agents/cron-job-authoring/references/guardrail-template.md)
@@ -46,6 +47,7 @@ See:
 ## Definition Detail
 
 ### aspirecures-weekly.json
+
 - **Architecture:** Two-agent split (preparer + commit agent). Preparer collects candidates from Europe PMC + PubMed + ClinicalTrials.gov + ISRCTN, applies the Claude curation gate (strict relevance + credibility + patient-appropriateness + confidence threshold + 65-95 word summary), emits a JSON report. Commit agent consumes the report, merges into data/research/*.json, runs the full render pipeline (render.pl → render-ads.pl → gen-sitemap.pl → schema.pl → dedash.pl → gen-feeds.pl), validates with lint-feed.pl + verify.sh, then commits + pushes.
 - **Schedule:** Weekly Monday at 13:17 (cron: `17 13 * * 1`)
 - **Skills:** 9 skills across research, MLOps, and software-development categories

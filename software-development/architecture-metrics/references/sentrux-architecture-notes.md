@@ -100,6 +100,7 @@ Parse results cached in an LRU keyed by content hash (2000 entries) — rescan o
 ## 4. Martin metrics (`metrics/arch/distance.rs`, `stability.rs`)
 
 Per module (directory): A = abstract_types/total_types, I = Ce/(Ca+Ce), D = |A + I − 1|.
+
 - Abstract types = interfaces/traits/ADTs; Python abstractness detected via base classes in the
   profile's list (Protocol, ABC) — per-language data, not hardcoded.
 - **Foundations excluded from average**: modules with I ≤ 0.30 are architecturally CORRECT when
@@ -125,6 +126,7 @@ Per module (directory): A = abstract_types/total_types, I = Ce/(Ca+Ce), D = |A +
 
 Constants from source: default lookback **90 days**; min co-change count for a reported pair = **3**.
 **Walker skip rules** (`git_walker.rs`) — the difference between plausible and garbage numbers:
+
 - **Merge commits skipped**: they re-list every changed file of both branches, double-counting churn.
   Detected via parent count >1 (libgit2 `commit.parent_count()`; CLI equivalent: `rev-list --parents`).
 - **Mega-commits (>50 files) skipped**: vendored deps / generated code / bulk renames add noise that
@@ -133,6 +135,7 @@ Constants from source: default lookback **90 days**; min co-change count for a r
   per-file churn and the "oldest file" age metric (the new path looks brand-new).
 
 Formulas:
+
 - **Churn**: per file over window — commit_count, lines_added/removed, total (saturating add in Rust to avoid u32 overflow on high-churn files; plain ints fine in Python). Binary numstat entries (`-\t-\tpath`) count as touched with zero churn.
 - **Change coupling** (logical coupling): pairs of files changed in the same commits; strength = Jaccard `co_changes / (changes_a + changes_b − co_changes)`. Sorted by strength desc with deterministic tiebreaker (HashMap iteration order previously made output non-deterministic under par_iter — always sort with a total order).
 - **Temporal hotspots**: risk = churn_count × max_complexity_in_file. Theory: Nagappan & Ball 2005 (churn×complexity predicts defect density), Gall et al. 1998 for change coupling, Ricca et al. 2011 for bus factor.
@@ -183,6 +186,7 @@ the comments record why a stricter rule is deferred — that's how rules files s
 **Quality gate** (exact rules from `ArchBaseline::diff`,
 `metrics/arch/mod.rs`): baseline JSON stores quality_signal, coupling_score, cycle_count, god_file_count,
 hotspot_count, complex_fn_count (CC>15), max_depth, total/cross-module edge counts + timestamp. Diff:
+
 - signal_delta < **−0.02** ⇒ "Quality signal dropped" violation
 - coupling_after > before + **0.05** ⇒ "Coupling degraded"
 - cycles / god files / complex functions increased by ANY amount ⇒ violation (no epsilon — any new cycle is a regression)
@@ -195,6 +199,7 @@ Implemented here as `scripts/session_gate.py` (same rule shape, 0–100 signal s
 ## 7b. Incremental rescan design (`analysis/scanner/rescan.rs`) — why rescans are millisecond-fast
 
 Full scan only on first pass; afterwards a per-file incremental pipeline:
+
 - **Body-hash cache**: each file's parse result (imports, functions, classes) is cached keyed by the
   hash of its content. On rescan, changed files are re-parsed; unchanged files hit the cache — no AST work.
 - The graph is then rebuilt from the *cached per-file import lists* (cheap set assembly), and only
@@ -257,6 +262,7 @@ prefixes, isn't a qualified trait-impl name, base name isn't in the implicit ent
 ## 11. Pro licensing architecture (`docs/pro-architecture.md`) — trust-boundary pattern
 
 Worth reading even if you never ship paid software:
+
 - **Free binary = 100% public source, zero private code** (anyone can cargo build and verify what it does). No `if tier.is_pro()` gates around hidden computation in the free binary.
 - Paid features live in a separately downloaded dylib loaded at runtime via an extension trait (`MetricsExtension` registered into a global OnceLock registry; MCP tools registered through callback) — the free binary contains only *call sites*, not implementation.
 - License key = **Ed25519-signed JSON** (user, tier, issued/expires, id + signature over all fields). Validation is pure offline math against a hardcoded public key: parse → verify sig → check expiry. No server call, no internet.

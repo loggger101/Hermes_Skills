@@ -32,6 +32,7 @@ Plan → Tickets → Architecture → Implement (TDD) → Quality Gates → Revi
 Break the task into concrete, verifiable sub-tasks. Each should be testable, independent, and actionable. Load `skill_view(name='mattpocock-to-tickets')` to create tracer-bullet tickets.
 
 **Exit criteria:**
+
 - Every sub-task has a clear, testable outcome
 - All sub-tasks together cover the full scope of the spec
 - Dependencies between sub-tasks are identified (blocked by / blocks)
@@ -39,6 +40,7 @@ Break the task into concrete, verifiable sub-tasks. Each should be testable, ind
 ### Phase 2: Architecture
 
 For each sub-task, design the interface and seam before implementing:
+
 - What module/interface changes are needed?
 - Where does the seam go? Load `skill_view(name='mattpocock-codebase-design')`
 - What's the expected behavior at each seam?
@@ -46,6 +48,7 @@ For each sub-task, design the interface and seam before implementing:
 Use the domain modeling vocabulary from `skill_view(name='mattpocock-domain-modeling')` to sharpen terms before drawing the architecture.
 
 **Exit criteria:**
+
 - Every module has a deep interface (small surface, lots of implementation)
 - The deletion test passes for each major abstraction
 - Edge cases are documented for each seam
@@ -57,6 +60,7 @@ Use the domain modeling vocabulary from `skill_view(name='mattpocock-domain-mode
 - Run `skill_view(name='mattpocock-gh-fix-ci')` if CI fails
 
 **Exit criteria:**
+
 - New tests go RED before implementation
 - Implementation goes GREEN after writing minimum code
 - Refactored code still passes all tests (no regression)
@@ -64,12 +68,14 @@ Use the domain modeling vocabulary from `skill_view(name='mattpocock-domain-mode
 ### Phase 4: Quality Gates
 
 Before marking complete, verify:
+
 - Tests pass (new test + full suite)
 - `skill_view(name='mattpocock-code-review')` — Standards axis + Spec axis both pass
 - `skill_view(name='mattpocock-security-review')` — no new security concerns
 - `skill_view(name='requesting-code-review')` — final human-style review
 
 **Exit criteria:**
+
 - All tests green (including new tests)
 - Two-axis code review passes (standards + spec)
 - No new security findings

@@ -3,12 +3,14 @@
 **Best for:** hierarchy of needs, prioritization ranks, value pyramids, conversion funnels, content importance stacks.
 
 ## Two orientations — pick one
+
 - **Pyramid** (point up) — narrow apex = most important / rarest / most valuable. Base is broadest / foundational.
 - **Funnel** (point down) — narrow end = conversion (smallest group). Top is widest / audience.
 
 Don't mix orientations on one diagram.
 
 ## Layout conventions
+
 - 4–6 layers. Each layer is a trapezoid built from an SVG `<polygon>` with 4 points.
 - Consistent layer height (56–72px).
 - Widths decrease linearly from base to apex (pyramid) or top to bottom (funnel). When showing real funnel data, widths must be honest (proportional to count/percentage).
@@ -22,12 +24,14 @@ Don't mix orientations on one diagram.
 - Optional left-margin axis arrow + Geist Mono label (`rarer ↑`, `drop-off ↓`).
 
 ## Anti-patterns
+
 - 7+ layers (illegible — compress or split).
 - Pyramid for non-hierarchical data (use a tree or bar chart).
 - Dishonest widths (fake equal spacing when drops are unequal).
 - Coral on the base layer (dilutes the "apex = rare" signal).
 
 ## Examples
+
 - `assets/example-pyramid.html` — minimal light
 - `assets/example-pyramid-dark.html` — minimal dark
 - `assets/example-pyramid-full.html` — full editorial

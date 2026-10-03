@@ -16,7 +16,6 @@ metadata:
 
 Practical SQL for data analysis and preparation — the queries you actually write when pulling data for analysis, not DBA tuning. Covers query patterns, joins, window functions, aggregation, and common pitfalls. Dialect notes where syntax diverges (SQLite vs PostgreSQL vs MySQL).
 
-
 ## What This Skill Does
 
 SQL for data: queries, joins, windows, aggregation.
@@ -79,6 +78,7 @@ LIMIT 20;
 ```
 
 Readability rules:
+
 - One clause per line, indentation for subqueries and CTEs.
 - Capitalize keywords (`SELECT`, `FROM`, `WHERE`).
 - Alias tables meaningfully (`users u` is fine for short queries; don't use `a`, `b`, `c` unless the query is genuinely tiny).
@@ -720,9 +720,11 @@ SQLite is common for local data work and embedded use. Key quirks:
 
 - Dynamic typing — column types are advisory, not enforced.
 - `GROUP_CONCAT` instead of `STRING_AGG`:
+
   ```sql
   SELECT group_concat(name, ', ') FROM users;
   ```
+
 - Date functions use `strftime`, `datetime`, `julianday`, `date`.
 - No `FULL OUTER JOIN` — emulate with `UNION` of left and right joins.
 - No `LATERAL` — use subqueries or CTEs.
@@ -736,6 +738,7 @@ SQLite is common for local data work and embedded use. Key quirks:
 - `GENERATE_SERIES(start, stop, step)` for generating sequences — useful for time grids.
 - `LATERAL` joins for correlated subqueries that reference preceding tables.
 - `FILTER (WHERE ...)` for conditional aggregation:
+
   ```sql
   SELECT
       user_id,
@@ -744,6 +747,7 @@ SQLite is common for local data work and embedded use. Key quirks:
   FROM events
   GROUP BY user_id;
   ```
+
 - `ILIKE` for case-insensitive pattern matching.
 - `UNNEST(array)` to expand arrays into rows.
 

@@ -1,7 +1,7 @@
 # REFERENCES-INDEX
 
 Flat index of all **406 reference documents** in this second brain — one line each, grep-friendly.
-Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.
+Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-repo-cronjob
 
@@ -9,9 +9,11 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `autonomous-ai-agents/autonomous-repo-cronjob/references/drafting-guide.md` — Drafting Guide
 - `autonomous-ai-agents/autonomous-repo-cronjob/references/prompt-template.md` — Prompt Body Template
 - `autonomous-ai-agents/autonomous-repo-cronjob/references/two-agent-architecture.md` — Two-Agent Architecture: Preparer vs. Commit Agent
+
 ## autonomous-ai-agents/cron-config-authoring
 
 - `autonomous-ai-agents/cron-config-authoring/references/cronjob-config-patterns.md` — (no description)
+
 ## autonomous-ai-agents/cron-job-authoring
 
 - `autonomous-ai-agents/cron-job-authoring/references/credential-strategy.md` — Credential Strategy for Cron Jobs
@@ -23,6 +25,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `autonomous-ai-agents/cron-job-authoring/references/output-alignment.md` — Output Alignment Reference
 - `autonomous-ai-agents/cron-job-authoring/references/script-path-resolution.md` — Script Path Resolution Pitfalls
 - `autonomous-ai-agents/cron-job-authoring/references/vault-crypto-pattern.md` — Per-User Encrypted Secret Vault (verified from reconurge/flowsint @ 1820569)
+
 ## autonomous-ai-agents/hermes-agent
 
 - `autonomous-ai-agents/hermes-agent/references/background-systems.md` — Durable & Background Systems
@@ -46,12 +49,15 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `autonomous-ai-agents/hermes-agent/references/tui-widgets.md` — TUI Widgets — Live Panels for the Ink TUI Dock
 - `autonomous-ai-agents/hermes-agent/references/webhooks.md` — Webhook Subscriptions
 - `autonomous-ai-agents/hermes-agent/references/windows-quirks.md` — Windows-Specific Quirks
+
 ## autonomous-ai-agents/hermes-bot-cloning
 
 - `autonomous-ai-agents/hermes-bot-cloning/references/free-model-discovery.md` — Free Model Discovery on Nous Portal
+
 ## autonomous-ai-agents/repowise
 
 - `autonomous-ai-agents/repowise/references/codebase-intelligence-patterns.md` — Engineering patterns from repowise-dev/repowise (AGPL-3.0) — distillation contracts, decayed git signals, confidence-scored graphs, benchmark discipline, noise-free doc-drift detection; formulas + verified numbers
+
 ## communication/mental-models
 
 - `communication/mental-models/references/models/activation-energy.md` — Change needs an upfront input larger than its running cost, so the barrier to starting is the thing to attack.
@@ -76,6 +82,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `communication/mental-models/references/models/second-order-thinking.md` — Ask "and then what?" at least twice — the first-order winner is often the second-order loser.
 - `communication/mental-models/references/models/social-proof.md` — We infer correct behaviour from what others do, most strongly exactly when we are least certain.
 - `communication/mental-models/references/models/trade-offs.md` — The real cost of a choice is the best thing you gave up to make it, not the money you spent.
+
 ## creative/ascii-video
 
 - `creative/ascii-video/references/architecture.md` — Architecture Reference
@@ -86,6 +93,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `creative/ascii-video/references/scenes.md` — Scene System & Creative Composition
 - `creative/ascii-video/references/shaders.md` — Shader Pipeline & Composable Effects
 - `creative/ascii-video/references/troubleshooting.md` — Troubleshooting Reference
+
 ## creative/baoyu-infographic
 
 - `creative/baoyu-infographic/references/analysis-framework.md` — Infographic Content Analysis Framework
@@ -133,15 +141,18 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `creative/baoyu-infographic/references/styles/subway-map.md` — subway-map
 - `creative/baoyu-infographic/references/styles/technical-schematic.md` — technical-schematic
 - `creative/baoyu-infographic/references/styles/ui-wireframe.md` — ui-wireframe
+
 ## creative/comfyui
 
 - `creative/comfyui/references/official-cli.md` — comfy-cli Command Reference
 - `creative/comfyui/references/rest-api.md` — ComfyUI REST + WebSocket API Reference
 - `creative/comfyui/references/template-integrity.md` — ComfyUI Workflow-Template Integrity
 - `creative/comfyui/references/workflow-format.md` — ComfyUI Workflow JSON Format
+
 ## creative/design-taste-frontend
 
 - `creative/design-taste-frontend/references/image-first-workflow.md` — Image-first web design-to-code workflow distilled from taste-skill's imagegen/image-to-code/brandkit skills - generate, analyze, implement; per-section frames; consistency rules
+
 ## creative/diagram-design
 
 - `creative/diagram-design/references/animation.md` — Optional animation
@@ -197,14 +208,17 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `creative/diagram-design/references/type-uml-class.md` — UML Class Diagram
 - `creative/diagram-design/references/type-venn.md` — Venn / Set Overlap
 - `creative/diagram-design/references/type-wardley.md` — Wardley Map
+
 ## creative/excalidraw
 
 - `creative/excalidraw/references/colors.md` — Excalidraw Color Palette
 - `creative/excalidraw/references/dark-mode.md` — Excalidraw Dark Mode Diagrams
 - `creative/excalidraw/references/examples.md` — Excalidraw Diagram Examples
+
 ## creative/full-output-enforcement
 
 - `creative/full-output-enforcement/references/llm-truncation-remediation.md` — Why models truncate/lazily answer and how to force complete outputs — root causes, parameter tuning, prompt templates; claims verified against primary sources where possible
+
 ## creative/manim-video
 
 - `creative/manim-video/references/animation-design-thinking.md` — Animation Design Thinking
@@ -221,10 +235,12 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `creative/manim-video/references/troubleshooting.md` — Troubleshooting
 - `creative/manim-video/references/updaters-and-trackers.md` — Updaters and Value Trackers
 - `creative/manim-video/references/visual-design.md` — Visual Design Principles
+
 ## creative/no-ai-slop
 
 - `creative/no-ai-slop/references/community-pattern-proposals.md` — no-ai-slop: community pattern proposals & measured behavior (mined 2026-09-15)
 - `creative/no-ai-slop/references/eval.md` — No AI slop eval
+
 ## creative/p5js
 
 - `creative/p5js/references/animation.md` — Animation
@@ -237,20 +253,25 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `creative/p5js/references/typography.md` — Typography
 - `creative/p5js/references/visual-effects.md` — Visual Effects
 - `creative/p5js/references/webgl-and-3d.md` — WebGL and 3D
+
 ## creative/pretext
 
 - `creative/pretext/references/patterns.md` — Pretext Patterns
+
 ## creative/static-site-seo
 
 - `creative/static-site-seo/references/agent-ready-and-ai-search.md` — Agent-Ready Sites & the AI-Search Layer (AEO/GEO)
 - `creative/static-site-seo/references/programmatic-pages-quality-gates.md` — Programmatic / Generated Pages: Quality Gates (for templated page families)
+
 ## creative/stitch
 
 - `creative/stitch/references/taste-standard-design-system.md` — Worked example of the Stitch DESIGN.md output format - the Taste Standard design system
+
 ## creative/system-atlas
 
 - `creative/system-atlas/references/design-language.md` — Atlas design language
 - `creative/system-atlas/references/process-and-lessons.md` — Process and lessons
+
 ## creative/touchdesigner-mcp
 
 - `creative/touchdesigner-mcp/references/3d-scene.md` — 3D Scene Reference
@@ -274,10 +295,12 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `creative/touchdesigner-mcp/references/python-api.md` — TouchDesigner Python API Reference
 - `creative/touchdesigner-mcp/references/replicator.md` — Replicator COMP Reference
 - `creative/touchdesigner-mcp/references/troubleshooting.md` — TouchDesigner Troubleshooting (twozero MCP)
+
 ## data-science/algorithms-python-catalog
 
 - `data-science/algorithms-python-catalog/references/algorithms-from-scratch.md` — Algorithms From Scratch (verified)
 - `data-science/algorithms-python-catalog/references/catalog-map.md` — TheAlgorithms/Python — Catalog Map & Decision Guide
+
 ## data-science/astro-toolkit-selection
 
 - `data-science/astro-toolkit-selection/references/brahe-api-reference.md` — brahe 1.7.0 API reference — module map + verified propagation/SPK snippets
@@ -285,28 +308,34 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `data-science/astro-toolkit-selection/references/openscvx-patterns.md` — OpenSCvx patterns — State/Control/dynamics core loop, Hohmann constants, autotuners
 - `data-science/astro-toolkit-selection/references/optimization-toolkit.md` — nyx-py / pygmo2 / mesa v3 / z3 / Pyomo / CamPyRoS — optimization & simulation toolkit
 - `data-science/astro-toolkit-selection/references/skyfield-api-reference.md` — skyfield 1.55 API reference — breaking changes, de430s.bsp 404, phase-angle trap
+
 ## data-science/economicspace-pipeline
 
 - `data-science/economicspace-pipeline/references/data-sources-environment-entrypoints.md` — Data sources, environment & entry points (economicspace)
 - `data-science/economicspace-pipeline/references/defect-classes-and-traps.md` — Defect classes, code traps & performance (economicspace)
 - `data-science/economicspace-pipeline/references/dv-oracles-and-economics-sources.md` — External delta-v oracles + soft-assumption data sources — Asterank two-mode API correction (2026-09-07 re-probe #2), NHATS, per-element sigmas; 2026-09-12 deep pass adds keyless HF mirrors + licensing traps
 - `data-science/economicspace-pipeline/references/load-bearing-assumptions.md` — Load-bearing model assumptions (economicspace)
+
 ## data-science/evolutionary-ml
 
 - `data-science/evolutionary-ml/references/ga-tuning-measured.md` — GA Tuning — Measured Lessons (CR-pipeline, 2026-09)
+
 ## data-science/optimization-modeling-pyomo
 
 - `data-science/optimization-modeling-pyomo/references/formulations-and-algorithms.md` — Pyomo Formulations & Algorithms — measured from source + live execution
 - `data-science/optimization-modeling-pyomo/references/pyomo-source-patterns.md` — Design Patterns Mined from Pyomo Source (portable to any Python project)
+
 ## data-science/orbital-mechanics-data
 
 - `data-science/orbital-mechanics-data/references/economicspace-library-landscape.md` — Library landscape for the economicspace pipeline
+
 ## data-science/python-data-science
 
 - `data-science/python-data-science/references/big-data-patterns.md` — Verified big-data patterns (duckdb ad-hoc SQL, polars lazy joins with cardinality checks, parquet row groups, incremental dedup) — all run on 200k-row fixtures, cross-checked against pandas
 - `data-science/python-data-science/references/experiment-design-sample-size.md` — Experiment Design & Sample Size (A/B test statistics)
 - `data-science/python-data-science/references/polars-pymc-api-reference.md` — polars + pymc API references — verified line-numbered facts from cloned sources
 - `data-science/python-data-science/references/polars-v2-engine-and-breaking-changes.md` — polars 2.0 (rc) engine architecture + every breaking change live-verified on polars==2.0.0rc1 — streaming-by-default, row-order semantics, OOC spilling internals, GPU beta
+
 ## data-science/space-data-pipelines
 
 - `data-science/space-data-pipelines/references/flowsint-pipeline-patterns.md` — Flowsint Pipeline Architecture Patterns (verified from reconurge/flowsint @ 1820569, v1.2.12)
@@ -315,12 +344,15 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `data-science/space-data-pipelines/references/shared-library-internals.md` — hf_dataset_utils internals from juliensimon/space-datasets (230 pipelines): retry budget, TAP clients, HEASARC HTTP-200 failures, MAST keyset pagination, LFS recovery, watchdog
 - `data-science/space-data-pipelines/references/source-parser-families.md` — Per-source parsing families from space-datasets (round-15): TLE two-line-element char positions + epoch century rule, PDS3/PDS4 fixed-width colspecs, GOES netCDF status pivot, Wikidata SPARQL dedup, HTML fixture testing
 - `data-science/space-data-pipelines/references/space-data-licensing-audit.md` — Space-data licensing traps from space-datasets' own 2026-05-26 audit: ESA CC BY-NC, WDC Kyoto no-commercial, VizieR scientific-use terms, provider URL table
+
 ## devops/incident-response
 
 - `devops/incident-response/references/incident-command-method.md` — Live Incident Command Method
+
 ## devops/rest-api-client
 
 - `devops/rest-api-client/references/ssrf-guard-and-outbound-http-hardening.md` — SSRF Guard & Outbound-HTTP Hardening (verified from reconurge/flowsint @ 1820569, v1.2.12)
+
 ## devops/system-design-scaling
 
 - `devops/system-design-scaling/references/asynchronism-communication-security.md` — Asynchronism, Communication & Security
@@ -329,24 +361,30 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `devops/system-design-scaling/references/latency-and-estimation.md` — Latency Numbers & Back-of-the-Envelope Estimation
 - `devops/system-design-scaling/references/oo-design-interview-patterns.md` — Object-Oriented Design Interview Patterns (6 Worked Exercises)
 - `devops/system-design-scaling/references/scaling-tradeoffs-and-topics.md` — Scaling Trade-Offs & Networking Topics
+
 ## doc-coauthoring/references
 
 - `doc-coauthoring/references/decision-document-formats-adr-rfc-tdd.md` — Decision Document Formats: ADR vs RFC vs TDD (verified from tech-leads-club/agent-skills @ 0ab82f6)
 - `doc-coauthoring/references/repo-documentation-maintenance.md` — Maintaining Repo Documentation (README, DEPENDENCY, audit notes)
+
 ## email/himalaya
 
 - `email/himalaya/references/configuration.md` — Himalaya Configuration Reference
 - `email/himalaya/references/message-composition.md` — Message Composition with MML (MIME Meta Language)
+
 ## frontend-design/nicegui-app-builder
 
 - `frontend-design/nicegui-app-builder/references/frontend-tooling.md` — nicegui / Front-End-Checklist MCP / HTMLHint / dashy — frontend tooling reference from starred clones
+
 ## github/github-code-review
 
 - `github/github-code-review/references/pr-judge-protocol-tlc.md` — Evidence-First PR Judge Protocol (verified from tech-leads-club/agent-skills @ 0ab82f6)
 - `github/github-code-review/references/review-output-template.md` — Review Output Template
+
 ## github/github-issues
 
 - `github/github-issues/references/untrusted-repo-content.md` — Threat model for gh CLI output + stale-item policy — distilled from affaan-m/ECC github-ops (MIT)
+
 ## github/github-pr-workflow
 
 - `github/github-pr-workflow/references/agent-contribution-guardrails.md` — Agent Contribution Guardrails (PRs from coding agents to strict repos)
@@ -355,30 +393,37 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `github/github-pr-workflow/references/conventional-commits.md` — Conventional Commits Quick Reference
 - `github/github-pr-workflow/references/git-workflow-recipes.md` — High-value git recipes distilled from tiimgreen/github-cheat-sheet (MIT) — fixup/autosquash, PR checkout, revert
 - `github/github-pr-workflow/references/github-web-ui-tricks.md` — Verified GitHub web-UI + URL tricks from tiimgreen/github-cheat-sheet (MIT) — diff params, compare URLs, gists-as-repos, templates
+
 ## github/github-repo-management
 
 - `github/github-repo-management/references/github-api-cheatsheet.md` — GitHub REST API Cheatsheet
+
 ## github/issue-triage-state-machine
 
 - `github/issue-triage-state-machine/references/AGENT-BRIEF.md` — Writing Agent Briefs
 - `github/issue-triage-state-machine/references/OUT-OF-SCOPE.md` — Out-of-Scope Knowledge Base
+
 ## huggingface-trackio/references
 
 - `huggingface-trackio/references/alerts.md` — Trackio Alerts
 - `huggingface-trackio/references/logging_metrics.md` — Logging Metrics with Trackio
 - `huggingface-trackio/references/retrieving_metrics.md` — Retrieving Metrics with Trackio CLI
+
 ## mcp/fastmcp
 
 - `mcp/fastmcp/references/fastmcp-cli.md` — FastMCP CLI Reference
 - `mcp/fastmcp/references/mcp-server-design-patterns-tlc.md` — MCP Server Design Patterns (verified from tech-leads-club/agent-skills @ 0ab82f6)
+
 ## media/youtube-content
 
 - `media/youtube-content/references/output-formats.md` — Output Format Examples
+
 ## mlops/accelerate
 
 - `mlops/accelerate/references/custom-plugins.md` — Custom Plugins for Accelerate
 - `mlops/accelerate/references/megatron-integration.md` — Megatron Integration with Accelerate
 - `mlops/accelerate/references/performance.md` — Accelerate Performance Tuning
+
 ## mlops/evaluation
 
 - `mlops/evaluation/evaluating-llms-harness/references/api-evaluation.md` — API Evaluation
@@ -388,6 +433,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `mlops/evaluation/weights-and-biases/references/artifacts.md` — Artifacts & Model Registry Guide
 - `mlops/evaluation/weights-and-biases/references/integrations.md` — Framework Integrations Guide
 - `mlops/evaluation/weights-and-biases/references/sweeps.md` — Comprehensive Hyperparameter Sweeps Guide
+
 ## mlops/inference
 
 - `mlops/inference/llama-cpp/references/advanced-usage.md` — GGUF Advanced Usage Guide
@@ -401,6 +447,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `mlops/inference/serving-llms-vllm/references/quantization.md` — Quantization Guide
 - `mlops/inference/serving-llms-vllm/references/server-deployment.md` — Server Deployment Patterns
 - `mlops/inference/serving-llms-vllm/references/troubleshooting.md` — Troubleshooting Guide
+
 ## productivity/box
 
 - `productivity/box/references/bulk-operations.md` — Bulk operations
@@ -413,38 +460,48 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `productivity/box/references/search-and-ai.md` — Search, metadata, and Box AI
 - `productivity/box/references/troubleshooting.md` — Troubleshooting
 - `productivity/box/references/webhooks-and-events.md` — Webhooks and events
+
 ## productivity/docx
 
 - `productivity/docx/references/revisions-and-comments.md` — Revisions and Comments — XML details
+
 ## productivity/google-workspace
 
 - `productivity/google-workspace/references/daily-brief.md` — Daily Brief (Gmail + Calendar)
 - `productivity/google-workspace/references/gmail-search-syntax.md` — Gmail Search Syntax
+
 ## productivity/notion
 
 - `productivity/notion/references/block-types.md` — Notion Block Types
+
 ## productivity/pdf
 
 - `productivity/pdf/references/forms.md` — Building Fillable Forms: spec format and workflow
+
 ## productivity/teach
 
 - `productivity/teach/references/GLOSSARY-FORMAT.md` — GLOSSARY.md Format
 - `productivity/teach/references/LEARNING-RECORD-FORMAT.md` — Learning Record Format
 - `productivity/teach/references/MISSION-FORMAT.md` — MISSION.md Format
 - `productivity/teach/references/RESOURCES-FORMAT.md` — RESOURCES.md Format
+
 ## productivity/website-audit
 
 - `productivity/website-audit/references/cro-form-ux-checklists.md` — CRO / Form / UX Audit Frameworks (for website audit reports)
+
 ## productivity/xlsx
 
 - `productivity/xlsx/references/restructuring.md` — Reference-aware restructuring (xlsx_restructure.py)
+
 ## research/general-research-rounds
 
 - `research/general-research-rounds/references/source-access-notes.md` — Source access notes (verified from this machine)
+
 ## research/grounded-citations
 
 - `research/grounded-citations/references/citation-formats.md` — Citation formats per output target
 - `research/grounded-citations/references/grounding-rationale.md` — Why numbered ledger ids (grounding research basis)
+
 ## research/research-paper-writing
 
 - `research/research-paper-writing/references/autoreason-methodology.md` — Autoreason: Iterative Refinement Methodology
@@ -457,18 +514,22 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `research/research-paper-writing/references/reviewer-guidelines.md` — Reviewer Guidelines & Evaluation Criteria
 - `research/research-paper-writing/references/sources.md` — Source Bibliography
 - `research/research-paper-writing/references/writing-guide.md` — ML Paper Writing Philosophy & Best Practices
+
 ## security/application-threat-model
 
 - `security/application-threat-model/references/threat-model-method.md` — Application Threat Model Method
+
 ## security/mattpocock-security-review
 
 - `security/mattpocock-security-review/references/repository-threat-modeling.md` — Repository-Grounded Threat Modeling (verified from tech-leads-club/agent-skills @ 0ab82f6)
+
 ## security/oss-forensics
 
 - `security/oss-forensics/references/evidence-types.md` — Evidence Types Reference
 - `security/oss-forensics/references/github-archive-guide.md` — GitHub Archive Query Guide (BigQuery)
 - `security/oss-forensics/references/investigation-templates.md` — Investigation Templates
 - `security/oss-forensics/references/recovery-techniques.md` — Deleted Content Recovery Techniques
+
 ## security/security-audit
 
 - `security/security-audit/references/AI-AND-LLM.md` — AI, LLM, and Agent Hunting
@@ -485,10 +546,12 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `security/security-audit/references/SUPPLY-CHAIN-AND-RELEASE.md` — Supply Chain and Release Hunting
 - `security/security-audit/references/VALIDATION-AND-REPORTING.md` — Validation, Structured Output, Verification, and Reporting
 - `security/security-audit/references/WEB-PROTOCOL-AND-AUTH.md` — HTTP-Protocol and Authentication Hunting
+
 ## security/semgrep-rule-creator
 
 - `security/semgrep-rule-creator/references/quick-reference.md` — Semgrep Rule Quick Reference
 - `security/semgrep-rule-creator/references/workflow.md` — Semgrep Rule Creation Workflow
+
 ## software-development/architecture-metrics
 
 - `software-development/architecture-metrics/references/modular-design-principles-violations-and-split-criteria.md` — Modular Design Principles: Violations & Split/Merge Criteria (verified from tech-leads-club/agent-skills @ 0ab82f6)
@@ -496,6 +559,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `software-development/architecture-metrics/references/monolith-decomposition-pipeline.md` — Monolith Decomposition Analysis Pipeline (verified from tech-leads-club/agent-skills @ 0ab82f6)
 - `software-development/architecture-metrics/references/sentrux-architecture-notes.md` — Sentrux Architecture Notes (source-level findings)
 - `software-development/architecture-metrics/references/strangler-fig-migration-patterns.md` — Strangler Fig Migration Patterns (verified from tech-leads-club/agent-skills @ 0ab82f6)
+
 ## software-development/ast-grep
 
 - `software-development/ast-grep/references/cli.md` — CLI reference — `sg` / `ast-grep`
@@ -505,16 +569,20 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `software-development/ast-grep/references/recipes.md` — Recipes — copy-paste patterns by language
 - `software-development/ast-grep/references/sgconfig.md` — sgconfig.yml — project configuration
 - `software-development/ast-grep/references/yaml-rules.md` — YAML rule reference — atomic, relational, composite, transform, fix
+
 ## software-development/conversation-to-spec
 
 - `software-development/conversation-to-spec/references/spec-document-reviewer-prompt.md` — Spec Document Reviewer Prompt Template
+
 ## software-development/dispatching-parallel-agents
 
 - `software-development/dispatching-parallel-agents/references/discovery-interview-and-critique-protocols.md` — Discovery Interview & Critique Protocols (verified from tech-leads-club/agent-skills @ 0ab82f6)
 - `software-development/dispatching-parallel-agents/references/multi-agent-deliberation-jury.md` — Multi-Agent Deliberation: the Jury Protocol (verified from tech-leads-club/agent-skills @ 0ab82f6)
+
 ## software-development/dogfood
 
 - `software-development/dogfood/references/issue-taxonomy.md` — Issue Taxonomy
+
 ## software-development/github
 
 - `software-development/github/references/auth.md` — GitHub Authentication Setup
@@ -527,6 +595,7 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `software-development/github/references/pr-workflow.md` — GitHub Pull Request Workflow
 - `software-development/github/references/repo-management.md` — GitHub Repository Management
 - `software-development/github/references/review-output-template.md` — Review Output Template
+
 ## software-development/hermes-agent-skill-authoring
 
 - `software-development/hermes-agent-skill-authoring/references/audit-script-pattern.md` — Building Repo-Health Audit Scripts for Hermes Skill Repositories
@@ -538,30 +607,38 @@ Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/ge
 - `software-development/hermes-agent-skill-authoring/references/skill-evolution-pipeline.md` — DSPy+GEPA skill-evolution pipeline (NousResearch/hermes-agent-self-evolution) — verified CLI, requirements, when NOT to use
 - `software-development/hermes-agent-skill-authoring/references/skill-registry-security.md` — Skill registry supply-chain + installer security patterns, mined from tech-leads-club/agent-skills (MIT code / CC-BY-4.0 content)
 - `software-development/hermes-agent-skill-authoring/references/skill-repo-release-engineering.md` — Skill-Repo Release Engineering (versioning, update channel, generated blocks)
+
 ## software-development/mattpocock-diagnosing-bugs
 
 - `software-development/mattpocock-diagnosing-bugs/references/library-audit-methodology.md` — (no description)
+
 ## software-development/mattpocock-spec-driven-development
 
 - `software-development/mattpocock-spec-driven-development/references/spec-driven-patterns-tlc.md` — Spec-Driven Development Patterns (verified from tech-leads-club/agent-skills @ 0ab82f6)
 - `software-development/mattpocock-spec-driven-development/references/spec-implementation-eval-methodology.md` — Spec-Implementation Evaluation Methodology (verified from tech-leads-club/agent-skills @ 0ab82f6)
+
 ## software-development/plan
 
 - `software-development/plan/references/plan-document-reviewer-prompt.md` — Plan Document Reviewer Prompt Template
+
 ## software-development/python-craft
 
 - `software-development/python-craft/references/windows-path-separator-trap.md` — Windows os.path.relpath yields backslashes; cross-platform path-string comparison fails silently.
+
 ## software-development/systematic-debugging
 
 - `software-development/systematic-debugging/references/condition-based-waiting.md` — Condition-Based Waiting (Replace Arbitrary Timeouts)
 - `software-development/systematic-debugging/references/defense-in-depth.md` — Defense in Depth (Make the Bug Structurally Impossible)
 - `software-development/systematic-debugging/references/root-cause-tracing.md` — Root-Cause Tracing (Trace Backward to the Original Trigger)
+
 ## software-development/test-driven-development
 
 - `software-development/test-driven-development/references/writing-good-tests.md` — Writing Good Tests (Honest-Test Discipline)
+
 ## software-development/verification-culture
 
 - `software-development/verification-culture/references/autonomous-operator-protocol-tlc.md` — Autonomous Operator Protocol: Evidence-or-Stop (verified from tech-leads-club/agent-skills @ 0ab82f6)
+
 ## web-development/static-site-patterns
 
 - `web-development/static-site-patterns/references/web-interface-guidelines-ui-checklist.md` — Web Interface Guidelines (UI/UX Review Checklist) [PORTED]

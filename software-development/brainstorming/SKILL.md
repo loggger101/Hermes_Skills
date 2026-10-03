@@ -57,6 +57,7 @@ Every path ends with user approval of intent before implementation. A todo list,
 Classify first, announce the path, then work through each item in order.
 
 **Spike:**
+
 1. **Explore project context** — enough to frame the probe.
 2. **Present question + probe plan** — 2–3 sentences.
 3. **Get approval** — a nod is enough.
@@ -64,6 +65,7 @@ Classify first, announce the path, then work through each item in order.
 5. **Report findings** — a recommendation; label anything built as throwaway.
 
 **Bounded:**
+
 1. **Explore project context** — check files, docs, recent commits.
 2. **Ask clarifying questions** — one at a time, the ones that matter.
 3. **Present short design in chat** — approach, files touched, testing.
@@ -71,6 +73,7 @@ Classify first, announce the path, then work through each item in order.
 5. **Implement** — proceed with the normal development workflow (TDD applies); no plan document.
 
 **Architectural:**
+
 1. **Explore project context** — check files, docs, recent commits.
 2. **Scope check BEFORE detailed questions** — if the request describes multiple independent subsystems ("build a platform with chat, file storage, billing, and analytics"), flag it immediately; don't spend questions refining details of something that needs decomposition first. Help decompose into sub-projects (independent pieces, how they relate, build order); each sub-project gets its own spec -> plan -> implementation cycle.
 3. **Ask clarifying questions** — one at a time; understand purpose, constraints, success criteria.

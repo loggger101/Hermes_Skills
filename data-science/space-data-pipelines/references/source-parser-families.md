@@ -26,6 +26,7 @@ TLEs are **fixed-position text, not delimited** — the parser is a table of cha
 | mean_motion | 2 | `[52:63]` rev/day, keep float64 precision (`round(...,8)`) — it's the most information-dense column for decay studies |
 
 Other rules worth copying:
+
 - Pair parsing is **stateful**: buffer a line starting `"1 "`, parse when the next line starts `"2 "`; anything else resets the buffer. Malformed pairs return None and are silently dropped (count them if you care).
 - Derived altitude via Kepler's third law, not from any TLE field: `a = (MU/(n*2π/86400)²)**(1/3)` with MU=398600.4418 km³/s², then `alt = a*(1−e) − 6371`. Negative result flags decayed objects or parse errors — keep it as a data-quality signal column.
 - Schema-enforced writes: build the day's batch with **PyArrow** (`pa.Table.from_pylist(records, schema=SCHEMA)`), merge in pandas, re-cast to `pa.Table` before writing — so a bad field can't silently change the year file's parquet schema mid-stream (int32 norad_id, float32 angles, timestamp[us,UTC] epoch).
@@ -35,6 +36,7 @@ Other rules worth copying:
 ## 2. PDS4 fixed-width `.tab` (`update-bus-demeo.py`)
 
 PDS Small Bodies Node tables are plain-text **fixed-width** with layout documented in sibling `.lbl` label files:
+
 - Parse with `pd.read_fwf(StringIO(resp.text), colspecs=[(0,7),(8,25),...], names=[...])` — the colspec tuples come straight from the .lbl (start,end pairs). Bus-DeMeo's two tables: demeotax.tab 6 cols + pcscores.tab 8 cols.
 - **Dual-key merge for numbered vs unnumbered objects**: split both frames by `asteroid_number > 0`, merge numbered-on-numbered, unnumbered-on-provisional-designation (strip whitespace first!), concat back. A naive single-key join loses every provisional-only object or double-counts the rest.
 - Class strings carry suffix semantics: strip trailing `"w"` (slope>0.25 µm⁻¹) and `":"` (uncertain) before mapping to broad complex; unknown classes → NA, not a crash.
@@ -42,6 +44,7 @@ PDS Small Bodies Node tables are plain-text **fixed-width** with layout document
 ## 3. PDS3 fixed-width (`update-sdss-taxonomy.py`) — the big-table variant
 
 Same family, older PDS3 layout, with three extra patterns for ~107k-row tables:
+
 - Colspecs stored as **`(name, start, width)` triples** and converted at parse time to `(start, start+width)` pairs.
 - `dtype=str` on the read_fwf call, THEN per-column strip + sentinel replace (`{"nan","","-"}` → None), THEN numeric coercion — never let read_fwf guess types from fixed-width text (a column of `-` becomes a float -1.0 and poisons stats).
 - **Domain sentinels**: proper elements stored as `0.0` mean *unavailable* in this dataset — explicitly map `== 0.0 → None` after coercion, or your "fraction with known orbits" stat is wrong by the null fraction.
@@ -50,6 +53,7 @@ Same family, older PDS3 layout, with three extra patterns for ~107k-row tables:
 ## 4. GOES netCDF flare summary (`update-solar-flares.py`) — long-to-wide status pivot
 
 NCEI serves a **mission-length NetCDF** whose filename changes over time:
+
 - Discover it by regex-scraping the directory listing for `href="(sci_xrsf-l2-flsum_g16_[^\"]+\.nc)"` — never hardcode the versioned filename.
 - The file is long-format: one row per (flare_id, status) with status ∈ {EVENT_START, EVENT_PEAK, EVENT_END}. Pivot to one-row-per-flare by dict-keying on flare_id and filling start/peak/end + peak flux from whichever status row arrives. Masked-array values (`np.ma.is_masked`) → None before float().
 - Time is seconds since `2000-01-01T12:00` epoch — add a timedelta, don't assume Unix time.
@@ -58,6 +62,7 @@ NCEI serves a **mission-length NetCDF** whose filename changes over time:
 ## 5. Wikidata SPARQL (`update-astronauts.py` + 9 sibling scripts, all CC0-licensed output)
 
 Endpoint `https://query.wikidata.org/sparql?query=...&format=json`, 3 retries with exponential backoff (Wikidata is rate-limit-prone). The JSON bindings shape drives four recurring fixes:
+
 - **Multi-value properties fan out rows**: one person with two nationalities returns two binding rows. Dedup by entity ID, but keep the row carrying the most data — their trick: sort by `len(employers)` desc before `drop_duplicates(subset=["wikidata_id"], keep="first")`.
 - Entity IDs arrive as full URIs (`.../entity/Q1029`) → `.rsplit("/", 1)[-1]` to get the Q-ID.
 - **Junk-entity filter**: rows whose only "name" is a bare `Q\d+` label are stub entities with no real name — drop them (`~df["name"].str.match(r"^Q\d+$")`). This is what CHECKLIST.md means by "mostly-empty stub entities".
@@ -66,6 +71,7 @@ Endpoint `https://query.wikidata.org/sparql?query=...&format=json`, 3 retries wi
 ## 6. HTML scraping with committed fixtures (`update-fcc-ngso-filings.py`) — the anti-fragility pattern
 
 fcc.report (FCC IBFS filings) serves **two different layouts** for the same data type; the script's parser must handle both, and that is exactly what makes it testable:
+
 - **Commit real page snapshots to git as fixtures** (`scripts/data/fixtures/kuiper.html` 23 KB = Form-312 layout with transcribed sections; `starlink-gen1.html` 12 KB = overview-table-only legacy layout) and run the parser against them in a pure unit test — no network, no HF. The docstring even ships the exact `curl -A "space-datasets/fcc-ngso-filings"` commands to refresh fixtures when a layout change is *intentional*.
 - Layout drift thus fails **locally before the weekly cron ships broken data**, not in production after 40 filings are mis-parsed. The legacy fixture specifically asserts that fields absent from its layout fall back (empty string / overview-table cell) instead of raising — both code paths pinned by tests.
 - Fail-fast on empty input: `parse_filing_html("<html></html>", ...)` must raise RuntimeError("No applicant found..."), tested explicitly.
@@ -74,6 +80,7 @@ fcc.report (FCC IBFS filings) serves **two different layouts** for the same data
 ## 6b. Multi-config datasets + resumable binary assets (`update-spacex-launches.py`)
 
 spacex.com's content API (JSON, no auth) is split into **three configs** in one HF repo — launches / timelines (countdown+deployment events per launch) / carousel (mission photos with captions). Patterns:
+
 - Multi-config upload = multiple parquet files under `data/` + README frontmatter listing each config (`default: true` on the primary, or load_dataset fails — see shared-library-internals ref).
 - **Resumable image download**: keep an `(image_url, image_path)` table in the carousel parquet; on re-run, skip slugs whose file already exists locally and only fetch the delta (streaming `requests.get(..., stream=True)`, write to temp then rename so a half-written JPEG never counts as "present"). This is what makes a 600-photo dataset cheap to refresh monthly.
 

@@ -39,6 +39,7 @@ The `note` field is essential — without it, a future reader assumes skills gra
 ### Rationale for LLM-driven jobs
 
 For `no_agent: false` jobs, skills ARE invoked as tools. The `phase` + `rationale` fields tell the agent:
+
 - Which phase of the pipeline each skill covers
 - Whether the skill is needed at all for this specific run (e.g. skip Linux-only skills)
 - What would break if a skill were removed
@@ -62,6 +63,7 @@ Skill refs in cronjob JSON use **repo-relative slash paths** (e.g. `research/arx
 `os.path.relpath()` on Windows produces backslash-separated strings. Comparing `"research\\arxiv"` against `"research/arxiv"` with `in` silently returns False — no error, just mismatch.
 
 **Fix:** Always normalize:
+
 ```python
 def norm_path(p):
     return str(p).replace('\\', '/').replace('//', '/')

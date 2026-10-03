@@ -16,7 +16,6 @@ metadata:
 
 A practical end-to-end guide for Python-based data science: from raw data to evaluated model, with tracking and reproducibility baked in.
 
-
 ## What This Skill Does
 
 Python DS: EDA, cleaning, modeling, eval, viz.
@@ -601,6 +600,7 @@ Before reporting results:
 - [ ] Results reproducible from the notebook/script alone
 
 ## References (verified API detail lives here)
+
 - `references/polars-pymc-api-reference.md` — polars lazy-first idioms + join `validate=` cardinality checks; pymc `sample()` with nutpie Rust-NUTS auto-select, ADVI for per-body scale. Line-anchored to cloned sources (2026-09-05); re-check line numbers before quoting them.
 - `references/polars-v2-engine-and-breaking-changes.md` — polars 2.0 (rc) deep-dive: streaming-by-default engine + row-order semantics, OOC spill-to-disk internals, GPU beta via RAPIDS cuDF, every breaking change live-verified on polars==2.0.0rc1 (39/39 checks in `polars-v2-verify.py`, re-runnable). Read before upgrading any 1.x pipeline; includes corrections to the stable-API doc above.
 - `references/experiment-design-sample-size.md` — A/B test design discipline: hypothesis-first workflow, primary/secondary/guardrail metric tiers, sample-size tables (α=0.05, 80% power) by baseline×MDE, duration floors (≥1 full week / business cycles) and ceilings (4–8 weeks), the five silent-killer mistakes, sequential-testing rules for peeking. Applies to any two-arm comparison — agent tournaments included; see its "mapping" section.

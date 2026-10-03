@@ -51,6 +51,7 @@ RETRY_STATUS = frozenset({403, 408, 425, 429, 500, 502, 503, 504})
 ## MAST TAP client (`mast_tap.py`) — keyset pagination + adaptive page size (JWST/HST/Kepler/GALEX)
 
 Constraints learned from 4 missions (module docstring, all verified in code):
+
 - Sync TAP **caps at 100K rows per request**; `dbo.caomplane` is wider and hits 504 at 100K — use 50K for it.
 - JOIN between caomobservation and caomplane **times out server-side** — aggregate client-side after two separate fetches.
 - Keyset pagination on the primary key (`ORDER BY id ASC` + `WHERE ... AND id > '<last>'`) is much faster than composite ORDER BY.

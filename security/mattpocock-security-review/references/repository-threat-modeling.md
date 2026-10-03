@@ -14,6 +14,7 @@ Source: `(security)/security-threat-model` v1.0.0 (author github.com/openai/skil
 8. **Quality gate before writing the report**: every discovered entrypoint covered · every trust boundary represented in threats · runtime-vs-CI separation confirmed · user clarifications (or explicit non-responses) reflected · assumptions and open questions explicit. Output: `<repo-or-dir-name>-threat-model.md`.
 
 ## Reusable one-liners
+
 - "Do not claim components, flows, or controls without evidence."
 - Non-capabilities are content: listing what the attacker can't do is a severity control, not padding.
 - Logging/error sinks are entrypoints (log injection / detection poisoning).

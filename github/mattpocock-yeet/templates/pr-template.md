@@ -10,6 +10,7 @@
 <!-- The approach taken. Brief technical explanation. -->
 
 ## Validation
+
 - [ ] Tests pass (`pytest tests/ -v`)
 - [ ] New tests added for changed behavior
 - [ ] Security scan clean (`mattpocock-security-review`)

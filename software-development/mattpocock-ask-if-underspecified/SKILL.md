@@ -44,6 +44,7 @@ Before producing output, scan the request for these ambiguity markers:
 Use the `clarify` tool with targeted questions. Each question should resolve one ambiguity.
 
 **Good clarifying questions are:**
+
 - **Specific** — not "tell me more" but "which of these 3 approaches do you prefer?"
 - **Actionable** — the user can answer with a choice or a brief statement
 - **Bounded** — offer 2-4 options when possible, with a clear recommendation
@@ -54,6 +55,7 @@ Use the `clarify` tool with targeted questions. Each question should resolve one
 Ask 2-5 related questions in a single `clarify` call (they'll be answered on one form). Group by theme:
 
 **Example grouping**:
+
 1. "Which disease page needs updating?" (specificity)
 2. "What changed in the data source — format, fields, or availability?" (problem definition)
 3. "Do you want me to fix just the parser, or also the renderer and tests?" (scope)

@@ -33,6 +33,7 @@ Usage:
 
 Exit 0 = router coverage is honest. Exit 1 = at least one violation.
 """
+
 import os
 import re
 import sys
@@ -46,8 +47,7 @@ for _s in (sys.stdout, sys.stderr):
     except (AttributeError, ValueError):
         pass
 
-REPO = Path(os.environ.get("ROUTER_SCAN_ROOT")
-            or Path(__file__).resolve().parents[1])
+REPO = Path(os.environ.get("ROUTER_SCAN_ROOT") or Path(__file__).resolve().parents[1])
 ROUTER = REPO / "software-development" / "skill-flow-router" / "SKILL.md"
 
 # The router's declared remit, as tags. Kept deliberately narrow: widening this
@@ -99,40 +99,50 @@ def main():
     lanes, optout = parse_router(text)
     problems = []
 
-    in_scope = {n for n, tags in skills.items()
-                if tags & SCOPE_TAGS and n != "skill-flow-router"}
+    in_scope = {n for n, tags in skills.items() if tags & SCOPE_TAGS and n != "skill-flow-router"}
 
     # A) coverage
     for name in sorted(in_scope - lanes - set(optout)):
         why = ",".join(sorted(skills[name] & SCOPE_TAGS))
-        problems.append(f"[A] `{name}` (tags: {why}) is in router scope but is neither "
-                        f"routed in a lane nor listed under '{OPTOUT_HEADING}'")
+        problems.append(
+            f"[A] `{name}` (tags: {why}) is in router scope but is neither "
+            f"routed in a lane nor listed under '{OPTOUT_HEADING}'"
+        )
 
     # B/C/D) the opt-out block must stay honest
     for name, reason in sorted(optout.items()):
         if name not in skills:
-            problems.append(f"[B] out-of-scope list names `{name}`, which is not a skill "
-                            f"in this repo (renamed or deleted?)")
+            problems.append(
+                f"[B] out-of-scope list names `{name}`, which is not a skill "
+                f"in this repo (renamed or deleted?)"
+            )
         if not reason:
-            problems.append(f"[C] out-of-scope entry `{name}` gives no reason — every "
-                            f"opt-out must say why routing it would add no information")
+            problems.append(
+                f"[C] out-of-scope entry `{name}` gives no reason — every "
+                f"opt-out must say why routing it would add no information"
+            )
         if name in lanes:
-            problems.append(f"[D] `{name}` is both routed in a lane and declared "
-                            f"out-of-scope — pick one")
+            problems.append(
+                f"[D] `{name}` is both routed in a lane and declared out-of-scope — pick one"
+            )
 
     # E) no hardcoded catalog size (this exact claim rotted from 166 -> 210 unnoticed)
     body = text.split("---", 2)[2] if text.startswith("---") else text
     for m in re.finditer(r"\b(\d{2,4})\+?\s+skills\b", body):
-        problems.append(f"[E] router hardcodes a catalog size ({m.group(0).strip()!r}); "
-                        f"point at SKILLS-INDEX.md instead — this number rots silently")
+        problems.append(
+            f"[E] router hardcodes a catalog size ({m.group(0).strip()!r}); "
+            f"point at SKILLS-INDEX.md instead — this number rots silently"
+        )
 
     if problems:
         print(f"[FAIL] router coverage: {len(problems)} problem(s)")
         for p in problems:
             print("  " + p)
         return 1
-    print(f"[OK] router coverage: {len(in_scope)} in-scope skills — "
-          f"{len(in_scope & lanes)} routed, {len(optout)} declared out-of-scope, 0 unrouted")
+    print(
+        f"[OK] router coverage: {len(in_scope)} in-scope skills — "
+        f"{len(in_scope & lanes)} routed, {len(optout)} declared out-of-scope, 0 unrouted"
+    )
     return 0
 
 

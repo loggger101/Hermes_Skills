@@ -31,6 +31,7 @@ transform applied via `TransformationFactory(name).apply_to(m)` (verified live):
 | `contrib.piecewise.multiple_choice` | **4** (= breakpoints) | 14 | 23 | implemented as GDP outer representation → hull reformulation with disaggregated vars: per-disjunct copies of x and z, `disaggregationConstraints`, `pick_a_piece_xor` |
 
 Rules of thumb (paper + measurements):
+
 - **Incremental**: fewest binaries (n−1), smallest model — the default pick for univariate PWL.
   Requires ordered triangulation (`Triangulation.OrderedJ1`) in multivariate cases; simplices must be
   chained so T_i intersects T_{i+1} and shared vertices align.
@@ -50,6 +51,7 @@ the transform config is a strict ConfigDict — pass nothing or only declared op
 ## FBBT — feasibility-based bounds tightening (`pyomo/contrib/fbbt/`)
 
 Two-pass interval propagation over the expression tree:
+
 1. **Leaf→root**: propagate variable bounds up through each operator (interval arithmetic per node).
 2. **Root→leaf**: use the constraint's own bound on its root expression to tighten children back down,
    iterating until fixed point or infeasibility detected (`FBBTException`).
@@ -87,6 +89,7 @@ read shadow prices / sensitivity out of a solved model.
 ## MPEC complementarity (`pyomo/mpec/complementarity.py`)
 
 `Complementarity(expr=complements(A >= 0, B))` encodes `min(A,B)=0`. Canonicalization rules from source:
+
 - equality side → dropped (becomes the constraint itself); exactly **two finite bounds total** required;
 - both sides unconstrained expressions is an error.
 - `to_standard_form()` rewrites to `l1 ≤ v1 ≤ u2 OR l2 ≤ v2 ≤ u3` style with auxiliary vars + equality —

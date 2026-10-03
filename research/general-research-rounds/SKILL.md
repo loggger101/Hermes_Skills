@@ -27,11 +27,13 @@ Standing multi-round task: anchor every load-bearing number in the user's `econo
 ## Repo layout
 
 `General_Research` sits in the user's GitHub folder (`.../OneDrive/Documents/GitHub/General_Research` — the user profile differs per machine, e.g. `C:/Users/Owner/...` or `C:/Users/Loggg/...`); remote `loggger101/General_Research`, branch `main`.
+
 - Domains `01_…` through `11_…` (more get added): `<NN_name>/sources_domain.csv` + `FINDINGS.md`, plus `full_texts/` for hosted files and `extracted_data/` for the numbers pulled out of each source. README "Layout" lists every domain.
 - Root: `INDEX.md` (per-domain source tables + research log), `sources.csv` (**generated** — never hand-edit), `full_texts_manifest.csv`, `revision_candidates.csv`, `AGENTS.md`, `tools/build_registry.py`, `tools/validate.py`.
 - Only this repo is editable. The target repos are read-only — their cells get anchored or flagged, never modified.
 
 ## Registry conventions
+
 - Per-domain CSV columns: id, tier, short_title, journal_or_series, year, doi_or_url, authors_short, access_status, pipeline_mapping.
 - IDs: lowercase letters, digits, `_` and `-`; permanent. Use the full registry id everywhere — INDEX rows, extracted-data `source_id`, candidate `source_ids` — never an abbreviation.
 - Tiers: T1 = peer-reviewed paper (journal/conference); T2 = official institutional document or presentation; T3 = dataset / derived product.
@@ -40,6 +42,7 @@ Standing multi-round task: anchor every load-bearing number in the user's `econo
 - Contradictions go to `revision_candidates.csv`: next `rc-NNN`, status `open`, target_repo / target_file / target_row / field, the **current upstream value**, the proposed change, evidence, `checked_against` = `<repo>@<short sha>` you read it from, `checked_date`. Statuses: `open`, `applied`, `declined`, `superseded`, `blocked`. When a re-check finds upstream changed, update that row's status, `checked_against` and `checked_date` — never add a duplicate.
 
 ## Round procedure (in order)
+
 0. `git pull --rebase`, then `python tools/validate.py`. The repo is edited from more than one machine and session; if validation fails before you start, fix or report that first — never build a round on a broken tree.
 1. Pick targets from the read-only tables — re-read them fresh from each repo's latest `main` every round; earlier reads may be stale. Also re-check `open` rows in `revision_candidates.csv` whose upstream may have changed.
 2. Discover sources: `web_search` with site-scoped queries (`site:ntrs.nasa.gov`, AIAA, conference names). NTRS is the workhorse for US launch/propulsion documents.
@@ -51,6 +54,7 @@ Standing multi-round task: anchor every load-bearing number in the user's `econo
 8. Commit (`--author="hermes-cronbot <cronbot@hermes.local>"` — the standing automation convention; do NOT use a personal identity for cron rounds), `git pull --rebase` again, push, then verify `git ls-remote origin main` equals local HEAD and the tree is clean. If the push is rejected, rebase, re-run step 7, push again. Update memory with the new state (item counts by tier, HEAD sha) — replace the old CURRENT STATE entry; do not append a second one.
 
 ## Pitfalls
+
 - **Rewriting INDEX.md drops history.** R43's full-file rewrite deleted Rounds 0–41 from the log and R46's deleted R45; all were recovered from git on 2026-09-26. `validate.py` fails if the log does not run 0..N without gaps — when it does, recover the missing entries (`git log -S'**Round N**' -- INDEX.md`, then `git show <sha>:INDEX.md`); never renumber or paper over.
 - **Narrow tables hide data.** 20 INDEX rows had three cells and domains 8–11 had three-column headers. GitHub drops cells beyond the header width, so the access and mapping columns silently vanished. Always the five-column header.
 - **Root-level `extracted_data/`.** FINDINGS paths are relative to the domain folder; R47–R57 wrote seven files to a root folder no link reached. Always `<domain>/extracted_data/`.
@@ -62,7 +66,9 @@ Standing multi-round task: anchor every load-bearing number in the user's `econo
 - **Round ends with verified-but-unregistered anchors.** If session/tool limits stop you after verification but before registration, record in memory exactly which items were live-verified (with their key numbers) plus the remaining steps — re-verifying on resume is fine; losing the verified state wastes a round.
 
 ## Round-craft pitfalls (rounds R42–R66)
+
 Lessons from rounds R42–R66, carried in the copy committed as `069e19a` (2026-09-27) and merged with v1.1.0 on 2026-10-01; the ones `tools/validate.py` now enforces were dropped.
+
 - **Citation sweep to find unanchored rows**: re-read every reference CSV live each round; extract source tokens (arXiv ids, NTRS 8-digit ids, DOIs, author-year) from the notes column and check each against registry ids + corpus text. The regex over-captures month-years as 'author years' — treat those hits as noise and verify real candidates by targeted id/corpus lookup before acting.
 - **User WIP in target repos is read-only input — sweep it, never touch it.** Uncommitted changes (or a merged PR) in spacecost/economicspace are inputs: diff `reference/*.csv` between HEAD and the pre-change commit to find NEW rows/changed values carrying institutional claims, anchor those; record problems as revision candidates. After any value-level change, re-verify that previously pinned anchors still hold against the new numbers (R52: PR #3 grew launch_vehicles 36→76 rows — delta_v_segments was unchanged so R49's pin survived; had values moved it would have been a finding). Company-target rows (SpinLaunch) need no institutional anchor.
 - **Join ssoBFT/parquet bodies on `number`, never name.** R42's first join on number=69230 returned "Hermes" — Bennu is number 101955. The name column can mislead; verify identity via JPL `ssd-api.jpl.nasa.gov/sbdb.api?sstr=<name>` (the working per-object endpoint; the bulk-only `sbdb_query.api` rejects s=/id=/des= params with HTTP 400).
@@ -82,4 +88,5 @@ Lessons from rounds R42–R66, carried in the copy committed as `069e19a` (2026-
 - **A wedged browser wastes ~20 min per attempt.** Two distinct failure modes: (a) CLI missing — error says "Browser Use CLI not installed" → fix = `hermes tools` install, NO restart needed; (b) daemon wedged — 420s timeouts even on a fresh named session → record "backend fault", move to non-browser routes, tell the user a Hermes restart is needed. If it fails once in a round, do NOT retry more than one additional time either way. Distinguish backend faults from target-site blocks before updating any registry access_status.
 
 ## Source access notes
+
 Per-site fetch patterns (NTRS, NASA OIG, ADS, AIAA, vendor datasheets) verified from this machine: see `references/source-access-notes.md`.

@@ -69,6 +69,7 @@ The commit agent MUST strip these fields before writing to data/research/*.json:
   — these are scratch fields used during curation but never stored
 
 Only these fields survive in the data files:
+
 - Articles: id, title, authors, journal, date, oa, country, preprint, retracted, url, summary
 - Trials: id, nct, title, status, statusRaw, registry, location, countries, date, url, summary, outcome
 

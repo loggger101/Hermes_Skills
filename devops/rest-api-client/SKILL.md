@@ -99,7 +99,9 @@ curl -s -I https://api.example.com/v1/items   # inspect Link header
 ## Procedure
 
 ### 1. Read the API contract
+
 Before calling, know:
+
 - Base URL + version path
 - Auth method (bearer, API key, basic, none)
 - Required headers (Content-Type, Accept, API version, etc.)
@@ -109,9 +111,11 @@ Before calling, know:
 - Rate limits (requests per minute/hour, burst)
 
 ### 2. Test connectivity + auth with a minimal call
+
 ```bash
 curl -s -w "\nhttp_code=%{http_code}\n" https://api.example.com/v1/items
 ```
+
 - `http_code=200` → good to go
 - `http_code=401` → auth wrong (token expired, wrong header, wrong key)
 - `http_code=403` → auth ok but not allowed
@@ -120,6 +124,7 @@ curl -s -w "\nhttp_code=%{http_code}\n" https://api.example.com/v1/items
 - `http_code=400/422` → request shape wrong
 
 ### 3. Handle auth
+
 - **Bearer token**: `-H "Authorization: Bearer $TOKEN"` — stored in env, not hardcoded
 - **API key header**: `-H "X-API-Key: $KEY"` (varies by API)
 - **API key query param**: `?api_key=$KEY` (less secure — URL may leak in logs)
@@ -128,9 +133,11 @@ curl -s -w "\nhttp_code=%{http_code}\n" https://api.example.com/v1/items
 - **Expired token**: re-fetch or refresh; don't retry the same call blindly
 
 ### 4. Paginate to get all results
+
 Pick the pattern from the API:
 
 **Page-based:**
+
 ```bash
 page=1
 while true; do
@@ -143,6 +150,7 @@ done
 ```
 
 **Cursor-based:**
+
 ```bash
 cursor=""
 while [ -n "$cursor" ] || [ -z "$cursor" ]; do
@@ -162,6 +170,7 @@ done
 For robust pagination, prefer `execute_code` (Python + `requests` or `urllib`) when the loop has logic beyond a simple shell loop. Python handles JSON parsing, retries, and rate-limit backoff more cleanly.
 
 ### 5. Handle errors
+
 - Check HTTP status before trusting the body
 - 4xx = you did something wrong (auth, shape, permissions) — fix the call
 - 5xx = server-side — retry with backoff, but don't retry forever
@@ -169,6 +178,7 @@ For robust pagination, prefer `execute_code` (Python + `requests` or `urllib`) w
 - Network errors (connection refused, DNS, timeout) — check the URL, the network, then retry a bounded number of times
 
 ### 6. Parse and use the response
+
 - Pretty-print to inspect: `curl -s ... | jq .`
 - Extract a field: `curl -s ... | jq -r '.data[].name'`
 - Save raw: `curl -s -o items.json ...`
@@ -186,8 +196,8 @@ For robust pagination, prefer `execute_code` (Python + `requests` or `urllib`) w
 | GET with Basic auth | `curl -s -u user:pass URL` |
 | POST JSON | `curl -s -X POST URL -H "Content-Type: application/json" -d '{"k":"v"}'` |
 | POST from file | `curl -s -X POST URL -d @payload.json` |
-| Pretty-print JSON | `curl -s URL | jq .` |
-| Extract field | `curl -s URL | jq -r '.data.name'` |
+| Pretty-print JSON | `curl -s URL \| jq .` |
+| Extract field | `curl -s URL \| jq -r '.data.name'` |
 | Save response to file | `curl -s -o out.json URL` |
 | Follow redirects | `curl -s -L URL` |
 | Verbose (debug) | `curl -s -v URL` |

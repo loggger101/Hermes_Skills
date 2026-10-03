@@ -16,7 +16,6 @@ metadata:
 
 Practical guide for building Streamlit dashboards that don't feel like demos — state management, caching, layout, charts, performance, and the common mistakes that make dashboards sluggish or incoherent.
 
-
 ## What This Skill Does
 
 Streamlit dashboards: layout, caching, charts, state.
@@ -38,6 +37,7 @@ Streamlit re-runs the entire script from top to bottom on every interaction. Thi
 - Order matters: top-to-bottom execution means the layout is defined by the order of your Streamlit calls.
 
 Implications:
+
 - Don't put expensive computation at the top level — it runs every re-render. Use caching.
 - Don't rely on local variables persisting across re-runs — they don't. Use `st.session_state`.
 - Don't write to disk or call external services at the top level without guarding — guard with buttons or session state flags.
@@ -369,6 +369,7 @@ if st.session_state.training:
 Streamlit doesn't have a built-in auto-refresh, but you can use `st.rerun()` with a sleep in a loop, or have the dashboard read from a shared log/file that the training process writes to, and check it on each re-run.
 
 For a training monitor, the cleanest pattern is:
+
 - Training writes metrics to a file / database as it runs.
 - Dashboard reads the file (cached, with ttl) on each re-run.
 - Dashboard auto-reruns via a small delay loop or user refresh.
@@ -426,32 +427,38 @@ A real pattern from CR-pipeline's Streamlit dashboard: 8 tabs covering fitness, 
 | Card Meta | Card data reference (card stats, levels, effects) — useful context for understanding the sim | `assets/card_data.json` |
 
 **Cross-tab state:**
+
 - A run selection in one tab (e.g., Runs tab picks a run to inspect) should be reflected in other tabs (Fitness shows that run's curves, Config shows that run's config).
 - Use `st.session_state` to carry the selected run across tabs — each tab reads it.
 - Don't reload the data for each tab independently — cache the data loading, and have tabs read from the cached data.
 
 **Run comparison (the most complex tab):**
+
 - Select multiple runs (checkboxes or multi-select).
 - Overlays their fitness curves (mean, best) on the same chart, with a legend.
 - Compares final stats side by side (final best fitness, final diversity, generations, evaluation time).
 - Optionally: tournament results between the champions of the selected runs (who beats whom).
 
 **Smoothing and statistical overlays:**
+
 - Fitness curves are noisy — apply smoothing (rolling mean, LOESS) for the visual, but show the raw data too (or on hover).
 - Statistical significance testing between runs (if two runs are selected, test whether their fitness difference is significant, not just whether the curves look different).
 
 **Live monitoring during training:**
+
 - A training run writes metrics as it goes (per-generation files or a live log).
 - The dashboard reads the latest metrics (cached with a short ttl) and updates the chart.
 - Resource monitoring (CPU/GPU/memory) from `resource_monitor.py` — show whether the run is CPU-bound, GPU-bound, memory-limited.
 - A "Stop" button that sets a flag in session state, checked by the training loop.
 
 **Performance at scale:**
+
 - Browsing many runs: don't load all runs' full metrics into memory at once. Load the selected run's metrics on demand (cached).
 - Large populations: show aggregated stats (mean, std, distribution) not the full per-agent table unless the user asks.
 - Long runs: paginate or limit the displayed generations (last N, or a downsampling) — a 1000-generation run doesn't need 1000 points on screen.
 
 **Layout patterns for multi-tab dashboards:**
+
 - Sidebar for global controls (run selection, refresh, stop training, clear cache).
 - Each tab is self-contained (its own data loading, its own charts) but reads shared state from session state and cached data.
 - A "Select run first" prompt if no run is selected and a tab needs one.
@@ -460,16 +467,19 @@ A real pattern from CR-pipeline's Streamlit dashboard: 8 tabs covering fitness, 
 ## Custom Components and Theming
 
 **Custom CSS:**
+
 - Inject custom CSS via `st.markdown("<style>...</style>", unsafe_allow_html=True)`.
 - Use for: consistent card styling, metric card layout, chart container sizing, sidebar styling, font overrides.
 - Keep custom CSS minimal — Streamlit's defaults are usually fine, and heavy CSS customization can break across Streamlit versions.
 
 **Custom components (advanced):**
+
 - Streamlit supports custom components (React-based, packaged as a component) for things the built-in widgets don't cover.
 - Use when: you need a chart type Streamlit doesn't support, a custom interactive visualization, or a UI element that Streamlit can't express.
 - Don't use for: anything that existing Streamlit widgets + Plotly can do — adding a custom component for a standard chart is over-engineering.
 
 **Theming:**
+
 - Streamlit has a theme system (light/dark, primary color, background, secondary background, text color) set in the config or the UI.
 - Set a consistent theme for the dashboard — don't leave it to the user's default.
 - Match the theme to the project's branding if the dashboard is customer-facing.
@@ -477,28 +487,33 @@ A real pattern from CR-pipeline's Streamlit dashboard: 8 tabs covering fitness, 
 ## Error Handling and User Feedback in Dashboards
 
 **What to show when data loading fails:**
+
 - A clear error message (what failed, why, what to do).
 - Not a stack trace (the user doesn't care about the traceback; it goes in the logs).
 - An offer to retry or to select a different run (if the failure is "this run doesn't exist").
 
 **What to show when no data is available:**
+
 - A clear "no data" state (no runs found, no metrics for this run, this run hasn't produced data yet).
 - Not an empty chart or an error — a "no data" state is informative.
 - Guidance: "Select a run from the Runs tab" or "This run is still training — check back in X minutes."
 
 **What to show during long-running operations:**
+
 - A status indicator ("Training in progress...", "Generation 47/200", "Best fitness so far: X").
 - A progress indicator if the total is known (progress bar for a known-length operation).
 - A "Stop" button if the operation can be stopped.
 - Don't leave the user looking at a frozen screen with no feedback.
 
 **Loading states:**
+
 - For data that takes a noticeable time to load (even cached), a brief "Loading..." indicator is nicer than a spinner that appears to be a hang.
 - For cached data that loads instantly, no loading state is needed — the dashboard should feel snappy.
 
 ## Testing Dashboards
 
 **What to test:**
+
 - The dashboard loads without errors on first visit (no missing state, no errors from uninitialized session state).
 - Run selection works (select a run, other tabs reflect the selection).
 - Charts render with data (not empty, not erroring).
@@ -506,11 +521,13 @@ A real pattern from CR-pipeline's Streamlit dashboard: 8 tabs covering fitness, 
 - Caching works (second visit to the same run is fast; changing the run reloads the data).
 
 **How to test:**
+
 - Load the dashboard as a subprocess (`streamlit run app.py`), point the browser at it, and check the page content.
 - Or test the underlying data-loading and chart-building functions directly (unit test the functions, not just the UI).
 - For dashboards that read run artifacts, use a small test run artifact (a directory with minimal metrics) so the tests are fast and deterministic.
 
 **What not to test:**
+
 - Pixel-perfect layout (Streamlit's layout isn't pixel-perfect and shouldn't be tested that way).
 - The exact chart appearance (colors, exact sizing) — test that the chart has the right data and the right axes, not that it looks identical to a reference image.
 

@@ -78,30 +78,35 @@ Skip any step = lying, not verifying
 ## Key Patterns
 
 **Tests:**
+
 ```
 OK:   [run test command] [see: 34/34 pass] -> "All tests pass"
 NO:   "Should pass now" / "Looks correct"
 ```
 
 **Regression tests (TDD red-green):**
+
 ```
 OK: write -> run (pass) -> revert fix -> run (MUST FAIL) -> restore -> run (pass)
 NO: "I've written a regression test" without the red step
 ```
 
 **Build:**
+
 ```
 OK: [run build] [see: exit 0] -> "Build passes"
 NO: "Linter passed" (linter doesn't check compilation)
 ```
 
 **Requirements:**
+
 ```
 OK: re-read plan -> checklist -> verify each item -> report gaps or completion
 NO: "Tests pass, phase complete"
 ```
 
 **Agent delegation:**
+
 ```
 OK: agent reports success -> check VCS diff -> verify changes -> report actual state
 NO: trust the agent's self-report

@@ -8,6 +8,7 @@ Usage: python tools/gen-skills-index.py
 Stdlib only (no PyYAML needed — description/name are extracted with regex, which is
 sufficient for the flat index; audit-skills.py does the strict validation).
 """
+
 import re
 import sys
 from pathlib import Path
@@ -57,6 +58,7 @@ def collect():
 
 MIN_SKILLS = 100  # write-guard floor: fewer means the scan failed
 
+
 def main():
     rows = collect()
     cats = sorted(set(r[0] for r in rows))
@@ -82,8 +84,14 @@ def main():
 
     lines_out = [ln + chr(10) for ln in lines]
     check = wants_check()
-    emit(REPO / "SKILLS-INDEX.md", "".join(lines_out),
-         count=len(rows), floor=MIN_SKILLS, label="gen-skills-index", check=check)
+    emit(
+        REPO / "SKILLS-INDEX.md",
+        "".join(lines_out),
+        count=len(rows),
+        floor=MIN_SKILLS,
+        label="gen-skills-index",
+        check=check,
+    )
     if not check:
         print(f"wrote SKILLS-INDEX.md: {len(rows)} skills, {len(cats)} categories")
     if missing_desc:
@@ -111,13 +119,13 @@ def write_category_descriptions(rows, cats):
         ps = str(p).replace("\\", "/")
         if any(s in ps for s in SKIP_PARTS):
             continue
-        parts = p.relative_to(REPO).parts          # (cat, [sub...], skilldir, SKILL.md) or (cat, SKILL.md)
+        parts = p.relative_to(REPO).parts  # (cat, [sub...], skilldir, SKILL.md) or (cat, SKILL.md)
         cat = parts[0]
-        if len(parts) == 2:                        # top-level single-skill category: <cat>/SKILL.md
+        if len(parts) == 2:  # top-level single-skill category: <cat>/SKILL.md
             by_cat.setdefault(cat, []).append((None, cat))
             continue
         name_dir = parts[-2]
-        rel_skill_dir = "/".join(parts[1:-2])      # '' for flat, 'evaluation' etc. for nested
+        rel_skill_dir = "/".join(parts[1:-2])  # '' for flat, 'evaluation' etc. for nested
         by_cat.setdefault(cat, []).append((rel_skill_dir, name_dir))
 
     written = 0
@@ -128,17 +136,25 @@ def write_category_descriptions(rows, cats):
         path = catdir / "DESCRIPTION.md"
         existing = path.read_text(encoding="utf-8") if path.exists() else ""
         fm_m = re.match(r"^---\n(.*?)\n---", existing, re.DOTALL)
-        frontmatter = (fm_m.group(0).rstrip("\n") + "\n\n") if fm_m else f"---\ndescription: {cat}.\n---\n\n"
+        frontmatter = (
+            (fm_m.group(0).rstrip("\n") + "\n\n") if fm_m else f"---\ndescription: {cat}.\n---\n\n"
+        )
 
         # blurb: derived deterministically from the frontmatter description (the old
         # hand-typed body lines had drift — doubled periods, stale text). fm_desc + "."
-        desc_m = re.search(r'^description:\s*"?([^"\n]+?)"?\s*$', fm_m.group(1), re.M) if fm_m else None
-        blurb = (desc_m.group(1).strip().rstrip(".") + ".") if desc_m and desc_m.group(1).strip() else f"{cat}."
+        desc_m = (
+            re.search(r'^description:\s*"?([^"\n]+?)"?\s*$', fm_m.group(1), re.M) if fm_m else None
+        )
+        blurb = (
+            (desc_m.group(1).strip().rstrip(".") + ".")
+            if desc_m and desc_m.group(1).strip()
+            else f"{cat}."
+        )
 
         items = sorted(by_cat.get(cat, []), key=lambda r: (r[0] or "", r[1].lower()))
         out = [frontmatter.rstrip("\n"), "", f"# {cat}", "", blurb, ""]
         for rel_skill_dir, name in items:
-            if rel_skill_dir is None:              # top-level single-skill category
+            if rel_skill_dir is None:  # top-level single-skill category
                 target = "./SKILL.md"
             elif not rel_skill_dir:
                 target = f"./{name}/SKILL.md"
@@ -147,9 +163,18 @@ def write_category_descriptions(rows, cats):
             # description from the live frontmatter rows (rows already carry it)
             desc = next((d for c2, n2, d in rows if c2 == cat and n2 == name), "")
             out.append(f"- [`{name}`]({target}) — {desc}")
-        out += ["", "*Regenerated from live frontmatter — keep in sync with `tools/gen-skills-index.py`.*"]
-        emit(path, chr(10).join(out) + chr(10), count=max(len(items), 1), floor=1,
-             label=f"gen-skills-index ({cat}/DESCRIPTION.md)", check=check)
+        out += [
+            "",
+            "*Regenerated from live frontmatter — keep in sync with `tools/gen-skills-index.py`.*",
+        ]
+        emit(
+            path,
+            chr(10).join(out) + chr(10),
+            count=max(len(items), 1),
+            floor=1,
+            label=f"gen-skills-index ({cat}/DESCRIPTION.md)",
+            check=check,
+        )
         written += 1
     if not check:
         print(f"wrote DESCRIPTION.md for {written} categories (skill lists now match disk)")

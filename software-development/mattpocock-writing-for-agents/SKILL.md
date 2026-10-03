@@ -14,6 +14,7 @@ metadata:
 ## When to Use
 
 When writing prompts, agent instructions, skills, or documentation that will be consumed by an AI agent rather than a human. Use this skill whenever you're creating or editing:
+
 - A `SKILL.md` file
 - An `AGENTS.md` or `CLAUDE.md` file
 - A system prompt or task instruction
@@ -39,6 +40,7 @@ Provides principles and templates for writing documentation that agents can pars
 ## For Skills (SKILL.md)
 
 ### Frontmatter
+
 ```yaml
 ---
 name: skill-name
@@ -55,12 +57,14 @@ metadata:
 ```
 
 **Field rules:**
+
 - `name`: lowercase, hyphens only
 - `description`: max 59 chars, trigger-first, ends with period
 - `version`: use semver; bump for substantive changes
 - `related_skills`: every skill this one references via `skill_view()`
 
 ### Body Structure
+
 ```
 ## When to Use
 ## What This Skill Does  (scope + boundaries)
@@ -73,6 +77,7 @@ metadata:
 ```
 
 ### Anti-patterns
+
 | What Agents See | Problem | Fix |
 |----------------|---------|-----|
 | \"Take appropriate action\" | Vague, no definition of \"appropriate\" | \"If the diff is <100 lines, approve. If >100, request changes.\" |
@@ -83,6 +88,7 @@ metadata:
 ## For AGENTS.md / CLAUDE.md
 
 ### Essential Sections
+
 1. **Project purpose** — one sentence: what is this project?
 2. **Conventions** — formatting, naming, testing patterns
 3. **Available tools** — what tools exist, how to use them
@@ -91,6 +97,7 @@ metadata:
 6. **Failure handling** — what to do when tests fail, when build breaks
 
 ### Example Template
+
 ```markdown
 # Project Name — For AI Agents
 
@@ -126,12 +133,14 @@ This project [does X]. It is used by [audience] to [achieve Y].
 ## For Cronjob Prompts
 
 ### Self-Containment Rules
+
 1. **Embed exact guardrails** — copy thresholds, validation rules, rejection criteria directly into the prompt
 2. **No context bleed** — the prompt must work in a fresh session with zero prior context
 3. **Explicit failure modes** — what does \"nothing to do\" look like? What does \"error\" look like?
 4. **Output shape** — specify the exact JSON/CSV/text format expected as output
 
 ### Template
+
 ```
 You are a [role] running a [frequency] task. Your job: [one-sentence purpose].
 

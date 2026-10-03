@@ -20,6 +20,7 @@ Layered mental model: **composition roots** (thin orchestration wiring modules t
 ## The eight named violations [VERIFIED]
 
 These are review-ready names for what `architecture-metrics`'s coupling/cycle numbers point at:
+
 1. **Colliding concepts** — same name/schema meaning different things in different modules; duplicate "global" definitions that diverge over time
 2. **Reach-through persistence** — a module reading/writing another's tables/buckets/documents without going through an agreed contract (the cross-module deep-import analog for data)
 3. **Centralized data ownership** — one persistence layer registering/exposing ALL stores for ALL modules, encouraging hidden coupling

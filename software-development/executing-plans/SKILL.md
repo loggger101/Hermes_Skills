@@ -28,6 +28,7 @@ Load plan -> review critically -> execute all tasks in order -> report when comp
 ## The Process
 
 ### Step 1: Load and Review Plan
+
 1. Ensure an isolated workspace if the work needs one — `skill_view(name='mattpocock-using-git-worktrees')` (create or verify existing). Never start implementation on main/master without explicit user consent.
 2. Read the plan file in full. If it names a spec, read that too — the spec is the authority the plan argues from; resolve any plan-vs-plan conflict against it.
 3. **Review critically** before starting: internal contradictions? missing context? steps that assume state no earlier step creates? Anything you'd get stuck on mid-run?
@@ -35,7 +36,9 @@ Load plan -> review critically -> execute all tasks in order -> report when comp
 5. If clean: create a todo per task and proceed.
 
 ### Step 2: Execute Tasks (in order)
+
 For each task:
+
 1. Mark it `in_progress` in the todo list.
 2. Follow each step exactly — plans carry bite-sized steps with exact paths, code, and verification commands; do not paraphrase them into something vaguer.
 3. Run every verification as specified (tests, builds, expected output). A skipped verification is an unverified task.
@@ -44,11 +47,13 @@ For each task:
 **Checkpoint rule:** pause for the user at natural boundaries — end of each task group, before any destructive or hard-to-reverse step (drop, force-push, schema migration), and whenever a step's outcome differs from what the plan predicted. Between checkpoints you may proceed autonomously; "should I continue?" prompts between every single step are noise.
 
 ### Step 3: Complete Development
+
 After all tasks complete and verify: hand off to `skill_view(name='mattpocock-finishing-a-development-branch')` — it verifies the full suite, detects environment (worktree vs normal), presents merge/PR/keep options, and cleans up only what is safe.
 
 ## When to Stop and Ask for Help
 
 **STOP executing immediately when:**
+
 - Hit a blocker (missing dependency, test fails after two attempts, instruction unclear)
 - The plan has critical gaps preventing starting or continuing
 - You don't understand an instruction — **ask rather than guess**; a guessed interpretation that's wrong costs more than the question

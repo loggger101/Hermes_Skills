@@ -15,15 +15,19 @@ type: mental-model
 title: <Title Case Name>
 description: <one sentence — what the model does, not what topic it is about>
 tags:
+
 - <area, e.g. incident-response>
 - <situation, e.g. outage>
 - <the words you would actually use when you have this problem>
+
 status: draft
 sources:
+
 - id: <short-key>
   resource: <URL, book page, internal doc, or a link to the incident it came from>
   title: <what it is>
   author: <who>
+
 ---
 
 <!--

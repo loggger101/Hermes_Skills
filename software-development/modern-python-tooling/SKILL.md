@@ -139,6 +139,7 @@ Commit `uv.lock`. Use `src/` layout for packages. Enforce coverage minimum (80%+
 ## Migration Guide (when asked)
 
 **requirements.txt + pip → uv:** scripts become PEP 723; projects:
+
 ```bash
 uv init --bare
 grep -v '^#' requirements.txt | grep -v '^-' | grep -v '^\s*$' | while read -r pkg; do

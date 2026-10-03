@@ -34,15 +34,19 @@ Actively builds and sharpens the project's domain model: maintains a `CONTEXT.md
 ## The Process
 
 ### 1. Read the existing glossary first
+
 Before introducing any term, check `CONTEXT.md`. Terms should be:
+
 - **Precise** — one clear definition, no overlap with other terms
 - **Domain-first** — defined in the project's language, not technical jargon
 - **Actionable** — usable in conversation and code names
 
 ### 2. Add/Sharpen terms as you work
+
 `CONTEXT.md` is a **glossary** and nothing else. Each entry: `term` → `definition in domain language`.
 
 **Good entry:**
+
 ```
 | Term | Definition |
 |------|-----------|
@@ -50,17 +54,21 @@ Before introducing any term, check `CONTEXT.md`. Terms should be:
 ```
 
 **Bad entry (too vague):**
+
 ```
 | Thing | Something we work with |
 ```
 
 **Bad entry (technical, not domain):**
+
 ```
 | Parser | Class that parses XML |
 ```
 
 ### 3. Stress-test with edge cases
+
 For each term, ask:
+
 - **Simplest valid example** — what's the minimal case where this term applies?
 - **Edge case** — what scenario breaks the assumption?
 - **Conflict** — does this term overlap with another? If so, which wins?
@@ -68,9 +76,11 @@ For each term, ask:
 Write these down. They become test cases.
 
 ### 4. Write ADRs for decisions
+
 When a design decision crystallizes, capture it as an ADR in `docs/adr/`.
 
 **ADR format:**
+
 ```markdown
 # 0003-{decision-topic}
 
@@ -88,6 +98,7 @@ What becomes easier/harder. Include AspireCURES-specific impacts.
 ```
 
 ### 5. Challenge every new term against the glossary
+
 **Every new term** → check `CONTEXT.md`. Add if missing, sharpen if vague, reconcile overlaps. If you can't define it in one sentence, you don't understand it well enough yet.
 
 ## ADR Lifecycle

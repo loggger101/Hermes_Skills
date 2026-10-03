@@ -28,20 +28,20 @@ def fmt(seconds: float) -> str:
         return f"{h}h {m}m {s}s"
     if m:
         frac = total - int(total)
-        return (f"{m}m {int(s)}s" if abs(frac) < 1e-9 else f"{m}m {s + frac:.2f}s")
+        return f"{m}m {int(s)}s" if abs(frac) < 1e-9 else f"{m}m {s + frac:.2f}s"
     return f"{total:.2f}s"
 
 
 # Period lengths used by the primer's tables (365.2425-day year, 30.4375-day month avg).
-YEAR = int(365.2425 * 86400)          # 31,556,952 s
-MONTH = YEAR // 12                    # 2,629,746 s (primer's tables use ~this granularity)
-WEEK = 7 * 86400                      # 604,800 s
+YEAR = int(365.2425 * 86400)  # 31,556,952 s
+MONTH = YEAR // 12  # 2,629,746 s (primer's tables use ~this granularity)
+WEEK = 7 * 86400  # 604,800 s
 DAY = 86400
 
 # The primer's published values — what we verify against.
 PUBLISHED = {
-    99.9:   {"year": "8h 45m 57s", "month": "43m 49.7s", "week": "10m 4.8s", "day": "1m 26.4s"},
-    99.99:  {"year": "52min 35.7s", "month": "4m 23s", "week": "1m 5s", "day": "8.6s"},
+    99.9: {"year": "8h 45m 57s", "month": "43m 49.7s", "week": "10m 4.8s", "day": "1m 26.4s"},
+    99.99: {"year": "52min 35.7s", "month": "4m 23s", "week": "1m 5s", "day": "8.6s"},
 }
 
 
@@ -57,7 +57,7 @@ def parallel_availability(*availabilities_pct) -> float:
     """Redundant components in parallel (any one up suffices)."""
     down = 1.0
     for p in availabilities_pct:
-        down *= (1 - p / 100)
+        down *= 1 - p / 100
     return (1 - down) * 100
 
 
@@ -81,7 +81,7 @@ def _self_test() -> None:
             elif "m" in pub_str:
                 mpart, spart = pub_str.split("m ")
                 ps += int(mpart) * 60 + float(spart.replace("s", ""))
-            else:                                  # bare seconds, e.g. "8.6s"
+            else:  # bare seconds, e.g. "8.6s"
                 ps = float(pub_str.replace("s", ""))
             rows[period] = fmt(computed_s)
             if period == "week" and pct == 99.99:
@@ -90,13 +90,18 @@ def _self_test() -> None:
                 # its tables) gives 7*86400*0.0001 = 60.48 s ~= "1m 0.5s". We assert the
                 # CORRECT value and record the deviation instead of rubber-stamping it.
                 assert abs(computed_s - 60.48) < 0.6, f"week@99.99: {computed_s}"
-                print(f"    note: primer's published week cell is '{pub_str}' but its own "
-                      f"arithmetic gives {rows[period]} (deviation {ps - computed_s:+.1f}s)")
+                print(
+                    f"    note: primer's published week cell is '{pub_str}' but its own "
+                    f"arithmetic gives {rows[period]} (deviation {ps - computed_s:+.1f}s)"
+                )
             else:
                 assert abs(computed_s - ps) <= 1.0, (
-                    f"{pct}% {period}: computed {computed_s:.2f}s vs published {ps}s ({pub_str})")
-        print(f"  {pct}%-uptime: year={rows['year']} month={rows['month']} "
-              f"week={rows['week']} day={rows['day']}   [matches primer]")
+                    f"{pct}% {period}: computed {computed_s:.2f}s vs published {ps}s ({pub_str})"
+                )
+        print(
+            f"  {pct}%-uptime: year={rows['year']} month={rows['month']} "
+            f"week={rows['week']} day={rows['day']}   [matches primer]"
+        )
 
     # --- Sequence composition ---------------------------------------------------
     s2 = seq_availability(99.9, 99.9)
@@ -117,8 +122,10 @@ def _self_test() -> None:
     p3 = parallel_availability(99.9, 99.9, 99.9)
     print(f"three parts: sequence -> {s3:.4f}%   parallel -> {p3:.6f}%")
 
-    print("\navailability_math: all self-tests passed "
-          "(nines tables match published values; seq/parallel composition verified)")
+    print(
+        "\navailability_math: all self-tests passed "
+        "(nines tables match published values; seq/parallel composition verified)"
+    )
 
 
 if __name__ == "__main__":

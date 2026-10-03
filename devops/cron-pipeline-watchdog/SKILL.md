@@ -38,6 +38,7 @@ recovered = in retry-state but no longer stale  → clear its retry entry
 ```
 
 Key properties that make this safe to run unattended:
+
 1. **Persistent state on disk** (`data/retry-state.json`-style, committed) — survives across daily runs; without it the watchdog retries forever or gives up after one cycle depending on which bug you hit first.
 2. **Idempotent escalation**: before creating an issue, search open issues for its exact title (e.g. `[watchdog] <name> pipeline failing`); if one exists, do nothing. Same principle as any deduped alerting — the watchdog must never spam.
 3. **NO_RETRY set** for jobs where a re-trigger has real cost: in the source repo this is `tle-history`, because Space-Track bans accounts that make more than ~2 requests/day. Any authed/rate-limited upstream belongs here, not in the retry path.
@@ -46,6 +47,7 @@ Key properties that make this safe to run unattended:
 ## Deriving period from a schedule expression (the trick that removes per-job config)
 
 No hardcoded cadence table — parse each workflow's cron field:
+
 - day-of-week ≠ `*` → weekly (7 days)
 - month field limited: comma list → n months; step `*/N` → 12/N times/year; single month → annual. period = max(1, 366 // n_months)
 - day-of-month is a digit with month `*` → monthly (31 days)
@@ -77,6 +79,7 @@ Notes: `GH_TOKEN` from the built-in secret is enough for `gh run list / workflow
 ## Adapting outside GitHub Actions (e.g. Hermes cron)
 
 The same state machine works with any scheduler:
+
 - "CI status" → the job's last-run result record (Hermes cronjob history, systemd timers, APScheduler logs — whatever records success/failure per run).
 - "trigger re-run" → `cronjob_manage` action or a direct invocation; keep NO_RETRY for anything authed.
 - "escalate issue" → deliver='origin' message to the user's chat (the Hermes equivalent of an idempotent issue: check whether you already alerted within N days before alerting again).
@@ -91,6 +94,7 @@ The same state machine works with any scheduler:
 ## Bounded self-healing loop (pattern from tech-leads-club/agent-skills' nx-ci-monitor, mined 2026-09-17)
 
 Their CI monitor generalizes this skill's retry→escalate state machine with four bounds that keep "self-heal" from becoming "flail":
+
 1. **Two independent caps**: max fix CYCLES (default 10) AND total wall-clock timeout (default 120 min) — a fast-failing loop can burn cycles without time; a slow one burns time without cycles. Either cap alone is escapable, together they're not.
 2. **Local-verify-before-CI**: up to N local verification + fix attempts (default 3) BEFORE pushing anything back to CI — each remote round-trip costs minutes and pollutes the run history; a fix that can't pass locally doesn't deserve a pipeline slot.
 3. **Known-failure auto-fix is a CLOSED list** (`--auto-fix-workflow`): only pre-declared cheap classes (lockfile regeneration, dependency bumps) are attempted before human escalation — an open-ended "try to fix it" agent on CI logs is how you get force-pushes at 3am.

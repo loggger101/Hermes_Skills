@@ -32,6 +32,7 @@ pipeline where "the number didn't move" must be *proven*, not assumed.
 When correctness = exact float hash, **an operation-reordering "cleanup" is a change to the proof**,
 not just the number. Re-associating arithmetic moves the last ULP and can flip whether a marginal row
 survives a prune — with no visible error. So:
+
 - A numerically negligible change (1e-13 relative) that re-orders or re-parses floats is **refused**, not accepted.
 - The one shape of change that IS free is a change that only **EVICTS** (e.g. bounding an `lru_cache`
   of a deterministic pure function): it forces recomputation of the identical float, re-associates nothing, approximates nothing.
@@ -74,6 +75,7 @@ list you add to rather than rewrite from scratch (this harness was written ~12 t
 
 `math.exp/log/cos` are platform libm; numpy picks SIMD kernels per architecture. None is IEEE-required
 to be correctly rounded (only `sqrt`, etc., are). So two byte-perfect runs on different CPUs can differ in the last ULP with every input identical.
+
 - **Do not file cross-host deltas as regressions.** Re-baseline on that host and compare across hosts *with a tolerance*.
 - A fast platform check: hash raw IEEE bit patterns of `math.exp/log/cos` over the model's own argument ranges, using an IEEE-guaranteed function (`sqrt`) as the control. If it diverges, you know before running anything expensive.
 - **Line endings are part of the hash.** Pin `lineterminator="\r\n"` (or whatever) in every CSV writer AND the hasher; pandas.to_csv defaults to os.linesep, so an unpinned CRLF pin makes a byte-perfect Linux run report DIFFER on all cells with every float identical. It reads like a Windows leftover and is exactly why it must be called out.

@@ -7,6 +7,7 @@
 **Status:** ready-for-agent
 
 **Acceptance criteria:**
+
 - [ ] Data source parser returns valid JSON for this disease
 - [ ] Gatekeeper scoring produces expected pass/fail count
 - [ ] Disease page renders correctly in the pipeline output

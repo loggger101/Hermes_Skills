@@ -32,6 +32,7 @@ that re-export via `__all__`. **The authoritative symbol list lives in each modu
 ## Verified snippets (run 2026-09-06, Windows py3.11)
 
 ### Orbital period — README quick start
+
 ```python
 import brahe as bh
 a = bh.constants.R_EARTH + 400e3      # meters: 400 km altitude LEO
@@ -41,6 +42,7 @@ print(f"{T/60:.2f} min")
 ```
 
 ### Keplerian propagation — from `examples/common/propagating_an_orbit.py` (pytest-gated upstream)
+
 ```python
 import numpy as np, brahe as bh
 a = bh.constants.R_EARTH + 700e3      # m; e/i/raan/argp/M in DEGREES via AngleFormat
@@ -52,9 +54,11 @@ eci = prop.trajectory.to_eci()        # iterable of (epoch, state[6]) in meters/
 for ep, s in eci: print(ep, f"{s[0]/1e3:.2f} km")
 prop.propagate_to(epoch + 86400*7)    # or propagate to an absolute epoch
 ```
+
 Verified output (first state): `r0=(-1514.4,-1475.6,6753.0) km` at `2026-09-06 05:17 UTC`.
 
 ### JPL Horizons SPK fetch for a small body — from `examples/datasets/horizons_spk.py`
+
 ```python
 import brahe as bh
 t0 = bh.Epoch.from_datetime(2015, 12, 1, 0, 0, 0.0, 0.0, bh.TimeSystem.TDB)
@@ -67,12 +71,14 @@ print(resp.path)
 ```
 
 ### The small-body recipe (`examples/examples/dawn_ceres_orbit.py`) — the pattern for ANY body brahe lacks built-in constants for (asteroid, comet nucleus, dwarf planet):
+
 1. Resolve the body in **SBDB** → NAIF/SPK ID + SI GM/radius (brahe has no built-ins beyond Earth/Moon/Mars).
 2. Fetch + load a targeted **Horizons SPK** so third-body/SRP perturbations resolve around it.
 3. Register `CentralBody.Custom` (GM, radius) and a custom body-fixed frame via IAU-style pole/prime-meridian (`register_custom_frame`) — SBDB does not provide spin models.
 4. Propagate with point-mass gravity + solar/Jovian third-body + SRP; report states in the custom frame.
 
 ## Gotchas
+
 - **Install reality on THIS machine (verified 2026-09-07):** Python is **3.11.16** here; brahe 1.7.0 ships a `cp311-cp311-win_amd64` wheel (full matrix cp310–cp314 × win/linux/macos on PyPI), so it installs with no Rust toolchain and no CSPICE build. Note: the economicspace repo's SECOND-PASS.md says "this machine at Python 3.14.6" — that was a different host; don't copy its wheel claim verbatim.
 - **Units are SI at the boundary**: elements take meters (not km), angles via `AngleFormat`; trajectory states come back in m / m·s⁻¹ — divide by 1e3 for km display.
 - EOP data must be initialized before high-fidelity frame transforms: call `bh.initialize_eop()` once per process.

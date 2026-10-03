@@ -25,6 +25,7 @@ Picks the astrodynamics library for the job (skyfield, brahe, nyx, OpenSCvx, Cam
 Verified 2026-09 from source of duncaneddy/brahe, nyx-space/nyx, OpenSCvx/OpenSCvx, cuspaceflight/CamPyRoS, skyfielders/python-skyfield (clones were read-only; re-clone with `git clone --depth 1` if you need verbatim examples).
 
 ## Decision rule
+
 | Job | Tool | Why |
 |---|---|---|
 | Propagate orbits / ephemerides of solar-system bodies + TLE sats | **skyfield** (MIT, pip) | Elegant, cached data files (`Loader`), no build step. Fastest path to positions/velocities. |
@@ -35,17 +36,20 @@ Verified 2026-09 from source of duncaneddy/brahe, nyx-space/nyx, OpenSCvx/OpenSC
 | Global multi-objective optimization of black-box mission objectives (e.g. profit vs delta-v Pareto) | **pygmo** (`conda install -c conda-forge pygmo`) | Island-model parallelism + BFE batch evaluation. **PyPI wheels are Linux-only — on Windows use conda-forge or build from source.** JOSS-reviewed; cite Biscani & Izzo 2020 if used in research. |
 
 ## Verified patterns
+
 - OpenSCvx Hohmann (from examples/spacecraft/hohmann_transfer.py): planar 2-body Earth-centered, `mu=3.986e5 km^3/s^2`, impulsive dv at initial+final nodes via discrete dynamics (`v += dv; cost += ||dv||`), fixed half-period transfer time, scalar accumulated-cost state minimized at final node. Initial guess must avoid r≈0 (singular gravity).
 - brahe: check `pyproject.toml` version before pinning; examples/ has Dawn/Ceres-class missions.
 - skyfield: top-level import pulls most of the library — use submodules (`skyfield.api`, `skyfield.topos`) for speed in hot loops.
 
 ## Gotchas
+
 - Units are the #1 bug source across all five: km vs m, deg vs rad, J2000 epoch conventions differ per lib. State units explicitly at every API boundary and unit-test against a known ephemeris (e.g. skyfield position of Earth on a fixed date).
 - nyx AGPL = reference/cross-check only; don't plan builds around it (the Python pkg is live, but copyleft still blocks shipping).
 - OpenSCvx needs JAX — CPU works but GPU strongly preferred for batched problems (`pip install openscvx[cvxpygen]` optional extra).
 - CamPyRoS on Windows: runs WITHOUT ray via its bundled `ray_alt.py` serial shim (verified round 2 — see references/optimization-toolkit.md); Monte Carlo works single-threaded, just slow. Skip the stats module only if you need speed.
 
 ## References (verified API detail lives here)
+
 - `references/brahe-api-reference.md` — brahe 1.7.0 full module map + live-run snippets (Horizons SPK fetch for any small body; Celestrak query builder; EKF/UKF/BLS estimation).
 - `references/skyfield-api-reference.md` — skyfield **1.55 breaking changes** (load() contract), de430s.bsp 404 on both JPL mirrors, phase-angle trap with numbers, osculating-elements solver for independent element checks.
 - `references/openscvx-patterns.md` — OpenSCvx core problem pattern (State/dynamics/Problem.solve), Hohmann example constants verbatim, autotuner class map.

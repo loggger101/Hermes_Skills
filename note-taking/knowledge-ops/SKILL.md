@@ -32,36 +32,43 @@ Defines a layered architecture for durable knowledge — active execution truth,
 ## Knowledge Architecture
 
 Prefer the live workspace model:
+
 - code work lives in the real cloned repos
 - active execution context lives in GitHub, Linear, and repo-local working-context files
 - broader human-facing notes can live in a non-repo context/archive folder
 - durable cross-machine memory belongs in the knowledge base, not in a shadow repo workspace
 
 ### Layer 1: Active execution truth
+
 - **Sources:** GitHub issues, PRs, discussions, release notes; Linear issues/projects/docs
 - **Use for:** the current operational state of the work
 - **Rule:** if something affects an active engineering plan, roadmap, rollout, or release, prefer putting it here first
 
 ### Layer 2: Quick-access memory files (e.g. Hermes `memories/`)
+
 - **Path:** profile-level MEMORY.md / USER.md style stores
 - **Format:** Markdown with compact high-signal entries
 - **Types:** user preferences, feedback, project context, reference
 - **Use for:** quick-access context that persists across conversations and is injected at session start
 
 ### Layer 3: Structured knowledge graph (MCP memory or equivalent)
+
 - **Access:** MCP memory tools (`create_entities`, `create_relations`, `add_observations`, `search_nodes`) where available; otherwise a grep-indexable flat index file
 - **Use for:** semantic search across all stored memories, relationship mapping
 - Cross-session persistence with queryable graph structure
 
 ### Layer 4: Knowledge base repo / durable document store
+
 - **Use for:** curated durable notes, session exports, synthesized research, operator memory, long-form docs
 - **Rule:** this is the preferred durable store for cross-machine context when the content is not repo-owned code (this Hermes_Skills repo itself plays this role)
 
 ### Layer 5: External data store (Supabase, PostgreSQL, etc.)
+
 - **Use for:** structured data, large document storage, full-text search
 - Good for documents too large for memory files, or data needing SQL queries
 
 ### Layer 6: Local context/archive folder
+
 - **Use for:** human-facing notes, archived gameplans, local media organization, temporary non-code docs
 - Writable for information storage, but not a shadow code workspace
 - **Do not use for:** active code changes or repo truth that should live upstream
@@ -71,7 +78,9 @@ Prefer the live workspace model:
 When new knowledge needs to be captured:
 
 ### 1. Classify
+
 What type of knowledge is it?
+
 - Business decision → memory file (project type) + semantic store
 - Active roadmap / release / implementation state → GitHub first
 - Personal preference → user-profile memory entry
@@ -80,32 +89,41 @@ What type of knowledge is it?
 - Conversation/session → knowledge base repo + short summary in memory
 
 ### 2. Deduplicate
+
 Check if this knowledge already exists:
+
 - Search memory files for existing entries
 - Query the semantic store with relevant terms (or grep SKILLS-INDEX / REFERENCES-INDEX)
 - Check whether the information already exists in GitHub before creating another local note
 - Do not create duplicates — update existing entries instead
 
 ### 3. Store
+
 Write to appropriate layer(s):
+
 - Always update quick-access memory for cross-session recall
 - Use the semantic store for searchability and relationship mapping when available
 - Update GitHub first when the information changes live project truth
 - Commit to the knowledge base repo for durable long-form additions
 
 ### 4. Index
+
 Update any relevant indexes or summary files (e.g. flat grep indices, category DESCRIPTIONs).
 
 ## Sync Operations
 
 ### Conversation sync
+
 Periodically sync conversation history into the knowledge base:
+
 - Sources: agent session exports from this and other harnesses
 - Destination: knowledge base repo
 - Generate a session index for quick browsing; commit and push
 
 ### Workspace state sync
+
 Mirror important workspace configuration and scripts to the knowledge base:
+
 - Generate directory maps
 - Redact sensitive config before committing (API keys, tokens — never preserve credentials)
 - Track changes over time
@@ -113,13 +131,17 @@ Mirror important workspace configuration and scripts to the knowledge base:
 - **Cross-check CLI output against disk** — CLI inventories only surface registered items; filesystem-only artifacts are invisible. When syncing a live environment's inventory to docs, a `hermes plugins list --json` call returns only Python plugins. Standalone desktop plugins in `desktop-plugins/` (no Python component, no catalog entry) appear only on disk. A marker file's absence (e.g. `.hermes-package.json` missing from a `desktop-plugins/<name>/` dir) is the signal that the item is standalone and needs separate tracking, not a sign of an incomplete install. Always scan the inventory directory directly as a data source alongside CLI calls.
 
 ### GitHub / Linear sync
+
 When information affects active execution:
+
 - update the relevant GitHub issue, PR, discussion, release notes, or roadmap thread
 - attach supporting docs to Linear when the work needs durable planning context
 - only mirror a local note afterwards if it still adds value
 
 ### Cross-source knowledge sync
+
 Pull knowledge from multiple sources into one place:
+
 - conversation exports (Hermes session_search, ChatGPT/Grok/Claude exports)
 - browser bookmarks
 - GitHub activity events
@@ -148,6 +170,7 @@ Pull knowledge from multiple sources into one place:
 ## Quality Gate
 
 Before completing any knowledge operation:
+
 - no duplicate entries created
 - sensitive data redacted from any Git-tracked files
 - indexes and summaries updated

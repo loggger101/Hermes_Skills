@@ -84,14 +84,18 @@ sqlite3 mydb.db ".mode csv\n.import data.csv new_table"
 ## Procedure
 
 ### 1. Locate and verify the DB
+
 - Confirm the file path exists and is readable
 - Quick integrity check:
+
   ```bash
   sqlite3 mydb.db "PRAGMA integrity_check;"
   ```
+
   Returns `ok` on healthy DBs. Anything else means corruption — stop and flag it.
 
 ### 2. Discover the schema
+
 ```bash
 sqlite3 mydb.db ".tables"                  # table names
 sqlite3 mydb.db ".schema"                  # all CREATE statements
@@ -101,27 +105,34 @@ sqlite3 mydb.db "PRAGMA index_list(users);"         # indexes on a table
 ```
 
 ### 3. Run the query
+
 - Simple one-shot: `sqlite3 mydb.db "SELECT ..."`
 - For results you need to parse: `sqlite3 -header -csv mydb.db "SELECT ..."` and read the stdout
 - For aggregates/analytics: write the query, run it, read the output
 - For exploratory work: interactive `sqlite3` with `pty=true`
 
 ### 4. Export
+
 - To CSV: `sqlite3 -header -csv db "SELECT ..." > out.csv`
 - To JSON (SQLite 3.38+): `sqlite3 -json db "SELECT ..."`
 - To a file inside SQLite: use `.output filename` then `.output stdout`
 
 ### 5. Modify data (if the task requires it)
+
 - Use transactions for multi-statement changes:
+
   ```bash
   sqlite3 mydb.db "BEGIN; UPDATE ...; INSERT ...; COMMIT;"
   ```
+
 - Back up the DB file before destructive changes if it's not already backed up:
+
   ```bash
   cp mydb.db mydb.db.bak
   ```
 
 ### 6. Verify
+
 - Re-run the query or a summary to confirm the result matches expectation
 - For exports, read back the CSV/JSON and check row counts and key values
 

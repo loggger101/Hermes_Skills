@@ -18,6 +18,7 @@ under references/ are indexed too (e.g. references/layouts/bento-grid.md) — a 
 references/*.md glob silently hid 42 docs. Regenerate after adding/removing/renaming
 any references/**/*.md. Stdlib only.
 """
+
 import re
 import sys
 from pathlib import Path
@@ -78,22 +79,32 @@ def main() -> None:
         "# REFERENCES-INDEX",
         "",
         f"Flat index of all **{len(docs)} reference documents** in this second brain — one line each, grep-friendly.",
-        "Format: `- `path` — purpose _(owner skill)_`. Regenerate with `python tools/gen-references-index.py`.",
+        "Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.",
         "",
     ]
     current = None
     for owner, rel, purp in docs:
         if owner != current:
+            if current is not None:
+                lines.append("")  # close the previous owner's list before the next heading
             lines += [f"## {owner}", ""]
             current = owner
         # strip the frontmatter description's leading verb noise? no — keep verbatim.
         lines.append(f"- `{rel}` — {purp}")
     check = wants_check()
-    emit(OUT, chr(10).join(lines) + chr(10),
-         count=len(docs), floor=MIN_REFS, label="gen-references-index", check=check)
+    emit(
+        OUT,
+        chr(10).join(lines) + chr(10),
+        count=len(docs),
+        floor=MIN_REFS,
+        label="gen-references-index",
+        check=check,
+    )
     if not check:
-        print(f"REFERENCES-INDEX.md: {len(docs)} docs across "
-              f"{len({o for o, _, _ in docs})} owning skills -> {OUT.name}")
+        print(
+            f"REFERENCES-INDEX.md: {len(docs)} docs across "
+            f"{len({o for o, _, _ in docs})} owning skills -> {OUT.name}"
+        )
 
 
 if __name__ == "__main__":

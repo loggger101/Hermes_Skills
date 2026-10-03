@@ -16,7 +16,6 @@ metadata:
 
 Guide for testing ML systems — simulation engines, evolutionary algorithms, tournament evaluation, checkpoints/resume, and the patterns that catch real defects without making tests useless or slow.
 
-
 ## What This Skill Does
 
 Testing ML systems: sims, EAs, tournaments, checkpoints.
@@ -111,6 +110,7 @@ Known-answer tests are the most valuable when the computation is hard to verify 
 ### Edge cases
 
 Test the boundaries:
+
 - Circular orbit (e=0): do the conversions handle the degeneracy?
 - Escape trajectory (e>=1): does the code handle hyperbolic orbits?
 - Zero velocity, zero distance: does it crash or handle gracefully?
@@ -351,6 +351,7 @@ def test_resume_reproduces_state(save_dir, tmp_path):
 ### Deterministic test configs
 
 For tests that run the actual pipeline (training, simulation, evolution):
+
 - Small population, few generations, fixed seed.
 - Cheap evaluation (tiny sim, mock env, or simplified opponent).
 - Assert on structure and invariants, not on exact fitness values that might drift with code changes.
@@ -374,29 +375,34 @@ For tests that run the actual pipeline (training, simulation, evolution):
 When the ML system includes a data pipeline (loading, transforming, augmenting, feeding data to the model) — test the data path, not just the model.
 
 **Data loading tests:**
+
 - Loading the dataset produces the expected shape (rows, columns, types).
 - Loading the dataset catches corrupt files (malformed CSV, truncated Parquet, wrong schema) and fails clearly.
 - Loading a dataset with missing values handles them correctly (NaN, imputation, filtering — whatever the pipeline does).
 - Loading a dataset with the wrong schema fails clearly (schema validation on load).
 
 **Data transformation tests:**
+
 - Each transformation step produces the expected output given a known input (round-trip or known-answer).
 - Transformations are deterministic (same input → same output) unless they're intentionally stochastic (augmentation) — in which case seed them for tests.
 - transformations compose correctly (step A then step B produces the expected result, not step B acting on the wrong representation).
 
 **Data augmentation tests (CR-pipeline's `augmentation.py` pattern):**
+
 - Augmentation produces valid outputs (augmented deck compositions are valid decks, augmented opponent strategies are valid strategies, augmented game conditions are valid conditions).
 - Augmentation doesn't produce degenerate outputs (a deck with no cards, a strategy that's all zeros, a condition that's impossible).
 - Augmentation is seeded for tests (deterministic augmentation for a known seed, so the test can assert on the exact output).
 - Augmentation is configurable (the test can turn specific augmentations on/off and verify the effect).
 
 **Data feeding tests:**
+
 - The data loader feeds the model the expected input shape (the model's input tensor has the right dimensions).
 - Batches are constructed correctly (correct batch size, correct shuffling, correct padding if variable-length).
 - The data loader handles the end of the dataset correctly (last batch smaller than batch size, or dropped, or padded — whatever the design is).
 - Epoch boundaries are correct (the data loader goes through the dataset once per epoch, not twice or half).
 
 **Data integrity tests:**
+
 - The dataset hasn't drifted (the distribution of key columns is within expected bounds — catch data drift early).
 - The dataset is what you think it is (checksums on the source data, version stamps on the processed data).
 - Cumulative runs don't double-count (for pipelines that accumulate across runs — the high-water mark or manifest is correct).
@@ -406,14 +412,17 @@ When the ML system includes a data pipeline (loading, transforming, augmenting, 
 When the data pipeline has checkpoint/restore (resuming a long data run, re-running from an intermediate) — test it.
 
 **Checkpoint contents:**
+
 - The checkpoint contains everything needed to resume: the current position in the data, the accumulated state, the RNG state, the config.
 - The checkpoint is valid on load (schema check, completeness check).
 
 **Resume produces the same result:**
+
 - Run to completion, save checkpoint at step N, resume from checkpoint, run to completion — the final output matches a run that went N steps without checkpointing.
 - This catches checkpoint bugs (state not fully captured, RNG not restored, resume skipping or duplicating work).
 
 **Resume edge cases:**
+
 - Resume from a corrupted checkpoint fails clearly (validation on load), not silently producing wrong results.
 - Resume from a partial checkpoint (missing fields) fails, not fills in defaults that change the result.
 - Resume with a config mismatch (the checkpoint was produced with a different config than the resume) fails or warns clearly.
@@ -423,12 +432,14 @@ When the data pipeline has checkpoint/restore (resuming a long data run, re-runn
 When you want to test invariants across a wide range of inputs, not just hand-picked test cases — property-based testing (Hypothesis for Python) is the tool.
 
 **What to property-test:**
+
 - State↔elements conversions: for any valid state, the round-trip should recover the original state (within tolerance). Property-test across a wide range of states (random states that satisfy the validity constraints).
 - Orbital mechanics functions: for any valid input (valid orbit, valid transfer), the output should satisfy invariants (energy conservation, correct delta-v sign, valid resulting orbit).
 - Evolution operators: for any valid genome, mutation should produce a valid genome (same size, in bounds, valid structure). For any valid pair of genomes, crossover should produce a valid child.
 - Data transformations: for any valid input, the transformation should produce a valid output (correct shape, correct types, no NaN unless expected).
 
 **How to property-test:**
+
 ```python
 from hypothesis import given, strategies as st
 
@@ -445,11 +456,13 @@ def test_state_elements_roundtrip_property(rx, ry, rz):
 ```
 
 **What NOT to property-test:**
+
 - Things with no clear invariant (the agent's policy output for a random state — there's no "correct" answer to test against).
 - Things that are too expensive to run many times (a full evolution run, a full training run — property-based testing runs the test many times, so expensive tests are prohibitive).
 - Things that depend on external state (the current time, a network call, a file on disk — property-based testing assumes the test is self-contained).
 
 **Shrinking:**
+
 - When a property test fails, Hypothesis shrinks the failing input to a minimal failing case. This is valuable — it turns a random failing state into a small, understandable one.
 - Make sure your test strategies generate shrinkable inputs (floats, integers, lists, structs — Hypothesis handles these; custom strategies may need shrinking support).
 
@@ -458,16 +471,19 @@ def test_state_elements_roundtrip_property(rx, ry, rz):
 When you fix a defect, add a regression test that would have caught it. The pattern from CR-pipeline's fix history.
 
 **Regression test structure:**
+
 - Name the defect clearly (the test name or docstring says what defect it's guarding against).
 - Reproduce the conditions that triggered the defect (the specific input, config, or sequence that caused it).
 - Assert that the defect doesn't recur (the fix is in place, the behavior is correct).
 
 **Examples from CR-pipeline's history:**
+
 - "King tower not flagged as building → king attacks twice per tick" → regression test: king attacks at most once per tick; building units don't move.
 - "Crowns only awarded for a king kill → draws at time limit" → regression test: matches can end with crowns from princess towers; overtime triggers on tied regulation.
 - "Head-to-head ELO attribution inverted half the time" → regression test: winner's ELO increases, loser's decreases; ELO change is symmetric.
 
 **Regression test maintenance:**
+
 - Keep regression tests as part of the regular test suite (not a separate "historical" suite that gets neglected).
 - If a regression test becomes obsolete (the defect can't recur because the code has changed fundamentally), remove it — but only if you're sure.
 - If a regression test is slow, make it fast (mock the expensive part, reduce the scope) or mark it as slow and run it in CI.
@@ -477,11 +493,13 @@ When you fix a defect, add a regression test that would have caught it. The patt
 How to organize tests so they're useful and not a burden.
 
 **By layer:**
+
 - **Unit tests:** individual functions (selection, crossover, mutation, ELO, state conversions, data transforms). Fast, run on every change.
 - **Integration tests:** a step of the pipeline (one generation, one match, one data load+transform+feed). Slower, run in CI.
 - **End-to-end tests:** the full pipeline (full training run, full tournament, full data pipeline). Slowest, run occasionally or on demand.
 
 **By domain:**
+
 - **Simulation tests:** invariants, determinism, round-trip, known-answer, edge cases, defect regression.
 - **Evolution tests:** genome integrity, selection correctness, fitness signal, loop sanity, defect regression.
 - **Tournament tests:** ELO correctness, format coverage, result attribution, defect regression.
@@ -489,17 +507,20 @@ How to organize tests so they're useful and not a burden.
 - **Deployment tests:** export/load validation, behavioral validation, format compatibility.
 
 **By speed:**
+
 - **Fast tests:** run on every save/commit. Unit tests, invariant tests, known-answer tests.
 - **Slow tests:** run in CI, not on every save. Integration tests, some regression tests.
 - **Slowest tests:** run on demand or on a schedule. Full end-to-end runs, large-scale behavioral tests.
 - Mark tests by speed (pytest markers: `@pytest.mark.slow`, `@pytest.mark.e2e`) so you can run subsets.
 
 **Test data:**
+
 - Small, deterministic test datasets (not the full production dataset). A 10-row CSV for testing the data loader, not the 1.5M-row one.
 - Synthetic test data for the sim (known orbits, known states, known transfers) — not recording real trajectories and testing against them (real trajectories have noise and don't have known-correct answers).
 - For evolution tests: small populations, few generations, cheap evaluation (mock env, tiny sim, simplified opponent).
 
 **Test fixtures:**
+
 - Reusable fixtures for common test setup (a sim factory, a population factory, a dataset loader, a tournament runner).
 - Fixtures that produce deterministic outputs (seeded, small, cheap) so tests are repeatable.
 - Fixtures that are scoped appropriately (session-scoped for expensive setup that's shared across tests, function-scoped for setup that should be fresh per test).

@@ -21,6 +21,7 @@ Before scoring anything, establish: **page type** (homepage / landing / pricing 
 ## Form audit framework
 
 **Core principles:**
+
 - **Every field has a cost.** Rule of thumb: 3 fields = baseline; 4–6 fields → 10–25% completion reduction; 7+ → 25–50%+. For each field ask: is it absolutely necessary *before* we can help them? Can we get it another way (enrichment from email domain, post-submission)? Can we ask later (progressive profiling)?
 - **Value must exceed effort** — clear value prop above the form; make what they get obvious.
 - **Reduce cognitive load** — one question per field, conversational labels, logical grouping/order, smart defaults.
@@ -48,6 +49,7 @@ Before scoring anything, establish: **page type** (homepage / landing / pricing 
 **URL structure:** readable/descriptive; keywords where natural; consistent pattern per page type; lowercase hyphen-separated; no unnecessary parameters. **Breadcrumbs must match URLs** — breadcrumb "Products > Widget" with URL `/shop/widget-pro` is a defect worth flagging.
 
 **Navigation anti-patterns (flag each occurrence):**
+
 | Anti-pattern | Why it fails |
 |---|---|
 | 8+ header items | Decision paralysis; unreadable on small screens |

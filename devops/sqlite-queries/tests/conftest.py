@@ -1,4 +1,5 @@
 """Shared fixtures: a small deterministic SQLite DB exercising users/orders/FKs."""
+
 import csv
 import sqlite3
 
