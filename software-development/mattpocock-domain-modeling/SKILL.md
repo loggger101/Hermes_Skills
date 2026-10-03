@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [domain-modeling, context-md, adrs, glossary, terminology]
-    related_skills: [mattpocock-improve-codebase-architecture, mattpocock-writing-for-agents]
+    related_skills: [mattpocock-codebase-design, mattpocock-writing-for-agents]
 ---
 
 ## When to Use

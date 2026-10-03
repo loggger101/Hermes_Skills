@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [RSS, Atom, Feeds, Monitoring, Research, Blogs, Releases]
-    related_skills: [reddit-reading, competitor-news-monitor, grounded-citations, youtube-content, blogwatcher]
+    related_skills: [reddit-reading, competitor-news-monitor, grounded-citations, youtube-content, blogwatcher, watchers]
 ---
 
 # RSS Feeds Skill
@@ -28,6 +28,9 @@ that.
 - Building a recurring digest with `cronjob_manage` (feeds are cheaper and more stable than
   scraping the HTML front page every run). For a persistent read/unread database across
   many feeds install the optional `blogwatcher` skill; this skill is the zero-install read.
+  To be notified of only the entries that are new since the last run, use
+  `skill_view(name='watchers')`: its `watch_rss.py` keeps a watermark and stays silent when
+  nothing changed.
 - Anything where a structured list of `title / link / date / author / summary` beats a
   rendered page: podcasts, changelogs, YouTube channels, newsrooms, forum categories.
 

@@ -35,7 +35,7 @@
   ],
   "no_agent": true,
   "script": "tools/sync-hermes-skills.py",
-  "script_description": "Python script that: (1) git pull upstream with stash/pop for local changes, (2) copies repo skills to ~/.hermes/skills/, (3) copies new/modified local skills back to repo, (4) syncs memories and profiles to repo, (5) commits and pushes changes (gracefully handles push failures), (6) runs audit",
+  "script_description": "Python script that: (1) git pull upstream with stash/pop for local changes, (2) copies repo skills to ~/.hermes/skills/, (2b) moves local copies of skills listed in tools/retired-skills.txt to ~/.hermes/retired-skills/ (never deleted, never copied back), (3) copies new/modified local skills back to repo, (4) syncs memories and profiles to repo, (5) commits and pushes changes (gracefully handles push failures), (6) runs audit",
   "output_format": "JSON report delivered via cronjob system",
   "threshold": {
     "threshold_breached": false,
@@ -110,7 +110,8 @@
       "total_changes_pushed": 0,
       "verify_all_passed": null,
       "dep_map_updated": false,
-      "empty_dirs_removed": 0
+      "empty_dirs_removed": 0,
+      "local_skills_retired": 0
     },
     "sync_details": {
       "duplicates_found": [],
@@ -217,7 +218,8 @@
       "git_pull_success",
       "git_push_success",
       "dep_map_updated",
-      "empty_dirs_removed"
+      "empty_dirs_removed",
+      "local_skills_retired"
     ],
     "no_agent_compatibility": "no_agent=true so the THRESHOLD dict is evaluated by the cronjob system, not by an LLM",
     "fields_not_in_threshold": "no_merge_conflicts, no_orphaned_files, dependency_map_regenerated, memories_synced, profiles_local_mirror_refreshed are VERIFICATION checks (run post-script), not field-based thresholds",

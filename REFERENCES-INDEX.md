@@ -1,14 +1,7 @@
 # REFERENCES-INDEX
 
-Flat index of all **406 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **398 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
-
-## autonomous-ai-agents/autonomous-repo-cronjob
-
-- `autonomous-ai-agents/autonomous-repo-cronjob/references/agent-vs-script-checklist.md` — Agent-vs-Script Checklist
-- `autonomous-ai-agents/autonomous-repo-cronjob/references/drafting-guide.md` — Drafting Guide
-- `autonomous-ai-agents/autonomous-repo-cronjob/references/prompt-template.md` — Prompt Body Template
-- `autonomous-ai-agents/autonomous-repo-cronjob/references/two-agent-architecture.md` — Two-Agent Architecture: Preparer vs. Commit Agent
 
 ## autonomous-ai-agents/cron-config-authoring
 
@@ -16,14 +9,19 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## autonomous-ai-agents/cron-job-authoring
 
+- `autonomous-ai-agents/cron-job-authoring/references/agent-vs-script-checklist.md` — Agent-vs-Script Checklist
 - `autonomous-ai-agents/cron-job-authoring/references/credential-strategy.md` — Credential Strategy for Cron Jobs
 - `autonomous-ai-agents/cron-job-authoring/references/cron-approval-mode.md` — Cron Approval Mode
 - `autonomous-ai-agents/cron-job-authoring/references/delivery-discipline.md` — Delivery Discipline for Cron Jobs
+- `autonomous-ai-agents/cron-job-authoring/references/drafting-guide.md` — Drafting Guide
 - `autonomous-ai-agents/cron-job-authoring/references/drift-skip-error.md` — Drift Skip: Model/Provider Config Drift
 - `autonomous-ai-agents/cron-job-authoring/references/guardrail-template.md` — Guardrail Template — No-Interaction Block for Cron Jobs
 - `autonomous-ai-agents/cron-job-authoring/references/loop-engineering.md` — Loop Engineering (scheduled autonomous jobs)
 - `autonomous-ai-agents/cron-job-authoring/references/output-alignment.md` — Output Alignment Reference
+- `autonomous-ai-agents/cron-job-authoring/references/prompt-template.md` — Prompt Body Template
+- `autonomous-ai-agents/cron-job-authoring/references/repo-cronjob.md` — Cron jobs that run against an existing repository
 - `autonomous-ai-agents/cron-job-authoring/references/script-path-resolution.md` — Script Path Resolution Pitfalls
+- `autonomous-ai-agents/cron-job-authoring/references/two-agent-architecture.md` — Two-Agent Architecture: Preparer vs. Commit Agent
 - `autonomous-ai-agents/cron-job-authoring/references/vault-crypto-pattern.md` — Per-User Encrypted Secret Vault (verified from reconurge/flowsint @ 1820569)
 
 ## autonomous-ai-agents/hermes-agent
@@ -583,19 +581,6 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 - `software-development/dogfood/references/issue-taxonomy.md` — Issue Taxonomy
 
-## software-development/github
-
-- `software-development/github/references/auth.md` — GitHub Authentication Setup
-- `software-development/github/references/ci-troubleshooting.md` — CI Troubleshooting Quick Reference
-- `software-development/github/references/code-review.md` — GitHub Code Review
-- `software-development/github/references/conventional-commits.md` — Conventional Commits Quick Reference
-- `software-development/github/references/github-api-cheatsheet.md` — GitHub REST API Cheatsheet
-- `software-development/github/references/issue-to-pr.md` — GitHub Issue to Pull Request
-- `software-development/github/references/issues.md` — GitHub Issues Management
-- `software-development/github/references/pr-workflow.md` — GitHub Pull Request Workflow
-- `software-development/github/references/repo-management.md` — GitHub Repository Management
-- `software-development/github/references/review-output-template.md` — Review Output Template
-
 ## software-development/hermes-agent-skill-authoring
 
 - `software-development/hermes-agent-skill-authoring/references/audit-script-pattern.md` — Building Repo-Health Audit Scripts for Hermes Skill Repositories
@@ -623,6 +608,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## software-development/python-craft
 
+- `software-development/python-craft/references/modern-python-tooling.md` — Modern Python tooling: uv, ruff, ty, PEP 723
 - `software-development/python-craft/references/windows-path-separator-trap.md` — Windows os.path.relpath yields backslashes; cross-platform path-string comparison fails silently.
 
 ## software-development/systematic-debugging

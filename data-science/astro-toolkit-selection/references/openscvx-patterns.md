@@ -9,7 +9,7 @@ verified_date: "2026-09-05"
 
 Successive convexification for trajectory optimization. Install `pip install openscvx`
 (JAX + CVXPY; heavy deps). Use it to **DESIGN a specific maneuver's thrust profile under hard
-constraints** (see skill `space-mission-computation-paradigms` for when this is the right tool vs closed-form/propagation).
+constraints** (see Step 1 of this skill's SKILL.md for when this is the right tool vs closed-form/propagation).
 
 ## The core loop (from `examples/spacecraft/hohmann_transfer.py`, read verbatim)
 

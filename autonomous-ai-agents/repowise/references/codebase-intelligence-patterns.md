@@ -108,7 +108,7 @@ The general pattern: context delivery should be *event-triggered* (about to edit
 - Every finding ships a **concrete refactoring plan** (Extract Class/Method/Helper, Move Method, Break Cycle, Split File) — the score is useless without the attached fix.
 - Zero LLM, <30s for the whole layer; an accuracy self-check runs against its own labeled set and is exposed via `include`.
 
-Complements (not duplicates) my `code-quality-signal` skill: that one scores *structural* root causes of a Python repo from 5 ungameable graph metrics in seconds, stdlib-only; repowise's layer scores per-file maintainability + defect risk with git-history inputs and ships refactoring plans. Use code-quality-signal for "is this architecture healthy", repowise health for "which files will hurt me first".
+Complements (not duplicates) my `architecture-metrics` skill: its `quality_signal.py` scores *structural* root causes of a Python repo from 5 ungameable graph metrics in seconds, stdlib-only; repowise's layer scores per-file maintainability + defect risk with git-history inputs and ships refactoring plans. Use architecture-metrics for "is this architecture healthy", repowise health for "which files will hurt me first".
 
 ## 11. Noise-free doc-drift detection (v0.5x, #2290) — the pattern worth stealing most here
 

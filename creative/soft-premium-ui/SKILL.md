@@ -17,6 +17,7 @@ metadata:
 
 - Interfaces that must read as an expensive agency build: haptic depth, cinematic spatial rhythm, Apple-esque / Linear-tier finish
 - User asks for "premium", "high-end", "expensive-looking" UI with soft shadows and fluid motion
+- Usually reached from `design-taste-frontend`, which picks the preset from the brief and supplies the general anti-slop rules this one overrides
 
 ## What This Skill Does
 

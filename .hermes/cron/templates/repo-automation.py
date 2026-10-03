@@ -7,8 +7,8 @@
 #   3. Emit a JSON report
 #   4. Have a separate commit agent merge + push changes
 #
-# Pattern source: autonomous-repo-cronjob skill
-# Template source: autonomous-repo-cronjob/references/prompt-template.md
+# Pattern source: cron-job-authoring skill, references/repo-cronjob.md
+# Template source: cron-job-authoring/references/prompt-template.md
 
 prompt_body = """
 === AUTONOMY & NO-INTERACTION GUARDRAILS ===
@@ -59,7 +59,7 @@ Write to: .hermes/cron/active/{output_file}
 cronjob_config = {
     "schedule": "0 9 * * 1",  # Weekly Monday at 9 AM
     "workdir": "{workdir}",
-    "skills": ["autonomous-ai-agents/autonomous-repo-cronjob", "cron-job-authoring"],
+    "skills": ["autonomous-ai-agents/cron-job-authoring"],
     "deliver": "origin",
     "continuity": True,
     "enabled_toolsets": ["terminal", "file", "web", "delegation"],

@@ -1,0 +1,22 @@
+# Skills retired from this repo: merged into another skill, or exact duplicates of one.
+# Format: <repo-relative skill dir> -> <skill that replaces it>. Lines starting with # are notes.
+#
+# tools/sync-hermes-skills.py reads this list on every run. It never copies these dirs back
+# from ~/.hermes/skills/ (without the list it would, reading "missing in repo" as "new
+# locally"), and moves any local copy to ~/.hermes/retired-skills/<dir>, outside the tree
+# Hermes loads skills from. Nothing is deleted: move a folder back to restore it, and remove
+# its line here first.
+
+# round-57: exact duplicates
+autonomous-ai-agents/agent-merge-conflict-arbiter -> merge-reconciler
+software-development/github -> github-auth, github-issues, github-pr-workflow, github-issue-to-pr, github-code-review, github-repo-management
+creative/mattpocock-prototype -> spike
+software-development/grill-me -> grilling-interview
+
+# round-57: merged into the skill named on the right
+software-development/modern-python-tooling -> python-craft
+software-development/code-quality-signal -> architecture-metrics
+software-development/mattpocock-multi-agent-code-review -> mattpocock-code-review
+software-development/mattpocock-improve-codebase-architecture -> mattpocock-codebase-design
+autonomous-ai-agents/autonomous-repo-cronjob -> cron-job-authoring
+data-science/space-mission-computation-paradigms -> astro-toolkit-selection

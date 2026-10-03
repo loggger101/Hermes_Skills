@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [economicspace, asteroids, pipeline]
-    related_skills: [astro-toolkit-selection, space-mission-computation-paradigms]
+    related_skills: [astro-toolkit-selection]
 ---
 
 ## When to Use

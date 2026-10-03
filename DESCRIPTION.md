@@ -1,16 +1,16 @@
 ---
-description: Hermes Agent second brain — 212 skills across 23 categories, memories, cron configs.
+description: Hermes Agent second brain — 202 skills across 23 categories, memories, cron configs.
 ---
 
 # Hermes Skills Repository (Second Brain)
 
-This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **212 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
+This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **202 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
 
 ## Start here (cheapest → most thorough)
 
-- **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 212 skills; `grep -i <term>` is the fastest way to find a capability.
+- **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 202 skills; `grep -i <term>` is the fastest way to find a capability.
 - **[CODE-INDEX.md](./CODE-INDEX.md)** — flat index of every script, shared helper, test, and template (the executable knowledge layer); `grep -i <term> CODE-INDEX.md` finds runnable code by purpose or owner skill.
-- **[REFERENCES-INDEX.md](./REFERENCES-INDEX.md)** — flat index of all 406 reference docs living inside skills' `references/` dirs (nested subdirs included); `grep -i <term> REFERENCES-INDEX.md` finds verified API maps / gotchas tables by topic without knowing which skill owns them.
+- **[REFERENCES-INDEX.md](./REFERENCES-INDEX.md)** — flat index of all 398 reference docs living inside skills' `references/` dirs (nested subdirs included); `grep -i <term> REFERENCES-INDEX.md` finds verified API maps / gotchas tables by topic without knowing which skill owns them.
 - **[DEPENDENCY.md](./DEPENDENCY.md)** — relationship map: hub skills, standalone skills, full cross-reference validation.
 - **[docs/](./docs/README.md)** — **knowledge-layer index**: verified API references + working code patterns from the 41-repo starred deep dive, reorganized 2026-09-07 to live inside each owning skill's `references/` dir (astro-toolkit-selection carries brahe/skyfield/OpenSCvx/catalog/optimization refs; economicspace-pipeline carries Δv-oracles + soft-assumption sources; python-data-science carries polars/pymc; nicegui-app-builder carries frontend tooling; github-pr-workflow carries git recipes). Skills say *how to work*; their references say *what exists in these libraries and what breaks*.
 - **[README.md](./README.md)** — human-facing overview: categories with skill counts, conventions, cron authoring, Claude Code install, verification.
@@ -33,11 +33,11 @@ The fastest way from a job you have in mind to the skill that does it:
 | Design or redesign frontend / landing pages | `design-taste-frontend`, `redesign-existing-projects`, `popular-web-designs` (54 real design systems), `claude-design` |
 | Create diagrams (39 types, 3 variants each) | `diagram-design`; dark SVG arch → `architecture-diagram`; hand-drawn → `excalidraw` |
 | Generate images / video / audio | `comfyui`, `manim-video`, `ascii-video`, `songwriting-and-ai-music` (Suno prompts) |
-| Asteroid-mining economics pipeline work | `economicspace-pipeline`; tool choice → `astro-toolkit-selection`; method choice → `space-mission-computation-paradigms` |
+| Asteroid-mining economics pipeline work | `economicspace-pipeline`; method then tool choice → `astro-toolkit-selection` |
 | Build space/astro data pipelines (fetch→parquet→HF) | `space-data-pipelines` (verified API gotchas table inside) |
 | Data science: EDA, modeling, SQL at scale | `python-data-science`, `sql-for-data`; exact-float verification → `bit-identity-float-pipelines` |
 | Write docs that agents can actually consume | `mattpocock-writing-for-agents` (skills/AGENTS.md/specs) |
-| Automate a repo with cronjobs | `autonomous-repo-cronjob`, `cron-job-authoring`; two-agent pattern → README "Cron Job Authoring" section |
+| Automate a repo with cronjobs | `cron-job-authoring` (repo jobs: its `references/repo-cronjob.md`); JSON job configs → `cron-config-authoring`; two-agent pattern → README "Cron Job Authoring" section |
 | Test a Windows desktop app end-to-end (WPF/WinForms/Qt) | `windows-desktop-e2e` (pywinauto + UIA, page-object skeleton inside) |
 | Ship a Python app as a small fast Windows installer | `generating-python-installer` (Nuitka one-file + Inno Setup; slimming scripts in its scripts/) |
 | Search biomedical literature / genomic databases | `pubmed-database` (NCBI E-utilities), `gget` (Ensembl/BLAST lookups); full genomics/computational-biology work → `bioinformatics` (gateway to 400+ skills) |
@@ -49,7 +49,7 @@ The fastest way from a job you have in mind to the skill that does it:
 | Expose a local service / receive webhooks with no extra install | `pinggy-tunnel` (SSH reverse tunnel, webhook + MCP + LLM-endpoint recipes inside) |
 | Call tools on an MCP server from the terminal | `mcporter` (npx; list/call/auth/daemon); authoring servers → `fastmcp` |
 | Stop agents re-grepping a repo they've seen before / compress noisy command output | `repowise` (precomputed local index: graph, git risk signals, decisions, health + 10 MCP tools; `distill <cmd>` reversible token compression) |
-| Score codebase structural health / find what to refactor next | `code-quality-signal` (5 ungameable root-cause metrics → one score); where in the dependency graph it hurts → `architecture-metrics` (Lakos levels, blast radius, Martin A/I/D distance, SDP coupling, test gaps) — both stdlib-only, run together: signal says what's wrong, arch-metrics says which files |
+| Score codebase structural health / find what to refactor next | `architecture-metrics`: `quality_signal.py` (5 ungameable root-cause metrics → one score + bottleneck) says what's wrong; `architecture_metrics.py` (Lakos levels, blast radius, Martin A/I/D distance, SDP coupling, test gaps) says which files — stdlib-only, run both |
 | Ship UI that doesn't look templated — pick the aesthetic first | `design-taste-frontend` (anti-slop default), presets: `soft-premium-ui`, `editorial-minimalism-ui`, `industrial-brutalist-ui`; motion-heavy → `awwwards-gsap-motion`; Google Stitch DESIGN.md → `stitch` |
 | Publish a site/dashboard/docs build with versioned deploys + rollback | `publish-site` (GitHub Pages → Cloudflare → Netlify ladder, live-URL verification) |
 | Design a scalable system / prep a system design interview (CAP, caching, sharding, fan-out) | `system-design-scaling` (primer-distilled trade-off tables + 8 case-study patterns; runnable LRU/base62/MapReduce-top-k/availability scripts inside) |

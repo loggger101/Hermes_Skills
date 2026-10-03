@@ -7,10 +7,10 @@
   "skills": {
     "loaded": [
       {
-        "id": "autonomous-ai-agents/autonomous-repo-cronjob",
-        "name": "autonomous-repo-cronjob",
+        "id": "autonomous-ai-agents/cron-job-authoring",
+        "name": "cron-job-authoring",
         "phase": "preparer-phases-2-5 (prompt design + guardrail encoding)",
-        "rationale": "This is the meta-skill that structures the entire two-agent split. It teaches how to write a self-contained preparer prompt body that embeds the repo's CI guardrails (append-only merge, date-churn signature, dedup keys, safe-fail, lint-feed.pl self-check matrix) so the preparer agent can substitute its own Claude judgments for the ANTHROPIC_API_KEY-gated curation step."
+        "rationale": "Its repo-job procedure (references/repo-cronjob.md, formerly the autonomous-repo-cronjob skill) structures the entire two-agent split. It teaches how to write a self-contained preparer prompt body that embeds the repo's CI guardrails (append-only merge, date-churn signature, dedup keys, safe-fail, lint-feed.pl self-check matrix) so the preparer agent can substitute its own Claude judgments for the ANTHROPIC_API_KEY-gated curation step."
       },
       {
         "id": "research/arxiv",
@@ -70,7 +70,7 @@
     "preparer": {
       "role": "cronjob",
       "description": "Collects from Europe PMC + PubMed + ClinicalTrials.gov + ISRCTN, applies Claude curation gate (strict relevance + credibility + patient-appropriateness + confidence threshold + 65-95 word summary), emits JSON report to .hermes/cron/active/aspirecures-research-report.json with approved items + maintenance changes + rejected candidates + commit_instructions block",
-      "prompt_template": "autonomous-ai-agents/autonomous-repo-cronjob/references/prompt-template.md",
+      "prompt_template": "autonomous-ai-agents/cron-job-authoring/references/prompt-template.md",
       "guardrails": "autonomous-ai-agents/cron-job-authoring/references/guardrail-template.md"
     },
     "commit_agent": {
@@ -154,7 +154,7 @@
     "preparer": ".hermes/cron/active/aspirecures-research-report.json",
     "commit_agent": "9 disease pages in data/research/"
   },
-  "notes": "This job uses LLM-driven agents (no_agent=false) for the two-agent split pattern. The preparer agent substitutes its own model access for the ANTHROPIC_API_KEY-gated Claude curation gate in fetch_curate.mjs. The commit agent is a downstream, human-triggered follow-up that consumes the report and runs the full render pipeline + validation + commit. All guardrails, data shapes, dedup logic, date-churn signature algorithm, and lint-feed.pl validation matrix are embedded inline in the prompt body for self-containment. See autonomous-repo-cronjob skill for the full authoring pattern.",
+  "notes": "This job uses LLM-driven agents (no_agent=false) for the two-agent split pattern. The preparer agent substitutes its own model access for the ANTHROPIC_API_KEY-gated Claude curation gate in fetch_curate.mjs. The commit agent is a downstream, human-triggered follow-up that consumes the report and runs the full render pipeline + validation + commit. All guardrails, data shapes, dedup logic, date-churn signature algorithm, and lint-feed.pl validation matrix are embedded inline in the prompt body for self-containment. See the cron-job-authoring skill (references/repo-cronjob.md) for the full authoring pattern.",
   "post_run_verification": {
     "commands": [
       "perl tools/research/lint-feed.pl",
