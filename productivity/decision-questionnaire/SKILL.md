@@ -17,7 +17,6 @@ metadata:
 
 Turns an unanswerable decision (missing data, unresolved tradeoff) into a structured questionnaire document that captures exactly what information would make it decidable — interviewing the *send* (what gets asked of whom), not re-litigating the subject. Produces a titled doc with Context, numbered questions each tied to a specific unknown, and a decision rule for when answers arrive.
 
-
 Turns something the user can't answer alone into a **questionnaire**: a
 Markdown document they hand to one person to fill in async, or fill out
 together in a meeting. The recipient holds knowledge the user lacks; the

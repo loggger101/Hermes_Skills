@@ -14,6 +14,7 @@ rules:
 ## Pattern Operators
 
 ### Basic Matching
+
 ```yaml
 # 'pattern' is the basic unit of matching
 pattern: foo(...)
@@ -33,6 +34,7 @@ pattern-regex: ^foo.*bar$
 ```
 
 ### Matching Operators
+
 - `$VAR` - Metavariable, match a single expression
   - **Must be uppercase**: `$X`, `$FUNC`, `$VAR_1` (NOT `$x`, `$var`)
 - `$_` - Anonymous metavariable, matches but doesn't bind
@@ -68,6 +70,7 @@ pattern-sources:
 ```
 
 ### Scope Operators
+
 ```yaml
 pattern-inside: |              # Must be inside this pattern
   def $FUNC(...):
@@ -78,12 +81,14 @@ pattern-not-inside: |          # Must NOT be inside this pattern
 ```
 
 ### Negation
+
 ```yaml
 pattern-not: safe(...)         # Exclude this pattern
 pattern-not-regex: ^test_      # Exclude by regex
 ```
 
 ### Metavariable Filters
+
 ```yaml
 metavariable-regex:
   metavariable: $FUNC
@@ -99,6 +104,7 @@ metavariable-comparison:
 ```
 
 ### Focus
+
 ```yaml
 # In pattern matching mode: report finding on this metavariable only
 focus-metavariable: $TARGET
@@ -132,6 +138,7 @@ rules:
 ```
 
 ### Taint Options
+
 ```yaml
 pattern-sources:
   - pattern: source(...)

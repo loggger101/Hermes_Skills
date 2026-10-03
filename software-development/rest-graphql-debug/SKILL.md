@@ -18,7 +18,6 @@ metadata:
 
 Systematic REST/GraphQL API debugging: reproducing failures with verbose request/response capture, decoding status codes and auth errors, validating against schemas (OpenAPI/GraphQL introspection), and building minimal repro cases that survive handoff to the maintainer. 5-minute quickstart for both protocols via terminal.
 
-
 Drive REST and GraphQL diagnosis through Hermes tools — `terminal` for `curl`, `execute_code` for Python `requests`, `web_extract` for vendor docs. Isolate the failing layer before guessing at the fix.
 
 ## When to Use
@@ -172,6 +171,7 @@ print(json.dumps(json.loads(base64.urlsafe_b64decode(payload)), indent=2))
 ```
 
 Checklist:
+
 - Token expired? (`exp` claim in JWT)
 - Right scheme? Bearer vs Basic vs Token vs `X-Api-Key`
 - Right environment? Staging key on prod is a classic
@@ -264,6 +264,7 @@ Parsed cleanly — but is the data *correct*?
 ### 422 Unprocessable Entity — valid JSON, invalid data
 
 The error body usually names the bad fields. Check:
+
 - Field types (string vs int, date format)
 - Required vs optional
 - Enum values inside the allowed set
@@ -299,6 +300,7 @@ For all 5xx: backoff with jitter, alert on persistence.
 ## Pagination & Idempotency
 
 **Pagination.** Verify you're getting *all* results. Look for `next_cursor`, `next_page`, `total_count`. Two patterns:
+
 - Offset (`?limit=100&offset=200`) — simple, can skip items if data shifts.
 - Cursor (`?cursor=abc123`) — preferred for live or large datasets.
 
@@ -402,6 +404,7 @@ class TestAPISmoke:
 ## Security
 
 ### Token handling
+
 - Never log full tokens. Redact: `Bearer <REDACTED>`.
 - Never hardcode tokens in scripts. Read from env (`os.environ["API_TOKEN"]`) or `${HERMES_HOME:-~/.hermes}/.env`.
 - Rotate immediately if a token surfaces in logs, error messages, or git history.

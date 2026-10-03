@@ -43,5 +43,5 @@ cronjob_config = {
     "script": "watchdog.py",
     "no_agent": True,  # Script-only — no LLM
     "deliver": "origin",
-    "enabled_toolsets": ["terminal"]
+    "enabled_toolsets": ["terminal"],
 }

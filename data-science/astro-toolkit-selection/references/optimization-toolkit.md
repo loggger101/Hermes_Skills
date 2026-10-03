@@ -11,8 +11,10 @@ Decision rule lives in skill `space-mission-computation-paradigms`; this file is
 ⚠️ Corrections to round-1 notes are marked — trust these over older memory entries.
 
 ## nyx-py — ⚠️ LIVE (round 1 said "disabled" — wrong) [SRC]
+
 `pip install nyx_space`. Python ≥3.11; deps: numpy≥2.4, **polars**, plotly, scipy. AGPLv3 core still applies to the
 Rust engine — fine for internal research, a copyleft consideration if you ship it.
+
 - Modules (from `.pyi` stubs): `anise/` (MetaAlmanac, Aberration, Orbit, CelestialObjects, Frames), `mission_design`,
   **`monte_carlo`** (`MvnSpacecraft`, `StateDispersion`, `OrbitalElement`, `StateParameter` — launch dispersion is first-class),
   `orbit_determination`, `time`.
@@ -23,11 +25,13 @@ Rust engine — fine for internal research, a copyleft consideration if you ship
 - Orbit class has element-delta helpers: `add_sma_km/add_ecc/add_inc_deg/...` + diff methods — handy for perturbation studies.
 
 ## pygmo2 (JOSS-reviewed) [SRC]
+
 - UDA contract is tiny: a pure-Python problem implements **`fitness(x)`** and **`get_bounds()`**; islands implement `run_evolve`.
   The `_patch_*.py` files in the package show exactly how Python objects get wrapped into the C++ core.
 - Windows install note (unchanged from round 1): PyPI wheels are Linux-only → conda-forge or build.
 
 ## mesa — ⚠️ CORRECTED + LIVE-VERIFIED 2026-09-19 (PyPI 3.5.1 on Python 3.12) [LIVE]
+
 Round 2 read **master** and reported "v4 API, two blockers". Live probes against the actual PyPI
 release change that picture:
 
@@ -66,6 +70,7 @@ class Economy(mesa.Model):
   external deps.
 
 ## z3-solver 5.1.0 (pip) — ⚠️ CORRECTED API NAMES vs round-2 source read [LIVE]
+
 Round 2 read the repo's `src/api/python/z3/z3.py` at a newer revision and quoted names that **do not
 exist in `pip install z3-solver` (5.1.0)**: no `RegExConst`, no `SeqVal`. What actually works (verified):
 
@@ -89,19 +94,24 @@ zz.simplify(zz.InRe("c", re))   # False  ✓
   the general advice stands even though small test constraints solved instantly here.
 
 ## Pyomo — the unmentioned modules [SRC]
+
 Standard pattern unchanged (`ConcreteModel` + `Var/Indexer` + `Constraint` + `Objective` + `SolverFactory`; Model class in
 `core/base/PyomoModel.py`). The parts worth knowing exist:
+
 - **`pyomo/dae/`** — differential-algebraic equations (trajectory work beyond OpenSCvx's SCP framing).
 - `gdp/` generalized disjunctive programming; `mpec/` mixed-integer complementarity; `network/`; `repn/` (LP/MIP/NLP export);
   solver interfaces incl. pyros/pynumero under docs/explanation/solvers/.
 
 ## CamPyRoS — ⚠️ runs WITHOUT ray on Windows [SRC]
+
 Round 1 said "stats module needs ray, Windows has issues". Correction: the package ships **`campyros/ray_alt.py`** — a serial
 fallback shim whose `@remote` decorator just warns ("Ray was not available so multithread running will not work. Stats will take
 a long time") and runs inline. Monte Carlo works on this box, single-threaded.
+
 - Entry: `stats.StatisticalModel("settings.json").run_model(test_mode=False, debug=True, num_cpus=3)`; ray path uses `ray.init(num_cpus=N)`.
 - Differentiators in source: `heating.py` (`TangentOgive`, `AeroHeatingAnalysis`), `aero.AeroData`, 6DOF core with variable mass/inertia.
 
 ## Cross-cutting gotchas
+
 - nyx + pygmo both pull polars — one data layer for the whole optimization stack (see `polars-pymc-api-reference.md`, now at `data-science/python-data-science/references/`).
 - Version pins matter: z3 5.x release notes change solver defaults; mesa 2→3 is a hard break; nyx requires numpy≥2.4 which some older stacks reject.

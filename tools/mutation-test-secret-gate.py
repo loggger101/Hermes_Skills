@@ -18,6 +18,7 @@ an untested pattern is an unenforced one.
 Run:  py tools/mutation-test-secret-gate.py     (also invoked by verify-all as a gate)
 Exit 0 = every positive caught AND zero false positives; exit 1 otherwise. Stdlib only.
 """
+
 import importlib.util
 import shutil
 import sys
@@ -40,8 +41,10 @@ _HERE = Path(__file__).resolve()
 # whichever tree happened to sit at one machine's path.
 REPO = _HERE.parents[1]
 if not (REPO / "tools" / "audit-skills.py").exists():
-    raise SystemExit(f"[FATAL] {_HERE.name} must run from the repo's tools/ dir "
-                     f"(no tools/audit-skills.py under {REPO})")
+    raise SystemExit(
+        f"[FATAL] {_HERE.name} must run from the repo's tools/ dir "
+        f"(no tools/audit-skills.py under {REPO})"
+    )
 
 
 def load_auditor():
@@ -55,10 +58,10 @@ def load_auditor():
 # they must match the REGEX, which is what we're testing (not real credentials).
 POSITIVE_FILES = {
     "devops/fake-skill/scripts/aws_leak.py": 'KEY = "AKIAABCDEFGHIJKLMNOP"\n',
-    "devops/fake-skill/scripts/gh_leak.py":  'TOKEN = "ghp_abcdefghijklmnopqrstuvwxyz0123456789AB"\n',
+    "devops/fake-skill/scripts/gh_leak.py": 'TOKEN = "ghp_abcdefghijklmnopqrstuvwxyz0123456789AB"\n',
     "devops/fake-skill/scripts/oai_leak.py": 'SECRET = "sk-abcdefghijklmnopqrstuvwx"\n',
     "devops/fake-skill/scripts/slack_leak.py": 'SLACK = "xoxb-1234567890-abcdEFgh"\n',
-    "devops/fake-skill/scripts/pem_leak.py":  'PEM = "-----BEGIN RSA PRIVATE KEY-----"\n',
+    "devops/fake-skill/scripts/pem_leak.py": 'PEM = "-----BEGIN RSA PRIVATE KEY-----"\n',
     # secret_assignment: has digits, no placeholder marker, not an env read
     "devops/fake-skill/scripts/assign_leak.py": 'password = "s3cr3tvalue1234567890"\n',
 }
@@ -66,15 +69,14 @@ POSITIVE_FILES = {
 # The orphan case: a script dir with NO SKILL.md at all. A per-skill scan loop
 # never visits this; the repo-wide walk must.
 ORPHAN_FILE = {
-    "devops/orphan-dir/scripts/leak.py": 'AKIAQRSTUVWXYZ0123456789\n',
+    "devops/orphan-dir/scripts/leak.py": "AKIAQRSTUVWXYZ0123456789\n",
 }
 
 # Negative controls — each one LOOKS like it could match but MUST NOT fire:
 NEGATIVE_FILES = {
     # env reads are the documented credential strategy for this repo's scripts
     "devops/fake-skill/scripts/env_ok.py": (
-        'token = os.environ.get("MY_TOKEN")\n'
-        'secret = getenv("S3CR3T", "")\n'
+        'token = os.environ.get("MY_TOKEN")\nsecret = getenv("S3CR3T", "")\n'
     ),
     # placeholder / example literals are teaching content, not credentials
     "devops/fake-skill/scripts/placeholder_ok.py": (
@@ -102,17 +104,24 @@ def main():
     tmp = Path(tempfile.mkdtemp(prefix="secret-gate-mut-", dir=str(REPO.parent)))
     try:
         build_fixture(tmp)
-        mod.REPO_ROOT = tmp   # same monkeypatch trick as mutation-test-doc-gate.py
+        mod.REPO_ROOT = tmp  # same monkeypatch trick as mutation-test-doc-gate.py
 
         findings = mod.scan_repo_for_secrets()
 
         expected_positives = {rel for rel in POSITIVE_FILES} | set(ORPHAN_FILE)
-        missed = [rel for rel in sorted(expected_positives) if not any(rel.replace("\\", "/") in f for f in findings)]
+        missed = [
+            rel
+            for rel in sorted(expected_positives)
+            if not any(rel.replace("\\", "/") in f for f in findings)
+        ]
 
         # every planted file must be named by at least one finding
         for rel in sorted(expected_positives):
             hit = [f for f in findings if rel.replace("\\", "/") in f]
-            print(f"  {'caught' if hit else 'MISSED'}: {rel}" + ("" if hit else "   <-- pattern dead or scan disabled"))
+            print(
+                f"  {'caught' if hit else 'MISSED'}: {rel}"
+                + ("" if hit else "   <-- pattern dead or scan disabled")
+            )
 
         # no negative-control file may appear at all (env reads / placeholders must stay clean)
         false_pos = []
@@ -124,11 +133,15 @@ def main():
         ok = (not missed) and (not false_pos)
         # also assert the threshold wiring exists: hardcoded_secrets must be a zero-threshold key
         thr_ok = mod.THRESHOLDS.get("hardcoded_secrets") == 0
-        print(f"  {'OK    ' if thr_ok else 'BROKEN'}: THRESHOLDS['hardcoded_secrets'] == {mod.THRESHOLDS.get('hardcoded_secrets')} (must be 0)")
+        print(
+            f"  {'OK    ' if thr_ok else 'BROKEN'}: THRESHOLDS['hardcoded_secrets'] == {mod.THRESHOLDS.get('hardcoded_secrets')} (must be 0)"
+        )
 
         if ok and thr_ok:
             n = len(expected_positives)
-            print(f"ALL {n} PLANTED SECRETS CAUGHT, ZERO FALSE POSITIVES — secret gate verified fail-loud.")
+            print(
+                f"ALL {n} PLANTED SECRETS CAUGHT, ZERO FALSE POSITIVES — secret gate verified fail-loud."
+            )
             return 0
         reasons = []
         if missed:

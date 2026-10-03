@@ -102,8 +102,10 @@ the model string appears in multiple places that all need updating:
 5. **SKILL.md guardrails** — pitfall text mentioning the model
 
 Always grep for the old model string after updating:
+
 ```bash
 grep -rn "claude-sonnet-4-20250514" .hermes/cron/ README.md docs/ autonomous-ai-agents/cron-job-authoring/SKILL.md
 ```
+
 This catches stale references that would otherwise cause drift between the documented
 and actual model config.

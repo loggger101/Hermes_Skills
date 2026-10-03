@@ -40,6 +40,7 @@ Indexes two open-source bioinformatics skill libraries — **bioSkills** (385 re
 
 1. Identify the domain and skill name from the index below.
 2. Clone the relevant repo (shallow clone to save time):
+
    ```bash
    # bioSkills (reference material)
    git clone --depth 1 https://github.com/GPTomics/bioSkills.git /tmp/bioSkills
@@ -47,7 +48,9 @@ Indexes two open-source bioinformatics skill libraries — **bioSkills** (385 re
    # ClawBio (runnable pipelines)
    git clone --depth 1 https://github.com/ClawBio/ClawBio.git /tmp/ClawBio
    ```
+
 3. Read the specific skill:
+
    ```bash
    # bioSkills — each skill is at: <category>/<skill-name>/SKILL.md
    cat /tmp/bioSkills/variant-calling/gatk-variant-calling/SKILL.md
@@ -55,11 +58,13 @@ Indexes two open-source bioinformatics skill libraries — **bioSkills** (385 re
    # ClawBio — each skill is at: skills/<skill-name>/
    cat /tmp/ClawBio/skills/pharmgx-reporter/README.md
    ```
+
 4. Follow the fetched skill as reference material. These are NOT Hermes-format skills — treat them as expert domain guides. They contain correct parameters, proper tool flags, and validated pipelines.
 
 ## Skill Index by Domain
 
 ### Sequence Fundamentals
+
 bioSkills:
   sequence-io/ — read-sequences, write-sequences, format-conversion, batch-processing, compressed-files, fastq-quality, filter-sequences, paired-end-fastq, sequence-statistics
   sequence-manipulation/ — seq-objects, reverse-complement, transcription-translation, motif-search, codon-usage, sequence-properties, sequence-slicing
@@ -67,12 +72,14 @@ ClawBio:
   seq-wrangler — Sequence QC, alignment, and BAM processing (wraps FastQC, BWA, SAMtools)
 
 ### Read QC & Alignment
+
 bioSkills:
   read-qc/ — quality-reports, fastp-workflow, adapter-trimming, quality-filtering, umi-processing, contamination-screening, rnaseq-qc
   read-alignment/ — bwa-alignment, star-alignment, hisat2-alignment, bowtie2-alignment
   alignment-files/ — sam-bam-basics, alignment-sorting, alignment-filtering, bam-statistics, duplicate-handling, pileup-generation
 
 ### Variant Calling & Annotation
+
 bioSkills:
   variant-calling/ — gatk-variant-calling, deepvariant, variant-calling (bcftools), joint-calling, structural-variant-calling, filtering-best-practices, variant-annotation, variant-normalization, vcf-basics, vcf-manipulation, vcf-statistics, consensus-sequences, clinical-interpretation
 ClawBio:
@@ -80,6 +87,7 @@ ClawBio:
   variant-annotation — Variant annotation pipeline
 
 ### Differential Expression (Bulk RNA-seq)
+
 bioSkills:
   differential-expression/ — deseq2-basics, edger-basics, batch-correction, de-results, de-visualization, timeseries-de
   rna-quantification/ — alignment-free-quant (Salmon/kallisto), featurecounts-counting, tximport-workflow, count-matrix-qc
@@ -89,6 +97,7 @@ ClawBio:
   diff-visualizer — Rich visualization and reporting for DE results
 
 ### Single-Cell RNA-seq
+
 bioSkills:
   single-cell/ — preprocessing, clustering, batch-integration, cell-annotation, cell-communication, doublet-detection, markers-annotation, trajectory-inference, multimodal-integration, perturb-seq, scatac-analysis, lineage-tracing, metabolite-communication, data-io
 ClawBio:
@@ -96,10 +105,12 @@ ClawBio:
   scrna-embedding — scVI-based latent embedding and batch integration
 
 ### Spatial Transcriptomics
+
 bioSkills:
   spatial-transcriptomics/ — spatial-data-io, spatial-preprocessing, spatial-domains, spatial-deconvolution, spatial-communication, spatial-neighbors, spatial-statistics, spatial-visualization, spatial-multiomics, spatial-proteomics, image-analysis
 
 ### Epigenomics
+
 bioSkills:
   chip-seq/ — peak-calling, differential-binding, motif-analysis, peak-annotation, chipseq-qc, chipseq-visualization, super-enhancers
   atac-seq/ — atac-peak-calling, atac-qc, differential-accessibility, footprinting, motif-deviation, nucleosome-positioning
@@ -109,6 +120,7 @@ ClawBio:
   methylation-clock — Epigenetic age estimation
 
 ### Pharmacogenomics & Clinical
+
 bioSkills:
   clinical-databases/ — clinvar-lookup, gnomad-frequencies, dbsnp-queries, pharmacogenomics, polygenic-risk, hla-typing, variant-prioritization, somatic-signatures, tumor-mutational-burden, myvariant-queries
 ClawBio:
@@ -120,6 +132,7 @@ ClawBio:
   nutrigx_advisor — Personalized nutrition from consumer genetic data
 
 ### Population Genetics & GWAS
+
 bioSkills:
   population-genetics/ — association-testing (PLINK GWAS), plink-basics, population-structure, linkage-disequilibrium, scikit-allel-analysis, selection-statistics
   causal-genomics/ — mendelian-randomization, fine-mapping, colocalization-analysis, mediation-analysis, pleiotropy-detection
@@ -128,6 +141,7 @@ ClawBio:
   claw-ancestry-pca — Ancestry PCA against SGDP reference panel
 
 ### Metagenomics & Microbiome
+
 bioSkills:
   metagenomics/ — kraken-classification, metaphlan-profiling, abundance-estimation, functional-profiling, amr-detection, strain-tracking, metagenome-visualization
   microbiome/ — amplicon-processing, diversity-analysis, differential-abundance, taxonomy-assignment, functional-prediction, qiime2-workflow
@@ -135,12 +149,14 @@ ClawBio:
   claw-metagenomics — Shotgun metagenomics profiling (taxonomy, resistome, functional pathways)
 
 ### Genome Assembly & Annotation
+
 bioSkills:
   genome-assembly/ — hifi-assembly, long-read-assembly, short-read-assembly, metagenome-assembly, assembly-polishing, assembly-qc, scaffolding, contamination-detection
   genome-annotation/ — eukaryotic-gene-prediction, prokaryotic-annotation, functional-annotation, ncrna-annotation, repeat-annotation, annotation-transfer
   long-read-sequencing/ — basecalling, long-read-alignment, long-read-qc, clair3-variants, structural-variants, medaka-polishing, nanopore-methylation, isoseq-analysis
 
 ### Structural Biology & Chemoinformatics
+
 bioSkills:
   structural-biology/ — alphafold-predictions, modern-structure-prediction, structure-io, structure-navigation, structure-modification, geometric-analysis
   chemoinformatics/ — molecular-io, molecular-descriptors, similarity-searching, substructure-search, virtual-screening, admet-prediction, reaction-enumeration
@@ -148,27 +164,32 @@ ClawBio:
   struct-predictor — Local AlphaFold/Boltz/Chai structure prediction with comparison
 
 ### Proteomics
+
 bioSkills:
   proteomics/ — data-import, peptide-identification, protein-inference, quantification, differential-abundance, dia-analysis, ptm-analysis, proteomics-qc, spectral-libraries
 ClawBio:
   proteomics-de — Proteomics differential expression
 
 ### Pathway Analysis & Gene Networks
+
 bioSkills:
   pathway-analysis/ — go-enrichment, gsea, kegg-pathways, reactome-pathways, wikipathways, enrichment-visualization
   gene-regulatory-networks/ — scenic-regulons, coexpression-networks, differential-networks, multiomics-grn, perturbation-simulation
 
 ### Immunoinformatics
+
 bioSkills:
   immunoinformatics/ — mhc-binding-prediction, epitope-prediction, neoantigen-prediction, immunogenicity-scoring, tcr-epitope-binding
   tcr-bcr-analysis/ — mixcr-analysis, scirpy-analysis, immcantation-analysis, repertoire-visualization, vdjtools-analysis
 
 ### CRISPR & Genome Engineering
+
 bioSkills:
   crispr-screens/ — mageck-analysis, jacks-analysis, hit-calling, screen-qc, library-design, crispresso-editing, base-editing-analysis, batch-correction
   genome-engineering/ — grna-design, off-target-prediction, hdr-template-design, base-editing-design, prime-editing-design
 
 ### Workflow Management
+
 bioSkills:
   workflow-management/ — snakemake-workflows, nextflow-pipelines, cwl-workflows, wdl-workflows
 ClawBio:
@@ -176,6 +197,7 @@ ClawBio:
   galaxy-bridge — Access 8,000+ Galaxy tools from usegalaxy.org
 
 ### Specialized Domains
+
 bioSkills:
   alternative-splicing/ — splicing-quantification, differential-splicing, isoform-switching, sashimi-plots, single-cell-splicing, splicing-qc
   ecological-genomics/ — edna-metabarcoding, landscape-genomics, conservation-genetics, biodiversity-metrics, community-ecology, species-delimitation
@@ -188,6 +210,7 @@ bioSkills:
   rna-structure/ — secondary-structure-prediction, ncrna-search, structure-probing
 
 ### Data Visualization & Reporting
+
 bioSkills:
   data-visualization/ — ggplot2-fundamentals, heatmaps-clustering, volcano-customization, circos-plots, genome-browser-tracks, interactive-visualization, multipanel-figures, network-visualization, upset-plots, color-palettes, specialized-omics-plots, genome-tracks
   reporting/ — rmarkdown-reports, quarto-reports, jupyter-reports, automated-qc-reports, figure-export
@@ -198,6 +221,7 @@ ClawBio:
   pubmed-summariser — Gene/disease PubMed search with structured briefing
 
 ### Database Access
+
 bioSkills:
   database-access/ — entrez-search, entrez-fetch, entrez-link, blast-searches, local-blast, sra-data, geo-data, uniprot-access, batch-downloads, interaction-databases, sequence-similarity
 ClawBio:
@@ -205,10 +229,12 @@ ClawBio:
   clinical-trial-finder — Clinical trial discovery
 
 ### Experimental Design
+
 bioSkills:
   experimental-design/ — power-analysis, sample-size, batch-design, multiple-testing
 
 ### Machine Learning for Omics
+
 bioSkills:
   machine-learning/ — omics-classifiers, biomarker-discovery, survival-analysis, model-validation, prediction-explanation, atlas-mapping
 ClawBio:

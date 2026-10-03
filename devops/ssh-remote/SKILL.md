@@ -96,28 +96,34 @@ ssh -D 1080 user@host
 ## Procedure
 
 ### 1. Verify connectivity
+
 ```bash
 ssh -o BatchMode=yes -o ConnectTimeout=5 user@host 'echo ok' 2>&1
 ```
+
 Exit 0 = key auth works, host reachable. Non-zero = diagnose (wrong key, host down, firewall, host key not accepted).
 
 ### 2. Pick the transport
+
 - One-off command → `ssh user@host 'command'`
 - Multi-step session → background SSH or persistent control socket
 - File transfer → `scp` for simple, `rsync` for large/incremental
 - Service access → port forwarding (`-L`/`-R`) then hit localhost
 
 ### 3. Handle auth
+
 - Key not loaded in agent? `ssh-add ~/.ssh/key` first (may need `pty` if ssh-add prompts)
 - First-time host key? Pre-accept: `ssh-keyscan -H host >> ~/.ssh/known_hosts` (trusted networks only)
 - Password auth is last resort; user must be present to type the password
 
 ### 4. Run and verify
+
 - Read remote stdout/stderr from the `terminal` result
 - Long-running remote commands: `terminal(background=true)` and poll
 - After file transfers, verify with remote `ls -la` or `du -sh` via a follow-up SSH call
 
 ### 5. Clean up
+
 - Background SSH sessions: close when done
 - Port forwards: the SSH process holds the tunnel; kill it when no longer needed
 

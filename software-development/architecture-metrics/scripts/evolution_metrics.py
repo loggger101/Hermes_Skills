@@ -10,6 +10,7 @@ Constants: default lookback 90 days, min co-changes for a coupling pair = 3.
 
 Usage: python evolution_metrics.py <repo-dir> [--days N] [--json]
 """
+
 import ast
 import json
 import subprocess
@@ -34,8 +35,15 @@ def walk_commits(repo: str, days: int):
 
     Sequential single pass over `git log --numstat`: each '@' header finalizes the
     previous record (applying sentrux's skip rules) and starts a new one."""
-    r = git(repo, "log", f"--since={days} days ago", "--no-renames", "--numstat",
-            "--date=format-local:%s", "--pretty=format:@%ad|%an")
+    r = git(
+        repo,
+        "log",
+        f"--since={days} days ago",
+        "--no-renames",
+        "--numstat",
+        "--date=format-local:%s",
+        "--pretty=format:@%ad|%an",
+    )
     if r.returncode != 0:
         raise SystemExit(f"git log failed (not a git repo?): {r.stderr.strip()}")
 
@@ -43,8 +51,7 @@ def walk_commits(repo: str, days: int):
 
     def finalize():
         nonlocal cur
-        if cur is not None and cur["files"] and len(cur["files"]) <= 50 \
-                and not cur["is_merge"]:
+        if cur is not None and cur["files"] and len(cur["files"]) <= 50 and not cur["is_merge"]:
             # sentrux parity: skip merge commits (double-count changes) and
             # mega-commits >50 files (noise). Renames excluded via --no-renames.
             records.append((cur["epoch"], cur["author"], cur["files"]))
@@ -56,13 +63,19 @@ def walk_commits(repo: str, days: int):
         if line.startswith("@"):
             finalize()
             epoch_s, author = line[1:].split("|", 1)
-            cur = {"epoch": int(epoch_s), "author": author, "files": [],
-                   "is_merge": is_merge(repo, epoch_s)}
+            cur = {
+                "epoch": int(epoch_s),
+                "author": author,
+                "files": [],
+                "is_merge": is_merge(repo, epoch_s),
+            }
         else:
             parts = line.split("\t")
             if len(parts) < 3 or not parts[2]:
                 continue  # malformed / no path — skip
-            a = int(parts[0]) if parts[0].isdigit() else 0   # binary files show "-" -> zero churn, still touched
+            a = (
+                int(parts[0]) if parts[0].isdigit() else 0
+            )  # binary files show "-" -> zero churn, still touched
             b = int(parts[1]) if parts[1].isdigit() else 0
             cur["files"].append((parts[2], a, b))
     finalize()
@@ -111,8 +124,9 @@ def main():
             continue
         union = commit_counts[a] + commit_counts[b] - n
         strength = n / union if union else 0.0
-        pairs.append({"file_a": a, "file_b": b, "co_changes": n,
-                      "coupling_strength": round(strength, 4)})
+        pairs.append(
+            {"file_a": a, "file_b": b, "co_changes": n, "coupling_strength": round(strength, 4)}
+        )
     pairs.sort(key=lambda x: (-x["coupling_strength"], x["file_a"], x["file_b"]))
 
     # ── temporal hotspots: churn_count × max_complexity (Nagappan & Ball) ──
@@ -127,8 +141,18 @@ def main():
             if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
                 cc = 1
                 for sub in ast.walk(node):
-                    if isinstance(sub, (ast.If, ast.For, ast.While, ast.AsyncFor,
-                                        ast.ExceptHandler, ast.Assert, ast.comprehension)):
+                    if isinstance(
+                        sub,
+                        (
+                            ast.If,
+                            ast.For,
+                            ast.While,
+                            ast.AsyncFor,
+                            ast.ExceptHandler,
+                            ast.Assert,
+                            ast.comprehension,
+                        ),
+                    ):
                         cc += 1
                     elif isinstance(sub, ast.BoolOp):
                         cc += len(sub.values) - 1
@@ -142,8 +166,14 @@ def main():
         cc = file_max_cc(p)
         risk = churn[p]["commits"] * cc
         if cc:
-            hotspots.append({"file": p, "churn_commits": churn[p]["commits"],
-                             "max_complexity": cc, "risk_score": risk})
+            hotspots.append(
+                {
+                    "file": p,
+                    "churn_commits": churn[p]["commits"],
+                    "max_complexity": cc,
+                    "risk_score": risk,
+                }
+            )
     hotspots.sort(key=lambda x: -x["risk_score"])
 
     # ── code age + bus factor (Ricca et al.) ──
@@ -161,17 +191,23 @@ def main():
     churn_score = max(0.0, min(1.0, 1.0 - concentration))
 
     result = {
-        "repo": str(repo), "lookback_days": days, "commits_analyzed": len(commits),
+        "repo": str(repo),
+        "lookback_days": days,
+        "commits_analyzed": len(commits),
         "files_touched": len(churn),
-        "top_churn": sorted(({"file": p, **c} for p, c in churn.items()),
-                            key=lambda x: -(x["added"] + x["removed"]))[:15],
+        "top_churn": sorted(
+            ({"file": p, **c} for p, c in churn.items()), key=lambda x: -(x["added"] + x["removed"])
+        )[:15],
         "coupling_pairs_top": pairs[:15],
         "temporal_hotspots_top": hotspots[:10],
-        "oldest_files": sorted(({"file": p, "age_days": d} for p, d in code_age.items()),
-                               key=lambda x: -x["age_days"])[:10],
-        "bus_factor": {"single_author_files": single_author,
-                       "single_author_ratio": round(single_ratio, 4),
-                       "score": round(bus_factor_score, 4)},
+        "oldest_files": sorted(
+            ({"file": p, "age_days": d} for p, d in code_age.items()), key=lambda x: -x["age_days"]
+        )[:10],
+        "bus_factor": {
+            "single_author_files": single_author,
+            "single_author_ratio": round(single_ratio, 4),
+            "score": round(bus_factor_score, 4),
+        },
         "churn_concentration_score": round(churn_score, 4),
         "evolution_score": round(min(bus_factor_score, churn_score), 4),
     }
@@ -180,24 +216,37 @@ def main():
         print(json.dumps(result, indent=2))
     else:
         r = result
+
         def short(p):  # last two path components — basenames collide across skills/
             parts = p.replace("\\", "/").split("/")
             return "/".join(parts[-2:]) if len(parts) > 1 else p
+
         print(f"Evolution report — {r['repo']} (last {days} days)")
-        print(f"  commits={r['commits_analyzed']} files_touched={r['files_touched']} "
-              f"evolution_score={r['evolution_score']}")
-        tc = ", ".join(f"{short(t['file'])}(+{t['added']}/-{t['removed']}x{t['commits']})"
-                       for t in r["top_churn"][:5])
+        print(
+            f"  commits={r['commits_analyzed']} files_touched={r['files_touched']} "
+            f"evolution_score={r['evolution_score']}"
+        )
+        tc = ", ".join(
+            f"{short(t['file'])}(+{t['added']}/-{t['removed']}x{t['commits']})"
+            for t in r["top_churn"][:5]
+        )
         print(f"  top churn: {tc or '(none)'}")
-        cp = ", ".join(f"{short(p['file_a'])}<->{short(p['file_b'])}"
-                       f"(n={p['co_changes']},J={p['coupling_strength']})" for p in r["coupling_pairs_top"][:5])
+        cp = ", ".join(
+            f"{short(p['file_a'])}<->{short(p['file_b'])}"
+            f"(n={p['co_changes']},J={p['coupling_strength']})"
+            for p in r["coupling_pairs_top"][:5]
+        )
         print(f"  co-change pairs: {cp or '(none)'}")
-        th = ", ".join(f"{short(h['file'])}(c{h['churn_commits']}xCC{h['max_complexity']})"
-                       for h in r["temporal_hotspots_top"][:5])
+        th = ", ".join(
+            f"{short(h['file'])}(c{h['churn_commits']}xCC{h['max_complexity']})"
+            for h in r["temporal_hotspots_top"][:5]
+        )
         print(f"  temporal hotspots: {th or '(none)'}")
         b = r["bus_factor"]
-        print(f"  bus factor: {b['single_author_files']} single-author files "
-              f"(ratio {b['single_author_ratio']}) score={b['score']} | churn concentration={r['churn_concentration_score']}")
+        print(
+            f"  bus factor: {b['single_author_files']} single-author files "
+            f"(ratio {b['single_author_ratio']}) score={b['score']} | churn concentration={r['churn_concentration_score']}"
+        )
 
 
 if __name__ == "__main__":

@@ -3,6 +3,7 @@
 **Best for:** request/response flows, protocol exchanges, multi-actor interactions over time, API call traces, incident reconstructions, auth/token refresh paths with branching.
 
 ## Layout conventions
+
 - Actors as boxes in a horizontal row at the top.
 - **Lifelines**: dashed vertical lines descending from each actor to the bottom.
 - Messages: horizontal arrows between lifelines; time flows top→down.
@@ -74,6 +75,7 @@ Dark mode: frame fill `rgba(245,245,245,0.04)`, stroke `rgba(245,245,245,0.22)`,
 ```
 
 ### Fragment layout rules
+
 - Frame left/right inset ≥12px from the outermost participating lifeline centers (so activation bars stay inside the frame).
 - ≥24px between consecutive message y-levels inside a region (4px grid).
 - Guard sits in the first ~20px under the tab; first message in that region is ≥24px below the guard baseline.
@@ -83,10 +85,12 @@ Dark mode: frame fill `rgba(245,245,245,0.04)`, stroke `rgba(245,245,245,0.22)`,
 - Coral stays on **one** headline success message across the whole diagram (usually the happy-path return inside the first `alt` region, or the final success outside a loop). Do not coral both `alt` branches.
 
 ### Out of scope (do not invent)
+
 - `par`, `critical`, `break`, `ref`, and other UML operators — second PR if needed.
 - Participant create/destroy, found/lost messages, duration timing bars.
 
 ## Complexity budget (sequence-specific)
+
 - Max lifelines: 5 (same as SKILL.md §7).
 - Max messages (arrows): 12.
 - Max combined fragments: 1 (hard default); 2 only if each is a single-region `opt`/`loop`.
@@ -97,18 +101,21 @@ Dark mode: frame fill `rgba(245,245,245,0.04)`, stroke `rgba(245,245,245,0.22)`,
 If you exceed, split: overview (happy path) + detail (failure / refresh path).
 
 ## Lifeline primitive
+
 ```svg
 <line x1="CX" y1="TOP" x2="CX" y2="BOTTOM"
       stroke="rgba(45,49,66,0.20)" stroke-width="1" stroke-dasharray="3,3"/>
 ```
 
 ## Activation bar primitive
+
 ```svg
 <rect x="CX-4" y="TOP" width="8" height="H"
       fill="rgba(45,49,66,0.06)" stroke="#4f5d75" stroke-width="0.8"/>
 ```
 
 ## Anti-patterns
+
 - Message arrow pointing *upward* (reverses time — never).
 - Activation bars that never close.
 - Labels sitting over another lifeline — shorten or shift y into a gap.
@@ -122,6 +129,7 @@ If you exceed, split: overview (happy path) + detail (failure / refresh path).
 - Open arrowhead on return messages (returns stay filled + dashed).
 
 ## Examples
+
 - `assets/example-sequence.html` — minimal light (cold-cache happy path)
 - `assets/example-sequence-dark.html` — minimal dark
 - `assets/example-sequence-full.html` — full editorial

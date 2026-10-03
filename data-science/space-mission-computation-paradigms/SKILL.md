@@ -41,6 +41,7 @@ is most impressive.
 ## The core distinction: closed-form vs. numerical
 
 **Closed-form patched conics** (what economicspace uses):
+
 - Two-body Keplerian motion inside each body's sphere of influence; patch at the SOI boundary by transforming velocity into the new central body's frame and adding that body's heliocentric velocity.
 - Δv from vis-viva differences between orbits; transfer time = half-period of the transfer ellipse (Hohmann) or a bi-elliptic variant for large radius ratios.
 - Launch window / phase angle: wait until target is at `θ_launch = (ω_target − ω_transfer)·t_trans (mod 2π)`.
@@ -48,22 +49,26 @@ is most impressive.
 - **Weakness:** ignores third-body gravity inside SOIs, perturbations (J2, SRP), non-spherical bodies; the Δv is a budget estimate, not an executable trajectory.
 
 **Numerical propagation**:
+
 - Integrate `r̈ = −μ r/r³ + Σ(perturbations)` with RK4 / Gauss-Jackson / SGP4 (for LEO from TLEs). Deterministic given fixed step + seed.
 - **Strength:** captures the real force model; gives exact positions for phase angles and access windows.
 - **Weakness:** per-step cost; must be deterministic to stay reproducible (fixed timestep, consistent frame/units) — same discipline as any ML sim environment.
 
 **Successive convexification** (OpenSCvx's paradigm):
+
 - Reformulate a nonlinear optimal-control problem by linearizing dynamics around the current guess and adding trust-region / penalty terms so each subproblem is CONVEX; solve with CVXPY, iterate to convergence. JAX gives autodiff Jacobians + AOT compilation + vectorization/GPU.
 - Specific techniques OpenSCvx implements: **free final time**, **fully adaptive time dilation** (a scalar `s` appended to the control vector so the solver can stretch/compress the timeline), **continuous-time constraint satisfaction** (arXiv 2404.16826 — constraints enforced between nodes, not just at them), **FOH/ZOH exact discretization**, **vectorized AOT-compiled multishooting**.
 - **Strength:** solves the actual fuel/time-optimal control problem with hard constraints — the "right answer" for a single maneuver's thrust profile.
 - **Weakness:** iterative (may not converge from a bad guess), heavy dep chain (JAX/CVXPY → GPU/CUDA), and it changes floats per solver version — incompatible with bit-identity pipelines unless fully isolated and pinned.
 
 **Parallel global multiobjective optimization** (pygmo/pagmo):
+
 - Wraps many algorithms (CMA-ES, differential evolution, PSO, NLP solvers) behind one interface; runs them across a **generalized island model** for massively parallel population-based search; supports multi-objective Pareto fronts and uncertainty quantification. JOSS-reviewed (Biscani & Izzo 2020).
 - **Strength:** "optimize the mission over N uncertain parameters" at scale — exactly what a campaign sweep wants.
 - **Weakness:** PyPI wheels are Linux x86_64 + aarch64 ONLY; on Windows you need conda-forge or source build (matters for this user's dual-host setup).
 
 **6DOF forward-integration Monte Carlo** (CamPyRoS):
+
 - Full 3-translational + 3-rotational dynamics, variable mass/inertia, aeroheating model, live wind data; stochastic analysis via Monte Carlo (Ray for parallelism on non-Windows). References NASA 6-DOF check-cases and the tangent-ogive heating program.
 - **Strength:** launch dispersion / reliability / aeroheating — the atmospheric + rotational regime closed-form conics can't touch.
 - **Weakness:** it's a *forward simulator*, not an optimizer; GPL-3.0; stale (last push Jul 2025); Windows stats module degrades to single-threaded without Ray.
@@ -71,6 +76,7 @@ is most impressive.
 ## Measured ground truth from economicspace's own audit (research/starred-repos/)
 
 Before deciding anything, the repo validated its closed-form estimator against a **numerical Izzo-Lambert porkchop oracle** (`orbital.py` + `probe_lambert.py`, 10,874 bodies):
+
 - The closed-form outbound Δv is **optimistic by median +1.30 km/s (11.9%) on 86% of bodies**, worst at high inclination — the plane-change term overcharges (median 4.87%, up to ~25×) while transfer geometry undercharges, and the two errors partially cancel: correcting only the overcharge makes the model WORSE in every inclination band.
 - The verdict was therefore NOT "wire brahe into calc.py": a fair cross-check target is exactly what this oracle already is — an independent numerical method used to bound the closed-form one's error, with both terms corrected together or not at all (the standing limitation stays documented rather than half-fixed).
 

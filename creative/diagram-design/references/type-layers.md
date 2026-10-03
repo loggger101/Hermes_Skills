@@ -3,6 +3,7 @@
 **Best for:** OSI model, CSS cascade, context hierarchy, tech stack, abstraction layers, memory hierarchy.
 
 ## Layout conventions
+
 - Horizontal bands stacked vertically. Each layer is a full-width rectangle (same x, same width). 4–6 layers total.
 - Layer height 56–72px, width typically 800–880px inside a 1000px viewBox.
 - Each row contains (left→right):
@@ -15,12 +16,14 @@
 - Coral on **one** focal layer (stroke + subtle tint fill) — the bottleneck, the pay-rent layer, the one under discussion.
 
 ## Anti-patterns
+
 - Layers that aren't actually hierarchical (use swimlane or architecture).
 - Skipped numbering (missing L4 between L3 and L5 without explanation).
 - Every layer a different color — hierarchy invisible.
 - Inconsistent layer heights without reason.
 
 ## Examples
+
 - `assets/example-layers.html` — minimal light
 - `assets/example-layers-dark.html` — minimal dark
 - `assets/example-layers-full.html` — full editorial

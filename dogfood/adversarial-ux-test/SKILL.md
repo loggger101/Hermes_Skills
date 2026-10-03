@@ -29,6 +29,7 @@ Think of it as an automated "mom test" — but angry.
 ## Why This Works
 
 Most QA finds bugs. This finds **friction**. A technically correct app can still be unusable for real humans. The adversarial persona catches:
+
 - Confusing terminology that makes sense to developers but not users
 - Too many steps to accomplish basic tasks
 - Missing onboarding or "aha moments"
@@ -41,6 +42,7 @@ The **pragmatism filter** (Phase 3) is what makes this useful instead of just en
 ## How to Run
 
 Tell the agent:
+
 ```
 "Run an adversarial UX test on [URL]"
 "Be a grumpy [persona type] and test [app name]"
@@ -60,9 +62,11 @@ If no persona is provided, generate one by answering:
 5. **How do they talk when frustrated?** (blunt, sweary, dismissive, sighing)
 
 ### Good Persona Example
+>
 > **"Big Mick" McAllister** — 58-year-old S&C coach. Uses WhatsApp and that's it. His "spreadsheet" is a paper notebook. "If I can't figure it out in 10 seconds I'm going back to my notebook." Needs to log session results for 25 players. Hates small text, jargon, and passwords.
 
 ### Bad Persona Example
+>
 > "A user who doesn't like the app" — too vague, no constraints, no voice.
 
 The persona must be **specific enough to stay in character** for 20 minutes of testing.
@@ -127,6 +131,7 @@ Step OUT of the persona. Evaluate each complaint as a product person:
 - **GREEN: FEATURE REQUEST** — Good idea hidden in the complaint. Consider it.
 
 ### Filter Criteria
+
 1. Would a 35-year-old competent-but-busy user have the same complaint? → RED
 2. Is this a genuine accessibility issue (font size, contrast, click targets)? → RED
 3. Is this "I want it to work like paper" resistance to digital? → WHITE
@@ -139,6 +144,7 @@ Step OUT of the persona. Evaluate each complaint as a product person:
 ## Step 5: Create Tickets
 
 For **RED** and **GREEN** items only:
+
 - Clear, actionable title
 - Include the persona's verbatim quote (entertaining + memorable)
 - The real UX issue underneath (objective)
@@ -154,6 +160,7 @@ For **YELLOW** items: one catch-all ticket with all notes.
 ## Step 6: Report
 
 Deliver:
+
 1. The persona rant (Step 3) — entertaining and visceral
 2. The filtered assessment (Step 4) — pragmatic and actionable
 3. Tickets created (Step 5) — with links

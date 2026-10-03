@@ -7,6 +7,7 @@ every documented behavior against concrete cases. Stdlib only — run with `py` 
 
 Exit code = number of failed checks (0 = all pass).
 """
+
 from __future__ import annotations
 
 import ipaddress
@@ -27,19 +28,19 @@ def check(name: str, cond: bool) -> None:
 
 # ---------------------------------------------------------------- guard (yaml_loader.py)
 BLOCKED_IP_RANGES = [
-    ipaddress.ip_network("127.0.0.0/8"),      # loopback
-    ipaddress.ip_network("10.0.0.0/8"),       # private A
-    ipaddress.ip_network("172.16.0.0/12"),    # private B
-    ipaddress.ip_network("192.168.0.0/16"),   # private C
-    ipaddress.ip_network("169.254.0.0/16"),   # link-local (cloud metadata)
-    ipaddress.ip_network("0.0.0.0/8"),        # current network
-    ipaddress.ip_network("224.0.0.0/4"),      # multicast
-    ipaddress.ip_network("240.0.0.0/4"),      # reserved
-    ipaddress.ip_network("100.64.0.0/10"),    # carrier-grade NAT
-    ipaddress.ip_network("198.18.0.0/15"),    # benchmark testing
-    ipaddress.ip_network("::1/128"),          # IPv6 loopback
-    ipaddress.ip_network("fc00::/7"),         # IPv6 private (ULA)
-    ipaddress.ip_network("fe80::/10"),        # IPv6 link-local
+    ipaddress.ip_network("127.0.0.0/8"),  # loopback
+    ipaddress.ip_network("10.0.0.0/8"),  # private A
+    ipaddress.ip_network("172.16.0.0/12"),  # private B
+    ipaddress.ip_network("192.168.0.0/16"),  # private C
+    ipaddress.ip_network("169.254.0.0/16"),  # link-local (cloud metadata)
+    ipaddress.ip_network("0.0.0.0/8"),  # current network
+    ipaddress.ip_network("224.0.0.0/4"),  # multicast
+    ipaddress.ip_network("240.0.0.0/4"),  # reserved
+    ipaddress.ip_network("100.64.0.0/10"),  # carrier-grade NAT
+    ipaddress.ip_network("198.18.0.0/15"),  # benchmark testing
+    ipaddress.ip_network("::1/128"),  # IPv6 loopback
+    ipaddress.ip_network("fc00::/7"),  # IPv6 private (ULA)
+    ipaddress.ip_network("fe80::/10"),  # IPv6 link-local
 ]
 
 BLOCKED_HOSTNAMES = {
@@ -173,7 +174,7 @@ check(
     == "http://ip-api.com/json/8.8.8.8",
 )
 # injection attempt: value that would break out of the URL path / add a host
-evil = '127.0.0.1/x?y=1#@attacker.example'
+evil = "127.0.0.1/x?y=1#@attacker.example"
 rendered = render_template("http://api.example.com/v1/{{key}}", {"key": evil})
 check(
     "percent-encodes injection payload (safe=-_.~)",
@@ -216,8 +217,13 @@ def extract_nested_value(data, path: str):
 
 
 nested = {"data": {"results": [{"ip": "1.2.3.4"}, {"ip": "5.6.7.8"}]}}
-check("dot path into nested list item", extract_nested_value(nested, "data.results.0.ip") == "1.2.3.4")
-check("out-of-range index -> None (not exception)", extract_nested_value(nested, "data.results.9.ip") is None)
+check(
+    "dot path into nested list item", extract_nested_value(nested, "data.results.0.ip") == "1.2.3.4"
+)
+check(
+    "out-of-range index -> None (not exception)",
+    extract_nested_value(nested, "data.results.9.ip") is None,
+)
 check("missing key -> None", extract_nested_value({"a": 1}, "b.c.d") is None)
 
 # ---------------------------------------------------------------- retry policy (template_enricher.py + types.py)
@@ -225,13 +231,13 @@ check("missing key -> None", extract_nested_value({"a": 1}, "b.c.d") is None)
 
 class RetryConfig:
     def __init__(self):
-        self.max_retries = 3          # default, bounds 0-10
-        self.backoff_factor = 0.5     # default, bounds 0.1-10.0 (seconds)
+        self.max_retries = 3  # default, bounds 0-10
+        self.backoff_factor = 0.5  # default, bounds 0.1-10.0 (seconds)
         self.retry_on_status = [429, 500, 502, 503, 504]
 
 
 def backoff_waits(cfg: RetryConfig):
-    return [cfg.backoff_factor * (2 ** attempt) for attempt in range(cfg.max_retries)]
+    return [cfg.backoff_factor * (2**attempt) for attempt in range(cfg.max_retries)]
 
 
 print("== 8. Exponential backoff schedule")
@@ -248,14 +254,21 @@ def retry_decision(status: int, cfg: RetryConfig = None):
     if status in cfg.retry_on_status:
         return "retry"
     if 400 <= status < 500 and status not in cfg.retry_on_status:
-        return "raise"   # client errors don't fix themselves (except listed ones)
+        return "raise"  # client errors don't fix themselves (except listed ones)
     return "ok"
 
 
 print("== 9. Retry decision table")
 for status, expected in [
-    (200, "ok"), (429, "retry"), (500, "retry"), (502, "retry"),
-    (503, "retry"), (504, "retry"), (404, "raise"), (401, "raise"), (403, "raise"),
+    (200, "ok"),
+    (429, "retry"),
+    (500, "retry"),
+    (502, "retry"),
+    (503, "retry"),
+    (504, "retry"),
+    (404, "raise"),
+    (401, "raise"),
+    (403, "raise"),
 ]:
     check(f"status {status} -> {expected}", retry_decision(status) == expected)
 
@@ -269,5 +282,7 @@ print()
 if FAILS:
     print(f"RESULT: {len(FAILS)} FAILED / {COUNT - len(FAILS)} passed (of {COUNT})")
     raise SystemExit(len(FAILS))
-print(f"RESULT: all {COUNT} checks PASSED (guard ranges, schemes, hostnames, both documented "
-      f"limitations, sanitization, dot-notation extraction, backoff schedule, retry decision table)")
+print(
+    f"RESULT: all {COUNT} checks PASSED (guard ranges, schemes, hostnames, both documented "
+    f"limitations, sanitization, dot-notation extraction, backoff schedule, retry decision table)"
+)

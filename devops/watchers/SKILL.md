@@ -19,7 +19,6 @@ metadata:
 
 Polls RSS feeds, JSON APIs, and GitHub events with watermark dedup — each watcher remembers its last-seen position so only new items surface on subsequent runs. Ships ready-made scripts plus the pattern for wiring a watcher into a cron job that stays quiet when there's nothing new (the cheap-to-run monitoring primitive).
 
-
 Poll external sources on an interval and react only to new items. Three ready-made scripts plus a shared watermark helper; wire them into a cron job (or run them ad-hoc from the terminal).
 
 ## When to Use
@@ -114,4 +113,3 @@ All three scripts use the same template: load watermark, fetch, diff, save, emit
 2. **Expecting the first run to emit items.** It won't — first run records a baseline. If you need an initial digest, delete the state file after the first run or add a `--prime-with-latest N` flag in your own script.
 3. **Unbounded watermark growth.** The shared helper caps at 500 IDs. Raise it for high-churn feeds; lower it on constrained filesystems.
 4. **Putting the state dir where the agent's sandbox can't write.** `$HERMES_HOME/watcher-state/` is always writable. Docker/Modal backends may not see arbitrary host paths.
-

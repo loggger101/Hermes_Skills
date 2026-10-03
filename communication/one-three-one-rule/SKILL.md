@@ -18,7 +18,6 @@ metadata:
 
 Formats decisions as 1-3-1 briefs: one problem statement, three options with tradeoffs, one pick — a fixed communication shape that keeps recommendations scannable and forces the writer to commit rather than hedge. Includes verification steps for when each part is missing or padded.
 
-
 Structured decision-making format for when a task has multiple viable approaches and the user needs a clear recommendation. Produces a concise problem framing, three options with trade-offs, and an actionable plan for the recommended path.
 
 ## When to Use
@@ -89,6 +88,7 @@ Agent:
 **Recommendation:** Option A. The call volume doesn't justify queue infrastructure, and a shared utility with exponential backoff + jitter covers the failure mode cleanly without new dependencies.
 
 **Definition of Done:**
+
 - `api_retry()` utility handles transient HTTP errors (429, 502, 503, 504).
 - Retries up to 3 times with exponential backoff and jitter.
 - All external API calls route through the retry utility.
@@ -96,6 +96,7 @@ Agent:
 - Tests cover retry exhaustion, immediate success, and transient-then-success scenarios.
 
 **Implementation Plan:**
+
 1. Create `utils/api_retry.py` with configurable max retries, base delay, and retryable status codes.
 2. Add jitter using `random.uniform(0, base_delay)` to prevent thundering herd.
 3. Wrap existing API calls in `api_client.py` with the retry utility.

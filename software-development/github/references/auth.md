@@ -20,6 +20,7 @@ git config --global credential.helper 2>/dev/null || echo "no git credential hel
 ```
 
 **Decision tree:**
+
 1. If `gh auth status` shows authenticated → you're good, use `gh` for everything
 2. If `gh` is installed but not authenticated → use "gh auth" method below
 3. If `gh` is not installed → use "git-only" method below (no sudo needed)
@@ -116,6 +117,7 @@ cat ~/.ssh/id_ed25519.pub
 ```
 
 Tell the user to add the public key at: **https://github.com/settings/keys**
+
 - Click "New SSH key"
 - Paste the public key content
 - Give it a title like "hermes-agent-<machine-name>"

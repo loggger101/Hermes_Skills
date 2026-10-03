@@ -50,6 +50,7 @@ semgrep --config=auto --output=semgrep-results.sarif
 ## OWASP Checklist
 
 ### Python
+
 - **Injection**: parameterized queries, no string interpolation in SQL
 - **Hardcoded secrets**: API keys, passwords, tokens — flag immediately
 - **Insecure deserialization**: avoid `pickle`, use JSON/pydantic
@@ -57,12 +58,14 @@ semgrep --config=auto --output=semgrep-results.sarif
 - **SSRF**: validate URLs before fetching — for user-controlled destinations (webhooks, config-supplied APIs, LLM-generated templates) use a blocked-range + scheme allowlist guard on the *rendered* URL; reference implementation with two measured bypasses: `rest-api-client` skill's `references/ssrf-guard-and-outbound-http-hardening.md`. Also check for **IDOR** (authN without per-resource authZ), naive-vs-aware datetimes, and nginx `add_header` inheritance silently dropping security headers.
 
 ### JavaScript/TypeScript
+
 - **XSS**: input sanitization, output encoding, CSP headers
 - **Prototype pollution**: validate object keys, freeze objects
 - **Dependency confusion**: pin dependencies, audit regularly
 - **Insecure JWT**: verify signatures, short expiry
 
 ### Go
+
 - **SQL injection**: use parameterized queries (not `fmt.Sprintf`)
 - **Command injection**: avoid `exec.Command` with user input
 - **Path traversal**: use `filepath.Clean` + base directory checks
@@ -80,10 +83,13 @@ semgrep --config=auto --output=semgrep-results.sarif
 ## Process
 
 ### 1. Run automated scanners
+
 Execute CodeQL and Semgrep against the codebase. Collect all findings.
 
 ### 2. Manual review pass
+
 Go through the code line-by-line for:
+
 - Hardcoded secrets in config files
 - User input flowing to dangerous sinks
 - Authentication/authorization bypasses
@@ -99,6 +105,7 @@ Go through the code line-by-line for:
 | **Low** | Missing security headers, predictable IDs |
 
 ### 4. Document and report
+
 For each finding: describe the vulnerability, show the vulnerable code, explain the impact, and provide a fix.
 
 ## Pitfalls

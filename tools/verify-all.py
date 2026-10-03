@@ -27,6 +27,7 @@ Usage:
 Exit 0 = every gate passed. Exit 1 = at least one failed (details above the summary).
 Child tools are launched with sys.executable, never a which() lookup.
 """
+
 import importlib.util
 import json
 import os
@@ -38,7 +39,9 @@ from pathlib import Path
 if sys.version_info < (3, 8):
     raise SystemExit(
         "[FATAL] verify-all.py needs Python 3.8+, got "
-        + sys.version.split()[0] + " at " + (sys.executable or "<unknown interpreter>")
+        + sys.version.split()[0]
+        + " at "
+        + (sys.executable or "<unknown interpreter>")
     )
 try:
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -50,31 +53,30 @@ REPO = Path(__file__).resolve().parents[1]
 PY = sys.executable or "python3"
 # Children print UTF-8 (most reconfigure stdout; this env makes the rest agree), so decode it
 # as UTF-8 — the Windows default codepage turned every '—' in the table into 'â€”'.
-CHILD_IO = dict(encoding="utf-8", errors="replace",
-                env=dict(os.environ, PYTHONIOENCODING="utf-8"))
+CHILD_IO = dict(encoding="utf-8", errors="replace", env=dict(os.environ, PYTHONIOENCODING="utf-8"))
 
 # Single source of truth for "how many gates verify-all runs". main() builds its result list
 # from this, and the doc-count gate checks every 'NNN gates' prose claim against it — so a new
 # gate added to one place but not the other (or vice versa) fails loudly instead of rotting.
 GATE_LABELS = [
-    "audit-skills",           # incl. zero-threshold hardcoded-secret scan + its mutation self-test below
-    "check-links",            # honest denominator: checked vs skipped-by-design per category
-    "drift: SKILLS-INDEX",    # gen-skills-index.py --check (index + all 23 category DESCRIPTIONs)
-    "drift: CODE-INDEX",      # gen-code-index.py --check
-    "drift: REFERENCES-INDEX",# gen-references-index.py --check
-    "drift: DEPENDENCY",      # regen-dependency-map.py --check (xref network, broken refs, standalone)
+    "audit-skills",  # incl. zero-threshold hardcoded-secret scan + its mutation self-test below
+    "check-links",  # honest denominator: checked vs skipped-by-design per category
+    "drift: SKILLS-INDEX",  # gen-skills-index.py --check (index + all 23 category DESCRIPTIONs)
+    "drift: CODE-INDEX",  # gen-code-index.py --check
+    "drift: REFERENCES-INDEX",  # gen-references-index.py --check
+    "drift: DEPENDENCY",  # regen-dependency-map.py --check (xref network, broken refs, standalone)
     "drift: .claude-plugin",  # gen-claude-plugin.py --check (plugin.json + marketplace.json)
-    "cron: configs",          # validate-cronjobs.py incl. threshold-key contract check
-    "cron: skill refs",       # validate-skill-refs.py — every cron job's skills resolve in-repo
-    "drift: installed-plugins",# sync-installed-plugins.py --check (local Hermes plugins → ref doc)
-    "doc counts",             # hand-written numbers vs machine truths (9 claim classes, self-tested)
-    "router coverage",        # check-router-coverage.py — skill-flow-router vs the catalog it maps
-    "self-test harnesses",    # run-self-tests.py executes the standalone *_verify.py harnesses
-    "gate self-test",         # mutation-test-doc-gate.py — proves every doc-count class fails loud
+    "cron: configs",  # validate-cronjobs.py incl. threshold-key contract check
+    "cron: skill refs",  # validate-skill-refs.py — every cron job's skills resolve in-repo
+    "drift: installed-plugins",  # sync-installed-plugins.py --check (local Hermes plugins → ref doc)
+    "doc counts",  # hand-written numbers vs machine truths (9 claim classes, self-tested)
+    "router coverage",  # check-router-coverage.py — skill-flow-router vs the catalog it maps
+    "self-test harnesses",  # run-self-tests.py executes the standalone *_verify.py harnesses
+    "gate self-test",  # mutation-test-doc-gate.py — proves every doc-count class fails loud
     "secret gate self-test",  # mutation-test-secret-gate.py — plants fake creds, asserts zero misses
-    "audit gate self-test",   # mutation-test-audit-gate.py — one planted defect per audit threshold class
-    "harness gate self-test", # mutation-test-selftest-gate.py — PASS/SKIP/FAIL classification proven
-    "cron gate self-test",    # mutation-test-cron-gate.py — phantom threshold keys caught
+    "audit gate self-test",  # mutation-test-audit-gate.py — one planted defect per audit threshold class
+    "harness gate self-test",  # mutation-test-selftest-gate.py — PASS/SKIP/FAIL classification proven
+    "cron gate self-test",  # mutation-test-cron-gate.py — phantom threshold keys caught
     "router gate self-test",  # mutation-test-router-gate.py — proves all 5 coverage classes fail loud
 ]
 
@@ -82,8 +84,9 @@ GATE_LABELS = [
 def run(label, args, cwd=REPO):
     """Run a child tool; return (label, ok, first meaningful output line)."""
     try:
-        proc = subprocess.run([PY] + args, cwd=str(cwd), capture_output=True,
-                              timeout=300, **CHILD_IO)
+        proc = subprocess.run(
+            [PY] + args, cwd=str(cwd), capture_output=True, timeout=300, **CHILD_IO
+        )
     except Exception as e:
         return label, False, str(e)[:200]
     out = (proc.stdout or "") + (proc.stderr or "")
@@ -102,8 +105,13 @@ def run_audit_gate():
     """audit-skills.py emits a JSON report; summarise it rather than echoing its last brace."""
     label = "audit-skills"
     try:
-        proc = subprocess.run([PY, "tools/audit-skills.py"], cwd=str(REPO),
-                              capture_output=True, timeout=300, **CHILD_IO)
+        proc = subprocess.run(
+            [PY, "tools/audit-skills.py"],
+            cwd=str(REPO),
+            capture_output=True,
+            timeout=300,
+            **CHILD_IO,
+        )
     except Exception as e:
         return label, False, str(e)[:200]
     try:
@@ -141,18 +149,25 @@ def check_doc_counts():
         must update both README and (if desired) this counter.
       * category counts ('NNN categories') -> live top-level dirs holding SKILL.md files
         (same enumeration gen-skills-index.py uses for its 'across NNN categories' line).
-      """
-    skills = [p for p in REPO.rglob("SKILL.md")
-              if not any(part in (".git", ".hermes", "profiles-export", "memories",
-                                  "memories-export") for part in p.relative_to(REPO).parts)]
+    """
+    skills = [
+        p
+        for p in REPO.rglob("SKILL.md")
+        if not any(
+            part in (".git", ".hermes", "profiles-export", "memories", "memories-export")
+            for part in p.relative_to(REPO).parts
+        )
+    ]
     live = len(skills)
 
     # truths from the machine-generated files (each already drift-gated upstream of here)
     xrefs, exposed, refdocs = None, None, None
     dep = REPO / "DEPENDENCY.md"
     if dep.exists():
-        m = re.search(r"\*\*Network stats:\*\* (\d+) `related_skills` cross-references",
-                      dep.read_text(encoding="utf-8"))
+        m = re.search(
+            r"\*\*Network stats:\*\* (\d+) `related_skills` cross-references",
+            dep.read_text(encoding="utf-8"),
+        )
         xrefs = int(m.group(1)) if m else None
     plugin_json = REPO / ".claude-plugin" / "plugin.json"
     if plugin_json.exists():
@@ -162,8 +177,7 @@ def check_doc_counts():
             pass
     refs_index = REPO / "REFERENCES-INDEX.md"
     if refs_index.exists():
-        m = re.search(r"\*\*(\d+) reference documents?\*\*",
-                      refs_index.read_text(encoding="utf-8"))
+        m = re.search(r"\*\*(\d+) reference documents?\*\*", refs_index.read_text(encoding="utf-8"))
         refdocs = int(m.group(1)) if m else None
 
     # 6) pytest suite counts — truth = live discovery (imported, not reimplemented).
@@ -175,7 +189,8 @@ def check_doc_counts():
     suites_truth = None
     try:
         spec = importlib.util.spec_from_file_location(
-            "run_skill_tests", REPO / "tools" / "run-skill-tests.py")
+            "run_skill_tests", REPO / "tools" / "run-skill-tests.py"
+        )
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
         counts = {}
@@ -199,8 +214,7 @@ def check_doc_counts():
             for m in re.finditer(pattern, text):
                 val = int(m.group(1))
                 if val != truth:
-                    problems.append(f"{name}: claims {val} {label}, "
-                                    f"truth is {truth}")
+                    problems.append(f"{name}: claims {val} {label}, truth is {truth}")
 
         # 1) skill totals (bold + prose forms; both rotted in the wild).
         #    The bold pattern covers every form actually used across README/DESCRIPTION —
@@ -208,15 +222,22 @@ def check_doc_counts():
         #    **NNN verified, audit-passing skills** — not just a bare `**NNN skills`
         #    (the old narrow pattern matched none of them; round-33 caught that via the
         #    mutation self-test's now-independent application).
-        check(r"\*\*(?:Total: )?(\d{2,4})\s+(?:Hermes Agent |verified, audit-passing )?skills\b",
-              live, "bold skill total")
+        check(
+            r"\*\*(?:Total: )?(\d{2,4})\s+(?:Hermes Agent |verified, audit-passing )?skills\b",
+            live,
+            "bold skill total",
+        )
         check(r"\ball (\d{2,4}) skills\b", live, "skills ('all NNN skills')")
 
         # 2) cross-reference counts — any prose form; truth = DEPENDENCY.md Network stats.
         check(r"\b(\d{2,4}) `related_skills` xrefs?\b", xrefs, "`related_skills` xrefs")
         # 'NNN (cross-)references' only when the sentence is about skills ("...across NNN skills"),
         # so unrelated uses of the word are never treated as an xref claim.
-        check(r"\b(\d{2,4}) (?:cross-)?references\b(?=.{0,30}?across \d+ skills)", xrefs, "xref claims")
+        check(
+            r"\b(\d{2,4}) (?:cross-)?references\b(?=.{0,30}?across \d+ skills)",
+            xrefs,
+            "xref claims",
+        )
 
         # 3) Claude-plugin exposure — truth = plugin.json `skills` array length.
         #    Deliberately NOT 'NNN skills' bare: that is the catalog total, a different metric.
@@ -229,15 +250,16 @@ def check_doc_counts():
     # 5) README summary-table category rows: '| [cat/](./cat/) | ... | NN |'
     readme = REPO / "README.md"
     if readme.exists():
-        for m in re.finditer(r"\|\s*\[([a-z0-9_-]+)/\]\(\./[a-z0-9_-]+/\)\s*\|[^\n|]*\|\s*(\d+)\s*\|",
-                             readme.read_text(encoding="utf-8")):
+        for m in re.finditer(
+            r"\|\s*\[([a-z0-9_-]+)/\]\(\./[a-z0-9_-]+/\)\s*\|[^\n|]*\|\s*(\d+)\s*\|",
+            readme.read_text(encoding="utf-8"),
+        ):
             cat, claimed = m.group(1), int(m.group(2))
             # count by TOP-LEVEL dir (nested skills like mlops/inference/x belong to mlops)
             actual = sum(1 for p in skills if p.relative_to(REPO).parts[0] == cat)
             # a category may legitimately hold 0 SKILL.md (stub dir); only flag real drift
             if actual and claimed != actual:
-                problems.append(f"README table: {cat}/ claims {claimed} skills, "
-                                f"disk has {actual}")
+                problems.append(f"README table: {cat}/ claims {claimed} skills, disk has {actual}")
 
     # 6) pytest suite counts — README's 'Seven suites currently: comfyui 117 / ...' line.
     #    Parsed from the segment between 'suites currently:' and the first '(' so the
@@ -247,20 +269,35 @@ def check_doc_counts():
         m = re.search(r"\b(\w+) suites currently:\s*([^()\n]+)", text)
         listed = {}
         if not m:
-            problems.append("README: 'NNN suites currently:' list missing while "
-                            f"{len(suites_truth)} pytest suite(s) are on disk")
+            problems.append(
+                "README: 'NNN suites currently:' list missing while "
+                f"{len(suites_truth)} pytest suite(s) are on disk"
+            )
         else:
             # the count-word itself is a claim too ('Seven' must stay in sync with
             # both the listed pairs and discovery — round-33 found all three correct,
             # but none of them was guarded before this gate existed).
-            word_to_n = {"One": 1, "Two": 2, "Three": 3, "Four": 4, "Five": 5,
-                         "Six": 6, "Seven": 7, "Eight": 8, "Nine": 9, "Ten": 10}
+            word_to_n = {
+                "One": 1,
+                "Two": 2,
+                "Three": 3,
+                "Four": 4,
+                "Five": 5,
+                "Six": 6,
+                "Seven": 7,
+                "Eight": 8,
+                "Nine": 9,
+                "Ten": 10,
+            }
             if m.group(1) not in word_to_n:
-                problems.append(f"README suite list: count-word {m.group(1)!r} is not a "
-                                f"recognized number (wording drifted from the gate's anchor)")
+                problems.append(
+                    f"README suite list: count-word {m.group(1)!r} is not a "
+                    f"recognized number (wording drifted from the gate's anchor)"
+                )
             elif word_to_n[m.group(1)] != len(suites_truth):
-                problems.append(f"README suite list says '{m.group(1)} suites' but disk has "
-                                f"{len(suites_truth)}")
+                problems.append(
+                    f"README suite list says '{m.group(1)} suites' but disk has {len(suites_truth)}"
+                )
 
             for tok in m.group(2).split("/"):
                 pm = re.fullmatch(r"\s*(\S+)\s+(\d+)\s*", tok)
@@ -279,24 +316,27 @@ def check_doc_counts():
             for name, claimed in listed.items():
                 t = truth_by_skill.get(name)
                 if t is None:
-                    problems.append(f"README suite list names '{name}' but no such "
-                                    f"pytest suite exists on disk")
+                    problems.append(
+                        f"README suite list names '{name}' but no such pytest suite exists on disk"
+                    )
                 elif claimed != t[1]:
-                    problems.append(f"README suite list: {name} claims {claimed} tests, "
-                                    f"disk has {t[1]} ({t[0]})")
+                    problems.append(
+                        f"README suite list: {name} claims {claimed} tests, "
+                        f"disk has {t[1]} ({t[0]})"
+                    )
             for name in truth_by_skill:
                 if name not in listed:
                     label, n = truth_by_skill[name]
-                    problems.append(f"README suite list omits live suite {label} "
-                                    f"({n} tests)")
+                    problems.append(f"README suite list omits live suite {label} ({n} tests)")
 
     # 7) category counts — 'NNN categories' prose claims. Truth = SKILLS-INDEX.md's own
     #    footer ('*N skills across M categories.*'), the same line its drift gate keeps
     #    fresh, so this can never disagree with gen-skills-index.py's enumeration.
     sk_index = REPO / "SKILLS-INDEX.md"
     if sk_index.exists():
-        m = re.search(r"\*\s*(?:\d+) skills across (\d+) categories\b",
-                      sk_index.read_text(encoding="utf-8"))
+        m = re.search(
+            r"\*\s*(?:\d+) skills across (\d+) categories\b", sk_index.read_text(encoding="utf-8")
+        )
         cats_truth = int(m.group(1)) if m else None
     else:
         cats_truth = None
@@ -308,8 +348,9 @@ def check_doc_counts():
             text = f.read_text(encoding="utf-8")
             for m in re.finditer(r"\b(\d{2,3}) categories\b", text):
                 if int(m.group(1)) != cats_truth:
-                    problems.append(f"{name}: claims {m.group(1)} categories, "
-                                    f"SKILLS-INDEX has {cats_truth}")
+                    problems.append(
+                        f"{name}: claims {m.group(1)} categories, SKILLS-INDEX has {cats_truth}"
+                    )
 
     # 8) gate counts — 'NNN gates' prose vs the GATE_LABELS list that main() actually runs.
     #    (round-42: every round added a gate and hand-edited four doc lines; nothing checked.)
@@ -320,14 +361,16 @@ def check_doc_counts():
             text = (REPO / name).read_text(encoding="utf-8")
             for m in re.finditer(r"\b(\d{2}) (?:[a-z]+ )?gates\b", text):
                 if int(m.group(1)) != len(GATE_LABELS):
-                    problems.append(f"{name}: claims {m.group(1)} gates, "
-                                    f"verify-all runs {len(GATE_LABELS)}")
+                    problems.append(
+                        f"{name}: claims {m.group(1)} gates, verify-all runs {len(GATE_LABELS)}"
+                    )
 
     # 9) CI job counts — 'three jobs' prose vs the actual jobs in ci.yml.
     ci = REPO / ".github" / "workflows" / "ci.yml"
     if ci.exists():
         try:
             import yaml as _yaml
+
             n_jobs = len(_yaml.safe_load(ci.read_text(encoding="utf-8")).get("jobs", {}))
         except Exception:
             n_jobs = None  # unreadable YAML — the CI itself would fail; don't double-report here
@@ -337,8 +380,9 @@ def check_doc_counts():
                 text = (REPO / name).read_text(encoding="utf-8")
                 for m in re.finditer(r"\b(two|three|four) jobs\b", text):
                     if word_to_n[m.group(1)] != n_jobs:
-                        problems.append(f"{name}: claims {m.group(1)} CI jobs, "
-                                        f"ci.yml defines {n_jobs}")
+                        problems.append(
+                            f"{name}: claims {m.group(1)} CI jobs, ci.yml defines {n_jobs}"
+                        )
 
     return ("doc counts", not problems, "; ".join(problems)[:160] or f"{live} skills, counts agree")
 
@@ -360,7 +404,10 @@ def main():
         # Local-only gate: verifies references/installed-plugins.md matches the
         # live Hermes plugin registry. Skips gracefully (exit 0) in CI where no
         # local Hermes install exists — the doc is committed to the repo for human review.
-        run("drift: installed-plugins", ["autonomous-ai-agents/hermes-agent/scripts/sync-installed-plugins.py", "--check"]),
+        run(
+            "drift: installed-plugins",
+            ["autonomous-ai-agents/hermes-agent/scripts/sync-installed-plugins.py", "--check"],
+        ),
         check_doc_counts(),
         # The router is the brain's discovery entry point, and until round-43 nothing
         # checked it against the catalog: 47 skills were added after its last edit and it

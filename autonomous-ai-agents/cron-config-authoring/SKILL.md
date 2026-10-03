@@ -55,6 +55,7 @@ Skills ARE invoked as tools. The phase + rationale mapping tells the agent which
 **Every key in the `threshold` block must match an actual field in the script's JSON output** — not a conceptual check name.
 
 ### Good
+
 ```json
 // script outputs: {"summary": {"broken_refs": 0, "yaml_errors": 0, ...}}
 "threshold": {
@@ -65,6 +66,7 @@ Skills ARE invoked as tools. The phase + rationale mapping tells the agent which
 ```
 
 ### Bad
+
 ```json
 "threshold": {
   "no_broken_refs": true,           // never appears in script output

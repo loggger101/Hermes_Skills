@@ -42,9 +42,7 @@ class Watermark:
 
     def __init__(self, name: str, *, max_seen: int = 500) -> None:
         if not name or not name.replace("-", "").replace("_", "").isalnum():
-            raise ValueError(
-                f"watermark name must be alphanumeric + '-'/'_' (got {name!r})"
-            )
+            raise ValueError(f"watermark name must be alphanumeric + '-'/'_' (got {name!r})")
         self.name = name
         self.max_seen = max_seen
         self._path = _state_dir() / f"{name}.json"
@@ -99,7 +97,7 @@ class Watermark:
 
         combined = list(existing) + [i for i in batch_ids if i not in existing]
         if len(combined) > self.max_seen:
-            combined = combined[-self.max_seen:]
+            combined = combined[-self.max_seen :]
         self._data["seen_ids"] = combined
         self._data["first_run"] = False
         return new_items

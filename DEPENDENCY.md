@@ -1,8 +1,13 @@
 # Skill Dependency Map
+
 This document maps the relationship network between all **212 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
-**Network stats:** 550 `related_skills` cross-references across 212 skills (2 skills are standalone with no `related_skills` entries).
+
+**Network stats:** 550 `related_skills` cross-references across 212 skills (2 skills list no `related_skills` of their own).
+
 ## Hub Skills (referenced by 2+ other skills)
+
 These are the core skills that serve as building blocks, referenced by many other skills:
+
 | Skill | Referenced By (count) | Referencing Skills |
 |-------|-----------------------|---------------------|
 | `requesting-code-review` | 19 | code-quality-signal, codex, github-issue-to-pr, grill-me, hermes-agent-skill-authoring, mattpocock-code-review, mattpocock-evidence-driven, mattpocock-finishing-a-development-branch, mattpocock-multi-agent-code-review, mattpocock-security-review, mattpocock-spec-driven-development, mattpocock-subagent-driven-development, plan, python-craft, receiving-code-review, sdlc-review, semgrep-rule-creator, simplify-code, skill-flow-router |
@@ -119,9 +124,13 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `static-site-seo` | 2 | publish-site, static-site-patterns |
 | `test-infra-ml` | 2 | property-based-testing, verification-culture |
 | `wayfinder-map-planning` | 2 | grilling-interview, skill-flow-router |
+
 ## Standalone Skills
-The following 0 skills have no `related_skills` entries of their own (they do not reference other skills). These are genuinely standalone — no other skill references them either:
+
+No skill is fully standalone: every skill either lists `related_skills` or is referenced by another skill.
+
 ## Related Skills Validation
+
 All 550 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 212 unique skill names.
 
 ---

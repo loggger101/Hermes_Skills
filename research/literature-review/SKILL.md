@@ -42,6 +42,7 @@ Convert the prompt into a searchable research question. Clinical/biomedical: PIC
 ### 2. Plan the Search
 
 Create the search protocol before collecting sources — databases, date range, languages, publication types, inclusion criteria, exclusion criteria, exact search strings. Minimum useful database set:
+
 - PubMed for biomedical and life-sciences literature.
 - arXiv for CS, math, physics, quantitative biology, preprints (see `arxiv`).
 - Semantic Scholar or Crossref for broad academic discovery.

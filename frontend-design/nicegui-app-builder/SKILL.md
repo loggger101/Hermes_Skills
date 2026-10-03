@@ -26,6 +26,7 @@ Builds reactive web and desktop apps in plain Python with NiceGUI (FastAPI + Vue
 NiceGUI = reactive UI in plain Python on FastAPI + Vue. Elements are declared as functions (`ui.button`, `ui.table`...), state syncs via bindings, and the whole app runs with one `ui.run()` call.
 
 ## Minimal skeleton (verified pattern)
+
 ```python
 from nicegui import ui
 
@@ -42,6 +43,7 @@ ui.run(title='My App', port=8080, reload=True)
 ```
 
 ## `ui.run()` parameter map (verified from nicegui/ui_run.py:50 — signature stable through v3.16.0, re-verified 2026-09-16)
+
 | Param | Default | Use when |
 |---|---|---|
 | `host` / `port` | None/None | binding to LAN or specific port |
@@ -58,11 +60,13 @@ ui.run(title='My App', port=8080, reload=True)
 | `on_air` | None | AirPlay-style screen casting of the UI |
 
 ## Multi-page & structure (from examples/modularization + single_page_app)
+
 - **Pages**: `@ui.page('/path')` decorator on a function; kwargs pass through to FastAPI's @app.get. SPA mode: one page with sub-pages (`examples/single_page_app/custom_sub_pages.py`).
 - **Modularization patterns** (all in examples/modularization/): api_router_example.py (FastAPI APIRouter for backend endpoints), class_example.py, function_example.py — plus theme.py for shared theming and menu.py.
 - **Auth**: examples/authentication + descope_auth + google_oauth2 + google_one_tap; use `app.storage.user` with a storage_secret set.
 
 ## Example index by need (59 apps in examples/)
+
 | Need | Look at |
 |---|---|
 | Chat / AI chat UI | chat_app, chat_with_ai, ai_interface |
@@ -76,18 +80,22 @@ ui.run(title='My App', port=8080, reload=True)
 | Custom Vue component interop | custom_vue_component, image_mask_overlay |
 
 ## Testing pattern (verified: examples/todo_list/test_todo_list.py + pytest.ini)
+
 NiceGUI apps are testable with pytest — the in-repo todo_list example ships `test_todo_list.py`. Pattern: import the app module, use NiceGUI's testing utilities to simulate user events against elements; assert **observable behavior** (element text/state), never internal element wiring.
 
 ## Project conventions worth copying from nicegui/AGENTS.md
+
 - Requirements first: verify requirements before implementing, especially tests.
 - Research before guessing: search the codebase for similar patterns before inventing APIs.
 - No global mutable state in library-style modules; no unnecessary dependencies (check existing code suffices).
 - **Reflexive regression test warning**: not every bug fix earns a test; assert observable behavior, not internals — no private attributes, no patched machinery. If you're building scaffolding to observe an internal mechanism, stop and find the user-visible effect instead. Before writing a test, read a recent one in the same file and copy its shape.
 
 ## Gotchas
+
 - `ui.run()` args mostly apply only after full restart — not with auto-reload (per docstring).
 - Storage without `storage_secret` = unencrypted; set it before using app.storage.user for anything sensitive.
 - Native mode (`native=True`) needs pywebview installed and a display server; headless CI → use browser/websocket testing instead.
 
 ## References (verified API detail lives here)
+
 - `references/frontend-tooling.md` — nicegui `ui.run()` full 33-param list verified from source (corrects the earlier "71 params" claim), Front-End-Checklist MCP rule package, HTMLHint's 34 rules, dashy deployable-dashboard layout. Source-read from cloned repos, 2026-09-05/06.

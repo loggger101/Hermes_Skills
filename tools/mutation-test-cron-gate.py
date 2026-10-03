@@ -12,7 +12,13 @@ resolve against this repo, so no repo file is ever touched):
 
 Exit code = number of failed checks.
 """
-import json, os, shutil, subprocess, sys, tempfile
+
+import json
+import os
+import shutil
+import subprocess
+import sys
+import tempfile
 
 if sys.version_info < (3, 8):
     raise SystemExit("[FATAL] needs Python 3.8+")
@@ -32,8 +38,14 @@ def run_validator(jobs_dir, extra=()):
     env["CRON_JOBS_DIR"] = jobs_dir
     return subprocess.run(
         [sys.executable, VALIDATOR] + list(extra),
-        capture_output=True, text=True, encoding="utf-8", errors="replace",
-        cwd=REPO, timeout=120, env=env)
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        cwd=REPO,
+        timeout=120,
+        env=env,
+    )
 
 
 def read_json(path):
@@ -98,5 +110,7 @@ if failures:
     for f in failures:
         print(f"[FAIL] {f}")
     sys.exit(len(failures))
-print("[OK] all 5 cron-gate mutations verified (M1-M4b): phantom keys caught, "
-      "real configs clean, --job flag live")
+print(
+    "[OK] all 5 cron-gate mutations verified (M1-M4b): phantom keys caught, "
+    "real configs clean, --job flag live"
+)

@@ -18,7 +18,6 @@ metadata:
 
 Drives iterative Python through a live Jupyter kernel (hamelnb) — state persists between cells across tool calls, so exploratory data work accumulates like a human notebook session instead of re-importing everything each step. Covers starting JupyterLab, creating REPL notebooks, and the when-to-use-this-vs-terminal decision boundary.
 
-
 Gives you a **stateful Python REPL** via a live Jupyter kernel. Variables persist
 across executions. Use this instead of `execute_code` when you need to build up
 state incrementally, explore APIs, inspect DataFrames, or iterate on complex code.
@@ -42,11 +41,13 @@ state incrementally, explore APIs, inspect DataFrames, or iterate on complex cod
 ## Setup
 
 The hamelnb script location:
+
 ```
 SCRIPT="$HOME/.agent-skills/hamelnb/skills/jupyter-live-kernel/scripts/jupyter_live_kernel.py"
 ```
 
 If not cloned yet:
+
 ```
 git clone https://github.com/hamelsmu/hamelnb.git ~/.agent-skills/hamelnb
 ```
@@ -54,11 +55,13 @@ git clone https://github.com/hamelsmu/hamelnb.git ~/.agent-skills/hamelnb
 ### Starting JupyterLab
 
 Check if a server is already running:
+
 ```
 uv run "$SCRIPT" servers
 ```
 
 If no servers found, start one:
+
 ```
 jupyter-lab --no-browser --port=8888 --notebook-dir=$HOME/notebooks \
   --IdentityProvider.token='' --ServerApp.password='' > /tmp/jupyter.log 2>&1 &
@@ -70,11 +73,14 @@ Note: Token/password disabled for local agent access. The server runs headless.
 ### Creating a Notebook for REPL Use
 
 If you just need a REPL (no existing notebook), create a minimal notebook file:
+
 ```
 mkdir -p ~/notebooks
 ```
+
 Write a minimal .ipynb JSON file with one empty code cell, then start a kernel
 session via the Jupyter REST API:
+
 ```
 curl -s -X POST http://127.0.0.1:8888/api/sessions \
   -H "Content-Type: application/json" \
@@ -101,6 +107,7 @@ uv run "$SCRIPT" execute --path <notebook.ipynb> --code '<python code>' --compac
 State persists across execute calls. Variables, imports, objects all survive.
 
 Multi-line code works with $'...' quoting:
+
 ```
 uv run "$SCRIPT" execute --path scratch.ipynb --code $'import os\nfiles = os.listdir(".")\nprint(f"Found {len(files)} files")' --compact
 ```

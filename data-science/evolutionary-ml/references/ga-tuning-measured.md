@@ -50,6 +50,7 @@ Two long-run guard tests failed after architecture changes; both were recalibrat
 - **Evolution beats drift:** single-population `mean(last-3) > mean(first-3)` flips sign across seeds on the new net AND passed ~50% under pure random-walk drift → replaced with a *paired* control: identical match seeds, same population size, one arm evolving vs one arm taking random-parent mutations; assert gap ≥ pooled standard error. Measured every init seed separated (+1.3..+3.5 vs SE ≈ 0.7) while nulls stayed |gap| ≤ 0.74.
 
 **Rules:**
+
 1. Never guess-to-green. Measure the actual distribution first (several seeds), then set the threshold from it, and leave a comment with old value + measured values + why changed.
 2. Prefer *paired* designs (same seeds/opponents) over unpaired — they cancel noise that makes guards flaky.
 3. A guard test whose null hypothesis fails at ~50% is measuring nothing; replace the statistic before loosening it.

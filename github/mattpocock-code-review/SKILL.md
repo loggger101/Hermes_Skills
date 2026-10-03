@@ -45,19 +45,24 @@ Use these code smells as a checklist during review:
 ## Process
 
 ### 1. Pin the fixed point
+
 Capture the diff: `git diff...HEAD`. Confirm the fixed point resolves and the diff is non-empty.
 
 ### 2. Identify the spec source
+
 1. Issue references in commit messages
 2. A path the user passed as an argument
 3. A spec file under `docs/` or `specs/`
 4. If nothing found, ask the user
 
 ### 3. Identify the standards sources
+
 `CODING_STANDARDS.md`, `CONTRIBUTING.md`, `AGENTS.md`, `.cursorrules`, `CLAUDE.md`, etc.
 
 ### 4. Run parallel sub-agents
+
 Spawn two `delegate_task` calls — Standards sub-agent and Spec sub-agent. Each gets:
+
 - The diff
 - The relevant standards/spec source
 - The smell baseline as a checklist
@@ -72,6 +77,7 @@ Spawn two `delegate_task` calls — Standards sub-agent and Spec sub-agent. Each
 | **Low** | Style, formatting, minor consistency |
 
 ### 6. Present options
+
 - All clear → approve
 - Minor findings → fix and re-review
 - Major findings → discuss with user before proceeding

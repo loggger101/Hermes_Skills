@@ -16,7 +16,6 @@ metadata:
 
 Practical guide for building CLI tools that are pleasant to use and easy to maintain — subcommand patterns, config systems with validation and inheritance, environment variable substitution, output formatting, testing, and the common mistakes that make CLIs frustrating.
 
-
 ## What This Skill Does
 
 CLI tools: subcommands, config validation, env substitution
@@ -97,6 +96,7 @@ For a tool with 10+ subcommands, click/typer's decorator style is cleaner than a
 A proven shape for small CLI wrappers around SaaS APIs that an AI agent invokes directly — as shipped by coreyhaines31/marketingskills (`tools/clis/*.js`, 64 tools, MIT; mined + live-tested on this host 2026-09-15). No package.json, no `require()` of anything (verified: zero CLIs import a dependency), Node 18+ global `fetch` only. The whole tool is one file an agent can read end-to-end to learn the API surface — that readability IS the feature for agent consumers.
 
 **The contract:**
+
 - **No args = usage.** Running bare prints every subcommand with its flags (an `"usage"` object in JSON, not prose). This doubles as documentation and self-test: `node tool.js` must never require credentials to succeed.
 - **JSON-only stdout**, pretty-printed (`console.log(JSON.stringify(result, null, 2))`). Errors are the same shape — a JSON error object — so an agent parsing stdout always gets one grammar. Never mix human prose into the output stream.
 - **`--dry-run`** echoes exactly what would be sent (method, URL, headers with secrets redacted to `'***'`, body) and returns it as `_dry_run: true` instead of hitting the network — lets an agent preview a mutating call safely.
@@ -268,6 +268,7 @@ Run the CLI as a subprocess — that tests the actual entry point, not an intern
 ### Deterministic tests
 
 For CLI tools that run pipelines (training, simulation, data processing), make the test config deterministic:
+
 - Small population, few generations, fixed seed.
 - Cheap evaluation (a mock environment, or a tiny real one).
 - Assert on structure (files created, output contains expected keys) rather than exact values that might drift.

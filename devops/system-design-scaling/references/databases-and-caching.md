@@ -7,14 +7,17 @@ Distilled from donnemartin/system-design-primer (CC BY 4.0), master branch, mine
 **ACID**: Atomicity (all-or-nothing transaction), Consistency (valid state → valid state), Isolation (concurrent = serial results), Durability (committed stays committed).
 
 ### 1. Master-slave replication
+
 Master serves reads + writes, replicating writes to slaves that serve **reads only**; slaves can chain into trees. If the master dies: read-only mode until a slave is promoted or a new master provisioned.
 Disadvantages: extra promotion logic; plus all shared replication disadvantages below.
 
 ### 2. Master-master replication
+
 Both masters serve reads + writes and coordinate on writes; either dying leaves full R/W capability.
 Disadvantages (beyond the shared list): needs an LB or app-logic write routing; most systems are loosely consistent (violates ACID) **or** pay higher write latency for synchronization; conflict resolution gets worse with more writers and more latency.
 
 ### Shared replication disadvantages
+
 - Data-loss window if master fails before new writes replicate out.
 - Replicas replay the write stream — heavy write loads bog replicas down, starving their read capacity.
 - More read slaves → more to replicate → greater lag.
@@ -22,19 +25,24 @@ Disadvantages (beyond the shared list): needs an LB or app-logic write routing; 
 - More hardware + complexity.
 
 ### 3. Federation (functional partitioning)
+
 Split databases **by function** — e.g., `forums` / `users` / `products` instead of one monolith. Less R/W traffic per DB → less replication lag; smaller DBs fit in memory better → more cache hits via locality; no single central master serializing writes → parallel writes, higher throughput.
 Disadvantages: useless if your schema demands huge tables/functions; app logic must route reads/writes to the right DB; cross-DB joins need server links (complex); more hardware + complexity.
 
 ### 4. Sharding
+
 Distribute data across databases so each manages only a subset (e.g., shard users by last-name initial or geo). Same benefits as federation (less traffic/replication, better cache locality, smaller indexes → faster queries) plus: one shard down ≠ whole system down (add replication to avoid loss); parallel writes.
 Disadvantages: app logic must handle shards (complex SQL possible); **lopsided distribution** — power users on one shard skew load; rebalancing is complex (a sharding function based on **consistent hashing** minimizes data movement when nodes join/leave); cross-shard joins are hard; more hardware + complexity.
 
 ### 5. Denormalization
+
 Trade write performance for read performance: store redundant copies in multiple tables to avoid expensive joins. PostgreSQL/Oracle materialized views automate the redundancy bookkeeping. After federation/sharding, denormalization can eliminate cross-datacenter joins entirely. Rationale: reads often outnumber writes **100:1 or 1000:1**, and a complex join spends most of its time on disk I/O (see latency table).
 Disadvantages: duplicated data; constraints needed to keep copies in sync add design complexity; under heavy write load it can perform *worse* than normalized.
 
 ### 6. SQL tuning checklist
+
 First **benchmark** (simulate high load, e.g., `ab`) and **profile** (e.g., MySQL slow query log) — then:
+
 - **Tighten the schema**: fixed-length fields as `CHAR` (fast random access; VARCHAR must find each string's end); large text in `TEXT` (stored by pointer on disk, allows boolean searches); `INT` up to 2^32 (~4B); `DECIMAL` for currency (no float representation errors); avoid big BLOBs — store a location pointer instead; `VARCHAR(255)` is the largest length an 8-bit counter can hold (why it's everywhere); `NOT NULL` where applicable improves search performance.
 - **Good indices**: index columns used in SELECT/GROUP BY/ORDER BY/JOIN; indexes are usually self-balancing B-trees → logarithmic searches but more space and slower writes (index must update too); for bulk loads, disable indices, load, rebuild.
 - **Avoid expensive joins** — denormalize where performance demands it.
@@ -44,6 +52,7 @@ First **benchmark** (simulate high load, e.g., `ab`) and **profile** (e.g., MySQ
 ## NoSQL families
 
 Data denormalized, joins done in application code; most lack true ACID and favor eventual consistency. Described by **BASE** — the CAP opposite of ACID:
+
 - **Basically available**: system guarantees availability.
 - **Soft state**: state may change over time without input.
 - **Eventual consistency**: becomes consistent given no new input for a while.
@@ -67,15 +76,18 @@ Sample NoSQL-suitable data: rapid ingest of clickstreams/logs; leaderboards/scor
 Caching speeds page loads and offloads servers/DBs: the dispatcher checks for a previous result before executing. DBs prefer uniform R/W across partitions — popular items skew that distribution, so a cache in front absorbs uneven load and spikes.
 
 ### Where to cache (layers)
+
 Client (OS/browser) → CDN → web server/reverse proxy (Varnish serves static+dynamic directly; can answer without touching app servers) → database's own built-in cache (tune for your access pattern) → application-level in-memory KV between app and storage.
 
 ### What to cache — two levels
+
 - **Query level**: hash the query as key, store result. Invalidation pain: hard to delete cached results of complex queries; if one cell changes you must invalidate every cached query that might include it.
 - **Object level** (usually better): assemble DB data into a class/structure and cache *that*; remove on underlying-data change; enables async workers assembling from the latest cached object. Good candidates: user sessions, fully rendered pages, activity streams, user graph data.
 
 Avoid file-based caching — makes cloning/auto-scaling harder.
 
 ### When to update (four strategies)
+
 | Strategy | Flow | Pros | Cons |
 |---|---|---|---|
 | **Cache-aside** ("lazy loading") | app: miss → load from DB → set cache → return; memcached's standard mode | only requested data gets cached | each miss = 3 trips (latency); stale until TTL or write-through; node failure → empty node, latency spike |

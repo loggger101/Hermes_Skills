@@ -56,6 +56,7 @@ dark: false
 ```
 
 **Reserved field semantics:**
+
 - `lanes[k].key` — the 3-letter role chip text (e.g., `ADM`, `ENG`, `SCI`, `CON`). Used inside every node in that lane.
 - `lanes[k].name` — two-line lane label; both lines use the uppercase `eyebrow` role.
 - `steps[j].focal: true` — exactly **one** step may declare this. Header chip renders in accent.
@@ -139,6 +140,7 @@ Per-step `color` override (§4): replaces the fill with `rgba(C, 0.20)` and the 
 ### 2.3 Lane labels
 
 Two-line `eyebrow` role label, both lines uppercase, fill muted:
+
 - Line 1 at `(lane_label_x, lane_y_mid(k) - 4)`
 - Line 2 at `(lane_label_x, lane_y_mid(k) + 8)`
 

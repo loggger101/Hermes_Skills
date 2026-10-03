@@ -17,6 +17,7 @@ This file runs end-to-end against the LIVE JPL NHATS endpoint as a self-test:
 
 Dependencies: requests + pandas (core); pyarrow only if you want parquet output.
 """
+
 import argparse
 import io
 import json
@@ -40,7 +41,7 @@ def jpl_query(endpoint: str, params: dict | None = None, timeout: int = 120) -> 
             resp.raise_for_status()
             return resp.json()
         if attempt < 2:
-            wait = 5 * (2 ** attempt)  # 5s, 10s
+            wait = 5 * (2**attempt)  # 5s, 10s
             print(f"  JPL API {resp.status_code}, retrying in {wait}s ({attempt + 1}/3)...")
             time.sleep(wait)
     resp.raise_for_status()
@@ -58,8 +59,7 @@ PAGE_SIZE = 500_000
 
 
 def _fetch_page(adql: str, timeout: int) -> pd.DataFrame:
-    resp = requests.post(TAP_URL, data={"QUERY": adql}, params={"FORMAT": "text"},
-                         timeout=timeout)
+    resp = requests.post(TAP_URL, data={"QUERY": adql}, params={"FORMAT": "text"}, timeout=timeout)
     resp.raise_for_status()
     return pd.read_csv(io.StringIO(resp.text), sep="\t")
 
@@ -96,15 +96,22 @@ def vizier_query(adql: str, max_rows: int | None = None, timeout: int = 300) -> 
 
 
 # ── Shared helper 3: validation gate (validate.py pattern) ───────────────────────
-def check_dataset(df: pd.DataFrame, dataset_name: str, min_rows: int,
-                  expected_columns: list[str], critical_columns: list[str] | None = None,
-                  max_null_pct: float = 0.05, status_file: Path | None = None) -> None:
+def check_dataset(
+    df: pd.DataFrame,
+    dataset_name: str,
+    min_rows: int,
+    expected_columns: list[str],
+    critical_columns: list[str] | None = None,
+    max_null_pct: float = 0.05,
+    status_file: Path | None = None,
+) -> None:
     """Hard-fail (SystemExit(1)) on row count below minimum, missing columns, or
     completely-empty columns; warn on critical-column nulls and >20% row drops."""
     # Row count
     if len(df) < min_rows:
-        print(f"::error::VALIDATION FAILED [{dataset_name}]: "
-              f"{len(df):,} rows < minimum {min_rows:,}")
+        print(
+            f"::error::VALIDATION FAILED [{dataset_name}]: {len(df):,} rows < minimum {min_rows:,}"
+        )
         sys.exit(1)
     # Schema
     missing = set(expected_columns) - set(df.columns)
@@ -114,7 +121,9 @@ def check_dataset(df: pd.DataFrame, dataset_name: str, min_rows: int,
     # All-null columns (always fatal — a column that is 100% null means the fetch broke)
     all_null = [c for c in df.columns if df[c].isna().all()]
     if all_null:
-        print(f"::error::VALIDATION FAILED [{dataset_name}]: completely empty columns: {sorted(all_null)}")
+        print(
+            f"::error::VALIDATION FAILED [{dataset_name}]: completely empty columns: {sorted(all_null)}"
+        )
         sys.exit(1)
     # Critical-column nulls (warn only)
     warnings = 0
@@ -123,7 +132,9 @@ def check_dataset(df: pd.DataFrame, dataset_name: str, min_rows: int,
             continue
         null_pct = float(df[col].isna().mean())
         if null_pct > max_null_pct:
-            print(f"::warning::[{dataset_name}] '{col}' has {null_pct:.1%} nulls (>{max_null_pct:.0%})")
+            print(
+                f"::warning::[{dataset_name}] '{col}' has {null_pct:.1%} nulls (>{max_null_pct:.0%})"
+            )
             warnings += 1
     # Row-count trend vs previous run (the truncated-upload guard)
     if status_file and Path(status_file).exists():
@@ -131,12 +142,16 @@ def check_dataset(df: pd.DataFrame, dataset_name: str, min_rows: int,
             prev = json.loads(Path(status_file).read_text()).get("_rows", {}).get(dataset_name)
             if prev and len(df) < prev * 0.8:
                 drop = (prev - len(df)) / prev
-                print(f"::warning::[{dataset_name}] row count dropped {drop:.0%}: "
-                      f"{prev:,} -> {len(df):,}")
+                print(
+                    f"::warning::[{dataset_name}] row count dropped {drop:.0%}: "
+                    f"{prev:,} -> {len(df):,}"
+                )
         except (json.JSONDecodeError, TypeError, ValueError):
             pass
-    print(f"Validation passed [{dataset_name}]: {len(df):,} rows, "
-          f"{len(df.columns)} columns, {'0 warnings' if not warnings else str(warnings) + ' warning(s)'}")
+    print(
+        f"Validation passed [{dataset_name}]: {len(df):,} rows, "
+        f"{len(df.columns)} columns, {'0 warnings' if not warnings else str(warnings) + ' warning(s)'}"
+    )
 
 
 # ── The dataset script itself: NHATS (the one that matters for economicspace) ────
@@ -147,12 +162,18 @@ def fetch_nhats() -> pd.DataFrame:
     # Nested min_dv/min_dur dicts {"dv": ..., "dur": ...} — unwrap (gotcha).
     if "min_dv" in df.columns:
         df["min_delta_v_kms"] = df["min_dv"].apply(
-            lambda x: x.get("dv") if isinstance(x, dict) else None)
+            lambda x: x.get("dv") if isinstance(x, dict) else None
+        )
     if "min_dur" in df.columns:
         df["min_mission_duration_days"] = df["min_dur"].apply(
-            lambda x: x.get("dur") if isinstance(x, dict) else None)
-    rename = {"des": "designation", "fullname": "full_name",
-              "n_via_traj": "n_viable_trajectories", "occ": "orbit_condition_code"}
+            lambda x: x.get("dur") if isinstance(x, dict) else None
+        )
+    rename = {
+        "des": "designation",
+        "fullname": "full_name",
+        "n_via_traj": "n_viable_trajectories",
+        "occ": "orbit_condition_code",
+    }
     df = df.rename(columns={k: v for k, v in rename.items() if k in df.columns})
     # JPL returns some numerics as strings — coerce (gotcha found live 2026-09-07).
     for col in ("min_delta_v_kms", "orbit_condition_code"):
@@ -174,7 +195,7 @@ def main() -> int:
     check_dataset(
         df,
         dataset_name="nhats-accessible-asteroids",
-        min_rows=5000,          # the study covers ~7k NEAs; a drop below this = broken fetch
+        min_rows=5000,  # the study covers ~7k NEAs; a drop below this = broken fetch
         expected_columns=["designation", "min_delta_v_kms", "orbit_condition_code"],
         critical_columns=["min_delta_v_kms", "n_viable_trajectories"],
     )
@@ -187,6 +208,7 @@ def main() -> int:
     out.mkdir(parents=True, exist_ok=True)
     try:
         import pyarrow  # noqa: F401
+
         path = out / "nhats.parquet"
         df.to_parquet(path, compression="zstd", index=False)
     except ImportError:

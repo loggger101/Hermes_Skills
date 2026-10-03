@@ -48,9 +48,11 @@ Deep Module (GOOD):
 ```
 
 ### The Deletion Test
+
 Delete the module entirely. If complexity vanishes, it was a pass-through (shallow). If complexity migrates to callers, it was doing real work (deep).
 
 ### The Leverage Checklist
+
 - Does the interface expose **one concept** or many? (one = deep)
 - Does deleting the module force callers to duplicate its logic? (yes = deep)
 - Can you rename an internal variable without callers noticing? (yes = deep seam)
@@ -59,6 +61,7 @@ Delete the module entirely. If complexity vanishes, it was a pass-through (shall
 ## Process
 
 ### 1. Start with the interface
+
 Design the smallest possible interface that lets the caller achieve their goal. Write it before the implementation:
 
 ```python
@@ -69,6 +72,7 @@ class DiseasePageRenderer:
 ```
 
 ### 2. Place the seam at the boundary
+
 The public method signature IS your seam. Everything else is implementation detail:
 
 ```python
@@ -85,6 +89,7 @@ def _optimize(self, html): ...
 ```
 
 ### 3. Push complexity inside
+
 Move as much logic as possible behind the seam. If a caller needs to know about caching, pagination, or retry logic — that's a sign the module is too shallow.
 
 ```python

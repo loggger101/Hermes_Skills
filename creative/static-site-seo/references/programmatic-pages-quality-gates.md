@@ -16,6 +16,7 @@ Source: coreyhaines31/marketingskills `skills/programmatic-seo/` v2.0.0 + qualit
 ## Template design that stays unique
 
 Page skeleton: header with the page-specific subject → **unique intro** (generated from data, not a fixed sentence with variables) → data-driven sections (the actual content) → related pages / internal links → CTA or next-step appropriate to intent. Uniqueness mechanisms in order of strength:
+
 - Conditional content based on the underlying data (different section set per page type/value)
 - Original analysis/annotation computed for that page (even one sentence of genuine commentary beats ten paragraphs of rephrased boilerplate)
 - Per-page unique title + meta description derived from actual page content, not a fixed pattern with variables
@@ -29,17 +30,20 @@ Page skeleton: header with the page-specific subject → **unique intro** (gener
 ## Pre-launch quality checklist (run before shipping any generated family)
 
 **Content:**
+
 - [ ] Each sampled page provides value specific to it (spot-check 5–10 random pages, not just the first/last)
 - [ ] Answers what a reader actually wants from that URL
 - [ ] Readable without knowing the generation process exists
 
 **Technical:**
+
 - [ ] Unique `<title>` and meta description per page (verify programmatically — duplicates are trivial to detect: count distinct titles across the family, expect 100%)
 - [ ] Proper heading structure (one H1 per page)
 - [ ] Schema/structured data where relevant (and remember static-fetch tools can't see JS-injected JSON-LD — see website-audit pitfall #7)
 - [ ] Page weight acceptable (generated families multiply whatever each page ships)
 
 **Linking/indexation:**
+
 - [ ] Connected to site architecture via hub; no orphan pages
 - [ ] All pages in XML sitemap, crawlable, no conflicting `noindex`/robots rules
 

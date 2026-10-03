@@ -1,5 +1,5 @@
 # Repo Automation Cronjob Template (Two-Agent Split)
-# 
+#
 # This template implements the two-agent split pattern for repo-automation
 # cronjobs. Use it as a starting point for any cronjob that needs to:
 #   1. Collect data from APIs/external sources
@@ -59,11 +59,8 @@ Write to: .hermes/cron/active/{output_file}
 cronjob_config = {
     "schedule": "0 9 * * 1",  # Weekly Monday at 9 AM
     "workdir": "{workdir}",
-    "skills": [
-        "autonomous-ai-agents/autonomous-repo-cronjob",
-        "cron-job-authoring"
-    ],
+    "skills": ["autonomous-ai-agents/autonomous-repo-cronjob", "cron-job-authoring"],
     "deliver": "origin",
     "continuity": True,
-    "enabled_toolsets": ["terminal", "file", "web", "delegation"]
+    "enabled_toolsets": ["terminal", "file", "web", "delegation"],
 }

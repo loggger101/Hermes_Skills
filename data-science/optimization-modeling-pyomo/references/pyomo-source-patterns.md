@@ -82,6 +82,7 @@ and it's all stdlib (importlib, types, sys).
 ## 4. Fast deepcopy with per-type dispatch — `pyomo/common/autoslots.py` (~480 lines)
 
 Pyomo models are deep-copied constantly (`model.clone()`), so they replaced generic `copy.deepcopy`:
+
 - **AutoSlots**: metaclass that auto-generates `__slots__` from the class hierarchy (with mixin support —
   `AutoSlots.Mixin`) and a custom `fast_deepcopy`.
 - **Dispatch table** (verified): `_DeepcopyDispatcher(collections.defaultdict)` maps *type → specialized

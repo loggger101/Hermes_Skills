@@ -86,9 +86,7 @@ def parse_structured_text(content: str) -> List[ParsedItem]:
         choices = tuple(c.strip() for c in _CHOICE_RE.findall(m.group("choices") or ""))
         answer = (m.group("answer") or "").upper() or None
         text = " ".join((m.group("text") or "").split())  # collapse whitespace/newlines
-        items.append(
-            ParsedItem(id=m.group("id"), text=text, choices=choices, answer=answer)
-        )
+        items.append(ParsedItem(id=m.group("id"), text=text, choices=choices, answer=answer))
     return items
 
 
@@ -111,9 +109,7 @@ def score_confidence(item: ParsedItem) -> ConfidenceFlag:
         reasons.append("short_text")
         score -= 0.2
 
-    return ConfidenceFlag(
-        item_id=item.id, score=max(0.0, round(score, 4)), reasons=tuple(reasons)
-    )
+    return ConfidenceFlag(item_id=item.id, score=max(0.0, round(score, 4)), reasons=tuple(reasons))
 
 
 def identify_low_confidence(

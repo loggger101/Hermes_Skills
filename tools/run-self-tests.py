@@ -35,6 +35,7 @@ Usage:
     py tools/run-self-tests.py            # run every registered harness
     py tools/run-self-tests.py --list     # print discovery + classification
 """
+
 import os
 import re
 import subprocess
@@ -42,9 +43,7 @@ import sys
 from pathlib import Path
 
 if sys.version_info < (3, 8):
-    raise SystemExit(
-        "[FATAL] run-self-tests.py needs Python 3.8+, got " + sys.version.split()[0]
-    )
+    raise SystemExit("[FATAL] run-self-tests.py needs Python 3.8+, got " + sys.version.split()[0])
 try:
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
@@ -54,8 +53,7 @@ except (AttributeError, ValueError):
 REPO = Path(__file__).resolve().parents[1]
 PY = sys.executable or "python3"
 # Decode child output as UTF-8 (and make children emit it); the Windows codepage cannot.
-CHILD_IO = dict(encoding="utf-8", errors="replace",
-                env=dict(os.environ, PYTHONIOENCODING="utf-8"))
+CHILD_IO = dict(encoding="utf-8", errors="replace", env=dict(os.environ, PYTHONIOENCODING="utf-8"))
 TIMEOUT_S = 600  # big-data harness builds a 200k-row fixture; generous but bounded
 
 # --------------------------------------------------------------------------- manifest
@@ -63,19 +61,18 @@ TIMEOUT_S = 600  # big-data harness builds a 200k-row fixture; generous but boun
 # safe to auto-run in any environment. Missing *optional* deps classify as SKIP —
 # the dedicated CI jobs install those deps so they actually execute there.
 AUTO_RUN = {
-    "data-science/algorithms-python-catalog/scripts/algorithms_verify.py",   # numpy only
-    "data-science/space-data-pipelines/scripts/cap_grid_verify.py",         # stdlib only (lgrs-free port)
-    "devops/rest-api-client/scripts/ssrf_guard_verify.py",                  # stdlib, no sockets opened
+    "data-science/algorithms-python-catalog/scripts/algorithms_verify.py",  # numpy only
+    "data-science/space-data-pipelines/scripts/cap_grid_verify.py",  # stdlib only (lgrs-free port)
+    "devops/rest-api-client/scripts/ssrf_guard_verify.py",  # stdlib, no sockets opened
     "data-science/python-data-science/references/big-data-patterns-verify.py",  # duckdb/polars/pyarrow -> skip without them
-    "data-science/python-data-science/references/polars-v2-verify.py",      # polars 2.0.x rc -> skip on stable/absent (rc 77)
+    "data-science/python-data-science/references/polars-v2-verify.py",  # polars 2.0.x rc -> skip on stable/absent (rc 77)
     "data-science/optimization-modeling-pyomo/scripts/pyomo_patterns_verify.py",  # pyomo+highspy -> skip without them
 }
 
 # Discovered but deliberately NOT auto-run, each with the reason it must stay out:
 EXCLUDED = {
     # probes a live external API on every run — nondeterministic in CI by design
-    "data-science/space-data-pipelines/scripts/lps_projection_verify.py":
-        "live lgrs-oracle comparison (network); keep manual / dedicated job only",
+    "data-science/space-data-pipelines/scripts/lps_projection_verify.py": "live lgrs-oracle comparison (network); keep manual / dedicated job only",
 }
 
 SKIP_RC = 77  # convention: harness exits this when its pinned env is not present
@@ -92,8 +89,10 @@ def discover() -> list[str]:
     for pattern in ("*_verify.py", "*-verify.py"):
         for p in REPO.rglob(pattern):
             parts = p.relative_to(REPO).parts
-            if any(part in (".git", ".hermes", "docs", "profiles-export") or part.startswith(".")
-                   for part in parts):
+            if any(
+                part in (".git", ".hermes", "docs", "profiles-export") or part.startswith(".")
+                for part in parts
+            ):
                 continue
             rel = "/".join(parts)
             # must live under a skill's scripts/ or references/ dir, not e.g. tools/
@@ -109,11 +108,14 @@ def manifest_check(candidates: list[str]) -> int | None:
     stale_excl = sorted(EXCLUDED.keys() - set(candidates))
     problems = []
     if unregistered:
-        problems.append("unregistered harness(es) — add to AUTO_RUN or EXCLUDED with a reason: "
-                        + ", ".join(unregistered))
+        problems.append(
+            "unregistered harness(es) — add to AUTO_RUN or EXCLUDED with a reason: "
+            + ", ".join(unregistered)
+        )
     if stale_auto:
-        problems.append("AUTO_RUN lists files that no longer exist (rename/delete?): "
-                        + ", ".join(stale_auto))
+        problems.append(
+            "AUTO_RUN lists files that no longer exist (rename/delete?): " + ", ".join(stale_auto)
+        )
     if stale_excl:
         problems.append("EXCLUDED lists files that no longer exist: " + ", ".join(stale_excl))
     return "; ".join(problems) or None  # None = clean; a truthy string always means drift
@@ -132,24 +134,36 @@ def run_one(target: Path) -> tuple[str, bool, str]:
     label = _label(target)
     try:
         proc = subprocess.run(
-            [PY, str(target)], cwd=str(target.parent),
-            capture_output=True, timeout=TIMEOUT_S, **CHILD_IO)
+            [PY, str(target)],
+            cwd=str(target.parent),
+            capture_output=True,
+            timeout=TIMEOUT_S,
+            **CHILD_IO,
+        )
     except subprocess.TimeoutExpired:
         return label, False, f"TIMEOUT after {TIMEOUT_S}s"
     out = (proc.stdout or "") + "\n" + (proc.stderr or "")
 
     if proc.returncode == 0:
-        tail = [l.strip() for l in out.splitlines() if l.strip()]
+        tail = [line.strip() for line in out.splitlines() if line.strip()]
         return label, True, "PASS — " + (tail[-1][:120] if tail else "(silent)")
-    missing_dep = (proc.returncode == SKIP_RC
-                   or re.search(r"ModuleNotFoundError: No module named '([A-Za-z_][\w.]*)'", out) is not None)
+    missing_dep = (
+        proc.returncode == SKIP_RC
+        or re.search(r"ModuleNotFoundError: No module named '([A-Za-z_][\w.]*)'", out) is not None
+    )
     if missing_dep:
         m = re.search(r"No module named '([^']+)'", out)
         return label, True, f"SKIP — optional dep missing ({m.group(1) if m else 'env'})"
     # real failure: surface the failing line(s), capped so one harness can't flood CI
-    bad = [l.strip() for l in out.splitlines()
-           if re.search(r"\bFAIL|FAILED\b|Error|assert", l)]
-    detail = "\n".join(f"      {l[:200]}" for l in bad[-15:]) or "      (no failure lines parsed — see CI log)"
+    bad = [
+        line.strip()
+        for line in out.splitlines()
+        if re.search(r"\bFAIL|FAILED\b|Error|assert", line)
+    ]
+    detail = (
+        "\n".join(f"      {line[:200]}" for line in bad[-15:])
+        or "      (no failure lines parsed — see CI log)"
+    )
     return label, False, f"rc={proc.returncode}\n{detail}"
 
 
@@ -172,12 +186,16 @@ def main(argv: list[str]) -> int:
         auto = sorted(set(AUTO_RUN) & set(candidates))
 
         if "--list" in flags:
-            print(f"{len(candidates)} harness discovered; {len(auto)} auto-run, "
-                  f"{len(EXCLUDED)} excluded:")
+            print(
+                f"{len(candidates)} harness discovered; {len(auto)} auto-run, "
+                f"{len(EXCLUDED)} excluded:"
+            )
             for c in candidates:
-                tag = ("AUTO-RUN" if c in AUTO_RUN else
-                       ("EXCLUDE  " + EXCLUDED[c][:60] if c in EXCLUDED else
-                        "!! UNREGISTERED"))
+                tag = (
+                    "AUTO-RUN"
+                    if c in AUTO_RUN
+                    else ("EXCLUDE  " + EXCLUDED[c][:60] if c in EXCLUDED else "!! UNREGISTERED")
+                )
                 print(f"  {tag:<12} {c}")
             if drift:
                 print("\n[FATAL] manifest drift:\n  " + drift)
@@ -193,7 +211,9 @@ def main(argv: list[str]) -> int:
         targets = [REPO / c for c in auto]
 
     results = []
-    for t in targets:  # both branches produce absolute Paths (discovery: REPO/c, explicit: resolved)
+    for (
+        t
+    ) in targets:  # both branches produce absolute Paths (discovery: REPO/c, explicit: resolved)
         label, ok, note = run_one(Path(t))
         results.append((label, ok, note))
 

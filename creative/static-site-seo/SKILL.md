@@ -16,7 +16,6 @@ metadata:
 
 Guide for building and maintaining static sites — generation patterns, SEO fundamentals (titles, descriptions, canonicals, sitemaps, JSON-LD), analytics (GA4, privacy-friendly alternatives), form backends, security headers, and the common mistakes that silently hurt discoverability or user trust.
 
-
 ## What This Skill Does
 
 Static site SEO: JSON-LD, meta tags, analytics, CSP.
@@ -57,6 +56,7 @@ Some pages are hand-authored (rare one-off pages, landing pages with unique layo
 A rebuild should produce the same bytes as the previous rebuild if nothing changed. This is a useful property: it means you can rebuild freely without worrying about churn, and `diff` between builds tells you whether anything actually changed. If a rebuild changes timestamps or reorderings without a content change, you get false diffs and wasted deploys.
 
 Watch for:
+
 - Timestamps embedded in pages (last-modified dates, generation dates) that change on every rebuild. Either don't embed them, or derive them from content history, not the current time.
 - Non-deterministic ordering (e.g., dict iteration order in older Python, unsorted directory listings) that changes the output.
 - Random values baked into the page (cache-busting tokens, unique IDs) that change every build.
@@ -176,6 +176,7 @@ JSON-LD is a machine-readable block that tells search engines what the page is a
 ### Validation
 
 Test structured data with Google's Rich Results Test or the Schema.org validator. Verify that:
+
 - The JSON is valid (parseable).
 - The types are correct (you're not marking up a page as a Product when it's a MedicalCondition).
 - Required properties are present.
@@ -200,6 +201,7 @@ GA4 is the current Google analytics product. It's script-based, event-driven, an
 - Key metrics: sessions, pageviews, engagement time, conversions (events you mark as conversions).
 
 Pitfalls:
+
 - Loading GA before consent (in many jurisdictions, this is a compliance issue).
 - Not marking meaningful events as conversions (you get traffic data but not goal data).
 - Duplicate GA tags (two scripts loading, double-counting).
@@ -212,6 +214,7 @@ Pitfalls:
 - **Plausible**: privacy-friendly, cookieless, lightweight. Hosted or self-hosted.
 
 When choosing:
+
 - GA4 gives the most depth (funnels, cohorts, attribution) but is heavier and consent-sensitive.
 - Cookieless alternatives give less depth but are simpler, lighter, and more privacy-friendly.
 - Using both (GA4 + a cookieless option) is common — GA4 for depth, cookieless for a consent-free baseline.
@@ -219,6 +222,7 @@ When choosing:
 ### What to track
 
 For a content site:
+
 - Pageviews (by page path).
 - Engagement time / time on page.
 - Scroll depth (how far users read).
@@ -226,6 +230,7 @@ For a content site:
 - Form submissions (did the contact/registration form fire?).
 
 For a site with a form:
+
 - Form start (page view of the form).
 - Form submit (the POST).
 - Form success (redirect to thank-you).
@@ -289,6 +294,7 @@ CSP tells the browser what resources the page is allowed to load. It's a strong 
 - `base-uri 'self'` — prevents `<base>` tag injection.
 
 Pitfalls:
+
 - CSP that's too restrictive breaks the site (missing a domain for an analytics script, a font, an image). Test CSP in report-only mode first (`Content-Security-Policy-Report-Only`), watch the console for violations, then enforce.
 - CSP that's too loose (`'unsafe-inline'` everywhere) is not really a CSP. Start restrictive and relax only what's needed.
 - CSP meta tag in HTML is fine for static sites; header-based CSP (set by the host) is stronger (can't be removed by injected HTML). Use the host header when available.
@@ -331,33 +337,40 @@ Controls how much referrer information is sent with requests. `strict-origin-whe
 A real pattern from aspirecures: a Cloudflare Pages Function receives the POST, saves a backup to Cloudflare KV, creates a Zoho CRM Lead, and redirects to a thank-you page.
 
 **The fail-open pattern with backup store:**
+
 - KV is the safety net — if Zoho is down or unconfigured, the submission is still saved and the visitor still reaches the thank-you page.
 - The handler should not depend on the CRM being available to complete the user's journey.
 - Setup: KV namespace bound as `SUBMISSIONS`, Zoho env vars (`ZOHO_CLIENT_ID`, `ZOHO_CLIENT_SECRET`, `ZOHO_REFRESH_TOKEN`).
 
 **Token management:**
+
 - ⚠️ Per-submission token mint is a latent failure mode: `zohoToken()` runs a full `refresh_token` grant on each call, so a credential with an hour of life is used exactly once. This fails precisely when the org succeeds — a newsletter send, conference, or press mention produces the burst that trips Zoho's rate limit on how many access tokens a refresh token may mint in a window.
 - Fix: cache the token in the same KV namespace under a reserved key, with `expirationTtl` set from Zoho's own `expires_in` minus a safety margin. KV is eventually consistent, so an occasional miss just mints fresh — harmless. Prefix keys to separate the token cache from submissions.
 
 **Timeouts and async:**
+
 - ⚠️ The handler awaiting KV write → Zoho token grant → Zoho create before redirecting leaves the visitor watching a spinner on a submitted form. A slow/hanging Zoho causes retries, which produce duplicate leads (the resubmitted `form-ts` is the original render time, so the 3s trap doesn't catch it).
 - Fix: return the redirect immediately and hand the Zoho work to `context.waitUntil()`, with `AbortSignal.timeout()` on both fetches. Failures already fail open and are logged — the visitor just stops paying for the backend latency.
 
 **Key naming and data minimization:**
+
 - ⚠️ Embedding the email in the KV key (`${received_at}_${email}_${uuid8}`) makes key names enumerable — anyone who can list the namespace learns every registrant's email and signup time without reading a single value. On a rare-disease site, the mere fact that someone registered is sensitive.
 - Fix: put the email in the value only, give keys a type prefix (`sub:<ts>:<uuid>`, `sys:zoho-token`) so submissions and the token cache can be listed apart. Server-side length-cap `Email` and free-text fields — both unbounded, and an oversized email pushes the key past KV's 512-byte limit, which throws and silently costs that submission its backup copy (Zoho still gets it).
 
 **Spam protection:**
+
 - Honeypot field: hidden from assistive tech (`hidden` + `aria-hidden="true"` + `tabindex="-1"`) so a screen-reader user cannot trip it and lose their registration.
 - Time trap: 3-second minimum between form render and submit; instant bot autofills are silently dropped. Fails open on clock skew and for no-JS visitors.
 - CAPTCHA (Turnstile/reCAPTCHA): only if spam appears. A CAPTCHA failure must never silently drop a submission (a false positive could be a real patient), and a siteverify outage must fail open. A complete Turnstile integration exists in git history — resurrect it, don't rebuild.
 
 **De-duplication:**
+
 - Nothing de-duplicates a form by default. A user who clicks twice submits twice.
 - Client-side: disable the button after submit, or stamp the form with a render timestamp that the time trap checks.
 - Server-side: de-dup by some identifier (submit timestamp + IP + fingerprint) if duplicates are a real problem.
 
 **Privacy and consent:**
+
 - The form itself should have real `<label for>` pairs, `autocomplete` on identity fields, `<fieldset>`/`<legend>` on every radio and checkbox group, and a consent line linking the Privacy & Waiver.
 - `Last_Name` falls back so Zoho's required field is never empty.
 
@@ -366,6 +379,7 @@ A real pattern from aspirecures: a Cloudflare Pages Function receives the POST, 
 A real pattern from aspirecures: a weekly GitHub Action fetches new papers (Europe PMC + PubMed) and trials (ClinicalTrials.gov), has Claude vet + summarize each, writes JSON to `/data/research/`, and renders it into the disease pages.
 
 **Pipeline structure:**
+
 ```
 config.json → fetch_curate.mjs (CI) → data/research/<slug>.json → render.pl → <page>.html
               │  Europe PMC + PubMed (articles) + ClinicalTrials.gov (trials)
@@ -374,26 +388,31 @@ config.json → fetch_curate.mjs (CI) → data/research/<slug>.json → render.p
 ```
 
 **Design properties:**
+
 - Append-only: nothing is ever removed; retractions are flagged, trial statuses refreshed in place.
 - Safe-fail: a failing run changes nothing.
 - The curation step is gated behind an API key (`ANTHROPIC_API_KEY` repo secret) — with it unset, the job runs green but skips curation. Two free operations inside the curation function (refresh trial statuses from CT.gov, recheck retractions) are also switched off behind the key check today.
 
 **Cost control:**
+
 - Hard cap per run: 300k tokens / 200 curations, so a runaway is impossible.
 - Estimated ~$40–70/yr on the current weekly cadence + 14-day window, billed pay-as-you-go through the API Console, cannot draw on a Claude subscription.
 - The model ID is in the code (`fetch_curate.mjs:47`), not config — a trial run can override it from the CI config with no code edit. Sonnet 5 via the Batch API is ~70% cheaper than Opus 4.8 for this workload (independent classifications, no latency requirement, cron-committed).
 - The Batch API is this workload's textbook case: up to 100k requests, most complete within an hour, 24h worst case. Requires a refactor (submit → poll → collect) — not a config flip.
 
 **Date and freshness management:**
+
 - ⚠️ `generated` stamped unconditionally on every run rewrites all JSONs and re-dates all pages with no content change — exactly the churn pattern that defeats the point of a "new commit means something changed" signal.
 - Fix: bump `generated` only when a page actually gained an item or had a status/retraction change.
 - A disease page's date should be the *later* of the feed `generated` date and the page's own content history (git content date), not short-circuited on the feed date. Otherwise landing editorial copy on a page leaves it telling search engines the page hasn't changed since the last feed curation.
 
 **Per-page configuration:**
+
 - Per-page `max_fetch` overrides — six of nine pages exceed the default 30 on a fully indexed fortnight (MS 78, HD 76, FTD 47, LBD 32, FRDA 31); only one page has an override today.
 - An override also raises that page's *trial* fetch, which is pure waste on pages whose trials are all gate-rejected and, being unstored, are re-gated every run.
 
 **Manual backfill:**
+
 - Manual curation passes stay the freshness mechanism until the API key is set. The reusable method: drive the real `fetch_curate.mjs` from a scratch driver.
 
 ## Generated HTML with Scripted Builds
@@ -401,55 +420,65 @@ config.json → fetch_curate.mjs (CI) → data/research/<slug>.json → render.p
 A real pattern from aspirecures: Perl generators produce the site's pages from a shared shell, content data, and per-page build scripts. The key engineering property is that the generators are idempotent and marker-guarded.
 
 **The generator architecture:**
+
 - A shared shell (`tools/shell.pl`) owns the common layout — header, footer, nav, mobile menu, CSS includes, GA snippet, consent banner.
 - Per-page build scripts (`build-home.pl`, `build-about.pl`, `build-disease-pages.pl`, `build-contact.pl`, `build-legal-pages.pl`, `build-partner.pl`) own the page-specific content and inject it into the shell.
 - Partials (`tools/partials.pl`) own reusable sections — the consent banner, the GA loader, the mobile menu script.
 - Data files feed the generators: `data/research/*.json` (research feed), `data/ads/slots.json` (ad inventory), `data/featured/` (hand-curated cards).
 
 **Marker-guarded sections:**
+
 - Generated sections are wrapped in HTML comments that mark their boundaries: `<!-- ac-... -->` ... `<!-- /ac-... -->`.
 - A generator re-applies its sections on every run, replacing whatever is between its markers.
 - This means a generated page can be re-run freely without clobbering hand-authored sections that live outside the markers.
 - The markers also document which tool owns which section — read the comments and you know what to edit.
 
 **Idempotency in practice:**
+
 - A rebuild produces the same bytes as the previous rebuild if nothing changed.
 - `verify.sh` confirms this: run the generators twice and the second run changes zero bytes.
 - This matters for CI and for confidence — you can rebuild without worrying about churn, and a diff between builds tells you whether anything actually changed.
 
 **The rebuild order is a source of truth:**
+
 - The generators must run in the right order, or a later generator clobbers an earlier one's output.
 - aspirecures documents the exact rebuild order in MAINTENANCE.md; running the generators out of order ships feed-less, rail-less disease pages.
 - `verify.sh` fails on out-of-order rebuilds (it checks that the ad rail matches `slots.json`, that the research feed is present, etc.), so the wrong order can't ship — but it can waste a rebuild.
 
 **Content edits flow through the generators:**
+
 - To change page text, edit the copy in the page's `build-*.pl` script, re-run it, then run `perl tools/dedash.pl *.html` (the dedash pass normalizes dash characters).
 - Editing the `.html` directly works once but is clobbered on the next rebuild — the generator is the source of truth, the HTML is the output.
 - Hand-authored pages (`thank-you.html`, `404.html`, `member-site-homepage-1.html`) are exceptions — they're not generated, so they're edited directly. They're documented as hand-authored so nobody tries to regenerate them.
 
 **Images and immutable assets:**
+
 - Images live in `assets/images/`. Add a new image under a new name, point the `src`/`srcset` at it, remove the old file.
 - Don't re-encode over an existing filename — `_headers` serves `/assets/images/*` as `immutable, max-age=31536000`, so returning visitors keep the old bytes for a year.
 - `verify.sh` fails on an image that nothing references (orphaned asset) and on a referenced image that doesn't exist (Broken image).
 - The hero video (`assets/video/hero.mp4`) is served immutable for a year too — when the bytes change, bump the `$VID` parameter in `build-home.pl` so returning visitors get the new file.
 
 **SEO generation (the Perl SEO toolchain):**
+
 - `tools/schema.pl` emits all JSON-LD for every indexable page (Organization on the homepage, MedicalCondition + MedicalWebPage on disease pages, Article/ScholarlyArticle for research items). Owned by `schema.pl`, not `seo.pl` — the README was stale on this for a while.
 - `tools/seo.pl` owns the robots meta, canonicals, noindex, and copyright year.
 - `tools/gen-sitemap.pl` generates `sitemap.xml` with per-page `<lastmod>`.
 - `tools/pagedate.pl` is the shared date-precedence engine behind both `schema.pl`'s `dateModified` and `gen-sitemap.pl`'s `<lastmod>` — it walks git history to find the last commit that changed real content, skipping date-only commits. (The history here is instructive: two generators had duplicated the logic while each claiming it was shared, and a date-correction commit landed a content change (robots meta) in the same commit that re-stamped dates, which made the stamp stale the instant it landed. The lesson: content first, then re-run the date generators and commit the dates separately.)
 
 **The research feed's render step:**
+
 - `tools/research/render.pl` reads `data/research/<slug>.json` and renders the curated research + trials into the disease pages, inside marker-guarded sections.
 - The feed is append-only (nothing removed; retractions flagged, trial statuses refreshed in place).
 - `render.pl` is idempotent — a second run changes nothing if the JSON didn't change.
 
 **Ad rail rendering:**
+
 - `tools/render-ads.pl` reads `data/ads/slots.json` and renders the ad/sponsorship cards into disease pages that have slots assigned.
 - Currently only two pages have slots (an unpaid nonprofit-partner card + a house "Register" card); the other seven render nothing.
 - `render-ads.pl --check` verifies the ad rail matches `slots.json` (no dead links, no double-booked pages, headline length, blocklisted copy, theme values, dash style, card counts). Run by `verify.sh`.
 
 **Dedash pass:**
+
 - `perl tools/dedash.pl *.html` normalizes dash characters across all HTML files after a rebuild.
 - Run with the glob — running it on a subset leaves the others untouched and the site inconsistent.
 
@@ -458,28 +487,33 @@ A real pattern from aspirecures: Perl generators produce the site's pages from a
 A real pattern from aspirecures: medical content on a rare-disease site carries governance requirements that don't show up on a normal static site.
 
 **Copy authorship and voice:**
+
 - Copy is written in the owner's voice (we/our), never the visitor's.
 - Medical copy is carried verbatim from the source and is not paraphrased without the medical partner's sign-off (Heidi, in this case).
 - This is a governance constraint on the generators: the build scripts are where copy lives, and they're reviewed for medical accuracy before shipping.
 
 **Editorial firewall for the research feed:**
+
 - The automated feed fetches candidates (papers, trials) and has Claude vet each for on-topic relevance before summarizing.
 - The relevance gate is strict — off-topic candidates are dropped, not summarized.
 - The summary is plain-language (patient-readable), not academic. The feed is citation content, not medical advice.
 - Retractions are flagged, not removed — the record stays, with a retraction notice.
 
 **YMYL / E-E-A-T considerations:**
+
 - Medical content has no author or reviewer byline by default (a decision, not an oversight — `schema.pl` deliberately emits no `lastReviewed` because that would claim a clinical review nobody performed).
 - Adding a reviewer byline is a decision that needs a name attached before it can be built.
 - For a rare-disease site, the fact that content is curated (feed + manual backfill + medical review) is a trust signal; making that visible is worth doing, but only if accurate.
 
 **Ad/sponsorship governance:**
+
 - The ad framework (`ADS-FRAMEWORK.md`) has editorial firewall rules: sponsors don't get to influence disease-page content, the research feed, or the medical copy.
 - The ad rail is separate from the research feed (different sections, different markers, different renderers).
 - Kill criteria compare carded pages against rail-free pages in the same period — two disease pages must stay ad-free permanently as a baseline (the holdout pair).
 - The holdout is documented but was (at the time of the TODO) enforced by nothing — `ads-lint.pl` doesn't know about it. The fix: read a `holdout` array from `slots.json` and make `ads-lint.pl` ERROR if any unit's `pages` names a holdout page.
 
 **Sponsorship/packaging:**
+
 - The sponsor kit (`SPONSOR-KIT.md`) is the commercial pack: rate card, creative spec, vetting checklist, ad-ops runbook.
 - Rate-card figures are blank until the owner fills them — nothing is sold until the figures are set and counsel reviews the disclosure wording.
 - Click measurement: a decision to make before promising sponsors anything measurable. Options: JS-free placement-only, inline GA4 click event, or a first-party redirect through the existing Cloudflare function.
@@ -489,23 +523,27 @@ A real pattern from aspirecures: medical content on a rare-disease site carries 
 A real pattern from aspirecures: the site carries 404 distinct external URLs (261 doi.org, 84 clinicaltrials.gov, 58 pubmed, 1 partner), and a dead one would sit there indefinitely. `verify.sh` only checks local refs.
 
 **Why HTTP status checks lie on these hosts:**
+
 - PubMed answers `203` behind a cookie gate — would do so for an invalid PMID too.
 - ClinicalTrials.gov is a SPA that returns `200` for anything.
 - 42 DOIs answer `403` from publisher bot-walls (JAMA, Wiley, OUP, ACS) while resolving perfectly in a browser.
 - So status codes are misleading — check IDs through the APIs instead.
 
 **The API-based check method:**
+
 - DOIs: resolve through the DOI API / CrossRef, or check that the DOI resolves to a real article page (not just a 403).
 - NCT IDs: check through the ClinicalTrials.gov v2 API — 84/84 valid records.
 - PMIDs: check through PubMed's `esummary.fcgi` — 58/58 valid records.
 - This is the reusable method: resolve IDs via the APIs, not via status codes.
 
 **Where to put the check:**
+
 - NOT in `verify.sh` — 400+ network calls would make CI slow and flaky, and rate-limit false failures would block the weekly feed job (verify.sh gates it).
 - A separate on-demand script, run quarterly, is the right shape.
 - The script should be idempotent and safe-fail — a failure to check one URL shouldn't block the rest.
 
 **Monitoring cadence:**
+
 - Quarterly is reasonable for a site whose content changes weekly at most (the feed) plus occasional manual edits.
 - More frequent if the site is heavily citation-dependent and the citations are to unstable sources.
 - The check should produce a report (dead links, resolved links, API errors) that someone acts on.
@@ -515,12 +553,14 @@ A real pattern from aspirecures: the site carries 404 distinct external URLs (26
 The website(Primary) portfolio pattern: dark theme, system preference respect, keyboard navigation, skip link, semantic HTML.
 
 **Dark mode implementation:**
+
 - CSS custom properties for the theme tokens (background, foreground, muted, accent, border, card).
 - `prefers-color-scheme: dark` media query to switch the theme.
 - Respect `prefers-reduced-motion` for animations (marquee, fade-in, transitions) — provide a static fallback.
 - The theme should be set by CSS, not by JavaScript (no flash of wrong theme on load).
 
 **Accessibility basics that matter:**
+
 - Skip link (`<a class="skip-link" href="#main">`) as the first focusable element.
 - Semantic HTML: `<nav>`, `<main>`, `<header>`, `<footer>`, `<section>`, proper heading hierarchy (one `<h1>`, sequential `<h2>`/`<h3>`).
 - `<label for>` on form inputs, `<fieldset>`/`<legend>` on grouped inputs.
@@ -529,6 +569,7 @@ The website(Primary) portfolio pattern: dark theme, system preference respect, k
 - Keyboard-navigable interactive elements (buttons, links, form controls — everything that's clickable should be focusable and activatable by Enter/Space).
 
 **Things that are hard to machine-check:**
+
 - The visual result of transitions and animations (a harness running with `document.visibilityState === 'hidden'` never composites, so `requestAnimationFrame` never fires).
 - Native button activation from Enter/Space on a focused button (synthetic key events deliver keydown/keyup but no click).
 - Whether a page actually looks right (machine checks can prove it loads clean, not that it looks good).
@@ -538,21 +579,25 @@ The website(Primary) portfolio pattern: dark theme, system preference respect, k
 The website(Primary) pattern: GoatCounter for lightweight, privacy-friendly pageview tracking.
 
 **GoatCounter setup:**
+
 - Script: `<script async data-goatcounter="https://<your-counter>.goatcounter.com/count" src="https://gc.zgo.at/count.js"></script>`.
 - No cookies by default — privacy-friendly out of the box.
 - Self-hostable or hosted. Good for personal sites and small projects where GA4 is overkill.
 - CSP: add `https://gc.zgo.at` to `script-src` and the counter URL to `connect-src` if needed.
 
 **When GoatCounter is the right choice:**
+
 - Personal site, small project, internal tool — you want pageviews without the GA4 weight and consent complexity.
 - You want a cookieless complement to GA4 (GA4 for depth, GoatCounter for a consent-free baseline).
 - You don't need funnels, cohorts, attribution — just "who visited what, roughly how many."
 
 **When it isn't:**
+
 - You need conversion funnels, cohort analysis, attribution, or integration with ad platforms.
 - You need to track events beyond pageviews (button clicks, form steps, scroll depth) — GoatCounter can do some of this but GA4 is more capable.
 
 **Cloudflare Web Analytics as a complement:**
+
 - Cookieless, server-side, from Cloudflare. Good alongside GA4 as a consent-free baseline.
 - Requires the Cloudflare dashboard (no client script needed if the site is on Cloudflare).
 - Counts pageviews and bot filtering — less depth than GA4, simpler, privacy-friendly.
@@ -562,22 +607,26 @@ The website(Primary) pattern: GoatCounter for lightweight, privacy-friendly page
 The website(Primary) pattern: a personal portfolio form that posts to Formspree.
 
 **Formspree setup:**
+
 - The form POSTs to `https://formspree.io/f/<form-id>`.
 - Formspree forwards submissions to email (and/or stores them in their dashboard).
 - CSP: add `https://formspree.io` to `form-action` and `connect-src` as needed.
 - Free tier available; paid tiers for more submissions, custom routing, etc.
 
 **When a third-party form service is the right choice:**
+
 - A static site that needs a working form with zero backend maintenance.
 - Low-to-moderate submission volume (within the service's free/standard tier).
 - You're okay with vendor lock-in and the service's rate limits.
 
 **When it isn't:**
+
 - You need server-side processing beyond forwarding to email (CRM integration, complex validation, custom storage).
 - You need to keep submissions in your own storage (privacy, control, compliance).
 - Submission volume exceeds the service's tier — a serverless function or your own backend is more cost-effective.
 
 **Comparison with a serverless function (Cloudflare Pages Function pattern):**
+
 - Third-party service: zero backend, vendor handles spam protection, simpler setup, vendor lock-in, less control.
 - Serverless function: you control the backend, can integrate with your own CRM/storage, can fail-open with a backup store, more setup, more control.
 - For a personal portfolio form: Formspree is fine. For a patient registration form: a serverless function with KV backup and CRM integration is better (fail-open, data control, compliance).
@@ -587,6 +636,7 @@ The website(Primary) pattern: a personal portfolio form that posts to Formspree.
 The website(Primary) pattern: a single-page portfolio with anchor navigation (#about, #projects, #resume, #coursework, #contact).
 
 **Single-page portfolio:**
+
 - One HTML file, anchor navigation within it.
 - Good for a personal site with a small number of sections.
 - Simpler to build and maintain (one file, one set of assets).
@@ -594,12 +644,14 @@ The website(Primary) pattern: a single-page portfolio with anchor navigation (#a
 - Shareability: sharing a section means sharing the URL with the anchor — works, but less clean than a dedicated URL.
 
 **Multi-page site:**
+
 - Each section is a separate URL (and usually a separate HTML file or generated page).
 - Better for SEO (each page is indexable, has its own canonical, its own structured data).
 - Better for shareability (each section has a clean URL).
 - More to maintain (more files, more generators or more hand-authored pages).
 
 **When to use which:**
+
 - Single-page: personal portfolio, small number of sections, the whole story fits on one scrollable page.
 - Multi-page: larger site, sections that benefit from dedicated URLs (disease pages, project pages, blog posts), SEO matters per-section.
 - The portfolio site (website(Primary)) is single-page; aspirecures is multi-page (each disease is its own page). Different sites, different choices.

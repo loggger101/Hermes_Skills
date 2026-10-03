@@ -200,16 +200,19 @@ All errors exit with non-zero status code and write to stderr.
 ## JSON Output Structure
 
 ### List Projects
+
 ```json
 {"projects": ["project1", "project2"]}
 ```
 
 ### List Runs
+
 ```json
 {"project": "my-project", "runs": ["run1", "run2"]}
 ```
 
 ### Project Summary
+
 ```json
 {
   "project": "my-project",
@@ -220,6 +223,7 @@ All errors exit with non-zero status code and write to stderr.
 ```
 
 ### Run Summary
+
 ```json
 {
   "project": "my-project",
@@ -232,6 +236,7 @@ All errors exit with non-zero status code and write to stderr.
 ```
 
 ### Metric Values
+
 ```json
 {
   "project": "my-project",
@@ -247,4 +252,3 @@ All errors exit with non-zero status code and write to stderr.
 ## References
 
 - **Complete Trackio documentation**: https://huggingface.co/docs/trackio/index (CLI, API, MCP server — the upstream `docs/source/*.md` paths referenced here predate the published docs site and no longer exist in-repo)
-

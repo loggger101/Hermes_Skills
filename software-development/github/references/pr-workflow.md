@@ -56,6 +56,7 @@ git checkout -b feat/add-user-authentication
 ```
 
 Branch naming conventions:
+
 - `feat/description` — new features
 - `fix/description` — bug fixes
 - `refactor/description` — code restructuring
@@ -80,6 +81,7 @@ git commit -m "feat: add JWT-based user authentication
 ```
 
 Commit message format (Conventional Commits):
+
 ```
 type(scope): short description
 

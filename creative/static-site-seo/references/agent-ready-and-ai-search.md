@@ -9,6 +9,7 @@ Traditional SEO gets you **ranked**; AI search gets you **cited**. In traditiona
 ## Google's official stance vs the multi-platform reality (read once, changes everything)
 
 Google's [AI features optimization guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) is explicit:
+
 - **No special markup or files required** for AI Overviews / AI Mode — they run on core Search ranking.
 - **Don't chunk content for AI**, don't write separate "for AI" variants (risks the *scaled content abuse* spam policy).
 - Helpful, people-first E-E-A-T content wins; **no AI-specific Search Console reporting exists** — standard Performance/Coverage/Core Web Vitals are what you measure.
@@ -32,6 +33,7 @@ Google AI features generate **concurrent related queries** under the hood and sy
 ### Citation-source volatility (the 2026-08 case study)
 
 Third-party citation mixes are **not stable** — they shift overnight with model/retrieval updates:
+
 - **ChatGPT 5.6 (Aug 2026)** demoted the exploited formats in one release: listicle citations fell **−50.5%** (15.77% → 7.80%) and comparison-page citations **−32.1%** (9.08% → 6.17%), while `site:` and "official" retrieval surged — a shift toward primary sources and owned pages. Stop justifying scaled listicle/comparison production with "wins AI citations"; comparisons *still* convert humans and still earn citations on Google AIO/Gemini/Perplexity (per-platform table, not one-size-fits-all).
 - ChatGPT's fan-out changes **nearly wiped Reddit as a citation source within days** (practitioner-reported; one team had 24-hour citations at 1M+ impressions/month before the change). Business-owned websites reportedly dominate Gemini citations (~60%).
 
@@ -44,21 +46,25 @@ Strategy consequences: never concentrate AI-visibility work in one third-party s
 ## Agent-readiness: can an agent reach, navigate, and parse you?
 
 Separate from content quality — whether agents can *get to it at all*. Free scoring tools (both Aug 2026) made this measurable; run one before AND after any work — the score is a shareable artifact and the failed checks are your worklist:
+
 - **Is Agentic** (Vercel + Ora): `npx is-agentic yourdomain.com` or is-agentic.com — 100+ checks, Essential vs Recommended tiers, includes an observed agent journey showing where friction hit.
 - **Frase Agent Readiness Checker**: Access/Discovery/Parseability triad; ≥80 reliable, 60–79 solid-with-gaps, <60 real access problems.
 
 ### The three questions
 
 **1. Access — can an agent get the page and see real content?**
+
 - Core content in the **initial HTML response**. Most agents never execute JavaScript — if content only exists after client-side rendering, it doesn't exist (the #1 essential check). For our static sites this is a near-pass by architecture; for JS-heavy pages it's fatal.
 - No bot challenge/WAF block on the request path: aggressive Cloudflare challenges that block `GPTBot`/`PerplexityBot`/`ClaudeBot` are self-inflicted invisibility — audit what your CDN actually does to those user agents (many sites block them by default without anyone deciding).
 - Correct HTTP behavior: real status codes (no soft-404s), stable canonicals, recoverable errors.
 
 **2. Discovery — do files tell agents what's here?**
+
 - `robots.txt` with an **explicit AI-crawler stance**: GPTBot + ChatGPT-User (OpenAI), PerplexityBot, ClaudeBot + anthropic-ai, Google-Extended (Gemini/AIO), Bingbot (Copilot). Blocking a search/cite bot = that platform literally cannot cite you. Middle ground: block training-only crawlers (CCBot) while allowing the search-and-cite ones.
 - Sitemap loads and parses cleanly; `llms.txt` at root (product overview + key-page links incl. pricing); **`llms-full.txt`** — entire site in one file so an agent gets everything in a single request (emerging, cheap to generate alongside llms.txt).
 
 **3. Parseability — once there, can the agent tell what the page is?**
+
 - Valid substantive JSON-LD (see this skill's structured-data section).
 - A **Markdown representation of the page**, two implementations: content negotiation (`Accept: text/markdown` at the same canonical URL + `Vary` header) or an HTTP `Link` header pointing to a parallel Markdown file. For static hosts, serving `<page>.md` next to `<page>.html` with a Link header is trivially doable.
 - Clear document structure: one H1, headings that answer sub-questions, extractable blocks (pillar 1).
@@ -66,6 +72,7 @@ Separate from content quality — whether agents can *get to it at all*. Free sc
 ### Machine-readable files for agent buyers
 
 AI agents increasingly compare products programmatically before a human visits. If pricing sits behind JS rendering or a "contact sales" wall, agents skip you and recommend competitors whose info they can read:
+
 - **`/pricing.md`** — structured tiers with consistent units, specific limits/thresholds (not just feature names), what's included per tier; keep current (stale is worse than absent); link from sitemap + pricing page. Same principle as robots.txt / llms.txt / AGENTS.md.
 
 ### Emerging: agent-*actionable*, not just readable

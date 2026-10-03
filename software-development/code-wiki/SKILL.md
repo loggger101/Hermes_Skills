@@ -17,7 +17,6 @@ metadata:
 
 Generates a browsable wiki of any codebase — per-module documentation pages plus Mermaid architecture diagrams — so an agent or newcomer can orient without re-reading source. Runs as a scripted procedure: inventory the tree, map dependencies, emit one page per unit with responsibilities/dependencies/public surface, then cross-link them into a navigable index.
 
-
 Generate a full wiki for any codebase — overview, architecture, per-module deep-dives, Mermaid class and sequence diagrams. Inspired by Google CodeWiki, but works on local repos, private repos, and any language. Uses only existing Hermes tools (`terminal`, `read_file`, `search_files`, `write_file`); no Docker, no external services, no extra dependencies.
 
 This skill produces **reference documentation** (what/how). It does not produce strategic narrative (why — that's a different skill).
@@ -30,6 +29,7 @@ This skill produces **reference documentation** (what/how). It does not produce 
 - Need a stable artifact (markdown + Mermaid) that renders on GitHub
 
 Do NOT use this for:
+
 - Single-file or single-function documentation — just answer directly
 - API reference for one specific endpoint — use `read_file` and answer inline
 - Strategic "why does this exist" narrative — different skill, different purpose
@@ -129,6 +129,7 @@ Cap initial pass at **8–10 modules**. Heuristics by language:
 - Mixed/unfamiliar: top-level directories that contain source code (not config, not tests)
 
 For very large repos, prioritize by:
+
 1. Imported-from count (a module imported by many is core)
 2. LOC (bigger modules usually warrant their own doc)
 3. Mentions in README / top-level docs
@@ -207,6 +208,7 @@ flowchart TD
 ````
 
 **Mermaid shape semantics:**
+
 - `[]` = component
 - `[()]` = database / storage
 - `{{}}` = external service
@@ -434,6 +436,7 @@ Full incremental-regeneration is a future enhancement — for now, regenerating 
 After writing, verify:
 
 1. **Mermaid blocks balance** — opens equal closes per file:
+
    ```bash
    for f in "$OUTPUT_DIR"/diagrams/*.md "$OUTPUT_DIR"/architecture.md; do
      opens=$(grep -c '^```mermaid' "$f")
@@ -441,10 +444,13 @@ After writing, verify:
      echo "$f: $opens mermaid blocks, $total total fences (expect total = opens*2)"
    done
    ```
+
 2. **All expected files exist** —
+
    ```bash
    ls "$OUTPUT_DIR"/{README.md,architecture.md,getting-started.md,.codewiki-state.json} \
       "$OUTPUT_DIR"/modules/ "$OUTPUT_DIR"/diagrams/
    ```
+
 3. **Module count matches what you intended** — `ls "$OUTPUT_DIR/modules" | wc -l` should equal the number of modules you committed to in Step 3.
 4. **No fabricated paths** — sanity-check 2–3 source links resolve to real files.

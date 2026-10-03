@@ -31,6 +31,7 @@ hermes config set approvals.cron_mode approve
 ```
 
 Then re-run the job:
+
 ```bash
 hermes cron run <job_id>
 ```
@@ -46,6 +47,7 @@ BLOCKED: Command flagged as dangerous (…) but cron jobs run without a user pre
 ### In the session transcript
 
 The agent sees the blocked tool result:
+
 ```json
 {"status": "not_approved", "error": "BLOCKED: Command was flagged (…) and auto-approved by smart approval"}
 ```
@@ -73,6 +75,7 @@ This setting lives in the **profile config** file, not the global config:
 ```
 
 For the `the-skill-maker` profile:
+
 ```
 %LOCALAPPDATA%\hermes\profiles\the-skill-maker\config.yaml
 ```

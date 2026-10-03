@@ -54,7 +54,9 @@ from pathlib import Path
 if sys.version_info < (3, 8):
     raise SystemExit(
         "[FATAL] sync-hermes-skills.py needs Python 3.8+, got "
-        + sys.version.split()[0] + " at " + (sys.executable or "<unknown interpreter>")
+        + sys.version.split()[0]
+        + " at "
+        + (sys.executable or "<unknown interpreter>")
     )
 try:
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -95,19 +97,24 @@ LOCAL_PROFILES_DIR = HERMES_HOME / "profiles"
 # Prevent git from prompting for credentials interactively
 os.environ["GIT_TERMINAL_PROMPT"] = "0"
 # Ensure git has a user identity for commits
-subprocess.run(["git", "config", "user.name", "hermes-cronbot"],
-               capture_output=True, timeout=5)
-subprocess.run(["git", "config", "user.email", "cronbot@hermes.local"],
-               capture_output=True, timeout=5)
-subprocess.run(["git", "config", "pull.rebase", "true"],
-               capture_output=True, timeout=5)
+subprocess.run(["git", "config", "user.name", "hermes-cronbot"], capture_output=True, timeout=5)
+subprocess.run(
+    ["git", "config", "user.email", "cronbot@hermes.local"], capture_output=True, timeout=5
+)
+subprocess.run(["git", "config", "pull.rebase", "true"], capture_output=True, timeout=5)
 # Also set in the repo itself (in case global config differs)
-subprocess.run(["git", "config", "user.name", "hermes-cronbot"],
-               cwd=REPO_ROOT, capture_output=True, timeout=5)
-subprocess.run(["git", "config", "user.email", "cronbot@hermes.local"],
-               cwd=REPO_ROOT, capture_output=True, timeout=5)
-subprocess.run(["git", "config", "pull.rebase", "true"],
-               cwd=REPO_ROOT, capture_output=True, timeout=5)
+subprocess.run(
+    ["git", "config", "user.name", "hermes-cronbot"], cwd=REPO_ROOT, capture_output=True, timeout=5
+)
+subprocess.run(
+    ["git", "config", "user.email", "cronbot@hermes.local"],
+    cwd=REPO_ROOT,
+    capture_output=True,
+    timeout=5,
+)
+subprocess.run(
+    ["git", "config", "pull.rebase", "true"], cwd=REPO_ROOT, capture_output=True, timeout=5
+)
 
 # ── Helpers ─────────────────────────────────────────────────────
 
@@ -139,7 +146,11 @@ def list_repo_files(directory: Path):
             # Use forward slashes for consistency across platforms
             rel_path = str(rel).replace(os.sep, "/")
             # Skip sync output directories and the memories directory (handled separately)
-            if rel_path.startswith("profiles-export/") or rel_path.startswith("memories-export/") or rel_path.startswith("memories/"):
+            if (
+                rel_path.startswith("profiles-export/")
+                or rel_path.startswith("memories-export/")
+                or rel_path.startswith("memories/")
+            ):
                 continue
             files[rel_path] = path
     return files
@@ -187,7 +198,9 @@ def git_pull(repo_path: Path, dry_run: bool = False) -> dict:
         return result
 
     if dry_run:
-        result["output"] = "[DRY RUN] Would stash and pull" if has_changes else "[DRY RUN] Would pull"
+        result["output"] = (
+            "[DRY RUN] Would stash and pull" if has_changes else "[DRY RUN] Would pull"
+        )
         result["stashed"] = has_changes
         return result
 
@@ -243,12 +256,14 @@ def git_pull(repo_path: Path, dry_run: bool = False) -> dict:
             result["error"] = f"git stash pop FAILED - changes stranded in stash: {e}"
 
     if result["success"] and "already up to date" not in result["output"].lower():
-        result["changes"] = [l for l in result["output"].splitlines() if l.strip()]
+        result["changes"] = [line for line in result["output"].splitlines() if line.strip()]
 
     return result
 
 
-def git_add_commit_push(repo_path: Path, message: str, max_retries: int = 3, dry_run: bool = False) -> dict:
+def git_add_commit_push(
+    repo_path: Path, message: str, max_retries: int = 3, dry_run: bool = False
+) -> dict:
     """Stage all changes, commit, and push. Push failure is non-fatal with retries.
 
     Args:
@@ -278,8 +293,7 @@ def git_add_commit_push(repo_path: Path, message: str, max_retries: int = 3, dry
 
         # Stage all changes
         subprocess.run(
-            ["git", "add", "-A"], cwd=repo_path, timeout=30,
-            capture_output=True, text=True
+            ["git", "add", "-A"], cwd=repo_path, timeout=30, capture_output=True, text=True
         )
 
         # Commit
@@ -322,16 +336,22 @@ def git_add_commit_push(repo_path: Path, message: str, max_retries: int = 3, dry
                     break
                 else:
                     # Brief delay before retry (only for retry-worthy errors)
-                    if "Could not resolve host" in push_output or "Connection refused" in push_output:
+                    if (
+                        "Could not resolve host" in push_output
+                        or "Connection refused" in push_output
+                    ):
                         import time
+
                         time.sleep(2 * (attempt + 1))  # Exponential backoff: 2s, 4s, 6s
                     else:
                         # Non-retryable error (auth, diverged, etc.)
                         break
 
             if not result["pushed"]:
-                result["output"] += "\nNOTE: git push failed after {} attempt(s) — changes committed locally but not pushed".format(
-                    result.get("push_attempts", max_retries)
+                result["output"] += (
+                    "\nNOTE: git push failed after {} attempt(s) — changes committed locally but not pushed".format(
+                        result.get("push_attempts", max_retries)
+                    )
                 )
         else:
             result["success"] = False
@@ -361,7 +381,11 @@ def sync_skills_pull(repo_root: Path, local_dir: Path, dry_run: bool = False) ->
             if rel_path.startswith(".hermes/"):
                 continue
             # Skip export directories and memories/ — these are sync outputs, not source skills
-            if rel_path.startswith("memories-export/") or rel_path.startswith("profiles-export/") or rel_path.startswith("memories/"):
+            if (
+                rel_path.startswith("memories-export/")
+                or rel_path.startswith("profiles-export/")
+                or rel_path.startswith("memories/")
+            ):
                 continue
             # Skip the tools/ directory — scripts are repo infrastructure
             if rel_path.startswith("tools/"):
@@ -398,14 +422,22 @@ def sync_skills_pull(repo_root: Path, local_dir: Path, dry_run: bool = False) ->
     return result
 
 
-def sync_skills_push(repo_root: Path, local_dir: Path, dry_run: bool = False,
-                     allow_mass_delete: bool = False) -> dict:
+def sync_skills_push(
+    repo_root: Path, local_dir: Path, dry_run: bool = False, allow_mass_delete: bool = False
+) -> dict:
     """Copy skill files from local Hermes environment to repo.
 
     Handles new files, updated files, and deleted files (bidirectional sync).
     """
-    result = {"action": "push_skills", "files_copied": 0, "files_skipped": 0,
-              "files_new": 0, "files_deleted": 0, "success": True, "details": []}
+    result = {
+        "action": "push_skills",
+        "files_copied": 0,
+        "files_skipped": 0,
+        "files_new": 0,
+        "files_deleted": 0,
+        "success": True,
+        "details": [],
+    }
 
     if not local_dir.exists():
         result["details"].append("Local skills directory does not exist — skipping push")
@@ -489,9 +521,15 @@ def sync_skills_push(repo_root: Path, local_dir: Path, dry_run: bool = False,
     for rel_path, repo_path in sorted(list_repo_files(repo_root).items()):
         parts = rel_path.split("/")
         # Skip non-skill files in repo
-        if len(parts) == 1 or parts[0] in ("tools", "profile", ".hermes",
-                                           "memories", "memories-export", "profiles-export",
-                                           "docs"):
+        if len(parts) == 1 or parts[0] in (
+            "tools",
+            "profile",
+            ".hermes",
+            "memories",
+            "memories-export",
+            "profiles-export",
+            "docs",
+        ):
             continue
         local_path = local_dir / rel_path
         if not local_path.exists() and repo_path.exists():
@@ -502,9 +540,12 @@ def sync_skills_push(repo_root: Path, local_dir: Path, dry_run: bool = False,
         result["mass_delete_blocked"] = True
         result["pending_deletes"] = len(pending_deletes)
         result["error"] = (
-            str(len(pending_deletes)) + " files are queued for deletion, over the "
-            + str(MAX_DELETIONS) + "-file safety cap. NOTHING was deleted. This usually means "
-            "the local skills directory is incomplete, not that " + str(len(pending_deletes))
+            str(len(pending_deletes))
+            + " files are queued for deletion, over the "
+            + str(MAX_DELETIONS)
+            + "-file safety cap. NOTHING was deleted. This usually means "
+            "the local skills directory is incomplete, not that "
+            + str(len(pending_deletes))
             + " skills were really removed. Verify the local tree, then re-run with "
             "--allow-mass-delete if the deletions are genuine."
         )
@@ -592,24 +633,36 @@ def sync_profiles(repo_root: Path, local_profiles_dir: Path, dry_run: bool = Fal
             if profile_skills.exists():
                 dest_base = repo_profiles_dir / profile_dir.name / "skills"
                 for src_file in profile_skills.rglob("*"):
-                    if src_file.is_file() and not any(p.startswith(".") for p in src_file.relative_to(profile_skills).parts):
+                    if src_file.is_file() and not any(
+                        p.startswith(".") for p in src_file.relative_to(profile_skills).parts
+                    ):
                         rel = src_file.relative_to(profile_skills)
                         dest_file = dest_base / rel
-                        changed = (not dest_file.exists()) or file_hash(src_file) != file_hash(dest_file)
+                        changed = (not dest_file.exists()) or file_hash(src_file) != file_hash(
+                            dest_file
+                        )
                         if changed:
                             result["files_synced"] += 1
-                            result["details"].append(f"Would sync profile skill: {profile_dir.name}/{rel}")
+                            result["details"].append(
+                                f"Would sync profile skill: {profile_dir.name}/{rel}"
+                            )
             profile_memories = profile_dir / "memories"
             if profile_memories.exists():
                 dest_base = repo_profiles_dir / profile_dir.name / "memories"
                 for src_file in profile_memories.rglob("*.md"):
-                    if not any(p.startswith(".") for p in src_file.relative_to(profile_memories).parts):
+                    if not any(
+                        p.startswith(".") for p in src_file.relative_to(profile_memories).parts
+                    ):
                         rel = src_file.relative_to(profile_memories)
                         dest_file = dest_base / rel
-                        changed = (not dest_file.exists()) or file_hash(src_file) != file_hash(dest_file)
+                        changed = (not dest_file.exists()) or file_hash(src_file) != file_hash(
+                            dest_file
+                        )
                         if changed:
                             result["files_synced"] += 1
-                            result["details"].append(f"Would sync profile memory: {profile_dir.name}/{rel}")
+                            result["details"].append(
+                                f"Would sync profile memory: {profile_dir.name}/{rel}"
+                            )
         return result
 
     repo_profiles_dir = repo_root / "profiles-export"
@@ -625,7 +678,9 @@ def sync_profiles(repo_root: Path, local_profiles_dir: Path, dry_run: bool = Fal
             dest = repo_profiles_dir / profile_dir.name / "skills"
             dest.mkdir(parents=True, exist_ok=True)
             for src_file in profile_skills.rglob("*"):
-                if src_file.is_file() and not any(p.startswith(".") for p in src_file.relative_to(profile_skills).parts):
+                if src_file.is_file() and not any(
+                    p.startswith(".") for p in src_file.relative_to(profile_skills).parts
+                ):
                     rel = src_file.relative_to(profile_skills)
                     dest_file = dest / rel
                     dest_file.parent.mkdir(parents=True, exist_ok=True)
@@ -737,8 +792,14 @@ def regenerate_indexes(repo_root: Path, dry_run: bool) -> dict:
     python_cmd = sys.executable or shutil.which("python3") or shutil.which("python")
     # snapshot index-file hashes BEFORE regenerating so 'updated' reflects actual on-disk
     # change — a phantom +1 in total_changes would make the commit step report "No changes"
-    tracked = ["SKILLS-INDEX.md", "CODE-INDEX.md", "REFERENCES-INDEX.md", "DEPENDENCY.md",
-               ".claude-plugin/plugin.json", ".claude-plugin/marketplace.json"]
+    tracked = [
+        "SKILLS-INDEX.md",
+        "CODE-INDEX.md",
+        "REFERENCES-INDEX.md",
+        "DEPENDENCY.md",
+        ".claude-plugin/plugin.json",
+        ".claude-plugin/marketplace.json",
+    ]
     before = {}
     for name in tracked:
         p = repo_root / name
@@ -747,17 +808,24 @@ def regenerate_indexes(repo_root: Path, dry_run: bool) -> dict:
     for label, script in generators:
         proc = subprocess.run(
             [python_cmd] + [str(repo_root / s) for s in script],
-            cwd=repo_root, capture_output=True, text=True, timeout=600,
+            cwd=repo_root,
+            capture_output=True,
+            text=True,
+            timeout=600,
         )
         if proc.returncode != 0:
             result["success"] = False
-            result["error"] = (f"{label} failed (exit {proc.returncode}): "
-                               f"{(proc.stderr or proc.stdout)[:300]}")
+            result["error"] = (
+                f"{label} failed (exit {proc.returncode}): {(proc.stderr or proc.stdout)[:300]}"
+            )
             return result
         result["regenerated"].append(label)
     # 'updated' = any tracked index file actually changed on disk this run (hash compare).
-    if all(hashlib.sha256((repo_root / name).read_bytes()).hexdigest() == h
-           for name, h in before.items() if (repo_root / name).exists()):
+    if all(
+        hashlib.sha256((repo_root / name).read_bytes()).hexdigest() == h
+        for name, h in before.items()
+        if (repo_root / name).exists()
+    ):
         result["updated"] = False
     else:
         result["updated"] = True
@@ -780,13 +848,17 @@ def run_verify_all(repo_root: Path) -> dict:
     try:
         proc = subprocess.run(
             [python_cmd, str(script)],
-            cwd=repo_root, capture_output=True, text=True, timeout=1800,
+            cwd=repo_root,
+            capture_output=True,
+            text=True,
+            timeout=1800,
         )
         result["success"] = proc.returncode == 0
         tail = "\n".join((proc.stdout or "").splitlines()[-25:])
         if not result["success"]:
-            result["error"] = (f"verify-all exit {proc.returncode}:\n{tail}"
-                               f"\nstderr: {(proc.stderr or '')[:300]}")
+            result["error"] = (
+                f"verify-all exit {proc.returncode}:\n{tail}\nstderr: {(proc.stderr or '')[:300]}"
+            )
     except Exception as e:  # noqa: BLE001 — a crash here must refuse the push too
         result["error"] = str(e)
     return result
@@ -805,15 +877,21 @@ def should_push(total_changes, audit_result, verify_result, push_scan_ok):
     commit was already remote."""
     if total_changes <= 0:
         return True, ""  # nothing to publish; gate is vacuously satisfied
-    audit_ok = audit_result.get("success", False) and not audit_result.get("threshold_breached", True)
+    audit_ok = audit_result.get("success", False) and not audit_result.get(
+        "threshold_breached", True
+    )
     verify_ok = verify_result.get("success", False) or verify_result.get("skipped", False)
     if audit_ok and verify_ok and push_scan_ok:
         return True, ""
-    reasons = [r for r in (
-        None if audit_ok else "audit did not pass",
-        None if verify_ok else "verify-all gates failed",
-        None if push_scan_ok else "skill-delete safety cap tripped",
-    ) if r]  # the filter is load-bearing: an unfiltered join raises TypeError on any refusal (caught by the round-34 unit matrix)
+    reasons = [
+        r
+        for r in (
+            None if audit_ok else "audit did not pass",
+            None if verify_ok else "verify-all gates failed",
+            None if push_scan_ok else "skill-delete safety cap tripped",
+        )
+        if r
+    ]  # the filter is load-bearing: an unfiltered join raises TypeError on any refusal (caught by the round-34 unit matrix)
     return False, "; ".join(reasons) + " — refusing to commit/push"
 
 
@@ -821,10 +899,14 @@ def main():
     parser = argparse.ArgumentParser(
         description="Bidirectional sync between Hermes_Skills repo and local Hermes environment."
     )
-    parser.add_argument("--dry-run", action="store_true",
-                        help="Preview changes without committing or pushing")
-    parser.add_argument("--allow-mass-delete", action="store_true",
-                        help="Permit more than MAX_DELETIONS repo deletions in one run")
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Preview changes without committing or pushing"
+    )
+    parser.add_argument(
+        "--allow-mass-delete",
+        action="store_true",
+        help="Permit more than MAX_DELETIONS repo deletions in one run",
+    )
     args = parser.parse_args()
 
     report = {
@@ -849,8 +931,9 @@ def main():
     report["steps"].append(pull_skills)
 
     # Step 3: Sync skills from local → repo (PUSH direction)
-    push_skills = sync_skills_push(REPO_ROOT, LOCAL_SKILLS_DIR, dry_run=args.dry_run,
-                                   allow_mass_delete=args.allow_mass_delete)
+    push_skills = sync_skills_push(
+        REPO_ROOT, LOCAL_SKILLS_DIR, dry_run=args.dry_run, allow_mass_delete=args.allow_mass_delete
+    )
     report["steps"].append(push_skills)
 
     # Step 4: Sync memories
@@ -873,13 +956,21 @@ def main():
         report["steps"].append(idx_result)
     elif dep_needs_regen and args.dry_run:
         # dry-run: prove the generators would succeed without writing (their --check mode)
-        idx_result = {"action": "indexes", "success": True, "updated": False,
-                      "dry_run_unchanged": True}
+        idx_result = {
+            "action": "indexes",
+            "success": True,
+            "updated": False,
+            "dry_run_unchanged": True,
+        }
         report["steps"].append(idx_result)
     else:
-        idx_result = {"action": "indexes", "success": True, "skipped": True,
-                      "updated": False,
-                      "error": "No skill changes — indexes up to date"}
+        idx_result = {
+            "action": "indexes",
+            "success": True,
+            "skipped": True,
+            "updated": False,
+            "error": "No skill changes — indexes up to date",
+        }
         report["steps"].append(idx_result)
 
     # Step 6: Run audit (before commit to catch issues early)
@@ -891,8 +982,12 @@ def main():
     # other path must not let this run push on top of it. Skipped in dry-run mode
     # (verify-all is read-only anyway, but its harnesses take minutes — pointless here).
     if args.dry_run:
-        verify_result = {"action": "verify_all", "success": True, "skipped": True,
-                         "error": "dry-run"}
+        verify_result = {
+            "action": "verify_all",
+            "success": True,
+            "skipped": True,
+            "error": "dry-run",
+        }
     else:
         verify_result = run_verify_all(REPO_ROOT)
     report["steps"].append(verify_result)
@@ -922,8 +1017,8 @@ def main():
     # them rejected (or could not check at all). Without this the push happened regardless
     # and the run merely exited 1 afterwards -- too late, the commit was already remote.
     do_push, skip_reason = should_push(
-        total_changes, audit_result, verify_result,
-        push_skills.get("success", True))  # False when the delete cap tripped
+        total_changes, audit_result, verify_result, push_skills.get("success", True)
+    )  # False when the delete cap tripped
     if not do_push:
         commit_result = {
             "action": "push",
@@ -945,14 +1040,19 @@ def main():
             f"{push_skills['files_deleted']} deleted, "
             f"{mem_result['files_synced']} memories, "
             f"{1 if dep_updated else 0} dep map"
-            + (f"; local-only mirror: {prof_result['files_synced']} profile files refreshed "
-               "(profiles-export/ is gitignored — never committed)"
-               if prof_result["files_synced"] else ""),
+            + (
+                f"; local-only mirror: {prof_result['files_synced']} profile files refreshed "
+                "(profiles-export/ is gitignored — never committed)"
+                if prof_result["files_synced"]
+                else ""
+            ),
             dry_run=args.dry_run,
         )
         report["steps"].append(commit_result)
     else:
-        report["steps"].append({"action": "push", "success": True, "output": "No local changes to push"})
+        report["steps"].append(
+            {"action": "push", "success": True, "output": "No local changes to push"}
+        )
 
     # Summary
     report["summary"] = {
@@ -969,9 +1069,13 @@ def main():
         "total_changes_pushed": total_changes,
         "audit_passed": audit_result.get("success", False),
         "threshold_breached": audit_result.get("threshold_breached", False),
-        "verify_all_passed": verify_result.get("success", True) if not verify_result.get("skipped") else None,
+        "verify_all_passed": verify_result.get("success", True)
+        if not verify_result.get("skipped")
+        else None,
         "git_pull_success": pull_result.get("success", True),
-        "git_push_success": commit_result.get("pushed", True) if (commit_result and commit_result.get("action") == "push") else True,
+        "git_push_success": commit_result.get("pushed", True)
+        if (commit_result and commit_result.get("action") == "push")
+        else True,
         "dep_map_updated": dep_updated,
         "empty_dirs_removed": repo_empty + local_empty,
     }
@@ -980,7 +1084,9 @@ def main():
     # verify_all/indexes failures count as errors even at zero total_changes — a broken
     # tree must be delivered, not swallowed by the silent-when-clean contract.
     has_errors = any(
-        not step.get("success", True) for step in report["steps"] if step.get("action") in ("pull", "push", "push_skills", "audit", "indexes", "verify_all")
+        not step.get("success", True)
+        for step in report["steps"]
+        if step.get("action") in ("pull", "push", "push_skills", "audit", "indexes", "verify_all")
     )
     has_threshold_breach = audit_result.get("threshold_breached", False)
 

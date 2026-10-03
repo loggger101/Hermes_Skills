@@ -71,16 +71,19 @@ downstream of it wait; ask the rest of the frontier now.
 ## Question Coverage (work these branches into the tree)
 
 **Understanding** — the real goal and boundaries:
+
 - What is the ACTUAL objective? What is explicitly IN and OUT of scope?
 - What are the constraints (time, tech, team, budget)? Who are the users?
 
 **Technical decisions** — for each architectural choice:
+
 - "Why this approach and not X?" / "What happens if Y fails?"
 - "What's the worst case?" / "How would you roll back?"
 - Cross-reference the existing codebase; if the project already has a
   pattern for this, call it out.
 
 **Edge cases:**
+
 - "What happens if the user does Z?" / "What if dependency X goes down?"
 - "What if volume is 100x expected?" / "What are the security implications?"
 

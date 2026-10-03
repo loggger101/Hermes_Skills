@@ -28,6 +28,7 @@ autonomous-ai-agents/repowise/references/codebase-intelligence-patterns.md §11)
 
 Usage: python tools/check-links.py          # exit 0 = no broken links, 1 = found some
 """
+
 import re
 import sys
 from pathlib import Path
@@ -85,9 +86,9 @@ def main():
             continue
         # strip fenced code blocks so example links in docs don't count,
         # then inline `code` spans (e.g. markdown syntax examples like ![alt](url))
-        text_no_code = re.sub(r'```.*?```', '', text, flags=re.S)
+        text_no_code = re.sub(r"```.*?```", "", text, flags=re.S)
         n_code_span += len(LINK_RE.findall(text)) - len(LINK_RE.findall(text_no_code))
-        text_no_code = re.sub(r'`[^`\n]*`', '', text_no_code)
+        text_no_code = re.sub(r"`[^`\n]*`", "", text_no_code)
         for m in LINK_RE.finditer(text_no_code):
             target = m.group(1).strip()
             if not target or target.startswith(("http://", "https://")):
@@ -120,8 +121,11 @@ def main():
         f"{n_template_files} template + {n_snapshot_export_files} snapshot/export files not scanned)"
     )
     if unreadable:
-        print(f"[FATAL] {len(unreadable)} file(s) could not be read -- link coverage is "
-              "incomplete, so a clean result would be meaningless:", file=sys.stderr)
+        print(
+            f"[FATAL] {len(unreadable)} file(s) could not be read -- link coverage is "
+            "incomplete, so a clean result would be meaningless:",
+            file=sys.stderr,
+        )
         for u in unreadable:
             print("  " + u, file=sys.stderr)
         sys.exit(2)

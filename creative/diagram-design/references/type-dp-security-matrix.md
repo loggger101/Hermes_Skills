@@ -60,6 +60,7 @@ dark: false
 ```
 
 **Reserved field semantics:**
+
 - `roles[j].name` — primary role label (`node-name` role at 11px, white text on the ink banner)
 - `roles[j].code` — secondary AD-group identifier (`sublabel` role, white text at 0.85 opacity)
 - `components[i].hint` — optional right-aligned `sublabel` text in the label cell (e.g., `"SSO"`, `"S3 API"`)
@@ -116,12 +117,14 @@ Solid paper fill across the full viewBox. No dot pattern.
 ### 2.2 Header row (`y = 72, h = 52`)
 
 **Component-column header cell:**
+
 - Rect: `(comp_col_x, header_y, comp_col_w, header_h)`, fill white, stroke `ink @ 0.12` 0.8, `rx=6`
 - Two-line label centered at `(comp_col_x + comp_col_w/2, header_y+24)` and `(…, header_y+40)`:
   - Line 1: `"Component"` — `node-name` role at 11px, ink
   - Line 2: `"vs. AD group"` — `sublabel` role, muted
 
 **Role banners (one per role):**
+
 - Rect: `(role_col_x(j), header_y, role_col_w, header_h)`, fill `ink`, `rx=6`
 - Two-line label centered:
   - Line 1 at `y=92`: `roles[j].name` — `node-name` role at 11px, white
@@ -130,11 +133,13 @@ Solid paper fill across the full viewBox. No dot pattern.
 ### 2.3 Data row (`y = row_y(k), h = 36`)
 
 **Component label cell:**
+
 - Rect: `(comp_col_x, row_y(k), comp_col_w, row_h)`, fill white, stroke `ink @ 0.12` 0.8, `rx=4`
 - Name at `(comp_col_x + 12, row_y(k) + 22)`: `node-name` role at 11px, ink, left-aligned
 - Hint (if present) at `(comp_col_x + comp_col_w − 12, row_y(k) + 22)`: `sublabel` role, muted, right-aligned
 
 **Value cells (one per role × component):**
+
 - Rect: `(role_col_x(j), row_y(k), role_col_w, row_h)`, `rx=4`, stroke `ink @ 0.12` 0.6
 - Fill and text-color depend on `level` (or focal flag) — see §2.4
 - Value text centered at `(role_col_cx(j), row_y(k) + 22)`: `node-name` role at 10px
@@ -229,6 +234,7 @@ If you pick a mid-luminance hex (e.g., yellow `#c9a23a`), the text auto-flips to
 ## 5. Focal rule
 
 Exactly **one** focal cell per diagram (or zero). The focal cell:
+
 - Uses focal styling (accent fill + accent stroke 1.4 + accent text bold)
 - May carry a 2-line content: primary `value` at `y = row_y(k) + 18`, `sub` at `y = row_y(k) + 30`
 - Calls out the diagram's central security claim — the *one* access rule that distinguishes this platform's posture from a generic permissions table
@@ -369,6 +375,7 @@ dark: false
 ### 10.1 What this YAML proves
 
 Run §2 with these inputs:
+
 - `n_roles = 4`, `n_components = 8`, no color overrides, one focal cell.
 - `viewBox_w = 12 + 208 + 12 + 4·148 + 3·16 + 48 = 920` ✓
 - `row_y(k)` produces `140, 180, 220, 260, 300, 340, 380, 420` ✓

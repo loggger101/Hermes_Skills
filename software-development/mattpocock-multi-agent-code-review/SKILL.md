@@ -36,11 +36,13 @@ Loads `skill_view(name='requesting-code-review')` for the single-agent pre-commi
 ## Process
 
 ### 1. Prepare the diff
+
 ```bash
 git diff <base-branch>...HEAD -- > /tmp/diff.patch
 ```
 
 ### 2. Dispatch parallel reviewers
+
 Each reviewer gets the diff + a focused prompt:
 
 - **Bug hunter prompt**: "Find logic errors, edge cases, null safety issues, race conditions. Look at each changed line for correctness."
@@ -49,6 +51,7 @@ Each reviewer gets the diff + a focused prompt:
 - **Contracts prompt**: "Verify each change maps to a requirement in the spec. Flag scope creep."
 
 ### 3. Consolidate findings
+
 Merge findings from all reviewers into a single report. Deduplicate overlapping findings. Prioritise:
 
 | Priority | Criteria |
@@ -59,6 +62,7 @@ Merge findings from all reviewers into a single report. Deduplicate overlapping 
 | **Low** | Style, formatting, minor consistency |
 
 ### 4. Present options
+
 - All clear → approve
 - Minor findings → fix and re-review
 - Major findings → discuss with user before proceeding

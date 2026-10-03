@@ -1,0 +1,40 @@
+# Formatter + linter settings for this repo's own Python (tools/, .hermes/cron/, and the
+# skills authored or ported here). Run from the repo root:
+#
+#   ruff format .     # black-compatible formatting
+#   ruff check .      # default rule set (pyflakes + pycodestyle errors)
+#
+# 100 columns matches how the existing code and the markdown prose already wrap.
+line-length = 100
+target-version = "py38" # sync-hermes-skills.py refuses to run below 3.8
+
+# Skills bundled with Hermes Agent (listed in profile/.bundled_manifest) are left as upstream
+# ships them. Hermes compares each bundled skill against its shipped hash and stops updating
+# any skill whose files changed, so a purely cosmetic reformat here would silently opt every
+# untouched bundled skill out of upstream fixes once sync copies it to ~/.hermes/skills/.
+# Only the bundled skills that contain Python need listing.
+extend-exclude = [
+    "autonomous-ai-agents/hermes-agent",
+    "creative/comfyui",
+    "creative/excalidraw",
+    "github/github-auth",
+    "github/github-code-review",
+    "media/youtube-content",
+    "productivity/docx",
+    "productivity/google-workspace",
+    "productivity/maps",
+    "productivity/ocr-and-documents",
+    "productivity/pdf",
+    "productivity/powerpoint",
+    "productivity/xlsx",
+    "research/arxiv",
+    "research/blocked-page-recovery",
+    "research/grounded-citations",
+]
+
+[lint.per-file-ignores]
+# Each PATTERN section imports the engine it exercises, so it reads as the self-contained
+# snippet the reference doc quotes.
+"data-science/python-data-science/references/big-data-patterns-verify.py" = ["E402"]
+# l and r bound the Z-box: the textbook notation, quoted verbatim in algorithms-from-scratch.md.
+"data-science/algorithms-python-catalog/scripts/algorithms_verify.py" = ["E741"]

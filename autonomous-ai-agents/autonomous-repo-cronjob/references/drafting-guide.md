@@ -6,8 +6,10 @@ repo's own documentation into the prompt body produced by `references/prompt-tem
 ## Phase 1: Read the repo's three-layer stack
 
 ### Layer 1: The CI workflow (`.github/workflows/*.yml`)
+
 This is the **canonical run sequence**. Read it end-to-end. Every `step:` block becomes
 a step in your prompt. Note:
+
 - The cron schedule (mirror it).
 - `fetch-depth: 0` or `fetch-depth: 1` (the comments in the workflow usually explain why).
 - Node version pins (the repo may have migrated off EOL versions — document the current one).
@@ -16,8 +18,10 @@ a step in your prompt. Note:
 - Any conditional logic (commit-if-changed: `if [ -n "$(git status --porcelain)" ]`).
 
 ### Layer 2: The main pipeline script (`tools/research/fetch_curate.mjs`)
+
 This is the **source of truth for internal logic**. Read the header comments (usually
 20-50 lines), then the key functions:
+
 - The key-gated branch (`if (!KEY)` / `const CURATE = !!KEY`) — what runs without the key?
 - The per-entity processing function (`processPage`) — the append-only merge, the
   signature comparison, the sort order.
@@ -33,6 +37,7 @@ For each function, extract the **rationale** the comments give. "This is why X m
 comments are guardrail material.
 
 ### Layer 3: The config + docs (`config.json`, `README.md`, `TODO.md`, `MAINTENANCE.md`)
+
 - `config.json` — per-entity queries, relevance rules, thresholds, spend caps.
   READ THE `_comment` field — it explains non-obvious decisions.
 - `README.md` — the high-level data flow, what each section does.
@@ -94,6 +99,7 @@ by running the pipeline. These become guardrails in your prompt. Pattern:
 ## Phase 5: Document the data file shape
 
 Read the renderer (`render.pl` or equivalent) for each field:
+
 - IS it rendered? (Does it appear on the page?) → counts as a data change
 - IS it stored but NOT rendered? → EXCLUDE from the date-churn signature
 - Does it drive any logic? (statusRaw → colour, id → dedup, date → sort)
@@ -106,11 +112,13 @@ unrendered and should be excluded from the signature.
 
 Scan the script and docs for `catch`, `warn`, `skip`, `error` patterns. Each one is a
 failure mode. For each, write:
+
 1. The scenario
 2. The expected behavior (skip, best-effort, warn)
 3. The agent's response (don't commit, investigate, retry, etc.)
 
 Look for:
+
 - API rate limits / 429 → retry with backoff
 - API 500s → best-effort, skip that source
 - Corrupt JSON → lint-feed.pl errors, don't commit
@@ -121,6 +129,7 @@ Look for:
 ## Phase 7: Match the serializer
 
 The script writes JSON in a specific format. Find it:
+
 - `JSON.stringify(obj, null, 2)` = 2-space indent, no sorted keys, `: ` separator
 - `JSON::PP->new->pretty` or `JSON::PP->new->canonical` = 3-space indent, sorted keys
 

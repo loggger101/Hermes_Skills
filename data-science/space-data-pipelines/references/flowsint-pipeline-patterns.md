@@ -15,6 +15,7 @@ validation, per-run audit logs, and an embedded agent skill documenting how to e
 | **Enrichers** | `flowsint_enrichers/<input_type>/to_<output>.py` (~52) | orchestration: tools + types + vault + graph | typed results + graph writes |
 
 Rules that keep it honest (from their docs, enforced in practice):
+
 - A tool wraps EXACTLY one external utility. "Don't combine multiple data sources in a single tool —
   that's what enrichers are for." Tools return plain Python structures; the *enricher* converts to types.
 - Enricher file location encodes its contract: `<input_type_lower>/to_<target>.py`. Directory = input type.
@@ -44,6 +45,7 @@ for root, dirs, files in os.walk(package_path):
 ```
 
 Properties worth copying verbatim:
+
 - **Subdirs work without `__init__.py`** — os.walk + dotted module names; adding a new input-type dir needs zero plumbing.
 - **Idempotent**: `_enrichers_loaded` global flag -> early return on second call (safe to invoke from multiple entry points).
 - **One broken module must not kill discovery**: import errors are logged and skipped — an optional-dependency failure in one enricher can't hide the other 51. (Trade-off: a typo'd new file fails silently-ish; their troubleshooting doc says "restart API + check stderr".)
@@ -52,6 +54,7 @@ Properties worth copying verbatim:
 ## 3. Two-phase execution model (scan / postprocess) with strict params
 
 Base-class contract (`enricher_base.py`):
+
 - `execute(values)` = `async_init()` -> `preprocess(values)` [Pydantic TypeAdapter validation, invalid items skipped silently + one warning if ALL invalid] -> `await scan(preprocessed)` [pure data gathering — NO graph writes here] -> `postprocess(results, preprocessed)` [graph nodes/relationships only] -> `graph_service.flush()`.
 - **Params are a strict model built at init**: `create_model("ParamsModel", __config__=ConfigDict(extra="forbid"), ...)` from the declared params schema — unknown param keys raise instead of being ignored. vaultSecret fields are deliberately optional in that model (deferred resolution; see cron-job-authoring/references/vault-crypto-pattern.md).
 - `InputType`/`OutputType` are class attributes as **base types, not lists** (`Domain`, never `List[Domain]`) — the base generates JSON schemas via `TypeAdapter(...).json_schema()` and handles list wrapping. Schema generation even handles `$defs`/`$ref` indirection explicitly (nested-type case) with a documented fallback shape.
@@ -62,12 +65,14 @@ Base-class contract (`enricher_base.py`):
 ## 4. Graph write semantics (Neo4j) — two non-obvious facts from repository.py
 
 - **MERGE key is `(nodeType, nodeLabel, sketch_id)`** — NOT the primary field:
+
   ```cypher
   MERGE (n:{type} { nodeLabel: $node_label, sketch_id: $sketch_id })
   ON CREATE SET n.created_at = $created_at
   SET n += $props            -- flat props with dotted keys; upsert merges properties
   SET n.deleted_at = null    -- soft-delete resurrection on re-creation
   ```
+
   Consequence (real, not theoretical): two distinct entities whose `compute_label()` collides in one sketch
   MERGE into the same node. Label design is a correctness concern, not cosmetics — their type docs spend a whole section on it for this reason.
 - **Soft deletes everywhere**: relationship MATCH includes `WHERE from.deleted_at IS NULL`; re-creating sets `deleted_at = null` (resurrects). Bulk ops use `UNWIND $node_ids AS ...` batch queries; writes are buffered (`_batch_size = 100`, auto-flush when full, explicit flush at enricher end) and executed via `execute_batch`.
@@ -81,6 +86,7 @@ optional array_path), output type, secrets list, retry config. `TemplateEnricher
 SSRF-guarded, URL-sanitized, vault-resolved (see devops/rest-api-client/references/ssrf-guard-and-outbound-http-hardening.md).
 
 The LLM generator (`template_generator_service.py`) is a model of constrained code generation:
+
 1. **System prompt = the full schema spec** + two worked YAML examples + explicit instruction "Output ONLY the
    YAML template. No explanations, no markdown fences."
 2. **Schema constraints injected from user selection**: if input/output types were chosen in UI, their JSON schemas are appended with "The `response.map` keys MUST only use fields from this schema" — generation is *anchored to real type definitions*, not free-form.
@@ -106,6 +112,7 @@ initial config snapshot, per-step entries (inputs/outputs serialized via `to_jso
 ## 7. The embedded agent skill (.claude/skills/flowsint-enricher-builder/SKILL.md) — anatomy worth stealing
 
 The repo ships a Claude Code skill teaching agents to build new enrichers. Structure (178 lines):
+
 - **Opening doctrine**: "You do not memorize the catalog — you know where to look and how the pieces fit. Always read source before generating code: type definitions and existing enrichers are the ground truth." -> followed by an *authoritative source paths table* (what | path) for every relevant file.
 - **Decision tree BEFORE code**: "new type or reuse?" — list entities involved, open candidate type files, then Reuse / Extend-existing-type / Create-new with explicit criteria ("different primary key, different label semantics, different graph role"). "Never cram data into a wrong type." Surface the decision to the user before generating.
 - **Anatomy + conventions**: minimum enricher skeleton, file-location rule, naming rules (`<input>_to_<output>`, UPPER_SNAKE_CASE relationship verbs), and an explicit *known smell* ("category() strings are inconsistent in source — match what's already used in that directory; don't introduce a third variant").
