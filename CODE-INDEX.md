@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **158 code files** (41,148 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **158 code files** (41,147 lines total) in this second brain — one line each, grep-friendly.
 Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -287,7 +287,7 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `tools/mutation-test-router-gate.py` (repo tooling, python, 195 lines) — Mutation self-test for check-router-coverage.py (round-43)
 - `tools/mutation-test-secret-gate.py` (repo tooling, python, 160 lines) — Mutation test for audit-skills.scan_repo_for_secrets — the secret scan tests itself
 - `tools/mutation-test-selftest-gate.py` (repo tooling, python, 134 lines) — Mutation self-test for tools/run-self-tests.py (the self-test harness gate)
-- `tools/regen-dependency-map.py` (repo tooling, python, 141 lines) — Regenerate DEPENDENCY.md from live related_skills frontmatter (same format as repo convention).
+- `tools/regen-dependency-map.py` (repo tooling, python, 140 lines) — Regenerate DEPENDENCY.md from live related_skills frontmatter (same format as repo convention).
 - `tools/run-self-tests.py` (repo tooling, python, 240 lines) — Discovery-based runner for the skill self-test harnesses (*_verify.py)
 - `tools/run-skill-tests.py` (repo tooling, python, 145 lines) — Discover and run every pytest suite that ships inside a skill, one command
 - `tools/sync-hermes-skills.py` (repo tooling, python, 1183 lines)
