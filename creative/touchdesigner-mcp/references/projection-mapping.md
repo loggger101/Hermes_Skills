@@ -65,18 +65,21 @@ The simplest projection mapping primitive — warping a rectangle onto a quadril
 # Source content
 src = op('/project1/scene_out')
 
-# Manual: cornerPinTOP (TD has this built-in)
-cp = root.create(cornerPinTOP, 'corner_pin')
-cp.par.tlx = 0.05; cp.par.tly = 0.10    # top-left (normalized 0-1)
-cp.par.trx = 0.95; cp.par.try = 0.08    # top-right
-cp.par.brx = 0.93; cp.par.bry = 0.92    # bottom-right
-cp.par.blx = 0.07; cp.par.bly = 0.94    # bottom-left
+# Manual: cornerpinTOP (TD has this built-in; note the lowercase p in the class name)
+cp = root.create(cornerpinTOP, 'corner_pin')
+# Pin page corners: pinp<N>1 = x, pinp<N>2 = y; N = 1 top-left, 2 top-right, 3 bottom-left, 4 bottom-right.
+# Each corner also has a unit menu (pinp1unit..pinp4unit): the values below assume it is set to
+# normalized 0-1, so check it before trusting them.
+cp.par.pinp11 = 0.05; cp.par.pinp12 = 0.10    # top-left
+cp.par.pinp21 = 0.95; cp.par.pinp22 = 0.08    # top-right
+cp.par.pinp31 = 0.07; cp.par.pinp32 = 0.94    # bottom-left
+cp.par.pinp41 = 0.93; cp.par.pinp42 = 0.92    # bottom-right
 cp.inputConnectors[0].connect(src)
 ```
 
 Alternative: use a `geometryCOMP` with a `gridSOP` and bend the verts in vertex GLSL. More flexible (curved surfaces) but more setup.
 
-Verify TD 2025.32 param names with `td_get_par_info(op_type='cornerPinTOP')`.
+Verify TD 2025.32 param names with `td_get_par_info(op_type='cornerpinTOP')`.
 
 ---
 
@@ -205,7 +208,7 @@ When debugging a multi-screen setup:
 |---|---|
 | Single fullscreen output | One `windowCOMP`, `justify='fillaspect'`, `winopen.pulse()` |
 | 3-projector wide span | 3 `windowCOMP` + per-output `cropTOP` from one wide source |
-| Single quad surface | `cornerPinTOP` → `windowCOMP` |
+| Single quad surface | `cornerpinTOP` → `windowCOMP` |
 | Curved/dome | Subdivided gridSOP with vertex GLSL → `renderTOP` → `windowCOMP` |
 | Edge blend overlap | GLSL fade shader per projector → `windowCOMP` |
 | Calibration mode | `switchTOP` between scene and test patterns, hot-key triggered |

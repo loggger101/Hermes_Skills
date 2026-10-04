@@ -5,6 +5,7 @@
 #   productivity/xlsx/tests        (12 tests)  -> openpyxl, pytest
 #   creative/comfyui/tests         (117 tests) -> requests; everything else stdlib
 #   data-science/evolutionary-ml/tests (5 tests)   -> numpy, pytest (skips cleanly without numpy)
+#   creative/ascii-video/tests         (5 tests)   -> numpy, pytest (skips cleanly without numpy)
 # The other suites run-skill-tests.py discovers (sqlite-queries,
 # regex-vs-llm-structured-text) are stdlib-only and need nothing here.
 #

@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **159 code files** (41,249 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **160 code files** (41,331 lines total) in this second brain — one line each, grep-friendly.
 Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -8,6 +8,10 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `autonomous-ai-agents/hermes-agent/scripts/sync-installed-plugins.py` (script, python, 549 lines) — Sync the installed-plugins reference doc from the live Hermes environment
 - `autonomous-ai-agents/hermes-agent/templates/clock.mjs` (template, javascript, 51 lines) — Reference user widget: a live clock docked above the status bar. Copy to ~/.hermes/tui-widgets/clock.mjs, then…
 - `autonomous-ai-agents/hermes-agent/templates/plugin.js` (template, javascript, 97 lines) — Hermes desktop plugin template. Save as: \<hermes home>/desktop-plugins/\<id>/plugin.js (folder name == id) wher…
+
+## creative/ascii-video
+
+- `creative/ascii-video/tests/test_blend_modes.py` (test, python, 82 lines) — Run the blend-mode table that references/shaders.md teaches, on real arrays
 
 ## creative/comfyui
 
@@ -298,4 +302,4 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `tools/verify-all.py` (repo tooling, python, 462 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*159 code files: 110 scripts, 7 shared helpers, 15 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*160 code files: 110 scripts, 7 shared helpers, 16 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
