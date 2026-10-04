@@ -21,7 +21,7 @@ A comprehensive collection of **202 Hermes Agent skills** across 23 categories â
 
 ```bash
 # Load a skill in Hermes
-hermes skill load software-development/mattpocock-code-review
+hermes skill load github/mattpocock-code-review
 
 # Or load multiple skills for cronjob automation
 hermes skill load autonomous-ai-agents/cron-job-authoring

@@ -14,7 +14,7 @@ metadata:
 ## When to Use
 
 - A reader will learn more from a visual than from prose, a table or a bulleted list, in any of the 39 types
-- Not for quick unicode diagrams (use wiretext), lists, simple before/after comparisons or one-shape "diagrams"
+- Not for quick unicode diagrams (draw those inline in the reply), lists, simple before/after comparisons or one-shape "diagrams"
 
 ## What This Skill Does
 
@@ -67,7 +67,7 @@ Use for any of the 39 visual types (§3) when a reader will learn more from a vi
 
 **Don't use for:**
 
-- Quick unicode diagrams → use **wiretext**.
+- Quick unicode diagrams → draw them inline in the reply; no file needed.
 - Lists of things → table or bullets.
 - Simple before/after → table.
 - One-shape "diagrams" → just write the sentence.
