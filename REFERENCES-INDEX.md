@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **398 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **400 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -149,7 +149,9 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## creative/design-taste-frontend
 
+- `creative/design-taste-frontend/references/appendices.md` — design-taste-frontend appendices: install commands per design system, canonical doc links, Apple Liquid Glass web approximation
 - `creative/design-taste-frontend/references/image-first-workflow.md` — Image-first web design-to-code workflow distilled from taste-skill's imagegen/image-to-code/brandkit skills - generate, analyze, implement; per-section frames; consistency rules
+- `creative/design-taste-frontend/references/scroll-animation-skeletons.md` — GSAP canonical skeletons for design-taste-frontend: sticky-stack, horizontal-pan, scroll-reveal stagger (start/pin/scrub rules)
 
 ## creative/diagram-design
 

@@ -35,9 +35,10 @@ from _index_output import emit, wants_check
 MIN_SKILLS = 100  # write-guard floor
 
 REPO = Path(__file__).resolve().parents[1]
-# NOTE: unlike tools/audit-skills.py, this map INCLUDES profiles-export/ (the second-brain
-# view spans all profile skill copies) but dedupes by name — top-level wins over exports.
-SKIP_PARTS = (".git/", ".hermes/", "memories/")
+# NOTE: profiles-export/ is gitignored, per-machine scratch (it holds stale copies of retired
+# skills), so it is skipped like in every other generator: a map built from it would pass on
+# a clean clone and drift on any machine whose exports lag the catalog.
+SKIP_PARTS = (".git/", ".hermes/", "profiles-export/", "memories/")
 
 skills = {}  # name -> {"path": rel, "related": [..]}
 for p in REPO.rglob("SKILL.md"):
@@ -53,8 +54,6 @@ for p in REPO.rglob("SKILL.md"):
     entry = {"path": str(p.relative_to(REPO)).replace("\\", "/"), "related": related}
     if name not in skills:
         skills[name] = entry
-    elif "profiles-export/" not in ps and "profiles-export/" in skills[name]["path"]:
-        skills[name] = entry  # prefer top-level copy over profile export
 
 names = set(skills)
 inbound = {n: [] for n in names}
