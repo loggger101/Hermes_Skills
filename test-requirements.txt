@@ -4,6 +4,7 @@
 #   productivity/powerpoint/tests  (21 tests)  -> python-pptx (+ lxml via it), pytest
 #   productivity/xlsx/tests        (12 tests)  -> openpyxl, pytest
 #   creative/comfyui/tests         (117 tests) -> requests; everything else stdlib
+#   data-science/evolutionary-ml/tests (5 tests)   -> numpy, pytest (skips cleanly without numpy)
 # The other suites run-skill-tests.py discovers (sqlite-queries,
 # regex-vs-llm-structured-text) are stdlib-only and need nothing here.
 #
@@ -23,3 +24,4 @@ Pillow>=10.0
 pypdfium2>=4.0
 python-pptx>=1.0
 requests>=2.31
+numpy>=1.26
