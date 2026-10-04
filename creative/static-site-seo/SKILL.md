@@ -209,8 +209,8 @@ Pitfalls:
 
 ### Privacy-friendly alternatives
 
-- **GoatCounter**: lightweight, privacy-friendly, self-hostable or hosted. Script-based, no cookies by default. Good for personal sites and small projects.
-- **Cloudflare Web Analytics**: cookieless, server-side analytics from Cloudflare. Good alongside GA4 as a cookieless complement.
+- **GoatCounter**: lightweight, privacy-friendly, self-hostable or hosted. Script-based, no cookies by default. Good for personal sites and small projects where GA4 is overkill: `<script async data-goatcounter="https://<your-counter>.goatcounter.com/count" src="https://gc.zgo.at/count.js"></script>`. CSP: add `https://gc.zgo.at` to `script-src` and the counter URL to `connect-src` if needed. It answers "who visited what, roughly how many", not funnels, cohorts or attribution; button clicks, form steps and scroll depth are possible but GA4 is more capable.
+- **Cloudflare Web Analytics**: cookieless, server-side analytics from Cloudflare. Good alongside GA4 as a cookieless complement. Needs the Cloudflare dashboard (no client script if the site is on Cloudflare); counts pageviews with bot filtering, less depth than GA4.
 - **Plausible**: privacy-friendly, cookieless, lightweight. Hosted or self-hosted.
 
 When choosing:
@@ -253,6 +253,14 @@ The form POSTs to the service's URL; the service forwards to email or stores sub
 
 - Pros: zero backend to maintain, works with any static host, often includes spam protection.
 - Cons: vendor lock-in, rate limits, less control over what happens to the data.
+
+Formspree pattern (a personal portfolio form): the form POSTs to `https://formspree.io/f/<form-id>`, Formspree forwards submissions to email and/or stores them in its dashboard, and the free tier covers low volume. CSP: add `https://formspree.io` to `form-action` and `connect-src` as needed.
+
+**Right choice when:** a static site needs a working form with zero backend maintenance, volume is within the service's tier, and you accept the lock-in and rate limits.
+
+**Wrong choice when:** you need server-side processing beyond forwarding to email (CRM integration, complex validation, custom storage), submissions must stay in your own storage (privacy, control, compliance), or volume exceeds the tier, where a serverless function is more cost-effective.
+
+For a personal portfolio form Formspree is fine; for a patient registration form use a serverless function with a KV backup and CRM integration (fail-open, data control, compliance).
 
 ### Mailto (bad idea)
 
@@ -362,12 +370,6 @@ A real pattern from aspirecures: a Cloudflare Pages Function receives the POST, 
 - Honeypot field: hidden from assistive tech (`hidden` + `aria-hidden="true"` + `tabindex="-1"`) so a screen-reader user cannot trip it and lose their registration.
 - Time trap: 3-second minimum between form render and submit; instant bot autofills are silently dropped. Fails open on clock skew and for no-JS visitors.
 - CAPTCHA (Turnstile/reCAPTCHA): only if spam appears. A CAPTCHA failure must never silently drop a submission (a false positive could be a real patient), and a siteverify outage must fail open. A complete Turnstile integration exists in git history — resurrect it, don't rebuild.
-
-**De-duplication:**
-
-- Nothing de-duplicates a form by default. A user who clicks twice submits twice.
-- Client-side: disable the button after submit, or stamp the form with a render timestamp that the time trap checks.
-- Server-side: de-dup by some identifier (submit timestamp + IP + fingerprint) if duplicates are a real problem.
 
 **Privacy and consent:**
 
@@ -573,63 +575,6 @@ The website(Primary) portfolio pattern: dark theme, system preference respect, k
 - The visual result of transitions and animations (a harness running with `document.visibilityState === 'hidden'` never composites, so `requestAnimationFrame` never fires).
 - Native button activation from Enter/Space on a focused button (synthetic key events deliver keydown/keyup but no click).
 - Whether a page actually looks right (machine checks can prove it loads clean, not that it looks good).
-
-## GoatCounter and Privacy-Friendly Analytics
-
-The website(Primary) pattern: GoatCounter for lightweight, privacy-friendly pageview tracking.
-
-**GoatCounter setup:**
-
-- Script: `<script async data-goatcounter="https://<your-counter>.goatcounter.com/count" src="https://gc.zgo.at/count.js"></script>`.
-- No cookies by default — privacy-friendly out of the box.
-- Self-hostable or hosted. Good for personal sites and small projects where GA4 is overkill.
-- CSP: add `https://gc.zgo.at` to `script-src` and the counter URL to `connect-src` if needed.
-
-**When GoatCounter is the right choice:**
-
-- Personal site, small project, internal tool — you want pageviews without the GA4 weight and consent complexity.
-- You want a cookieless complement to GA4 (GA4 for depth, GoatCounter for a consent-free baseline).
-- You don't need funnels, cohorts, attribution — just "who visited what, roughly how many."
-
-**When it isn't:**
-
-- You need conversion funnels, cohort analysis, attribution, or integration with ad platforms.
-- You need to track events beyond pageviews (button clicks, form steps, scroll depth) — GoatCounter can do some of this but GA4 is more capable.
-
-**Cloudflare Web Analytics as a complement:**
-
-- Cookieless, server-side, from Cloudflare. Good alongside GA4 as a consent-free baseline.
-- Requires the Cloudflare dashboard (no client script needed if the site is on Cloudflare).
-- Counts pageviews and bot filtering — less depth than GA4, simpler, privacy-friendly.
-
-## Formspree and Third-Party Form Services
-
-The website(Primary) pattern: a personal portfolio form that posts to Formspree.
-
-**Formspree setup:**
-
-- The form POSTs to `https://formspree.io/f/<form-id>`.
-- Formspree forwards submissions to email (and/or stores them in their dashboard).
-- CSP: add `https://formspree.io` to `form-action` and `connect-src` as needed.
-- Free tier available; paid tiers for more submissions, custom routing, etc.
-
-**When a third-party form service is the right choice:**
-
-- A static site that needs a working form with zero backend maintenance.
-- Low-to-moderate submission volume (within the service's free/standard tier).
-- You're okay with vendor lock-in and the service's rate limits.
-
-**When it isn't:**
-
-- You need server-side processing beyond forwarding to email (CRM integration, complex validation, custom storage).
-- You need to keep submissions in your own storage (privacy, control, compliance).
-- Submission volume exceeds the service's tier — a serverless function or your own backend is more cost-effective.
-
-**Comparison with a serverless function (Cloudflare Pages Function pattern):**
-
-- Third-party service: zero backend, vendor handles spam protection, simpler setup, vendor lock-in, less control.
-- Serverless function: you control the backend, can integrate with your own CRM/storage, can fail-open with a backup store, more setup, more control.
-- For a personal portfolio form: Formspree is fine. For a patient registration form: a serverless function with KV backup and CRM integration is better (fail-open, data control, compliance).
 
 ## Single-Page Portfolio vs Multi-Page Site
 
