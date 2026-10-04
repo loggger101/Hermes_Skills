@@ -22,7 +22,9 @@ np = pytest.importorskip("numpy")
 
 SKILL_MD = Path(__file__).resolve().parents[1] / "SKILL.md"
 POOL_IMPORT = "from multiprocessing import Pool, cpu_count"
-THREAD_IMPORT = "from multiprocessing.pool import ThreadPool as Pool\nfrom multiprocessing import cpu_count"
+THREAD_IMPORT = (
+    "from multiprocessing.pool import ThreadPool as Pool\nfrom multiprocessing import cpu_count"
+)
 
 
 def code_block(marker):

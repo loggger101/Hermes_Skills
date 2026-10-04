@@ -17,8 +17,10 @@ Gates, in order (each must pass):
   6. self-test harnesses    every registered *_verify.py executes (run-self-tests.py)
   7. router coverage        skill-flow-router routes (or explicitly declines) every
                             skill in its declared scope -- no silent unrouted skills
-  8. gate self-tests        the doc-count, secret, harness, cron and router gates all
-                            prove they fail loudly via mutation fixtures
+  8. skill pointers         every skill_view / hermes skill load / skill_manage install
+                            pointer written in prose names a skill that exists
+  9. gate self-tests        the doc-count, secret, harness, cron, router and pointer
+                            gates all prove they fail loudly via mutation fixtures
 
 Usage:
     py tools/verify-all.py            # Windows -- `python` is a Store alias stub
@@ -71,6 +73,7 @@ GATE_LABELS = [
     "drift: installed-plugins",  # sync-installed-plugins.py --check (local Hermes plugins → ref doc)
     "doc counts",  # hand-written numbers vs machine truths (9 claim classes, self-tested)
     "router coverage",  # check-router-coverage.py — skill-flow-router vs the catalog it maps
+    "skill pointers",  # check-skill-pointers.py — prose pointers (skill_view, skill load, install) resolve
     "self-test harnesses",  # run-self-tests.py executes the standalone *_verify.py harnesses
     "gate self-test",  # mutation-test-doc-gate.py — proves every doc-count class fails loud
     "secret gate self-test",  # mutation-test-secret-gate.py — plants fake creds, asserts zero misses
@@ -78,6 +81,7 @@ GATE_LABELS = [
     "harness gate self-test",  # mutation-test-selftest-gate.py — PASS/SKIP/FAIL classification proven
     "cron gate self-test",  # mutation-test-cron-gate.py — phantom threshold keys caught
     "router gate self-test",  # mutation-test-router-gate.py — proves all 5 coverage classes fail loud
+    "pointer gate self-test",  # mutation-test-pointer-gate.py — one planted defect per pointer form
 ]
 
 
@@ -414,6 +418,11 @@ def main():
         # knew about none of them while every gate stayed green. In-scope skills must be
         # routed or explicitly declared out-of-scope with a reason.
         run("router coverage", ["tools/check-router-coverage.py"]),
+        # audit-skills validates the related_skills frontmatter, but pointers written in running
+        # text (skill_view(name=...), `hermes skill load <category>/<name>`, skill_manage install) rotted
+        # unchecked until round-64 found three: a skill that never existed, a tool name used
+        # as a skill, and a Quick Start command with the wrong category directory.
+        run("skill pointers", ["tools/check-skill-pointers.py"]),
         # The repo's other fail-loud mechanism: standalone *_verify.py harnesses that
         # re-execute documented behavior (polars/duckdb/pyomo/cap-grid/ssrf/algorithms).
         # Missing optional deps classify as SKIP; a real regression fails the gate.
@@ -438,6 +447,10 @@ def main():
         # The router gate (gate 11) tests itself: plants an unrouted skill, a reasonless
         # opt-out, a phantom, a contradiction and a rotting count in temp fixtures.
         run("router gate self-test", ["tools/mutation-test-router-gate.py"]),
+        # The pointer gate tests itself: one planted defect per pointer form (missing skill, tool
+        # name as skill, wrong category, missing path, missing install, JSON-escaped), plus
+        # placeholders, archive files and a clean control that must stay clean.
+        run("pointer gate self-test", ["tools/mutation-test-pointer-gate.py"]),
     ]
     assert [r[0] for r in results] == GATE_LABELS, (
         "verify-all's result labels diverged from GATE_LABELS — the doc-count gate counts "
