@@ -30,27 +30,31 @@ All operate on float32 [0,1] canvases for precision. Use `blend_canvas(base, top
 ### Available Modes
 
 ```python
+EPS = 1e-6  # keeps the dodge/burn divisions finite; blend_canvas clips the result afterwards
+
 BLEND_MODES = {
-    "normal":       lambda a, b: b,
-    "add":          lambda a, b: np.clip(a + b, 0, 1),
-    "subtract":     lambda a, b: np.clip(a - b, 0, 1),
-    "multiply":     lambda a, b: a * b,
-    "screen":       lambda a, b: 1 - (1-a)*(1-b),
-    "overlay":      # 2*a*b if a<0.5, else 1-2*(1-a)*(1-b)
-    "softlight":    lambda a, b: (1-2*b)*a*a + 2*b*a,
-    "hardlight":    # like overlay but keyed on b
-    "difference":   lambda a, b: abs(a - b),
-    "exclusion":    lambda a, b: a + b - 2*a*b,
-    "colordodge":   lambda a, b: a / (1-b),
-    "colorburn":    lambda a, b: 1 - (1-a)/b,
-    "linearlight":  lambda a, b: a + 2*b - 1,
-    "vividlight":   # burn if b<0.5, dodge if b>=0.5
-    "pin_light":    # min(a,2b) if b<0.5, max(a,2b-1) if b>=0.5
-    "hard_mix":     lambda a, b: 1 if a+b>=1 else 0,
-    "lighten":      lambda a, b: max(a, b),
-    "darken":       lambda a, b: min(a, b),
+    "normal":        lambda a, b: b,
+    "add":           lambda a, b: np.clip(a + b, 0, 1),
+    "subtract":      lambda a, b: np.clip(a - b, 0, 1),
+    "multiply":      lambda a, b: a * b,
+    "screen":        lambda a, b: 1 - (1-a)*(1-b),
+    "overlay":       lambda a, b: np.where(a < 0.5, 2*a*b, 1 - 2*(1-a)*(1-b)),
+    "softlight":     lambda a, b: (1-2*b)*a*a + 2*b*a,
+    "hardlight":     lambda a, b: np.where(b < 0.5, 2*a*b, 1 - 2*(1-a)*(1-b)),  # overlay keyed on b
+    "difference":    lambda a, b: np.abs(a - b),
+    "exclusion":     lambda a, b: a + b - 2*a*b,
+    "colordodge":    lambda a, b: a / np.maximum(1-b, EPS),
+    "colorburn":     lambda a, b: 1 - (1-a) / np.maximum(b, EPS),
+    "linearlight":   lambda a, b: a + 2*b - 1,
+    "vividlight":    lambda a, b: np.where(b < 0.5,
+                                           1 - (1-a) / np.maximum(2*b, EPS),      # burn if b<0.5
+                                           a / np.maximum(2*(1-b), EPS)),         # dodge if b>=0.5
+    "pin_light":     lambda a, b: np.where(b < 0.5, np.minimum(a, 2*b), np.maximum(a, 2*b-1)),
+    "hard_mix":      lambda a, b: (a + b >= 1).astype(a.dtype),
+    "lighten":       lambda a, b: np.maximum(a, b),
+    "darken":        lambda a, b: np.minimum(a, b),
     "grain_extract": lambda a, b: a - b + 0.5,
-    "grain_merge":  lambda a, b: a + b - 0.5,
+    "grain_merge":   lambda a, b: a + b - 0.5,
 }
 ```
 
