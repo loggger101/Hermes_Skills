@@ -495,7 +495,7 @@ Rules:
 
 ### Conference Resubmission
 
-For converting between venues, see Phase 7 (Submission Preparation) — it covers the full conversion workflow, page-change table, and post-rejection guidance.
+For converting between venues, see Phase 7 (Submission Preparation, `references/phase7-submission-prep.md`) — it covers the full conversion workflow, page-change table, and post-rejection guidance.
 
 ### Professional LaTeX Preamble
 

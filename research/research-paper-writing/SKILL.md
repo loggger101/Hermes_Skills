@@ -943,281 +943,20 @@ paper/
 
 **Goal**: Final checks, formatting, and submission.
 
-### Step 7.1: Conference Checklist
+The full procedure (checklists, anonymization, pre-compilation validation, final build, venue requirements, resubmission and format conversion, camera-ready, arXiv strategy, code packaging) lives in `references/phase7-submission-prep.md` — load it with `read_file` when you reach this phase. Steps:
 
-Every venue has mandatory checklists. Complete them carefully — incomplete checklists can result in desk rejection.
+- Step 7.1: Conference Checklist
+- Step 7.2: Anonymization Checklist
+- Step 7.3: Formatting Verification
+- Step 7.4: Pre-Compilation Validation
+- Step 7.5: Final Compilation
+- Step 7.6: Conference-Specific Requirements
+- Step 7.7: Conference Resubmission & Format Conversion
+- Step 7.8: Camera-Ready Preparation (Post-Acceptance)
+- Step 7.9: arXiv & Preprint Strategy
+- Step 7.10: Research Code Packaging
 
-See [references/checklists.md](references/checklists.md) for:
-- NeurIPS 16-item paper checklist
-- ICML broader impact + reproducibility
-- ICLR LLM disclosure policy
-- ACL mandatory limitations section
-- Universal pre-submission checklist
-
-### Step 7.2: Anonymization Checklist
-
-Double-blind review means reviewers cannot know who wrote the paper. Check ALL of these:
-
-```
-Anonymization Checklist:
-- [ ] No author names or affiliations anywhere in the PDF
-- [ ] No acknowledgments section (add after acceptance)
-- [ ] Self-citations written in third person: "Smith et al. [1] showed..." not "We previously showed [1]..."
-- [ ] No GitHub/GitLab URLs pointing to your personal repos
-- [ ] Use Anonymous GitHub (https://anonymous.4open.science/) for code links
-- [ ] No institutional logos or identifiers in figures
-- [ ] No file metadata containing author names (check PDF properties)
-- [ ] No "our previous work" or "in our earlier paper" phrasing
-- [ ] Dataset names don't reveal institution (rename if needed)
-- [ ] Supplementary materials don't contain identifying information
-```
-
-**Common mistakes**: Git commit messages visible in supplementary code, watermarked figures from institutional tools, acknowledgments left in from a previous draft, arXiv preprint posted before anonymity period.
-
-### Step 7.3: Formatting Verification
-
-```
-Pre-Submission Format Check:
-- [ ] Page limit respected (excluding references and appendix)
-- [ ] All figures are vector (PDF) or high-res raster (600 DPI PNG)
-- [ ] All figures readable in grayscale
-- [ ] All tables use booktabs
-- [ ] References compile correctly (no "?" in citations)
-- [ ] No overfull hboxes in critical areas
-- [ ] Appendix clearly labeled and separated
-- [ ] Required sections present (limitations, broader impact, etc.)
-```
-
-### Step 7.4: Pre-Compilation Validation
-
-Run these automated checks **before** attempting `pdflatex`. Catching errors here is faster than debugging compiler output.
-
-```bash
-# 1. Lint with chktex (catches common LaTeX mistakes)
-# Suppress noisy warnings: -n2 (sentence end), -n24 (parens), -n13 (intersentence), -n1 (command terminated)
-chktex main.tex -q -n2 -n24 -n13 -n1
-
-# 2. Verify all citations exist in .bib
-# Extract \cite{...} from .tex, check each against .bib
-python3 -c "
-import re
-tex = open('main.tex').read()
-bib = open('references.bib').read()
-cites = set(re.findall(r'\\\\cite[tp]?{([^}]+)}', tex))
-for cite_group in cites:
-    for cite in cite_group.split(','):
-        cite = cite.strip()
-        if cite and cite not in bib:
-            print(f'WARNING: \\\\cite{{{cite}}} not found in references.bib')
-"
-
-# 3. Verify all referenced figures exist on disk
-python3 -c "
-import re, os
-tex = open('main.tex').read()
-figs = re.findall(r'\\\\includegraphics(?:\[.*?\])?{([^}]+)}', tex)
-for fig in figs:
-    if not os.path.exists(fig):
-        print(f'WARNING: Figure file not found: {fig}')
-"
-
-# 4. Check for duplicate \label definitions
-python3 -c "
-import re
-from collections import Counter
-tex = open('main.tex').read()
-labels = re.findall(r'\\\\label{([^}]+)}', tex)
-dupes = {k: v for k, v in Counter(labels).items() if v > 1}
-for label, count in dupes.items():
-    print(f'WARNING: Duplicate label: {label} (appears {count} times)')
-"
-```
-
-Fix any warnings before proceeding. For agent-based workflows: feed chktex output back to the agent with instructions to make minimal fixes.
-
-### Step 7.5: Final Compilation
-
-```bash
-# Clean build
-rm -f *.aux *.bbl *.blg *.log *.out *.pdf
-latexmk -pdf main.tex
-
-# Or manual (triple pdflatex + bibtex for cross-references)
-pdflatex -interaction=nonstopmode main.tex
-bibtex main
-pdflatex -interaction=nonstopmode main.tex
-pdflatex -interaction=nonstopmode main.tex
-
-# Verify output exists and has content
-ls -la main.pdf
-```
-
-**If compilation fails**: Parse the `.log` file for the first error. Common fixes:
-- "Undefined control sequence" → missing package or typo in command name
-- "Missing $ inserted" → math symbol outside math mode
-- "File not found" → wrong figure path or missing .sty file
-- "Citation undefined" → .bib entry missing or bibtex not run
-
-### Step 7.6: Conference-Specific Requirements
-
-| Venue | Special Requirements |
-|-------|---------------------|
-| **NeurIPS** | Paper checklist in appendix, lay summary if accepted |
-| **ICML** | Broader Impact Statement (after conclusion, doesn't count toward limit) |
-| **ICLR** | LLM disclosure required, reciprocal reviewing agreement |
-| **ACL** | Mandatory Limitations section, Responsible NLP checklist |
-| **AAAI** | Strict style file — no modifications whatsoever |
-| **COLM** | Frame contribution for language model community |
-
-### Step 7.7: Conference Resubmission & Format Conversion
-
-When converting between venues, **never copy LaTeX preambles between templates**:
-
-```bash
-# 1. Start fresh with target template
-cp -r templates/icml2026/ new_submission/
-
-# 2. Copy ONLY content sections (not preamble)
-#    - Abstract text, section content, figures, tables, bib entries
-
-# 3. Adjust for page limits
-# 4. Add venue-specific required sections
-# 5. Update references
-```
-
-| From → To | Page Change | Key Adjustments |
-|-----------|-------------|-----------------|
-| NeurIPS → ICML | 9 → 8 | Cut 1 page, add Broader Impact |
-| ICML → ICLR | 8 → 9 | Expand experiments, add LLM disclosure |
-| NeurIPS → ACL | 9 → 8 | Restructure for NLP conventions, add Limitations |
-| ICLR → AAAI | 9 → 7 | Significant cuts, strict style adherence |
-| Any → COLM | varies → 9 | Reframe for language model focus |
-
-When cutting pages: move proofs to appendix, condense related work, combine tables, use subfigures.
-When expanding: add ablations, expand limitations, include additional baselines, add qualitative examples.
-
-**After rejection**: Address reviewer concerns in the new version, but don't include a "changes" section or reference the previous submission (blind review).
-
-### Step 7.8: Camera-Ready Preparation (Post-Acceptance)
-
-After acceptance, prepare the camera-ready version:
-
-```
-Camera-Ready Checklist:
-- [ ] De-anonymize: add author names, affiliations, email addresses
-- [ ] Add Acknowledgments section (funding, compute grants, helpful reviewers)
-- [ ] Add public code/data URL (real GitHub, not anonymous)
-- [ ] Address any mandatory revisions from meta-reviewer
-- [ ] Switch template to camera-ready mode (if applicable — e.g., AAAI \anon → \camera)
-- [ ] Add copyright notice if required by venue
-- [ ] Update any "anonymous" placeholders in text
-- [ ] Verify final PDF compiles cleanly
-- [ ] Check page limit for camera-ready (sometimes differs from submission)
-- [ ] Upload supplementary materials (code, data, appendix) to venue portal
-```
-
-### Step 7.9: arXiv & Preprint Strategy
-
-Posting to arXiv is standard practice in ML but has important timing and anonymity considerations.
-
-**Timing decision tree:**
-
-| Situation | Recommendation |
-|-----------|---------------|
-| Submitting to double-blind venue (NeurIPS, ICML, ACL) | Post to arXiv **after** submission deadline, not before. Posting before can technically violate anonymity policies, though enforcement varies. |
-| Submitting to ICLR | ICLR explicitly allows arXiv posting before submission. But don't put author names in the submission itself. |
-| Paper already on arXiv, submitting to new venue | Acceptable at most venues. Do NOT update arXiv version during review with changes that reference reviews. |
-| Workshop paper | arXiv is fine at any time — workshops are typically not double-blind. |
-| Want to establish priority | Post immediately if scooping is a concern — but accept the anonymity tradeoff. |
-
-**arXiv category selection** (ML/AI papers):
-
-| Category | Code | Best For |
-|----------|------|----------|
-| Machine Learning | `cs.LG` | General ML methods |
-| Computation and Language | `cs.CL` | NLP, language models |
-| Artificial Intelligence | `cs.AI` | Reasoning, planning, agents |
-| Computer Vision | `cs.CV` | Vision models |
-| Information Retrieval | `cs.IR` | Search, recommendation |
-
-**List primary + 1-2 cross-listed categories.** More categories = more visibility, but only cross-list where genuinely relevant.
-
-**Versioning strategy:**
-- **v1**: Initial submission (matches conference submission)
-- **v2**: Post-acceptance with camera-ready corrections (add "accepted at [Venue]" to abstract)
-- Don't post v2 during the review period with changes that clearly respond to reviewer feedback
-
-```bash
-# Check if your paper's title is already taken on arXiv
-# (before choosing a title)
-pip install arxiv
-python -c "
-import arxiv
-results = list(arxiv.Search(query='ti:\"Your Exact Title\"', max_results=5).results())
-print(f'Found {len(results)} matches')
-for r in results: print(f'  {r.title} ({r.published.year})')
-"
-```
-
-### Step 7.10: Research Code Packaging
-
-Releasing clean, runnable code significantly increases citations and reviewer trust. Package code alongside the camera-ready submission.
-
-**Repository structure:**
-
-```
-your-method/
-  README.md              # Setup, usage, reproduction instructions
-  requirements.txt       # Or environment.yml for conda
-  setup.py               # For pip-installable packages
-  LICENSE                # MIT or Apache 2.0 recommended for research
-  configs/               # Experiment configurations
-  src/                   # Core method implementation
-  scripts/               # Training, evaluation, analysis scripts
-    train.py
-    evaluate.py
-    reproduce_table1.sh  # One script per main result
-  data/                  # Small data or download scripts
-    download_data.sh
-  results/               # Expected outputs for verification
-```
-
-**README template for research code:**
-
-```markdown
-# [Paper Title]
-
-Official implementation of "[Paper Title]" (Venue Year).
-
-## Setup
-[Exact commands to set up environment]
-
-## Reproduction
-To reproduce Table 1: `bash scripts/reproduce_table1.sh`
-To reproduce Figure 2: `python scripts/make_figure2.py`
-
-## Citation
-[BibTeX entry]
-```
-
-**Pre-release checklist:**
-```
-- [ ] Code runs from a clean clone (test on fresh machine or Docker)
-- [ ] All dependencies pinned to specific versions
-- [ ] No hardcoded absolute paths
-- [ ] No API keys, credentials, or personal data in repo
-- [ ] README covers setup, reproduction, and citation
-- [ ] LICENSE file present (MIT or Apache 2.0 for max reuse)
-- [ ] Results are reproducible within expected variance
-- [ ] .gitignore excludes data files, checkpoints, logs
-```
-
-**Anonymous code for submission** (before acceptance):
-```bash
-# Use Anonymous GitHub for double-blind review
-# https://anonymous.4open.science/
-# Upload your repo → get an anonymous URL → put in paper
-```
+Every venue has a mandatory checklist and an incomplete one can mean desk rejection: do Step 7.1 before anything else here. Per-venue checklist items are in `references/checklists.md`.
 
 ---
 
@@ -1397,138 +1136,9 @@ Compose this skill with other Hermes skills for specific phases:
 | **`clarify`** | Ask the user targeted questions when blocked (venue choice, contribution framing). |
 | **cron `deliver:`** | Notify the user when experiments complete or drafts are ready even if they're not in chat — schedule the check as a cron job with a messaging `deliver:` target (the agent no longer has a `send_message` tool; outbound delivery is handled by cron/`hermes send`). |
 
-### Tool Usage Patterns
+### Tool Usage Patterns, State, Cron and Communication (reference file)
 
-**Experiment monitoring** (most common):
-```
-terminal("ps aux | grep <pattern>")
-→ terminal("tail -30 <logfile>")
-→ terminal("ls results/")
-→ execute_code("analyze results JSON, compute metrics")
-→ terminal("git add -A && git commit -m '<descriptive message>' && git push")
-→ (final response auto-delivers "Experiment complete: <summary>"; for unattended runs, schedule via cron with a deliver: target)
-```
-
-**Parallel section drafting** (using delegation):
-```
-delegate_task("Draft the Methods section based on these experiment scripts and configs.
-  Include: pseudocode, all hyperparameters, architectural details sufficient for
-  reproduction. Write in LaTeX using the neurips2025 template conventions.")
-
-delegate_task("Draft the Related Work section. Use web_search and web_extract to
-  find papers. Verify every citation via Semantic Scholar. Group by methodology.")
-
-delegate_task("Draft the Experiments section. Read all result files in results/.
-  State which claim each experiment supports. Include error bars and significance.")
-```
-
-Each delegate runs as a **fresh subagent** with no shared context — provide all necessary information in the prompt. Collect outputs and integrate.
-
-**Citation verification** (using execute_code):
-```python
-# In execute_code:
-from semanticscholar import SemanticScholar
-import requests
-
-sch = SemanticScholar()
-results = sch.search_paper("attention mechanism transformers", limit=5)
-for paper in results:
-    doi = paper.externalIds.get('DOI', 'N/A')
-    if doi != 'N/A':
-        bibtex = requests.get(f"https://doi.org/{doi}",
-                              headers={"Accept": "application/x-bibtex"}).text
-        print(bibtex)
-```
-
-### State Management with `memory` and `todo`
-
-**`memory` tool** — persist key decisions (bounded: ~2200 chars for MEMORY.md):
-
-```
-memory("add", "Paper: autoreason. Venue: NeurIPS 2025 (9 pages).
-  Contribution: structured refinement works when generation-evaluation gap is wide.
-  Key results: Haiku 42/42, Sonnet 3/5, S4.6 constrained 2/3.
-  Status: Phase 5 — drafting Methods section.")
-```
-
-Update memory after major decisions or phase transitions. This persists across sessions.
-
-**`todo` tool** — track granular progress:
-
-```
-todo("add", "Design constrained task experiments for Sonnet 4.6")
-todo("add", "Run Haiku baseline comparison")
-todo("add", "Draft Methods section")
-todo("update", id=3, status="in_progress")
-todo("update", id=1, status="completed")
-```
-
-**Session startup protocol:**
-```
-1. todo("list")                           # Check current task list
-2. memory("read")                         # Recall key decisions
-3. terminal("git log --oneline -10")      # Check recent commits
-4. terminal("ps aux | grep python")       # Check running experiments
-5. terminal("ls results/ | tail -20")     # Check for new results
-6. Report status to user, ask for direction
-```
-
-### Cron Monitoring with `cronjob`
-
-Use the `cronjob` tool to schedule periodic experiment checks:
-
-```
-cronjob("create", {
-  "schedule": "*/30 * * * *",  # Every 30 minutes
-  "prompt": "Check experiment status:
-    1. ps aux | grep run_experiment
-    2. tail -30 logs/experiment_haiku.log
-    3. ls results/haiku_baselines/
-    4. If complete: read results, compute Borda scores,
-       git add -A && git commit -m 'Add Haiku results' && git push
-    5. Report: table of results, key finding, next step
-    6. If nothing changed: respond with [SILENT]"
-})
-```
-
-**[SILENT] protocol**: When nothing has changed since the last check, respond with exactly `[SILENT]`. This suppresses notification delivery to the user. Only report when there are genuine changes worth knowing about.
-
-**Deadline tracking**:
-```
-cronjob("create", {
-  "schedule": "0 9 * * *",  # Daily at 9am
-  "prompt": "NeurIPS 2025 deadline: May 22. Today is {date}.
-    Days remaining: {compute}.
-    Check todo list — are we on track?
-    If <7 days: warn user about remaining tasks."
-})
-```
-
-### Communication Patterns
-
-**When to notify the user** (via your direct/final response, or a cron `deliver:` target for unattended runs):
-- Experiment batch completed (with results table)
-- Unexpected finding or failure requiring decision
-- Draft section ready for review
-- Deadline approaching with incomplete tasks
-
-**When NOT to notify:**
-- Experiment still running, no new results → `[SILENT]`
-- Routine monitoring with no changes → `[SILENT]`
-- Intermediate steps that don't need attention
-
-**Report format** — always include structured data:
-```
-## Experiment: <name>
-Status: Complete / Running / Failed
-
-| Task | Method A | Method B | Method C |
-|------|---------|---------|---------|
-| Task 1 | 85.2 | 82.1 | **89.4** |
-
-Key finding: <one sentence>
-Next step: <what happens next>
-```
+Worked call patterns for experiment monitoring and parallel drafting, `memory`/`todo` state management, `cronjob` monitoring, and when and how to notify the user are in `references/hermes-tool-patterns.md`. Load it when you start launching or monitoring experiments, or schedule unattended checks.
 
 ### Decision Points Requiring Human Input
 
@@ -1581,10 +1191,10 @@ See [references/reviewer-guidelines.md](references/reviewer-guidelines.md) for d
 | Reviewers find paper hard to follow | Add signposting, use consistent terminology, make figure captions self-contained. |
 | Missing statistical significance | Add error bars, number of runs, statistical tests, confidence intervals. |
 | Scope creep in experiments | Every experiment must map to a specific claim. Cut experiments that don't. |
-| Paper rejected, need to resubmit | See Conference Resubmission in Phase 7. Address reviewer concerns without referencing reviews. |
+| Paper rejected, need to resubmit | See Step 7.7 (Conference Resubmission) in `references/phase7-submission-prep.md`. Address reviewer concerns without referencing reviews. |
 | Missing broader impact statement | See Step 5.10. Most venues require it. "No negative impacts" is almost never credible. |
 | Human eval criticized as weak | See Step 2.5 and [references/human-evaluation.md](references/human-evaluation.md). Report agreement metrics, annotator details, compensation. |
-| Reviewers question reproducibility | Release code (Step 7.9), document all hyperparameters, include seeds and compute details. |
+| Reviewers question reproducibility | Release code (Step 7.10 in `references/phase7-submission-prep.md`), document all hyperparameters, include seeds and compute details. |
 | Theory paper lacks intuition | Add proof sketches with plain-language explanations before formal proofs. See [references/paper-types.md](references/paper-types.md). |
 | Results are negative/null | See Phase 4.3 on handling negative results. Consider workshops, TMLR, or reframing as analysis. |
 
@@ -1603,6 +1213,8 @@ See [references/reviewer-guidelines.md](references/reviewer-guidelines.md) for d
 | [references/autoreason-methodology.md](references/autoreason-methodology.md) | Autoreason loop, strategy selection, model guide, prompts, scope constraints, Borda scoring |
 | [references/human-evaluation.md](references/human-evaluation.md) | Human evaluation design, annotation guidelines, agreement metrics, crowdsourcing QC, IRB guidance |
 | [references/paper-types.md](references/paper-types.md) | Theory papers (proof writing, theorem structure), survey papers, benchmark papers, position papers |
+| [references/phase7-submission-prep.md](references/phase7-submission-prep.md) | Phase 7 in full: checklists, anonymization, validation, final build, venue requirements, resubmission, camera-ready, arXiv strategy, code packaging |
+| [references/hermes-tool-patterns.md](references/hermes-tool-patterns.md) | Hermes tool call patterns, `memory`/`todo` state, `cronjob` monitoring, user-notification rules |
 
 ### LaTeX Templates
 
