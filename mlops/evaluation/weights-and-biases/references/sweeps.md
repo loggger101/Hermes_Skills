@@ -24,7 +24,7 @@ sweep_config = {
     },
     'parameters': {
         'learning_rate': {
-            'distribution': 'log_uniform',
+            'distribution': 'log_uniform_values',
             'min': 1e-5,
             'max': 1e-1
         },
@@ -55,7 +55,7 @@ sweep_config = {
     'parameters': {
         # Continuous parameter
         'learning_rate': {
-            'distribution': 'log_uniform',
+            'distribution': 'log_uniform_values',
             'min': 1e-5,
             'max': 1e-1
         },
@@ -150,7 +150,7 @@ sweep_config = {
     'method': 'random',
     'parameters': {
         'learning_rate': {
-            'distribution': 'log_uniform',
+            'distribution': 'log_uniform_values',
             'min': 1e-5,
             'max': 1e-1
         },
@@ -202,12 +202,12 @@ sweep_config = {
     },
     'parameters': {
         'learning_rate': {
-            'distribution': 'log_uniform',
+            'distribution': 'log_uniform_values',
             'min': 1e-5,
             'max': 1e-1
         },
         'weight_decay': {
-            'distribution': 'log_uniform',
+            'distribution': 'log_uniform_values',
             'min': 1e-6,
             'max': 1e-2
         },
@@ -242,10 +242,12 @@ sweep_config = {
 
 ### Continuous Distributions
 
+**Use the `_values` variants for real-valued bounds.** `log_uniform` reads `min`/`max` as natural-log exponents (it returns a value between `exp(min)` and `exp(max)`), so `log_uniform` with `min: 1e-5, max: 1e-1` samples roughly 1.0 to 1.1, not a learning rate. `log_uniform_values` (and `q_log_uniform_values`) take the actual bounds, which is what every example here uses.
+
 ```python
 # Log-uniform: Good for learning rates, regularization
 'learning_rate': {
-    'distribution': 'log_uniform',
+    'distribution': 'log_uniform_values',
     'min': 1e-6,
     'max': 1e-1
 }
@@ -297,7 +299,7 @@ sweep_config = {
 
 # Quantized log-uniform
 'hidden_size': {
-    'distribution': 'q_log_uniform',
+    'distribution': 'q_log_uniform_values',
     'min': 32,
     'max': 1024,
     'q': 32
@@ -582,7 +584,7 @@ sweep_config = {
                     'values': ['adam', 'sgd']
                 },
                 'lr': {
-                    'distribution': 'log_uniform',
+                    'distribution': 'log_uniform_values',
                     'min': 1e-5,
                     'max': 1e-1
                 }
@@ -610,7 +612,7 @@ sweep_config = {
             'values': ['adam', 'sgd']
         },
         'learning_rate': {
-            'distribution': 'log_uniform',
+            'distribution': 'log_uniform_values',
             'min': 1e-5,
             'max': 1e-1
         },
@@ -662,7 +664,7 @@ sweep_config = {
 
         # Training
         'learning_rate': {
-            'distribution': 'log_uniform',
+            'distribution': 'log_uniform_values',
             'min': 1e-5,
             'max': 1e-2
         },
@@ -673,7 +675,7 @@ sweep_config = {
             'values': ['adam', 'sgd', 'adamw']
         },
         'weight_decay': {
-            'distribution': 'log_uniform',
+            'distribution': 'log_uniform_values',
             'min': 1e-6,
             'max': 1e-2
         },
@@ -723,7 +725,7 @@ sweep_config = {
 
         # Training
         'learning_rate': {
-            'distribution': 'log_uniform',
+            'distribution': 'log_uniform_values',
             'min': 1e-6,
             'max': 1e-4
         },
@@ -739,7 +741,7 @@ sweep_config = {
             'max': 0.1
         },
         'weight_decay': {
-            'distribution': 'log_uniform',
+            'distribution': 'log_uniform_values',
             'min': 1e-4,
             'max': 1e-1
         },
@@ -788,7 +790,7 @@ sweep_config_v2 = {
 ```python
 # ✅ Good: Log scale for learning rate
 'learning_rate': {
-    'distribution': 'log_uniform',
+    'distribution': 'log_uniform_values',
     'min': 1e-6,
     'max': 1e-2
 }
