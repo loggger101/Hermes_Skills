@@ -14,7 +14,7 @@ metadata:
 
 # Evolutionary ML: GA, Neuroevolution, Tournament Evaluation
 
-Practical guide for evolutionary approaches to ML — from simple genetic algorithms over fixed-weight vectors to NEAT-style topology evolution and tournament-based evaluation. Covers the patterns that show up repeatedly in evolved-agent projects: genome representation, selection/crossover/mutation, parallel evaluation, Elo tracking, speciation, and the common defects that silently kill learning.
+Practical guide for evolutionary approaches to ML — from simple genetic algorithms over fixed-weight vectors to NEAT-style topology evolution and tournament-based evaluation. Covers the patterns that show up repeatedly in evolved-agent projects: genome representation, selection/crossover/mutation, parallel evaluation, Elo tracking, speciation, and the common defects that silently kill learning. The patterns come from two working systems: CR-pipeline (Clash Royale GA with Swiss/Elo tournaments, parallel sim) and KSP_pipeline (NEAT for Kerbal Space Program, multi-objective GA, GPU net, orbit sim).
 
 ## What This Skill Does
 
@@ -186,7 +186,7 @@ def update_elo(rating_a, rating_b, actual_a, k=32):
     return rating_a, rating_b
 ```
 
-- `actual_a` is 1 for a win, 0.5 for a draw, 0 for a loss.
+- `actual_a` is 1 for a win, 0.5 for a draw, 0 for a loss. Derive it from the match result, never from the ratings.
 - K controls how fast ratings move. K=32 is common for games; lower for stable ratings, higher for quickly-converging populations.
 - Track Elo *per agent* and use the best Elo across generations as the champion metric — raw fitness isn't comparable between generations if the field changes.
 
@@ -195,26 +195,43 @@ def update_elo(rating_a, rating_b, actual_a, k=32):
 For large populations, Swiss is much cheaper than round-robin:
 
 ```python
-def swiss_pairings(elo_ratings, rounds=None):
-    """Generate pairings for ceil(log2 N) rounds; pair similar-rated agents."""
-    n = len(elo_ratings)
-    if rounds is None:
-        rounds = int(np.ceil(np.log2(n)))
-    paired = set()
-    pairings = []
-    for _ in range(rounds):
-        sorted_agents = sorted(range(n), key=lambda i: elo_ratings[i], reverse=True)
-        round_pairings = []
-        for i in range(0, n - 1, 2):
-            if sorted_agents[i] not in paired and sorted_agents[i+1] not in paired:
-                round_pairings.append((sorted_agents[i], sorted_agents[i+1]))
-                paired.add(sorted_agents[i])
-                paired.add(sorted_agents[i+1])
-        pairings.append(round_pairings)
-    return pairings
+def swiss_round(scores, played, had_bye):
+    """Pair one Swiss round: similar scores meet, no rematches, odd agent out gets a bye.
+
+    scores: current points (or Elo) per agent. played: set of frozenset({i, j}) already met.
+    had_bye: set of agents that already sat out. Both sets are updated in place.
+    """
+    waiting = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)
+    bye = None
+    if len(waiting) % 2:
+        bye = next((a for a in reversed(waiting) if a not in had_bye), waiting[-1])
+        waiting.remove(bye)
+        had_bye.add(bye)
+
+    def pair_up(rest, allow_rematch):
+        if not rest:
+            return []
+        a, others = rest[0], rest[1:]
+        for b in others:  # closest score first
+            if allow_rematch or frozenset((a, b)) not in played:
+                tail = pair_up([x for x in others if x != b], allow_rematch)
+                if tail is not None:
+                    return [(a, b)] + tail
+        return None  # dead end: backtrack
+
+    pairings = pair_up(waiting, allow_rematch=False) or pair_up(waiting, allow_rematch=True)
+    played.update(frozenset(p) for p in pairings)
+    return pairings, bye
+
+
+# One tournament: ceil(log2 N) rounds, re-pairing from the updated scores each round.
+played, had_bye = set(), set()
+for _ in range(math.ceil(math.log2(len(scores)))):
+    pairings, bye = swiss_round(scores, played, had_bye)
+    # run `pairings` across the worker pool, add match points to `scores`; a bye scores half a point
 ```
 
-Each agent plays ~log₂(N) matches instead of N−1. Byes score as half points. Dispatch pairings across workers.
+Each agent plays ~log₂(N) matches instead of N−1: at N=200 that is 800 matchups against 19,900 for round-robin, the difference between "runs in an hour" and "doesn't run". Byes score as half points. Dispatch each round's pairings across the worker pool, then re-pair from the updated scores.
 
 ### Formats
 
@@ -232,9 +249,15 @@ Each agent plays ~log₂(N) matches instead of N−1. Byes score as half points.
 - If the environment is asymmetric (player 1 vs player 2 has different starting conditions), mirror the arena and let each genome play both sides, then average.
 - Side-symmetric policies (one genome plays either side with the arena mirrored) halve the evaluation cost and let you compare agents directly.
 
+### Hall of fame, champion refinement, early stopping
+
+- **Hall of fame.** Carry past champions across generations as non-reproducing benchmarks. Without one, the population can drift or cycle with nothing actually improving: fitness rises while the champion can't beat its own ancestor. Rank by Elo, not raw fitness, for the same reason as above.
+- **Champion refinement (the exploitation channel).** Each generation, generate a few offspring (`champion_refinements`, default 2) as *gentle mutations of the run's best genome so far*, not just recombination of this generation's field. This is the direct "improve from the last" path: the current champion's genes enter every future population and get refined in place instead of being left to chance recombination. Pair it with z-scored selection (see the softmax trap under Selection) or refinement offspring drown under clone pressure; set `champion_refinements=0` to disable when you want pure exploration.
+- **Early stopping is a feature, not a failure.** A run that climbs fast then plateaus into early stopping has told you the field stopped being hard. Measured: population 64 Swiss reached its best Elo at generation 26 and was cleanly stopped by patience at gen 55/250. The fix is a larger population or harder opponents so improvement continues before patience fires, not more generations on the same field.
+
 ## NEAT (NeuroEvolution of Augmenting Topologies)
 
-NEAT evolves both weights and topology. It starts minimally and adds complexity only when it helps.
+NEAT evolves both weights and topology. It starts minimally and adds complexity only when it helps. Reference implementation: KSP_pipeline `neat.py` (simplified NEAT).
 
 ### Genome structure
 
@@ -282,6 +305,8 @@ Tune c1, c2, c3 on your problem — they control how aggressively you split spec
 | Mutate weight | Gaussian perturbation of existing weights | 0.9–1.0 (most genomes get this) |
 | Enable/disable connection | Toggles a gene | 0.1–0.2 |
 
+Rates are starting points; tune per problem.
+
 ### NEAT crossover
 
 For two genomes with different innovation numbers:
@@ -310,24 +335,29 @@ NEAT adds overhead:
 ### Worker pool
 
 ```python
+from functools import partial
 from multiprocessing import Pool, cpu_count
 
-def evaluate_population(population, evaluate_single, n_workers=None):
-    n_workers = n_workers or cpu_count() - 1
-    with Pool(n_workers) as pool:
-        # Tag each task so results reassemble correctly
-        tasks = [(i, agent) for i, agent in enumerate(population)]
-        results = pool.starmap(evaluate_worker, tasks, chunksize=1)
-    results.sort(key=lambda r: r[0])  # reassemble by index
-    return [r[1] for r in results]
 
-def evaluate_worker(idx, agent):
+def evaluate_worker(evaluate_single, idx, agent):
     try:
-        fitness = evaluate_single(agent)
-        return (idx, fitness)
-    except Exception as e:
-        log.error(f"Evaluation failed for agent {idx}: {e}")
-        return (idx, -np.inf)  # or skip
+        return idx, evaluate_single(agent)
+    except Exception:
+        log.exception("Evaluation failed for agent %d", idx)
+        return idx, -np.inf  # or skip
+
+
+def evaluate_population(population, evaluate_single, n_workers=None):
+    """evaluate_single must be a module-level function so Pool can pickle it."""
+    n_workers = n_workers or max(1, cpu_count() - 1)
+    tasks = [(i, agent) for i, agent in enumerate(population)]  # tag each task so results reassemble
+    with Pool(n_workers) as pool:
+        results = pool.starmap(partial(evaluate_worker, evaluate_single), tasks, chunksize=1)
+    results.sort(key=lambda r: r[0])
+    fitnesses = [r[1] for r in results]
+    if not np.isfinite(fitnesses).any():
+        raise RuntimeError("every evaluation failed; the fitness signal is pure noise")
+    return fitnesses
 ```
 
 ### Common random numbers
@@ -344,6 +374,9 @@ def evaluate_generation(population, opponent_decks, seeds, evaluate_match):
 
 Seed advances per generation, not per agent. This ensures fitness differences reflect genome differences, not match luck.
 
+- Opponent AIs seed once at engine init, not per tick: reseeding per tick makes fitness irreproducible.
+- Within a worker, advance the seed per match (`seed + i * 1000`) so N matches measure N distinct things, not N copies of one.
+
 ### GPU evaluation
 
 For large populations of neural networks, batch inference on GPU can be much faster than per-agent CPU inference. The pattern:
@@ -352,7 +385,7 @@ For large populations of neural networks, batch inference on GPU can be much fas
 2. Run one forward pass per match state (or batch the match states).
 3. Collect actions and continue the simulation.
 
-Watch for: GPU memory limits with large populations, and the overhead of transferring state to/from GPU per tick. If the simulation is CPU-bound (game logic, physics), GPU evaluation of the policy may not help much — profile first.
+Watch for: GPU memory limits with large populations, and the overhead of transferring state to/from GPU per tick. If the simulation is CPU-bound (game logic, physics), GPU evaluation of the policy may not help much — profile first. Reference pattern (KSP_pipeline `gpu_net.py`): a Torch network that lives on the GPU, with the simulation loop feeding it batched states and collecting batched outputs.
 
 ## Model Export
 
@@ -395,6 +428,7 @@ Evolution is a long-running process — you need to see what's happening inside,
 - Population diversity (mean pairwise distance, or number of species)
 - Evaluation time per generation
 - Any alerts (fitness plateau, population collapse, NaN genomes)
+- Run-level metadata: seed, config hash, start and end time, total evaluation count
 
 ### Convergence detection
 
@@ -436,6 +470,8 @@ An individual A dominates B if A is at least as good on all objectives and stric
 
 Rank individuals by non-dominated front number (front 0 = Pareto front), then by crowding distance within a front (prefer diverse solutions). Select by rank first, then crowding. This is the most common multi-objective EA and is worth implementing if you have 2–3 objectives.
 
+Track the Pareto front each generation and pick the final "best" agent by an explicit decision on the trade-off (e.g., maximize delta-v efficiency subject to a minimum thrust), not by collapsing to one scalar (the KSP_pipeline pattern).
+
 ## Pitfalls
 
 | Pitfall | Symptom | Fix |
@@ -450,119 +486,7 @@ Rank individuals by non-dominated front number (front 0 = Pareto front), then by
 | Export/load shape mismatch | Loaded model crashes or behaves wrong | Validate shape/size on load; reject by length |
 | Tournament pairing bias | Some agents get easier opponents | Use Swiss or randomized pairings; track opponent strength |
 
-## Production Patterns from Evolved-Agent Systems
-
-Patterns that show up repeatedly in working evolutionary ML systems — drawn from CR-pipeline (Clash Royale GA with Swiss/ELO tournaments, 279-test suite, parallel sim) and KSP_pipeline (NEAT neuroevolution for Kerbal Space Program, multi-objective GA, GPU net, orbit sim).
-
-### Tournament evaluation at scale
-
-For a population of N agents where fitness comes from matches:
-
-**Swiss pairing (default for large populations):**
-
-- ⌈log₂ N⌉ rounds; each agent plays ~log₂(N) matches instead of N−1.
-- Pair agents with similar current scores — strong vs strong, weak vs weak.
-- Byes (odd number of agents) score as half points.
-- Dispatch pairings across a worker pool (`ParallelRunner.run_pairings` pattern).
-- At N=200: 800 matchups vs 19,900 for round-robin — the practical difference between "runs in an hour" and "doesn't run."
-
-**ELO tracking:**
-
-- K=32 is the working default for game-like domains (adjust lower for stable long-running populations, higher for fast-converging ones).
-- Track ELO per agent and use *best ELO across generations* as the champion metric, not raw fitness — raw fitness isn't comparable between generations when the field changes.
-- `update_elo(rating_a, rating_b, actual_a, k=32)` where `actual_a` is 1/0.5/0 for win/draw/loss.
-- Compute expected from ratings (`1 / (1 + 10^((rb-ra)/400))`), derive actual from the *result*, not from the ratings.
-
-**Hall of fame:**
-
-- Carry past champions across generations as non-reproducing benchmarks.
-- Without a hall of fame, the population can drift/cycle without anything actually improving — fitness rises while the champion can't beat its own ancestor.
-- Track best agent by ELO (comparable across generations) not fitness (not comparable between fields).
-
-**Champion refinement (the exploitation channel).** Each generation, generate a few offspring (`champion_refinements`, default 2) as *gentle mutations of the run's best genome so far* — not just recombination of this generation's field. This is the direct "improve from the last" path: the current champion's genes enter every future population and get refined in place instead of being left to chance recombination. Pair it with tempered selection (above) or refinement offspring drown under clone pressure; set `champion_refinements=0` to disable when you want pure exploration.
-
-**Early stopping is a feature, not a failure.** A run that climbs fast then plateaus into early stopping has told you the field stopped being hard — measured: population 64 Swiss reached its best ELO at generation 26 and was cleanly stopped by patience at gen 55/250. The fix is a larger population or harder opponents so improvement continues before patience fires, not more generations on the same field.
-
-### Common random numbers
-
-Fitness differences should reflect genome differences, not match luck:
-
-- All agents in a generation share the same seeds and opponent deck sequence.
-- Seed advances *per generation*, not per agent — so the population is never graded repeatedly on one fixed set of games.
-- Opponent AIs seed once at engine init, not per tick — reseeding per tick makes fitness irreproducible.
-- Each match advances the seed: `seed + i * 1000` so N matches in a worker measure N distinct things, not N copies of one.
-
-### Multi-objective GA
-
-When you have conflicting objectives (e.g., thrust vs. efficiency in KSP, win rate vs. match length in CR):
-
-**NSGA-II style ranking (the common approach for 2–3 objectives):**
-
-- Rank individuals by non-dominated front number (front 0 = Pareto front — the set of individuals not dominated by any other).
-- Within a front, rank by crowding distance — prefer diverse solutions along the front, not clustered in one corner.
-- Select by rank first, then crowding distance.
-
-**Scalarization alternatives:**
-
-- Weighted sum (`w1*obj1 + w2*obj2`) — simple, but can't represent non-convex fronts.
-- Rank-based sum — rank each objective separately, sum ranks. Handles trade-offs better than raw values when objectives have different scales.
-- Epsilon-constraint — optimize one objective, constrain the others to be above a threshold. Useful when one objective is clearly primary.
-
-The KSP_pipeline pattern: multi-objective GA where the Pareto front is tracked per generation and the "best" agent is chosen by a decision on the trade-off (e.g., maximize delta-v efficiency subject to a minimum thrust), not by a single scalar.
-
-### GPU batch evaluation
-
-For large populations of neural networks, batch inference on GPU can be much faster than per-agent CPU inference:
-
-- Stack all genomes into a batched input tensor.
-- Run one forward pass per match state (or batch the match states).
-- Collect actions and continue the simulation on CPU.
-
-Watch for:
-
-- GPU memory limits with large populations — profile before scaling.
-- Transfer overhead: moving state to/from GPU per tick can dominate if the simulation is CPU-bound (game logic, physics). GPU evaluation of the policy helps most when the policy is the bottleneck.
-- The KSP_pipeline `gpu_net.py` pattern: a Torch network that lives on GPU, with the simulation loop feeding it batched states and collecting batched outputs.
-
-### NEAT topology evolution
-
-The KSP_pipeline `neat.py` pattern (simplified NEAT — evolves weights AND topology):
-
-**Genome structure:**
-
-- Connection genes: (in_node, out_node, weight, enabled, innovation_number).
-- Node genes: (node_id, activation_function).
-- Network built by walking enabled connections from inputs through hidden to outputs.
-
-**Innovation numbering:**
-
-- Global counter mapping (from_node, to_node, activation) → innovation number.
-- New mutations (add node, add connection) get the next number.
-- Two genomes sharing an innovation number have a common historical origin — those genes are homologous and can be crossed over meaningfully.
-- In single-process runs, this is just a counter. In parallel runs, you need a shared counter or deterministic allocation.
-
-**Speciation:**
-
-- Compatibility distance: disjoint genes + excess genes + weight differences, weighted by coefficients (c1, c2, c3).
-- Cluster into species by distance threshold.
-- Each species gets fitness relative to its own members, not the whole population.
-- New species get a survival boost to protect them through the initial bad phase.
-- c1/c2/c3 tuned per problem — they control how aggressively you split species. Too aggressive = everyone is their own species. Too lenient = one species dominates.
-
-**Mutation operators (rates are starting points, tune per problem):**
-
-- Add connection: 0.1–0.3 per genome per generation.
-- Add node: 0.05–0.15 (splits an existing connection, inserts a node).
-- Mutate weight: 0.9–1.0 (most genomes get this every generation).
-- Enable/disable connection: 0.1–0.2.
-
-**When NEAT vs simple GA:**
-
-- NEAT: optimal architecture unknown, problem benefits from increasing complexity over time, small population where you want to preserve diversity.
-- Simple GA over weights: fixed architecture is fine, you want speed per unit of progress, population is large enough to explore without speciation.
-- NEAT overhead: O(N²·G) compatibility distance computation (N = population, G = genome size). For large populations, this dominates. Profile before committing to NEAT on a big population.
-
-### Population management and checkpointing
+## Population Management and Checkpointing
 
 **Population initialization:**
 
@@ -575,18 +499,6 @@ The KSP_pipeline `neat.py` pattern (simplified NEAT — evolves weights AND topo
 - Resume: load the population, restore the RNG, continue from the saved generation.
 - If resuming mid-generation, decide whether to re-run the incomplete generation or skip to the next. CR-pipeline seeds chosen agents intact and fills remaining slots with mutated copies — that's one reconciliation strategy.
 - Validate on load: check genome sizes, population count, generation number. A corrupted checkpoint that loads silently is worse than a failed load.
-
-### Experiment tracking for evolutionary runs
-
-What to log per generation (beyond the obvious mean/std/best):
-
-- Best agent genome hash (not the full genome — a hash is stable and compact) + its fitness/ELO.
-- Population diversity metrics: number of species (NEAT), mean pairwise distance, unique genome count.
-- Evaluation time per generation (catch slowdown bugs early).
-- Alerts: fitness plateau (std over a window below threshold), population collapse (diversity → 0), NaN genomes.
-- Run-level metadata: seed, config hash, start time, end time, total evaluation count.
-
-For run comparison: store enough that you can compare two runs later. A run directory with per-generation metrics files, the final population, and a run-level metadata file is the minimal shape. CR-pipeline's `experiment_tracking.py` pattern: runs discoverable by directory, comparable by fitness curves, with a report generator that produces a summary.
 
 ## Neural Architecture Search (NAS) with Evolution
 
@@ -787,6 +699,10 @@ Categories of defects that show up repeatedly, with the test or observation that
 - Exported model not validated against the training-time model — you don't know if the export is correct.
 
 The fix for each category is different. Diagnose which category the defect is in before trying to fix it — "fitness isn't improving" could be an evaluation defect, a selection defect, a variation defect, or a fitness landscape defect, and the fix for each is different.
+
+## Pre-Flight Checklist
+
+Before trusting a result:
 
 - [ ] Evaluation doesn't silently swallow failures (fitness signal is real)
 - [ ] Fitness is comparable across generations (shared RNG / common opponents / ELO)

@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **158 code files** (41,147 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **159 code files** (41,249 lines total) in this second brain — one line each, grep-friendly.
 Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -67,6 +67,10 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 - `data-science/economicspace-pipeline/scripts/asterank_sigma_probe.py` (script, python, 157 lines) — Asterank orbit-sigma + Shoemaker-Helin dv probe
 - `data-science/economicspace-pipeline/scripts/nhats_rank_crosscheck.py` (script, python, 213 lines) — NHATS rank cross-check for the economicspace closed-form dv estimator
+
+## data-science/evolutionary-ml
+
+- `data-science/evolutionary-ml/tests/test_skill_snippets.py` (test, python, 102 lines) — Run the code SKILL.md teaches and assert the claims its prose makes about it
 
 ## data-science/optimization-modeling-pyomo
 
@@ -294,4 +298,4 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `tools/verify-all.py` (repo tooling, python, 462 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*158 code files: 110 scripts, 7 shared helpers, 14 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*159 code files: 110 scripts, 7 shared helpers, 15 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
