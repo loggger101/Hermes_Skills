@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **400 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **402 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -508,9 +508,11 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `research/research-paper-writing/references/checklists.md` — Conference Paper Checklists
 - `research/research-paper-writing/references/citation-workflow.md` — Citation Management & Hallucination Prevention
 - `research/research-paper-writing/references/experiment-patterns.md` — Experiment Design Patterns
+- `research/research-paper-writing/references/hermes-tool-patterns.md` — Hermes tool-usage patterns for the paper pipeline: experiment monitoring, parallel drafting, memory/todo state, cronjob monitoring, notification rules
 - `research/research-paper-writing/references/human-evaluation.md` — Human Evaluation Guide for ML/AI Research
 - `research/research-paper-writing/references/paper-types.md` — Paper Types Beyond Empirical ML
 - `research/research-paper-writing/references/phase5-paper-drafting.md` — Phase 5: Paper Drafting (full procedure)
+- `research/research-paper-writing/references/phase7-submission-prep.md` — Phase 7 submission preparation: venue checklists, anonymization, formatting, pre-compile validation, resubmission, camera-ready, arXiv strategy, code packaging
 - `research/research-paper-writing/references/reviewer-guidelines.md` — Reviewer Guidelines & Evaluation Criteria
 - `research/research-paper-writing/references/sources.md` — Source Bibliography
 - `research/research-paper-writing/references/writing-guide.md` — ML Paper Writing Philosophy & Best Practices
