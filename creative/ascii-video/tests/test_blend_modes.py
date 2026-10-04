@@ -61,7 +61,9 @@ def test_known_values():
     assert f("overlay", 0.25, 0.5) == pytest.approx(0.25)  # a < 0.5: 2ab
     assert f("overlay", 0.75, 0.5) == pytest.approx(0.75)  # a >= 0.5: 1 - 2(1-a)(1-b)
     assert f("hard_mix", 0.6, 0.5) == 1.0 and f("hard_mix", 0.2, 0.3) == 0.0
-    assert f("lighten", 0.2, 0.7) == pytest.approx(0.7) and f("darken", 0.2, 0.7) == pytest.approx(0.2)
+    assert f("lighten", 0.2, 0.7) == pytest.approx(0.7) and f("darken", 0.2, 0.7) == pytest.approx(
+        0.2
+    )
     assert f("pin_light", 0.5, 0.25) == pytest.approx(0.5)  # b < 0.5: min(a, 2b)
     assert f("pin_light", 0.5, 0.75) == pytest.approx(0.5)  # b >= 0.5: max(a, 2b-1)
     assert f("vividlight", 0.5, 0.25) == pytest.approx(0.0)  # burn branch

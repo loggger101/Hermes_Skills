@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **160 code files** (41,331 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **162 code files** (41,686 lines total) in this second brain — one line each, grep-friendly.
 Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -11,7 +11,7 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 ## creative/ascii-video
 
-- `creative/ascii-video/tests/test_blend_modes.py` (test, python, 82 lines) — Run the blend-mode table that references/shaders.md teaches, on real arrays
+- `creative/ascii-video/tests/test_blend_modes.py` (test, python, 84 lines) — Run the blend-mode table that references/shaders.md teaches, on real arrays
 
 ## creative/comfyui
 
@@ -74,7 +74,7 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 ## data-science/evolutionary-ml
 
-- `data-science/evolutionary-ml/tests/test_skill_snippets.py` (test, python, 102 lines) — Run the code SKILL.md teaches and assert the claims its prose makes about it
+- `data-science/evolutionary-ml/tests/test_skill_snippets.py` (test, python, 104 lines) — Run the code SKILL.md teaches and assert the claims its prose makes about it
 
 ## data-science/optimization-modeling-pyomo
 
@@ -285,6 +285,7 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `tools/audit-skills.py` (repo tooling, python, 552 lines)
 - `tools/check-links.py` (repo tooling, python, 150 lines) — Broken-link checker for this second brain (stdlib only)
 - `tools/check-router-coverage.py` (repo tooling, python, 150 lines) — Gate: the skill-flow-router must keep pace with the catalog it claims to map
+- `tools/check-skill-pointers.py` (repo tooling, python, 147 lines) — Check that every skill pointer written in prose names a skill that exists
 - `tools/gen-claude-plugin.py` (repo tooling, python, 172 lines) — Regenerate the Claude Code plugin manifests from live skill frontmatter
 - `tools/gen-code-index.py` (repo tooling, python, 219 lines) — Regenerate CODE-INDEX.md from live code files (flat, grep-friendly)
 - `tools/gen-references-index.py` (repo tooling, python, 111 lines) — Rebuild REFERENCES-INDEX.md from every skill's references/ directory
@@ -292,6 +293,7 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `tools/mutation-test-audit-gate.py` (repo tooling, python, 148 lines) — Mutation test for audit-skills.run_audit — the per-skill audit checks test themselves
 - `tools/mutation-test-cron-gate.py` (repo tooling, python, 116 lines) — Mutation self-test for the cron threshold-key verification (round-36)
 - `tools/mutation-test-doc-gate.py` (repo tooling, python, 424 lines) — Mutation test for verify-all.check_doc_counts — the doc-count gate tests itself
+- `tools/mutation-test-pointer-gate.py` (repo tooling, python, 191 lines) — Mutation self-test for check-skill-pointers.py (round-65)
 - `tools/mutation-test-router-gate.py` (repo tooling, python, 195 lines) — Mutation self-test for check-router-coverage.py (round-43)
 - `tools/mutation-test-secret-gate.py` (repo tooling, python, 160 lines) — Mutation test for audit-skills.scan_repo_for_secrets — the secret scan tests itself
 - `tools/mutation-test-selftest-gate.py` (repo tooling, python, 134 lines) — Mutation self-test for tools/run-self-tests.py (the self-test harness gate)
@@ -299,7 +301,7 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `tools/run-self-tests.py` (repo tooling, python, 240 lines) — Discovery-based runner for the skill self-test harnesses (*_verify.py)
 - `tools/run-skill-tests.py` (repo tooling, python, 145 lines) — Discover and run every pytest suite that ships inside a skill, one command
 - `tools/sync-hermes-skills.py` (repo tooling, python, 1183 lines)
-- `tools/verify-all.py` (repo tooling, python, 462 lines) — Run every health gate in this repo and report one verdict
+- `tools/verify-all.py` (repo tooling, python, 475 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*160 code files: 110 scripts, 7 shared helpers, 16 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*162 code files: 110 scripts, 7 shared helpers, 16 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
