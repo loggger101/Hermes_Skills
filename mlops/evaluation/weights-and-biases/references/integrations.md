@@ -233,7 +233,7 @@ sweep_config = {
     'method': 'bayes',
     'metric': {'name': 'val/accuracy', 'goal': 'maximize'},
     'parameters': {
-        'learning_rate': {'min': 1e-5, 'max': 1e-2, 'distribution': 'log_uniform'},
+        'learning_rate': {'min': 1e-5, 'max': 1e-2, 'distribution': 'log_uniform_values'},
         'batch_size': {'values': [16, 32, 64]},
         'hidden_size': {'values': [128, 256, 512]}
     }
