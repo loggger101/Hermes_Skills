@@ -39,6 +39,7 @@ Development tools and coding workflows.
 - [`property-based-testing`](./property-based-testing/SKILL.md) — Hypothesis property tests: roundtrip, oracle, invariant
 - [`python-craft`](./python-craft/SKILL.md) — Python craft: uv/ruff/ty setup, style, typing, testing
 - [`python-debugpy`](./python-debugpy/SKILL.md) — Debug Python: pdb REPL + debugpy remote (DAP)
+- [`python-toolchain-notes`](./python-toolchain-notes/SKILL.md) — uv, ruff, ty, loguru, zstd, Codon: measured behavior
 - [`receiving-code-review`](./receiving-code-review/SKILL.md) — Verify review feedback against the codebase before acting
 - [`repo-atlas`](./repo-atlas/SKILL.md) — In-repo atlas docs + drift check so agents orient fast
 - [`requesting-code-review`](./requesting-code-review/SKILL.md) — Pre-commit review: security scan, quality gates, auto-fix

@@ -1,14 +1,14 @@
 ---
-description: Hermes Agent second brain — 215 skills across 23 categories, memories, cron configs.
+description: Hermes Agent second brain — 218 skills across 23 categories, memories, cron configs.
 ---
 
 # Hermes Skills Repository (Second Brain)
 
-This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **215 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
+This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **218 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
 
 ## Start here (cheapest → most thorough)
 
-1. **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 215 skills. `grep -i <term>` is the fastest way to find a capability.
+1. **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 218 skills. `grep -i <term>` is the fastest way to find a capability.
 2. **[CODE-INDEX.md](./CODE-INDEX.md)** — flat index of every script, shared helper, test and template (the executable knowledge layer). `grep -i <term> CODE-INDEX.md` finds runnable code by purpose or owner skill.
 3. **[REFERENCES-INDEX.md](./REFERENCES-INDEX.md)** — flat index of all 526 reference docs inside skills' `references/` dirs (nested subdirs included). `grep -i <term> REFERENCES-INDEX.md` finds verified API maps and gotchas tables by topic without knowing which skill owns them.
 4. **[DEPENDENCY.md](./DEPENDENCY.md)** — relationship map: hub skills, standalone skills, full cross-reference validation.
@@ -66,6 +66,7 @@ The fastest way from a job you have in mind to the skill that does it. Not sure 
 |--------------|------------|
 | Build a Python web/desktop UI (dashboards, internal tools) | `nicegui-app-builder`; data dashboards → `streamlit-dashboards` |
 | Pick CSS / icon / animation libraries for a static site (weight, licence) | `frontend-library-picks`; React projects → `react-ecosystem`; site structure and CSP → `static-site-patterns` |
+| React 19 / Next.js 16 / Zustand / Motion / shadcn behaviour and traps | `react-library-notes`; which library → `react-ecosystem` |
 | Design or redesign frontend / landing pages | `design-taste-frontend`, `redesign-existing-projects`, `popular-web-designs` (54 real design systems), `claude-design` |
 | Ship UI that doesn't look templated — pick the aesthetic first | `design-taste-frontend` (anti-slop default), presets: `soft-premium-ui`, `editorial-minimalism-ui`, `industrial-brutalist-ui`; motion-heavy → `awwwards-gsap-motion`; Google Stitch DESIGN.md → `stitch` |
 | Create diagrams (44 types, 3 variants each) | `diagram-design`; dark SVG arch → `architecture-diagram`; hand-drawn → `excalidraw` |
@@ -80,6 +81,7 @@ The fastest way from a job you have in mind to the skill that does it. Not sure 
 | Headless matplotlib / seaborn / plotly: deterministic output, removed calls | `python-plotting`; what to chart → `dataviz` |
 | Torch, CuPy, Open3D, gensim, supervision: install reality and silent failures | `ml-cv-library-notes` |
 | Asteroid-mining economics pipeline work | `economicspace-pipeline`; method then tool choice → `astro-toolkit-selection` |
+| Skyfield / astropy / SpiceyPy / Orekit / pykep / hifitime behaviour and traps | `astro-library-notes` (after `astro-toolkit-selection` picks the method) |
 | Build space/astro data pipelines (fetch→parquet→HF) | `space-data-pipelines` (verified API gotchas table inside) |
 | Search biomedical literature / genomic databases | `pubmed-database` (NCBI E-utilities), `gget` (Ensembl/BLAST lookups); full genomics/computational-biology work → `bioinformatics` (gateway to 400+ skills) |
 | Evaluate a paper, proposal, or evidence claim | `scholar-evaluation` (9-dimension rubric); build the review itself → `literature-review` |
@@ -90,6 +92,7 @@ The fastest way from a job you have in mind to the skill that does it. Not sure 
 |--------------|------------|
 | Automate a repo with cronjobs | `cron-job-authoring` (repo jobs: its `references/repo-cronjob.md`); JSON job configs → `cron-config-authoring`; two-agent pattern → README "Cron Job Authoring" section |
 | Test a Windows desktop app end-to-end (WPF/WinForms/Qt) | `windows-desktop-e2e` (pywinauto + UIA, page-object skeleton inside) |
+| Set up uv / ruff / ty / loguru, fix a ruff or ty CI surprise, pick a compressor | `python-toolchain-notes`; how to write the code → `python-craft` |
 | Ship a Python app as a small fast Windows installer | `generating-python-installer` (Nuitka one-file + Inno Setup; slimming scripts in its scripts/) |
 | Publish a site/dashboard/docs build with versioned deploys + rollback | `publish-site` (GitHub Pages → Cloudflare → Netlify ladder, live-URL verification) |
 | Expose a local service / receive webhooks with no extra install | `pinggy-tunnel` (SSH reverse tunnel, webhook + MCP + LLM-endpoint recipes inside) |

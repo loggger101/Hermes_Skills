@@ -76,7 +76,7 @@ Cost on a 24-core machine: flyby grids 294-378 s vs 110-220 s for direct; only 9
 
 The README insists on **pixi, not pip or uv**: the solvers (PyKEP, PyGMO) are not installable from PyPI on macOS and Windows. Queried from the anaconda.org API on 2026-10-05, conda-forge carries
 `pykep` 3.0.0, `pygmo` 2.19.8 and `heyoka` 7.13.0 for `win-64`, `osx-64`, `osx-arm64`, `linux-64`, `linux-aarch64` and `linux-ppc64le`. (This corrects the pykep README's statement that conda-forge only serves the v1 line;
-see `astro-toolkit-selection/references/pykep-v3-notes.md`.) Pixi is not installed on this machine; the first launch downloads a few hundred MB plus the JPL small-body catalogue, and optional target characterisation caches about 1.3 GB.
+see `astro-library-notes/references/pykep-v3-notes.md`.) Pixi is not installed on this machine; the first launch downloads a few hundred MB plus the JPL small-body catalogue, and optional target characterisation caches about 1.3 GB.
 
 Config-as-YAML (engines, vehicles, missions, studies) lives in an untracked `configs/` directory seeded from `examples/configs`; heavy work runs as detached subprocesses that write a status file the app polls (no threads, no task queue).
 

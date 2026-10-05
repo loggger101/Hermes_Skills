@@ -3,7 +3,7 @@
 Source: [juliangarnier/anime](https://github.com/juliangarnier/anime) (73k stars, MIT, pushed 2026-08-21). npm `animejs` **4.5.0**
 (2026-08-17), installed with jsdom on Node 22.23.2 / Windows. About 50 probes with `autoplay: false` plus `.seek(ms)` so every value is
 deterministic, no timers. Not covered: `waapi.animate` (jsdom has no `Element.animate`), `onScroll`/`ScrollObserver`, `createDraggable`, `createLayout`,
-text splitting, the SVG helpers, real rendering. For React see `web-development/react-ecosystem/references/motion-14-notes.md`.
+text splitting, the SVG helpers, real rendering. For React see `web-development/react-library-notes/references/motion-14-notes.md`.
 
 ## Package facts
 
