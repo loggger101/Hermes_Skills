@@ -51,7 +51,7 @@ map is in `references/awesome-react-map.md`.
 
 - `refine` on npm is a 2022 placeholder (`0.0.1-alpha`); the real package is `@refinedev/core`.
 - `loadable-components` is **deprecated** in favour of `@loadable/component`.
-- `react-uploady` does not exist under that npm name (E404 on the registry).
+- `react-uploady` is a 404 on npm; the package is `@rpldy/uploady` (1.13.0, modified 2025-11-26).
 - `why-did-you-render` last modified 2022-05; `eslint-plugin-react` 2025-04; `redux` core 5.0.1 from 2024-05 (use Redux Toolkit). Check these still behave on React 19 before adding.
 - `react-bootstrap` 2.10.10 last modified 2025-09; fine but slow-moving.
 

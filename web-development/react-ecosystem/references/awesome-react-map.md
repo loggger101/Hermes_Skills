@@ -126,4 +126,4 @@ shadcn/ui is not a package: it copies component source (Radix + Tailwind 4.3.3) 
 
 - `refine` (npm name) = 2022 placeholder `0.0.1-alpha`; use `@refinedev/core`.
 - `loadable-components` = **deprecated** ("Please use @loadable/component"); `@loadable/component` 5.16.7, modified 2025-05-18.
-- `react-uploady` = 404 on the npm registry under that name; the list entry's package name differs from the repo name.
+- `react-uploady` = 404 on the npm registry; the package is `@rpldy/uploady` 1.13.0 (modified 2025-11-26).
