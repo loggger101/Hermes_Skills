@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **510 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **511 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -811,4 +811,5 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 - `web-development/static-site-patterns/references/animate-css-4-notes.md` — Animate.css 4.1.1: what the stylesheet really does (parsed live, three traps confirmed in Chrome)
 - `web-development/static-site-patterns/references/js-beautify-notes.md` — js-beautify 2.0.3: the tolerant formatter, and the CLI that rewrites files without `--replace` (run live)
+- `web-development/static-site-patterns/references/materialize-css-notes.md` — Materialize CSS: the starred repo is frozen at 1.0.0; the maintained line is `@materializecss/materialize` 2.x
 - `web-development/static-site-patterns/references/web-interface-guidelines-ui-checklist.md` — Web Interface Guidelines (UI/UX Review Checklist) [PORTED]

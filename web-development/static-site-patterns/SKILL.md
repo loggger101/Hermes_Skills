@@ -289,6 +289,8 @@ files you did not touch.
 
 For whitespace-only reformatting of JS/CSS/HTML (legacy or broken files, minified code, HTML with server-side template tags), `references/js-beautify-notes.md` holds the js-beautify 2.0.3 run: the CLI **rewrites files in place when given two or more files or a glob, with no `--replace`**; syntax errors exit 0 with garbage output and there is no `--check`; TypeScript and JSX come out mangled; `.editorconfig` needs `--editorconfig`. Prettier is the choice for TS/JSX or a CI format gate.
 
+If a Materialize (Material Design CSS) look is requested, `references/materialize-css-notes.md` explains that the starred Dogfalo repo is frozen at 1.0.0 (2018) and the maintained line is `@materializecss/materialize` 2.x, with the measured size, icon-font and grid-markup (`col s12` became `s12`) migration traps.
+
 ## UI/UX code review (beyond performance)
 
 For a full accessibility/forms/animation/copy/dark-mode audit of site markup and JS, use `references/web-interface-guidelines-ui-checklist.md` — Vercel's Web Interface Guidelines ported verbatim with the clickable `file:line` output format. It complements this skill's Core-Web-Vitals section (which covers loading/rendering) by covering interaction quality; pair both when running a site audit.
