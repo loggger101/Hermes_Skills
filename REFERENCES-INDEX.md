@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **448 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **449 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -80,6 +80,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `communication/mental-models/references/models/second-order-thinking.md` — Ask "and then what?" at least twice — the first-order winner is often the second-order loser.
 - `communication/mental-models/references/models/social-proof.md` — We infer correct behaviour from what others do, most strongly exactly when we are least certain.
 - `communication/mental-models/references/models/trade-offs.md` — The real cost of a choice is the best thing you gave up to make it, not the money you spent.
+
+## creative/architecture-diagram
+
+- `creative/architecture-diagram/references/archify-typed-json-gates.md` — Archify 3.0.1: typed-JSON diagrams (architecture, workflow, sequence, dataflow, lifecycle) rendered to standalone interactive HTML behind a four-gate finalize command; run live with a planted dangling-edge defect
 
 ## creative/ascii-video
 
