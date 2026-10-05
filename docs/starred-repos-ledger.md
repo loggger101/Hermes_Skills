@@ -26,7 +26,7 @@ Statuses: `pending` · `done` (skill/reference changed) · `covered` (already we
 | 5 | [cathrynlavery/repo-atlas](https://github.com/cathrynlavery/repo-atlas) | Python | 2026-08-05 | 0 | done | round-71: NEW skill `software-development/repo-atlas` (in-repo atlas docs + `--write`/`--check` drift gate); generator run live on Windows, upstream utf-8 crash patched, non-fixed-point first write and changelog-staleness documented |
 | 6 | [cloudflare/wrangler-action](https://github.com/cloudflare/wrangler-action) | TypeScript | 2026-09-28 | 0 | done | round-72: new `web-development/publish-site/references/cloudflare-ci-wrangler-action.md` (wrangler-action v4 inputs/outputs from action.yml, Pages + Workers + preview-per-PR workflows, pitfalls); source-read only |
 | 7 | [cool-RR/PySnooper](https://github.com/cool-RR/PySnooper) | Python | 2026-06-08 | 0 | done | round-73: `software-development/python-debugpy` Recipe 6 (PySnooper tracing for agents); live-verified normalize leaves Elapsed time, watch_explode ignores max_variable_length, PYSNOOPER_DISABLED read at import |
-| 8 | [CS-SI/Orekit](https://github.com/CS-SI/Orekit) | Java | 2026-10-04 | 0 | pending | |
+| 8 | [CS-SI/Orekit](https://github.com/CS-SI/Orekit) | Java | 2026-10-04 | 0 | done | round-74: new `data-science/astro-toolkit-selection/references/orekit-python-notes.md` (orekit-jpype + jdk4py pip-only setup live-verified on Windows py3.14; Kepler run; UTC/ITRF need orekit-data) |
 | 9 | [csscomb/csscomb.js](https://github.com/csscomb/csscomb.js) | JavaScript | 2023-01-03 | 0 | pending | |
 | 10 | [Cyan4973/xxHash](https://github.com/Cyan4973/xxHash) | C | 2026-09-20 | 0 | pending | |
 | 11 | [Delgan/loguru](https://github.com/Delgan/loguru) | Python | 2026-10-03 | 0 | pending | |

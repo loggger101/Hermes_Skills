@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **408 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **409 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -315,6 +315,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `data-science/astro-toolkit-selection/references/catalog-data-sources.md` — astroquery + pds4_tools + cumulus — catalog/archive access for the small-body pipeline
 - `data-science/astro-toolkit-selection/references/openscvx-patterns.md` — OpenSCvx patterns — State/Control/dynamics core loop, Hohmann constants, autotuners
 - `data-science/astro-toolkit-selection/references/optimization-toolkit.md` — nyx-py / pygmo2 / mesa v3 / z3 / Pyomo / CamPyRoS — optimization & simulation toolkit
+- `data-science/astro-toolkit-selection/references/orekit-python-notes.md` — Orekit from Python via orekit-jpype 13.1.9: pip-only setup with jdk4py, import-after-initVM rule, what works without data files, data setup helpers
 - `data-science/astro-toolkit-selection/references/skyfield-api-reference.md` — skyfield 1.55 API reference — breaking changes, de430s.bsp 404, phase-angle trap
 - `data-science/astro-toolkit-selection/references/spiceypy-notes.md` — SpiceyPy 8.2 notes: kernel-load discipline, error classes, 80-char kernel-pool truncation, SPICE's own AU, asteroid NAIF ids
 
