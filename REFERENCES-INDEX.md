@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **411 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **412 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -649,6 +649,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## web-development/publish-site
 
 - `web-development/publish-site/references/cloudflare-ci-wrangler-action.md` — Deploying to Cloudflare Workers/Pages from GitHub Actions with wrangler-action v4: inputs, outputs, permissions, preview-per-PR, secrets
+
+## web-development/react-ecosystem
+
+- `web-development/react-ecosystem/references/awesome-react-map.md` — awesome-react categories with npm latest version and last-modified date for each pick (snapshot 2026-10-05), plus stale/renamed flags
 
 ## web-development/static-site-patterns
 

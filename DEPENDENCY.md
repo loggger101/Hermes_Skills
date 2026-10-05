@@ -1,8 +1,8 @@
 # Skill Dependency Map
 
-This document maps the relationship network between all **204 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+This document maps the relationship network between all **205 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
 
-**Network stats:** 548 `related_skills` cross-references across 204 skills (2 skills list no `related_skills` of their own).
+**Network stats:** 553 `related_skills` cross-references across 205 skills (2 skills list no `related_skills` of their own).
 
 ## Hub Skills (referenced by 2+ other skills)
 
@@ -48,6 +48,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `apple-notes` | 4 | apple-reminders, findmy, imessage, obsidian |
 | `ascii-video` | 4 | manim-video, p5js, pretext, touchdesigner-mcp |
 | `blogwatcher` | 4 | competitor-news-monitor, rss-feeds, watchers, youtube-content |
+| `design-md` | 4 | claude-design, popular-web-designs, react-ecosystem, stitch |
 | `github-issues` | 4 | github-auth, github-issue-to-pr, github-repo-management, mattpocock-to-tickets |
 | `hermes-agent-skill-authoring` | 4 | cron-config-authoring, doc-coauthoring, mattpocock-code-review, mattpocock-writing-for-agents |
 | `literature-review` | 4 | general-research-rounds, gget, pubmed-database, scholar-evaluation |
@@ -68,7 +69,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `codex` | 3 | claude-code, hermes-agent, opencode |
 | `comfyui` | 3 | baoyu-infographic, songsee, songwriting-and-ai-music |
 | `conversation-to-spec` | 3 | brainstorming, grilling-interview, skill-flow-router |
-| `design-md` | 3 | claude-design, popular-web-designs, stitch |
 | `economicspace-pipeline` | 3 | astro-toolkit-selection, optimization-modeling-pyomo, space-data-pipelines |
 | `evolutionary-ml` | 3 | algorithms-python-catalog, model-export-deploy, test-infra-ml |
 | `findmy` | 3 | apple-reminders, imessage, maps |
@@ -121,6 +121,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `songwriting-and-ai-music` | 2 | humanizer, no-ai-slop |
 | `space-data-pipelines` | 2 | cron-pipeline-watchdog, duckdb-querying |
 | `spike` | 2 | brainstorming, sketch |
+| `static-site-patterns` | 2 | publish-site, react-ecosystem |
 | `static-site-seo` | 2 | publish-site, static-site-patterns |
 | `test-infra-ml` | 2 | property-based-testing, verification-culture |
 | `wayfinder-map-planning` | 2 | grilling-interview, skill-flow-router |
@@ -131,6 +132,6 @@ No skill is fully standalone: every skill either lists `related_skills` or is re
 
 ## Related Skills Validation
 
-All 548 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 204 unique skill names.
+All 553 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 205 unique skill names.
 
 ---
