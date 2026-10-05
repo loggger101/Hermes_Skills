@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **203 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **204 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -249,6 +249,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `mattpocock-writing-for-agents` — Write docs agents can consume: skills, AGENTS.md, specs _(software-development)_
 - `node-inspect-debugger` — Debug Node.js via --inspect + Chrome DevTools Protocol CLI _(software-development)_
 - `plan` — Write a markdown plan to .hermes/plans/; no execution _(software-development)_
+- `ponytail` — Laziest working solution: reuse, stdlib, native first _(software-development)_
 - `property-based-testing` — Hypothesis property tests: roundtrip, oracle, invariant _(software-development)_
 - `python-craft` — Python craft: uv/ruff/ty setup, style, typing, testing _(software-development)_
 - `python-debugpy` — Debug Python: pdb REPL + debugpy remote (DAP) _(software-development)_
@@ -276,4 +277,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*203 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*204 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*

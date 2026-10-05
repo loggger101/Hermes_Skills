@@ -35,6 +35,7 @@ Development tools and coding workflows.
 - [`mattpocock-writing-for-agents`](./mattpocock-writing-for-agents/SKILL.md) — Write docs agents can consume: skills, AGENTS.md, specs
 - [`node-inspect-debugger`](./node-inspect-debugger/SKILL.md) — Debug Node.js via --inspect + Chrome DevTools Protocol CLI
 - [`plan`](./plan/SKILL.md) — Write a markdown plan to .hermes/plans/; no execution
+- [`ponytail`](./ponytail/SKILL.md) — Laziest working solution: reuse, stdlib, native first
 - [`property-based-testing`](./property-based-testing/SKILL.md) — Hypothesis property tests: roundtrip, oracle, invariant
 - [`python-craft`](./python-craft/SKILL.md) — Python craft: uv/ruff/ty setup, style, typing, testing
 - [`python-debugpy`](./python-debugpy/SKILL.md) — Debug Python: pdb REPL + debugpy remote (DAP)

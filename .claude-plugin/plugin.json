@@ -1,7 +1,7 @@
 {
   "name": "hermes",
   "version": "1.0.0",
-  "description": "Hermes second brain: 200 skills across 23 categories.",
+  "description": "Hermes second brain: 201 skills across 23 categories.",
   "author": {
     "name": "Hermes Agent",
     "url": "https://github.com/loggger101"
@@ -187,6 +187,7 @@
     "./software-development/mattpocock-writing-for-agents",
     "./software-development/node-inspect-debugger",
     "./software-development/plan",
+    "./software-development/ponytail",
     "./software-development/property-based-testing",
     "./software-development/python-craft",
     "./software-development/python-debugpy",
