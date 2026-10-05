@@ -193,3 +193,7 @@ Generate or update a project-specific `AGENTS.md` (or `CLAUDE.md`, whichever har
 ### Example 3: Enhance existing instructions
 
 **User**: "Update the AGENTS.md with current project conventions" → Read existing file, run Phases 1–3, merge new findings with additions clearly marked.
+
+## References
+
+- `references/style-guides-and-enforcers.md` - find the style guide a repo follows and the tool that enforces it: detection signals, language to canonical guide to enforcer (versions checked on PyPI/npm 2026-10-05)
