@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **522 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **523 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -825,5 +825,6 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `web-development/static-site-patterns/references/metro-ui-5-notes.md` — Metro UI 5.1.20 (`@olton/metroui`): a 1.5 MB CSS / 0.9 MB JS framework with a global reset (measured, jsdom run)
 - `web-development/static-site-patterns/references/postcss-8-notes.md` — PostCSS 8.5.29 and the usual plugins: what each does, config traps, and when native CSS replaces them (run live)
 - `web-development/static-site-patterns/references/preline-5-notes.md` — Preline UI 5.0.0 (Tailwind component plugins): licence, the peer-dependency pile, `autoInit` (run in jsdom)
+- `web-development/static-site-patterns/references/pure-css-3-notes.md` — Pure.css 3.1.0 (`purecss`): the small responsive CSS kit, measured from the npm package
 - `web-development/static-site-patterns/references/scrollreveal-4-notes.md` — ScrollReveal 4.0.9: GPL licence, frozen since 2022, inline-style side effects (jsdom run) and the native replacements
 - `web-development/static-site-patterns/references/web-interface-guidelines-ui-checklist.md` — Web Interface Guidelines (UI/UX Review Checklist) [PORTED]
