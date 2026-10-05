@@ -297,6 +297,8 @@ For Tailwind component plugins, `references/preline-5-notes.md` covers Preline U
 
 For scroll-reveal effects, `references/scrollreveal-4-notes.md` says why not to reach for ScrollReveal 4 (GPL-3.0 with a paid commercial licence, frozen since 2022, rewrites inline `transform`, ignores `prefers-reduced-motion`) and gives the native CSS `animation-timeline: view()` and `IntersectionObserver` replacements.
 
+For framework-free JS animation, `references/animejs-4-notes.md` covers Anime.js 4.5.0 (subpath imports, deterministic `.seek()` testing) and the v3-to-v4 traps: no default export, `easing:` silently ignored in favour of `ease:`, infinite loops report a 10^12 ms duration, and a partial DOM shim throws in `parseTargets`.
+
 ## UI/UX code review (beyond performance)
 
 For a full accessibility/forms/animation/copy/dark-mode audit of site markup and JS, use `references/web-interface-guidelines-ui-checklist.md` — Vercel's Web Interface Guidelines ported verbatim with the clickable `file:line` output format. It complements this skill's Core-Web-Vitals section (which covers loading/rendering) by covering interaction quality; pair both when running a site audit.
