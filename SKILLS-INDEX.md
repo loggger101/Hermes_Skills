@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **210 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **211 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -266,6 +266,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `skill-flow-router` — Route any task through the right skill flow in this brain _(software-development)_
 - `spike` — Throwaway experiments to validate an idea before build _(software-development)_
 - `streamlit-dashboards` — Streamlit dashboards: layout, caching, charts, state _(software-development)_
+- `structured-llm-outputs` — Pydantic-typed LLM outputs with retries (instructor) _(software-development)_
 - `systematic-debugging` — 4-phase root cause debugging: understand before fixing _(software-development)_
 - `test-driven-development` — TDD: enforce RED-GREEN-REFACTOR, tests before code _(software-development)_
 - `test-infra-ml` — Testing ML systems: sims, EAs, tournaments, checkpoints _(software-development)_
@@ -283,4 +284,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*210 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*211 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*

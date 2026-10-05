@@ -49,6 +49,7 @@ Development tools and coding workflows.
 - [`skill-flow-router`](./skill-flow-router/SKILL.md) — Route any task through the right skill flow in this brain
 - [`spike`](./spike/SKILL.md) — Throwaway experiments to validate an idea before build
 - [`streamlit-dashboards`](./streamlit-dashboards/SKILL.md) — Streamlit dashboards: layout, caching, charts, state
+- [`structured-llm-outputs`](./structured-llm-outputs/SKILL.md) — Pydantic-typed LLM outputs with retries (instructor)
 - [`systematic-debugging`](./systematic-debugging/SKILL.md) — 4-phase root cause debugging: understand before fixing
 - [`test-driven-development`](./test-driven-development/SKILL.md) — TDD: enforce RED-GREEN-REFACTOR, tests before code
 - [`test-infra-ml`](./test-infra-ml/SKILL.md) — Testing ML systems: sims, EAs, tournaments, checkpoints
