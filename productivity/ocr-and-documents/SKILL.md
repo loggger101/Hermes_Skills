@@ -183,3 +183,7 @@ No extra dependencies needed — pymupdf covers split, merge, search, and text e
 - marker-pdf downloads ~2.5GB of models to `~/.cache/huggingface/` on first use
 - For Word docs: `pip install python-docx` (better than OCR — parses actual structure)
 - For PowerPoint: see the `powerpoint` skill (uses python-pptx)
+
+## References
+
+- `references/formula-ocr-pix2tex.md` - formula image to LaTeX with pix2tex: usage, stale pins, Python 3.14 dry-run resolution (not run), alternatives, verification

@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **429 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **430 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -501,6 +501,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## productivity/notion
 
 - `productivity/notion/references/block-types.md` — Notion Block Types
+
+## productivity/ocr-and-documents
+
+- `productivity/ocr-and-documents/references/formula-ocr-pix2tex.md` — Image of a math formula to LaTeX with pix2tex (LaTeX-OCR): usage, stale pinned dependencies, install resolution on Python 3.14 (dry-run only), alternatives
 
 ## productivity/pdf
 
