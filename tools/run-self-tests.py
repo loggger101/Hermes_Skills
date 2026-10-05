@@ -64,6 +64,7 @@ AUTO_RUN = {
     "data-science/algorithms-python-catalog/scripts/algorithms_verify.py",  # numpy only
     "data-science/space-data-pipelines/scripts/cap_grid_verify.py",  # stdlib only (lgrs-free port)
     "devops/rest-api-client/scripts/ssrf_guard_verify.py",  # stdlib, no sockets opened
+    "web-development/static-site-patterns/scripts/perf_audit_verify.py",  # stdlib, temp-dir fixtures, no network
     "data-science/python-data-science/references/big-data-patterns-verify.py",  # duckdb/polars/pyarrow -> skip without them
     "data-science/python-data-science/references/polars-v2-verify.py",  # polars 2.0.x rc -> skip on stable/absent (rc 77)
     "data-science/optimization-modeling-pyomo/scripts/pyomo_patterns_verify.py",  # pyomo+highspy -> skip without them
