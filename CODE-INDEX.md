@@ -86,6 +86,11 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 - `data-science/evolutionary-ml/tests/test_skill_snippets.py` (test, python, 104 lines) — Run the code SKILL.md teaches and assert the claims its prose makes about it
 
+## data-science/lunar-gis-projections
+
+- `data-science/lunar-gis-projections/scripts/cap_grid_verify.py` (script, python, 244 lines) — Verify AEGIS cap-grid tiling invariants + LGRS converter logic (stdlib only)
+- `data-science/lunar-gis-projections/scripts/lps_projection_verify.py` (script, python, 127 lines) — Verify the south-pole Lunar Polar Stereographic (LPS) projection math used by nasa/aegis (AEGIS)
+
 ## data-science/optimization-modeling-pyomo
 
 - `data-science/optimization-modeling-pyomo/scripts/pyomo_patterns_verify.py` (script, python, 174 lines) — Live-verify the Pyomo patterns documented in this skill
@@ -102,8 +107,6 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 ## data-science/space-data-pipelines
 
-- `data-science/space-data-pipelines/scripts/cap_grid_verify.py` (script, python, 244 lines) — Verify AEGIS cap-grid tiling invariants + LGRS converter logic (stdlib only)
-- `data-science/space-data-pipelines/scripts/lps_projection_verify.py` (script, python, 127 lines) — Verify the south-pole Lunar Polar Stereographic (LPS) projection math used by nasa/aegis (AEGIS)
 - `data-science/space-data-pipelines/scripts/pipeline_skeleton.py` (script, python, 228 lines) — Runnable reference implementation of the space-datasets pipeline pattern
 
 ## devops/rest-api-client
@@ -297,10 +300,10 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `web-development/har-derived-api-client/scripts/har_capture_cdp.py` (script, python, 141 lines) — Capture a HAR from a browser you connect to over CDP (not one you launch)
 - `web-development/har-derived-api-client/scripts/har_to_client.py` (script, python, 167 lines) — Distill a HAR file into an API summary an agent can turn into a client
 
-## web-development/static-site-patterns
+## web-development/web-perf-audit
 
-- `web-development/static-site-patterns/scripts/perf_audit.py` (script, python, 203 lines) — Zero-dependency static-site audit of the machine-checkable Front-End Performance Checklist items
-- `web-development/static-site-patterns/scripts/perf_audit_verify.py` (script, python, 113 lines) — Self-test for perf_audit.py: one clean site must pass, and each rule must fire on a planted defect
+- `web-development/web-perf-audit/scripts/perf_audit.py` (script, python, 203 lines) — Zero-dependency static-site audit of the machine-checkable Front-End Performance Checklist items
+- `web-development/web-perf-audit/scripts/perf_audit_verify.py` (script, python, 113 lines) — Self-test for perf_audit.py: one clean site must pass, and each rule must fire on a planted defect
 
 ## Repo-level tooling (`tools/`, `.hermes/cron/`)
 

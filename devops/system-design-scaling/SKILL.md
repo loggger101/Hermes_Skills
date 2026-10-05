@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [system-design, scalability, architecture, CAP-theorem, caching, sharding, interview-prep]
-    related_skills: [rest-api-client, sql-for-data, python-craft]
+    related_skills: [rest-api-client, sql-for-data, python-craft, system-design-interview-patterns]
 ---
 
 # System Design & Scalability
@@ -23,7 +23,7 @@ Provides the full decision framework: the 4-step process for any design question
 
 - "Design a system for X" / any architecture or scalability question
 - Prepping a system design interview (study guide + 4-step process inside)
-- An OO-design interview exercise ("design a parking lot / call center / chat server") — class-model patterns in `references/oo-design-interview-patterns.md`
+- An OO-design interview exercise ("design a parking lot / call center / chat server") — class-model patterns in `system-design-interview-patterns` (`references/oo-design-interview-patterns.md`)
 - Choosing SQL vs NoSQL, cache strategy, replication mode, sharding key
 - Estimating storage/bandwidth/latency by hand ("back of the envelope")
 - Deciding TCP vs UDP, RPC vs REST, message queue vs task queue
@@ -33,7 +33,7 @@ Provides the full decision framework: the 4-step process for any design question
 1. **Outline use cases, constraints, assumptions** — who uses it, how many users, inputs/outputs, data volume, requests/sec, read:write ratio. Run back-of-envelope math (see `references/latency-and-estimation.md`).
 2. **High-level design** — sketch main components and connections; justify each choice.
 3. **Design core components** — for each: storage schema, API shape, the hard part (e.g., hash generation + collisions, fan-out, dedup).
-4. **Scale iteratively** — never jump to the final design. State you will 1) benchmark/load-test, 2) profile bottlenecks, 3) address them evaluating alternatives and trade-offs, 4) repeat. The `scaling_aws` case study (`references/case-study-patterns.md`) is the model: each stage adds exactly one technique triggered by a measured bottleneck (object store → DB split → LB + horizontal scaling → cache + read replicas → autoscaling).
+4. **Scale iteratively** — never jump to the final design. State you will 1) benchmark/load-test, 2) profile bottlenecks, 3) address them evaluating alternatives and trade-offs, 4) repeat. The `scaling_aws` case study (`system-design-interview-patterns`, `references/case-study-patterns.md`) is the model: each stage adds exactly one technique triggered by a measured bottleneck (object store → DB split → LB + horizontal scaling → cache + read replicas → autoscaling).
 
 ## Reference map
 
@@ -43,8 +43,8 @@ Provides the full decision framework: the 4-step process for any design question
 | DNS records & routing policies, push/pull CDNs, L4/L7 load balancing, reverse proxy vs LB, microservices/service discovery | same doc (networking half) |
 | ACID vs BASE, replication modes, federation, sharding + consistent hashing, denormalization, SQL tuning checklist, NoSQL families, cache update strategies | `references/databases-and-caching.md` |
 | Message queues vs task queues, back pressure, TCP vs UDP selection rules, RPC anatomy, REST properties, RPC-vs-REST comparison table, security basics | `references/asynchronism-communication-security.md` |
-| The 8 system-design case studies as reusable patterns with their key numbers and the non-obvious tricks (base62 capacity math, celebrity fan-out inversion, crawl signature dedup, bidirectional BFS, MapReduce top-k sort) | `references/case-study-patterns.md` |
-| OO design interviews: all 6 worked exercises (deck/Blackjack multi-ace scoring, call-center cascade dispatch + state machine, hash map chaining, LRU, chat graph-vs-conversation split, parking-lot fit-inversion), each with its clarifying-question list; plus verified source bugs in the primer's own stubbed code | `references/oo-design-interview-patterns.md` |
+| The 8 system-design case studies as reusable patterns with their key numbers and the non-obvious tricks (base62 capacity math, celebrity fan-out inversion, crawl signature dedup, bidirectional BFS, MapReduce top-k sort) | `system-design-interview-patterns` (`references/case-study-patterns.md`) |
+| OO design interviews: all 6 worked exercises (deck/Blackjack multi-ace scoring, call-center cascade dispatch + state machine, hash map chaining, LRU, chat graph-vs-conversation split, parking-lot fit-inversion), each with its clarifying-question list; plus verified source bugs in the primer's own stubbed code | `system-design-interview-patterns` (`references/oo-design-interview-patterns.md`) |
 | Powers of two, latency numbers every programmer should know, request-rate conversions, nines downtime tables | `references/latency-and-estimation.md` |
 | Feature flags and progressive delivery: flag types and lifespans, ring/linear/log/cohort rollout maths (run), kill-switch registry fields, stale-flag detection and the traps in common flag scripts | `devops/feature-flag-lifecycle` skill |
 

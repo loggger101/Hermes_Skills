@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [pipelines, parquet, huggingface, api-gotchas, licensing]
-    related_skills: [astro-toolkit-selection, orbital-mechanics-data, economicspace-pipeline, cron-pipeline-watchdog]
+    related_skills: [astro-toolkit-selection, orbital-mechanics-data, economicspace-pipeline, cron-pipeline-watchdog, open-data-catalog-sources, lunar-gis-projections, enricher-pipeline-architecture]
 ---
 
 ## What This Skill Does
@@ -19,7 +19,7 @@ Pattern for self-maintaining public space/astronomy datasets, distilled from the
 
 - Ingesting public space/astronomy feeds (JPL SSD, VizieR TAP, HEASARC TAP, MAST TAP, CelesTrak, Space-Track) into Parquet datasets
 - Building or maintaining scheduled data pipelines that must survive flaky upstreams
-- Deciding how to license redistributed space data (ESA/VizieR traps — see references below)
+- Deciding how to license redistributed space data (ESA/VizieR traps — see `open-data-catalog-sources`)
 
 ## One script per dataset (6 steps)
 
@@ -74,59 +74,17 @@ The upstream repo's `hf_dataset_utils` package is the reference implementation o
 `http://www.asterank.com/api/asterank?query=<JSON>&limit=<N>&offset=<M>` — keyless, ~600K rows via limit/offset pagination.
 **Two query modes with different schemas:** bulk scans (`query={}`) never carry a `dv` key; **targeted queries DO** (re-verified this machine 2026-09-12: `{"name":"Eros"}` → dv=6.112354). Query param is a JSON object, not free text — plain numbers give HTTP 500; working keys are `name` and `pdes`. Economics fields (`price`/`profit`) remain partially garbage (real values for some bodies, 1e-44-scale nonsense for others) — order-of-magnitude priors only. Reliably present in both modes: spectral types (`spec`=SMASSII, `spec_B`, `spec_T`), diameter + sigma, albedo, rotation period, GM, full orbital elements, orbit-quality fields (condition_code/data_arc/rms/orbit_id), **per-element covariance diagonal** (`sigma_a`…`sigma_tp`) and obs provenance. Full correction history: skill `economicspace-pipeline`, ref `dv-oracles-and-economics-sources.md`.
 
-## Keyless HF mirrors of the same feeds (see `references/hf-mirror-catalog.md`)
+## Catalogs, mirrors and licensing
 
-~230 datasets under `juliensimon/*` on Hugging Face — no API keys, one-line load. Useful as frozen snapshots for cross-checks/backfills when the live feed needs auth (Space-Track), per-body calls (Asterank dv), or has dead endpoints (UCS). Cadence: ~50 daily / ~20 weekly / rest static; upstream `status.json` tracks dates + row counts.
-
-## data.gov catalog API (see `references/data-gov-catalog-api.md`)
-
-catalog.data.gov (515k+ datasets, incl. NASA planetary science) **dropped the CKAN `/api/3/action/*` endpoints** (404 on 2026-10-05). Use `GET /search?q=...&per_page=...&after=<cursor>`
-(cursor pagination, no total count) and `/api/organizations` for valid `org_slug` values (NASA is `nasa`; a wrong slug returns an empty 200). Many records have no machine-readable distribution.
+Keyless Hugging Face mirrors (`juliensimon/*`), the post-CKAN data.gov catalog API and the space-data licensing traps (ESA CC BY-NC, VizieR scientific-use terms) moved to `open-data-catalog-sources`. Check it before redistributing any space dataset.
 
 ## Debiasing taxonomy-based statistics (see `references/belt-gradient-analysis-patterns.md`)
 
 From the user's asteroid-belt-gradient analysis: count only measured labels (83% of catalog taxonomy labels were imputed from semimajor-axis albedo), collapse collisional families to one body, limit by size not brightness (size-complete cut plus inverse-completeness weighting), and make optional corrections switchable.
 
-## Licensing redistributed space data (see `references/space-data-licensing-audit.md`)
+## Lunar GIS and enricher-pipeline architecture
 
-Default "NASA/ESA public API ⇒ CC-BY-4.0" is **wrong** for a large fraction of providers: ESA Space Science Archives = **CC BY-NC 3.0 IGO** (no commercial use), WDC Kyoto geomagnetic indices no-commercial, SILSO sunspot numbers CC BY-NC 4.0, AAVSO NC-only, and VizieR's own terms are "scientific context" — not CC-BY at all. The source license travels with the data: fetching ESA catalogs via VizieR/HEASARC mirrors does NOT strip the restriction. When unsure, label `license: other` + upstream policy link rather than over-permissive cc-by-4.0.
-
-## Lunar-surface GIS (see `references/lunar-gis-patterns-aegis.md`)
-
-South-pole LPS projection math from nasa/aegis (AEGIS) — re-derived and **verified against the real lgrs 0.3.0 package to ≤5.8e-11 m** (`scripts/lps_projection_verify.py`, stdlib-only, exit-code gated). It covers:
-
-- Exact constants: R=1737.4 km, K0=0.994, false E/N = 500000 m, and the -80° domain limit.
-- lgrs API traps:
-  - the constructor takes (latitude, longitude), in that order
-  - `to_lps()` returns an object with `.easting`/`.northing`, not a tuple
-  - PyPI needs Python ≥3.13
-- GeoTIFF custom-CRS reconstruction: transform codes 15=polar-stereo / 17=equirectangular from numeric GeoKeys when no EPSG code exists.
-- Geographic→pixel nearest-cell sampling for lunar DEM products.
-
-Round-27 added the **cap-grid tiling invariants** from AEGIS's own GIS pipeline (`scripts/cap_grid_verify.py`, 34 live checks):
-
-- Shared-z0/per-layer-depth pyramids.
-- The odd-tile-count padding trap that makes layers jump when zooming out (re-derived numerically).
-- COG compression rules for browser serving: **zstd is NOT decodable by geotiff.js/OpenLayers**, which is their own default.
-- LGRS grid generation without ArcGIS via USGS `lgrs`, including a **verified internal inconsistency in AEGIS's legacy converter**. Its n==6 branch contradicts its docstring; the harness asserts both so an upstream fix flips loudly.
-
-## Flowsint pipeline-architecture patterns (see `references/flowsint-pipeline-patterns.md`)
-
-Source-level read of reconurge/flowsint @ 1820569 — an OSINT graph tool whose architecture is a clean reference for any multi-source chaining pipeline:
-
-- The **three-layer split**: pure schema types / one-external-system-each tools returning raw data / typed enrichers that own all side effects.
-- **Decorator auto-discovery** via os.walk with per-module import-error isolation + idempotent load flag.
-- The **scan/postprocess two-phase contract**: the gather phase has no I/O and the persist phase has no network, so each is independently testable. It comes with strict `extra="forbid"` params models and deferred vault-secret resolution.
-- **Neo4j MERGE semantics keyed on (type, nodeLabel, sketch_id)**: label collisions are graph-correctness bugs, not cosmetics. Also soft-delete resurrection and batched idempotent re-runs.
-
-Also covered:
-
-- Declarative YAML templates as a first-class extension mechanism, with an LLM generator gated by schema-in-prompt + fence-strip repair + `safe_load` + frozen Pydantic validation (LLM-writes-*config* beats LLM-writes-code).
-- Per-run JSON audit logs with input-keyed memoization and fail-fast.
-- DockerTool wrapper quirks (`TERM=dumb`, diagnostic re-run on non-zero exit).
-- Test conventions for pipeline components.
-- A recurring-bug-class checklist from their PR history (~8 naive-datetime fixes, IDOR, UTF-8 assumptions, tight healthcheck timeouts).
-- The anatomy of their embedded agent extension-builder skill (source-paths table + decide-before-code tree + refuse-list).
+Lunar polar-stereographic projection math, cap-grid tiling and COG rules moved to `lunar-gis-projections`; the Flowsint three-layer pipeline architecture moved to `enricher-pipeline-architecture`.
 
 ## Scheduling template (GitHub Actions)
 

@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **237 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **253 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -16,12 +16,15 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `claude-code` — Delegate coding to Claude Code CLI (features, PRs) _(autonomous-ai-agents)_
 - `codex` — Delegate coding to OpenAI Codex CLI (features, PRs) _(autonomous-ai-agents)_
 - `computer-use` — Drive the desktop in the background without stealing focus _(autonomous-ai-agents)_
+- `context-budget-planning` — Prompt-cache placement and route-bound context budgets _(autonomous-ai-agents)_
 - `cron-config-authoring` — Author cronjob JSON configs with structured skills _(autonomous-ai-agents)_
 - `cron-job-authoring` — Author autonomous cron prompts with guardrails _(autonomous-ai-agents)_
+- `cross-harness-skill-porting` — Port one skill corpus to many agent harnesses _(autonomous-ai-agents)_
 - `dynamic-workflow` — Plan-in-code fan-outs, adversarial verification, waves _(autonomous-ai-agents)_
 - `hermes-agent` — Use, configure, theme, extend, orchestrate Hermes Agent _(autonomous-ai-agents)_
 - `hermes-bot-cloning` — Clone Hermes profiles to create identical subagent bots _(autonomous-ai-agents)_
 - `hermes-extensions` — Hermes themes, desktop/TUI/Python plugins, pets _(autonomous-ai-agents)_
+- `hermes-integrations` — Hermes MCP servers, webhooks, Portal auth, Hindsight _(autonomous-ai-agents)_
 - `mattpocock-resolving-merge-conflicts` — Resolve git merge conflicts by tracing each side's intent _(autonomous-ai-agents)_
 - `merge-reconciler` — Neutral third-party resolution of agent merge conflicts _(autonomous-ai-agents)_
 - `opencode` — Delegate coding to OpenCode CLI (features, PR review) _(autonomous-ai-agents)_
@@ -77,11 +80,14 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `build-systems-data` — Data build systems: orchestration, versioning, CSV at scale _(data-science)_
 - `duckdb-querying` — Query CSV/Parquet/S3 data ad-hoc via DuckDB Friendly SQL _(data-science)_
 - `economicspace-pipeline` — Use on economicspace (asteroid-mining pipeline) _(data-science)_
+- `enricher-pipeline-architecture` — Layered enricher pipelines: types, tools, two phases _(data-science)_
 - `evolutionary-ml` — Evolutionary ML: GA, NEAT, tournaments, parallel eval _(data-science)_
 - `experiment-design` — A/B test design: metrics, sample size, duration _(data-science)_
 - `jupyter-notebook` — Iterative Python via live Jupyter kernel (hamelnb) _(data-science)_
+- `lunar-gis-projections` — Lunar polar GIS: LPS projection, cap grids, COG rules _(data-science)_
 - `ml-cv-library-notes` — Torch, CuPy, Open3D, gensim and CV libs: live-run traps _(data-science)_
 - `model-export-deploy` — Model export: ONNX, TorchScript, HDF5, NumPy, JSON _(data-science)_
+- `open-data-catalog-sources` — Keyless data mirrors, data.gov API, licence checks _(data-science)_
 - `optimization-modeling-pyomo` — Model LP/MIP/NLP/GDP in Pyomo with live-verified patterns _(data-science)_
 - `orbital-mechanics-data` — Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC _(data-science)_
 - `pinned-data-contracts` — Frozen releases, contract versions, checked pins _(data-science)_
@@ -105,6 +111,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `sdlc-review` — Review Kanban handoffs and route verified outcomes _(devops)_
 - `sqlite-queries` — Query, inspect, and export SQLite databases _(devops)_
 - `ssh-remote` — Commands and file transfer on remote machines over SSH _(devops)_
+- `system-design-interview-patterns` — System-design case studies and OO exercises _(devops)_
 - `system-design-scaling` — Scalable system design: CAP, caches, shards, tradeoffs _(devops)_
 - `watchers` — Poll RSS, JSON APIs, and GitHub with watermark dedup _(devops)_
 - `windows-agent-shell` — Windows Bash-tool traps: heredocs, cp1252, CRLF _(devops)_
@@ -202,17 +209,23 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 
 ## research
 
+- `ai-research-integrity` — Seven-mode integrity gate for AI-assisted research _(research)_
 - `arxiv` — Search arXiv papers by keyword, author, category, or ID _(research)_
+- `autoreason-refinement` — When LLM self-refinement helps; autoreason loop _(research)_
 - `bioinformatics` — Gateway to 400+ genomics and computational biology skills _(research)_
 - `blocked-page-recovery` — Recover blocked/paywalled/WAF'd pages via fallbacks _(research)_
 - `blogwatcher` — Monitor blogs and RSS/Atom feeds via blogwatcher-cli tool _(research)_
 - `competitor-news-monitor` — Watch named companies for material news; cited digests _(research)_
+- `conference-review-criteria` — How ML conference reviewers score papers; rebuttals _(research)_
 - `general-research-rounds` — Run source-anchoring rounds on the General_Research repo _(research)_
 - `gget` — gget CLI/Python: quick genomic DB queries + evidence logs _(research)_
 - `grounded-citations` — Ground answers and documents in cited, verifiable sources _(research)_
+- `human-evaluation-design` — Design, run and report human evaluations for ML papers _(research)_
 - `literature-review` — Plan, screen, synthesize and cite technical literature _(research)_
 - `llm-wiki` — Karpathy's LLM Wiki: build/query interlinked markdown KB _(research)_
 - `mattpocock-research` — Research a question against primary sources _(research)_
+- `ml-experiment-patterns` — ML experiment infrastructure, evaluation and recovery _(research)_
+- `paper-citation-workflow` — Verify citations via APIs; manage BibTeX for papers _(research)_
 - `parallel-cli` — Agent-native web search, deep research, and enrichment _(research)_
 - `pubmed-database` — PubMed/NCBI E-utilities: MeSH queries, PMID lookup, API _(research)_
 - `qmd` — Hybrid local search over notes, docs, and transcripts _(research)_
@@ -287,6 +300,8 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `rust-crate-picks` — Pick Rust crates by need: arena, units, time, graphs _(software-development)_
 - `simplify-code` — Parallel 4-agent cleanup of recent code changes _(software-development)_
 - `skill-flow-router` — Route any task through the right skill flow in this brain _(software-development)_
+- `skill-intake-and-release` — Vet, import, evolve and release third-party skills _(software-development)_
+- `skill-library-audits` — Audit a skill library: frontmatter, links, headers _(software-development)_
 - `spike` — Throwaway experiments to validate an idea before build _(software-development)_
 - `streamlit-dashboards` — Streamlit dashboards: layout, caching, charts, state _(software-development)_
 - `structured-llm-outputs` — Pydantic-typed LLM outputs with retries (instructor) _(software-development)_
@@ -307,7 +322,8 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `publish-site` — Versioned site deploys to GitHub/Cloudflare/Netlify Pages _(web-development)_
 - `react-ecosystem` — Pick React libraries by need, with live npm freshness _(web-development)_
 - `react-library-notes` — React 19, Next 16, Zustand, Motion: run-live traps _(web-development)_
-- `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
+- `static-site-patterns` — Static sites: PWA, vanilla JS/CSS, esbuild, CSS lint _(web-development)_
+- `web-perf-audit` — Audit a built static site: perf script + UI checklist _(web-development)_
 
 ---
-*237 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*253 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*

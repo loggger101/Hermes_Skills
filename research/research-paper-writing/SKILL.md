@@ -11,7 +11,7 @@ metadata:
   hermes:
     tags: [Research, Paper Writing, Experiments, ML, AI, NeurIPS, ICML, ICLR, ACL, AAAI, COLM, LaTeX, Citations, Statistical Analysis]
     category: research
-    related_skills: [arxiv, mattpocock-subagent-driven-development, plan, excalidraw, python-data-science]
+    related_skills: [paper-citation-workflow, ml-experiment-patterns, conference-review-criteria, arxiv, mattpocock-subagent-driven-development, plan, excalidraw, python-data-science, human-evaluation-design, autoreason-refinement, ai-research-integrity]
     requires_toolsets: [terminal, files]
 ---
 
@@ -339,7 +339,7 @@ If you cannot verify a citation:
 
 **Always tell the scientist**: "I've marked [X] citations as placeholders that need verification."
 
-See [references/citation-workflow.md](references/citation-workflow.md) for complete API documentation and the full `CitationManager` class.
+See [paper-citation-workflow](../paper-citation-workflow/references/citation-workflow.md) for complete API documentation and the full `CitationManager` class.
 
 ### Step 1.4: Organize Related Work
 
@@ -421,7 +421,7 @@ analyze_results.py             # Statistical analysis
 make_charts.py                 # Visualization
 ```
 
-See [references/experiment-patterns.md](references/experiment-patterns.md) for complete design patterns, cron monitoring, and error recovery.
+See [ml-experiment-patterns](../ml-experiment-patterns/references/experiment-patterns.md) for complete design patterns, cron monitoring, and error recovery.
 
 ### Step 2.5: Design Human Evaluation (If Applicable)
 
@@ -460,7 +460,7 @@ Many NLP, HCI, and alignment papers require human evaluation as primary or compl
 - Annotation interface description or screenshot (appendix)
 - Total annotation time
 
-See [references/human-evaluation.md](references/human-evaluation.md) for complete guide including statistical tests for human eval data, crowdsourcing quality control patterns, and IRB guidance.
+See [human-evaluation-design](../human-evaluation-design/references/human-evaluation.md) for complete guide including statistical tests for human eval data, crowdsourcing quality control patterns, and IRB guidance.
 
 ---
 
@@ -590,7 +590,7 @@ Always compute:
 - **Pairwise tests**: McNemar's test for comparing two methods
 - **Effect sizes**: Cohen's d or h for practical significance
 
-See [references/experiment-patterns.md](references/experiment-patterns.md) for complete implementations of McNemar's test, bootstrapped CIs, and Cohen's h.
+See [ml-experiment-patterns](../ml-experiment-patterns/references/experiment-patterns.md) for complete implementations of McNemar's test, bootstrapped CIs, and Cohen's h.
 
 ### Step 4.3: Identify the Story
 
@@ -768,7 +768,7 @@ When refining the paper itself through autoreason:
 | Overfitting (code) | High public-test pass, low private-test pass | Use structured analysis, not just test feedback |
 | Broken judges | Parsing failures reduce panel below 3 | Fix parser before continuing |
 
-See [references/autoreason-methodology.md](references/autoreason-methodology.md) for complete prompts, Borda scoring details, model selection guide, scope constraint design patterns, and compute budget reference.
+See [autoreason-refinement](../autoreason-refinement/references/autoreason-methodology.md) for complete prompts, Borda scoring details, model selection guide, scope constraint design patterns, and compute budget reference.
 
 ---
 
@@ -846,7 +846,7 @@ Each reviewer can refine their review after seeing the meta-review. Use an early
 
 **Model selection for reviewing**: Reviewing is best done with the strongest available model, even if you wrote the paper with a cheaper one. The reviewer model should be chosen independently from the writing model.
 
-**Few-shot calibration**: If available, include 1-2 real published reviews from the target venue as examples. This dramatically improves score calibration. See [references/reviewer-guidelines.md](references/reviewer-guidelines.md) for example reviews.
+**Few-shot calibration**: If available, include 1-2 real published reviews from the target venue as examples. This dramatically improves score calibration. See [conference-review-criteria](../conference-review-criteria/references/reviewer-guidelines.md) for example reviews.
 
 ### Step 6.1b: Visual Review Pass (VLM)
 
@@ -1177,7 +1177,7 @@ Understanding what reviewers look for helps focus effort:
 - 2: Reject — technical flaws
 - 1: Strong Reject — known results or ethics issues
 
-See [references/reviewer-guidelines.md](references/reviewer-guidelines.md) for detailed guidelines, common concerns, and rebuttal strategies.
+See [conference-review-criteria](../conference-review-criteria/references/reviewer-guidelines.md) for detailed guidelines, common concerns, and rebuttal strategies.
 
 ---
 
@@ -1193,7 +1193,7 @@ See [references/reviewer-guidelines.md](references/reviewer-guidelines.md) for d
 | Scope creep in experiments | Every experiment must map to a specific claim. Cut experiments that don't. |
 | Paper rejected, need to resubmit | See Step 7.7 (Conference Resubmission) in `references/phase7-submission-prep.md`. Address reviewer concerns without referencing reviews. |
 | Missing broader impact statement | See Step 5.10. Most venues require it. "No negative impacts" is almost never credible. |
-| Human eval criticized as weak | See Step 2.5 and [references/human-evaluation.md](references/human-evaluation.md). Report agreement metrics, annotator details, compensation. |
+| Human eval criticized as weak | See Step 2.5 and [human-evaluation-design](../human-evaluation-design/references/human-evaluation.md). Report agreement metrics, annotator details, compensation. |
 | Reviewers question reproducibility | Release code (Step 7.10 in `references/phase7-submission-prep.md`), document all hyperparameters, include seeds and compute details. |
 | Theory paper lacks intuition | Add proof sketches with plain-language explanations before formal proofs. See [references/paper-types.md](references/paper-types.md). |
 | Results are negative/null | See Phase 4.3 on handling negative results. Consider workshops, TMLR, or reframing as analysis. |
@@ -1205,17 +1205,17 @@ See [references/reviewer-guidelines.md](references/reviewer-guidelines.md) for d
 | Document | Contents |
 |----------|----------|
 | [references/writing-guide.md](references/writing-guide.md) | Gopen & Swan 7 principles, Perez micro-tips, Lipton word choice, Steinhardt precision, figure design |
-| [references/citation-workflow.md](references/citation-workflow.md) | Citation APIs, Python code, CitationManager class, BibTeX management |
+| [paper-citation-workflow](../paper-citation-workflow/references/citation-workflow.md) | Citation APIs, Python code, CitationManager class, BibTeX management |
 | [references/checklists.md](references/checklists.md) | NeurIPS 16-item, ICML, ICLR, ACL requirements, universal pre-submission checklist |
-| [references/reviewer-guidelines.md](references/reviewer-guidelines.md) | Evaluation criteria, scoring, common concerns, rebuttal template |
+| [conference-review-criteria](../conference-review-criteria/references/reviewer-guidelines.md) | Evaluation criteria, scoring, common concerns, rebuttal template |
 | [references/sources.md](references/sources.md) | Complete bibliography of all writing guides, conference guidelines, APIs |
-| [references/experiment-patterns.md](references/experiment-patterns.md) | Experiment design patterns, evaluation protocols, monitoring, error recovery |
-| [references/autoreason-methodology.md](references/autoreason-methodology.md) | Autoreason loop, strategy selection, model guide, prompts, scope constraints, Borda scoring |
-| [references/human-evaluation.md](references/human-evaluation.md) | Human evaluation design, annotation guidelines, agreement metrics, crowdsourcing QC, IRB guidance |
+| [ml-experiment-patterns](../ml-experiment-patterns/references/experiment-patterns.md) | Experiment design patterns, evaluation protocols, monitoring, error recovery |
+| [autoreason-refinement](../autoreason-refinement/references/autoreason-methodology.md) | Autoreason loop, strategy selection, model guide, prompts, scope constraints, Borda scoring |
+| [human-evaluation-design](../human-evaluation-design/references/human-evaluation.md) | Human evaluation design, annotation guidelines, agreement metrics, crowdsourcing QC, IRB guidance |
 | [references/paper-types.md](references/paper-types.md) | Theory papers (proof writing, theorem structure), survey papers, benchmark papers, position papers |
 | [references/phase7-submission-prep.md](references/phase7-submission-prep.md) | Phase 7 in full: checklists, anonymization, validation, final build, venue requirements, resubmission, camera-ready, arXiv strategy, code packaging |
 | [references/hermes-tool-patterns.md](references/hermes-tool-patterns.md) | Hermes tool call patterns, `memory`/`todo` state, `cronjob` monitoring, user-notification rules |
-| [references/ai-research-integrity-checklist.md](references/ai-research-integrity-checklist.md) | Seven failure modes of AI-assisted research as a pre-submission gate (buggy code, invented results, fabricated methods, frame-lock); DOI-vs-title citation checks run live against Crossref/OpenAlex/S2 |
+| [ai-research-integrity](../ai-research-integrity/references/ai-research-integrity-checklist.md) | Seven failure modes of AI-assisted research as a pre-submission gate (buggy code, invented results, fabricated methods, frame-lock); DOI-vs-title citation checks run live against Crossref/OpenAlex/S2 |
 
 ### LaTeX Templates
 

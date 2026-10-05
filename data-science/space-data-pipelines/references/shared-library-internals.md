@@ -108,7 +108,7 @@ Daily at 21:00 UTC (after all regular workflows). Derives each dataset's expecte
 - **Multi-config repos need `default: true` on the primary config or `load_dataset()` fails** — always set it.
 - YAML escaping order matters: backslashes BEFORE quotes; tags containing special chars get double-quoted; markdown table cells escape `|` → `\|`.
 
-## License audit (full detail in `space-data-licensing-audit.md`)
+## License audit (full detail in `open-data-catalog-sources/references/space-data-licensing-audit.md`)
 
 The repo's own 2026-05-26 audit found **30 datasets mis-licensed** as cc-by-4.0 when upstream forbids commercial use
 (ESA = CC BY-NC 3.0 IGO, WDC Kyoto no-commercial, SILSO CC BY-NC 4.0, AAVSO NC) and relicensed 89 total in commit e05a793.

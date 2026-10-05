@@ -55,7 +55,7 @@ brought the same 1 000 records to 34 529 B (**0.43x**). Decompressing without th
 ## Where not to use it
 
 A COG that must render in a browser should not use zstd (geotiff.js and OpenLayers cannot decode it; see
-`space-data-pipelines/references/lunar-gis-patterns-aegis.md`). Compression is not encryption or integrity: add a checksum or
+`lunar-gis-projections/references/lunar-gis-patterns-aegis.md`). Compression is not encryption or integrity: add a checksum or
 signature separately (`CompressionParameter.checksum_flag` adds a frame checksum; not exercised).
 
 Not run: `ZstdCompressor` streaming flush modes, `finalize_dict`, long-distance matching, multi-GB inputs, memory use, or Python < 3.14.

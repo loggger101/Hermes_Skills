@@ -52,6 +52,8 @@ Development tools and coding workflows.
 - [`rust-crate-picks`](./rust-crate-picks/SKILL.md) — Pick Rust crates by need: arena, units, time, graphs
 - [`simplify-code`](./simplify-code/SKILL.md) — Parallel 4-agent cleanup of recent code changes
 - [`skill-flow-router`](./skill-flow-router/SKILL.md) — Route any task through the right skill flow in this brain
+- [`skill-intake-and-release`](./skill-intake-and-release/SKILL.md) — Vet, import, evolve and release third-party skills
+- [`skill-library-audits`](./skill-library-audits/SKILL.md) — Audit a skill library: frontmatter, links, headers
 - [`spike`](./spike/SKILL.md) — Throwaway experiments to validate an idea before build
 - [`streamlit-dashboards`](./streamlit-dashboards/SKILL.md) — Streamlit dashboards: layout, caching, charts, state
 - [`structured-llm-outputs`](./structured-llm-outputs/SKILL.md) — Pydantic-typed LLM outputs with retries (instructor)

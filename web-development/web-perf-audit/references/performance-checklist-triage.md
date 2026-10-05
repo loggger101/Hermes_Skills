@@ -19,12 +19,12 @@ run a browser, execute JS, or see server headers.
 
 | Checklist item (priority) | Where it is handled |
 |---|---|
-| Minified HTML (m); Minification of CSS (h) and JS (h) | `not-minified` heuristic for local CSS/JS (many short lines); minify with esbuild, see the esbuild section of `SKILL.md` |
+| Minified HTML (m); Minification of CSS (h) and JS (h) | `not-minified` heuristic for local CSS/JS (many short lines); minify with esbuild, see the esbuild section of `static-site-patterns` |
 | CSS before JavaScript (h) | `css-after-js` |
 | Minimize iframes (h) | `iframe-count` |
 | Prefetch / dns-prefetch / prerender (l) | not checked; use `preconnect` only for origins that are certainly used |
 | Concatenation (m), Embedded CSS (h) | **dated under HTTP/2/3**: the checklist itself says "not always valid for HTTP/2"; many small files are fine, but `style-in-body` still flags `<style>` in `<body>` |
-| Non-blocking CSS (h), CSS critical (h), Unused CSS (m), Stylesheet complexity (h) | not scripted: Lighthouse/Coverage, or `stylelint` (see the CSS lint section of `SKILL.md`) |
+| Non-blocking CSS (h), CSS critical (h), Unused CSS (m), Stylesheet complexity (h) | not scripted: Lighthouse/Coverage, or `stylelint` (see the CSS lint section of `static-site-patterns`) |
 | Webfont formats (m) | `font-format` (woff2 required in each `@font-face`) |
 | `preconnect` for fonts (m) | `font-preconnect` |
 | Webfont size < 300 kB (m) | `font-weight` (local font files referenced from CSS, `--max-font-kb`) |
@@ -36,7 +36,7 @@ run a browser, execute JS, or see server headers.
 | Non-blocking JavaScript (h) | `script-blocking` (`<script src>` in `<head>` without `defer`/`async`/`type=module`) |
 | No JavaScript inside the body (m) | not checked: **contested**, inline scripts are fine when small and critical |
 | Optimized/updated libraries (m), Dependency size (l), JS profiling (m) | not scripted (`npm outdated`, bundle analysis, DevTools) |
-| Service Workers (m) | `SKILL.md` PWA section has a versioned precache template |
+| Service Workers (m) | `static-site-patterns` PWA section has a versioned precache template |
 | HTTPS (h), HTTP cache headers (h), GZIP/Brotli (h), same protocol (h), reachable files (h), minimize requests (h), CDN (m), cookie size (m) | server or live-site checks, not in a static scan: use `curl -I`, Lighthouse, or a link checker (`tools/check-links.py` style) |
 | Page weight < 1500 kB (ideally < 500 kB) (h) | `page-weight`: HTML + local CSS/JS/images/fonts it references, per page (remote assets are not measured) |
 

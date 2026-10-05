@@ -84,7 +84,7 @@ mcp_servers:
     args: ["mcp", "/absolute/path/to/repo"]   # PATH arg scopes the server to one repo (verified)
 ```
 
-Then restart Hermes. Tools arrive as `mcp_repowise_get_overview` etc. **Allowlist caveat**: if your platform has a saved `platform_toolsets.<platform>` list, MCP servers are only injected when their name is in that list — see `hermes-agent/references/native-mcp.md` (verified against this install's source).
+Then restart Hermes. Tools arrive as `mcp_repowise_get_overview` etc. **Allowlist caveat**: if your platform has a saved `platform_toolsets.<platform>` list, MCP servers are only injected when their name is in that list — see `hermes-integrations/references/native-mcp.md` (verified against this install's source).
 
 ### The ten tools (task-shaped by design)
 

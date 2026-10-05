@@ -8,6 +8,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `autonomous-ai-agents/autonomous-loop-design/references/loop-engineering.md` — Loop Engineering (scheduled autonomous jobs)
 - `autonomous-ai-agents/autonomous-loop-design/references/loop-goal-design-and-review.md` — Loop goal design and review: a decidable goal, an independent judge, a boundary
 
+## autonomous-ai-agents/context-budget-planning
+
+- `autonomous-ai-agents/context-budget-planning/references/context-budget-and-cache-placement.md` — Prompt-cache placement rules and a route-bound context budget (usable = window - output - reserve - history) with the invalidation table run through oh-my-hermes 3.0.0's omh CLI
+
 ## autonomous-ai-agents/cron-config-authoring
 
 - `autonomous-ai-agents/cron-config-authoring/references/cronjob-config-patterns.md` — (no description)
@@ -27,26 +31,24 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `autonomous-ai-agents/cron-job-authoring/references/script-path-resolution.md` — Script Path Resolution Pitfalls
 - `autonomous-ai-agents/cron-job-authoring/references/two-agent-architecture.md` — Two-Agent Architecture: Preparer vs. Commit Agent
 
+## autonomous-ai-agents/cross-harness-skill-porting
+
+- `autonomous-ai-agents/cross-harness-skill-porting/references/cross-harness-skill-porting.md` — Cross-Harness Skill Porting — making one skill corpus auto-trigger on N agent runtimes
+
 ## autonomous-ai-agents/hermes-agent
 
 - `autonomous-ai-agents/hermes-agent/references/background-systems.md` — Durable & Background Systems
 - `autonomous-ai-agents/hermes-agent/references/cli-commands-added-0-21.md` — Hermes CLI commands the older references do not cover (live `--help`, v0.21.5)
 - `autonomous-ai-agents/hermes-agent/references/cli-reference.md` — Hermes CLI Reference
 - `autonomous-ai-agents/hermes-agent/references/configuration.md` — Configuration, Toolsets & Voice
-- `autonomous-ai-agents/hermes-agent/references/context-budget-and-cache-placement.md` — Prompt-cache placement rules and a route-bound context budget (usable = window - output - reserve - history) with the invalidation table run through oh-my-hermes 3.0.0's omh CLI
 - `autonomous-ai-agents/hermes-agent/references/contributor-guide.md` — Contributor Quick Reference
-- `autonomous-ai-agents/hermes-agent/references/cross-harness-skill-porting.md` — Cross-Harness Skill Porting — making one skill corpus auto-trigger on N agent runtimes
 - `autonomous-ai-agents/hermes-agent/references/delegate-task-concurrency-diagnosis.md` — delegate_task: diagnosing "my batch was capped"
-- `autonomous-ai-agents/hermes-agent/references/hindsight-memory-provider.md` — Hindsight as a Hermes memory provider: catalog install/update/pin, three modes, recall/retain config, why recall comes back empty, and bank/tag rules that prevent cross-user leaks
 - `autonomous-ai-agents/hermes-agent/references/installed-plugins.md` — Installed Plugins — Live Environment Catalog
-- `autonomous-ai-agents/hermes-agent/references/native-mcp.md` — Native MCP Client
-- `autonomous-ai-agents/hermes-agent/references/portal-auth-for-third-party-apps.md` — Nous Portal — authenticating third-party apps against the subscription
 - `autonomous-ai-agents/hermes-agent/references/project-context-files.md` — Project Context Files
 - `autonomous-ai-agents/hermes-agent/references/providers-and-models.md` — Providers & Model Aliases
 - `autonomous-ai-agents/hermes-agent/references/security-privacy.md` — Security & Privacy Toggles
 - `autonomous-ai-agents/hermes-agent/references/slash-commands.md` — Slash Commands (In-Session)
 - `autonomous-ai-agents/hermes-agent/references/troubleshooting.md` — Troubleshooting
-- `autonomous-ai-agents/hermes-agent/references/webhooks.md` — Webhook Subscriptions
 - `autonomous-ai-agents/hermes-agent/references/windows-quirks.md` — Windows-Specific Quirks
 
 ## autonomous-ai-agents/hermes-bot-cloning
@@ -60,6 +62,13 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `autonomous-ai-agents/hermes-extensions/references/python-agent-plugins.md` — Python Agent Plugins (the `~/.hermes/plugins/` system) — verified API notes
 - `autonomous-ai-agents/hermes-extensions/references/themes.md` — Themes / Skins — Author a Hermes Color Theme
 - `autonomous-ai-agents/hermes-extensions/references/tui-widgets.md` — TUI Widgets — Live Panels for the Ink TUI Dock
+
+## autonomous-ai-agents/hermes-integrations
+
+- `autonomous-ai-agents/hermes-integrations/references/hindsight-memory-provider.md` — Hindsight as a Hermes memory provider: catalog install/update/pin, three modes, recall/retain config, why recall comes back empty, and bank/tag rules that prevent cross-user leaks
+- `autonomous-ai-agents/hermes-integrations/references/native-mcp.md` — Native MCP Client
+- `autonomous-ai-agents/hermes-integrations/references/portal-auth-for-third-party-apps.md` — Nous Portal — authenticating third-party apps against the subscription
+- `autonomous-ai-agents/hermes-integrations/references/webhooks.md` — Webhook Subscriptions
 
 ## autonomous-ai-agents/repowise
 
@@ -376,6 +385,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `data-science/economicspace-pipeline/references/low-thrust-screening-prospector.md` — How Karmanplus/prospector screens asteroids for low-thrust reachability: tiered solvers, errors-must-point-low rule, Edelbaum + intercept bracket (formula run live), validation vs Dawn/Psyche/Hayabusa2/DART, pixi/conda-forge install
 - `data-science/economicspace-pipeline/references/yfinance-live-behaviour.md` — yfinance 1.7.0 as economicspace uses it (Ticker.history 5d on HG/GC/SI/PL/PA=F): failures are logged not raised, last bar can be an in-progress session, TIO=F data conflicts with the pipeline's CNY note
 
+## data-science/enricher-pipeline-architecture
+
+- `data-science/enricher-pipeline-architecture/references/flowsint-pipeline-patterns.md` — Flowsint Pipeline Architecture Patterns (verified from reconurge/flowsint @ 1820569, v1.2.12)
+
 ## data-science/evolutionary-ml
 
 - `data-science/evolutionary-ml/references/ga-tuning-measured.md` — GA Tuning — Measured Lessons (CR-pipeline, 2026-09)
@@ -387,6 +400,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## data-science/jupyter-notebook
 
 - `data-science/jupyter-notebook/references/notebook-tooling.md` — Notebook tooling run live (jupytext, nbformat, nbconvert, papermill, nbmake, nbdiff): text round-trips, validation, execution failures, parameter injection traps, tests, diffs
+
+## data-science/lunar-gis-projections
+
+- `data-science/lunar-gis-projections/references/lunar-gis-patterns-aegis.md` — Lunar GIS patterns from nasa/aegis (AEGIS): LPS projection math, GeoTIFF custom-CRS reconstruction, lgrs-verified port, categorical-raster to RGBA COG with nearest overviews (run)
 
 ## data-science/ml-cv-library-notes
 
@@ -400,6 +417,12 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## data-science/model-export-deploy
 
 - `data-science/model-export-deploy/references/tensorflow-keras3-notes.md` — TensorFlow 2.21.0 + Keras 3.15.1 on Windows: no Python 3.14 wheel, CPU-only, model.save('.keras'/'.h5') works while SavedModel needs model.export(), dtype strictness, tf.function retracing, noisy stderr
+
+## data-science/open-data-catalog-sources
+
+- `data-science/open-data-catalog-sources/references/data-gov-catalog-api.md` — catalog.data.gov search API as of 2026-10-05: the CKAN /api/3/action endpoints are gone (404); /search + /api/* replace them. Parameters, pagination, response shape, traps. Live-probed.
+- `data-science/open-data-catalog-sources/references/hf-mirror-catalog.md` — All 230 keyless Hugging Face space/astro/physics mirrors from juliensimon/space-datasets — load_dataset one-liner, no API keys; grouped by domain
+- `data-science/open-data-catalog-sources/references/space-data-licensing-audit.md` — Space-data licensing traps from space-datasets' own 2026-05-26 audit: ESA CC BY-NC, WDC Kyoto no-commercial, VizieR scientific-use terms, provider URL table
 
 ## data-science/optimization-modeling-pyomo
 
@@ -434,13 +457,8 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## data-science/space-data-pipelines
 
 - `data-science/space-data-pipelines/references/belt-gradient-analysis-patterns.md` — Debiasing an asteroid taxonomy analysis (loggger101/asteroid-belt-gradient): published-labels-only rule, family collapse, size-complete vs inverse-completeness weighting, KS+Bonferroni, reproducibility layout; headline numbers
-- `data-science/space-data-pipelines/references/data-gov-catalog-api.md` — catalog.data.gov search API as of 2026-10-05: the CKAN /api/3/action endpoints are gone (404); /search + /api/* replace them. Parameters, pagination, response shape, traps. Live-probed.
-- `data-science/space-data-pipelines/references/flowsint-pipeline-patterns.md` — Flowsint Pipeline Architecture Patterns (verified from reconurge/flowsint @ 1820569, v1.2.12)
-- `data-science/space-data-pipelines/references/hf-mirror-catalog.md` — All 230 keyless Hugging Face space/astro/physics mirrors from juliensimon/space-datasets — load_dataset one-liner, no API keys; grouped by domain
-- `data-science/space-data-pipelines/references/lunar-gis-patterns-aegis.md` — Lunar GIS patterns from nasa/aegis (AEGIS): LPS projection math, GeoTIFF custom-CRS reconstruction, lgrs-verified port, categorical-raster to RGBA COG with nearest overviews (run)
 - `data-science/space-data-pipelines/references/shared-library-internals.md` — hf_dataset_utils internals from juliensimon/space-datasets (230 pipelines): retry budget, TAP clients, HEASARC HTTP-200 failures, MAST keyset pagination, LFS recovery, watchdog
 - `data-science/space-data-pipelines/references/source-parser-families.md` — Per-source parsing families from space-datasets (round-15): TLE two-line-element char positions + epoch century rule, PDS3/PDS4 fixed-width colspecs, GOES netCDF status pivot, Wikidata SPARQL dedup, HTML fixture testing
-- `data-science/space-data-pipelines/references/space-data-licensing-audit.md` — Space-data licensing traps from space-datasets' own 2026-05-26 audit: ESA CC BY-NC, WDC Kyoto no-commercial, VizieR scientific-use terms, provider URL table
 
 ## data-science/sql-for-data
 
@@ -463,13 +481,16 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `devops/rest-api-client/references/public-api-discovery.md` — Finding free public APIs with the public-api-lists JSON feed (837 entries, 48 categories): schema, how to query it, measured link health, and metadata errors found (NASA auth, redirected Launch Library)
 - `devops/rest-api-client/references/ssrf-guard-and-outbound-http-hardening.md` — SSRF Guard & Outbound-HTTP Hardening (verified from reconurge/flowsint @ 1820569, v1.2.12)
 
+## devops/system-design-interview-patterns
+
+- `devops/system-design-interview-patterns/references/case-study-patterns.md` — Case-Study Patterns (8 Worked Designs → Reusable Recipes)
+- `devops/system-design-interview-patterns/references/oo-design-interview-patterns.md` — Object-Oriented Design Interview Patterns (6 Worked Exercises)
+
 ## devops/system-design-scaling
 
 - `devops/system-design-scaling/references/asynchronism-communication-security.md` — Asynchronism, Communication & Security
-- `devops/system-design-scaling/references/case-study-patterns.md` — Case-Study Patterns (8 Worked Designs → Reusable Recipes)
 - `devops/system-design-scaling/references/databases-and-caching.md` — Databases, NoSQL & Caching — Trade-Off Tables
 - `devops/system-design-scaling/references/latency-and-estimation.md` — Latency Numbers & Back-of-the-Envelope Estimation
-- `devops/system-design-scaling/references/oo-design-interview-patterns.md` — Object-Oriented Design Interview Patterns (6 Worked Exercises)
 - `devops/system-design-scaling/references/scaling-tradeoffs-and-topics.md` — Scaling Trade-Offs & Networking Topics
 
 ## devops/watchers
@@ -627,6 +648,18 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 - `productivity/xlsx/references/restructuring.md` — Reference-aware restructuring (xlsx_restructure.py)
 
+## research/ai-research-integrity
+
+- `research/ai-research-integrity/references/ai-research-integrity-checklist.md` — Seven failure modes of AI-assisted research (buggy code, fake citations, invented results, shortcuts, bug-as-insight, fabricated methods, frame-lock) as a pre-submission gate; plus live citation-API checks
+
+## research/autoreason-refinement
+
+- `research/autoreason-refinement/references/autoreason-methodology.md` — Autoreason: Iterative Refinement Methodology
+
+## research/conference-review-criteria
+
+- `research/conference-review-criteria/references/reviewer-guidelines.md` — Reviewer Guidelines & Evaluation Criteria
+
 ## research/general-research-rounds
 
 - `research/general-research-rounds/references/registry-rules-and-routes.md` — General_Research registry rules from its AGENTS.md/README that SKILL.md lacks (access classes, licence rule, log append-at-top, rejection, permanent ids) and fetch routes re-checked 2026-10-05
@@ -637,19 +670,25 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `research/grounded-citations/references/citation-formats.md` — Citation formats per output target
 - `research/grounded-citations/references/grounding-rationale.md` — Why numbered ledger ids (grounding research basis)
 
+## research/human-evaluation-design
+
+- `research/human-evaluation-design/references/human-evaluation.md` — Human Evaluation Guide for ML/AI Research
+
+## research/ml-experiment-patterns
+
+- `research/ml-experiment-patterns/references/experiment-patterns.md` — Experiment Design Patterns
+
+## research/paper-citation-workflow
+
+- `research/paper-citation-workflow/references/citation-workflow.md` — Citation Management & Hallucination Prevention
+
 ## research/research-paper-writing
 
-- `research/research-paper-writing/references/ai-research-integrity-checklist.md` — Seven failure modes of AI-assisted research (buggy code, fake citations, invented results, shortcuts, bug-as-insight, fabricated methods, frame-lock) as a pre-submission gate; plus live citation-API checks
-- `research/research-paper-writing/references/autoreason-methodology.md` — Autoreason: Iterative Refinement Methodology
 - `research/research-paper-writing/references/checklists.md` — Conference Paper Checklists
-- `research/research-paper-writing/references/citation-workflow.md` — Citation Management & Hallucination Prevention
-- `research/research-paper-writing/references/experiment-patterns.md` — Experiment Design Patterns
 - `research/research-paper-writing/references/hermes-tool-patterns.md` — Hermes tool-usage patterns for the paper pipeline: experiment monitoring, parallel drafting, memory/todo state, cronjob monitoring, notification rules
-- `research/research-paper-writing/references/human-evaluation.md` — Human Evaluation Guide for ML/AI Research
 - `research/research-paper-writing/references/paper-types.md` — Paper Types Beyond Empirical ML
 - `research/research-paper-writing/references/phase5-paper-drafting.md` — Phase 5: Paper Drafting (full procedure)
 - `research/research-paper-writing/references/phase7-submission-prep.md` — Phase 7 submission preparation: venue checklists, anonymization, formatting, pre-compile validation, resubmission, camera-ready, arXiv strategy, code packaging
-- `research/research-paper-writing/references/reviewer-guidelines.md` — Reviewer Guidelines & Evaluation Criteria
 - `research/research-paper-writing/references/sources.md` — Source Bibliography
 - `research/research-paper-writing/references/writing-guide.md` — ML Paper Writing Philosophy & Best Practices
 
@@ -728,18 +767,8 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## software-development/hermes-agent-skill-authoring
 
-- `software-development/hermes-agent-skill-authoring/references/audit-script-pattern.md` — Building Repo-Health Audit Scripts for Hermes Skill Repositories
 - `software-development/hermes-agent-skill-authoring/references/behavioral-skill-testing.md` — Behavioral Skill Testing (RED-GREEN for Discipline Skills)
-- `software-development/hermes-agent-skill-authoring/references/frontmatter-audit-pattern.md` — Frontmatter Audit Pattern
-- `software-development/hermes-agent-skill-authoring/references/harness-audit-dual-judge-traps.md` — Harness Audit Protocol: Dual-Judge + Planted Traps (verified from tech-leads-club/agent-skills @ 0ab82f6)
-- `software-development/hermes-agent-skill-authoring/references/related-skills-audit.md` — Auditing and Fixing `related_skills` References
-- `software-development/hermes-agent-skill-authoring/references/section-header-standardization.md` — Section Header Standardization
-- `software-development/hermes-agent-skill-authoring/references/skill-evolution-pipeline.md` — DSPy+GEPA skill-evolution pipeline (hermes-agent-self-evolution): CLI, cost, when NOT to use, and what its metric, constraint gate and session importer really do (run)
 - `software-development/hermes-agent-skill-authoring/references/skill-invocation-conventions.md` — Skill invocation conventions: model-invoked vs user-invoked, and how skills call each other
-- `software-development/hermes-agent-skill-authoring/references/skill-registry-security.md` — Skill registry supply-chain + installer security patterns, mined from tech-leads-club/agent-skills (MIT code / CC-BY-4.0 content)
-- `software-development/hermes-agent-skill-authoring/references/skill-repo-release-engineering.md` — Skill-Repo Release Engineering (versioning, update channel, generated blocks)
-- `software-development/hermes-agent-skill-authoring/references/skill-seekers-generated-drafts.md` — Using Skill Seekers 3.10.0 to draft skill material from a codebase, docs, PDFs and more: offline run on a tiny project (3 s), what it generates, what is boilerplate, and how to finish it into a Hermes skill
-- `software-development/hermes-agent-skill-authoring/references/vendor-shipped-skills-preline.md` — Skills shipped inside a UI library (Preline): what a vendor skill does well, and where it breaks our conventions
 
 ## software-development/inspecting-hermes-desktop-dom
 
@@ -805,6 +834,22 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `software-development/rust-crate-picks/references/gpui-kit-notes.md` — gpui-kit 0.7 (Rust desktop UI on GPUI): layering, features, headless UI testing, and its tested-recipe documentation pattern; source-read
 - `software-development/rust-crate-picks/references/num-enum-notes.md` — num_enum 0.7.6 (Rust): derive macros for enum <-> integer conversion (IntoPrimitive, TryFromPrimitive, FromPrimitive, UnsafeFromPrimitive), attributes, features; plus the Python IntEnum analogue run live on 3.14
 - `software-development/rust-crate-picks/references/uom-units-notes.md` — uom 0.38 (Rust type-safe units of measure): features, design, usage; plus the Python analogue pint 0.26.1 run live (dimension errors, temperature offset trap, AU and year definitions)
+
+## software-development/skill-intake-and-release
+
+- `software-development/skill-intake-and-release/references/skill-evolution-pipeline.md` — DSPy+GEPA skill-evolution pipeline (hermes-agent-self-evolution): CLI, cost, when NOT to use, and what its metric, constraint gate and session importer really do (run)
+- `software-development/skill-intake-and-release/references/skill-registry-security.md` — Skill registry supply-chain + installer security patterns, mined from tech-leads-club/agent-skills (MIT code / CC-BY-4.0 content)
+- `software-development/skill-intake-and-release/references/skill-repo-release-engineering.md` — Skill-Repo Release Engineering (versioning, update channel, generated blocks)
+- `software-development/skill-intake-and-release/references/skill-seekers-generated-drafts.md` — Using Skill Seekers 3.10.0 to draft skill material from a codebase, docs, PDFs and more: offline run on a tiny project (3 s), what it generates, what is boilerplate, and how to finish it into a Hermes skill
+- `software-development/skill-intake-and-release/references/vendor-shipped-skills-preline.md` — Skills shipped inside a UI library (Preline): what a vendor skill does well, and where it breaks our conventions
+
+## software-development/skill-library-audits
+
+- `software-development/skill-library-audits/references/audit-script-pattern.md` — Building Repo-Health Audit Scripts for Hermes Skill Repositories
+- `software-development/skill-library-audits/references/frontmatter-audit-pattern.md` — Frontmatter Audit Pattern
+- `software-development/skill-library-audits/references/harness-audit-dual-judge-traps.md` — Harness Audit Protocol: Dual-Judge + Planted Traps (verified from tech-leads-club/agent-skills @ 0ab82f6)
+- `software-development/skill-library-audits/references/related-skills-audit.md` — Auditing and Fixing `related_skills` References
+- `software-development/skill-library-audits/references/section-header-standardization.md` — Section Header Standardization
 
 ## software-development/streamlit-dashboards
 
@@ -875,7 +920,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `web-development/react-library-notes/references/shadcn-cli-4-notes.md` — shadcn CLI 4.21.2: what `init` and `add` actually do (run live on Windows)
 - `web-development/react-library-notes/references/zustand-v5-notes.md` — Zustand 5.0.15 traps run against React 19.3 + jsdom: fresh-object selector loops, removed equality arg, setState replace flag, persist shallow merge and dropped versions, async hydration
 
-## web-development/static-site-patterns
+## web-development/web-perf-audit
 
-- `web-development/static-site-patterns/references/performance-checklist-triage.md` — Front-End Performance Checklist: which of its 40 items an agent can check, and which numbers are dated
-- `web-development/static-site-patterns/references/web-interface-guidelines-ui-checklist.md` — Web Interface Guidelines (UI/UX Review Checklist) [PORTED]
+- `web-development/web-perf-audit/references/performance-checklist-triage.md` — Front-End Performance Checklist: which of its 40 items an agent can check, and which numbers are dated
+- `web-development/web-perf-audit/references/web-interface-guidelines-ui-checklist.md` — Web Interface Guidelines (UI/UX Review Checklist) [PORTED]

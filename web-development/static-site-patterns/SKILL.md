@@ -1,6 +1,6 @@
 ---
 name: static-site-patterns
-description: "Static-site perf/UX: PWA installability + Core Web Vitals."
+description: "Static sites: PWA, vanilla JS/CSS, esbuild, CSS lint."
 version: 1.0.0
 author: Hermes Agent (curated from thedaviddias/Front-End-Checklist + lissy93/dashy)
 license: MIT
@@ -9,20 +9,20 @@ metadata:
   hermes:
     tags: [web-development, static-site, pwa, core-web-vitals, vanilla-js, css]
     category: web-development
-    related_skills: [static-site-seo, har-derived-api-client, design-taste-frontend]
+    related_skills: [static-site-seo, har-derived-api-client, design-taste-frontend, web-perf-audit]
 ---
 
 # Static Site Patterns (framework-free)
 
 ## What This Skill Does
 
-Concrete, copy-paste patterns for **vanilla HTML/CSS/JS static sites** — no framework required. Curated from thedaviddias/Front-End-Checklist's 390 agent-ready rule skills (each with verified code examples), filtered to what a hand-authored multi-page site actually needs: PWA installability, responsive images, Core Web Vitals fixes, and modern vanilla JS/CSS idioms. Complements `static-site-seo` (which covers SEO/structured-data/analytics/security-headers) — this skill is the **performance + UX** half.
+Concrete, copy-paste patterns for **vanilla HTML/CSS/JS static sites** — no framework required. Curated from thedaviddias/Front-End-Checklist's 390 agent-ready rule skills (each with verified code examples), filtered to what a hand-authored multi-page site actually needs: PWA installability and modern vanilla JS/CSS idioms, with optional esbuild and CSS lint steps. Complements `static-site-seo` (SEO/structured-data/analytics/security-headers) and `web-perf-audit` (responsive images, Core Web Vitals, the static performance audit and the UI checklist).
 
 ## When to Use
 
 - Building or auditing a static site with no build framework (hand-authored HTML pages).
 - Making an existing static site installable as a PWA / work offline.
-- Fixing Core Web Vitals (LCP, CLS) on image-heavy portfolio sites.
+- Fixing Core Web Vitals (LCP, CLS) or auditing page weight: use `web-perf-audit`.
 - Modernizing old vanilla JS (`var`-era code) to ES2015+ idioms without adding dependencies.
 
 ## The gap this fills: manifest yes, service worker no
@@ -118,59 +118,9 @@ if ('serviceWorker' in navigator) {
 
 **Offline fallback page:** `offline.html` must be **fully self-contained** (inline `<style>`, no external CSS/JS) and included in `PRECACHE_URLS`. From the Front-End-Checklist `offline-fallback` rule.
 
-## Responsive images without a build step
+## Responsive images and Core Web Vitals
 
-From `responsive-images` + `image-optimization` rules — all plain HTML:
-
-```html
-<!-- 1. Modern format with automatic fallbacks (AVIF → WebP → JPEG) -->
-<picture>
-  <source srcset="hero.avif" type="image/avif">
-  <source srcset="hero.webp" type="image/webp">
-  <img src="hero.jpg" alt="..." width="1600" height="900">
-</picture>
-
-<!-- 2. Width descriptors + sizes: the browser picks per viewport/DPR -->
-<img src="project-800w.webp"
-     srcset="project-400w.webp 400w, project-800w.webp 800w, project-1600w.webp 1600w"
-     sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px"
-     alt="..." width="800" height="600">
-
-<!-- 3. Different crops per breakpoint -->
-<picture>
-  <source media="(max-width: 600px)" srcset="hero-square.webp">
-  <img src="hero-wide.jpg" alt="...">
-</picture>
-
-<!-- Fixed-size assets (icons/logos): density descriptors instead of width -->
-<img src="logo.png" srcset="logo.png 1x, logo@2x.png 2x, logo@3x.png 3x" alt="" width="200" height="50">
-```
-
-Rules that matter: **always set `width`/`height`** (kills CLS — see below); generate the `-400w/-800w/-1600w` variants once with a script (e.g. ImageMagick/sharp in a build step), not per request; keep the largest source for retina.
-
-## Core Web Vitals, vanilla edition
-
-**LCP (largest contentful paint)** — from `largest-contentful-paint` + `fetchpriority-attribute`:
-
-```html
-<!-- The hero image IS the LCP candidate: preload it in <head> and boost priority -->
-<link rel="preload" href="/hero.webp" as="image" type="image/webp">
-<img src="/hero.webp" alt="..." width="1600" height="900" fetchpriority="high">
-```
-
-Everything else below the fold gets `loading="lazy"` (images AND iframes — a lazy YouTube embed is the classic critical-path killer).
-
-**CLS (cumulative layout shift)** — from `cumulative-layout-shift`:
-
-- Every `<img>`/`<iframe>` carries explicit `width` + `height` (or CSS `aspect-ratio: 16/9`).
-- Never inject content above existing content without reserving its space first.
-
-**Performance budget for a static site** — from `performance-budget`, adapted away from bundlers to what a hand-authored repo can check with zero dependencies: total page weight per HTML file (HTML + linked CSS + JS + images) against a ceiling, enforced in CI or a pre-commit script:
-
-```bash
-# crude but effective budget check for a static repo (no deps):
-for f in *.html; do du -cb "$f" css/*.css js/*.js assets/* 2>/dev/null | tail -1; done
-```
+Responsive-image markup, LCP/CLS fixes and the page-weight budget moved to `web-development/web-perf-audit` (`SKILL.md` there), together with the static audit script and the UI/UX checklist.
 
 ## Vanilla JS modernization patterns
 
@@ -309,11 +259,7 @@ When a lightweight CSS framework is wanted, `web-development/frontend-library-pi
 
 `web-development/frontend-library-picks/references/tabler-icons-3-notes.md` is the MIT alternative to Font Awesome: 5,184 outline + 1,054 filled icons, searchable `icons.json` (tags, 41 categories), a 545 kB-per-font webfont versus 0.4 kB inline SVGs, and `@tabler/icons-react` renders with no default `aria-hidden` and renamed icons (`IconCircleCheck`, not `IconCheckCircle`).
 
-To audit a built site against the machine-checkable items of the Front-End Performance Checklist, run `python scripts/perf_audit.py --root site/ site/` (13 rules: image dimensions, blocking scripts, CSS-after-JS, font format/display/preconnect/size, inline `<style>` in body, base64 images, iframes, unminified assets, page weight; exit 1 on findings; planted-defect harness `scripts/perf_audit_verify.py`). `references/performance-checklist-triage.md` maps the checklist's 40 items to script rules or other tools and replaces its dated numbers with web.dev's current ones (TTFB 0.8 s, LCP 2.5 s, INP 200 ms, CLS 0.1).
-
-## UI/UX code review (beyond performance)
-
-For a full accessibility/forms/animation/copy/dark-mode audit of site markup and JS, use `references/web-interface-guidelines-ui-checklist.md` — Vercel's Web Interface Guidelines ported verbatim with the clickable `file:line` output format. It complements this skill's Core-Web-Vitals section (which covers loading/rendering) by covering interaction quality; pair both when running a site audit.
+To audit a built site for performance or run the UI/UX checklist, use `web-development/web-perf-audit` (`scripts/perf_audit.py`, `references/performance-checklist-triage.md`, `references/web-interface-guidelines-ui-checklist.md`).
 
 For class-toggle CSS animation without a JS library, `web-development/frontend-library-picks/references/animate-css-4-notes.md` holds the parsed facts for animate.css 4.1.1 (97 keyframes, `--animate-*` variables, the compat build's bare class names) and three Chrome-confirmed traps: the end state overrides your own `transform`, exits leave the node in layout and tab order, and the built-in reduced-motion rule force-hides any `*Out*` class.
 
