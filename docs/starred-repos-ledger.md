@@ -21,7 +21,7 @@ Statuses: `pending` · `done` (skill/reference changed) · `covered` (already we
 |---|------|------|--------|------|--------|---------|
 | 1 | [agiwhitelist/auteur](https://github.com/agiwhitelist/auteur) | JavaScript | 2026-08-06 | 0 | done | round-67: new `creative/awwwards-gsap-motion/references/acceptance-gates.md` (linter rules, DPR2/headed/prod perf honesty, serve-over-HTTP, fallback payload); `transition: all` removed from design-taste-frontend |
 | 2 | [alibaba/open-code-review](https://github.com/alibaba/open-code-review) | Go | 2026-10-01 | 0 | done | round-68: new `github/github-code-review/references/large-changeset-review-protocol.md` (git-built file list, bundling/rule groups, coverage accounting, position verification) |
-| 3 | [AndrewAnnex/SpiceyPy](https://github.com/AndrewAnnex/SpiceyPy) | Python | 2026-09-27 | 0 | pending | |
+| 3 | [AndrewAnnex/SpiceyPy](https://github.com/AndrewAnnex/SpiceyPy) | Python | 2026-09-27 | 0 | done | round-69: new `data-science/astro-toolkit-selection/references/spiceypy-notes.md` (live-verified: empty-pool errors, 80-char pool truncation, SPICE AU vs IAU, asteroid ids) |
 | 4 | [ant-design/ant-design](https://github.com/ant-design/ant-design) | TypeScript | 2026-10-05 | 0 | pending | |
 | 5 | [cathrynlavery/repo-atlas](https://github.com/cathrynlavery/repo-atlas) | Python | 2026-08-05 | 0 | pending | |
 | 6 | [cloudflare/wrangler-action](https://github.com/cloudflare/wrangler-action) | TypeScript | 2026-09-28 | 0 | pending | |
