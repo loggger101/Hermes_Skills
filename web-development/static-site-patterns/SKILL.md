@@ -299,6 +299,8 @@ For scroll-reveal effects, `references/scrollreveal-4-notes.md` says why not to 
 
 For framework-free JS animation, `references/animejs-4-notes.md` covers Anime.js 4.5.0 (subpath imports, deterministic `.seek()` testing) and the v3-to-v4 traps: no default export, `easing:` silently ignored in favour of `ease:`, infinite loops report a 10^12 ms duration, and a partial DOM shim throws in `parseTargets`.
 
+For scoped, conflict-free CSS, `references/css-blocks-notes.md` records that LinkedIn's CSS Blocks is dormant (npm 2022), crashes on Windows (`process.getuid`), and changed its state syntax; it lists the strict rules it enforced and the maintained alternatives (CSS Modules, `@scope`, `@layer`, stylelint).
+
 ## UI/UX code review (beyond performance)
 
 For a full accessibility/forms/animation/copy/dark-mode audit of site markup and JS, use `references/web-interface-guidelines-ui-checklist.md` — Vercel's Web Interface Guidelines ported verbatim with the clickable `file:line` output format. It complements this skill's Core-Web-Vitals section (which covers loading/rendering) by covering interaction quality; pair both when running a site audit.
