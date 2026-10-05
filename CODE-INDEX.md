@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **168 code files** (45,283 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **169 code files** (45,418 lines total) in this second brain — one line each, grep-friendly.
 Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -208,6 +208,10 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `productivity/powerpoint/scripts/pptx_render.py` (script, python, 93 lines) — Render every slide of a .pptx to per-slide PNG images
 - `productivity/powerpoint/tests/test_powerpoint_skill.py` (test, python, 474 lines) — End-to-end tests for the powerpoint skill helper scripts
 
+## productivity/session-librarian
+
+- `productivity/session-librarian/scripts/transcript_stats.py` (script, python, 135 lines) — Read-only, context-safe stats for a Claude Code session transcript (.jsonl)
+
 ## productivity/xlsx
 
 - `productivity/xlsx/scripts/csv_to_xlsx.py` (script, python, 115 lines) — Convert a CSV file to a styled .xlsx workbook with type inference
@@ -319,4 +323,4 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `tools/verify-all.py` (repo tooling, python, 475 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*168 code files: 116 scripts, 7 shared helpers, 16 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*169 code files: 117 scripts, 7 shared helpers, 16 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
