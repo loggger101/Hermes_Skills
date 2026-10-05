@@ -14,6 +14,7 @@ All facts source-read from clones (no agents).
 ## astroquery — 58 service subpackages in the 0.4.11 release (69 in repo main), async variants carry the real signatures [SRC + RUN 2026-10-05]
 
 Clone layout: `astroquery/<service>/core.py` (NOT flat `<service>.py`). **Run on the released package (PyPI `astroquery` 0.4.11, installed in a Python 3.12 venv, 2025-09-20 release):** `pkgutil` finds **58** service subpackages (the clone of main read on 2026-09-05 had 69, so main is ahead of the release). For the JPL services the plain methods are generated wrappers: `HorizonsClass.ephemerides`, `elements`, `vectors` and `SBDBClass.query` show the signature `(self, *args, **kwargs)`, while the `*_async(...)` variants hold the real **keyword-only** parameters (`ephemerides_async(*, airmass_lessthan=99, ..., refsystem='ICRF', ...)`, `query_async(self, targetid, *, id_type='search', neo_only=False, ...)`). Read parameters from the `_async` signature. **Not every service follows that pattern**: `Simbad` in 0.4.11 is TAP-based (`query_object(object_name, *, wildcard, criteria, get_query_payload, async_job, verbose)`, `query_tap(query, *, maxrec=10000, async_job, ...)`, **no `query_object_async`**), so check the class before assuming. Importing `astroquery.gaia` printed a Gaia-archive maintenance notice on stdout.
+
 ### jplsbdb.SBDBClass — the pipeline's metadata workhorse
 
 ```python
