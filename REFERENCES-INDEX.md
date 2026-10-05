@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **506 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **507 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -807,4 +807,5 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## web-development/static-site-patterns
 
+- `web-development/static-site-patterns/references/animate-css-4-notes.md` — Animate.css 4.1.1: what the stylesheet really does (parsed live, three traps confirmed in Chrome)
 - `web-development/static-site-patterns/references/web-interface-guidelines-ui-checklist.md` — Web Interface Guidelines (UI/UX Review Checklist) [PORTED]

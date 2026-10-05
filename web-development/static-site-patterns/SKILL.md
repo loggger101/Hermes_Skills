@@ -291,6 +291,8 @@ files you did not touch.
 
 For a full accessibility/forms/animation/copy/dark-mode audit of site markup and JS, use `references/web-interface-guidelines-ui-checklist.md` — Vercel's Web Interface Guidelines ported verbatim with the clickable `file:line` output format. It complements this skill's Core-Web-Vitals section (which covers loading/rendering) by covering interaction quality; pair both when running a site audit.
 
+For class-toggle CSS animation without a JS library, `references/animate-css-4-notes.md` holds the parsed facts for animate.css 4.1.1 (97 keyframes, `--animate-*` variables, the compat build's bare class names) and three Chrome-confirmed traps: the end state overrides your own `transform`, exits leave the node in layout and tab order, and the built-in reduced-motion rule force-hides any `*Out*` class.
+
 ## Provenance & verification notes
 
 - Source of truth for every pattern above: the clone at `%LOCALAPPDATA%\Temp\starred-dive\Front-End-Checklist\skills\<rule-name>\` (SKILL.md + references/rule.md). The repo ships 390 such rule skills — this file curates the ~15 that apply to a framework-free static site; for any other topic (a11y, SEO rules, security headers), grep its `skills/` dir directly.
