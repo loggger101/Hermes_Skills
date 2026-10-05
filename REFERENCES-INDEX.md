@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **478 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **483 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -185,7 +185,9 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `creative/diagram-design/references/profiles.md` — Client profiles
 - `creative/diagram-design/references/semantic-patterns.md` — Semantic patterns
 - `creative/diagram-design/references/style-guide.md` — Style Guide
+- `creative/diagram-design/references/type-architecture-delta.md` — Architecture delta
 - `creative/diagram-design/references/type-architecture.md` — Architecture
+- `creative/diagram-design/references/type-axonometric-plan.md` — Axonometric plan
 - `creative/diagram-design/references/type-bar.md` — Bar / Column Chart
 - `creative/diagram-design/references/type-data-flow.md` — Data Flow
 - `creative/diagram-design/references/type-db-schema.md` — Database Schema
@@ -194,9 +196,11 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `creative/diagram-design/references/type-dp-integration.md` — DP integration
 - `creative/diagram-design/references/type-dp-security-matrix.md` — DP security matrix
 - `creative/diagram-design/references/type-er.md` — ER / Data Model
+- `creative/diagram-design/references/type-exploded.md` — Exploded axonometric
 - `creative/diagram-design/references/type-fishbone.md` — Fishbone / Ishikawa (root-cause)
 - `creative/diagram-design/references/type-flowchart.md` — Flowchart
 - `creative/diagram-design/references/type-gantt.md` — Gantt Chart
+- `creative/diagram-design/references/type-heatmap.md` — Heatmap
 - `creative/diagram-design/references/type-high-level.md` — High-Level
 - `creative/diagram-design/references/type-it-state.md` — IT current-state
 - `creative/diagram-design/references/type-journey.md` — User Journey Map
@@ -224,6 +228,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `creative/diagram-design/references/type-uml-class.md` — UML Class Diagram
 - `creative/diagram-design/references/type-venn.md` — Venn / Set Overlap
 - `creative/diagram-design/references/type-wardley.md` — Wardley Map
+- `creative/diagram-design/references/type-waterfall.md` — Waterfall Chart
 
 ## creative/excalidraw
 

@@ -15,7 +15,7 @@ Creative content generation — ASCII art, hand-drawn style diagrams, and visual
 - [`comfyui`](./comfyui/SKILL.md) — Generate images, video, and audio via diffusion workflows
 - [`design-md`](./design-md/SKILL.md) — Author/validate/export Google's DESIGN.md token spec files
 - [`design-taste-frontend`](./design-taste-frontend/SKILL.md) — Anti-slop frontend skill: brief-inferred design direction
-- [`diagram-design`](./diagram-design/SKILL.md) — Create 39 diagram types as standalone HTML/SVG/PNG files
+- [`diagram-design`](./diagram-design/SKILL.md) — Create 44 diagram types as standalone HTML/SVG/PNG files
 - [`editorial-minimalism-ui`](./editorial-minimalism-ui/SKILL.md) — Editorial monochrome minimalism, Notion/Linear-tier UI
 - [`excalidraw`](./excalidraw/SKILL.md) — Hand-drawn Excalidraw JSON diagrams (arch, flow, seq)
 - [`full-output-enforcement`](./full-output-enforcement/SKILL.md) — Enforce complete output; ban placeholder patterns
