@@ -12,10 +12,11 @@ verified_date: "2026-10-05"
 | Web-served UI in pure Python, forms, dashboards, multi-user | NiceGUI (`nicegui-app-builder`) | runs in the browser, Tailwind/Quasar widgets, FastAPI underneath |
 | Quick data app or report from a script | Streamlit (`streamlit-dashboards`) | rerun-on-interaction model, minimal code |
 | Desktop tool with fast immediate-mode rendering, live plots, node editors, dev/debug panels | **Dear PyGui** (below) | GPU-rendered, claims 1M+ points at 60 fps in plots, built-in node editor and demo |
+| Touch/multitouch apps, one codebase for desktop plus Android/iOS | **Kivy** (below) | OpenGL ES 2.0, KV layout language, property-bound UI |
 | Game window or simulation | pygame (`pygame` skill) | |
 | Packaging a desktop app to an installer | `generating-python-installer` | Tkinter/PyQt size guidance there |
 
-Kivy and PySimpleGUI are added here when their rows in the starred-repos review are done.
+PySimpleGUI is added here when its row in the starred-repos review is done.
 
 ## Dear PyGui 2.3.1
 
@@ -50,3 +51,23 @@ Not tested here: actual rendering, callbacks firing, threading (callbacks run of
 - Build the UI inside `with dpg.window(...)` context managers; keep tags unique and namespaced.
 - Keep heavy work off the render thread; DPG is immediate-mode, so a slow callback stalls the frame.
 - For tests, isolate DPG in a subprocess (crashes are process-level) and assert on `get_value`/`does_item_exist` rather than pixels.
+
+## Kivy 2.3.1
+
+MIT, Python plus Cython on OpenGL ES 2.0; targets Windows, macOS, Linux (including Raspberry Pi), Android and iOS from one codebase, with multitouch in every widget.
+UI is built from Python widgets and/or the **KV language** (declarative rules with property bindings).
+
+**Install reality (verified):** PyPI `kivy` 2.3.1 ships wheels for CPython 3.8 to 3.13 (Windows amd64, macOS universal2, manylinux x86_64/aarch64) and **no cp314 wheel**. On Python 3.14.6,
+`pip install kivy` falls back to the 24 MB sdist and fails at "Installing build dependencies" (the build pins `setuptools~=69.2.0`). Use a 3.13 or earlier venv:
+`uv venv --python 3.11 kvenv` then `uv pip install --python kvenv/Scripts/python.exe kivy` installed it cleanly (61 MB venv).
+
+Headless checks run on Python 3.11.16 / Windows (no window opened; `KIVY_NO_ARGS=1`, `KIVY_NO_CONSOLELOG=1`, `KIVY_NO_FILELOG=1` set before importing kivy):
+
+- **Properties are the core.** `NumericProperty`, `StringProperty`, `ListProperty` on an `EventDispatcher` fire bound observers on change: `count = 3` fired once and setting `3` again fired nothing; `items.append(1)` and `items = [1, 2]` each fired. Wrong types raise `ValueError` (`'x'` into a `NumericProperty`: "could not convert string to float"; `5` into a `StringProperty`: "Model.name accept only str").
+- **Undeclared attributes are not properties**: `m.oops = 1` worked but is not observable; declare the property or nothing will react.
+- **KV rules** create and re-evaluate bound expressions: `double: self.value * 2` gave 2, then 10 after `value = 5`.
+- `Clock.schedule_once` / `schedule_interval` run on `Clock.tick()` (three ticks produced `['once', 'tick', 'tick', 'tick']`), which makes UI logic testable without a window.
+- A widget tree works without a window (`BoxLayout` with two children, default size `[100, 100]`); a `Label` created with no window returned `texture_size` `[0, 0]` and no error, so text metrics are only meaningful with a live GL context.
+- Not run: the window, rendering, touch input, and Android/iOS packaging (buildozer / python-for-android).
+
+Kivy writes a log directory on first import unless `KIVY_NO_FILELOG` is set; set the env variables above in tests and CI so imports do not parse `sys.argv` or create files.
