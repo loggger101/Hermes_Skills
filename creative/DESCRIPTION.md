@@ -29,6 +29,7 @@ Creative content generation — ASCII art, hand-drawn style diagrams, and visual
 - [`pretext`](./pretext/SKILL.md) — Build creative browser demos with DOM-free text layout
 - [`pygame`](./pygame/SKILL.md) — Use when building or testing pygame/SDL games
 - [`redesign-existing-projects`](./redesign-existing-projects/SKILL.md) — Audit-first redesign of existing sites to premium quality
+- [`remotion-video`](./remotion-video/SKILL.md) — React compositions rendered to deterministic MP4
 - [`sketch`](./sketch/SKILL.md) — Throwaway HTML mockups: 2-3 design variants to compare
 - [`soft-premium-ui`](./soft-premium-ui/SKILL.md) — $150k-agency soft UI: double-bezel cards, spring motion
 - [`songwriting-and-ai-music`](./songwriting-and-ai-music/SKILL.md) — Songwriting craft and Suno AI music prompts

@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [video, html, gsap, ffmpeg, motion-graphics, rendering, deterministic]
-    related_skills: [manim-video, ascii-video, awwwards-gsap-motion, p5js, architecture-diagram]
+    related_skills: [manim-video, ascii-video, awwwards-gsap-motion, p5js, architecture-diagram, remotion-video]
 ---
 
 <!-- source: heygen-com/hyperframes README + skills/hyperframes-core (Apache-2.0); `hyperframes` 0.8.127 installed and run 2026-10-05 on Windows (Node 22.23, FFmpeg 9.0, system Chrome) -->

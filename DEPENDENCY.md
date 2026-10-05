@@ -1,8 +1,8 @@
 # Skill Dependency Map
 
-This document maps the relationship network between all **208 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+This document maps the relationship network between all **209 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
 
-**Network stats:** 569 `related_skills` cross-references across 208 skills (2 skills list no `related_skills` of their own).
+**Network stats:** 574 `related_skills` cross-references across 209 skills (2 skills list no `related_skills` of their own).
 
 ## Hub Skills (referenced by 2+ other skills)
 
@@ -32,6 +32,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `grilling-interview` | 7 | brainstorming, conversation-to-spec, issue-triage-state-machine, mental-models, one-three-one-rule, skill-flow-router, wayfinder-map-planning |
 | `mattpocock-domain-modeling` | 7 | issue-triage-state-machine, living-docs-governance, mattpocock-codebase-design, mattpocock-handoff, mattpocock-spec-driven-development, mattpocock-to-tickets, mattpocock-writing-for-agents |
 | `docx` | 6 | document-to-action-items, ocr-and-documents, pdf, powerpoint, website-audit, xlsx |
+| `manim-video` | 6 | ascii-video, hyperframes-video, p5js, pygame, remotion-video, touchdesigner-mcp |
 | `ocr-and-documents` | 6 | arxiv, document-to-action-items, general-research-rounds, grounded-citations, nano-pdf, pdf |
 | `pdf` | 6 | document-to-action-items, docx, nano-pdf, ocr-and-documents, powerpoint, xlsx |
 | `popular-web-designs` | 6 | claude-design, design-md, frontend-design, redesign-existing-projects, sketch, ui-ux-pro-max |
@@ -39,7 +40,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `design-md` | 5 | claude-design, popular-web-designs, react-ecosystem, stitch, ui-ux-pro-max |
 | `github-code-review` | 5 | github-auth, github-pr-workflow, mattpocock-code-review, receiving-code-review, requesting-code-review |
 | `google-workspace` | 5 | box, email-inbox-triage, himalaya, meeting-action-items, weekly-review-planning |
-| `manim-video` | 5 | ascii-video, hyperframes-video, p5js, pygame, touchdesigner-mcp |
 | `mattpocock-codebase-design` | 5 | architecture-metrics, codebase-onboarding, mattpocock-domain-modeling, mattpocock-spec-driven-development, ponytail |
 | `mattpocock-tdd` | 5 | mattpocock-code-review, mattpocock-codebase-design, mattpocock-diagnosing-bugs, mattpocock-evidence-driven, mattpocock-spec-driven-development |
 | `mattpocock-to-tickets` | 5 | mattpocock-handoff, mattpocock-spec-driven-development, mattpocock-subagent-driven-development, skill-flow-router, wayfinder-map-planning |
@@ -64,6 +64,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `weights-and-biases` | 4 | evaluating-llms-harness, evolutionary-ml, python-data-science, serving-llms-vllm |
 | `xlsx` | 4 | docx, pdf, powerpoint, sql-for-data |
 | `apple-reminders` | 3 | apple-notes, findmy, imessage |
+| `awwwards-gsap-motion` | 3 | design-taste-frontend, hyperframes-video, remotion-video |
 | `blocked-page-recovery` | 3 | general-research-rounds, reddit-reading, scrapling |
 | `claude-code` | 3 | codex, hermes-agent, opencode |
 | `codebase-onboarding` | 3 | living-docs-governance, repo-atlas, repowise |
@@ -88,7 +89,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `algorithms-python-catalog` | 2 | maps, rust-crate-picks |
 | `architecture-metrics` | 2 | mattpocock-codebase-design, repowise |
 | `ascii-art` | 2 | ascii-video, pretext |
-| `awwwards-gsap-motion` | 2 | design-taste-frontend, hyperframes-video |
 | `code-wiki` | 2 | codebase-onboarding, repo-atlas |
 | `competitor-news-monitor` | 2 | blogwatcher, rss-feeds |
 | `cron-pipeline-watchdog` | 2 | incident-response, space-data-pipelines |
@@ -101,6 +101,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `frontend-design` | 2 | react-ecosystem, ui-ux-pro-max |
 | `himalaya` | 2 | email-inbox-triage, google-workspace |
 | `humanizer` | 2 | no-ai-slop, songwriting-and-ai-music |
+| `hyperframes-video` | 2 | manim-video, remotion-video |
 | `imessage` | 2 | apple-reminders, findmy |
 | `llama-cpp` | 2 | huggingface-hub, serving-llms-vllm |
 | `maps` | 2 | algorithms-python-catalog, product-price-monitor |
@@ -137,6 +138,6 @@ No skill is fully standalone: every skill either lists `related_skills` or is re
 
 ## Related Skills Validation
 
-All 569 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 208 unique skill names.
+All 574 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 209 unique skill names.
 
 ---
