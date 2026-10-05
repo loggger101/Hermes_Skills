@@ -293,6 +293,8 @@ If a Materialize (Material Design CSS) look is requested, `references/materializ
 
 For icons, `references/font-awesome-7-free-notes.md` compares Font Awesome Free 7.3.1 delivery methods by measured size (web font CSS 23 kB gz, 1.6 MB `all.js`, 250 kB solid sprite, 497 B inline SVG), flags the CC BY attribution comment inside each SVG, the relative `../webfonts/` path, `font-display: block`, the missing `sr-only` helper and reduced-motion handling that freezes spinners.
 
+For Tailwind component plugins, `references/preline-5-notes.md` covers Preline UI 5.0.0: the MIT-plus-Fair-Use licence, the non-optional peer-dependency pile (jQuery via datatables.net), and measured `HSStaticMethods.autoInit()` behaviour, including that DOM added after load is not initialised until `autoInit()` runs again.
+
 ## UI/UX code review (beyond performance)
 
 For a full accessibility/forms/animation/copy/dark-mode audit of site markup and JS, use `references/web-interface-guidelines-ui-checklist.md` — Vercel's Web Interface Guidelines ported verbatim with the clickable `file:line` output format. It complements this skill's Core-Web-Vitals section (which covers loading/rendering) by covering interaction quality; pair both when running a site audit.
