@@ -297,10 +297,10 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `web-development/har-derived-api-client/scripts/har_capture_cdp.py` (script, python, 141 lines) — Capture a HAR from a browser you connect to over CDP (not one you launch)
 - `web-development/har-derived-api-client/scripts/har_to_client.py` (script, python, 167 lines) — Distill a HAR file into an API summary an agent can turn into a client
 
-## web-development/static-site-patterns
+## web-development/web-perf-audit
 
-- `web-development/static-site-patterns/scripts/perf_audit.py` (script, python, 203 lines) — Zero-dependency static-site audit of the machine-checkable Front-End Performance Checklist items
-- `web-development/static-site-patterns/scripts/perf_audit_verify.py` (script, python, 113 lines) — Self-test for perf_audit.py: one clean site must pass, and each rule must fire on a planted defect
+- `web-development/web-perf-audit/scripts/perf_audit.py` (script, python, 203 lines) — Zero-dependency static-site audit of the machine-checkable Front-End Performance Checklist items
+- `web-development/web-perf-audit/scripts/perf_audit_verify.py` (script, python, 113 lines) — Self-test for perf_audit.py: one clean site must pass, and each rule must fire on a planted defect
 
 ## Repo-level tooling (`tools/`, `.hermes/cron/`)
 

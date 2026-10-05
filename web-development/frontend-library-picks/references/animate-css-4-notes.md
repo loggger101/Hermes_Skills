@@ -77,6 +77,6 @@ The shipped media query is `@media print, (prefers-reduced-motion: reduce)`:
 - Not for: anything interruptible, spring-based, layout-aware or driven by state (use the Motion notes in
   `web-development/react-library-notes/references/motion-14-notes.md`), or when 95 KB of CSS for three animations is the wrong
   trade: copy the two or three keyframes you need (each is 5 to 20 lines) instead of linking the file.
-- Respect the existing `prefers-reduced-motion` and performance rules in `references/web-interface-guidelines-ui-checklist.md`;
+- Respect the existing `prefers-reduced-motion` and performance rules in `web-development/web-perf-audit/references/web-interface-guidelines-ui-checklist.md`;
   the keyframes set only `transform`, `opacity`, `transform-origin` and `visibility` (plus timing functions), so the
   animations stay compositor-friendly (property list collected from all 97 keyframes).

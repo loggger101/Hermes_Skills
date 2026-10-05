@@ -728,18 +728,8 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## software-development/hermes-agent-skill-authoring
 
-- `software-development/hermes-agent-skill-authoring/references/audit-script-pattern.md` — Building Repo-Health Audit Scripts for Hermes Skill Repositories
 - `software-development/hermes-agent-skill-authoring/references/behavioral-skill-testing.md` — Behavioral Skill Testing (RED-GREEN for Discipline Skills)
-- `software-development/hermes-agent-skill-authoring/references/frontmatter-audit-pattern.md` — Frontmatter Audit Pattern
-- `software-development/hermes-agent-skill-authoring/references/harness-audit-dual-judge-traps.md` — Harness Audit Protocol: Dual-Judge + Planted Traps (verified from tech-leads-club/agent-skills @ 0ab82f6)
-- `software-development/hermes-agent-skill-authoring/references/related-skills-audit.md` — Auditing and Fixing `related_skills` References
-- `software-development/hermes-agent-skill-authoring/references/section-header-standardization.md` — Section Header Standardization
-- `software-development/hermes-agent-skill-authoring/references/skill-evolution-pipeline.md` — DSPy+GEPA skill-evolution pipeline (hermes-agent-self-evolution): CLI, cost, when NOT to use, and what its metric, constraint gate and session importer really do (run)
 - `software-development/hermes-agent-skill-authoring/references/skill-invocation-conventions.md` — Skill invocation conventions: model-invoked vs user-invoked, and how skills call each other
-- `software-development/hermes-agent-skill-authoring/references/skill-registry-security.md` — Skill registry supply-chain + installer security patterns, mined from tech-leads-club/agent-skills (MIT code / CC-BY-4.0 content)
-- `software-development/hermes-agent-skill-authoring/references/skill-repo-release-engineering.md` — Skill-Repo Release Engineering (versioning, update channel, generated blocks)
-- `software-development/hermes-agent-skill-authoring/references/skill-seekers-generated-drafts.md` — Using Skill Seekers 3.10.0 to draft skill material from a codebase, docs, PDFs and more: offline run on a tiny project (3 s), what it generates, what is boilerplate, and how to finish it into a Hermes skill
-- `software-development/hermes-agent-skill-authoring/references/vendor-shipped-skills-preline.md` — Skills shipped inside a UI library (Preline): what a vendor skill does well, and where it breaks our conventions
 
 ## software-development/inspecting-hermes-desktop-dom
 
@@ -805,6 +795,22 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `software-development/rust-crate-picks/references/gpui-kit-notes.md` — gpui-kit 0.7 (Rust desktop UI on GPUI): layering, features, headless UI testing, and its tested-recipe documentation pattern; source-read
 - `software-development/rust-crate-picks/references/num-enum-notes.md` — num_enum 0.7.6 (Rust): derive macros for enum <-> integer conversion (IntoPrimitive, TryFromPrimitive, FromPrimitive, UnsafeFromPrimitive), attributes, features; plus the Python IntEnum analogue run live on 3.14
 - `software-development/rust-crate-picks/references/uom-units-notes.md` — uom 0.38 (Rust type-safe units of measure): features, design, usage; plus the Python analogue pint 0.26.1 run live (dimension errors, temperature offset trap, AU and year definitions)
+
+## software-development/skill-intake-and-release
+
+- `software-development/skill-intake-and-release/references/skill-evolution-pipeline.md` — DSPy+GEPA skill-evolution pipeline (hermes-agent-self-evolution): CLI, cost, when NOT to use, and what its metric, constraint gate and session importer really do (run)
+- `software-development/skill-intake-and-release/references/skill-registry-security.md` — Skill registry supply-chain + installer security patterns, mined from tech-leads-club/agent-skills (MIT code / CC-BY-4.0 content)
+- `software-development/skill-intake-and-release/references/skill-repo-release-engineering.md` — Skill-Repo Release Engineering (versioning, update channel, generated blocks)
+- `software-development/skill-intake-and-release/references/skill-seekers-generated-drafts.md` — Using Skill Seekers 3.10.0 to draft skill material from a codebase, docs, PDFs and more: offline run on a tiny project (3 s), what it generates, what is boilerplate, and how to finish it into a Hermes skill
+- `software-development/skill-intake-and-release/references/vendor-shipped-skills-preline.md` — Skills shipped inside a UI library (Preline): what a vendor skill does well, and where it breaks our conventions
+
+## software-development/skill-library-audits
+
+- `software-development/skill-library-audits/references/audit-script-pattern.md` — Building Repo-Health Audit Scripts for Hermes Skill Repositories
+- `software-development/skill-library-audits/references/frontmatter-audit-pattern.md` — Frontmatter Audit Pattern
+- `software-development/skill-library-audits/references/harness-audit-dual-judge-traps.md` — Harness Audit Protocol: Dual-Judge + Planted Traps (verified from tech-leads-club/agent-skills @ 0ab82f6)
+- `software-development/skill-library-audits/references/related-skills-audit.md` — Auditing and Fixing `related_skills` References
+- `software-development/skill-library-audits/references/section-header-standardization.md` — Section Header Standardization
 
 ## software-development/streamlit-dashboards
 
@@ -875,7 +881,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `web-development/react-library-notes/references/shadcn-cli-4-notes.md` — shadcn CLI 4.21.2: what `init` and `add` actually do (run live on Windows)
 - `web-development/react-library-notes/references/zustand-v5-notes.md` — Zustand 5.0.15 traps run against React 19.3 + jsdom: fresh-object selector loops, removed equality arg, setState replace flag, persist shallow merge and dropped versions, async hydration
 
-## web-development/static-site-patterns
+## web-development/web-perf-audit
 
-- `web-development/static-site-patterns/references/performance-checklist-triage.md` — Front-End Performance Checklist: which of its 40 items an agent can check, and which numbers are dated
-- `web-development/static-site-patterns/references/web-interface-guidelines-ui-checklist.md` — Web Interface Guidelines (UI/UX Review Checklist) [PORTED]
+- `web-development/web-perf-audit/references/performance-checklist-triage.md` — Front-End Performance Checklist: which of its 40 items an agent can check, and which numbers are dated
+- `web-development/web-perf-audit/references/web-interface-guidelines-ui-checklist.md` — Web Interface Guidelines (UI/UX Review Checklist) [PORTED]

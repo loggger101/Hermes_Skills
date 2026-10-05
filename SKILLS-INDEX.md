@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **237 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **240 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -287,6 +287,8 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `rust-crate-picks` — Pick Rust crates by need: arena, units, time, graphs _(software-development)_
 - `simplify-code` — Parallel 4-agent cleanup of recent code changes _(software-development)_
 - `skill-flow-router` — Route any task through the right skill flow in this brain _(software-development)_
+- `skill-intake-and-release` — Vet, import, evolve and release third-party skills _(software-development)_
+- `skill-library-audits` — Audit a skill library: frontmatter, links, headers _(software-development)_
 - `spike` — Throwaway experiments to validate an idea before build _(software-development)_
 - `streamlit-dashboards` — Streamlit dashboards: layout, caching, charts, state _(software-development)_
 - `structured-llm-outputs` — Pydantic-typed LLM outputs with retries (instructor) _(software-development)_
@@ -307,7 +309,8 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `publish-site` — Versioned site deploys to GitHub/Cloudflare/Netlify Pages _(web-development)_
 - `react-ecosystem` — Pick React libraries by need, with live npm freshness _(web-development)_
 - `react-library-notes` — React 19, Next 16, Zustand, Motion: run-live traps _(web-development)_
-- `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
+- `static-site-patterns` — Static sites: PWA, vanilla JS/CSS, esbuild, CSS lint _(web-development)_
+- `web-perf-audit` — Audit a built static site: perf script + UI checklist _(web-development)_
 
 ---
-*237 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*240 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*

@@ -1,14 +1,14 @@
 ---
-description: Hermes Agent second brain — 237 skills across 23 categories, memories, cron configs.
+description: Hermes Agent second brain — 240 skills across 23 categories, memories, cron configs.
 ---
 
 # Hermes Skills Repository (Second Brain)
 
-This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **237 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
+This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **240 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
 
 ## Start here (cheapest → most thorough)
 
-1. **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 237 skills. `grep -i <term>` is the fastest way to find a capability.
+1. **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 240 skills. `grep -i <term>` is the fastest way to find a capability.
 2. **[CODE-INDEX.md](./CODE-INDEX.md)** — flat index of every script, shared helper, test and template (the executable knowledge layer). `grep -i <term> CODE-INDEX.md` finds runnable code by purpose or owner skill.
 3. **[REFERENCES-INDEX.md](./REFERENCES-INDEX.md)** — flat index of all 526 reference docs inside skills' `references/` dirs (nested subdirs included). `grep -i <term> REFERENCES-INDEX.md` finds verified API maps and gotchas tables by topic without knowing which skill owns them.
 4. **[DEPENDENCY.md](./DEPENDENCY.md)** — relationship map: hub skills, standalone skills, full cross-reference validation.
@@ -50,6 +50,8 @@ The fastest way from a job you have in mind to the skill that does it. Not sure 
 | Design CI workflows that prove claims (no always-skip checks, bot commits, canaries) | `ci-gate-design` |
 | Stop one fact living in many places (generate, then diff; point, do not copy) | `one-authority-per-fact` |
 | Write a repo's CLAUDE.md / AGENTS.md (incident-carrying rules, decided register, gates) | `repo-agent-instructions` |
+| Audit a skill library (frontmatter, `related_skills`, headers, judge calibration) | `skill-library-audits` |
+| Vet, import, evolve or release third-party skills (registry security, drafts, GEPA, versioning) | `skill-intake-and-release` |
 | Decide with a blind multi-agent jury, or interview/critique an idea | `multi-agent-deliberation` (splitting independent work → `dispatching-parallel-agents`) |
 | Debug a hard bug | `systematic-debugging`, `mattpocock-diagnosing-bugs` |
 | Test-first development | `test-driven-development`, `mattpocock-tdd` |
@@ -77,6 +79,7 @@ The fastest way from a job you have in mind to the skill that does it. Not sure 
 | Pick CSS / icon / animation libraries for a static site (weight, licence) | `frontend-library-picks`; React projects → `react-ecosystem`; site structure and CSP → `static-site-patterns` |
 | Get cited by AI search, `llms.txt`, agent-ready sites (AEO/GEO) | `ai-search-optimization` (classic SEO → `static-site-seo`) |
 | Bun, standard/neostandard, PostCSS, js-beautify behaviour | `js-tooling-notes` |
+| Audit a built static site (page weight, LCP/CLS, blocking scripts, UI/a11y checklist) | `web-perf-audit` |
 | React 19 / Next.js 16 / Zustand / Motion / shadcn behaviour and traps | `react-library-notes`; which library → `react-ecosystem` |
 | Design or redesign frontend / landing pages | `design-taste-frontend`, `redesign-existing-projects`, `popular-web-designs` (54 real design systems), `claude-design` |
 | Ship UI that doesn't look templated — pick the aesthetic first | `design-taste-frontend` (anti-slop default), presets: `soft-premium-ui`, `editorial-minimalism-ui`, `industrial-brutalist-ui`; motion-heavy → `awwwards-gsap-motion`; Google Stitch DESIGN.md → `stitch` |

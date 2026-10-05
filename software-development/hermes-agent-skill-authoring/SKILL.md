@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [skills, authoring, hermes-agent, conventions, skill-md]
-    related_skills: [plan, requesting-code-review]
+    related_skills: [plan, requesting-code-review, skill-library-audits, skill-intake-and-release]
 ---
 
 # Authoring Hermes-Agent Skills (in-repo)
@@ -187,10 +187,10 @@ A skill exists to make the agent's process more predictable — the agent reliab
 - **Major rewrite:** `write_file` the whole SKILL.md.
 - **Supporting files:** `write_file` to `references/`, `templates/`, or `scripts/` under the skill dir.
 - **Always commit** — in-repo skills are source, not runtime state. Re-run the docs generator when frontmatter changed.
-- **Measurably underperforming skill?** Don't hand-tweak blindly — see `references/skill-evolution-pipeline.md` (DSPy+GEPA: evolve the text against a scored eval set, then re-run this repo's gates). Requires an evaluator; never replaces verify-all or the test suite.
-- **Repo-level release mechanics** (two-layer versioning rules, VERSIONS-style update channel for installed copies, marker-block regeneration with `--check` CI drift detection, idempotent auto-release from changelog blocks, per-skill evals harness shape): see `references/skill-repo-release-engineering.md`.
-- **Hardening a skill *registry* or install pipeline** (supply-chain threat model for agent skills: content-hashed lockfiles, installer defense-in-depth — sanitize → path-contain → symlink-guard → atomic writes → append-only audit; scan-cache + expiring allowlist discipline; MCP servers validating every requested path against the manifest's file list): see `references/skill-registry-security.md` (mined from tech-leads-club/agent-skills, MIT code / CC-BY-4.0 content). Round 28 mined that repo to exhaustion — same ref now also carries their CI patterns (fork-proof scanning via Merge Queue, change-scoped releases), issue-first contribution governance, and the NODE_ENV shadowing pitfall.
-- **Auditing whether a skill's own checks actually work** (not just its structure): dual independent LLM judges + deliberately planted traps as calibration — if both judges pass a trap, the harness is broken; see `references/harness-audit-dual-judge-traps.md` (from tech-leads-club/agent-skills' harness-eval skill).
+- **Measurably underperforming skill?** Don't hand-tweak blindly — see `software-development/skill-intake-and-release/references/skill-evolution-pipeline.md` (DSPy+GEPA: evolve the text against a scored eval set, then re-run this repo's gates). Requires an evaluator; never replaces verify-all or the test suite.
+- **Repo-level release mechanics** (two-layer versioning rules, VERSIONS-style update channel for installed copies, marker-block regeneration with `--check` CI drift detection, idempotent auto-release from changelog blocks, per-skill evals harness shape): see `skill-intake-and-release` (`references/skill-repo-release-engineering.md`).
+- **Hardening a skill *registry* or install pipeline** (supply-chain threat model for agent skills: content-hashed lockfiles, installer defense-in-depth — sanitize → path-contain → symlink-guard → atomic writes → append-only audit; scan-cache + expiring allowlist discipline; MCP servers validating every requested path against the manifest's file list): see `skill-intake-and-release` (`references/skill-registry-security.md`) (mined from tech-leads-club/agent-skills, MIT code / CC-BY-4.0 content). Round 28 mined that repo to exhaustion — same ref now also carries their CI patterns (fork-proof scanning via Merge Queue, change-scoped releases), issue-first contribution governance, and the NODE_ENV shadowing pitfall.
+- **Auditing whether a skill's own checks actually work** (not just its structure): dual independent LLM judges + deliberately planted traps as calibration — if both judges pass a trap, the harness is broken; see `skill-library-audits` (`references/harness-audit-dual-judge-traps.md`) (from tech-leads-club/agent-skills' harness-eval skill).
 
 ## Pitfalls
 
@@ -216,8 +216,8 @@ A skill exists to make the agent's process more predictable — the agent reliab
 - [ ] `platforms:` audited against actual prose/scripts, not copied from a sibling
 - [ ] Every `related_skills` entry resolves in-repo
 - [ ] Body follows the modern section order; commands framed through Hermes tools
-- [ ] Section headers use standard capitalization (see `references/section-header-standardization.md`)
-- [ ] Body sections present: `## What This Skill Does` and `## When to Use` (see `references/audit-script-pattern.md` for auto-validation)
+- [ ] Section headers use standard capitalization (see `skill-library-audits`, `references/section-header-standardization.md`)
+- [ ] Body sections present: `## What This Skill Does` and `## When to Use` (see `skill-library-audits`, `references/audit-script-pattern.md` for auto-validation)
 - [ ] No machine-local paths anywhere in the file
 - [ ] Each ordered step has a checkable completion criterion
 - [ ] Tests at `tests/skills/test_<skill>_skill.py` pass under `scripts/run_tests.sh`
@@ -226,9 +226,7 @@ A skill exists to make the agent's process more predictable — the agent reliab
 
 ## References
 
-- `references/skill-seekers-generated-drafts.md` - using Skill Seekers 3.10.0 as a draft generator: offline run on a tiny project, what is useful (API reference, dependency graph) vs boilerplate (SKILL.md), how to finish a draft into a Hermes skill
-
 - `references/skill-invocation-conventions.md` - model-invoked vs user-invoked skills, how one skill tells the agent to run another (name the tool, one skill per call, never target a user-invoked skill), passive vs active domain work; from mattpocock/skills `.agents/invocation.md`, source-read.
-- `references/vendor-shipped-skills-preline.md` - the two agent skills Preline ships (source-read): discover-then-fetch with opaque IDs, scoped list calls, deterministic placement rules, a narrow "trust the tool output" carve-out, script-only entry point and a self-check checklist; and where it clashes with our name==directory audit rule
-- `references/related-skills-audit.md` - finding and fixing broken `related_skills` (core-tool names, shortened names, non-existent skills, stale refs after reorganisation, malformed YAML, duplicate skill names) with the audit commands.
-- `references/frontmatter-audit-pattern.md` - the validation script behind the 2026-08-24 frontmatter standardisation pass over 127 SKILL.md files.
+- `references/behavioral-skill-testing.md` - testing whether a skill changes agent behaviour under pressure, and matching the rule form to the failure mode.
+- `software-development/skill-library-audits` - audit scripts, frontmatter and `related_skills` checks, header standardisation, dual-judge harness audits (moved out of this skill).
+- `software-development/skill-intake-and-release` - registry and installer security, Skill Seekers drafts, vendor-shipped skills, DSPy+GEPA evolution, repo release engineering (moved out of this skill).
