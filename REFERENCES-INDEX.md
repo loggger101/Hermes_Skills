@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **449 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **450 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -709,6 +709,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## software-development/verification-culture
 
 - `software-development/verification-culture/references/autonomous-operator-protocol-tlc.md` — Autonomous Operator Protocol: Evidence-or-Stop (verified from tech-leads-club/agent-skills @ 0ab82f6)
+
+## web-development/browser-automation
+
+- `web-development/browser-automation/references/playwright-visual-regression.md` — Playwright screenshot (visual regression) suites: per-platform baselines, first-run and update-snapshots behavior, one-assert-per-test, file-level sharding, patterns from Ionic's e2e suite
 
 ## web-development/publish-site
 
