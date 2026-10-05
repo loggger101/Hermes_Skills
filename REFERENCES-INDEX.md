@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **498 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **499 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -790,6 +790,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `web-development/react-ecosystem/references/bun-runtime-notes.md` — Bun 1.4.2 on Windows: runtime, package manager, test runner, bundler (run live)
 - `web-development/react-ecosystem/references/deckgl-notes.md` — deck.gl 9.4.0 (WebGL2/WebGPU large-scale data visualization): lockstep packages, layers/views model, basemap pairing, what works in Node vs browser (checked), pitfalls
 - `web-development/react-ecosystem/references/nextjs-16-notes.md` — Next.js 16.3.8 scaffold-build-dev run on Windows (45 s create, 15 s build, 1 s dev ready): generated AGENTS.md/CLAUDE.md that next dev rewrites, bundled docs in node_modules, telemetry, audit and lint notices
+- `web-development/react-ecosystem/references/react-19-core-notes.md` — React 19.3.0 core: server rendering, effects, actions, Activity (run live in Node + jsdom)
 - `web-development/react-ecosystem/references/react-native-core.md` — React Native 0.87.1 requirements (Node, React peer), what you can and cannot build per OS, the monorepo layout and agent conventions from its AGENTS.md; npm/README-sourced
 - `web-development/react-ecosystem/references/react-native-navigation.md` — React Native navigation choices (React Navigation 7 stable vs 8 alpha vs Expo Router) with npm versions and the default-branch trap; source-read
 - `web-development/react-ecosystem/references/zustand-v5-notes.md` — Zustand 5.0.15 traps run against React 19.3 + jsdom: fresh-object selector loops, removed equality arg, setState replace flag, persist shallow merge and dropped versions, async hydration
