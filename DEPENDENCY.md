@@ -1,8 +1,8 @@
 # Skill Dependency Map
 
-This document maps the relationship network between all **207 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+This document maps the relationship network between all **208 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
 
-**Network stats:** 563 `related_skills` cross-references across 207 skills (2 skills list no `related_skills` of their own).
+**Network stats:** 569 `related_skills` cross-references across 208 skills (2 skills list no `related_skills` of their own).
 
 ## Hub Skills (referenced by 2+ other skills)
 
@@ -20,11 +20,11 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `mattpocock-subagent-driven-development` | 10 | dispatching-parallel-agents, executing-plans, grilling-interview, mattpocock-to-tickets, plan, requesting-code-review, research-paper-writing, spike, systematic-debugging, test-driven-development |
 | `architecture-diagram` | 9 | claude-design, design-md, diagram-design, excalidraw, hyperframes-video, popular-web-designs, pretext, sketch, system-atlas |
 | `cron-job-authoring` | 9 | apple-reminders, cron-config-authoring, cron-pipeline-watchdog, findmy, hermes-bot-cloning, mattpocock-using-git-worktrees, mattpocock-yeet, product-price-monitor, watchers |
+| `design-taste-frontend` | 9 | awwwards-gsap-motion, editorial-minimalism-ui, full-output-enforcement, industrial-brutalist-ui, redesign-existing-projects, soft-premium-ui, static-site-patterns, stitch, ui-ux-pro-max |
 | `github-pr-workflow` | 9 | github-auth, github-code-review, github-issue-to-pr, github-issues, github-repo-management, mattpocock-finishing-a-development-branch, mattpocock-gh-fix-ci, mattpocock-using-git-worktrees, mattpocock-yeet |
 | `grounded-citations` | 9 | blocked-page-recovery, general-research-rounds, literature-review, mattpocock-research, parallel-cli, pubmed-database, reddit-reading, rss-feeds, scholar-evaluation |
 | `plan` | 9 | brainstorming, executing-plans, hermes-agent-skill-authoring, requesting-code-review, research-paper-writing, simplify-code, spike, systematic-debugging, test-driven-development |
 | `python-data-science` | 9 | build-systems-data, evolutionary-ml, gget, huggingface-trackio, jupyter-notebook, orbital-mechanics-data, regex-vs-llm-structured-text, research-paper-writing, sql-for-data |
-| `design-taste-frontend` | 8 | awwwards-gsap-motion, editorial-minimalism-ui, full-output-enforcement, industrial-brutalist-ui, redesign-existing-projects, soft-premium-ui, static-site-patterns, stitch |
 | `mattpocock-code-review` | 8 | mattpocock-diagnosing-bugs, mattpocock-evidence-driven, mattpocock-security-review, mattpocock-spec-driven-development, mattpocock-subagent-driven-development, mattpocock-tdd, mattpocock-to-tickets, receiving-code-review |
 | `mattpocock-security-review` | 8 | application-threat-model, failure-signal-audit, mattpocock-code-review, mattpocock-evidence-driven, mattpocock-spec-driven-development, rest-api-client, security-audit, semgrep-rule-creator |
 | `arxiv` | 7 | grounded-citations, literature-review, llm-wiki, mattpocock-research, pubmed-database, qmd, research-paper-writing |
@@ -34,7 +34,9 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `docx` | 6 | document-to-action-items, ocr-and-documents, pdf, powerpoint, website-audit, xlsx |
 | `ocr-and-documents` | 6 | arxiv, document-to-action-items, general-research-rounds, grounded-citations, nano-pdf, pdf |
 | `pdf` | 6 | document-to-action-items, docx, nano-pdf, ocr-and-documents, powerpoint, xlsx |
+| `popular-web-designs` | 6 | claude-design, design-md, frontend-design, redesign-existing-projects, sketch, ui-ux-pro-max |
 | `ascii-video` | 5 | hyperframes-video, manim-video, p5js, pretext, touchdesigner-mcp |
+| `design-md` | 5 | claude-design, popular-web-designs, react-ecosystem, stitch, ui-ux-pro-max |
 | `github-code-review` | 5 | github-auth, github-pr-workflow, mattpocock-code-review, receiving-code-review, requesting-code-review |
 | `google-workspace` | 5 | box, email-inbox-triage, himalaya, meeting-action-items, weekly-review-planning |
 | `manim-video` | 5 | ascii-video, hyperframes-video, p5js, pygame, touchdesigner-mcp |
@@ -44,13 +46,11 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `mattpocock-writing-for-agents` | 5 | doc-coauthoring, mattpocock-ask-if-underspecified, mattpocock-domain-modeling, mattpocock-handoff, retro |
 | `notion` | 5 | airtable, document-to-action-items, meeting-action-items, obsidian, weekly-review-planning |
 | `obsidian` | 5 | apple-notes, knowledge-ops, llm-wiki, qmd, weekly-review-planning |
-| `popular-web-designs` | 5 | claude-design, design-md, frontend-design, redesign-existing-projects, sketch |
 | `verification-culture` | 5 | bit-identity-float-pipelines, failure-signal-audit, incident-response, retro, verification-before-completion |
 | `youtube-content` | 5 | ascii-video, gif-search, manim-video, rss-feeds, songsee |
 | `apple-notes` | 4 | apple-reminders, findmy, imessage, obsidian |
 | `astro-toolkit-selection` | 4 | economicspace-pipeline, optimization-modeling-pyomo, rust-crate-picks, space-data-pipelines |
 | `blogwatcher` | 4 | competitor-news-monitor, rss-feeds, watchers, youtube-content |
-| `design-md` | 4 | claude-design, popular-web-designs, react-ecosystem, stitch |
 | `github-issues` | 4 | github-auth, github-issue-to-pr, github-repo-management, mattpocock-to-tickets |
 | `hermes-agent-skill-authoring` | 4 | cron-config-authoring, doc-coauthoring, mattpocock-code-review, mattpocock-writing-for-agents |
 | `literature-review` | 4 | general-research-rounds, gget, pubmed-database, scholar-evaluation |
@@ -98,6 +98,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `dogfood` | 2 | adversarial-ux-test, inspecting-hermes-desktop-dom |
 | `email-inbox-triage` | 2 | himalaya, weekly-review-planning |
 | `fastmcp` | 2 | mcporter, repowise |
+| `frontend-design` | 2 | react-ecosystem, ui-ux-pro-max |
 | `himalaya` | 2 | email-inbox-triage, google-workspace |
 | `humanizer` | 2 | no-ai-slop, songwriting-and-ai-music |
 | `imessage` | 2 | apple-reminders, findmy |
@@ -108,6 +109,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `mattpocock-spec-driven-development` | 2 | conversation-to-spec, mattpocock-to-tickets |
 | `mattpocock-yeet` | 2 | mattpocock-finishing-a-development-branch, mattpocock-using-git-worktrees |
 | `mcporter` | 2 | fastmcp, repowise |
+| `no-ai-slop` | 2 | humanizer, ui-ux-pro-max |
 | `node-inspect-debugger` | 2 | inspecting-hermes-desktop-dom, python-debugpy |
 | `opencode` | 2 | claude-code, hermes-agent |
 | `optimization-modeling-pyomo` | 2 | algorithms-python-catalog, astro-toolkit-selection |
@@ -135,6 +137,6 @@ No skill is fully standalone: every skill either lists `related_skills` or is re
 
 ## Related Skills Validation
 
-All 563 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 207 unique skill names.
+All 569 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 208 unique skill names.
 
 ---
