@@ -16,7 +16,7 @@ verified_date: "2026-10-05"
 | Game window or simulation | pygame (`pygame` skill) | |
 | Packaging a desktop app to an installer | `generating-python-installer` | Tkinter/PyQt size guidance there |
 
-PySimpleGUI is added here when its row in the starred-repos review is done.
+| Quick tkinter-based desktop forms and tools, minimal code | **PySimpleGUI 6** (below) or the FreeSimpleGUI fork | thin layer over tkinter (also Qt/wx/Remi backends in older releases) |
 
 ## Dear PyGui 2.3.1
 
@@ -71,3 +71,19 @@ Headless checks run on Python 3.11.16 / Windows (no window opened; `KIVY_NO_ARGS
 - Not run: the window, rendering, touch input, and Android/iOS packaging (buildozer / python-for-android).
 
 Kivy writes a log directory on first import unless `KIVY_NO_FILELOG` is set; set the env variables above in tests and CI so imports do not parse `sys.argv` or create files.
+
+## PySimpleGUI (licensing history matters)
+
+PySimpleGUI is a thin declarative layer over tkinter (windows are lists of element rows plus an event loop). Its licensing history is the thing to know before choosing a version, from the project's own README and PyPI:
+
+| Era | Status |
+|---|---|
+| 4.x (to 4.60.5.1) | LGPL open source; older pin still installable with `pip install PySimpleGUI==4.60.5.1` |
+| 5.x | commercialised: licence keys and registration; the company (PySimpleSoft) announced shutdown in Feb 2025 |
+| **6.x (current: 6.3.0.1, PyPI 2026-08-16, repo pushed 2026-08-30)** | released as open source again, **LGPL-3.0**, "after removing licensing and security components"; `pip install PySimpleGUI` now gives this |
+| Fork | `FreeSimpleGUI` 5.3.0.post1 (2026-08-27, LGPL), a community continuation of the 4.60 line; `PySimpleGUI-4-foss` 4.60.4.1 (2024-02) is an older copy |
+
+Checked here (Windows, Python 3.14.6): `import PySimpleGUI` worked, `sg.version` = `6.3.0.1`, Tk 8.6, 160 built-in themes, and the module exposes no licence or registration functions (only `upgrade_PySimpleGUI_gui` / GitHub upgrade helpers),
+consistent with the README. No window was created. Tutorials from 2022-2024 target 4.x/5.x APIs and a licence flow that no longer exists.
+
+Guidance: pin the exact version in `requirements.txt` (the project's own history shows why), prefer 6.x or FreeSimpleGUI for new work, check the LGPL terms if you ship a bundled executable (see `generating-python-installer`), and for anything web-served or multi-user prefer NiceGUI.
