@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **431 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **432 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -374,6 +374,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `data-science/space-data-pipelines/references/shared-library-internals.md` — hf_dataset_utils internals from juliensimon/space-datasets (230 pipelines): retry budget, TAP clients, HEASARC HTTP-200 failures, MAST keyset pagination, LFS recovery, watchdog
 - `data-science/space-data-pipelines/references/source-parser-families.md` — Per-source parsing families from space-datasets (round-15): TLE two-line-element char positions + epoch century rule, PDS3/PDS4 fixed-width colspecs, GOES netCDF status pivot, Wikidata SPARQL dedup, HTML fixture testing
 - `data-science/space-data-pipelines/references/space-data-licensing-audit.md` — Space-data licensing traps from space-datasets' own 2026-05-26 audit: ESA CC BY-NC, WDC Kyoto no-commercial, VizieR scientific-use terms, provider URL table
+
+## data-science/sql-for-data
+
+- `data-science/sql-for-data/references/sql-tooling-sqlglot-sqlfluff.md` — SQL tooling from awesome-db-tools, run live: sqlglot 30.21 transpile/parse/AST (silent semantic changes, unknown functions pass through) and sqlfluff 4.4 lint/fix; plus the migration/schema tool map
 
 ## devops/incident-response
 
