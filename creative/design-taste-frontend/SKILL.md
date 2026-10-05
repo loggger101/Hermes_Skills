@@ -952,3 +952,7 @@ If a single checkbox cannot be honestly ticked, the page is not done. Fix it bef
 # APPENDICES (reference file)
 
 Install commands per design system (Appendix A), canonical documentation links (Appendix B) and the Apple Liquid Glass web approximation (Appendix C) are in `references/appendices.md`. Load it when the brief names a design system from Section 2 or asks for a glass / Liquid Glass look.
+
+## References
+
+- `references/impeccable-detector.md` - impeccable 4.1.0 deterministic anti-slop detector run live (rule ids, exit codes, waivers, planted-defect results and misses) and its PRODUCT.md-first workflow
