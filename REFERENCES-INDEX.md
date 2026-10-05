@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **403 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **404 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -382,6 +382,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## github/github-code-review
 
+- `github/github-code-review/references/large-changeset-review-protocol.md` — Reviewing a large diff without cutting corners: deterministic file list, rule grouping, per-file checklist, coverage accounting, position verification, noise filtering
 - `github/github-code-review/references/pr-judge-protocol-tlc.md` — Evidence-First PR Judge Protocol (verified from tech-leads-club/agent-skills @ 0ab82f6)
 - `github/github-code-review/references/review-output-template.md` — Review Output Template
 
