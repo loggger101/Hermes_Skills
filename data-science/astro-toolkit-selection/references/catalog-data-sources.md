@@ -125,6 +125,21 @@ Details verified from `docs/export-format/` (2026-09-07):
 - **Object IDs**: `{prefix}-{numeric}` (`spkid-`, `naif-`, `norad_satcat-`); compound ids for SBDB moons; per-point flags carry
   NEO/PHA bits from SBDB.
 
+### space-map embed SDK (`spacemap` on npm, 0.1.8, 2026-10-04) [SRC, not run]
+
+The repo also publishes a browser SDK for embedding its solar-system map (three.js; `createMap({container})`, flat maps,
+surface panoramas, a system diagram). Facts from its README and package template:
+
+- MPL-2.0 code; **data and imagery keep their sources' terms**, and the credit line it draws cannot be removed.
+- Imagery is ranked: **open** (default, any use), **non-commercial** (needs `includeNonCommercial: true`; for example the Uranus
+  map and the Huygens panorama of Titan; without the flag Uranus renders as a flat colour), and **site-only** (never reaches the SDK).
+- Units are km and degrees. Bodies use export ids: `naif-399` (Earth), `spkid-20000004` (Vesta), `norad_satcat-25544` (ISS).
+- Load as one ES module from the jsDelivr CDN (`.../spacemap@0.1.8/dist/spacemap.js`) or an IIFE build; versions are immutable,
+  so pin one and add an `integrity` sha384 digest. From npm it needs `three` (^0.183) as a peer dependency.
+- No key and no quota "for now"; releases 0.1.5-0.1.8 in two days (2026-10-03/04) added `setPinnedBodies`, a map-less
+  distance/position call, and an attribution-bar fix: the API is moving fast.
+- The browser SDK is not a data library: for numbers use the export format above or the tools in `SKILL.md`.
+
 ## Pipeline placement
 
 SBDB (`covariance=` + physical params) → brahe Horizons SPK (ephemeris math) → pds4_tools (archive products).
