@@ -220,6 +220,7 @@ summary — WCAG findings are the most load-bearing reason to use the CLI.
 ## Spec source of truth
 
 - Worked example: `references/antd-v6-design-md-exemplar.md` (Ant Design v6's own DESIGN.md: what to copy, plus the `ConfigProvider` theming API)
+- Vue counterpart: `references/ant-design-vue-4-notes.md` (ant-design-vue 4.2.6 shares antd v6's seed tokens; cssinjs SSR extraction, `ConfigProvider` theming, install weight)
 - Repo: https://github.com/google-labs-code/design.md (Apache-2.0)
 - CLI: `@google/design.md` on npm
 - License of generated DESIGN.md files: whatever the user's project uses;
