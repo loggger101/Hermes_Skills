@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **465 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **466 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -418,6 +418,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `devops/system-design-scaling/references/latency-and-estimation.md` — Latency Numbers & Back-of-the-Envelope Estimation
 - `devops/system-design-scaling/references/oo-design-interview-patterns.md` — Object-Oriented Design Interview Patterns (6 Worked Exercises)
 - `devops/system-design-scaling/references/scaling-tradeoffs-and-topics.md` — Scaling Trade-Offs & Networking Topics
+
+## devops/watchers
+
+- `devops/watchers/references/live-open-data-feeds.md` — 16 keyless live feeds from gods-eye-view's DATA_SOURCES.md requested once from this machine on 2026-10-05: status, size, latency, payload shape, rate limits and the dead CelesTrak txt path
 
 ## doc-coauthoring/references
 
