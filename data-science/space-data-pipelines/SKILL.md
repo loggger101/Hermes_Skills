@@ -83,6 +83,10 @@ The upstream repo's `hf_dataset_utils` package is the reference implementation o
 catalog.data.gov (515k+ datasets, incl. NASA planetary science) **dropped the CKAN `/api/3/action/*` endpoints** (404 on 2026-10-05). Use `GET /search?q=...&per_page=...&after=<cursor>`
 (cursor pagination, no total count) and `/api/organizations` for valid `org_slug` values (NASA is `nasa`; a wrong slug returns an empty 200). Many records have no machine-readable distribution.
 
+## Debiasing taxonomy-based statistics (see `references/belt-gradient-analysis-patterns.md`)
+
+From the user's asteroid-belt-gradient analysis: count only measured labels (83% of catalog taxonomy labels were imputed from semimajor-axis albedo), collapse collisional families to one body, limit by size not brightness (size-complete cut plus inverse-completeness weighting), and make optional corrections switchable.
+
 ## Licensing redistributed space data (see `references/space-data-licensing-audit.md`)
 
 Default "NASA/ESA public API ⇒ CC-BY-4.0" is **wrong** for a large fraction of providers: ESA Space Science Archives = **CC BY-NC 3.0 IGO** (no commercial use), WDC Kyoto geomagnetic indices no-commercial, SILSO sunspot numbers CC BY-NC 4.0, AAVSO NC-only, and VizieR's own terms are "scientific context" — not CC-BY at all. The source license travels with the data: fetching ESA catalogs via VizieR/HEASARC mirrors does NOT strip the restriction. When unsure, label `license: other` + upstream policy link rather than over-permissive cc-by-4.0.
