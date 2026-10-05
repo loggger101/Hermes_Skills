@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **425 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **426 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -598,6 +598,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `software-development/ast-grep/references/recipes.md` — Recipes — copy-paste patterns by language
 - `software-development/ast-grep/references/sgconfig.md` — sgconfig.yml — project configuration
 - `software-development/ast-grep/references/yaml-rules.md` — YAML rule reference — atomic, relational, composite, transform, fix
+
+## software-development/codebase-onboarding
+
+- `software-development/codebase-onboarding/references/style-guides-and-enforcers.md` — Find the style guide a repo follows and the tool that enforces it: language -> canonical guide (from awesome-guidelines) -> enforcer with current version, plus config files to detect
 
 ## software-development/conversation-to-spec
 
