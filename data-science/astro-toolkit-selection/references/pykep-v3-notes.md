@@ -18,10 +18,10 @@ optimisation** (GTOC-style problems), and it integrates with `pygmo` for evoluti
 |---|---|
 | `pip install pykep` on **Windows / macOS** | **Fails**: PyPI 3.0.1 ships only `manylinux_2_28` wheels (cp311, cp312, cp313; x86_64 and aarch64). `pip download pykep --only-binary=:all:` for py3.11-3.13 and Python 3.14 win_amd64 found no distribution. Older 2.4-2.6 releases list cp36-cp38 wheels (including win_amd64), far too old for current Python |
 | `pip install pykep` on Linux x86_64/aarch64, Python 3.11-3.13 | works per the wheel list. Declared dependencies: `numpy, scipy, matplotlib, sgp4, spiceypy, pygmo, heyoka==7.10.1`; `heyoka` is pinned exactly |
-| conda-forge | README says conda-forge still serves the v1 line; v3 packages come once the API stabilises |
+| conda-forge | **README is out of date**: the anaconda.org API (2026-10-05) lists `pykep` 3.0.0 for `win-64`, `osx-64`, `osx-arm64`, `linux-64`, `linux-aarch64`, `linux-ppc64le` (plus `pygmo` 2.19.8, `heyoka` 7.13.0). Use conda/mamba/pixi on Windows and macOS; the Karmanplus/prospector project does exactly this with pixi |
 | Source build | recommended by the README for v3 development: conda env from `kep3_devel.yml`, then CMake with `-Dkep3_BUILD_PYTHON_BINDINGS=ON` (needs Boost, fmt, heyoka, xtensor) |
 
-Practical consequence for a Windows machine: use WSL/Linux or a container for pykep 3, or choose a library that installs here
+Practical consequence for a Windows machine: use conda-forge via pixi/mamba (pykep 3.0.0 win-64 exists there), or WSL/Linux or a container, or choose a library that installs with pip here
 (`brahe`, `skyfield`, REBOUND; see `SKILL.md`). The exact `heyoka` pin plus `pygmo` (itself Linux-wheel-only on PyPI) makes a mixed
 environment fragile, so give pykep its own venv.
 
