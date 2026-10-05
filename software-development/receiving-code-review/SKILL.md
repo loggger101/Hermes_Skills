@@ -12,6 +12,7 @@ metadata:
 ---
 
 <!-- source: obra/superpowers (skills/receiving-code-review), ported 2026-09-09 -->
+
 ## When to Use
 
 - You receive code review feedback — from the user, a teammate, or an external reviewer/agent — and are about to implement it.
