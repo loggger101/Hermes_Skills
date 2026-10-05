@@ -301,6 +301,8 @@ For framework-free JS animation, `references/animejs-4-notes.md` covers Anime.js
 
 For scoped, conflict-free CSS, `references/css-blocks-notes.md` records that LinkedIn's CSS Blocks is dormant (npm 2022), crashes on Windows (`process.getuid`), and changed its state syntax; it lists the strict rules it enforced and the maintained alternatives (CSS Modules, `@scope`, `@layer`, stylelint).
 
+`references/metro-ui-5-notes.md` measures Metro UI 5.1.20 (`@olton/metroui`) for the "all-in-one CSS framework" question: 1.48 MB CSS, 0.92 MB JS, a global reset that makes `body` a flex column, class-based dark mode, auto-init on load; the README's "no dependencies" badge versus nine declared runtime deps.
+
 ## UI/UX code review (beyond performance)
 
 For a full accessibility/forms/animation/copy/dark-mode audit of site markup and JS, use `references/web-interface-guidelines-ui-checklist.md` — Vercel's Web Interface Guidelines ported verbatim with the clickable `file:line` output format. It complements this skill's Core-Web-Vitals section (which covers loading/rendering) by covering interaction quality; pair both when running a site audit.
