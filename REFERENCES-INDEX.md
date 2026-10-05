@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **494 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **495 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -475,6 +475,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `github/github-pr-workflow/references/ai-policies-of-starred-repos.md` — Per-repo AI-contribution rules found in 18 of the owner's 166 starred repos (disclose, no agents, no Co-Authored-By vs required Co-authored-by, PRs paused) and the check to run before any agent PR
 - `github/github-pr-workflow/references/ci-ratchets-and-release-pipeline.md` — CI Ratchets & Release Pipeline (verified from reconurge/flowsint @ 1820569)
 - `github/github-pr-workflow/references/ci-troubleshooting.md` — CI Troubleshooting Quick Reference
+- `github/github-pr-workflow/references/contributor-repo-automation-patterns.md` — Automation a 66k-star contribution repo runs on itself (TheAlgorithms/Java)
 - `github/github-pr-workflow/references/conventional-commits.md` — Conventional Commits Quick Reference
 - `github/github-pr-workflow/references/git-workflow-recipes.md` — High-value git recipes distilled from tiimgreen/github-cheat-sheet (MIT) — fixup/autosquash, PR checkout, revert
 - `github/github-pr-workflow/references/github-web-ui-tricks.md` — Verified GitHub web-UI + URL tricks from tiimgreen/github-cheat-sheet (MIT) — diff params, compare URLs, gists-as-repos, templates
