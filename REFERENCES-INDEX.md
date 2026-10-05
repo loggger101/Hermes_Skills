@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **466 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **467 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -645,6 +645,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `software-development/ast-grep/references/recipes.md` — Recipes — copy-paste patterns by language
 - `software-development/ast-grep/references/sgconfig.md` — sgconfig.yml — project configuration
 - `software-development/ast-grep/references/yaml-rules.md` — YAML rule reference — atomic, relational, composite, transform, fix
+
+## software-development/cli-tool-craft
+
+- `software-development/cli-tool-craft/references/tqdm-progress-bars.md` — tqdm 4.70.1 measured: bar goes to stderr and floods piped logs with CRs, print() corrupts it, TQDM_ASCII=1 crashes the program, TQDM_DISABLE and MININTERVAL tame logs, per-iteration cost
 
 ## software-development/codebase-onboarding
 
