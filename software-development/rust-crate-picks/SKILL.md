@@ -36,6 +36,7 @@ call out. Entries are added as each starred Rust repo is reviewed; each has a re
 | Native desktop GUI in Rust with ready components, headless UI tests, WASM | `gpui-kit` (over `gpui`) | Apache-2.0 | 0.7.1 (2026-10-05); gpui 0.2.2 | `references/gpui-kit-notes.md` |
 | Leap-second-aware time scales (UTC/TAI/TT/TDB/GPST), nanosecond Epoch and Duration; also `pip install hifitime` | `hifitime` | MPL-2.0 | 4.3.1 (2026-08-07) | `astro-toolkit-selection/references/hifitime-time-scales.md` (live-tested, leap-second caveats) |
 | Bayesian optimisation (EGO) of expensive black-box objectives; also `pip install egobox` | `egobox-ego` / `egobox-gp` | Apache-2.0 | 0.40.2 / 0.36.4 (2026-09-22); Python pkg 0.38.0 | `astro-toolkit-selection/references/egobox-bayesian-optimization.md` (run live) |
+| Convert `#[repr(u8)]` enums to and from integers (opcodes, register values, file formats) without `as` truncation or hand-written `match` | `num_enum` | BSD-3-Clause OR MIT OR Apache-2.0 | 0.7.6 (2026-03-15), MSRV 1.70.0, `no_std` | `references/num-enum-notes.md` (derive/attribute matrix, UB trap; Python `IntEnum` analogue run live) |
 
 Further entries are added as more Rust repos are reviewed.
 
@@ -66,4 +67,5 @@ The default Windows Rust target (`x86_64-pc-windows-msvc`) needs the Microsoft C
 
 - `references/bumpalo-arena-notes.md` - bump allocation trade-offs, the no-`Drop` rule, features, thread-safety, when not to use an arena
 - `references/uom-units-notes.md` - uom 0.38 type-safe units (features, design) and the Python analogue pint 0.26.1 run live
+- `references/num-enum-notes.md` - num_enum 0.7.6 (source-read, not compiled): four derives, which attribute each honours (`default`, `catch_all`, `alternatives`), the `UnsafeFromPrimitive` undefined-behaviour trap, and the Python `IntEnum` `_missing_` analogue run on 3.14
 - `references/gpui-kit-notes.md` - gpui-kit 0.7 layering, headless UI tests, and the tested-recipe documentation pattern
