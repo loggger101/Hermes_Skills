@@ -600,6 +600,7 @@ Every diagram is an accessible figure by default:
 
 ### Exporting to PNG / SVG
 
+**Data-driven charts with d3 (headless):** when the figure should be computed from data (scales, treemap, force layout, geo paths) rather than hand-drawn, see [`references/d3-headless-notes.md`](references/d3-headless-notes.md): d3 7.9.0 run in Node with jsdom, including the U+2212 minus sign, lenient date parsing, ordinal domain growth and the clockwise-ring geo trap.
 When the user asks to export, save, rasterize, or convert a generated diagram to `.png` or `.svg`, load [`references/export.md`](references/export.md) and follow the procedure there. Both formats deliver the diagram only (the `<svg>` node) — editorial wrappers like cards and headers are dropped by design. Export is **manual** — never produce export files unprompted.
 
 For an imported diagram, pixel dimensions come from the `viewBox` × scale factor, so its size decision belongs to §11, not to export. For any diagram that needs an exact frame (an OG card or a 1920×1080 slide image), see [`export.md` § Sizing the export](references/export.md).
