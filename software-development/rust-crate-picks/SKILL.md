@@ -34,8 +34,9 @@ call out. Entries are added as each starred Rust repo is reviewed; each has a re
 | Shortest path, flow and matching over implicit or explicit graphs (A*, Dijkstra, BFS/DFS, Yen, Edmonds-Karp, Kuhn-Munkres, SCC, Kruskal) | `pathfinding` | Apache-2.0 / MIT | 4.16.0 per its README | Python equivalents in `algorithms-python-catalog/references/graph-algorithms-library-map.md` |
 | Compile-time unit and dimension checking (no more mixed km/s or lbf/N) | `uom` | Apache-2.0 OR MIT | 0.38.0 (2026-02-14), MSRV 1.68.0, `no_std` via feature | `references/uom-units-notes.md` (includes the Python analogue `pint`) |
 | Native desktop GUI in Rust with ready components, headless UI tests, WASM | `gpui-kit` (over `gpui`) | Apache-2.0 | 0.7.1 (2026-10-05); gpui 0.2.2 | `references/gpui-kit-notes.md` |
+| Leap-second-aware time scales (UTC/TAI/TT/TDB/GPST), nanosecond Epoch and Duration; also `pip install hifitime` | `hifitime` | MPL-2.0 | 4.3.1 (2026-08-07) | `astro-toolkit-selection/references/hifitime-time-scales.md` (live-tested, leap-second caveats) |
 
-Further entries (leap-second-correct time, Bayesian optimisation) are added as those repos are reviewed.
+Further entries (Bayesian optimisation) are added as those repos are reviewed.
 
 ## Procedure for choosing a crate
 
