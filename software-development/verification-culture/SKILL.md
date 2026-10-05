@@ -355,3 +355,7 @@ Before declaring a project's verification culture healthy:
 ## References
 
 - `references/autonomous-operator-protocol-tlc.md` — the "evidence-or-stop" operating protocol for long autonomous sessions (from tech-leads-club/agent-skills' not-your-babysitter skill): evidence hierarchy (live source > web search pinned to current date > never training memory), fake-nothing rules, exactly-three-stops policy with BLOCKED/TRIED/NEED format, don't-spin detection; plus codenavi's `.notebook/` pointer-notes method and learning-opportunities' deliberate-practice counterweight.
+
+## References
+
+- `references/agent-quality-bar-patterns.md` - doubt-driven review (fresh adversarial reviewer, 3-cycle bound, doubt theater), CONSTRAINTS.md quality bar (floor, ratchets, guard the bar), source-driven implementation with retrieval safety; distilled from addyosmani/agent-skills (source-read).
