@@ -133,6 +133,22 @@ uv run --with httpx pytest    # project deps + temporary extra
 
 Commit `uv.lock`. Use `src/` layout for packages. Enforce coverage minimum (80%+).
 
+## Managing Python versions (pyenv vs uv vs the Windows launcher)
+
+`pyenv` is a Unix tool: its README states it **does not officially support Windows** and does not work outside WSL (there, it installs Linux Pythons, not native Windows ones). On Windows (and anywhere `uv` is installed) manage interpreters with `uv` or the `py` launcher instead:
+
+| Task | Command (verified with uv 0.12.17 on this Windows box) |
+|---|---|
+| List what is installed | `uv python list --only-installed` showed the system 3.14.6 copies plus uv-managed `cpython-3.13.15` and `cpython-3.11.16` under `%APPDATA%\uv\python\` |
+| List downloadable versions | `uv python list` (it showed 3.15.0rc2, 3.14.7 and free-threaded builds as `<download available>`) |
+| New venv on a specific version | `uv venv --python 3.11 .venv` downloaded and used CPython 3.11.16 automatically; no separate install step needed |
+| Install with a package | `uv pip install --python .venv/Scripts/python.exe <pkg>` |
+| Windows launcher | `py -0` lists interpreters; uv-managed ones appear as `Astral/CPython3.11.16` |
+| Pin per project | `.python-version` file (read by uv and pyenv) or `requires-python` in `pyproject.toml` |
+
+Why it matters here: several tools in this repo's reviews have no wheel for the newest Python (Kivy 2.3.1, gensim 4.4.0, pykep, great-expectations 1.x, luigi cap `<3.14`); a `uv venv --python 3.11` side environment is the cheapest workaround
+(see `data-science/build-systems-data/references/data-engineering-tool-map.md` and `frontend-design/nicegui-app-builder/references/python-gui-toolkits.md`).
+
 ## Migration Guide (when asked)
 
 **requirements.txt + pip → uv:** scripts become PEP 723; projects:
