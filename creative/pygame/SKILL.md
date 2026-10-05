@@ -1,7 +1,7 @@
 ---
 name: pygame
 description: "Use when building or testing pygame/SDL games."
-version: v0.9.0
+version: v0.9.1
 author: Hermes Agent (ported from starred-repo research)
 license: MIT
 platforms: [linux, macos, windows]
@@ -33,6 +33,18 @@ this is what an agent gets wrong or re-discovers painfully.
   headless rendering (thumbnails, procedural textures), game logic that must be testable without a display.
 - Don't use for: browser games (→ `p5js` skill), video output (→ `manim-video` / `ascii-video`).
 
+## Install: `pygame` vs `pygame-ce` on current Python (run 2026-10-05, Python 3.14.6, Windows)
+
+- **`pip install pygame` (2.6.1, released 2024-09-29) fails on Python 3.14**: there is no wheel, the source build starts
+  "WINDOWS MSYS2 configuration ... Installing mingw-w64-x86_64-SDL2" and dies with `FileNotFoundError` (needs MSYS2).
+  Do not try to build it; check `pip index versions pygame` and your Python version first.
+- **`pip install pygame-ce` (2.5.8) installs from a wheel on 3.14** and imports as `pygame` (`pygame.IS_CE == 1`, SDL 2.32.10).
+  It is the community fork the rest of this skill's API applies to; use it unless you need upstream `pygame` for a specific reason.
+  Both register the same `pygame` package: do not install both in one environment.
+- Smoke test that passed with `SDL_VIDEODRIVER=dummy SDL_AUDIODRIVER=dummy`: `pygame.init()` returned `(5, 0)` (5 modules ok,
+  0 failed), `display.set_mode((320,200))`, 30 flips, `image.save` PNG (846 bytes), default `Font(None, 24)` render, mixer init, and
+  `Clock.tick(60)` pacing 20 frames in 0.325 s (expected 0.333). Without the dummy driver the real `windows` driver was selected.
+
 ## Headless first — the pattern that unlocks everything else
 
 pygame runs with **no windowing system at all** on servers/CI/cron/background jobs. The exact sequence, from
@@ -48,7 +60,7 @@ screen = pg.display.set_mode((1, 1))       # a 1x1 surface is enough to unlock i
 
 - The env var **before the import** is the load-bearing part — SDL reads it at init. Setting it after `import pygame` does nothing.
 - What works headless: `image.load/save`, `transform.scale/smoothscale/flip`, `draw.*`, fonts (after display.init), surfarray/sndarray numpy bridges, masks. This makes thumbnail generation, procedural texture baking, and — most importantly — **testing game logic** possible anywhere.
-- Audio does NOT work headless; guard it (see below).
+- Audio needs a device unless you also set `SDL_AUDIODRIVER=dummy` (before the import): with it, `pygame.mixer.init()` succeeded on a machine with no audio setup (`(44100, -16, 2)`). Without it, guard the mixer (see below).
 
 ## Canonical main loop (the shape of every pygame app)
 
