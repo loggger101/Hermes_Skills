@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **453 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **454 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -33,6 +33,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `autonomous-ai-agents/hermes-agent/references/cross-harness-skill-porting.md` — Cross-Harness Skill Porting — making one skill corpus auto-trigger on N agent runtimes
 - `autonomous-ai-agents/hermes-agent/references/delegate-task-concurrency-diagnosis.md` — delegate_task: diagnosing "my batch was capped"
 - `autonomous-ai-agents/hermes-agent/references/desktop-plugins.md` — Desktop App Plugins — UI Panes, Commands, Widgets
+- `autonomous-ai-agents/hermes-agent/references/hindsight-memory-provider.md` — Hindsight as a Hermes memory provider: catalog install/update/pin, three modes, recall/retain config, why recall comes back empty, and bank/tag rules that prevent cross-user leaks
 - `autonomous-ai-agents/hermes-agent/references/installed-plugins.md` — Installed Plugins — Live Environment Catalog
 - `autonomous-ai-agents/hermes-agent/references/native-mcp.md` — Native MCP Client
 - `autonomous-ai-agents/hermes-agent/references/petdex.md` — Petdex — Animated Pet Mascots
