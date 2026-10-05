@@ -11,8 +11,8 @@ metadata:
     related_skills: [grilling-interview, mattpocock-to-tickets]
 ---
 
-
 <!-- source: mattpocock/skills (engineering/wayfinder), ported 2026-09-05, adapted to gh CLI / local markdown trackers -->
+
 ## When to Use
 
 - An effort too big for one agent session

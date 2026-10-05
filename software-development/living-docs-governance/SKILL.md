@@ -12,6 +12,7 @@ metadata:
 ---
 
 <!-- source: affaan-m/ECC (MIT), ported 2026-09-09 -->
+
 # Living Docs Governance
 
 Long-lived projects often rot at the documentation layer first: the README describes an old pipeline, architecture notes describe a refactor that never shipped, and every new session re-derives context that should already be available.

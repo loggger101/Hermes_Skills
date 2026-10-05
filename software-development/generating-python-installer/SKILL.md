@@ -12,6 +12,7 @@ metadata:
 ---
 
 <!-- source: affaan-m/ECC (MIT), ported 2026-09-09; Chinese original translated to English with all commands/flags preserved verbatim -->
+
 # Generating Python Installers (Commercial Grade)
 
 Ship the **smallest, fastest-starting, cleanest** Windows installer for a Python app. Core approach: **"Nuitka standalone folder mode (`dist`) + Inno Setup packaging"** — no single-file builds, no stray console window.

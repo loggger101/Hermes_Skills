@@ -11,8 +11,8 @@ metadata:
     related_skills: [grilling-interview, mattpocock-domain-modeling]
 ---
 
-
 <!-- source: mattpocock/skills (engineering/triage), ported 2026-09-05, adapted for gh CLI -->
+
 ## When to Use
 
 - "Triage #42" / "show me what needs attention"
