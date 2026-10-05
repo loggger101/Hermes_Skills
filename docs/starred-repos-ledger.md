@@ -65,7 +65,7 @@ Statuses: `pending` · `done` (skill/reference changed) · `covered` (already we
 | 44 | [piskvorky/gensim](https://github.com/piskvorky/gensim) | Python | 2025-11-01 | 0 | done | round-110: new `data-science/python-data-science/references/gensim-notes.md` (no cp314 wheel; Word2Vec/LDA run live in a 3.11 venv: workers=1 reproducible, OOV KeyError, np.str_ outputs) |
 | 45 | [plotly/plotly.py](https://github.com/plotly/plotly.py) | Python | 2026-10-05 | 0 | done | round-111: new `data-science/python-data-science/references/plotly-notes.md` (plotly 7.1.0 run live: HTML 4,826,893 B embedded vs 7,610 CDN, NaN/inf -> null, kaleido 1.4 png in 1.7s with Chrome, default renderer = browser) |
 | 46 | [poteto/hiring-without-whiteboards](https://github.com/poteto/hiring-without-whiteboards) | JavaScript | 2026-09-24 | 0 | pending | |
-| 47 | [public-api-lists/public-api-lists](https://github.com/public-api-lists/public-api-lists) | - | 2026-09-14 | 0 | pending | |
+| 47 | [public-api-lists/public-api-lists](https://github.com/public-api-lists/public-api-lists) | - | 2026-09-14 | 0 | done | round-112: new `devops/rest-api-client/references/public-api-discovery.md` (feed schema, 837 entries/48 categories, 36/40 sampled landing pages 2xx, NASA listed auth:No but returns 403 without a key, stale Launch Library URL, Minor Planet Center entry points to asterank) |
 | 48 | [PyCQA/pycodestyle](https://github.com/PyCQA/pycodestyle) | Python | 2026-09-29 | 0 | pending | |
 | 49 | [pyenv/pyenv](https://github.com/pyenv/pyenv) | Shell | 2026-10-03 | 0 | pending | |
 | 50 | [PySimpleGUI/PySimpleGUI](https://github.com/PySimpleGUI/PySimpleGUI) | Python | 2026-08-30 | 0 | pending | |

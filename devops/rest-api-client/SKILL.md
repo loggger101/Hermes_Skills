@@ -228,3 +228,7 @@ For robust pagination, prefer `execute_code` (Python + `requests` or `urllib`) w
 ## Related
 
 For APIs that require browser-based OAuth flow (e.g., "click here to authorize"), stop and ask the user — this skill covers token-based auth only. For GraphQL, use the GraphQL endpoint with a JSON `query` payload but expect a different response shape; `rest-graphql-debug` has the GraphQL quickstart and introspection checks. For long-running integrations with rate limits and state, consider `cronjob` for scheduled polling. For local services, combine with `skill_view(name='docker-containers')` or `skill_view(name='ssh-remote')` if the API is on another host. When the question shifts from *calling* an API to *designing/choosing one* (RPC vs REST trade-offs, verb idempotency rules, HATEOAS), load `skill_view(name='system-design-scaling')` — its `references/asynchronism-communication-security.md` has the full comparison table and selection rules.
+
+## References
+
+- `references/public-api-discovery.md` - using the public-api-lists JSON feed to find free APIs; measured health (36/40 landing pages 2xx) and metadata errors (NASA listed as no-auth but needs a key, stale Launch Library URL)
