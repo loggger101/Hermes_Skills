@@ -1,8 +1,8 @@
 ---
 description: "polars + pymc API references — verified line-numbered facts from cloned sources"
 source_repos: pola-rs/polars, pymc-devs/pymc (clones at %LOCALAPPDATA%\Temp\starred-dive\)
-tested_version: clones @ 2026-09-05; polars lazy-first + join validate=; pymc sample() w/ nutpie auto-select
-verified_date: "2026-09-05"
+tested_version: clones @ 2026-09-05; polars lazy-first + join validate=; pymc sample() w/ nutpie auto-select; PyMC section RUN 2026-10-05 (pymc 6.3.2 + pytensor 3.3.3, Windows 11 / Python 3.13, no C++ compiler)
+verified_date: "2026-10-05"
 ---
 
 # Data Stack — API References (polars, PyMC)
@@ -69,3 +69,18 @@ out = (lf.filter(...)
 
 - **oxnr/awesome-bigdata**: 867-line README spanning streaming (Kafka/Flink/Samza lineage), ML frameworks, storage engines. Use as a discovery index; most entries are links with one-liners.
 - **DataExpert-io/data-engineer-handbook**: bootcamp structure — `beginner-bootcamp/` (Docker + Python 3.11+ prereqs, free end-to-end project list incl. Uber BigQuery pipeline), `intermediate-bootcamp/`, plus books/interviews/newsletters/projects files. Value = curated learning path, not code.
+
+## PyMC run on Windows without a compiler (2026-10-05, pymc 6.3.2, pytensor 3.3.3, Python 3.13)
+
+| Check | Result |
+|---|---|
+| Install | `uv pip install pymc` works on Python 3.13 (a `uv venv --python 3.13`); `import pymc` takes about 4.5 s |
+| Compiler | `pytensor.config.cxx == ''` and the import prints `g++ not available, if using conda: conda install gxx` (no `g++`, `gcc` or `cl` on PATH here). PyTensor falls back to its slower non-C path; nothing fails |
+| Small model: `y ~ Normal(a + b*x, s)`, 200 points, 2 chains, 300 tune + 300 draws, `cores=1` | **1.5 to 4.5 s** (first run vs repeat); posterior means a = 1.457, b = 2.020, s = 0.451 against OLS 1.456 / 2.020 / residual sd 0.447 (truth 1.5 / 2.0 / 0.5); max r_hat 1.008, min ESS bulk 610. Message: "We recommend running at least 4 chains" |
+| Same model with `cores=2` in a plain script | **`RuntimeError: An attempt has been made to start a new process before the current process has finished its bootstrapping phase`**: Windows `spawn` re-imports the script in each worker, which started sampling again. The script body ran three times in the output. Put the model and `pm.sample` under `if __name__ == "__main__":` |
+| `cores=2` with the guard | worked but took **15.3 s** versus 4.5 s sequential for this tiny model: each worker pays the 4-5 s `pymc` import. Use `cores=1` for small models; use parallel chains only when sampling dominates |
+| `nutpie` | not installed by `pymc` (`ModuleNotFoundError`); the default NUTS ("Initializing NUTS using jitter+adapt_diag") ran. `pip install nutpie` is a separate step if you want the Rust sampler |
+
+Rule for agents on Windows: guard the entry point, default to `cores=1` for quick checks, record `pytensor.config.cxx` in the run log (an empty value
+explains slow runs), and compare against a closed-form fit (OLS here) before trusting a posterior. Not run: `nutpie`, JAX/numba backends, hierarchical models,
+`sample_posterior_predictive`, ArviZ plots.
