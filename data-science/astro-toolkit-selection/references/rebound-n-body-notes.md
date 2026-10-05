@@ -19,7 +19,7 @@ closed-source product is a license problem (same class of caveat as nyx's AGPL i
 |---|---|
 | `pip install rebound` (5.2.1) | OK: a prebuilt `cp314-cp314-win_amd64` wheel (449 KB) |
 | `pip install reboundx` (5.1.0) | **Fails**: `error: Microsoft Visual C++ 14.0 or greater is required`. No binary wheels exist for it at all: `pip download reboundx --only-binary=:all:` found no distribution for `win_amd64` or `manylinux2014_x86_64`. It is source-only, so every platform needs a C compiler (MSVC Build Tools on Windows, gcc/clang elsewhere) |
-| `pip index versions assist` | 1.2.3 is the latest ASSIST (ephemeris-quality test-particle integrator built on REBOUND); not installed here |
+| `pip install assist` (1.2.3) | **Cannot be installed here**: PyPI holds only `assist-1.2.3.tar.gz` (61.5 KB sdist, no wheel for any platform), it needs a C compiler (none on PATH), and it pins `rebound<5.0.0,>=4.4.11`, while the REBOUND wheel above is 5.x. REBOUND 4.x Windows wheels stop at cp312 (4.6.0). See the ASSIST section below |
 
 Plan accordingly: on a machine without a compiler, either install the Build Tools / use WSL or Linux, or fall back to
 core REBOUND with your own perturbation in a Python or C force callback.
@@ -117,9 +117,52 @@ gravity force ratio) feel it; effect parameter `c`; the source is particle 0 unl
 
 ## Related
 
-`matthewholman/assist` (ASSIST, "ephemeris-quality integrations of test particles", built on REBOUND; not run here)
+`matthewholman/assist` (ASSIST, "ephemeris-quality integrations of test particles", built on REBOUND; source-read, see the next section)
 is the tool when an asteroid's position must match Horizons; REBOUND/REBOUNDx are for idealised or population dynamics. Cross-check against `nyx` / `brahe`
 (`optimization-toolkit.md`, `brahe-api-reference.md`).
+
+## ASSIST (matthewholman/assist 1.2.3, source-read, not run)
+
+GPL-3.0, 47 stars, last push 2026-06-21. Read from the repo (`assist/*.py`, `docs/forces.md`, README) and PyPI metadata plus HTTP
+HEAD requests on the JPL files; **nothing below was executed**, because it cannot be installed on this machine (row above).
+To run it you would need Python <= 3.12 (REBOUND 4.x wheel), a C compiler for the sdist, and the data files.
+
+What it is: REBOUND's IAS15 integrator with the force field of an ephemeris-grade small-body integrator: Sun, Moon, planets and
+16 massive asteroids positioned from JPL DE440/441, Earth J2-J5 and Sun J2 harmonics, Einstein-Infeld-Hoffmann GR, and the
+Marsden (1973) non-gravitational model; first-order variational equations are included for orbit fitting. Use it when a
+test particle must match JPL Horizons; plain REBOUND is for idealised or population dynamics.
+
+Data (sizes from `Content-Length`): `de440.bsp` 119.8 MB, `sb441-n16.bsp` (asteroid perturbers) 645.7 MB,
+`linux_p1550p2650.440` (ASCII-derived planets, smaller date range) 102.3 MB. README says "almost 1 GB" for the planets plus asteroid pair.
+`Ephem(planets_path, asteroids_path)` auto-detects SPK vs ASCII-derived format; with no planets path it looks in
+`ASSIST_DIR` for `de441.bsp`, `de440.bsp`, `linux_m13000p17000.441`, `linux_p1550p2650.440` in that order.
+
+Python API as read:
+
+```python
+import assist, rebound, numpy as np
+ephem = assist.Ephem("data/de440.bsp", "data/sb441-n16.bsp")   # ephem.jd_ref default 2451545.0
+earth = ephem.get_particle("Earth", 0)                          # names: Sun..Pluto, Moon, Ceres, Vesta, ... (ids 0-26)
+sim = rebound.Simulation()                                      # add the test particle, set sim.t relative to jd_ref
+ex = assist.Extras(sim, ephem)                                  # switches sim to units ("au","day","massist"), default_plane "frame"
+ex.particle_params = np.array([4.99e-13, -2.90e-14, 0.0])       # A1, A2, A3 in au/day^2; write-only; must be a numpy array
+ex.integrate_or_interpolate(t)                                  # use instead of sim.integrate
+```
+
+Source-level traps:
+
+- **`Ephem` paths are encoded with `.encode("ascii")`**: a data directory with a non-ASCII character (an accented user name, for
+  instance) raises `UnicodeEncodeError` before the C library is reached. Keep the files in a plain ASCII path.
+- `ex.forces` returns a fresh list: `ex.forces.remove("EARTH_HARMONICS")` has no effect. Copy, remove, then assign
+  (`f = ex.forces; f.remove(...); ex.forces = f`). Names: SUN, PLANETS, ASTEROIDS, NON_GRAVITATIONAL, EARTH_HARMONICS,
+  SUN_HARMONICS, GR_EIH (all on by default), GR_SIMPLE and GR_POTENTIAL (off). The C side is a bitfield (`^=` flips a bit).
+- `gr_eih_sources` defaults to the Sun only; set it to 11 (Sun, Moon, nine planets) for close planetary encounters, at a cost in speed.
+- `particle_params` raises `AttributeError` on read. `ex.detach(sim)` is needed before the simulation can be garbage collected.
+- The package prints `WARNING: python module and libassist have different version numbers` when the shared library and the
+  Python module differ (the module string in the repo read 1.2.0 while PyPI is 1.2.3).
+- `import assist` is light; `assist.Extras` imports numpy lazily on first access.
+
+Cross-check against `nyx` / `brahe` (`optimization-toolkit.md`, `brahe-api-reference.md`).
 
 ## celmech (analytic and semi-analytic celestial mechanics on top of REBOUND)
 
