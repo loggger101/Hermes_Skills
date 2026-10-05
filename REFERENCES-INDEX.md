@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **476 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **477 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -729,6 +729,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `software-development/rust-crate-picks/references/bumpalo-arena-notes.md` — bumpalo 3.20 bump-arena notes: trade-offs, the no-Drop rule, reset, features, Send but not Sync, API names; source-read
 - `software-development/rust-crate-picks/references/gpui-kit-notes.md` — gpui-kit 0.7 (Rust desktop UI on GPUI): layering, features, headless UI testing, and its tested-recipe documentation pattern; source-read
 - `software-development/rust-crate-picks/references/uom-units-notes.md` — uom 0.38 (Rust type-safe units of measure): features, design, usage; plus the Python analogue pint 0.26.1 run live (dimension errors, temperature offset trap, AU and year definitions)
+
+## software-development/streamlit-dashboards
+
+- `software-development/streamlit-dashboards/references/streamlit-165-testing-and-serving.md` — Streamlit 1.65.0 run on Python 3.14: browserless AppTest (0.24 s), cache hits, st.stop, exceptions; removed experimental APIs; use_container_width notice; headless server binds ALL interfaces by default
 
 ## software-development/structured-llm-outputs
 

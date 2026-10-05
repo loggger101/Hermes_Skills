@@ -541,3 +541,7 @@ A real pattern from CR-pipeline's Streamlit dashboard: 8 tabs covering fitness, 
 - [ ] Dashboard runs cleanly on first load (no errors from missing state)
 - [ ] Paths/config are not hardcoded to one machine
 - [ ] Cache is invalidated appropriately (ttl or function change)
+
+## References
+
+- `references/streamlit-165-testing-and-serving.md` - Streamlit 1.65.0 run: browserless `AppTest` (0.24 s, cache hits, exceptions, `st.stop`), removed experimental APIs, `use_container_width` notice, and the default bind to ALL interfaces (use `--server.address 127.0.0.1`).

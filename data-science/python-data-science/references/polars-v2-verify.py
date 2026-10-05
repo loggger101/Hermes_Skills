@@ -7,7 +7,7 @@ Self-contained: no fixtures needed, everything is built inline. Requires polars 
     <that venv's python> <repo>\data-science\python-data-science\references\polars-v2-verify.py
 
 Every check prints PASS / FAIL with a short detail. Exit code = number of failures (0 = all green).
-Last full run: 2026-10-02, 39/39 PASS on polars 2.0.0-rc.1 (checks 20/30/33 gained the
+Last full runs: 2026-10-02 39/39 PASS on polars 2.0.0-rc.1; 2026-10-05 39/39 PASS on 2.0.0-rc.2 (Python 3.14.6, Windows). Checks 20/30/33 gained the
 assertions their PASS details claim; each was shown to fail on a planted wrong value).
 """
 
