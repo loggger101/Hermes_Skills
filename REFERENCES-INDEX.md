@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **417 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **418 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -355,6 +355,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## data-science/space-data-pipelines
 
+- `data-science/space-data-pipelines/references/data-gov-catalog-api.md` — catalog.data.gov search API as of 2026-10-05: the CKAN /api/3/action endpoints are gone (404); /search + /api/* replace them. Parameters, pagination, response shape, traps. Live-probed.
 - `data-science/space-data-pipelines/references/flowsint-pipeline-patterns.md` — Flowsint Pipeline Architecture Patterns (verified from reconurge/flowsint @ 1820569, v1.2.12)
 - `data-science/space-data-pipelines/references/hf-mirror-catalog.md` — All 230 keyless Hugging Face space/astro/physics mirrors from juliensimon/space-datasets — load_dataset one-liner, no API keys; grouped by domain
 - `data-science/space-data-pipelines/references/lunar-gis-patterns-aegis.md` — Lunar GIS patterns from nasa/aegis (AEGIS): LPS projection math, GeoTIFF custom-CRS reconstruction, lgrs-verified port
