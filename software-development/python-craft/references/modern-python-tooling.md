@@ -52,7 +52,7 @@ Migrating existing project?                → Migration Guide below
 uv init myproject && cd myproject
 uv add requests rich                 # runtime deps
 uv add --group dev pytest ruff ty    # dev deps via dependency groups
-uv run python src/myproject/main.py  # everything runs through uv run
+uv run myproject                     # the [project.scripts] entry point `uv init` writes (uv 0.12.17: no main.py)
 uv run pytest                        # tools too
 ```
 
@@ -132,6 +132,58 @@ uv run --with httpx pytest    # project deps + temporary extra
 | `uv build` / `uv publish` | package / release to PyPI |
 
 Commit `uv.lock`. Use `src/` layout for packages. Enforce coverage minimum (80%+).
+
+## uv 0.12.17: measured behaviour (run live on Windows; latest release is 0.12.23)
+
+Scratch projects under a temp dir, about 45 commands, PyPI reachable. Exit codes and messages are quoted from the runs.
+
+**`uv init` defaults changed.** A plain `uv init --name app1` (and `--app`) created `.git`, `.gitignore`, `.python-version` (`3.13`),
+`README.md`, `pyproject.toml` and `src/app1/__init__.py`, with `[project.scripts] app1 = "app1:main"` and
+`[build-system] requires = ["uv_build>=0.12.17,<0.13.0"]`: **no `main.py`**, so `uv run main.py` fails with
+`Failed to spawn: main.py ... program not found`; `uv run app1` printed `Hello from app1!`. `uv init --bare` writes only a
+`pyproject.toml` (no `[build-system]`, `requires-python` from `--python`). `uv init --script s.py --python 3.12` writes a PEP 723
+header (`requires-python = ">=3.12"`, `dependencies = []`) and a `main()`. `uv init` runs `git init` unless you are inside a
+repository; pass `--vcs none` to stop it. Inside an existing project, `uv init --lib sub` adds `sub` as a **workspace member**
+(`[tool.uv.workspace] members = ["sub"]`), and **`uv build` run in `sub/` wrote the wheel and sdist to the workspace root
+`dist/`**, not `sub/dist/`.
+
+**Lock freshness (the CI-relevant part).** After hand-editing `six==1.16.0` -> `six==1.17.0` in `pyproject.toml`:
+
+| Command | Result |
+|---|---|
+| `uv lock --check` | exit **1**: `The lockfile at uv.lock needs to be updated, but --check was provided` |
+| `uv sync --locked` | exit **1**, same message: the CI gate |
+| `uv sync --frozen` | exit 0, `Checked 1 package`: uses the stale lock and **ignores pyproject**; `uv run --frozen` printed `1.16.0` |
+| `uv run python ...` (no flag) | re-locks and syncs on its own: printed `1.17.0`, `Uninstalled 1 package`, `Installed 1 package` |
+
+Use `--locked` in CI so a forgotten `uv lock` fails the build; never `--frozen` unless the lock is the intended truth.
+
+**Sync is exact.** `uv add --dev pytest` installed 6 packages; `uv sync --no-dev` then **uninstalled all 6** and
+`uv run --no-sync pytest --version` failed with `Failed to spawn: pytest ... program not found`.
+
+**Exit codes.** 0 ok; **1** for resolution failures (`add this-package-does-not-exist-zzz-123`: `was not found in the package registry`;
+`add "six>=99"`: `only six<=1.17.0 is available ... requirements are unsatisfiable`) and stale-lock checks; **2** for usage-type errors
+(`remove requests` when absent: `The dependency requests could not be found in project.dependencies`; `run nosuchcmd`;
+`--nope`: `unexpected argument ... tip: a similar argument exists`; `python pin 3.12` against `requires-python >=3.13`:
+`incompatible with the project requires-python value`).
+
+**PEP 723 scripts.** `uv run --script s.py` with inline `dependencies = ["tomli-w"]` built an ephemeral environment in 0.78 s and printed
+`a = 1 (3, 13)`; `uv add --script s.py six` rewrote the header (`"six>=1.17.0"`); `uv lock --script s.py` wrote `s.py.lock`.
+**`uv run --python 3.10 --script s.py` with `requires-python = ">=3.11"` still ran** (after a 15 s download of CPython 3.10.21) and only
+printed `warning: The requested interpreter resolved to Python 3.10.21, which is incompatible with the script's Python requirement`:
+a warning is not a gate.
+
+**Reproducibility.** `uv lock --exclude-newer 2024-01-01T00:00:00Z --upgrade` re-resolved despite the lockfile
+(`Resolving despite existing lockfile due to addition of global exclude newer`) and, with `six==1.17.0` pinned, failed
+`there is no version of six==1.17.0` (that release is newer than the cutoff): the flag makes old snapshots resolvable only for pins
+that existed then.
+
+**Other measured facts.** First `uv add` created `.venv` with `Using CPython 3.13.15` in 0.69 s; the first `uv lock --check` took 2.3 s, later resolves 3 ms
+to 43 ms; `uv tool run ruff --version` -> `ruff 0.16.10` (3.5 s cold); `uv python dir` is `%APPDATA%\uv\python`,
+`uv tool dir` `%APPDATA%\uv\tools`, `uv cache dir` `%LOCALAPPDATA%\uv\cache`; `uv python find` inside a project returns that
+project's `.venv\Scripts\python.exe`; `uv version --bump minor --dry-run` prints `sublib 0.1.0 => 0.2.0`; `uv export --no-hashes
+--no-emit-project` writes `six==1.17.0 # via demo`; `uv pip install --link-mode hardlink` worked on one drive (cache and project both on `C:`).
+Not run: cross-drive link-mode warnings, `uv publish`, `uv python install`, workspaces with several members, `uv sync --inexact`.
 
 ## Managing Python versions (pyenv vs uv vs the Windows launcher)
 
