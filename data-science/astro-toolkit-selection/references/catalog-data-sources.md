@@ -73,6 +73,25 @@ arr = product["data"]          # PDS_ndarray / PDS_marray — numpy arrays WITH 
 - Full label object model available if needed: `Label`, `TableStructure`/`TableManifest` + `Meta_Field*`
   (Character/Binary/Delimited/UniformlySampled/Bit), `ArrayStructure`/`ArraySection`, plain-text and FITS header parsers.
 
+**Run 2026-10-05 (pds4-tools 1.4 on Python 3.14.6 + numpy 2.5.3, synthetic PDS4 product).** It installs and imports with
+numpy 2. A hand-made label (`Product_Observational` with an `Array_2D`, 3 x 4, `SignedLSB2`) and a 24-byte data file read as follows:
+
+| Case | Result |
+|---|---|
+| Plain read | `product[0].data` dtype `<i2`, shape `(3, 4)`; `StructureList` has one structure with id `image` |
+| `scaling_factor 0.5` + `value_offset 10` | **scaling is applied by default and the dtype becomes float64**: `[10.0, 10.5, 11.0, 11.5]`; `no_scale=True` returns the raw `<i2` `[0, 1, 2, 3]` |
+| `SignedMSB2` label over the same bytes | values `[0, 256, 512, 768]`: the label's declared byte order is honoured, so a wrong `data_type` gives plausible-looking garbage rather than an error |
+| `meta_data` on the array | keys include `Axis_Array`, `Element_Array`, `axes`, `axis_index_order`, `local_identifier`, `offset` |
+| `lazy_load=True` | returns a `PDS_ndarray` of the right shape |
+| Data file missing | `OSError: Unable to read data from file ...` |
+| Data file shorter than the label says (6 of 24 bytes) | **`ValueError: cannot reshape array of size 3 into shape (3, 4)`**: a raw numpy error that does not name the file or the label |
+| Unknown `data_type` (`Bogus99`) | `ValueError: itemsize cannot be zero in type` (cryptic) |
+| `IEEE754LSBSingle` over 24 bytes | `ValueError: cannot reshape array of size 6 into shape (3, 4)` |
+| Path containing a non-ASCII folder name | works |
+
+So: validate file sizes against the label (`rows x cols x itemsize`) before reading, and treat byte-order and scaling declarations in
+the label as load-bearing. Tables (`Table_Binary`, `Table_Character`) were not exercised.
+
 ## cumulus — NASA Earth-science cloud ingest framework; two reusable packages [SRC + `@cumulus/pvl` RUN 2026-10-05]
 
 `nasa/cumulus` is **not** a planetary-data tool: it is the "Cumulus Framework", an AWS-based data ingest, archive,
