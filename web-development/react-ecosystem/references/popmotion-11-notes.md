@@ -54,4 +54,4 @@ reports `calculatedDuration` (null for the 3-arg spring above) and has `retarget
 ## Decision
 
 Reading old code or porting it: keep the maths, swap `animate`/drivers for Motion's `animate` and the `mix` call sites for the curried form. New code: Motion
-(React) or Anime.js 4 (`static-site-patterns/references/animejs-4-notes.md`), never Popmotion.
+(React) or Anime.js 4 (`frontend-library-picks/references/animejs-4-notes.md`), never Popmotion.

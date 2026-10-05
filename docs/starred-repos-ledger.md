@@ -13,6 +13,8 @@ row here and commit. Nothing batches across repos, so a session cut-off loses at
 4. Edit or add the skill / reference. A new `references/*.md` needs `python tools/gen-references-index.py` and the reference-doc count in `DESCRIPTION.md` bumped; a NEW SKILL also needs a line in its category `DESCRIPTION.md`, then run `gen-skills-index.py`, `gen-code-index.py`, `regen-dependency-map.py`, `gen-claude-plugin.py`, and bump the hand-kept counts in `README.md` (skills total, xrefs, category row, plugin-exposed) and `DESCRIPTION.md` — `verify-all.py` names each wrong number. If the router-coverage gate flags the new skill (in scope by tag, e.g. `code-review`), add it to a lane in `software-development/skill-flow-router/SKILL.md`. A skill's `description:` must be at most 59 characters (audit gate). In shell edits use Edit rather than `sed` when the text contains `#`. Then run `python tools/verify-all.py` (all gates must pass).
 5. Set the row to `done` with a one-line outcome and the commit's round tag; commit; next row.
 
+Round-249 note: library-notes references written during this review (numpy, pandas, scipy, matplotlib, torch, animate.css, PostCSS and others) were later promoted to their own skills (`python-numerics-gotchas`, `python-plotting`, `ml-cv-library-notes`, `frontend-library-picks`); `Outcome` paths below name the original location, `git log --follow` resolves them.
+
 Statuses: `pending` · `done` (skill/reference changed) · `covered` (already well held, nothing to add) · `skip` (no skill-relevant content, with reason).
 
 `Hits` = number of files in this repo that mention the repo's name before the review started (0 = never mentioned; short generic names inflate it).
