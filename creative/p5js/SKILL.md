@@ -75,7 +75,7 @@ Single self-contained HTML file per project. No build step required.
 
 ### Version Note
 
-**p5.js 1.x** (1.11.3) is the default — stable, well-documented, broadest library compatibility. Use this unless a project requires 2.x features.
+**p5.js 1.x** (1.11.3; the 1.x line is now 1.11.13 on npm tag `r1`, and npm `latest` is 2.3.4: see `references/creative-coding-ecosystem.md`) is the default — stable, well-documented, broadest library compatibility. Use this unless a project requires 2.x features.
 
 **p5.js 2.x** (2.2+) adds: `async setup()` replacing `preload()`, OKLCH/OKLAB color modes, `splineVertex()`, shader `.modify()` API, variable fonts, `textToContours()`, pointer events. Required for p5.brush. See `references/core-api.md` § p5.js 2.0.
 
@@ -520,6 +520,7 @@ When building p5.js sketches:
 |------|----------|
 | `references/core-api.md` | Canvas setup, coordinate system, draw loop, `push()`/`pop()`, offscreen buffers, composition patterns, `pixelDensity()`, responsive design |
 | `references/shapes-and-geometry.md` | 2D primitives, `beginShape()`/`endShape()`, Bezier/Catmull-Rom curves, `vertex()` systems, custom shapes, `p5.Vector`, signed distance fields, SVG path conversion |
+| `references/creative-coding-ecosystem.md` | Web creative-coding library map with npm versions (2026-10-05), p5.js 1.x vs 2.x state, per-task picks |
 | `references/visual-effects.md` | Noise (Perlin, fractal, domain warp, curl), flow fields, particle systems (physics, flocking, trails), pixel manipulation, texture generation (stipple, hatch, halftone), feedback loops, reaction-diffusion |
 | `references/animation.md` | Frame-based animation, easing functions, `lerp()`/`map()`, spring physics, state machines, timeline sequencing, `millis()`-based timing, transition patterns |
 | `references/typography.md` | `text()`, `loadFont()`, `textToPoints()`, kinetic typography, text masks, font metrics, responsive text sizing |
