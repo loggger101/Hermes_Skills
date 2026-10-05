@@ -52,7 +52,7 @@ uv run ruff check . && uv run ty check src/ && uv run pytest
 
 ### Ruff config (pyproject.toml)
 
-Pin the Ruff version in your pre-commit config (or dev dependency group) and update it periodically — Ruff ships new rules frequently, and an unpinned install can change behavior across machines.
+Pin the Ruff version in your pre-commit config (or dev dependency group) and update it periodically — Ruff ships new rules frequently, and an unpinned install can change behavior across machines. Always write `select` explicitly: since ruff 0.16 a bare `ruff check` runs **413 rules** (was 59: `E4,E7,E9,F`), and `ruff format` rewrites Python code blocks inside `.md` files unless `[format] exclude = ["*.md"]`. Both measured in [`references/ruff-0-16-defaults-and-suppressions.md`](references/ruff-0-16-defaults-and-suppressions.md), with the new `# ruff: ignore[...]` comments.
 
 ```toml
 [tool.ruff]
@@ -614,6 +614,7 @@ For new Python code:
 ## References
 
 - [`references/modern-python-tooling.md`](references/modern-python-tooling.md) - uv/ruff/pytest toolchain setup
+- [`references/ruff-0-16-defaults-and-suppressions.md`](references/ruff-0-16-defaults-and-suppressions.md) - ruff 0.16.10 run live: default rule set 59 -> 413 (pin `select`), Markdown code-block formatting and how to exclude it, `# ruff: ignore[...]`, `--add-noqa` appending RUF100
 - [`references/windows-path-separator-trap.md`](references/windows-path-separator-trap.md) - backslash paths silently failing string comparison
 - [`references/logging-loguru.md`](references/logging-loguru.md) - loguru 0.7.3 setup and the traps found by running it (brace-format `KeyError`, `diagnose=True` leaking secrets, colour codes in captured output), stdlib interception
 - [`references/stdlib-traps-windows.md`](references/stdlib-traps-windows.md) - measured on Windows/Python 3.14: `open()` cp1252 default, csv blank lines, rename vs replace, rmtree read-only, strftime `%-d`, json NaN, naive/aware datetimes; plus things that are no longer traps
