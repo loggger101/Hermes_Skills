@@ -243,6 +243,29 @@ From `reduced-motion` — mandatory for any site with ambient animation (starfie
 }
 ```
 
+## CSS: property ordering and lint (use stylelint, not csscomb)
+
+CSScomb (`csscomb/csscomb.js`) sorts properties into a configured order, but it is stale: npm `csscomb` 4.3.0 was
+last published 2022-06 and the repo's last push is 2023-01. Live-tested (Node 22, Windows, config `sort-order`):
+
+- the API (`new Comb(cfg).processString(css)`, which returns a **Promise**) sorted plain CSS, `@layer` and `@container` blocks correctly;
+- **CSS nesting throws** a parse error (`.d { &:hover { ... } }` -> "Please check validity of the block starting from line #1"), and the same error aborted a whole modern stylesheet at the nested rule;
+- the `csscomb file.css` CLI exited 0 and left the file unchanged here, with and without `-c`: a silent no-op is worse than an error, so do not trust it in CI.
+
+Use stylelint, which is maintained and understands nesting, `@layer`, `@container` and modern colour functions:
+
+```bash
+npm i -D stylelint stylelint-config-standard stylelint-config-recess-order    # 17.16 / 40.0 / 7.8 on 2026-10-05
+echo '{"extends":["stylelint-config-standard","stylelint-config-recess-order"]}' > .stylelintrc.json
+npx stylelint "**/*.css"          # report; add --fix to rewrite
+```
+
+`recess-order` supplies the property ordering (position, then box model, then typography...) that csscomb was used for;
+`standard` adds style rules. On a nested/`@layer` test file it reported 6 problems (blank line before at-rules,
+`display` before `color`, `oklch(70% 0.1 200)` wanting `200deg`, one-declaration-per-line, `position` before `inset`) and
+`--fix` rewrote 5 of them, leaving the single-line-block rule for hand edit. Lint at build/CI, not as a pre-commit rewrite of
+files you did not touch.
+
 ## UI/UX code review (beyond performance)
 
 For a full accessibility/forms/animation/copy/dark-mode audit of site markup and JS, use `references/web-interface-guidelines-ui-checklist.md` — Vercel's Web Interface Guidelines ported verbatim with the clickable `file:line` output format. It complements this skill's Core-Web-Vitals section (which covers loading/rendering) by covering interaction quality; pair both when running a site audit.
