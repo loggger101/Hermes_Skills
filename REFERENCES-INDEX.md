@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **467 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **468 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -382,6 +382,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `data-science/python-data-science/references/polars-pymc-api-reference.md` — polars + pymc API references — verified line-numbered facts from cloned sources
 - `data-science/python-data-science/references/polars-v2-engine-and-breaking-changes.md` — polars 2.0 (rc) engine architecture + every breaking change live-verified on polars==2.0.0rc1 — streaming-by-default, row-order semantics, OOC spilling internals, GPU beta
 - `data-science/python-data-science/references/seaborn-0-13-notes.md` — seaborn 0.13.2 on pandas 3.0 / matplotlib 3.11 / Python 3.14: 24 common calls run; deprecations that vanish in 0.14 (palette without hue, ci, distplot, shade), calls that fail, and new warnings
+- `data-science/python-data-science/references/statsmodels-notes.md` — statsmodels 0.15.0 on pandas 3.0 / Python 3.14: no-constant R-squared 0.27 vs 0.66, silent add_constant skip, misleading predict error for unseen levels, term order, degenerate proportion CIs, ARIMA without freq
 - `data-science/python-data-science/references/supervision-cv-notes.md` — roboflow supervision 0.30.7 (computer-vision utilities): Detections filtering/NMS, zones, line counting, annotators, run live on synthetic arrays; OpenCV optional, ByteTrack deprecated, silent empty result on bad input
 - `data-science/python-data-science/references/sympy-notes.md` — sympy 1.14.0 for derivations feeding numeric code: exactness traps (Float vs Rational, nsimplify), equality, solve return shapes, lambdify broadcasting; run live
 
