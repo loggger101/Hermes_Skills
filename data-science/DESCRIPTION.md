@@ -18,6 +18,7 @@ Data science workflows and tools.
 - [`jupyter-notebook`](./jupyter-notebook/SKILL.md) — Iterative Python via live Jupyter kernel (hamelnb)
 - [`ml-cv-library-notes`](./ml-cv-library-notes/SKILL.md) — Torch, CuPy, Open3D, gensim and CV libs: live-run traps
 - [`model-export-deploy`](./model-export-deploy/SKILL.md) — Model export: ONNX, TorchScript, HDF5, NumPy, JSON
+- [`open-data-catalog-sources`](./open-data-catalog-sources/SKILL.md) — Keyless data mirrors, data.gov API, licence checks
 - [`optimization-modeling-pyomo`](./optimization-modeling-pyomo/SKILL.md) — Model LP/MIP/NLP/GDP in Pyomo with live-verified patterns
 - [`orbital-mechanics-data`](./orbital-mechanics-data/SKILL.md) — Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC
 - [`pinned-data-contracts`](./pinned-data-contracts/SKILL.md) — Frozen releases, contract versions, checked pins

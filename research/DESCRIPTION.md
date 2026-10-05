@@ -6,7 +6,9 @@ description: Skills for academic research, paper discovery, literature review, d
 
 Skills for academic research, paper discovery, literature review, domain reconnaissance, market data, content monitoring, and scientific knowledge retrieval.
 
+- [`ai-research-integrity`](./ai-research-integrity/SKILL.md) — Seven-mode integrity gate for AI-assisted research
 - [`arxiv`](./arxiv/SKILL.md) — Search arXiv papers by keyword, author, category, or ID
+- [`autoreason-refinement`](./autoreason-refinement/SKILL.md) — When LLM self-refinement helps; autoreason loop
 - [`bioinformatics`](./bioinformatics/SKILL.md) — Gateway to 400+ genomics and computational biology skills
 - [`blocked-page-recovery`](./blocked-page-recovery/SKILL.md) — Recover blocked/paywalled/WAF'd pages via fallbacks
 - [`blogwatcher`](./blogwatcher/SKILL.md) — Monitor blogs and RSS/Atom feeds via blogwatcher-cli tool
@@ -14,6 +16,7 @@ Skills for academic research, paper discovery, literature review, domain reconna
 - [`general-research-rounds`](./general-research-rounds/SKILL.md) — Run source-anchoring rounds on the General_Research repo
 - [`gget`](./gget/SKILL.md) — gget CLI/Python: quick genomic DB queries + evidence logs
 - [`grounded-citations`](./grounded-citations/SKILL.md) — Ground answers and documents in cited, verifiable sources
+- [`human-evaluation-design`](./human-evaluation-design/SKILL.md) — Design, run and report human evaluations for ML papers
 - [`literature-review`](./literature-review/SKILL.md) — Plan, screen, synthesize and cite technical literature
 - [`llm-wiki`](./llm-wiki/SKILL.md) — Karpathy's LLM Wiki: build/query interlinked markdown KB
 - [`mattpocock-research`](./mattpocock-research/SKILL.md) — Research a question against primary sources

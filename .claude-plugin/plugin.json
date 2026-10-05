@@ -1,7 +1,7 @@
 {
   "name": "hermes",
   "version": "1.0.0",
-  "description": "Hermes second brain: 237 skills across 23 categories.",
+  "description": "Hermes second brain: 242 skills across 23 categories.",
   "author": {
     "name": "Hermes Agent",
     "url": "https://github.com/loggger101"
@@ -23,6 +23,7 @@
     "./autonomous-ai-agents/hermes-agent",
     "./autonomous-ai-agents/hermes-bot-cloning",
     "./autonomous-ai-agents/hermes-extensions",
+    "./autonomous-ai-agents/hermes-integrations",
     "./autonomous-ai-agents/mattpocock-resolving-merge-conflicts",
     "./autonomous-ai-agents/merge-reconciler",
     "./autonomous-ai-agents/opencode",
@@ -74,6 +75,7 @@
     "./data-science/jupyter-notebook",
     "./data-science/ml-cv-library-notes",
     "./data-science/model-export-deploy",
+    "./data-science/open-data-catalog-sources",
     "./data-science/optimization-modeling-pyomo",
     "./data-science/orbital-mechanics-data",
     "./data-science/pinned-data-contracts",
@@ -152,7 +154,9 @@
     "./productivity/teams-meeting-pipeline",
     "./productivity/website-audit",
     "./productivity/weekly-review-planning",
+    "./research/ai-research-integrity",
     "./research/arxiv",
+    "./research/autoreason-refinement",
     "./research/bioinformatics",
     "./research/blocked-page-recovery",
     "./research/blogwatcher",
@@ -160,6 +164,7 @@
     "./research/general-research-rounds",
     "./research/gget",
     "./research/grounded-citations",
+    "./research/human-evaluation-design",
     "./research/literature-review",
     "./research/llm-wiki",
     "./research/mattpocock-research",

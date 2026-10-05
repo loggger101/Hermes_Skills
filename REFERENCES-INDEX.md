@@ -37,16 +37,12 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `autonomous-ai-agents/hermes-agent/references/contributor-guide.md` — Contributor Quick Reference
 - `autonomous-ai-agents/hermes-agent/references/cross-harness-skill-porting.md` — Cross-Harness Skill Porting — making one skill corpus auto-trigger on N agent runtimes
 - `autonomous-ai-agents/hermes-agent/references/delegate-task-concurrency-diagnosis.md` — delegate_task: diagnosing "my batch was capped"
-- `autonomous-ai-agents/hermes-agent/references/hindsight-memory-provider.md` — Hindsight as a Hermes memory provider: catalog install/update/pin, three modes, recall/retain config, why recall comes back empty, and bank/tag rules that prevent cross-user leaks
 - `autonomous-ai-agents/hermes-agent/references/installed-plugins.md` — Installed Plugins — Live Environment Catalog
-- `autonomous-ai-agents/hermes-agent/references/native-mcp.md` — Native MCP Client
-- `autonomous-ai-agents/hermes-agent/references/portal-auth-for-third-party-apps.md` — Nous Portal — authenticating third-party apps against the subscription
 - `autonomous-ai-agents/hermes-agent/references/project-context-files.md` — Project Context Files
 - `autonomous-ai-agents/hermes-agent/references/providers-and-models.md` — Providers & Model Aliases
 - `autonomous-ai-agents/hermes-agent/references/security-privacy.md` — Security & Privacy Toggles
 - `autonomous-ai-agents/hermes-agent/references/slash-commands.md` — Slash Commands (In-Session)
 - `autonomous-ai-agents/hermes-agent/references/troubleshooting.md` — Troubleshooting
-- `autonomous-ai-agents/hermes-agent/references/webhooks.md` — Webhook Subscriptions
 - `autonomous-ai-agents/hermes-agent/references/windows-quirks.md` — Windows-Specific Quirks
 
 ## autonomous-ai-agents/hermes-bot-cloning
@@ -60,6 +56,13 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `autonomous-ai-agents/hermes-extensions/references/python-agent-plugins.md` — Python Agent Plugins (the `~/.hermes/plugins/` system) — verified API notes
 - `autonomous-ai-agents/hermes-extensions/references/themes.md` — Themes / Skins — Author a Hermes Color Theme
 - `autonomous-ai-agents/hermes-extensions/references/tui-widgets.md` — TUI Widgets — Live Panels for the Ink TUI Dock
+
+## autonomous-ai-agents/hermes-integrations
+
+- `autonomous-ai-agents/hermes-integrations/references/hindsight-memory-provider.md` — Hindsight as a Hermes memory provider: catalog install/update/pin, three modes, recall/retain config, why recall comes back empty, and bank/tag rules that prevent cross-user leaks
+- `autonomous-ai-agents/hermes-integrations/references/native-mcp.md` — Native MCP Client
+- `autonomous-ai-agents/hermes-integrations/references/portal-auth-for-third-party-apps.md` — Nous Portal — authenticating third-party apps against the subscription
+- `autonomous-ai-agents/hermes-integrations/references/webhooks.md` — Webhook Subscriptions
 
 ## autonomous-ai-agents/repowise
 
@@ -401,6 +404,12 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 - `data-science/model-export-deploy/references/tensorflow-keras3-notes.md` — TensorFlow 2.21.0 + Keras 3.15.1 on Windows: no Python 3.14 wheel, CPU-only, model.save('.keras'/'.h5') works while SavedModel needs model.export(), dtype strictness, tf.function retracing, noisy stderr
 
+## data-science/open-data-catalog-sources
+
+- `data-science/open-data-catalog-sources/references/data-gov-catalog-api.md` — catalog.data.gov search API as of 2026-10-05: the CKAN /api/3/action endpoints are gone (404); /search + /api/* replace them. Parameters, pagination, response shape, traps. Live-probed.
+- `data-science/open-data-catalog-sources/references/hf-mirror-catalog.md` — All 230 keyless Hugging Face space/astro/physics mirrors from juliensimon/space-datasets — load_dataset one-liner, no API keys; grouped by domain
+- `data-science/open-data-catalog-sources/references/space-data-licensing-audit.md` — Space-data licensing traps from space-datasets' own 2026-05-26 audit: ESA CC BY-NC, WDC Kyoto no-commercial, VizieR scientific-use terms, provider URL table
+
 ## data-science/optimization-modeling-pyomo
 
 - `data-science/optimization-modeling-pyomo/references/formulations-and-algorithms.md` — Pyomo Formulations & Algorithms — measured from source + live execution
@@ -434,13 +443,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## data-science/space-data-pipelines
 
 - `data-science/space-data-pipelines/references/belt-gradient-analysis-patterns.md` — Debiasing an asteroid taxonomy analysis (loggger101/asteroid-belt-gradient): published-labels-only rule, family collapse, size-complete vs inverse-completeness weighting, KS+Bonferroni, reproducibility layout; headline numbers
-- `data-science/space-data-pipelines/references/data-gov-catalog-api.md` — catalog.data.gov search API as of 2026-10-05: the CKAN /api/3/action endpoints are gone (404); /search + /api/* replace them. Parameters, pagination, response shape, traps. Live-probed.
 - `data-science/space-data-pipelines/references/flowsint-pipeline-patterns.md` — Flowsint Pipeline Architecture Patterns (verified from reconurge/flowsint @ 1820569, v1.2.12)
-- `data-science/space-data-pipelines/references/hf-mirror-catalog.md` — All 230 keyless Hugging Face space/astro/physics mirrors from juliensimon/space-datasets — load_dataset one-liner, no API keys; grouped by domain
 - `data-science/space-data-pipelines/references/lunar-gis-patterns-aegis.md` — Lunar GIS patterns from nasa/aegis (AEGIS): LPS projection math, GeoTIFF custom-CRS reconstruction, lgrs-verified port, categorical-raster to RGBA COG with nearest overviews (run)
 - `data-science/space-data-pipelines/references/shared-library-internals.md` — hf_dataset_utils internals from juliensimon/space-datasets (230 pipelines): retry budget, TAP clients, HEASARC HTTP-200 failures, MAST keyset pagination, LFS recovery, watchdog
 - `data-science/space-data-pipelines/references/source-parser-families.md` — Per-source parsing families from space-datasets (round-15): TLE two-line-element char positions + epoch century rule, PDS3/PDS4 fixed-width colspecs, GOES netCDF status pivot, Wikidata SPARQL dedup, HTML fixture testing
-- `data-science/space-data-pipelines/references/space-data-licensing-audit.md` — Space-data licensing traps from space-datasets' own 2026-05-26 audit: ESA CC BY-NC, WDC Kyoto no-commercial, VizieR scientific-use terms, provider URL table
 
 ## data-science/sql-for-data
 
@@ -627,6 +633,14 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 - `productivity/xlsx/references/restructuring.md` — Reference-aware restructuring (xlsx_restructure.py)
 
+## research/ai-research-integrity
+
+- `research/ai-research-integrity/references/ai-research-integrity-checklist.md` — Seven failure modes of AI-assisted research (buggy code, fake citations, invented results, shortcuts, bug-as-insight, fabricated methods, frame-lock) as a pre-submission gate; plus live citation-API checks
+
+## research/autoreason-refinement
+
+- `research/autoreason-refinement/references/autoreason-methodology.md` — Autoreason: Iterative Refinement Methodology
+
 ## research/general-research-rounds
 
 - `research/general-research-rounds/references/registry-rules-and-routes.md` — General_Research registry rules from its AGENTS.md/README that SKILL.md lacks (access classes, licence rule, log append-at-top, rejection, permanent ids) and fetch routes re-checked 2026-10-05
@@ -637,15 +651,16 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `research/grounded-citations/references/citation-formats.md` — Citation formats per output target
 - `research/grounded-citations/references/grounding-rationale.md` — Why numbered ledger ids (grounding research basis)
 
+## research/human-evaluation-design
+
+- `research/human-evaluation-design/references/human-evaluation.md` — Human Evaluation Guide for ML/AI Research
+
 ## research/research-paper-writing
 
-- `research/research-paper-writing/references/ai-research-integrity-checklist.md` — Seven failure modes of AI-assisted research (buggy code, fake citations, invented results, shortcuts, bug-as-insight, fabricated methods, frame-lock) as a pre-submission gate; plus live citation-API checks
-- `research/research-paper-writing/references/autoreason-methodology.md` — Autoreason: Iterative Refinement Methodology
 - `research/research-paper-writing/references/checklists.md` — Conference Paper Checklists
 - `research/research-paper-writing/references/citation-workflow.md` — Citation Management & Hallucination Prevention
 - `research/research-paper-writing/references/experiment-patterns.md` — Experiment Design Patterns
 - `research/research-paper-writing/references/hermes-tool-patterns.md` — Hermes tool-usage patterns for the paper pipeline: experiment monitoring, parallel drafting, memory/todo state, cronjob monitoring, notification rules
-- `research/research-paper-writing/references/human-evaluation.md` — Human Evaluation Guide for ML/AI Research
 - `research/research-paper-writing/references/paper-types.md` — Paper Types Beyond Empirical ML
 - `research/research-paper-writing/references/phase5-paper-drafting.md` — Phase 5: Paper Drafting (full procedure)
 - `research/research-paper-writing/references/phase7-submission-prep.md` — Phase 7 submission preparation: venue checklists, anonymization, formatting, pre-compile validation, resubmission, camera-ready, arXiv strategy, code packaging

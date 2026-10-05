@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **240 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **245 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -22,6 +22,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `hermes-agent` — Use, configure, theme, extend, orchestrate Hermes Agent _(autonomous-ai-agents)_
 - `hermes-bot-cloning` — Clone Hermes profiles to create identical subagent bots _(autonomous-ai-agents)_
 - `hermes-extensions` — Hermes themes, desktop/TUI/Python plugins, pets _(autonomous-ai-agents)_
+- `hermes-integrations` — Hermes MCP servers, webhooks, Portal auth, Hindsight _(autonomous-ai-agents)_
 - `mattpocock-resolving-merge-conflicts` — Resolve git merge conflicts by tracing each side's intent _(autonomous-ai-agents)_
 - `merge-reconciler` — Neutral third-party resolution of agent merge conflicts _(autonomous-ai-agents)_
 - `opencode` — Delegate coding to OpenCode CLI (features, PR review) _(autonomous-ai-agents)_
@@ -82,6 +83,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `jupyter-notebook` — Iterative Python via live Jupyter kernel (hamelnb) _(data-science)_
 - `ml-cv-library-notes` — Torch, CuPy, Open3D, gensim and CV libs: live-run traps _(data-science)_
 - `model-export-deploy` — Model export: ONNX, TorchScript, HDF5, NumPy, JSON _(data-science)_
+- `open-data-catalog-sources` — Keyless data mirrors, data.gov API, licence checks _(data-science)_
 - `optimization-modeling-pyomo` — Model LP/MIP/NLP/GDP in Pyomo with live-verified patterns _(data-science)_
 - `orbital-mechanics-data` — Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC _(data-science)_
 - `pinned-data-contracts` — Frozen releases, contract versions, checked pins _(data-science)_
@@ -202,7 +204,9 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 
 ## research
 
+- `ai-research-integrity` — Seven-mode integrity gate for AI-assisted research _(research)_
 - `arxiv` — Search arXiv papers by keyword, author, category, or ID _(research)_
+- `autoreason-refinement` — When LLM self-refinement helps; autoreason loop _(research)_
 - `bioinformatics` — Gateway to 400+ genomics and computational biology skills _(research)_
 - `blocked-page-recovery` — Recover blocked/paywalled/WAF'd pages via fallbacks _(research)_
 - `blogwatcher` — Monitor blogs and RSS/Atom feeds via blogwatcher-cli tool _(research)_
@@ -210,6 +214,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `general-research-rounds` — Run source-anchoring rounds on the General_Research repo _(research)_
 - `gget` — gget CLI/Python: quick genomic DB queries + evidence logs _(research)_
 - `grounded-citations` — Ground answers and documents in cited, verifiable sources _(research)_
+- `human-evaluation-design` — Design, run and report human evaluations for ML papers _(research)_
 - `literature-review` — Plan, screen, synthesize and cite technical literature _(research)_
 - `llm-wiki` — Karpathy's LLM Wiki: build/query interlinked markdown KB _(research)_
 - `mattpocock-research` — Research a question against primary sources _(research)_
@@ -313,4 +318,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `web-perf-audit` — Audit a built static site: perf script + UI checklist _(web-development)_
 
 ---
-*240 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*245 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*

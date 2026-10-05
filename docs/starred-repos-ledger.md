@@ -17,6 +17,8 @@ Round-249 note: library-notes references written during this review (numpy, pand
 
 Round-253 note: three more clusters were promoted to skills, so `Outcome` paths for these rows moved (`git log --follow` resolves them): Skill_Seekers, hermes-agent-self-evolution and preline references now live in `software-development/skill-intake-and-release`; the Front-End-Performance-Checklist script and references (and the Web Interface Guidelines checklist) now live in `web-development/web-perf-audit`; the audit-pattern references from the skill-authoring skill now live in `software-development/skill-library-audits`. A re-run of `gh api user/starred` on 2026-10-05 still listed 185 stars, all in this table.
 
+Round-254 note: the space-datasets and data.gov references (rows for juliensimon/space-datasets and GSA/data.gov) now live in `data-science/open-data-catalog-sources`; the hindsight reference moved to `autonomous-ai-agents/hermes-integrations`; the autoreason, human-evaluation and integrity-checklist references (academic-research-skills row) moved to `research/autoreason-refinement`, `research/human-evaluation-design` and `research/ai-research-integrity`.
+
 Statuses: `pending` · `done` (skill/reference changed) · `covered` (already well held, nothing to add) · `skip` (no skill-relevant content, with reason).
 
 `Hits` = number of files in this repo that mention the repo's name before the review started (0 = never mentioned; short generic names inflate it).
