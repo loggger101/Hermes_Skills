@@ -388,3 +388,4 @@ When the build is more than one script — orchestrate it.
 ## References
 
 - `references/data-engineering-tool-map.md` - Python-installable data-engineering tools by stage with PyPI freshness; on Python 3.14 pip silently installs great-expectations 0.18.22 and luigi 3.6.0 instead of the current releases; PyPI name collisions (`bruin`, `evidence`).
+- `references/prefect-3-notes.md` - Prefect 3.8.7 run locally on py3.14: 13 s cold start and about 1 s per flow call (ephemeral API), retries, INPUTS caching, parameter validation, failure and return_state behaviour, `PREFECT_HOME`, and its AGENTS.md rules.
