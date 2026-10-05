@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **454 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **455 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -565,6 +565,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## research/research-paper-writing
 
+- `research/research-paper-writing/references/ai-research-integrity-checklist.md` — Seven failure modes of AI-assisted research (buggy code, fake citations, invented results, shortcuts, bug-as-insight, fabricated methods, frame-lock) as a pre-submission gate; plus live citation-API checks
 - `research/research-paper-writing/references/autoreason-methodology.md` — Autoreason: Iterative Refinement Methodology
 - `research/research-paper-writing/references/checklists.md` — Conference Paper Checklists
 - `research/research-paper-writing/references/citation-workflow.md` — Citation Management & Hallucination Prevention

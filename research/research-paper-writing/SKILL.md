@@ -1215,6 +1215,7 @@ See [references/reviewer-guidelines.md](references/reviewer-guidelines.md) for d
 | [references/paper-types.md](references/paper-types.md) | Theory papers (proof writing, theorem structure), survey papers, benchmark papers, position papers |
 | [references/phase7-submission-prep.md](references/phase7-submission-prep.md) | Phase 7 in full: checklists, anonymization, validation, final build, venue requirements, resubmission, camera-ready, arXiv strategy, code packaging |
 | [references/hermes-tool-patterns.md](references/hermes-tool-patterns.md) | Hermes tool call patterns, `memory`/`todo` state, `cronjob` monitoring, user-notification rules |
+| [references/ai-research-integrity-checklist.md](references/ai-research-integrity-checklist.md) | Seven failure modes of AI-assisted research as a pre-submission gate (buggy code, invented results, fabricated methods, frame-lock); DOI-vs-title citation checks run live against Crossref/OpenAlex/S2 |
 
 ### LaTeX Templates
 
