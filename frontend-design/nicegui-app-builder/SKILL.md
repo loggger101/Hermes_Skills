@@ -100,3 +100,4 @@ NiceGUI apps are testable with pytest — the in-repo todo_list example ships `t
 ## References (verified API detail lives here)
 
 - `references/frontend-tooling.md` — nicegui `ui.run()` full 33-param list verified from source (corrects the earlier "71 params" claim), Front-End-Checklist MCP rule package, HTMLHint's 34 rules, dashy deployable-dashboard layout. Source-read from cloned repos, 2026-09-05/06.
+- `references/python-gui-toolkits.md` — which Python GUI toolkit for which job (NiceGUI, Streamlit, Dear PyGui, more as reviewed); Dear PyGui 2.3.1 live findings: any call outside create_context/destroy_context segfaults (rc 139), a duplicate tag errors and then orphans the original alias.
