@@ -171,3 +171,4 @@ Save the report to `{output_dir}/report.md`.
 - **Check responsive behavior** by noting any layout issues visible in screenshots.
 - **Don't forget edge cases**: empty states, very long text, special characters, rapid clicking.
 - When reporting screenshots to the user, include `MEDIA:<screenshot_path>` so they can see the evidence inline.
+- **A button that "does nothing" while every function works** is a state-interaction bug (sequential undo, async race, stale closure). Trace the handler against a store side-effect map: [`references/click-path-audit.md`](references/click-path-audit.md) (reproduced with zustand 5.0.15, mechanical dirty-state diff).
