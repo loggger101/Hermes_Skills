@@ -10,7 +10,7 @@ This repository is the **second brain** of its owner's Hermes Agent environment:
 
 1. **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 207 skills. `grep -i <term>` is the fastest way to find a capability.
 2. **[CODE-INDEX.md](./CODE-INDEX.md)** — flat index of every script, shared helper, test and template (the executable knowledge layer). `grep -i <term> CODE-INDEX.md` finds runnable code by purpose or owner skill.
-3. **[REFERENCES-INDEX.md](./REFERENCES-INDEX.md)** — flat index of all 420 reference docs inside skills' `references/` dirs (nested subdirs included). `grep -i <term> REFERENCES-INDEX.md` finds verified API maps and gotchas tables by topic without knowing which skill owns them.
+3. **[REFERENCES-INDEX.md](./REFERENCES-INDEX.md)** — flat index of all 421 reference docs inside skills' `references/` dirs (nested subdirs included). `grep -i <term> REFERENCES-INDEX.md` finds verified API maps and gotchas tables by topic without knowing which skill owns them.
 4. **[DEPENDENCY.md](./DEPENDENCY.md)** — relationship map: hub skills, standalone skills, full cross-reference validation.
 5. **[docs/](./docs/README.md)** — the knowledge-layer index: verified API references and working code patterns from the 41-repo starred deep dive. Skills say *how to work*; their references say *what exists in these libraries and what breaks*.
 6. **[README.md](./README.md)** — human-facing overview: categories with skill counts, conventions, cron authoring, Claude Code install, verification.
