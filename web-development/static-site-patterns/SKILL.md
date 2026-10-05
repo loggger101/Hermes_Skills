@@ -243,6 +243,27 @@ From `reduced-motion` — mandatory for any site with ambient animation (starfie
 }
 ```
 
+## Optional build step: esbuild for bundle + minify
+
+The skill's default is no build step. When a static site grows past a few script files, `esbuild` (Go, 0.28.2 on 2026-10-05,
+installs as one native binary via npm) bundles and minifies JS and CSS in milliseconds without a framework or config file.
+
+```bash
+npm i -D --save-exact esbuild          # exact pin: it is a 0.x project and minors can change behaviour (per its own docs)
+npx esbuild src/main.js --bundle --minify --sourcemap --target=es2017 --outdir=dist --metafile=dist/meta.json
+```
+
+Live-checked (Windows, Node 22) on a 3-file sample:
+
+- Whole run 52 ms. Unused exports are tree-shaken: `export function unused()` did not appear in the 123-byte `app.js`.
+- A `import "./style.css"` in JS makes esbuild write `app.css` **next to** `app.js`; it is not injected into the page, so add a `<link rel="stylesheet" href="app.css">` yourself.
+- `--target=es2015` lowered `??` and `?.` (the `??` count in the output went to 0); with no target they pass through untouched.
+- For old browser targets (`--target=chrome90`) CSS nesting (`.a { &:hover {} }`) was lowered to `.a:hover {}`; with the default target it is left as written.
+- `--metafile` writes an input/output size graph you can feed to esbuild's bundle analyzer when asked "why is this big".
+- **It does not type-check.** `const x: number = "not a number"` in a `.ts` file built with exit code 0 and the types were just stripped. Run `tsc --noEmit` separately if you use TypeScript.
+
+Keep the output committed or built in CI; do not make the site depend on a build the author's machine alone can run.
+
 ## CSS: property ordering and lint (use stylelint, not csscomb)
 
 CSScomb (`csscomb/csscomb.js`) sorts properties into a configured order, but it is stale: npm `csscomb` 4.3.0 was
