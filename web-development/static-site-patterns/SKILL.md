@@ -309,6 +309,8 @@ When a lightweight CSS framework is wanted, `references/pure-css-3-notes.md` has
 
 `references/tabler-icons-3-notes.md` is the MIT alternative to Font Awesome: 5,184 outline + 1,054 filled icons, searchable `icons.json` (tags, 41 categories), a 545 kB-per-font webfont versus 0.4 kB inline SVGs, and `@tabler/icons-react` renders with no default `aria-hidden` and renamed icons (`IconCircleCheck`, not `IconCheckCircle`).
 
+To audit a built site against the machine-checkable items of the Front-End Performance Checklist, run `python scripts/perf_audit.py --root site/ site/` (13 rules: image dimensions, blocking scripts, CSS-after-JS, font format/display/preconnect/size, inline `<style>` in body, base64 images, iframes, unminified assets, page weight; exit 1 on findings; planted-defect harness `scripts/perf_audit_verify.py`). `references/performance-checklist-triage.md` maps the checklist's 40 items to script rules or other tools and replaces its dated numbers with web.dev's current ones (TTFB 0.8 s, LCP 2.5 s, INP 200 ms, CLS 0.1).
+
 ## UI/UX code review (beyond performance)
 
 For a full accessibility/forms/animation/copy/dark-mode audit of site markup and JS, use `references/web-interface-guidelines-ui-checklist.md` — Vercel's Web Interface Guidelines ported verbatim with the clickable `file:line` output format. It complements this skill's Core-Web-Vitals section (which covers loading/rendering) by covering interaction quality; pair both when running a site audit.
