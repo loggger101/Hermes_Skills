@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **437 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **438 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -390,6 +390,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## devops/rest-api-client
 
+- `devops/rest-api-client/references/public-api-discovery.md` — Finding free public APIs with the public-api-lists JSON feed (837 entries, 48 categories): schema, how to query it, measured link health, and metadata errors found (NASA auth, redirected Launch Library)
 - `devops/rest-api-client/references/ssrf-guard-and-outbound-http-hardening.md` — SSRF Guard & Outbound-HTTP Hardening (verified from reconurge/flowsint @ 1820569, v1.2.12)
 
 ## devops/system-design-scaling
