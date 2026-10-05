@@ -48,7 +48,8 @@ Keep steps 1–3 in **one unbroken context window** — don't compact until afte
 ## Codebase health (not feature work)
 
 - Spare moment → `mattpocock-codebase-design` in survey mode: surfaces deepening opportunities; picking one *generates an idea* for the main flow at step 1. Designing that chosen piece happens on the bench, in the same skill's design mode.
-- New to the repo → `codebase-onboarding` (architecture map + starter AGENTS.md) before you touch anything.
+- New to the repo → `codebase-onboarding` (architecture map + starter AGENTS.md) before you touch anything. Want that map to persist in the repo and be drift-checked in CI → `repo-atlas`.
+- Suspect over-engineering (needless abstractions, dependencies the stdlib or platform covers, duplicated helpers) → `ponytail`: its ladder keeps new code minimal, and its diff-review / repo-audit / debt-ledger modes list what to cut without touching correctness review.
 - Suspect the green is lying → `failure-signal-audit`: swallowed errors, dangerous fallbacks, propagation gaps, false-green status claims. Use it when checks pass but confidence doesn't follow.
 - Want the health claim to be a number → `architecture-metrics` (dependency-graph metrics); to *act* on it, `simplify-code`.
 - Docs drifting from the system they describe → `living-docs-governance`.
