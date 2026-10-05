@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **473 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **474 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -713,6 +713,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## software-development/python-craft
 
 - `software-development/python-craft/references/codon-compiler-notes.md` — Codon (exaloop) Python-to-native compiler: when it pays off, what differs from CPython, @codon.jit, CLI flags, @par, and the doc inconsistencies; Linux/macOS only
+- `software-development/python-craft/references/compression-zstd-stdlib.md` — Python 3.14 stdlib compression.zstd (zstd 1.5.7) measured against zlib/bz2/lzma on markdown, CSV and float data; dictionaries for small records, level vs options TypeError, tar.zst, thread count
 - `software-development/python-craft/references/gof-patterns-in-python.md` — Which GoF patterns collapse into Python features (function, callable, generator, singledispatch, Enum, dataclass.replace); 19 runnable idioms, all asserted
 - `software-development/python-craft/references/logging-loguru.md` — Python logging with loguru 0.7.3: setup, brace-format traps, diagnose=True secret leak, rotation/retention, serialize, stdlib interception
 - `software-development/python-craft/references/modern-python-tooling.md` — Modern Python tooling: uv, ruff, ty, PEP 723
