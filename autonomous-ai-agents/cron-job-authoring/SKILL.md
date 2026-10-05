@@ -162,6 +162,7 @@ The two mistakes that corrupt data most often: treating a no-change run as failu
 - `references/drift-skip-error.md` — troubleshooting the `[drift_skip]` error when a job's provider/model drifts from global config and gets auto-skipped.
 - `references/cron-approval-mode.md` — configuring `approvals.cron_mode` in `config.yaml` to auto-approve dangerous terminal commands in cron jobs.
 - `references/script-path-resolution.md` — pitfalls when computing REPO_ROOT from `__file__` in invoked scripts, and excluding sync output directories from recursive scans.
+- `references/loop-goal-design-and-review.md` — designing or reviewing a goal-seeking loop: machine-decidable goal + boundary, plan/build/judge with an independent judge, five failure modes, and a run-measured gate that catches an agent deleting tests (and the assert-weakening it misses).
 
 ## Verification
 

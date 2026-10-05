@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **487 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **489 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -17,6 +17,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `autonomous-ai-agents/cron-job-authoring/references/drift-skip-error.md` — Drift Skip: Model/Provider Config Drift
 - `autonomous-ai-agents/cron-job-authoring/references/guardrail-template.md` — Guardrail Template — No-Interaction Block for Cron Jobs
 - `autonomous-ai-agents/cron-job-authoring/references/loop-engineering.md` — Loop Engineering (scheduled autonomous jobs)
+- `autonomous-ai-agents/cron-job-authoring/references/loop-goal-design-and-review.md` — Loop goal design and review: a decidable goal, an independent judge, a boundary
 - `autonomous-ai-agents/cron-job-authoring/references/output-alignment.md` — Output Alignment Reference
 - `autonomous-ai-agents/cron-job-authoring/references/prompt-template.md` — Prompt Body Template
 - `autonomous-ai-agents/cron-job-authoring/references/repo-cronjob.md` — Cron jobs that run against an existing repository
@@ -685,6 +686,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## software-development/dogfood
 
+- `software-development/dogfood/references/click-path-audit.md` — Click-path audit: buttons that "do nothing" though every function works
 - `software-development/dogfood/references/issue-taxonomy.md` — Issue Taxonomy
 
 ## software-development/failure-signal-audit
