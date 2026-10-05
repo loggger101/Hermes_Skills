@@ -608,3 +608,9 @@ For new Python code:
 - [ ] Dependencies injected where they need to be mocked in tests
 - [ ] `pyproject.toml` updated if new direct dependency added
 - [ ] Version bumped if publishing
+
+## References
+
+- [`references/modern-python-tooling.md`](references/modern-python-tooling.md) - uv/ruff/pytest toolchain setup
+- [`references/windows-path-separator-trap.md`](references/windows-path-separator-trap.md) - backslash paths silently failing string comparison
+- [`references/logging-loguru.md`](references/logging-loguru.md) - loguru 0.7.3 setup and the traps found by running it (brace-format `KeyError`, `diagnose=True` leaking secrets, colour codes in captured output), stdlib interception
