@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **471 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **472 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -361,6 +361,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## data-science/jupyter-notebook
 
 - `data-science/jupyter-notebook/references/notebook-tooling.md` — Notebook tooling run live (jupytext, nbformat, nbconvert, papermill, nbmake, nbdiff): text round-trips, validation, execution failures, parameter injection traps, tests, diffs
+
+## data-science/model-export-deploy
+
+- `data-science/model-export-deploy/references/tensorflow-keras3-notes.md` — TensorFlow 2.21.0 + Keras 3.15.1 on Windows: no Python 3.14 wheel, CPU-only, model.save('.keras'/'.h5') works while SavedModel needs model.export(), dtype strictness, tf.function retracing, noisy stderr
 
 ## data-science/optimization-modeling-pyomo
 

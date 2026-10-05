@@ -275,3 +275,7 @@ Before treating an export as ready:
 - [ ] Export is loadable by the intended consumer (same Python env, ONNX runtime, etc.)
 - [ ] Old exports still load after code changes (backward compatibility tested, or breakage documented)
 - [ ] File size is reasonable for the format (no 100MB JSON, no uncompressed huge arrays when compression is available)
+
+## References
+
+- `references/tensorflow-keras3-notes.md` - TensorFlow 2.21 + Keras 3 on Windows measured: no Python 3.14 wheel (3.10-3.13 only), CPU-only, `.keras`/`.h5` save vs `export()` for SavedModel, dtype strictness, `tf.function` retracing, stderr noise.
