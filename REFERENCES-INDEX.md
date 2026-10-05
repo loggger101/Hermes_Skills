@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **520 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **521 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -806,6 +806,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `web-development/react-ecosystem/references/deckgl-notes.md` — deck.gl 9.4.0 (WebGL2/WebGPU large-scale data visualization): lockstep packages, layers/views model, basemap pairing, what works in Node vs browser (checked), pitfalls
 - `web-development/react-ecosystem/references/motion-14-notes.md` — Motion 14.0.0 (ex Framer Motion): springs, headless animation, React SSR output (run live)
 - `web-development/react-ecosystem/references/nextjs-16-notes.md` — Next.js 16.3.8 scaffold-build-dev run on Windows (45 s create, 15 s build, 1 s dev ready): generated AGENTS.md/CLAUDE.md that next dev rewrites, bundled docs in node_modules, telemetry, audit and lint notices
+- `web-development/react-ecosystem/references/popmotion-11-notes.md` — Popmotion 11.0.5: the framework-free ancestor of Motion, with identical spring numbers (run in Node)
 - `web-development/react-ecosystem/references/react-19-core-notes.md` — React 19.3.0 core: server rendering, effects, actions, Activity (run live in Node + jsdom)
 - `web-development/react-ecosystem/references/react-native-core.md` — React Native 0.87.1 requirements (Node, React peer), what you can and cannot build per OS, the monorepo layout and agent conventions from its AGENTS.md; npm/README-sourced
 - `web-development/react-ecosystem/references/react-native-navigation.md` — React Native navigation choices (React Navigation 7 stable vs 8 alpha vs Expo Router) with npm versions and the default-branch trap; source-read

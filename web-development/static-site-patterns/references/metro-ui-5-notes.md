@@ -36,7 +36,7 @@ prebuilt `lib/` bundle does not need them, importing from `source/` does (`main`
   and prints an ASCII-art banner comment at the top of the file.
 - It **auto-initialises on load**: `<div data-role="accordion">` came back with classes `accordion marker-on` and the `data-role` kept; the `<html>` element got
   `touchable-device`. No `Metro.init()` call was needed for markup present at load (dynamic content was not tested).
-- `components.md` lists 167 component names (`accordion`, `calendar-picker`, `cookie-disclaimer`, `countdown`, `chat`, `cube`, `audio-player`, ...), many of which are one-off widgets a
+- `source/components` holds 167 component directories, listed in `components.md` (`accordion`, `calendar-picker`, `cookie-disclaimer`, `countdown`, `chat`, `cube`, `audio-player`, ...), many of which are one-off widgets a
   site will never use; the prebuilt `lib/` files are single bundles, so the full set always ships (importing from `source/` is the only route to a subset, not tried here).
 
 ## Verdict
