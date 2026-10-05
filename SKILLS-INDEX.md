@@ -41,7 +41,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `comfyui` — Generate images, video, and audio via diffusion workflows _(creative)_
 - `design-md` — Author/validate/export Google's DESIGN.md token spec files _(creative)_
 - `design-taste-frontend` — Anti-slop frontend skill: brief-inferred design direction _(creative)_
-- `diagram-design` — Create 39 diagram types as standalone HTML/SVG/PNG files _(creative)_
+- `diagram-design` — Create 44 diagram types as standalone HTML/SVG/PNG files _(creative)_
 - `editorial-minimalism-ui` — Editorial monochrome minimalism, Notion/Linear-tier UI _(creative)_
 - `excalidraw` — Hand-drawn Excalidraw JSON diagrams (arch, flow, seq) _(creative)_
 - `full-output-enforcement` — Enforce complete output; ban placeholder patterns _(creative)_

@@ -1,6 +1,6 @@
 ---
 name: diagram-design
-description: "Create 39 diagram types as standalone HTML/SVG/PNG files."
+description: "Create 44 diagram types as standalone HTML/SVG/PNG files."
 version: v0.9.0
 author: Hermes Agent (ported from starred-repo research)
 license: MIT
@@ -13,12 +13,12 @@ metadata:
 
 ## When to Use
 
-- A reader will learn more from a visual than from prose, a table or a bulleted list, in any of the 39 types
+- A reader will learn more from a visual than from prose, a table or a bulleted list, in any of the 44 types
 - Not for quick unicode diagrams (draw those inline in the reply), lists, simple before/after comparisons or one-shape "diagrams"
 
 ## What This Skill Does
 
-Creates 39 types of diagram as self-contained HTML files with inline SVG and CSS, following an opinionated editorial design system. Every node is a distinct idea and every connection carries information.
+Creates 44 types of diagram as self-contained HTML files with inline SVG and CSS, following an opinionated editorial design system. Every node is a distinct idea and every connection carries information.
 
 # Diagram Design
 
@@ -63,7 +63,7 @@ Applied to schematics:
 
 ## 2. When to Use
 
-Use for any of the 39 visual types (§3) when a reader will learn more from a visual than from prose, a table, or a bulleted list.
+Use for any of the 44 visual types (§3) when a reader will learn more from a visual than from prose, a table, or a bulleted list.
 
 **Don't use for:**
 
@@ -92,11 +92,14 @@ When behavior, state, enforcement, or risk carries the meaning, first load [`ref
 
 The pattern owns semantic primitives and its tighter budget; the type owns layout grammar. Use [`references/animation.md`](references/animation.md) only when motion is requested or materially clarifies ordered change; static remains the default.
 
-### Visual-type guide (39)
+> **Port note (2026-10-05).** Types 40-44 (architecture delta, exploded axonometric, axonometric plan, waterfall, heatmap) were added from upstream; each has its `references/type-*.md` and three base example files (`example-<type>.html`, `-dark`, `-full`). Upstream's extra variants (animated, campus, phone, unboxing examples) and its verify scripts were not ported.
+
+### Visual-type guide (44)
 
 | If you're showing… | Use | Reference |
 |---|---|---|
 | Components + connections in a system | **Architecture** | [type-architecture.md](references/type-architecture.md) |
+| Structural change between synchronized Before / After topologies, with a Changes ledger | **Architecture delta** | [type-architecture-delta.md](references/type-architecture-delta.md) |
 | Legacy IT landscape grouped by phase/department; documents the *before* state in modernization proposals | **IT current-state** | [type-it-state.md](references/type-it-state.md) |
 | Decision logic with branches | **Flowchart** | [type-flowchart.md](references/type-flowchart.md) |
 | Time-ordered messages between actors | **Sequence** | [type-sequence.md](references/type-sequence.md) |
@@ -112,10 +115,14 @@ The pattern owns semantic primitives and its tighter budget; the type owns layou
 | Parent → children relationships | **Tree** | [type-tree.md](references/type-tree.md) |
 | Human/agent/team ownership, reporting, routing, escalation | **Org chart** | [type-org-chart.md](references/type-org-chart.md) |
 | Stacked abstraction levels | **Layer stack** | [type-layers.md](references/type-layers.md) |
+| Parts of one object pulled apart along one axis: a teardown, an unboxing, assembly order | **Exploded axonometric** | [type-exploded.md](references/type-exploded.md) |
+| One floor or site seen from above at an angle: rooms with furniture, buildings by phase | **Axonometric plan** | [type-axonometric-plan.md](references/type-axonometric-plan.md) |
 | Overlap between sets | **Venn** | [type-venn.md](references/type-venn.md) |
 | Ranked hierarchy or conversion drop-off | **Pyramid / funnel** | [type-pyramid.md](references/type-pyramid.md) |
 | Quantitative comparison across categories | **Bar chart** | [type-bar.md](references/type-bar.md) |
+| A start total bridged to an end total by signed contributions (budget bridge, headcount deltas) | **Waterfall** | [type-waterfall.md](references/type-waterfall.md) |
 | Part-of-whole where the relative sizes are the story | **Treemap** | [type-treemap.md](references/type-treemap.md) |
+| Cross-tabulated data; fill encodes value per cell | **Heatmap** | [type-heatmap.md](references/type-heatmap.md) |
 | Continuous trends over time, change between exactly two states (slopegraph), one distribution per series (ridgeline), or rank movement across several snapshots (bump) | **Line chart** | [type-line.md](references/type-line.md) |
 | Tasks and phases on a timeline | **Gantt** | [type-gantt.md](references/type-gantt.md) |
 | Distribution and correlation between two variables, three with area-sized marks (bubble), or one variable with a dot per item (beeswarm) | **Scatter plot** | [type-scatter.md](references/type-scatter.md) |
