@@ -54,3 +54,21 @@ If both a config file and CI disagree, CI wins. If no tool exists, match the sur
 2. Run the enforcers the CI runs, on the files you touched only (`ruff check <files>`, `npx eslint <files>`), and fix findings that your change introduced.
 3. Do not reformat unrelated code in a feature change; a formatting-only commit goes separately.
 4. Record the style decision (tool + version) in the repo's `AGENTS.md`/`CLAUDE.md` so the next agent skips this step.
+
+## pycodestyle vs ruff, measured (Python)
+
+`pycodestyle` 2.15.0 checks PEP 8 layout only (no logic, no imports). Defaults: max line length **79**; default ignore list `E121,E123,E126,E226,E24,E704,W503,W504`
+(so `W503`/`W504` line-break-around-operator warnings are off unless selected, and they contradict each other by design).
+
+Test: a 24-line messy file (bad spacing, blank lines, bare `except`, lambda assignment, `== None`, ambiguous name `l`, 116-character line, multiple imports):
+
+| Tool | Codes reported |
+|---|---|
+| `pycodestyle --statistics` | 18 distinct codes: `E128 E201 E202 E203 E211 E225 E228 E231 E271 E302 E303 E305 E401 E501 E711 E722 E731 E741` |
+| `ruff check --select E,W` (ruff 0.16.9, stable rules) | **6**: `E401 E501 E711 E722 E731 E741` (the logic/length rules only) |
+| `ruff check --select E,W --preview` | 18 codes, the same set (plus `E226`, which pycodestyle ignores by default) |
+| `ruff format` then `pycodestyle` | the 12 whitespace/blank-line/continuation findings disappeared; exactly the 6 stable-ruff codes remained |
+
+Conclusions: in ruff the whitespace and blank-line rules are preview-only because **`ruff format` is the intended fix** for them, so a repo that runs `ruff check` without `ruff format --check` loses those checks. Pair the two commands in CI.
+`E501` depends on the configured length (79 for pycodestyle, 88 for ruff/black by default): `116 > 79` became `116 > 88` with `--max-line-length=88`. Pick one number in config and use it everywhere.
+Choose `pycodestyle` only when a project is pinned to it (or to flake8); for new code use `ruff` + `ruff format`.
