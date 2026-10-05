@@ -1,8 +1,8 @@
 # Skill Dependency Map
 
-This document maps the relationship network between all **205 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+This document maps the relationship network between all **206 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
 
-**Network stats:** 553 `related_skills` cross-references across 205 skills (2 skills list no `related_skills` of their own).
+**Network stats:** 557 `related_skills` cross-references across 206 skills (2 skills list no `related_skills` of their own).
 
 ## Hub Skills (referenced by 2+ other skills)
 
@@ -13,7 +13,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `requesting-code-review` | 19 | architecture-metrics, codex, github-issue-to-pr, grilling-interview, hermes-agent-skill-authoring, mattpocock-code-review, mattpocock-evidence-driven, mattpocock-finishing-a-development-branch, mattpocock-security-review, mattpocock-spec-driven-development, mattpocock-subagent-driven-development, plan, ponytail, python-craft, receiving-code-review, sdlc-review, semgrep-rule-creator, simplify-code, skill-flow-router |
 | `test-driven-development` | 18 | dispatching-parallel-agents, executing-plans, generating-python-installer, github-issue-to-pr, grilling-interview, mattpocock-subagent-driven-development, mattpocock-tdd, plan, property-based-testing, python-craft, python-data-science, requesting-code-review, rest-graphql-debug, simplify-code, skill-flow-router, systematic-debugging, test-infra-ml, windows-desktop-e2e |
 | `systematic-debugging` | 16 | ast-grep, dispatching-parallel-agents, failure-signal-audit, github-issue-to-pr, inspecting-hermes-desktop-dom, mattpocock-diagnosing-bugs, mattpocock-gh-fix-ci, mattpocock-resolving-merge-conflicts, mattpocock-tdd, node-inspect-debugger, python-craft, python-data-science, python-debugpy, rest-graphql-debug, skill-flow-router, test-driven-development |
-| `python-craft` | 13 | algorithms-python-catalog, build-systems-data, cli-tool-craft, evolutionary-ml, generating-python-installer, model-export-deploy, orbital-mechanics-data, ponytail, static-site-seo, streamlit-dashboards, system-design-scaling, test-infra-ml, verification-culture |
+| `python-craft` | 14 | algorithms-python-catalog, build-systems-data, cli-tool-craft, evolutionary-ml, generating-python-installer, model-export-deploy, orbital-mechanics-data, ponytail, rust-crate-picks, static-site-seo, streamlit-dashboards, system-design-scaling, test-infra-ml, verification-culture |
 | `claude-design` | 12 | awwwards-gsap-motion, design-md, editorial-minimalism-ui, frontend-design, industrial-brutalist-ui, popular-web-designs, pretext, sketch, soft-premium-ui, songwriting-and-ai-music, stitch, teach |
 | `excalidraw` | 11 | architecture-diagram, ascii-art, claude-design, design-md, diagram-design, p5js, popular-web-designs, pretext, research-paper-writing, sketch, system-atlas |
 | `hermes-agent` | 11 | apple-reminders, claude-code, codex, cron-job-authoring, dynamic-workflow, hermes-bot-cloning, mattpocock-to-tickets, merge-reconciler, opencode, qmd, repowise |
@@ -47,6 +47,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `youtube-content` | 5 | ascii-video, gif-search, manim-video, rss-feeds, songsee |
 | `apple-notes` | 4 | apple-reminders, findmy, imessage, obsidian |
 | `ascii-video` | 4 | manim-video, p5js, pretext, touchdesigner-mcp |
+| `astro-toolkit-selection` | 4 | economicspace-pipeline, optimization-modeling-pyomo, rust-crate-picks, space-data-pipelines |
 | `blogwatcher` | 4 | competitor-news-monitor, rss-feeds, watchers, youtube-content |
 | `design-md` | 4 | claude-design, popular-web-designs, react-ecosystem, stitch |
 | `github-issues` | 4 | github-auth, github-issue-to-pr, github-repo-management, mattpocock-to-tickets |
@@ -62,7 +63,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `weights-and-biases` | 4 | evaluating-llms-harness, evolutionary-ml, python-data-science, serving-llms-vllm |
 | `xlsx` | 4 | docx, pdf, powerpoint, sql-for-data |
 | `apple-reminders` | 3 | apple-notes, findmy, imessage |
-| `astro-toolkit-selection` | 3 | economicspace-pipeline, optimization-modeling-pyomo, space-data-pipelines |
 | `blocked-page-recovery` | 3 | general-research-rounds, reddit-reading, scrapling |
 | `claude-code` | 3 | codex, hermes-agent, opencode |
 | `codebase-onboarding` | 3 | living-docs-governance, repo-atlas, repowise |
@@ -85,6 +85,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `sql-for-data` | 3 | duckdb-querying, sqlite-queries, system-design-scaling |
 | `system-design-scaling` | 3 | algorithms-python-catalog, application-threat-model, incident-response |
 | `airtable` | 2 | notion, weekly-review-planning |
+| `algorithms-python-catalog` | 2 | maps, rust-crate-picks |
 | `architecture-metrics` | 2 | mattpocock-codebase-design, repowise |
 | `ascii-art` | 2 | ascii-video, pretext |
 | `code-wiki` | 2 | codebase-onboarding, repo-atlas |
@@ -110,6 +111,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `opencode` | 2 | claude-code, hermes-agent |
 | `optimization-modeling-pyomo` | 2 | algorithms-python-catalog, astro-toolkit-selection |
 | `orbital-mechanics-data` | 2 | astro-toolkit-selection, space-data-pipelines |
+| `ponytail` | 2 | rust-crate-picks, simplify-code |
 | `pubmed-database` | 2 | bioinformatics, gget |
 | `redesign-existing-projects` | 2 | design-taste-frontend, full-output-enforcement |
 | `rest-api-client` | 2 | rest-graphql-debug, system-design-scaling |
@@ -132,6 +134,6 @@ No skill is fully standalone: every skill either lists `related_skills` or is re
 
 ## Related Skills Validation
 
-All 553 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 205 unique skill names.
+All 557 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 206 unique skill names.
 
 ---
