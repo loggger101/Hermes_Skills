@@ -712,3 +712,7 @@ Before trusting a result:
 - [ ] Best agent is re-evaluated on held-out opponents/conditions
 - [ ] Exported model loads and matches the training-time behavior
 - [ ] Run is reproducible from the seed and config (same seed → same result)
+
+## References
+
+- `references/ga-tuning-measured.md` — measured lessons from the CR-pipeline GA (Swiss/ELO tournaments, worker-pool eval): softmax-temperature selection collapse, mutation load vs genome size, recalibrating behavioural guard tests, match-rule config that must reach every evaluation path, Windows worker-pool pitfalls, and what a long run actually shows.
