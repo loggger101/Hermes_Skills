@@ -105,3 +105,4 @@ Not run: LLM extraction strategies, deep crawling, proxies, sessions.
 ## References
 
 - `references/playwright-visual-regression.md` - screenshot suites that do not lie: per-OS baselines, first-run and `--update-snapshots` behaviour (run), one assertion per test vs `expect.soft`, file-level sharding, patterns from Ionic's e2e suite.
+- `references/e2e-agentic-testing.md` - tester-army/e2e: tests mixing `agent.act` with exact locator checks, the replay cache (what gets recorded, why a step misses), exit-code classes, model-free Windows smoke run and failure artifacts (run).
