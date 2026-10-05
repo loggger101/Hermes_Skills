@@ -271,10 +271,6 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `software-development/ast-grep/scripts/ast_grep_helper.py` (script, python, 790 lines) — ast-grep-helper: a thin LLM-friendly wrapper around `sg` (ast-grep)
 - `software-development/ast-grep/tests/smoke.sh` (test, bash, 212 lines) — Smoke test for the ast-grep skill on POSIX (macOS / Linux / WSL / Git Bash)
 
-## software-development/dispatching-parallel-agents
-
-- `software-development/dispatching-parallel-agents/scripts/tally_jury.py` (script, python, 313 lines) — Ported verbatim from tech-leads-club/agent-skills (CC-BY-4.0), skill "the-jury" v1.0.0,
-
 ## software-development/generating-python-installer
 
 - `software-development/generating-python-installer/scripts/analyze_dlls.py` (script, python, 143 lines) — DLL dependency footprint analyzer for a Nuitka standalone dist folder
@@ -282,6 +278,10 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 ## software-development/living-docs-governance
 
 - `software-development/living-docs-governance/scripts/check_doc_examples.py` (script, python, 118 lines) — Run the JavaScript examples in Markdown docs and compare printed output to the comments
+
+## software-development/multi-agent-deliberation
+
+- `software-development/multi-agent-deliberation/scripts/tally_jury.py` (script, python, 313 lines) — Ported verbatim from tech-leads-club/agent-skills (CC-BY-4.0), skill "the-jury" v1.0.0,
 
 ## software-development/repo-atlas
 
