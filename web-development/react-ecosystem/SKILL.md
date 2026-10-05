@@ -44,7 +44,7 @@ map is in `references/awesome-react-map.md`.
 | Animation | **Motion** 14 (`motion`, formerly `framer-motion`) | CSS, GSAP | `framer-motion` and `motion` both at 14.0.0 |
 | Styling | Tailwind 4 | CSS Modules, vanilla-extract (zero runtime) | runtime CSS-in-JS (styled-components 6, Emotion 11) costs render time; prefer zero-runtime |
 | Testing | Jest 30 + React Testing Library 16 | Playwright 1.63 or Cypress 16 for e2e | |
-| Mobile | React Native 0.87 with Expo 57 | | React Navigation 7 (`@react-navigation/native` 7.5.0; v8 is alpha) or Expo Router; see `references/react-native-navigation.md` |
+| Mobile | React Native 0.87 with Expo 57 | | React Navigation 7 (`@react-navigation/native` 7.5.0; v8 is alpha) or Expo Router; see `web-development/react-library-notes/references/react-native-navigation.md` |
 | Video from React | Remotion 4 | | |
 
 ## Freshness traps found by checking npm
@@ -71,15 +71,6 @@ map is in `references/awesome-react-map.md`.
 ## References
 
 - `references/awesome-react-map.md` - per-category picks from the awesome-react list with npm version and last-modified date for each
-- `references/react-native-navigation.md` - React Navigation 7 stable vs 8 alpha vs Expo Router, npm versions, the default-branch (v8) docs trap
-- `references/deckgl-notes.md` - deck.gl 9.4.0 (all @deck.gl/* lockstep): layers/views model, Node-side layer construction checked (default id collisions, `Deck` needs a DOM), pairing with react-map-gl/maplibre, rules
-- `references/react-native-core.md` - React Native 0.87.1 requirements (Node, React peer), Android vs iOS build host limits, monorepo layout, agent conventions from its AGENTS.md
-- `references/zustand-v5-notes.md` - Zustand 5.0.15 traps run on React 19.3 + jsdom: fresh-object selector throws, removed equality arg, `setState(x, true)` drops actions, `persist` shallow merge / dropped versions / async hydration, no default export
-- `references/ariakit-notes.md` - `@ariakit/react` 0.4.40 (190 exports) server-rendered and driven in jsdom: store + `render`-prop model, SSR HTML table (closed Dialog/Tooltip emit no content, Select/Menu lists and Tab panels do, Tabs need `defaultSelectedId`), disabled Tabs still arrow-focusable, MIT packages vs proprietary Plus examples and website
-- `references/shadcn-cli-4-notes.md` - shadcn CLI 4.21.2 run live on a scratch Vite project: `--defaults` help names a preset (`base-nova`) it rejects, default base is Base UI not Radix, `cn` is now an npm package, Tailwind 4 with no config file, `add -y` still prompts before overwriting an edited file (use `--diff` then `-o`), `search` needs a configured registry.
 - `references/standard-and-neostandard-notes.md` - standard 17.1.2 (still on ESLint 8.57.1, marked unsupported) vs neostandard 0.13.0 on ESLint 9.39.5, same 10 findings on a planted file; `--fix` limits, unflagged trailing `;`, parse errors on the regex `v` flag and `using`, TypeScript files ignored/failing.
-- `references/popmotion-11-notes.md` - Popmotion 11.0.5 (frozen 2022, Motion's ancestor) run in plain Node: its `spring` generator gives numbers identical to Motion 14's (34.03, 84.943, 115.312, ...), deterministic `driver` stepping, `mix` is numeric-only (`mix('#f00','#00f',.5)` returns `NaN#ff0000`, use `mixColor`), port-to-Motion notes
-- `references/motion-14-notes.md` - Motion 14.0.0 (ex Framer Motion) run in Node + jsdom: spring/easing numbers, headless `animate` needs a rAF shim imported first, a bad ease string throws asynchronously, jsdom globals needed, SSR HTML ships the `initial` state, LazyMotion strict, `motion/mini` caveat.
-- `references/react-19-core-notes.md` - React 19.3.0 run in Node + jsdom (~70 probes): server-render output (hoisted metadata, `_R_0_` ids, renderToString vs Suspense), StrictMode effect doubling, batching and stale closures, useOptimistic/useActionState (jsdom needs `globalThis.FormData`), Activity keeps state, `React.cache` outside a request, hydration mismatch errors, removed APIs.
 - `references/bun-runtime-notes.md` - Bun 1.4.2 on Windows, about 40 commands run: npm 11 blocks its postinstall (`npm rebuild bun` after approving), no type checking, text `bun.lock`, 0.4 s `bun add`, built-in `bun test` (exit 1 even when no file matches), `--compile` makes an 86 MB exe, `Bun.write` keeps LF, startup 54 ms vs node 116 ms.
-- `references/nextjs-16-notes.md` - Next.js 16.3.8 scaffold/build/dev run on Windows: 45 s create, 15 s build, ~1 s dev ready; generated `AGENTS.md`/`CLAUDE.md` that `next dev` re-creates (disable with `agentRules: false`); 456 version-matched docs inside `node_modules/next/dist/docs`; telemetry on by default.
+- `skill_view(name='react-library-notes')` - per-library traps for React 19, Next.js 16, Zustand 5, Motion 14, Popmotion, Ariakit, shadcn CLI, deck.gl and React Native (moved there in round-250)

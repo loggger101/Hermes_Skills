@@ -45,10 +45,10 @@ encoding while a leg model supplies the physics. The `mga` encoding is the stand
 | Task | Tool |
 |---|---|
 | Multi-flyby / Lambert-based mission search, GTOC-style, low-thrust leg design | pykep (Linux) |
-| One solver for a single constrained transfer with free final time | OpenSCvx (`openscvx-patterns.md`) |
+| One solver for a single constrained transfer with free final time | OpenSCvx (`astro-toolkit-selection/references/openscvx-patterns.md`) |
 | Catalog access, EOP, propagation on Windows | brahe (`brahe-api-reference.md`) |
 | Ephemerides and frames as ground truth | SpiceyPy (`spiceypy-notes.md`) |
-| Global optimisation of any mission objective | pygmo (`optimization-toolkit.md`) |
+| Global optimisation of any mission objective | pygmo (`astro-toolkit-selection/references/optimization-toolkit.md`) |
 
 MPL-2.0 is file-level copyleft: you can use pykep from proprietary code, but modifications to pykep's own files must be shared.
 The docs warn that some tutorials use features not yet in the latest stable release, so match notebooks to your installed version.

@@ -32,7 +32,7 @@ Rust engine — fine for internal research, a copyleft consideration if you ship
 | TDB | 12:01:09.182342053 | TT minus about 1.66 ms (periodic term) |
 | **Leap second `2016-12-31T23:59:60` UTC -> TAI** | **2017-01-01T00:00:35** | **2017-01-01T00:00:36** |
 
-So the engine inherits the one-second error at the leap-second instant documented for hifitime in `hifitime-time-scales.md` (nyx's time layer is
+So the engine inherits the one-second error at the leap-second instant documented for hifitime in `data-science/astro-library-notes/references/hifitime-time-scales.md` (nyx's time layer is
 hifitime). Away from leap seconds the scales agreed. Avoid epochs on a leap-second day when exact TAI matters, and cross-check with astropy. The
 `Orbit` class has the usual `add_sma_km`, `add_inc_deg`, `add_raan_deg`, `add_ta_deg`, `altitude_km`, `apoapsis_km`, `at_epoch`, `c3_km2_s2`, `cartesian_pos_vel` methods.
 - Canonical workflow (examples/01_readme.py): ANISE `MetaAlmanac(dhall).process().load(bpc)` → build `AccelModels`

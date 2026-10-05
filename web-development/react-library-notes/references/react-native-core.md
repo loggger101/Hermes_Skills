@@ -46,4 +46,4 @@ Architecture notes sit in `__docs__` directories next to the code they describe.
 
 ## Choosing around it
 
-Navigation: `react-native-navigation.md` in this folder. Library choices (state, data, forms, tests): `awesome-react-map.md` and `SKILL.md`. Expo (`expo` 57.0.26) wraps React Native with managed builds and Expo Router, and is the easiest path when you lack a Mac.
+Navigation: `react-native-navigation.md` in this folder. Library choices (state, data, forms, tests): `react-ecosystem/references/awesome-react-map.md` and `SKILL.md`. Expo (`expo` 57.0.26) wraps React Native with managed builds and Expo Router, and is the easiest path when you lack a Mac.
