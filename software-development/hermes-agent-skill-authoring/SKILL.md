@@ -223,3 +223,7 @@ A skill exists to make the agent's process more predictable — the agent reliab
 - [ ] Tests at `tests/skills/test_<skill>_skill.py` pass under `scripts/run_tests.sh`
 - [ ] Docs regenerated with scope discipline; sidebar has exactly one entry for the slug
 - [ ] `git add` + commit on the intended branch; PR opened
+
+## References
+
+- `references/skill-seekers-generated-drafts.md` - using Skill Seekers 3.10.0 as a draft generator: offline run on a tiny project, what is useful (API reference, dependency graph) vs boilerplate (SKILL.md), how to finish a draft into a Hermes skill
