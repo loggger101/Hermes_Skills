@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **426 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **427 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -627,6 +627,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `software-development/hermes-agent-skill-authoring/references/skill-evolution-pipeline.md` — DSPy+GEPA skill-evolution pipeline (NousResearch/hermes-agent-self-evolution) — verified CLI, requirements, when NOT to use
 - `software-development/hermes-agent-skill-authoring/references/skill-registry-security.md` — Skill registry supply-chain + installer security patterns, mined from tech-leads-club/agent-skills (MIT code / CC-BY-4.0 content)
 - `software-development/hermes-agent-skill-authoring/references/skill-repo-release-engineering.md` — Skill-Repo Release Engineering (versioning, update channel, generated blocks)
+
+## software-development/living-docs-governance
+
+- `software-development/living-docs-governance/references/doc-example-verification.md` — Verify technical docs by executing their code examples: 5-phase fact-check, example-to-test conversion rules, and a runnable Node example checker (scripts/check_doc_examples.py) proven on planted defects
 
 ## software-development/mattpocock-diagnosing-bugs
 
