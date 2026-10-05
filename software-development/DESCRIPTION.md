@@ -34,14 +34,17 @@ Development tools and coding workflows.
 - [`mattpocock-using-git-worktrees`](./mattpocock-using-git-worktrees/SKILL.md) — Set up isolated git worktrees for feature work
 - [`mattpocock-writing-for-agents`](./mattpocock-writing-for-agents/SKILL.md) — Write docs agents can consume: skills, AGENTS.md, specs
 - [`modular-monolith-migration`](./modular-monolith-migration/SKILL.md) — Module boundaries, decomposition, strangler-fig plans
+- [`multi-agent-deliberation`](./multi-agent-deliberation/SKILL.md) — Jury, interview and critique protocols for decisions
 - [`node-inspect-debugger`](./node-inspect-debugger/SKILL.md) — Debug Node.js via --inspect + Chrome DevTools Protocol CLI
+- [`one-authority-per-fact`](./one-authority-per-fact/SKILL.md) — One authority per fact; copies generated or checked
 - [`plan`](./plan/SKILL.md) — Write a markdown plan to .hermes/plans/; no execution
 - [`ponytail`](./ponytail/SKILL.md) — Laziest working solution: reuse, stdlib, native first
 - [`property-based-testing`](./property-based-testing/SKILL.md) — Hypothesis property tests: roundtrip, oracle, invariant
 - [`python-craft`](./python-craft/SKILL.md) — Python craft: uv/ruff/ty setup, style, typing, testing
 - [`python-debugpy`](./python-debugpy/SKILL.md) — Debug Python: pdb REPL + debugpy remote (DAP)
-- [`python-toolchain-notes`](./python-toolchain-notes/SKILL.md) — uv, ruff, ty, loguru, zstd, Codon: measured behavior
+- [`python-toolchain-notes`](./python-toolchain-notes/SKILL.md) — uv, ruff, ty, pytest, loguru, tqdm, zstd: measured
 - [`receiving-code-review`](./receiving-code-review/SKILL.md) — Verify review feedback against the codebase before acting
+- [`repo-agent-instructions`](./repo-agent-instructions/SKILL.md) — Write CLAUDE.md/AGENTS.md with incidents and gates
 - [`repo-atlas`](./repo-atlas/SKILL.md) — In-repo atlas docs + drift check so agents orient fast
 - [`requesting-code-review`](./requesting-code-review/SKILL.md) — Pre-commit review: security scan, quality gates, auto-fix
 - [`rest-graphql-debug`](./rest-graphql-debug/SKILL.md) — Debug REST and GraphQL APIs: auth, schemas, repro

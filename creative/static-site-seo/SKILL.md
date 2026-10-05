@@ -23,7 +23,7 @@ Static site SEO: JSON-LD, meta tags, analytics, CSP.
 ## When to Use
 
 - Building or maintaining a static site (hand-authored HTML, generated HTML, or a static site generator)
-- Improving a static site's search visibility (titles, descriptions, structured data, sitemaps) — including the AI-search layer: being cited by ChatGPT/Perplexity/AI Overviews and usable by autonomous agents (`references/agent-ready-and-ai-search.md`)
+- Improving a static site's search visibility (titles, descriptions, structured data, sitemaps) — including the AI-search layer: being cited by ChatGPT/Perplexity/AI Overviews and usable by autonomous agents (`creative/ai-search-optimization/references/agent-ready-and-ai-search.md`)
 - Generating many pages from templates + data (feed sections, listing/catalog families, per-item docs): quality gates to avoid thin-content / near-duplicate page debt — verified Jaccard-shingle detection snippet included (`references/programmatic-pages-quality-gates.md`)
 - Adding analytics without degrading privacy or performance
 - Wiring up a contact/registration form without a backend server
@@ -140,7 +140,7 @@ If the site has multiple language versions, use `hreflang` to tell search engine
 
 ## The AI-Search & Agent Layer (2026+)
 
-Classic ranking is no longer the whole discoverability story: answer engines (Google AI Overviews, ChatGPT search, Perplexity) **cite** sources rather than just rank them, and autonomous agents increasingly read sites directly. For a static site this layer adds four concrete items on top of everything above — full detail in `references/agent-ready-and-ai-search.md`:
+Classic ranking is no longer the whole discoverability story: answer engines (Google AI Overviews, ChatGPT search, Perplexity) **cite** sources rather than just rank them, and autonomous agents increasingly read sites directly. For a static site this layer adds four concrete items on top of everything above — full detail in `creative/ai-search-optimization/references/agent-ready-and-ai-search.md`:
 
 1. **Extractable structure** — key claims as self-contained 40–60 word answer blocks; query-phrased H2/H3s; statistics with sources + dates (Princeton GEO: citations +40%, stats +37% visibility; keyword stuffing is −10%, not just ineffective).
 2. **Machine-readable files** — `llms.txt` at root, `/pricing.md` if a product exists (agents skip pricing they can't parse), explicit AI-crawler stance in robots.txt (GPTBot/PerplexityBot/ClaudeBot/Google-Extended/Bingbot) and checking the CDN/WAF doesn't challenge them.
@@ -619,3 +619,6 @@ Before deploying or declaring a static site healthy:
 - [ ] No hand-edited generated pages that will be clobbered on rebuild
 - [ ] Rebuild is idempotent (same bytes when nothing changed)
 - [ ] External links resolve (local link check at minimum; external link rot monitored if citation-heavy)
+
+
+- `skill_view(name='ai-search-optimization')` — AEO/GEO: getting cited by AI search and agent-ready sites (moved there in round-252)

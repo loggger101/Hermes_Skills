@@ -11,7 +11,7 @@ Source: `(creation)/create-adr` v1, `create-rfc`, `create-technical-design-doc`.
 | Focus | What was chosen and why, given the context | Should we do X? Which option? | How do we build X? |
 | Timing | After the decision | Before committing to a direction | After direction is decided |
 
-Use RFC when **the decision itself** needs alignment. Use TDD when the decision is made and you need the implementation approach. Write the ADR once the RFC/TDD path has settled — an ADR for a still-open question is fiction, and an RFC after commitment is approval theatre (see `dispatching-parallel-agents/references/discovery-interview-and-critique-protocols.md` on that failure mode).
+Use RFC when **the decision itself** needs alignment. Use TDD when the decision is made and you need the implementation approach. Write the ADR once the RFC/TDD path has settled — an ADR for a still-open question is fiction, and an RFC after commitment is approval theatre (see `multi-agent-deliberation/references/discovery-interview-and-critique-protocols.md` on that failure mode).
 
 ## MADR as the default ADR shape [VERIFIED]
 

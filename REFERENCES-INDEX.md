@@ -90,6 +90,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `communication/mental-models/references/models/social-proof.md` — We infer correct behaviour from what others do, most strongly exactly when we are least certain.
 - `communication/mental-models/references/models/trade-offs.md` — The real cost of a choice is the best thing you gave up to make it, not the money you spent.
 
+## creative/ai-search-optimization
+
+- `creative/ai-search-optimization/references/agent-ready-and-ai-search.md` — Agent-Ready Sites & the AI-Search Layer (AEO/GEO)
+
 ## creative/architecture-diagram
 
 - `creative/architecture-diagram/references/archify-typed-json-gates.md` — Archify 3.0.1: typed-JSON diagrams (architecture, workflow, sequence, dataflow, lifecycle) rendered to standalone interactive HTML behind a four-gate finalize command; run live with a planted dangling-edge defect
@@ -291,7 +295,6 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## creative/static-site-seo
 
-- `creative/static-site-seo/references/agent-ready-and-ai-search.md` — Agent-Ready Sites & the AI-Search Layer (AEO/GEO)
 - `creative/static-site-seo/references/programmatic-pages-quality-gates.md` — Programmatic / Generated Pages: Quality Gates (for templated page families)
 
 ## creative/stitch
@@ -705,10 +708,6 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `software-development/ast-grep/references/sgconfig.md` — sgconfig.yml — project configuration
 - `software-development/ast-grep/references/yaml-rules.md` — YAML rule reference — atomic, relational, composite, transform, fix
 
-## software-development/cli-tool-craft
-
-- `software-development/cli-tool-craft/references/tqdm-progress-bars.md` — tqdm 4.70.1 measured: bar goes to stderr and floods piped logs with CRs, print() corrupts it, TQDM_ASCII=1 crashes the program, TQDM_DISABLE and MININTERVAL tame logs, per-iteration cost
-
 ## software-development/codebase-onboarding
 
 - `software-development/codebase-onboarding/references/gradle-agent-rules.md` — Gradle 9.8 repo's own instructions for coding agents: wrapper only, never full build or clean, target subprojects, -q, language levels, Spock test rules, public-API annotations; source-read
@@ -717,11 +716,6 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## software-development/conversation-to-spec
 
 - `software-development/conversation-to-spec/references/spec-document-reviewer-prompt.md` — Spec Document Reviewer Prompt Template
-
-## software-development/dispatching-parallel-agents
-
-- `software-development/dispatching-parallel-agents/references/discovery-interview-and-critique-protocols.md` — Discovery Interview & Critique Protocols (verified from tech-leads-club/agent-skills @ 0ab82f6)
-- `software-development/dispatching-parallel-agents/references/multi-agent-deliberation-jury.md` — Multi-Agent Deliberation: the Jury Protocol (verified from tech-leads-club/agent-skills @ 0ab82f6)
 
 ## software-development/dogfood
 
@@ -775,6 +769,11 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `software-development/modular-monolith-migration/references/monolith-decomposition-pipeline.md` — Monolith Decomposition Analysis Pipeline (verified from tech-leads-club/agent-skills @ 0ab82f6)
 - `software-development/modular-monolith-migration/references/strangler-fig-migration-patterns.md` — Strangler Fig Migration Patterns (verified from tech-leads-club/agent-skills @ 0ab82f6)
 
+## software-development/multi-agent-deliberation
+
+- `software-development/multi-agent-deliberation/references/discovery-interview-and-critique-protocols.md` — Discovery Interview & Critique Protocols (verified from tech-leads-club/agent-skills @ 0ab82f6)
+- `software-development/multi-agent-deliberation/references/multi-agent-deliberation-jury.md` — Multi-Agent Deliberation: the Jury Protocol (verified from tech-leads-club/agent-skills @ 0ab82f6)
+
 ## software-development/plan
 
 - `software-development/plan/references/plan-document-reviewer-prompt.md` — Plan Document Reviewer Prompt Template
@@ -791,7 +790,9 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `software-development/python-toolchain-notes/references/compression-zstd-stdlib.md` — Python 3.14 stdlib compression.zstd (zstd 1.5.7) measured against zlib/bz2/lzma on markdown, CSV and float data; dictionaries for small records, level vs options TypeError, tar.zst, thread count
 - `software-development/python-toolchain-notes/references/logging-loguru.md` — Python logging with loguru 0.7.3: setup, brace-format traps, diagnose=True secret leak, rotation/retention, serialize, stdlib interception
 - `software-development/python-toolchain-notes/references/modern-python-tooling.md` — Modern Python tooling: uv, ruff, ty, PEP 723
+- `software-development/python-toolchain-notes/references/pytest-9-notes.md` — pytest 9.1.1: exit codes, built-in subtests, strict mode, config precedence (run live)
 - `software-development/python-toolchain-notes/references/ruff-0-16-defaults-and-suppressions.md` — Ruff 0.16: the default rule set changed, Markdown is formatted, `ruff: ignore`
+- `software-development/python-toolchain-notes/references/tqdm-progress-bars.md` — tqdm 4.70.1 measured: bar goes to stderr and floods piped logs with CRs, print() corrupts it, TQDM_ASCII=1 crashes the program, TQDM_DISABLE and MININTERVAL tame logs, per-iteration cost
 - `software-development/python-toolchain-notes/references/ty-0-0-84-notes.md` — ty 0.0.84 (Astral type checker): CI exit codes, interpreter discovery, config precedence (run live)
 
 ## software-development/repo-atlas
@@ -821,7 +822,6 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## software-development/test-driven-development
 
-- `software-development/test-driven-development/references/pytest-9-notes.md` — pytest 9.1.1: exit codes, built-in subtests, strict mode, config precedence (run live)
 - `software-development/test-driven-development/references/writing-good-tests.md` — Writing Good Tests (Honest-Test Discipline)
 
 ## software-development/verification-culture

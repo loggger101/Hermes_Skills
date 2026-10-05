@@ -17,6 +17,7 @@ Infrastructure, containers, and deployment workflows.
 - [`ssh-remote`](./ssh-remote/SKILL.md) — Commands and file transfer on remote machines over SSH
 - [`system-design-scaling`](./system-design-scaling/SKILL.md) — Scalable system design: CAP, caches, shards, tradeoffs
 - [`watchers`](./watchers/SKILL.md) — Poll RSS, JSON APIs, and GitHub with watermark dedup
+- [`windows-agent-shell`](./windows-agent-shell/SKILL.md) — Windows Bash-tool traps: heredocs, cp1252, CRLF
 - [`wizard`](./wizard/SKILL.md) — Bash wizard walking a human through manual-only steps
 
 *Regenerated from live frontmatter — keep in sync with `tools/gen-skills-index.py`.*

@@ -20,6 +20,7 @@ Data science workflows and tools.
 - [`model-export-deploy`](./model-export-deploy/SKILL.md) — Model export: ONNX, TorchScript, HDF5, NumPy, JSON
 - [`optimization-modeling-pyomo`](./optimization-modeling-pyomo/SKILL.md) — Model LP/MIP/NLP/GDP in Pyomo with live-verified patterns
 - [`orbital-mechanics-data`](./orbital-mechanics-data/SKILL.md) — Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC
+- [`pinned-data-contracts`](./pinned-data-contracts/SKILL.md) — Frozen releases, contract versions, checked pins
 - [`polars-pipelines`](./polars-pipelines/SKILL.md) — polars 2.0, big-data patterns, PyMC on Windows
 - [`python-data-science`](./python-data-science/SKILL.md) — Python DS: EDA, cleaning, modeling, eval, viz
 - [`python-numerics-gotchas`](./python-numerics-gotchas/SKILL.md) — Silent numpy/scipy/pandas/sympy/statsmodels traps

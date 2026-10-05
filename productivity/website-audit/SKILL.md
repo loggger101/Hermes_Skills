@@ -53,7 +53,7 @@ Generate comprehensive .docx audit reports for websites/codebases via read-only 
 1. Architecture Overview (tech stack, file organization, dependencies)
 2. Accessibility Audit (WCAG compliance patterns, screen reader behavior, keyboard navigation)
 3. Security Analysis (CSP meta tags, form protection mechanisms, external link security)
-4. SEO & Social Media (meta tags, Open Graph/Twitter cards, structured data/JSON-LD, sitemap) — for the AI-search layer on top of classic SEO see `static-site-seo/references/agent-ready-and-ai-search.md`
+4. SEO & Social Media (meta tags, Open Graph/Twitter cards, structured data/JSON-LD, sitemap) — for the AI-search layer on top of classic SEO see `ai-search-optimization/references/agent-ready-and-ai-search.md`
 5. Performance (loading strategies, asset optimization opportunities, caching potential)
 6. Code Quality (naming conventions, code comments, modularity, error handling patterns)
 7. Content & UX / Conversion — audit against the CRO + form + site-structure frameworks in `references/cro-form-ux-checklists.md` (value-prop clarity → headline → CTA hierarchy → trust signals → friction; per-field form cost analysis; 3-click rule + navigation anti-patterns). Structure findings as Quick Wins / High-Impact Changes / Test Ideas.
