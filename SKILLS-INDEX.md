@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **206 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **207 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -46,6 +46,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `excalidraw` — Hand-drawn Excalidraw JSON diagrams (arch, flow, seq) _(creative)_
 - `full-output-enforcement` — Enforce complete output; ban placeholder patterns _(creative)_
 - `humanizer` — Humanize text: strip AI-isms and add real voice _(creative)_
+- `hyperframes-video` — HTML + GSAP compositions rendered to deterministic MP4 _(creative)_
 - `industrial-brutalist-ui` — Swiss-print + CRT-terminal brutalist UI engineering _(creative)_
 - `manim-video` — Manim CE animations: 3Blue1Brown math/algo videos _(creative)_
 - `no-ai-slop` — Edit drafts into human writing; detect AI-slop patterns _(creative)_
@@ -279,4 +280,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*206 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*207 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*

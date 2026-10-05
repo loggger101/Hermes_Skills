@@ -74,7 +74,7 @@ final positions and velocities were **exactly equal** to an uninterrupted run (I
 `Simulationarchive`; snapshots land on step boundaries (times 0, 1.062, 2.164, 3.1, 4.12, 5.0 for interval 1.0), and restarting from snapshot 3 reproduced the final state. Bit-identity is
 host-specific: it was shown on one machine, not across CPUs or builds.
 
-**Units:** a fresh `Simulation()` has `units` = all `None` and `G = 1`; `P` for `a = 1` around `m = 1` is `2*pi`. If you never set `sim.units`, times are in
+**Units:** a fresh `Simulation()` has `units` = all `None` and `G = 1`; `P` for `a = 1` around `m = 1` is `2*pi`. If you never set `sim.units` and read lengths as AU and masses as Msun, times are in
 "year/2pi" and a 100 "yr" run is 15.9 real years. `sim.add("Ceres", date="2026-01-01 00:00")` queries NASA Horizons over the network and prints
 "Searching NASA Horizons ..." to stdout; it returned a = 2.7609 AU, e = 0.0801, and set the sim's units to `{'length': 'au', 'mass': 'msun', 'time': 'yr2pi'}`. Pin `sim.units`
 before adding Horizons bodies and expect network access and stdout noise in pipelines.

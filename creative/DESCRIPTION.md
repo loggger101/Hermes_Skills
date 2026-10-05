@@ -20,6 +20,7 @@ Creative content generation — ASCII art, hand-drawn style diagrams, and visual
 - [`excalidraw`](./excalidraw/SKILL.md) — Hand-drawn Excalidraw JSON diagrams (arch, flow, seq)
 - [`full-output-enforcement`](./full-output-enforcement/SKILL.md) — Enforce complete output; ban placeholder patterns
 - [`humanizer`](./humanizer/SKILL.md) — Humanize text: strip AI-isms and add real voice
+- [`hyperframes-video`](./hyperframes-video/SKILL.md) — HTML + GSAP compositions rendered to deterministic MP4
 - [`industrial-brutalist-ui`](./industrial-brutalist-ui/SKILL.md) — Swiss-print + CRT-terminal brutalist UI engineering
 - [`manim-video`](./manim-video/SKILL.md) — Manim CE animations: 3Blue1Brown math/algo videos
 - [`no-ai-slop`](./no-ai-slop/SKILL.md) — Edit drafts into human writing; detect AI-slop patterns
