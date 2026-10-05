@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **518 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **519 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -817,6 +817,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 - `web-development/static-site-patterns/references/animate-css-4-notes.md` — Animate.css 4.1.1: what the stylesheet really does (parsed live, three traps confirmed in Chrome)
 - `web-development/static-site-patterns/references/animejs-4-notes.md` — Anime.js 4.5.0: modular API, v3 migration traps, deterministic values (run in Node + jsdom)
+- `web-development/static-site-patterns/references/css-blocks-notes.md` — CSS Blocks 1.5.0 (LinkedIn): dormant, breaks on Windows, and what it enforces (core API run on Node 22)
 - `web-development/static-site-patterns/references/font-awesome-7-free-notes.md` — Font Awesome Free 7.3.1: which delivery method costs what, licences, and the v7 CSS (measured from the npm package)
 - `web-development/static-site-patterns/references/js-beautify-notes.md` — js-beautify 2.0.3: the tolerant formatter, and the CLI that rewrites files without `--replace` (run live)
 - `web-development/static-site-patterns/references/materialize-css-notes.md` — Materialize CSS: the starred repo is frozen at 1.0.0; the maintained line is `@materializecss/materialize` 2.x
