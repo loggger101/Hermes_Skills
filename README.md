@@ -64,7 +64,7 @@ grep -i "raster\|token bridge" CODE-INDEX.md   # runnable code instead of skills
 This repository is a centralized database of all **207 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities.
 
 - Every skill uses the standard `SKILL.md` format: consistent frontmatter, section headers and `related_skills` cross-references.
-- 562 cross-references mapped across 207 skills, and every skill is connected to at least one other ([DEPENDENCY.md](./DEPENDENCY.md) has the full relationship map).
+- 563 cross-references mapped across 207 skills, and every skill is connected to at least one other ([DEPENDENCY.md](./DEPENDENCY.md) has the full relationship map).
 - The full audit history is in the [audit notes](docs/archive/audit-notes-skills-repo-pass.md).
 
 ### Categories
@@ -431,7 +431,7 @@ It requires **pyyaml** (`pip install -r requirements.txt`). Without it the audit
 
 - All 207 skills have valid frontmatter (`name`, `version`, `author`, `platforms`, `metadata.hermes`) and parse without errors
 - No duplicate skill names; no empty skill directories
-- All `related_skills` references resolve to existing in-repo skills — 562 cross-references across 207 skills (see [DEPENDENCY.md](./DEPENDENCY.md))
+- All `related_skills` references resolve to existing in-repo skills — 563 cross-references across 207 skills (see [DEPENDENCY.md](./DEPENDENCY.md))
 - All descriptions ≤59 chars, double-quoted YAML strings
 - Every skill has a body section (`## What This Skill Does` or an audit-recognized alternative) and standard header capitalization
 - Every multi-skill category directory has a `DESCRIPTION.md` (all 23 do)
