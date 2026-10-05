@@ -611,3 +611,4 @@ Before reporting results:
 - `references/plotly-notes.md` — plotly 7.1.0 in scripts: HTML 4.8 MB embedded vs 7.6 KB CDN, JSON size, NaN/inf become null, kaleido 1.4 static export (needs Chrome), default renderer opens a browser.
 - `references/supervision-cv-notes.md` — roboflow supervision 0.30.7 (run live on synthetic detections): Detections/NMS/zones/LineZone/annotators, OpenCV optional (NumPy fallback warning), ByteTrack deprecated (removal in 0.31), bad adapter input returns empty Detections silently.
 - `references/dask-notes.md` — dask 2026.8.0 DataFrame measured on 4M rows (pandas groupby 0.073 s vs dask 0.091 s: dask is not faster in memory), lazy semantics, head() reads one partition, meta warning, seeded sampling.
+- `references/sympy-notes.md` — sympy 1.14.0 run live: Float vs Rational traps, structural `==`, `solve(dict=True)`, `CRootOf`, `lambdify` constant does not broadcast, assumptions change simplification.

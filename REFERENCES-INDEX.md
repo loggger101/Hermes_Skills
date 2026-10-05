@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **446 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **447 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -371,6 +371,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `data-science/python-data-science/references/polars-pymc-api-reference.md` — polars + pymc API references — verified line-numbered facts from cloned sources
 - `data-science/python-data-science/references/polars-v2-engine-and-breaking-changes.md` — polars 2.0 (rc) engine architecture + every breaking change live-verified on polars==2.0.0rc1 — streaming-by-default, row-order semantics, OOC spilling internals, GPU beta
 - `data-science/python-data-science/references/supervision-cv-notes.md` — roboflow supervision 0.30.7 (computer-vision utilities): Detections filtering/NMS, zones, line counting, annotators, run live on synthetic arrays; OpenCV optional, ByteTrack deprecated, silent empty result on bad input
+- `data-science/python-data-science/references/sympy-notes.md` — sympy 1.14.0 for derivations feeding numeric code: exactness traps (Float vs Rational, nsimplify), equality, solve return shapes, lambdify broadcasting; run live
 
 ## data-science/space-data-pipelines
 
