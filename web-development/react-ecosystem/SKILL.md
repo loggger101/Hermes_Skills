@@ -74,3 +74,4 @@ map is in `references/awesome-react-map.md`.
 - `references/react-native-navigation.md` - React Navigation 7 stable vs 8 alpha vs Expo Router, npm versions, the default-branch (v8) docs trap
 - `references/deckgl-notes.md` - deck.gl 9.4.0 (all @deck.gl/* lockstep): layers/views model, Node-side layer construction checked (default id collisions, `Deck` needs a DOM), pairing with react-map-gl/maplibre, rules
 - `references/react-native-core.md` - React Native 0.87.1 requirements (Node, React peer), Android vs iOS build host limits, monorepo layout, agent conventions from its AGENTS.md
+- `references/zustand-v5-notes.md` - Zustand 5.0.15 traps run on React 19.3 + jsdom: fresh-object selector throws, removed equality arg, `setState(x, true)` drops actions, `persist` shallow merge / dropped versions / async hydration, no default export
