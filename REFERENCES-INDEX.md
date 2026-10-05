@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **484 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **485 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -765,6 +765,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## web-development/browser-automation
 
+- `web-development/browser-automation/references/e2e-agentic-testing.md` — e2e (tester-army/e2e): agent-step tests with a replay cache
 - `web-development/browser-automation/references/playwright-visual-regression.md` — Playwright screenshot (visual regression) suites: per-platform baselines, first-run and update-snapshots behavior, one-assert-per-test, file-level sharding, patterns from Ionic's e2e suite
 
 ## web-development/publish-site
