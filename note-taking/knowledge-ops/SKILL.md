@@ -12,6 +12,7 @@ metadata:
 ---
 
 <!-- source: affaan-m/ECC (MIT), ported 2026-09-09 -->
+
 # Knowledge Operations
 
 Manage a multi-layered knowledge system for ingesting, organizing, syncing, and retrieving knowledge across multiple stores.

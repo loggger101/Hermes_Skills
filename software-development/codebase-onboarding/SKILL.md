@@ -12,6 +12,7 @@ metadata:
 ---
 
 <!-- source: affaan-m/ECC (MIT), ported 2026-09-09; CLAUDE.md references adapted to AGENTS.md -->
+
 # Codebase Onboarding
 
 Systematically analyze an unfamiliar codebase and produce a structured onboarding guide. Designed for developers joining a new project or setting up agent instructions in an existing repo for the first time.

@@ -84,11 +84,40 @@ Default "NASA/ESA public API ⇒ CC-BY-4.0" is **wrong** for a large fraction of
 
 ## Lunar-surface GIS (see `references/lunar-gis-patterns-aegis.md`)
 
-South-pole LPS projection math from nasa/aegis (AEGIS) — re-derived and **verified against the real lgrs 0.3.0 package to ≤5.8e-11 m** (`scripts/lps_projection_verify.py`, stdlib-only, exit-code gated): exact constants (R=1737.4 km, K0=0.994, false E/N = 500000 m), the -80° domain limit, lgrs API traps ((latitude, longitude) constructor order; `to_lps()` returns an object with `.easting`/`.northing`, not a tuple; PyPI needs Python ≥3.13), plus GeoTIFF custom-CRS reconstruction (transform codes 15=polar-stereo / 17=equirectangular from numeric GeoKeys when no EPSG code exists) and geographic→pixel nearest-cell sampling for lunar DEM products. Round-27 added the **cap-grid tiling invariants** from AEGIS's own GIS pipeline (`scripts/cap_grid_verify.py`, 34 live checks): shared-z0/per-layer-depth pyramids, the odd-tile-count padding trap that makes layers jump when zooming out (re-derived numerically), COG compression rules for browser serving (**zstd is NOT decodable by geotiff.js/OpenLayers** — their own default), and LGRS grid generation without ArcGIS via USGS `lgrs` — including a **verified internal inconsistency in AEGIS's legacy converter** (its n==6 branch contradicts its docstring; the harness asserts both so an upstream fix flips loudly).
+South-pole LPS projection math from nasa/aegis (AEGIS) — re-derived and **verified against the real lgrs 0.3.0 package to ≤5.8e-11 m** (`scripts/lps_projection_verify.py`, stdlib-only, exit-code gated). It covers:
+
+- Exact constants: R=1737.4 km, K0=0.994, false E/N = 500000 m, and the -80° domain limit.
+- lgrs API traps:
+  - the constructor takes (latitude, longitude), in that order
+  - `to_lps()` returns an object with `.easting`/`.northing`, not a tuple
+  - PyPI needs Python ≥3.13
+- GeoTIFF custom-CRS reconstruction: transform codes 15=polar-stereo / 17=equirectangular from numeric GeoKeys when no EPSG code exists.
+- Geographic→pixel nearest-cell sampling for lunar DEM products.
+
+Round-27 added the **cap-grid tiling invariants** from AEGIS's own GIS pipeline (`scripts/cap_grid_verify.py`, 34 live checks):
+
+- Shared-z0/per-layer-depth pyramids.
+- The odd-tile-count padding trap that makes layers jump when zooming out (re-derived numerically).
+- COG compression rules for browser serving: **zstd is NOT decodable by geotiff.js/OpenLayers**, which is their own default.
+- LGRS grid generation without ArcGIS via USGS `lgrs`, including a **verified internal inconsistency in AEGIS's legacy converter**. Its n==6 branch contradicts its docstring; the harness asserts both so an upstream fix flips loudly.
 
 ## Flowsint pipeline-architecture patterns (see `references/flowsint-pipeline-patterns.md`)
 
-Source-level read of reconurge/flowsint @ 1820569 — an OSINT graph tool whose architecture is a clean reference for any multi-source chaining pipeline: the **three-layer split** (pure schema types / one-external-system-each tools returning raw data / typed enrichers that own all side effects), **decorator auto-discovery** via os.walk with per-module import-error isolation + idempotent load flag, the **scan/postprocess two-phase contract** (gather phase has no I/O; persist phase has no network — each independently testable) with strict `extra="forbid"` params models and deferred vault-secret resolution, **Neo4j MERGE semantics keyed on (type, nodeLabel, sketch_id)** — label collisions are graph-correctness bugs, not cosmetics — plus soft-delete resurrection and batched idempotent re-runs. Also: declarative YAML templates as a first-class extension mechanism with an LLM generator gated by schema-in-prompt + fence-strip repair + `safe_load` + frozen Pydantic validation (LLM-writes-*config* beats LLM-writes-code), per-run JSON audit logs with input-keyed memoization and fail-fast, DockerTool wrapper quirks (`TERM=dumb`, diagnostic re-run on non-zero exit), test conventions for pipeline components, a recurring-bug-class checklist from their PR history (~8 naive-datetime fixes, IDOR, UTF-8 assumptions, tight healthcheck timeouts), and the anatomy of their embedded agent extension-builder skill (source-paths table + decide-before-code tree + refuse-list).
+Source-level read of reconurge/flowsint @ 1820569 — an OSINT graph tool whose architecture is a clean reference for any multi-source chaining pipeline:
+
+- The **three-layer split**: pure schema types / one-external-system-each tools returning raw data / typed enrichers that own all side effects.
+- **Decorator auto-discovery** via os.walk with per-module import-error isolation + idempotent load flag.
+- The **scan/postprocess two-phase contract**: the gather phase has no I/O and the persist phase has no network, so each is independently testable. It comes with strict `extra="forbid"` params models and deferred vault-secret resolution.
+- **Neo4j MERGE semantics keyed on (type, nodeLabel, sketch_id)**: label collisions are graph-correctness bugs, not cosmetics. Also soft-delete resurrection and batched idempotent re-runs.
+
+Also covered:
+
+- Declarative YAML templates as a first-class extension mechanism, with an LLM generator gated by schema-in-prompt + fence-strip repair + `safe_load` + frozen Pydantic validation (LLM-writes-*config* beats LLM-writes-code).
+- Per-run JSON audit logs with input-keyed memoization and fail-fast.
+- DockerTool wrapper quirks (`TERM=dumb`, diagnostic re-run on non-zero exit).
+- Test conventions for pipeline components.
+- A recurring-bug-class checklist from their PR history (~8 naive-datetime fixes, IDOR, UTF-8 assumptions, tight healthcheck timeouts).
+- The anatomy of their embedded agent extension-builder skill (source-paths table + decide-before-code tree + refuse-list).
 
 ## Scheduling template (GitHub Actions)
 

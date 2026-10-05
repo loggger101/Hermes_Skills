@@ -12,6 +12,7 @@ metadata:
 ---
 
 <!-- source: obra/superpowers (skills/brainstorming), ported 2026-09-09 -->
+
 ## When to Use
 
 - Any creative work before implementation: new features, components, behavior changes, or anything that modifies how the system works.
