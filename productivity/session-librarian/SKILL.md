@@ -102,6 +102,15 @@ later via `session_search`.
 - **Cross-profile session links** (`@session:<profile>/<id>`) are read-only
   from another profile; management commands act on the current profile's DB.
 
+## Diagnosing a session that went wrong
+
+"Why did that session take so long / cost so much / ignore the plan?" is a different job from tidying the library: read the
+transcript and report with `path:line` evidence. Procedure, the seven analyst dimensions, context-safety rules and the
+Claude Code JSONL facts (usage is repeated on every content-block record, so count it once per `message.id`; summing records
+overstated output tokens 2.4x on a real session) are in
+[`references/session-diagnosis-protocol.md`](references/session-diagnosis-protocol.md); the bounded stats script is
+`scripts/transcript_stats.py`.
+
 ## Verification
 
 After a cleanup pass, re-run the discovery query and `hermes sessions list`

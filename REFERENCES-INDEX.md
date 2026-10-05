@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **483 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **484 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -563,6 +563,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## productivity/pdf
 
 - `productivity/pdf/references/forms.md` — Building Fillable Forms: spec format and workflow
+
+## productivity/session-librarian
+
+- `productivity/session-librarian/references/session-diagnosis-protocol.md` — Diagnose a bad agent session from its transcript on disk: intake, context-safe reading, seven analyst dimensions, cited report; Claude Code JSONL token double-count verified
 
 ## productivity/teach
 
