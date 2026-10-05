@@ -359,7 +359,7 @@ Never fix bugs without a test.
 - **Brittle tests** — tests should verify behavior, not structure; refactoring shouldn't break them
 
 When writing or changing any test (or adding mocks), read `references/writing-good-tests.md` for the rules that keep individual tests honest: name the production change each test would catch, derive expectations independently of the code under test, mock only at the slow/external level, and finish with a mutation check.
-For pytest 9.1.1 specifics measured on Windows (exit codes 0/1/2/4/5, built-in `subtests`, `strict = true` in `pytest.toml`, one-config-file rule, `--lf` needing the cache plugin, duplicate test basenames, the CRLF trap in `tmp_path`), see `references/pytest-9-notes.md`.
+For pytest 9.1.1 specifics measured on Windows (exit codes 0/1/2/4/5, built-in `subtests`, `strict = true` in `pytest.toml`, one-config-file rule, `--lf` needing the cache plugin, duplicate test basenames, the CRLF trap in `tmp_path`), see `python-toolchain-notes/references/pytest-9-notes.md`.
 
 ## Final Rule
 
@@ -369,3 +369,6 @@ Otherwise → not TDD
 ```
 
 No exceptions without the user's explicit permission.
+
+
+- `skill_view(name='python-toolchain-notes')` — pytest 9 exit codes, subtests, strict mode and config precedence (moved there in round-252)

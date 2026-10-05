@@ -306,4 +306,4 @@ Before shipping a CLI tool:
 
 ## References
 
-- `references/tqdm-progress-bars.md` - tqdm 4.70.1 measured: stderr, CR floods in piped logs, `print()` corruption vs `tqdm.write`, `TQDM_ASCII=1` crashes the program, `TQDM_DISABLE`/`MININTERVAL` for CI, per-iteration cost.
+- `skill_view(name='python-toolchain-notes')` — tqdm in scripts, logs and CI (moved there in round-252)

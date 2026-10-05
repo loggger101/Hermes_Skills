@@ -1,14 +1,14 @@
 ---
-description: Hermes Agent second brain — 229 skills across 23 categories, memories, cron configs.
+description: Hermes Agent second brain — 237 skills across 23 categories, memories, cron configs.
 ---
 
 # Hermes Skills Repository (Second Brain)
 
-This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **229 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
+This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **237 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
 
 ## Start here (cheapest → most thorough)
 
-1. **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 229 skills. `grep -i <term>` is the fastest way to find a capability.
+1. **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 237 skills. `grep -i <term>` is the fastest way to find a capability.
 2. **[CODE-INDEX.md](./CODE-INDEX.md)** — flat index of every script, shared helper, test and template (the executable knowledge layer). `grep -i <term> CODE-INDEX.md` finds runnable code by purpose or owner skill.
 3. **[REFERENCES-INDEX.md](./REFERENCES-INDEX.md)** — flat index of all 526 reference docs inside skills' `references/` dirs (nested subdirs included). `grep -i <term> REFERENCES-INDEX.md` finds verified API maps and gotchas tables by topic without knowing which skill owns them.
 4. **[DEPENDENCY.md](./DEPENDENCY.md)** — relationship map: hub skills, standalone skills, full cross-reference validation.
@@ -46,12 +46,18 @@ The fastest way from a job you have in mind to the skill that does it. Not sure 
 | Triage issues/PRs, write agent-ready briefs | `github/issue-triage-state-machine` (+ its AGENT-BRIEF / OUT-OF-SCOPE references) |
 | Review code or PRs | `mattpocock-code-review`, `requesting-code-review` (pre-commit gate), `mattpocock-security-review` |
 | Open an issue/PR on someone else's repo as an agent (AI policies, `Co-Authored-By`) | `agent-oss-contributions` (own-repo PRs → `github-pr-workflow`) |
+| Git broken inside a OneDrive/Drive folder (`desktop.ini`, `mmap failed`, phantom diffs, `-DESKTOP-` copies) | `git-on-sync-clients` |
+| Design CI workflows that prove claims (no always-skip checks, bot commits, canaries) | `ci-gate-design` |
+| Stop one fact living in many places (generate, then diff; point, do not copy) | `one-authority-per-fact` |
+| Write a repo's CLAUDE.md / AGENTS.md (incident-carrying rules, decided register, gates) | `repo-agent-instructions` |
+| Decide with a blind multi-agent jury, or interview/critique an idea | `multi-agent-deliberation` (splitting independent work → `dispatching-parallel-agents`) |
 | Debug a hard bug | `systematic-debugging`, `mattpocock-diagnosing-bugs` |
 | Test-first development | `test-driven-development`, `mattpocock-tdd` |
 | Onboard to an unfamiliar repository | `codebase-onboarding` (4-phase recon → arch map → conventions → starter AGENTS.md) |
 | Stop agents re-grepping a repo they've seen before / compress noisy command output | `repowise` (precomputed local index: graph, git risk signals, decisions, health + 10 MCP tools; `distill <cmd>` reversible token compression) |
 | Score codebase structural health / find what to refactor next | `architecture-metrics`: `quality_signal.py` (5 ungameable root-cause metrics → one score + bottleneck) says what's wrong; `architecture_metrics.py` (Lakos levels, blast radius, Martin A/I/D distance, SDP coupling, test gaps) says which files — stdlib-only, run both |
 | Plan a modular-monolith boundary, decomposition or strangler-fig migration | `modular-monolith-migration` (measure first with `architecture-metrics`) |
+| Windows Bash-tool traps (heredocs eat backslashes, `python -` hangs, cp1252 stdout, CRLF) | `windows-agent-shell` |
 | Design a scalable system / prep a system design interview (CAP, caching, sharding, fan-out) | `system-design-scaling` (primer-distilled trade-off tables + 8 case-study patterns; runnable LRU/base62/MapReduce-top-k/availability scripts inside) |
 
 ### Docs and knowledge
@@ -69,6 +75,7 @@ The fastest way from a job you have in mind to the skill that does it. Not sure 
 | Build a Python web/desktop UI (dashboards, internal tools) | `nicegui-app-builder`; data dashboards → `streamlit-dashboards` |
 | Theme or extend Hermes (skins, desktop/TUI plugins, Python plugins, pets) | `hermes-extensions` |
 | Pick CSS / icon / animation libraries for a static site (weight, licence) | `frontend-library-picks`; React projects → `react-ecosystem`; site structure and CSP → `static-site-patterns` |
+| Get cited by AI search, `llms.txt`, agent-ready sites (AEO/GEO) | `ai-search-optimization` (classic SEO → `static-site-seo`) |
 | Bun, standard/neostandard, PostCSS, js-beautify behaviour | `js-tooling-notes` |
 | React 19 / Next.js 16 / Zustand / Motion / shadcn behaviour and traps | `react-library-notes`; which library → `react-ecosystem` |
 | Design or redesign frontend / landing pages | `design-taste-frontend`, `redesign-existing-projects`, `popular-web-designs` (54 real design systems), `claude-design` |
@@ -82,6 +89,7 @@ The fastest way from a job you have in mind to the skill that does it. Not sure 
 |--------------|------------|
 | Data science: EDA, modeling, SQL at scale | `python-data-science`, `sql-for-data`; exact-float verification → `bit-identity-float-pipelines` |
 | polars 2.0 lazy/streaming, duckdb/parquet patterns, PyMC on Windows | `polars-pipelines` |
+| Pin and version data between repos (frozen releases, contract versions, checked pins) | `pinned-data-contracts` |
 | Design an A/B test, size the sample, set duration | `experiment-design` |
 | Constraint solving / SMT proofs from Python | `z3-solver`; optimization with objectives → `optimization-modeling-pyomo` |
 | A numpy / pandas 3 / scipy / sympy / statsmodels result looks wrong; is dask worth it | `python-numerics-gotchas` |
