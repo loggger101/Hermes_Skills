@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **508 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **509 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -746,6 +746,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `software-development/python-craft/references/modern-python-tooling.md` — Modern Python tooling: uv, ruff, ty, PEP 723
 - `software-development/python-craft/references/ruff-0-16-defaults-and-suppressions.md` — Ruff 0.16: the default rule set changed, Markdown is formatted, `ruff: ignore`
 - `software-development/python-craft/references/stdlib-traps-windows.md` — Python stdlib traps measured on Windows / Python 3.14.6: open() cp1252 default, csv blank lines, rename vs replace, rmtree read-only, strftime %-d, json NaN, naive/aware datetimes; plus facts that are no longer traps
+- `software-development/python-craft/references/ty-0-0-84-notes.md` — ty 0.0.84 (Astral type checker): CI exit codes, interpreter discovery, config precedence (run live)
 - `software-development/python-craft/references/windows-path-separator-trap.md` — Windows os.path.relpath yields backslashes; cross-platform path-string comparison fails silently.
 
 ## software-development/repo-atlas

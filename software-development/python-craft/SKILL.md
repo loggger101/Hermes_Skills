@@ -614,6 +614,7 @@ For new Python code:
 ## References
 
 - [`references/modern-python-tooling.md`](references/modern-python-tooling.md) - uv/ruff/pytest toolchain setup; includes uv 0.12.17 measured behaviour (`uv init` now makes a src package with no main.py, `--locked` vs `--frozen`, exit codes 1 vs 2, PEP 723 interpreter warning)
+- [`references/ty-0-0-84-notes.md`](references/ty-0-0-84-notes.md) - ty 0.0.84 run live: warnings-only exits 1 (use `--exit-zero-on-warning`), no fallback to the PATH Python so a missing `.venv` gives walls of `unresolved-import`, `ty.toml` silently replaces pyproject's `[tool.ty]`, 136 rules (95 error / 25 warn / 16 off incl. `possibly-unresolved-reference`), `--add-ignore`/`--fix`, output formats
 - [`references/ruff-0-16-defaults-and-suppressions.md`](references/ruff-0-16-defaults-and-suppressions.md) - ruff 0.16.10 run live: default rule set 59 -> 413 (pin `select`), Markdown code-block formatting and how to exclude it, `# ruff: ignore[...]`, `--add-noqa` appending RUF100
 - [`references/windows-path-separator-trap.md`](references/windows-path-separator-trap.md) - backslash paths silently failing string comparison
 - [`references/logging-loguru.md`](references/logging-loguru.md) - loguru 0.7.3 setup and the traps found by running it (brace-format `KeyError`, `diagnose=True` leaking secrets, colour codes in captured output), stdlib interception
