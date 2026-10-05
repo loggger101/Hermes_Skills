@@ -12,6 +12,7 @@ metadata:
 ---
 
 <!-- source: affaan-m/ECC (skills/scientific-db-pubmed-database), ported 2026-09-09 -->
+
 ## When to Use
 
 - Searching MEDLINE or life-sciences literature.

@@ -11,8 +11,8 @@ metadata:
     related_skills: [grilling-interview, mattpocock-spec-driven-development]
 ---
 
-
 <!-- source: mattpocock/skills (engineering/to-spec), ported 2026-09-05 -->
+
 ## When to Use
 
 - "Spec this out" after a design discussion

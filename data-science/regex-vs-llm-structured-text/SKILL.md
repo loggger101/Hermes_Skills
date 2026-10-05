@@ -12,6 +12,7 @@ metadata:
 ---
 
 <!-- source: affaan-m/ECC (skills/regex-vs-llm-structured-text), ported 2026-09-09 -->
+
 ## When to Use
 
 - Parsing structured text with repeating patterns (questions, forms, tables, invoices).

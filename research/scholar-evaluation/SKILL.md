@@ -12,6 +12,7 @@ metadata:
 ---
 
 <!-- source: affaan-m/ECC (skills/scientific-thinking-scholar-evaluation), ported 2026-09-09 -->
+
 ## When to Use
 
 - Reviewing a research paper, proposal, thesis chapter, or literature review.

@@ -12,6 +12,7 @@ metadata:
 ---
 
 <!-- source: zauberzeug/nicegui starred repo deep-dive 2026-09-05; API verified from source clone -->
+
 ## When to Use
 
 - Building a web or desktop UI in plain Python (dashboards, internal tools, control panels) without writing JS

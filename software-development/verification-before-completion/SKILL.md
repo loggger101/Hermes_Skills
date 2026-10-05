@@ -12,6 +12,7 @@ metadata:
 ---
 
 <!-- source: obra/superpowers (skills/verification-before-completion), ported 2026-09-09 -->
+
 ## When to Use
 
 - About to claim work is complete, fixed, or passing — before committing, pushing, creating PRs, or moving to the next task.

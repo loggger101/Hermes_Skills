@@ -12,6 +12,7 @@ metadata:
 ---
 
 <!-- source: affaan-m/ECC (skills/scientific-thinking-literature-review), ported 2026-09-09 -->
+
 ## When to Use
 
 - Building a systematic, scoping, or narrative literature review.
