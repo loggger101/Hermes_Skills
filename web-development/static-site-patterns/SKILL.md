@@ -287,7 +287,7 @@ npx stylelint "**/*.css"          # report; add --fix to rewrite
 `--fix` rewrote 5 of them, leaving the single-line-block rule for hand edit. Lint at build/CI, not as a pre-commit rewrite of
 files you did not touch.
 
-For whitespace-only reformatting of JS/CSS/HTML (legacy or broken files, minified code, HTML with server-side template tags), `web-development/frontend-library-picks/references/js-beautify-notes.md` holds the js-beautify 2.0.3 run: the CLI **rewrites files in place when given two or more files or a glob, with no `--replace`**; syntax errors exit 0 with garbage output and there is no `--check`; TypeScript and JSX come out mangled; `.editorconfig` needs `--editorconfig`. Prettier is the choice for TS/JSX or a CI format gate.
+For whitespace-only reformatting of JS/CSS/HTML (legacy or broken files, minified code, HTML with server-side template tags), `web-development/js-tooling-notes/references/js-beautify-notes.md` holds the js-beautify 2.0.3 run: the CLI **rewrites files in place when given two or more files or a glob, with no `--replace`**; syntax errors exit 0 with garbage output and there is no `--check`; TypeScript and JSX come out mangled; `.editorconfig` needs `--editorconfig`. Prettier is the choice for TS/JSX or a CI format gate.
 
 If a Materialize (Material Design CSS) look is requested, `web-development/frontend-library-picks/references/materialize-css-notes.md` explains that the starred Dogfalo repo is frozen at 1.0.0 (2018) and the maintained line is `@materializecss/materialize` 2.x, with the measured size, icon-font and grid-markup (`col s12` became `s12`) migration traps.
 
@@ -303,7 +303,7 @@ For scoped, conflict-free CSS, `web-development/frontend-library-picks/reference
 
 `web-development/frontend-library-picks/references/metro-ui-5-notes.md` measures Metro UI 5.1.20 (`@olton/metroui`) for the "all-in-one CSS framework" question: 1.48 MB CSS, 0.92 MB JS, a global reset that makes `body` a flex column, class-based dark mode, auto-init on load; the README's "no dependencies" badge versus nine declared runtime deps.
 
-For a CSS build step, `web-development/frontend-library-picks/references/postcss-8-notes.md` runs PostCSS 8.5.29 with autoprefixer, postcss-nested, cssnano, preset-env, postcss-scss and postcss-cli: always pass `from` (autoprefixer cannot find browserslist without it), the default parser silently swallows `//` comments into selectors, postcss-nested 8 is ESM-only, warnings-only CLI exit codes, and that none of it is needed for a current-browser target.
+For a CSS build step, `web-development/js-tooling-notes/references/postcss-8-notes.md` runs PostCSS 8.5.29 with autoprefixer, postcss-nested, cssnano, preset-env, postcss-scss and postcss-cli: always pass `from` (autoprefixer cannot find browserslist without it), the default parser silently swallows `//` comments into selectors, postcss-nested 8 is ESM-only, warnings-only CLI exit codes, and that none of it is needed for a current-browser target.
 
 When a lightweight CSS framework is wanted, `web-development/frontend-library-picks/references/pure-css-3-notes.md` has Pure.css 3.1.0 measured (all modules 3.6 kB gzip, no JS, 7 `em` breakpoints, Normalize-only reset); it is the small end of the scale against the Materialize and Metro UI notes.
 

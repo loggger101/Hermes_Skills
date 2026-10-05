@@ -6,8 +6,11 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 ## autonomous-ai-agents/hermes-agent
 
 - `autonomous-ai-agents/hermes-agent/scripts/sync-installed-plugins.py` (script, python, 549 lines) — Sync the installed-plugins reference doc from the live Hermes environment
-- `autonomous-ai-agents/hermes-agent/templates/clock.mjs` (template, javascript, 51 lines) — Reference user widget: a live clock docked above the status bar. Copy to ~/.hermes/tui-widgets/clock.mjs, then…
-- `autonomous-ai-agents/hermes-agent/templates/plugin.js` (template, javascript, 97 lines) — Hermes desktop plugin template. Save as: \<hermes home>/desktop-plugins/\<id>/plugin.js (folder name == id) wher…
+
+## autonomous-ai-agents/hermes-extensions
+
+- `autonomous-ai-agents/hermes-extensions/templates/clock.mjs` (template, javascript, 51 lines) — Reference user widget: a live clock docked above the status bar. Copy to ~/.hermes/tui-widgets/clock.mjs, then…
+- `autonomous-ai-agents/hermes-extensions/templates/plugin.js` (template, javascript, 97 lines) — Hermes desktop plugin template. Save as: \<hermes home>/desktop-plugins/\<id>/plugin.js (folder name == id) wher…
 
 ## creative/ascii-video
 
@@ -87,10 +90,10 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 - `data-science/optimization-modeling-pyomo/scripts/pyomo_patterns_verify.py` (script, python, 174 lines) — Live-verify the Pyomo patterns documented in this skill
 
-## data-science/python-data-science
+## data-science/polars-pipelines
 
-- `data-science/python-data-science/references/big-data-patterns-verify.py` (script, python, 293 lines) — Verify the general big-data patterns for python-data-science reference doc
-- `data-science/python-data-science/references/polars-v2-verify.py` (script, python, 589 lines) — Live verification of polars 2.0.0rc1 behavior claims (from docs/source/releases/upgrade/2.md)
+- `data-science/polars-pipelines/references/big-data-patterns-verify.py` (script, python, 293 lines) — Verify the general big-data patterns for python-data-science reference doc
+- `data-science/polars-pipelines/references/polars-v2-verify.py` (script, python, 589 lines) — Live verification of polars 2.0.0rc1 behavior claims (from docs/source/releases/upgrade/2.md)
 
 ## data-science/regex-vs-llm-structured-text
 

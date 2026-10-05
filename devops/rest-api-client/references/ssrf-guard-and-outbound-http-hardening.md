@@ -91,7 +91,7 @@ Decision logic worth copying verbatim:
 ## 4. Secrets never touch templates or logs
 
 - Template declares `{name, required, description}` per secret; at runtime `{{secrets.NAME}}`
-  resolves from an encrypted vault (see cron-job-authoring/references/vault-crypto-pattern.md).
+  resolves from an encrypted vault (see secret-vault-pattern/references/vault-crypto-pattern.md).
 - Required-but-missing secret raises before any request is made.
 - The raw response (status/headers/body) is kept on the enricher (`get_raw_response()`) for
   debugging, but secrets are resolved into a private dict — never written to logs.

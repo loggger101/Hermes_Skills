@@ -130,5 +130,5 @@ a long time") and runs inline. Monte Carlo works on this box, single-threaded.
 
 ## Cross-cutting gotchas
 
-- nyx + pygmo both pull polars — one data layer for the whole optimization stack (see `polars-pymc-api-reference.md`, now at `data-science/python-data-science/references/`).
+- nyx + pygmo both pull polars — one data layer for the whole optimization stack (see `polars-pymc-api-reference.md`, now at `data-science/polars-pipelines/references/`).
 - Version pins matter: z3 5.x release notes change solver defaults; mesa 2→3 is a hard break; nyx requires numpy≥2.4 which some older stacks reject.

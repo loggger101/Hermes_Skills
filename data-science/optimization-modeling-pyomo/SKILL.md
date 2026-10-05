@@ -116,5 +116,5 @@ assert [round(value(v), 3) for v in m.x.values()] == [1.0, 1.0, 0.0]   # solutio
 
 ## References
 
-- `references/z3-solver-notes.md` - z3-solver 5.1.0 on py3.14 (about 35 checks): `model()` after `unsat` raises, signed BitVec compares, Python `and` raises, unbounded `Optimize` returns `sat` with `oo`, timeouts and `unknown`, unsat cores, pigeonhole scaling.
+- `skill_view(name='z3-solver')` — Z3 SMT solving from Python (moved there in round-251)
 - `scripts/pyomo_patterns_verify.py` — runnable live check of every Pyomo pattern in this skill (needs an isolated env with pyomo + highspy, see its docstring); exits nonzero and names the failing check.

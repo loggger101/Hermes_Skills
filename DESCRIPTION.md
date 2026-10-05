@@ -1,14 +1,14 @@
 ---
-description: Hermes Agent second brain — 218 skills across 23 categories, memories, cron configs.
+description: Hermes Agent second brain — 229 skills across 23 categories, memories, cron configs.
 ---
 
 # Hermes Skills Repository (Second Brain)
 
-This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **218 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
+This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **229 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
 
 ## Start here (cheapest → most thorough)
 
-1. **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 218 skills. `grep -i <term>` is the fastest way to find a capability.
+1. **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 229 skills. `grep -i <term>` is the fastest way to find a capability.
 2. **[CODE-INDEX.md](./CODE-INDEX.md)** — flat index of every script, shared helper, test and template (the executable knowledge layer). `grep -i <term> CODE-INDEX.md` finds runnable code by purpose or owner skill.
 3. **[REFERENCES-INDEX.md](./REFERENCES-INDEX.md)** — flat index of all 526 reference docs inside skills' `references/` dirs (nested subdirs included). `grep -i <term> REFERENCES-INDEX.md` finds verified API maps and gotchas tables by topic without knowing which skill owns them.
 4. **[DEPENDENCY.md](./DEPENDENCY.md)** — relationship map: hub skills, standalone skills, full cross-reference validation.
@@ -45,11 +45,13 @@ The fastest way from a job you have in mind to the skill that does it. Not sure 
 | Triage an ambiguous ask before planning it | `brainstorming`; act on review feedback honestly → `receiving-code-review`, claim done only after proof → `verification-before-completion` |
 | Triage issues/PRs, write agent-ready briefs | `github/issue-triage-state-machine` (+ its AGENT-BRIEF / OUT-OF-SCOPE references) |
 | Review code or PRs | `mattpocock-code-review`, `requesting-code-review` (pre-commit gate), `mattpocock-security-review` |
+| Open an issue/PR on someone else's repo as an agent (AI policies, `Co-Authored-By`) | `agent-oss-contributions` (own-repo PRs → `github-pr-workflow`) |
 | Debug a hard bug | `systematic-debugging`, `mattpocock-diagnosing-bugs` |
 | Test-first development | `test-driven-development`, `mattpocock-tdd` |
 | Onboard to an unfamiliar repository | `codebase-onboarding` (4-phase recon → arch map → conventions → starter AGENTS.md) |
 | Stop agents re-grepping a repo they've seen before / compress noisy command output | `repowise` (precomputed local index: graph, git risk signals, decisions, health + 10 MCP tools; `distill <cmd>` reversible token compression) |
 | Score codebase structural health / find what to refactor next | `architecture-metrics`: `quality_signal.py` (5 ungameable root-cause metrics → one score + bottleneck) says what's wrong; `architecture_metrics.py` (Lakos levels, blast radius, Martin A/I/D distance, SDP coupling, test gaps) says which files — stdlib-only, run both |
+| Plan a modular-monolith boundary, decomposition or strangler-fig migration | `modular-monolith-migration` (measure first with `architecture-metrics`) |
 | Design a scalable system / prep a system design interview (CAP, caching, sharding, fan-out) | `system-design-scaling` (primer-distilled trade-off tables + 8 case-study patterns; runnable LRU/base62/MapReduce-top-k/availability scripts inside) |
 
 ### Docs and knowledge
@@ -65,7 +67,9 @@ The fastest way from a job you have in mind to the skill that does it. Not sure 
 | You want to… | Start with |
 |--------------|------------|
 | Build a Python web/desktop UI (dashboards, internal tools) | `nicegui-app-builder`; data dashboards → `streamlit-dashboards` |
+| Theme or extend Hermes (skins, desktop/TUI plugins, Python plugins, pets) | `hermes-extensions` |
 | Pick CSS / icon / animation libraries for a static site (weight, licence) | `frontend-library-picks`; React projects → `react-ecosystem`; site structure and CSP → `static-site-patterns` |
+| Bun, standard/neostandard, PostCSS, js-beautify behaviour | `js-tooling-notes` |
 | React 19 / Next.js 16 / Zustand / Motion / shadcn behaviour and traps | `react-library-notes`; which library → `react-ecosystem` |
 | Design or redesign frontend / landing pages | `design-taste-frontend`, `redesign-existing-projects`, `popular-web-designs` (54 real design systems), `claude-design` |
 | Ship UI that doesn't look templated — pick the aesthetic first | `design-taste-frontend` (anti-slop default), presets: `soft-premium-ui`, `editorial-minimalism-ui`, `industrial-brutalist-ui`; motion-heavy → `awwwards-gsap-motion`; Google Stitch DESIGN.md → `stitch` |
@@ -77,6 +81,9 @@ The fastest way from a job you have in mind to the skill that does it. Not sure 
 | You want to… | Start with |
 |--------------|------------|
 | Data science: EDA, modeling, SQL at scale | `python-data-science`, `sql-for-data`; exact-float verification → `bit-identity-float-pipelines` |
+| polars 2.0 lazy/streaming, duckdb/parquet patterns, PyMC on Windows | `polars-pipelines` |
+| Design an A/B test, size the sample, set duration | `experiment-design` |
+| Constraint solving / SMT proofs from Python | `z3-solver`; optimization with objectives → `optimization-modeling-pyomo` |
 | A numpy / pandas 3 / scipy / sympy / statsmodels result looks wrong; is dask worth it | `python-numerics-gotchas` |
 | Headless matplotlib / seaborn / plotly: deterministic output, removed calls | `python-plotting`; what to chart → `dataviz` |
 | Torch, CuPy, Open3D, gensim, supervision: install reality and silent failures | `ml-cv-library-notes` |
@@ -91,8 +98,12 @@ The fastest way from a job you have in mind to the skill that does it. Not sure 
 | You want to… | Start with |
 |--------------|------------|
 | Automate a repo with cronjobs | `cron-job-authoring` (repo jobs: its `references/repo-cronjob.md`); JSON job configs → `cron-config-authoring`; two-agent pattern → README "Cron Job Authoring" section |
+| Design a watchdog or goal-seeking loop (cadence, state, bail-out, judge) | `autonomous-loop-design`; then write the prompt with `cron-job-authoring` |
+| Feature flags, canary and ramp plans, kill switches | `feature-flag-lifecycle` |
+| Store per-user secrets encrypted at rest | `secret-vault-pattern` |
 | Test a Windows desktop app end-to-end (WPF/WinForms/Qt) | `windows-desktop-e2e` (pywinauto + UIA, page-object skeleton inside) |
 | Set up uv / ruff / ty / loguru, fix a ruff or ty CI surprise, pick a compressor | `python-toolchain-notes`; how to write the code → `python-craft` |
+| Fine-tune a model locally and export GGUF for LM Studio / llama-server | `unsloth-gguf` (running the GGUF → `llama-cpp`) |
 | Ship a Python app as a small fast Windows installer | `generating-python-installer` (Nuitka one-file + Inno Setup; slimming scripts in its scripts/) |
 | Publish a site/dashboard/docs build with versioned deploys + rollback | `publish-site` (GitHub Pages → Cloudflare → Netlify ladder, live-URL verification) |
 | Expose a local service / receive webhooks with no extra install | `pinggy-tunnel` (SSH reverse tunnel, webhook + MCP + LLM-endpoint recipes inside) |

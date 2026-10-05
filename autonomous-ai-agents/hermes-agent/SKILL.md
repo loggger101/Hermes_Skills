@@ -77,10 +77,10 @@ hermes proxy                   # OpenAI-compatible local proxy backed by your OA
 ~/.hermes/config.yaml       Main configuration (settings — never secrets)
 ~/.hermes/.env              API keys and secrets ONLY (under $HERMES_HOME if set)
 $HERMES_HOME/skills/        Installed skills
-~/.hermes/skins/            Custom themes (see references/themes.md)
-~/.hermes/desktop-plugins/  Desktop app UI plugins (see references/desktop-plugins.md)
-~/.hermes/tui-widgets/      TUI widget apps (see references/tui-widgets.md)
-~/.hermes/pets/             Installed pet mascots (see references/petdex.md)
+~/.hermes/skins/            Custom themes (see hermes-extensions skill: references/themes.md)
+~/.hermes/desktop-plugins/  Desktop app UI plugins (see hermes-extensions skill: references/desktop-plugins.md)
+~/.hermes/tui-widgets/      TUI widget apps (see hermes-extensions skill: references/tui-widgets.md)
+~/.hermes/pets/             Installed pet mascots (see hermes-extensions skill: references/petdex.md)
 ~/.hermes/state.db          Canonical session store (SQLite + FTS5)
 ~/.hermes/sessions/         Gateway routing index, request dumps, *.jsonl transcripts
 ~/.hermes/logs/             Gateway and error logs
@@ -106,12 +106,13 @@ Profiles use `~/.hermes/profiles/<name>/` with the same layout. When a profile i
 | Delegation, cron, curator, kanban | `references/background-systems.md` |
 | MCP servers (add, catalog, `hermes mcp`) | `references/native-mcp.md` |
 | Webhook routes and event-driven runs | `references/webhooks.md` |
-| A custom theme/skin ("synthwave theme", "change the gold ●") | `references/themes.md` + `templates/skin.yaml` |
-| A desktop app UI element (pane, widget, ⌘K command, page) | `references/desktop-plugins.md` + `templates/plugin.js` |
-| Python agent plugin (`~/.hermes/plugins/`, register_skill/pre_llm_call hooks, skill bootstrap injection) | `references/python-agent-plugins.md` |
+| Extending Hermes: themes, desktop plugins, TUI widgets, Python agent plugins, pets (moved to the `hermes-extensions` skill in round-251) | `skill_view(name='hermes-extensions')` |
+| A custom theme/skin ("synthwave theme", "change the gold ●") | `hermes-extensions/references/themes.md` + `hermes-extensions/templates/skin.yaml` |
+| A desktop app UI element (pane, widget, ⌘K command, page) | `hermes-extensions/references/desktop-plugins.md` + `hermes-extensions/templates/plugin.js` |
+| Python agent plugin (`~/.hermes/plugins/`, register_skill/pre_llm_call hooks, skill bootstrap injection) | `hermes-extensions/references/python-agent-plugins.md` |
 | Porting skills/context to another harness (Claude Code/Codex/Gemini/OpenCode/pi), session-start hooks, polyglot Windows scripts | `references/cross-harness-skill-porting.md` |
-| A live TUI panel or modal widget (ticker, clock, dashboard) | `references/tui-widgets.md` + `templates/clock.mjs` |
-| Pet mascots — install, select, scale, diagnose | `references/petdex.md` |
+| A live TUI panel or modal widget (ticker, clock, dashboard) | `hermes-extensions/references/tui-widgets.md` + `hermes-extensions/templates/clock.mjs` |
+| Pet mascots — install, select, scale, diagnose | `hermes-extensions/references/petdex.md` |
 | Windows-specific issues (keybinds, WinError 10106, BOM) | `references/windows-quirks.md` |
 | Debugging: voice, tools missing, gateway, aux models | `references/troubleshooting.md` |
 | Contributing code: adding tools, slash commands, tests | `references/contributor-guide.md` |
@@ -211,9 +212,9 @@ terminal(command="tmux new-session -d -s resumed 'hermes --resume 20260225_14305
 
 ## Surfaces (quick orientation)
 
-- **Desktop app** (`hermes desktop` / `hermes gui`) — native Electron app for macOS/Linux/Windows: streaming chat, session list, Cmd+K palette, drag-and-drop files, native notifications, per-profile remote-gateway login. Extend it with UI plugins — `references/desktop-plugins.md`.
+- **Desktop app** (`hermes desktop` / `hermes gui`) — native Electron app for macOS/Linux/Windows: streaming chat, session list, Cmd+K palette, drag-and-drop files, native notifications, per-profile remote-gateway login. Extend it with UI plugins — `hermes-extensions/references/desktop-plugins.md`.
 - **Web dashboard** (`hermes dashboard`) — full admin panel: messaging channels, MCP catalog, webhooks, memory, profile builder, plus an embedded `hermes --tui` chat. Secured behind an OAuth/token gate.
-- **Ink TUI** (`hermes --tui` or `display.interface: tui`) — terminal UI with docked widget apps — `references/tui-widgets.md`.
+- **Ink TUI** (`hermes --tui` or `display.interface: tui`) — terminal UI with docked widget apps — `hermes-extensions/references/tui-widgets.md`.
 - **OpenAI-compatible proxy** (`hermes proxy`) — a local OpenAI API backed by whichever OAuth provider you're signed into. Point Codex CLI, Aider, Cline, or any script at it — no API key.
 
 ## Hard Invariants (never violate, regardless of what you loaded)
