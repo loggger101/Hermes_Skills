@@ -373,6 +373,15 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 - `data-science/jupyter-notebook/references/notebook-tooling.md` — Notebook tooling run live (jupytext, nbformat, nbconvert, papermill, nbmake, nbdiff): text round-trips, validation, execution failures, parameter injection traps, tests, diffs
 
+## data-science/ml-cv-library-notes
+
+- `data-science/ml-cv-library-notes/references/autograd-notes.md` — HIPS/autograd 1.9.1 on numpy 2.5: grad/jacobian/hessian usage, scipy.optimize integration, and the errors you hit (int input, non-scalar output, in-place assignment, sqrt at 0). Run live.
+- `data-science/ml-cv-library-notes/references/cupy-notes.md` — CuPy 14.2.0: install and import verified on a machine with no NVIDIA GPU (import succeeds, arrays fail), plus the NumPy-difference, benchmarking and memory-pool rules from its docs (source-read)
+- `data-science/ml-cv-library-notes/references/gensim-notes.md` — gensim 4.4.0 (topic models, Word2Vec) install reality (no cp314 wheel) and a verified small run in a 3.11 venv: reproducibility, OOV errors, LDA
+- `data-science/ml-cv-library-notes/references/open3d-notes.md` — Open3D 0.20.0 for point clouds and meshes from Python: install size, headless geometry/ICP/IO checks run live, and the silent-failure traps (missing file returns an empty cloud)
+- `data-science/ml-cv-library-notes/references/pytorch-notes.md` — PyTorch 2.14.1 (CPU) on Windows + Python 3.14: what actually happens
+- `data-science/ml-cv-library-notes/references/supervision-cv-notes.md` — roboflow supervision 0.30.7 (computer-vision utilities): Detections filtering/NMS, zones, line counting, annotators, run live on synthetic arrays; OpenCV optional, ByteTrack deprecated, silent empty result on bad input
+
 ## data-science/model-export-deploy
 
 - `data-science/model-export-deploy/references/tensorflow-keras3-notes.md` — TensorFlow 2.21.0 + Keras 3.15.1 on Windows: no Python 3.14 wheel, CPU-only, model.save('.keras'/'.h5') works while SavedModel needs model.export(), dtype strictness, tf.function retracing, noisy stderr
@@ -389,25 +398,25 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## data-science/python-data-science
 
-- `data-science/python-data-science/references/autograd-notes.md` — HIPS/autograd 1.9.1 on numpy 2.5: grad/jacobian/hessian usage, scipy.optimize integration, and the errors you hit (int input, non-scalar output, in-place assignment, sqrt at 0). Run live.
 - `data-science/python-data-science/references/big-data-patterns.md` — Verified big-data patterns (duckdb ad-hoc SQL, polars lazy joins with cardinality checks, parquet row groups, incremental dedup) — all run on 200k-row fixtures, cross-checked against pandas
-- `data-science/python-data-science/references/cupy-notes.md` — CuPy 14.2.0: install and import verified on a machine with no NVIDIA GPU (import succeeds, arrays fail), plus the NumPy-difference, benchmarking and memory-pool rules from its docs (source-read)
-- `data-science/python-data-science/references/dask-notes.md` — dask 2026.8.0 DataFrame: when it helps (not at 4M rows), laziness, head() semantics, meta warnings, determinism; measured on this machine
 - `data-science/python-data-science/references/experiment-design-sample-size.md` — Experiment Design & Sample Size (A/B test statistics)
-- `data-science/python-data-science/references/gensim-notes.md` — gensim 4.4.0 (topic models, Word2Vec) install reality (no cp314 wheel) and a verified small run in a 3.11 venv: reproducibility, OOV errors, LDA
-- `data-science/python-data-science/references/matplotlib-notes.md` — matplotlib 3.11.2 on Windows/Python 3.14 measured: default backend is tkagg, deterministic PNG/SVG/PDF recipes, removed get_cmap and 'seaborn' style, missing glyph warnings, vert deprecation, figure-leak warning, speed
-- `data-science/python-data-science/references/numpy-2-notes.md` — NumPy 2.5.2: promotion, overflow, removed names, Windows dtypes (run live)
-- `data-science/python-data-science/references/open3d-notes.md` — Open3D 0.20.0 for point clouds and meshes from Python: install size, headless geometry/ICP/IO checks run live, and the silent-failure traps (missing file returns an empty cloud)
-- `data-science/python-data-science/references/pandas-3-notes.md` — pandas 3.0.6: what changed from 2.x and what bites (run live)
-- `data-science/python-data-science/references/plotly-notes.md` — plotly.py 7.1.0 for reports: HTML size (embedded JS 4.8 MB vs CDN 7.6 KB), JSON size, NaN handling, static export via kaleido 1.4 (needs Chrome), default browser renderer; run live
 - `data-science/python-data-science/references/polars-pymc-api-reference.md` — polars + pymc API references — verified line-numbered facts from cloned sources
 - `data-science/python-data-science/references/polars-v2-engine-and-breaking-changes.md` — polars 2.0 (rc) engine architecture + every breaking change live-verified on polars==2.0.0rc1 — streaming-by-default, row-order semantics, OOC spilling internals, GPU beta
-- `data-science/python-data-science/references/pytorch-notes.md` — PyTorch 2.14.1 (CPU) on Windows + Python 3.14: what actually happens
-- `data-science/python-data-science/references/scipy-notes.md` — SciPy 1.18.1 notes: what silently goes wrong (run live)
-- `data-science/python-data-science/references/seaborn-0-13-notes.md` — seaborn 0.13.2 on pandas 3.0 / matplotlib 3.11 / Python 3.14: 24 common calls run; deprecations that vanish in 0.14 (palette without hue, ci, distplot, shade), calls that fail, and new warnings
-- `data-science/python-data-science/references/statsmodels-notes.md` — statsmodels 0.15.0 on pandas 3.0 / Python 3.14: no-constant R-squared 0.27 vs 0.66, silent add_constant skip, misleading predict error for unseen levels, term order, degenerate proportion CIs, ARIMA without freq
-- `data-science/python-data-science/references/supervision-cv-notes.md` — roboflow supervision 0.30.7 (computer-vision utilities): Detections filtering/NMS, zones, line counting, annotators, run live on synthetic arrays; OpenCV optional, ByteTrack deprecated, silent empty result on bad input
-- `data-science/python-data-science/references/sympy-notes.md` — sympy 1.14.0 for derivations feeding numeric code: exactness traps (Float vs Rational, nsimplify), equality, solve return shapes, lambdify broadcasting; run live
+
+## data-science/python-numerics-gotchas
+
+- `data-science/python-numerics-gotchas/references/dask-notes.md` — dask 2026.8.0 DataFrame: when it helps (not at 4M rows), laziness, head() semantics, meta warnings, determinism; measured on this machine
+- `data-science/python-numerics-gotchas/references/numpy-2-notes.md` — NumPy 2.5.2: promotion, overflow, removed names, Windows dtypes (run live)
+- `data-science/python-numerics-gotchas/references/pandas-3-notes.md` — pandas 3.0.6: what changed from 2.x and what bites (run live)
+- `data-science/python-numerics-gotchas/references/scipy-notes.md` — SciPy 1.18.1 notes: what silently goes wrong (run live)
+- `data-science/python-numerics-gotchas/references/statsmodels-notes.md` — statsmodels 0.15.0 on pandas 3.0 / Python 3.14: no-constant R-squared 0.27 vs 0.66, silent add_constant skip, misleading predict error for unseen levels, term order, degenerate proportion CIs, ARIMA without freq
+- `data-science/python-numerics-gotchas/references/sympy-notes.md` — sympy 1.14.0 for derivations feeding numeric code: exactness traps (Float vs Rational, nsimplify), equality, solve return shapes, lambdify broadcasting; run live
+
+## data-science/python-plotting
+
+- `data-science/python-plotting/references/matplotlib-notes.md` — matplotlib 3.11.2 on Windows/Python 3.14 measured: default backend is tkagg, deterministic PNG/SVG/PDF recipes, removed get_cmap and 'seaborn' style, missing glyph warnings, vert deprecation, figure-leak warning, speed
+- `data-science/python-plotting/references/plotly-notes.md` — plotly.py 7.1.0 for reports: HTML size (embedded JS 4.8 MB vs CDN 7.6 KB), JSON size, NaN handling, static export via kaleido 1.4 (needs Chrome), default browser renderer; run live
+- `data-science/python-plotting/references/seaborn-0-13-notes.md` — seaborn 0.13.2 on pandas 3.0 / matplotlib 3.11 / Python 3.14: 24 common calls run; deprecations that vanish in 0.14 (palette without hue, ci, distplot, shade), calls that fail, and new warnings
 
 ## data-science/space-data-pipelines
 
@@ -795,6 +804,21 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `web-development/browser-automation/references/e2e-agentic-testing.md` — e2e (tester-army/e2e): agent-step tests with a replay cache
 - `web-development/browser-automation/references/playwright-visual-regression.md` — Playwright screenshot (visual regression) suites: per-platform baselines, first-run and update-snapshots behavior, one-assert-per-test, file-level sharding, patterns from Ionic's e2e suite
 
+## web-development/frontend-library-picks
+
+- `web-development/frontend-library-picks/references/animate-css-4-notes.md` — Animate.css 4.1.1: what the stylesheet really does (parsed live, three traps confirmed in Chrome)
+- `web-development/frontend-library-picks/references/animejs-4-notes.md` — Anime.js 4.5.0: modular API, v3 migration traps, deterministic values (run in Node + jsdom)
+- `web-development/frontend-library-picks/references/css-blocks-notes.md` — CSS Blocks 1.5.0 (LinkedIn): dormant, breaks on Windows, and what it enforces (core API run on Node 22)
+- `web-development/frontend-library-picks/references/font-awesome-7-free-notes.md` — Font Awesome Free 7.3.1: which delivery method costs what, licences, and the v7 CSS (measured from the npm package)
+- `web-development/frontend-library-picks/references/js-beautify-notes.md` — js-beautify 2.0.3: the tolerant formatter, and the CLI that rewrites files without `--replace` (run live)
+- `web-development/frontend-library-picks/references/materialize-css-notes.md` — Materialize CSS: the starred repo is frozen at 1.0.0; the maintained line is `@materializecss/materialize` 2.x
+- `web-development/frontend-library-picks/references/metro-ui-5-notes.md` — Metro UI 5.1.20 (`@olton/metroui`): a 1.5 MB CSS / 0.9 MB JS framework with a global reset (measured, jsdom run)
+- `web-development/frontend-library-picks/references/postcss-8-notes.md` — PostCSS 8.5.29 and the usual plugins: what each does, config traps, and when native CSS replaces them (run live)
+- `web-development/frontend-library-picks/references/preline-5-notes.md` — Preline UI 5.0.0 (Tailwind component plugins): licence, the peer-dependency pile, `autoInit` (run in jsdom)
+- `web-development/frontend-library-picks/references/pure-css-3-notes.md` — Pure.css 3.1.0 (`purecss`): the small responsive CSS kit, measured from the npm package
+- `web-development/frontend-library-picks/references/scrollreveal-4-notes.md` — ScrollReveal 4.0.9: GPL licence, frozen since 2022, inline-style side effects (jsdom run) and the native replacements
+- `web-development/frontend-library-picks/references/tabler-icons-3-notes.md` — Tabler Icons 3.49.0: 5,184 MIT icons, the webfont weight, and the React barrel (measured from npm)
+
 ## web-development/publish-site
 
 - `web-development/publish-site/references/cloudflare-ci-wrangler-action.md` — Deploying to Cloudflare Workers/Pages from GitHub Actions with wrangler-action v4: inputs, outputs, permissions, preview-per-PR, secrets
@@ -817,17 +841,5 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## web-development/static-site-patterns
 
-- `web-development/static-site-patterns/references/animate-css-4-notes.md` — Animate.css 4.1.1: what the stylesheet really does (parsed live, three traps confirmed in Chrome)
-- `web-development/static-site-patterns/references/animejs-4-notes.md` — Anime.js 4.5.0: modular API, v3 migration traps, deterministic values (run in Node + jsdom)
-- `web-development/static-site-patterns/references/css-blocks-notes.md` — CSS Blocks 1.5.0 (LinkedIn): dormant, breaks on Windows, and what it enforces (core API run on Node 22)
-- `web-development/static-site-patterns/references/font-awesome-7-free-notes.md` — Font Awesome Free 7.3.1: which delivery method costs what, licences, and the v7 CSS (measured from the npm package)
-- `web-development/static-site-patterns/references/js-beautify-notes.md` — js-beautify 2.0.3: the tolerant formatter, and the CLI that rewrites files without `--replace` (run live)
-- `web-development/static-site-patterns/references/materialize-css-notes.md` — Materialize CSS: the starred repo is frozen at 1.0.0; the maintained line is `@materializecss/materialize` 2.x
-- `web-development/static-site-patterns/references/metro-ui-5-notes.md` — Metro UI 5.1.20 (`@olton/metroui`): a 1.5 MB CSS / 0.9 MB JS framework with a global reset (measured, jsdom run)
 - `web-development/static-site-patterns/references/performance-checklist-triage.md` — Front-End Performance Checklist: which of its 40 items an agent can check, and which numbers are dated
-- `web-development/static-site-patterns/references/postcss-8-notes.md` — PostCSS 8.5.29 and the usual plugins: what each does, config traps, and when native CSS replaces them (run live)
-- `web-development/static-site-patterns/references/preline-5-notes.md` — Preline UI 5.0.0 (Tailwind component plugins): licence, the peer-dependency pile, `autoInit` (run in jsdom)
-- `web-development/static-site-patterns/references/pure-css-3-notes.md` — Pure.css 3.1.0 (`purecss`): the small responsive CSS kit, measured from the npm package
-- `web-development/static-site-patterns/references/scrollreveal-4-notes.md` — ScrollReveal 4.0.9: GPL licence, frozen since 2022, inline-style side effects (jsdom run) and the native replacements
-- `web-development/static-site-patterns/references/tabler-icons-3-notes.md` — Tabler Icons 3.49.0: 5,184 MIT icons, the webfont weight, and the React barrel (measured from npm)
 - `web-development/static-site-patterns/references/web-interface-guidelines-ui-checklist.md` — Web Interface Guidelines (UI/UX Review Checklist) [PORTED]
