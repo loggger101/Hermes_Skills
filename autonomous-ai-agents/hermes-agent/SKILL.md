@@ -117,6 +117,7 @@ Profiles use `~/.hermes/profiles/<name>/` with the same layout. When a profile i
 | delegate_task "capped at N" reports | `references/delegate-task-concurrency-diagnosis.md` |
 | "Can app X use my Nous Portal subscription/OAuth?" | `references/portal-auth-for-third-party-apps.md` |
 | **What plugins are installed / plugin inventory** | `references/installed-plugins.md` |
+| **Hindsight memory provider: install, update, pin, modes, recall config, "memory not recalling", tag leaks** | `references/hindsight-memory-provider.md` |
 | Connecting a messaging platform (Telegram, Discord, Slack, WhatsApp, …) | docs: `/user-guide/messaging` |
 
 The reference list above is not the feature list — it is the set of topics that
