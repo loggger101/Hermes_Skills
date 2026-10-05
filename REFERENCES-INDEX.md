@@ -442,7 +442,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## frontend-design/nicegui-app-builder
 
-- `frontend-design/nicegui-app-builder/references/frontend-tooling.md` — nicegui / Front-End-Checklist MCP / HTMLHint (44 rules, only 10 default, run) / dashy — frontend tooling reference from starred clones
+- `frontend-design/nicegui-app-builder/references/frontend-tooling.md` — nicegui / Front-End-Checklist MCP (hosted server run) / HTMLHint (44 rules, only 10 default, run) / dashy — frontend tooling reference from starred clones
 - `frontend-design/nicegui-app-builder/references/python-gui-toolkits.md` — Choosing a Python GUI toolkit (NiceGUI, Streamlit, Dear PyGui, plus others as reviewed) with Dear PyGui 2.3.1 run live: crash-on-no-context and duplicate-tag behaviour
 
 ## github/github-code-review

@@ -1,5 +1,5 @@
 ---
-description: "nicegui / Front-End-Checklist MCP / HTMLHint (44 rules, only 10 default, run) / dashy — frontend tooling reference from starred clones"
+description: "nicegui / Front-End-Checklist MCP (hosted server run) / HTMLHint (44 rules, only 10 default, run) / dashy — frontend tooling reference from starred clones"
 source_repos: zauberzeug/nicegui, FrontendChecklist/Front-End-Checklist (monorepo), HTMLHint/HTMLHint, lissy93/dashy
 tested_version: clones @ 2026-09-05; nicegui ui.run() signature read from source; htmlhint 1.9.2 run via npm on 2026-10-05 (the rest remains source-read)
 verified_date: "2026-10-05"
@@ -28,11 +28,32 @@ The ones that matter for this stack:
 - `reload=` + the three `uvicorn_reload_*` knobs control dev hot-reload scope precisely.
 - `show_welcome_message=False` silences the first-run banner in production.
 
-## Front-End-Checklist — QA rules as a machine-consumable MCP server [SRC]
+## Front-End-Checklist — QA rules as a machine-consumable MCP server [SRC + hosted server RUN 2026-10-05]
 
-The repo is a monorepo; **the interesting part is `packages/mcp/`** (`@repo/mcp`) with deps:
+The repo is a monorepo; **the interesting part is `packages/mcp/`** (`@repo/mcp`, private, v0.0.1) with deps:
 `@frontendchecklist/rules`, `node-html-parser`, `zod`, `@modelcontextprotocol/sdk`.
 Meaning: the entire checklist (a11y, performance, SEO, best practices) ships as **structured rules an agent can query and apply**, not just a human-readable list. If you want automated frontend QA in an agent workflow, this is the reference implementation — point any MCP-capable agent at it instead of re-encoding the rules by hand.
+
+**What is actually usable today (run):**
+
+- **`npx -y @frontendchecklist/cli ...` from the CLI README fails**: `npm view @frontendchecklist/cli` and
+  `@frontendchecklist/rules` return **404** (not published on 2026-10-05) although `packages/cli` is marked public at 1.0.0.
+  Building it needs the pnpm monorepo (not attempted).
+- **The hosted MCP server works**: `https://mcp.frontendchecklist.io/mcp` answers JSON-RPC over HTTP POST (send
+  `Accept: application/json, text/event-stream`). `initialize` (protocol `2025-03-26`) returned server `frontend-checklist-mcp`
+  **2.0.1**; `tools/list` returned **11 tools**: `review_code(code, focus, minPriority)`, `audit_url(url, ...)`, `get_workflow`,
+  `get_checklist_rules`, `get_quick_reference`, `get_rule(slug)`, `search_rules(query, categories, priorities, limit, cursor)`,
+  `check_rule(slug, code)`, `fix_rule`, `explain_rule`, `list_categories`. Rule counts per category include accessibility 111,
+  SEO 102, performance 66 (about 380 rules overall).
+- **Result on the planted-defect page used for HTMLHint above**: `review_code` ran **343 checks and reported 39 issues**
+  (6 critical, 15 high, 18 medium) such as missing `<h1>`/heading hierarchy, charset, doctype, `lang`, meta description,
+  canonical, favicon, alt text, inline JavaScript, CSP. It is a *static heuristic* review (the tool says so): the issue
+  text did not mention the unclosed `<p>`, the empty `href`, the obsolete `<center>` element, the inline style or the unlabeled
+  input, which HTMLHint's extended config does catch. The two tools complement each other: HTMLHint for syntax and structure,
+  the checklist for page-level accessibility/SEO/security requirements.
+- Error shapes: an unknown slug returns `isError: true` with `message: "Rule 'x' not found."`; empty `code` returns 54 checks and
+  0 issues (not an error); a 300 KB payload returned **HTTP 413**, so send components, not whole bundles.
+- The code you send leaves the machine: do not paste private source or secrets into the hosted server.
 
 ## HTMLHint — 44 built-in lint rules, only 10 on by default [SRC + RUN 2026-10-05]
 
