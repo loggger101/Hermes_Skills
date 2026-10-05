@@ -276,6 +276,43 @@ nc 127.0.0.1 4444
 
 `remote-pdb` is the cleanest agent-friendly choice when `debugpy`'s DAP protocol is overkill. Use `debugpy` only when you actually need IDE integration.
 
+## Recipe 6: Trace without a debugger (PySnooper)
+
+Best for an agent that cannot drive an interactive pdb session: one decorator gives a line-by-line log of
+executed lines plus every variable's first value and each change, then the return value or exception. No
+breakpoints, no attach. `pip install pysnooper` (1.2.3, MIT; verified live on Python 3.14 / Windows).
+
+```python
+import pysnooper
+
+@pysnooper.snoop(output="trace.log", color=False, normalize=True)   # or a stream; default is stderr
+def number_to_bits(n): ...
+
+with pysnooper.snoop(depth=2):        # trace just a block; depth=2 also follows one level of callees
+    lower = min(lst)
+```
+
+Options that matter: `watch=('foo.bar', 'self.x["k"]')` for non-local expressions; `watch_explode=('cfg',)`
+(or `pysnooper.Keys` / `Attrs` / `Indices('z')[-3:]`, with `exclude=`) to log each key/attribute/item as its own
+line; `custom_repr=((predicate, fn), ...)` so a 10,000-item list prints as `list(size=10000)` and a numpy
+array as its shape and dtype (first matching predicate wins); `prefix='ZZZ '` to grep; `thread_info=True` for
+threaded code; `relative_time=True`. Decorating a class snoops all its methods; generators work.
+
+Live-checked behaviour:
+
+- Output reads `Starting var:`, `New var:`, `Modified var:`, `call`/`line`/`return` lines, then `Return value:` and
+  `Elapsed time:`. An exception shows `Exception:..... ZeroDivisionError: division by zero` and `Call ended by exception`.
+- `normalize=True` strips paths and timestamps (source path shows as the file basename), but the `Elapsed time:`
+  line remains, so filter it out before diffing two traces.
+- `max_variable_length` (default 100) truncated the `Return value:` line (`'xxx...xxxxxxxxxxxxxxxxx'`) but **not** the
+  per-key lines produced by `watch_explode`, so exploding a big value can still flood the log. `max_variable_length=None` disables truncation.
+- `PYSNOOPER_DISABLED=1` is read **at import**: setting it after `import pysnooper` had no effect (the trace still wrote 370 chars). Export it before the process starts.
+- Colour is off on Windows by default; pass `color=False` when writing to a file so no ANSI codes land in the log.
+
+When not to use it: hot loops (a trace line per executed line is slow and huge; scope it to one function or a `with` block),
+and anything where you need to change state or step; use pdb or debugpy (Recipes 1-5) for that.
+Remove the decorator before committing.
+
 ## Debugging Hermes-specific Processes
 
 ### Tests
