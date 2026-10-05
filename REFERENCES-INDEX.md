@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **441 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **442 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -491,6 +491,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `mlops/inference/serving-llms-vllm/references/quantization.md` — Quantization Guide
 - `mlops/inference/serving-llms-vllm/references/server-deployment.md` — Server Deployment Patterns
 - `mlops/inference/serving-llms-vllm/references/troubleshooting.md` — Troubleshooting Guide
+
+## note-taking/knowledge-ops
+
+- `note-taking/knowledge-ops/references/rag-platform-capabilities-weknora.md` — Capability checklist for a document RAG/knowledge platform, taken from Tencent WeKnora's README (hybrid search, citations, KB edit/rollback, sync connectors, agent memory, RBAC, MCP) plus how to evaluate one; README-sourced, not run
 
 ## productivity/box
 

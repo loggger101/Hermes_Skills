@@ -177,3 +177,7 @@ Before completing any knowledge operation:
 - indexes and summaries updated
 - appropriate storage layer chosen for the data type
 - cross-references added where relevant
+
+## References
+
+- `references/rag-platform-capabilities-weknora.md` - requirements checklist for a document RAG/knowledge platform from WeKnora's README, and how to evaluate one (README-sourced, not run)
