@@ -1,8 +1,8 @@
 ---
 description: "polars 2.0 (rc) engine architecture + every breaking change live-verified on polars==2.0.0rc1 — streaming-by-default, row-order semantics, OOC spilling internals, GPU beta"
 source_repos: pola-rs/polars @ main commit 6a00e21 (cloned %LOCALAPPDATA%\Temp\polars-dive), pyproject version = 2.0.0rc1; PyPI stable at time of writing = 1.44.x, rc available as polars==2.0.0rc1
-tested_versions: "live checks on polars 2.0.0-rc.1 (venv %LOCALAPPDATA%\Temp\polars-dive-venv) + API-surface probes on stable 1.44.2 (venv %LOCALAPPDATA%\Temp\polars-1x-venv)"
-verified_date: "2026-09-14"
+tested_versions: "RE-RUN 2026-10-05 on polars 2.0.0-rc.2 (released 2026-09-20; PyPI stable is still 1.44.2): polars-v2-verify.py 39/39 PASS, so the rc1 findings below hold for rc2; original: live checks on polars 2.0.0-rc.1 (venv %LOCALAPPDATA%\Temp\polars-dive-venv) + API-surface probes on stable 1.44.2 (venv %LOCALAPPDATA%\Temp\polars-1x-venv)"
+verified_date: "2026-10-05"
 ---
 
 # Polars 2.0 — Engine Architecture & Verified Breaking Changes
