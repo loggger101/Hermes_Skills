@@ -307,6 +307,8 @@ For a CSS build step, `references/postcss-8-notes.md` runs PostCSS 8.5.29 with a
 
 When a lightweight CSS framework is wanted, `references/pure-css-3-notes.md` has Pure.css 3.1.0 measured (all modules 3.6 kB gzip, no JS, 7 `em` breakpoints, Normalize-only reset); it is the small end of the scale against the Materialize and Metro UI notes.
 
+`references/tabler-icons-3-notes.md` is the MIT alternative to Font Awesome: 5,184 outline + 1,054 filled icons, searchable `icons.json` (tags, 41 categories), a 545 kB-per-font webfont versus 0.4 kB inline SVGs, and `@tabler/icons-react` renders with no default `aria-hidden` and renamed icons (`IconCircleCheck`, not `IconCheckCircle`).
+
 ## UI/UX code review (beyond performance)
 
 For a full accessibility/forms/animation/copy/dark-mode audit of site markup and JS, use `references/web-interface-guidelines-ui-checklist.md` — Vercel's Web Interface Guidelines ported verbatim with the clickable `file:line` output format. It complements this skill's Core-Web-Vitals section (which covers loading/rendering) by covering interaction quality; pair both when running a site audit.
