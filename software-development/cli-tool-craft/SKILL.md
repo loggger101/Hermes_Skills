@@ -303,3 +303,7 @@ Before shipping a CLI tool:
 - [ ] CLI is tested via subprocess (entry point, not just internal functions)
 - [ ] Error messages say what went wrong, where, and how to fix
 - [ ] Configs are discoverable (list subcommand or documented)
+
+## References
+
+- `references/tqdm-progress-bars.md` - tqdm 4.70.1 measured: stderr, CR floods in piped logs, `print()` corruption vs `tqdm.write`, `TQDM_ASCII=1` crashes the program, `TQDM_DISABLE`/`MININTERVAL` for CI, per-iteration cost.
