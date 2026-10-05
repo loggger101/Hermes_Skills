@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **442 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **443 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -709,6 +709,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## web-development/react-ecosystem
 
 - `web-development/react-ecosystem/references/awesome-react-map.md` — awesome-react categories with npm latest version and last-modified date for each pick (snapshot 2026-10-05), plus stale/renamed flags
+- `web-development/react-ecosystem/references/deckgl-notes.md` — deck.gl 9.4.0 (WebGL2/WebGPU large-scale data visualization): lockstep packages, layers/views model, basemap pairing, what works in Node vs browser (checked), pitfalls
 - `web-development/react-ecosystem/references/react-native-navigation.md` — React Native navigation choices (React Navigation 7 stable vs 8 alpha vs Expo Router) with npm versions and the default-branch trap; source-read
 
 ## web-development/static-site-patterns

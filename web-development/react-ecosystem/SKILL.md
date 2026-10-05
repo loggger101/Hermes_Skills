@@ -72,3 +72,4 @@ map is in `references/awesome-react-map.md`.
 
 - `references/awesome-react-map.md` - per-category picks from the awesome-react list with npm version and last-modified date for each
 - `references/react-native-navigation.md` - React Navigation 7 stable vs 8 alpha vs Expo Router, npm versions, the default-branch (v8) docs trap
+- `references/deckgl-notes.md` - deck.gl 9.4.0 (all @deck.gl/* lockstep): layers/views model, Node-side layer construction checked (default id collisions, `Deck` needs a DOM), pairing with react-map-gl/maplibre, rules
