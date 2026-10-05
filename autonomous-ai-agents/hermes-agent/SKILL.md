@@ -9,7 +9,7 @@ metadata:
   hermes:
     tags: [hermes, setup, configuration, multi-agent, spawning, cli, gateway, bots, bot-mode, features, themes, skins, desktop-plugins, tui-widgets, petdex, development]
     homepage: https://github.com/NousResearch/hermes-agent
-    related_skills: [claude-code, codex, opencode, hermes-integrations]
+    related_skills: [claude-code, codex, opencode, hermes-integrations, cross-harness-skill-porting, context-budget-planning]
 ---
 
 # Hermes Agent
@@ -110,7 +110,7 @@ Profiles use `~/.hermes/profiles/<name>/` with the same layout. When a profile i
 | A custom theme/skin ("synthwave theme", "change the gold ●") | `hermes-extensions/references/themes.md` + `hermes-extensions/templates/skin.yaml` |
 | A desktop app UI element (pane, widget, ⌘K command, page) | `hermes-extensions/references/desktop-plugins.md` + `hermes-extensions/templates/plugin.js` |
 | Python agent plugin (`~/.hermes/plugins/`, register_skill/pre_llm_call hooks, skill bootstrap injection) | `hermes-extensions/references/python-agent-plugins.md` |
-| Porting skills/context to another harness (Claude Code/Codex/Gemini/OpenCode/pi), session-start hooks, polyglot Windows scripts | `references/cross-harness-skill-porting.md` |
+| Porting skills/context to another harness (Claude Code/Codex/Gemini/OpenCode/pi), session-start hooks, polyglot Windows scripts | `cross-harness-skill-porting` |
 | A live TUI panel or modal widget (ticker, clock, dashboard) | `hermes-extensions/references/tui-widgets.md` + `hermes-extensions/templates/clock.mjs` |
 | Pet mascots — install, select, scale, diagnose | `hermes-extensions/references/petdex.md` |
 | Windows-specific issues (keybinds, WinError 10106, BOM) | `references/windows-quirks.md` |
@@ -120,7 +120,7 @@ Profiles use `~/.hermes/profiles/<name>/` with the same layout. When a profile i
 | "Can app X use my Nous Portal subscription/OAuth?" | `hermes-integrations` (`references/portal-auth-for-third-party-apps.md`) |
 | **What plugins are installed / plugin inventory** | `references/installed-plugins.md` |
 | **Hindsight memory provider: install, update, pin, modes, recall config, "memory not recalling", tag leaks** | `hermes-integrations` (`references/hindsight-memory-provider.md`) |
-| **Long sessions: prompt-cache placement rules, route-bound context budget (usable = window - output - reserve - history), `omh context budget-plan` traps** | `references/context-budget-and-cache-placement.md` |
+| **Long sessions: prompt-cache placement rules, route-bound context budget (usable = window - output - reserve - history), `omh context budget-plan` traps** | `context-budget-planning` |
 | Connecting a messaging platform (Telegram, Discord, Slack, WhatsApp, …) | docs: `/user-guide/messaging` |
 
 The reference list above is not the feature list — it is the set of topics that

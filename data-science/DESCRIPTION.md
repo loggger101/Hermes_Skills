@@ -13,9 +13,11 @@ Data science workflows and tools.
 - [`build-systems-data`](./build-systems-data/SKILL.md) — Data build systems: orchestration, versioning, CSV at scale
 - [`duckdb-querying`](./duckdb-querying/SKILL.md) — Query CSV/Parquet/S3 data ad-hoc via DuckDB Friendly SQL
 - [`economicspace-pipeline`](./economicspace-pipeline/SKILL.md) — Use on economicspace (asteroid-mining pipeline)
+- [`enricher-pipeline-architecture`](./enricher-pipeline-architecture/SKILL.md) — Layered enricher pipelines: types, tools, two phases
 - [`evolutionary-ml`](./evolutionary-ml/SKILL.md) — Evolutionary ML: GA, NEAT, tournaments, parallel eval
 - [`experiment-design`](./experiment-design/SKILL.md) — A/B test design: metrics, sample size, duration
 - [`jupyter-notebook`](./jupyter-notebook/SKILL.md) — Iterative Python via live Jupyter kernel (hamelnb)
+- [`lunar-gis-projections`](./lunar-gis-projections/SKILL.md) — Lunar polar GIS: LPS projection, cap grids, COG rules
 - [`ml-cv-library-notes`](./ml-cv-library-notes/SKILL.md) — Torch, CuPy, Open3D, gensim and CV libs: live-run traps
 - [`model-export-deploy`](./model-export-deploy/SKILL.md) — Model export: ONNX, TorchScript, HDF5, NumPy, JSON
 - [`open-data-catalog-sources`](./open-data-catalog-sources/SKILL.md) — Keyless data mirrors, data.gov API, licence checks

@@ -17,7 +17,7 @@ Shared back-of-envelope conversion guide (used by every case study):
 
 - `url = base_encode(md5(ip_address + timestamp))[:7]`
 - MD5: 128-bit, uniformly distributed (or hash random data). Base62 (`[a-zA-Z0-9]`) is URL-safe and deterministic; Base64 rejected because of `+`/`/`. O(k) encode where k = digits.
-- **Capacity math**: first 7 chars → 62^7 ≈ 3.5×10^12 possible values ≫ 360M needed over 3 years. (Script: `scripts/shortlink_base62.py`.)
+- **Capacity math**: first 7 chars → 62^7 ≈ 3.5×10^12 possible values ≫ 360M needed over 3 years. (Script: `devops/system-design-scaling/scripts/shortlink_base62.py`.)
 - Store in SQL as a big hash table: PK on `shortlink char(7)` enforces uniqueness via index; extra index on `created_at`. Paste *contents* go to an **object store** (S3) or document store — don't manage file servers. Uniqueness check = look up duplicate, regenerate if collision.
 - Reads: shortlink → SQL lookup → object-store fetch.
 - Analytics without realtime requirement: **MapReduce over web-server logs** (mapper emits `(year_month, url), 1`; reducer sums).
@@ -69,7 +69,7 @@ Millions of vertices / billions of edges → no single machine holds it all.
 
 LRU over query → results, in front of the reverse-index + document services.
 
-- **O(1) LRU design** = hash table (`query → node`) + doubly-linked list (head = most recent, tail = evict). Get: move-to-front; Set: update+move or append, evicting tail at capacity. (Runnable: `scripts/lru_cache_o1.py` — the primer's own notebook code is stubbed out; this implements it for real.)
+- **O(1) LRU design** = hash table (`query → node`) + doubly-linked list (head = most recent, tail = evict). Get: move-to-front; Set: update+move or append, evicting tail at capacity. (Runnable: `devops/system-design-scaling/scripts/lru_cache_o1.py` — the primer's own notebook code is stubbed out; this implements it for real.)
 - Invalidation triggers: page content changed / added/removed / rank changed → simplest correct approach = **TTL** on entries (cache-aside).
 
 **Scaling a cache cluster to many machines — three options**:
@@ -114,4 +114,4 @@ The model for "how do I actually grow a system" — each rung is triggered by *m
 - **Object store for blobs, KV/NoSQL for fast writes, SQL for relational truth** — every case study splits storage this way.
 - **Async queue at the write edge** whenever an operation is slow (extraction, fan-out notifications, thumbnails); keep cheap paths synchronous.
 - **Stateless app servers + centralized sessions/cache** are what make horizontal scaling and autoscaling possible.
-- **Memory latency anchor**: 1 MB sequential from RAM ≈ 250 µs; SSD ≈ 4× that; HDD ≈ 80× (full table in `latency-and-estimation.md`).
+- **Memory latency anchor**: 1 MB sequential from RAM ≈ 250 µs; SSD ≈ 4× that; HDD ≈ 80× (full table in `system-design-scaling/references/latency-and-estimation.md`).

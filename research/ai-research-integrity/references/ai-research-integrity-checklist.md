@@ -7,7 +7,7 @@ verified_date: "2026-10-05"
 
 # Integrity gate for AI-assisted research
 
-`research-paper-writing/references/citation-workflow.md` handles fabricated references. The harder failures are the ones that read like competent work.
+`paper-citation-workflow` handles fabricated references. The harder failures are the ones that read like competent work.
 Imbad0202's pipeline turns the Limitations section of Lu et al., *Towards end-to-end automation of AI research*
 (Nature 651, 914-919, 2026) into a seven-item gate run before review and again before finalising. That paper's DOI,
 `10.1038/s41586-026-10265-5`, was checked live: Crossref returns `journal-article` with the exact title.
