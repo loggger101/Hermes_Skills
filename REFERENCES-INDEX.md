@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **407 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **408 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -642,6 +642,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## software-development/verification-culture
 
 - `software-development/verification-culture/references/autonomous-operator-protocol-tlc.md` — Autonomous Operator Protocol: Evidence-or-Stop (verified from tech-leads-club/agent-skills @ 0ab82f6)
+
+## web-development/publish-site
+
+- `web-development/publish-site/references/cloudflare-ci-wrangler-action.md` — Deploying to Cloudflare Workers/Pages from GitHub Actions with wrangler-action v4: inputs, outputs, permissions, preview-per-PR, secrets
 
 ## web-development/static-site-patterns
 
