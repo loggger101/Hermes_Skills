@@ -101,3 +101,7 @@ Not run: LLM extraction strategies, deep crawling, proxies, sessions.
 ## Verification
 
 `python -c "import selenium; print(selenium.__version__)"` matches the pinned version; a smoke script loads a local file or a known page, asserts on a visible element, saves a screenshot, and exits with `driver.quit()` (check no `chromedriver`/`chrome` processes remain).
+
+## References
+
+- `references/playwright-visual-regression.md` - screenshot suites that do not lie: per-OS baselines, first-run and `--update-snapshots` behaviour (run), one assertion per test vs `expect.soft`, file-level sharding, patterns from Ionic's e2e suite.
