@@ -31,6 +31,7 @@ algorithm implementations in ~50 categories. Carries three layers:
    to `scipy.sparse.csgraph` / `networkx` / stdlib `graphlib`, with traps run live (dense matrices cannot hold zero-weight edges,
    `linear_sum_assignment` minimises where the crate maximises, `maximum_flow` needs integer capacities). Not covered by the harness below.
 4. **LLM vs expert puzzle solving** (`references/llm-vs-expert-puzzle-solving.md`, from norvig/pytudes): Norvig measured LLM solutions to AoC 2025 as all-correct but ~5x longer and ~3x slower, with missed input-specific shortcuts; includes prompts that help and an asserted puzzle-utilities block.
+4b. **keon/algorithms (PyPI `algorithms` 1.0.1), oracle-checked** (`references/keon-algorithms-notes.md`): sorting contracts (`radix_sort` silently wrong on negatives, `bitonic_sort` needs a power-of-2 length, stooge 48 s at n=2000), a table of functions that fail their own doctests or an oracle (`max_path_sum`, `extended_gcd`, `OrderedStack.push`, the recursive rotated-array searches), and the package-level names that are modules, not functions.
 5. **A re-runnable verification harness** (`scripts/algorithms_verify.py`): every recorded claim is
    asserted live (KMP vs `str.find`, Aho-Corasick vs regex ground truth incl. nested keywords,
    Adler-32 == `zlib.adler32`, haversine vs OSRM road distance, Brent vs `numpy.roots`, N-queens
