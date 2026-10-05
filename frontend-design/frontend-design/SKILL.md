@@ -84,6 +84,10 @@ Keep the register conversational and tuned: plain verbs, sentence case, no fille
 - **Type sprawl** — too many font families, too many weights. A tight 2-3 font system always reads better.
 - **Ignoring the audience** — designing for "users" instead of the specific human this brief is for
 
+## See also
+
+- Building with Ant Design (`antd` v6): `creative/design-md/references/antd-v6-design-md-exemplar.md` has its tokens, density rules and `ConfigProvider` theming levers. Theme through tokens, algorithms and `theme.components`; do not override generated class names.
+
 ## Verification
 
 - [ ] The design has a named subject and a single primary action
