@@ -56,8 +56,8 @@ off and by 1900 it is 1.5 AU off. For historical or far-future scenes supply ele
 an `EphemerisTable`.
 
 Reference computation: `get_body_barycentric_posvel(..., solar_system_ephemeris='builtin')` minus the Sun, rotated to the
-mean ecliptic J2000 with an obliquity of 84381.406". The builtin ephemeris is itself approximate (arcsecond-level for the
-planets), far smaller than the errors above.
+mean ecliptic J2000 with an obliquity of 84381.406". The builtin ephemeris is itself an approximation whose error I did not measure here; it is
+expected to be far smaller than the Saturn errors above but is not a verified bound for the small inner-planet differences.
 
 ## Practical notes
 

@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **468 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **469 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -322,6 +322,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## data-science/astro-toolkit-selection
 
+- `data-science/astro-toolkit-selection/references/astropy-notes.md` — astropy 8.0.1 traps run on Python 3.12: JD defaults to UTC (TT differs 69.184 s), string offsets rejected, Time+float assumes days, AltAz without location gives an AttributeError, jplephem absent, IERS auto-download defaults
 - `data-science/astro-toolkit-selection/references/brahe-api-reference.md` — brahe 1.7.0 API reference — module map + verified propagation/SPK snippets
 - `data-science/astro-toolkit-selection/references/catalog-data-sources.md` — astroquery + pds4_tools + cumulus — catalog/archive access for the small-body pipeline
 - `data-science/astro-toolkit-selection/references/egobox-bayesian-optimization.md` — EGObox 0.38.0 (Rust EGO / Bayesian optimization with Python bindings Egor and Gpx), run live: README example reproduced, seed behaviour, evaluation count, Branin, surrogate behaviour
