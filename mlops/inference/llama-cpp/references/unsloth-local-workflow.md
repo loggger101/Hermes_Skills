@@ -16,7 +16,7 @@ quants you run on LM Studio, and **(2)** its CLI ships a **first-party Hermes Ag
 From `unsloth_cli/commands/start.py`:
 
 ```bash
-pip install unsloth[all]   # or the Unsloth Desktop app (Windows .exe in releases)
+pip install unsloth        # PyPI metadata has NO "all" extra (see the 2026-10-05 check below); or the Unsloth Desktop app from GitHub releases
 unsloth start hermes --model unsloth/Qwen3.8-27B-GGUF:UD-Q4_K_XL
 # variant names follow llama.cpp quant naming; UD-* = Unsloth Dynamic quants
 ```
@@ -66,3 +66,20 @@ Two source-verified traps worth knowing before debugging an export that "lost" s
 | Fine-tune a model you'll run locally as GGUF | **Unsloth** → `save_to_gguf` | Raw llama.cpp converter needs manual LoRA merge first; Unsloth does it in one call |
 | Just serve/run an existing GGUF on this box | LM Studio / llama-server (see server.md) | No training needed — don't pull a GPU stack for inference |
 | Fine-tune without a big NVIDIA card | Unsloth QLoRA 4-bit + `--no-bf16` path, or skip fine-tuning and use prompt/RAG | Verify VRAM math first; the export staging trap above doubles peak disk need |
+
+## 2026-10-05 re-check (PyPI JSON metadata, GitHub releases and commits; nothing installed or run)
+
+- **PyPI**: `unsloth` **2026.9.14**, one pure-Python wheel (26.1 MB), `requires_python <3.15,>=3.9`. The README line
+  `pip install unsloth[all]` above is not backed by the metadata: of **165 extras** (`huggingface`, `huggingfacenotorch`, `studio`,
+  `windows`, `amd`, `conda`, `eval`, `flashattention`, `triton`, many `cuXXX-torchYYY` and `colab-*` combinations) there is **no `all`**;
+  pip would warn that the extra is missing and install the base package only.
+- **Base dependencies are the full GPU training stack**: `torch<2.13,>=2.4`, `torchvision`, `bitsandbytes`, `peft`, `accelerate`,
+  `datasets<4.4`, `unsloth_zoo`, `xformers` and `triton` (`triton-windows` on Windows), plus CLI libraries (`tyro`, `typer`, `click`).
+  Do not install it into a general environment just to run `unsloth start hermes`; use a dedicated venv, or the Desktop app.
+- **Releases are two tracks**: PyPI date-versions (2026.9.x) for the library, and GitHub `v0.1.xxx-beta` tags (v0.1.902-beta on
+  2026-10-01, three betas in eight days) carrying Unsloth Desktop installers (macOS dmg/app, Linux AppImage, Windows build) and
+  a `prebuilt-wheels-cu13` release of CUDA 13 / torch 2.13 kernel wheels (for example `causal_conv1d`).
+- **Fast-moving**: about 100 commits between 2026-09-13 and 2026-10-05, including an LM Studio provider and a reasoning-effort
+  slider in Studio, a `--think` flag on the CLI to show a thinking model's reasoning when attached to a running Unsloth, MCP
+  pre-registered OAuth clients, and Windows uv-cache placement. Re-read `unsloth_cli/commands/start.py` before relying on the
+  `start hermes` flags above.
