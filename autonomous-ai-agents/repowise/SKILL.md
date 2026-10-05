@@ -45,6 +45,20 @@ Covers how to install, index, wire into Hermes as an MCP server, use the `distil
 | Failure shield | un-indexed repo → tool returns `{error, remedy, guidance}` JSON (remedy even instructs the agent "suggest it once, do not run it yourself") instead of a raw traceback; nested task-group failures are unwrapped to depth ≤2 before shielding |
 | Telemetry is ON by default | opt-out model confirmed in v0.51 source (`cli/platform/settings.py`): precedence `DO_NOT_TRACK` (new cross-tool hard off) > `REPOWISE_TELEMETRY_DISABLED` > stored consent > enabled; new `REPOWISE_TELEMETRY_DEBUG=1` prints the exact payload to stderr instead of sending it — verify what would leave your machine before deciding. Consent state in `~/.repowise/platform.json` |
 
+**Re-probed 2026-10-05 at v0.55.0 (PyPI latest; four minor versions after the table above).** `uv pip install repowise` in a Python 3.13 venv:
+23 s, `repowise --version` -> 0.55.0. On a scratch git repo (12 one-function files, 12 commits) with `DO_NOT_TRACK=1`:
+
+| Check | Result at 0.55.0 |
+|---|---|
+| `repowise init --no-prose` | still keyless: **16 s**; wrote `.repowise/`, `.mcp.json` (stdio server entry with the absolute repo path), `.claude/CLAUDE.md` and `.vscode/`: the editor wiring is automatic, review those files before committing |
+| `repowise distill "git log --stat -35"` | **107 raw lines -> 16**, exit code 0, header "12 commits (showing 12 most recent; subjects only)" |
+| `repowise saved` | table grouped by operation: `git_log`, 1 event, 363 saved tokens |
+| `repowise telemetry status` | `Telemetry: disabled`, reason `DO_NOT_TRACK is set` (the hard-off precedence above is confirmed live) |
+| CLI surface | **44 top-level commands** (new or notable: `ask`, `augment`, `context`, `corrections`, `costs`, `coverage`, `dead-code`, `decision`, `doc-drift`, `doctor`, `expand`, `export`, `generate-claude-md`, `health`, `hook`, `impacted-tests`, `next`, `overlap`, `risk`, `savings`, `security`, `symbol`, `telemetry`, `watch`, `whats-new`, `why`, `wiki-styles`, `workspace`, plus account commands `login`/`logout`/`whoami`/`publish`) |
+
+Not re-probed at 0.55.0: the MCP tool count (10 default / 18 registered above), transports, the in-band release notice and `ask`
+(needs a model provider). Run `repowise whats-new` for the vendor's own changelog before relying on any flag listed here.
+
 ## Quickstart (verified)
 
 ```bash

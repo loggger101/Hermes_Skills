@@ -43,7 +43,7 @@ ui.button('Increment', on_click=increment)
 ui.run(title='My App', port=8080, reload=True)
 ```
 
-## `ui.run()` parameter map (verified from nicegui/ui_run.py:50 — signature stable through v3.16.0, re-verified 2026-09-16)
+## `ui.run()` parameter map (verified from nicegui/ui_run.py:50 — signature stable through v3.16.0; re-verified live against the installed PyPI 3.17.1 on 2026-10-05: the same 33 named parameters plus `**kwargs`)
 
 | Param | Default | Use when |
 |---|---|---|
