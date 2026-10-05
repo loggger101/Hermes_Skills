@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **457 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **458 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -331,6 +331,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `data-science/astro-toolkit-selection/references/pykep-v3-notes.md` — pykep 3 (ESA trajectory design): Linux-only PyPI wheels, API map (Lambert, Lagrangian propagation, legs, trajopt, planets), where it fits vs brahe/OpenSCvx/pygmo
 - `data-science/astro-toolkit-selection/references/rebound-n-body-notes.md` — REBOUND + REBOUNDx N-body notes: install reality on Windows (rebound wheel yes, reboundx sdist-only), units/G gotcha, Yarkovsky and radiation-force parameters, ASSIST pointer
 - `data-science/astro-toolkit-selection/references/skyfield-api-reference.md` — skyfield 1.55 API reference — breaking changes, de430s.bsp 404, phase-angle trap
+- `data-science/astro-toolkit-selection/references/spacekit-notes.md` — spacekit.js (typpo): browser 3D solar-system viewer on three.js; Orbit/Ephem run headless in Node and checked against astropy: planet presets are two-body, Saturn drifts to 1.5 AU by 1900
 - `data-science/astro-toolkit-selection/references/spiceypy-notes.md` — SpiceyPy 8.2 notes: kernel-load discipline, error classes, 80-char kernel-pool truncation, SPICE's own AU, asteroid NAIF ids
 
 ## data-science/bit-identity-float-pipelines
