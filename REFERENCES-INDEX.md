@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **415 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **416 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -630,6 +630,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## software-development/python-craft
 
+- `software-development/python-craft/references/gof-patterns-in-python.md` — Which GoF patterns collapse into Python features (function, callable, generator, singledispatch, Enum, dataclass.replace); 19 runnable idioms, all asserted
 - `software-development/python-craft/references/logging-loguru.md` — Python logging with loguru 0.7.3: setup, brace-format traps, diagnose=True secret leak, rotation/retention, serialize, stdlib interception
 - `software-development/python-craft/references/modern-python-tooling.md` — Modern Python tooling: uv, ruff, ty, PEP 723
 - `software-development/python-craft/references/windows-path-separator-trap.md` — Windows os.path.relpath yields backslashes; cross-platform path-string comparison fails silently.

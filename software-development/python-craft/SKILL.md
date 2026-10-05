@@ -614,3 +614,4 @@ For new Python code:
 - [`references/modern-python-tooling.md`](references/modern-python-tooling.md) - uv/ruff/pytest toolchain setup
 - [`references/windows-path-separator-trap.md`](references/windows-path-separator-trap.md) - backslash paths silently failing string comparison
 - [`references/logging-loguru.md`](references/logging-loguru.md) - loguru 0.7.3 setup and the traps found by running it (brace-format `KeyError`, `diagnose=True` leaking secrets, colour codes in captured output), stdlib interception
+- [`references/gof-patterns-in-python.md`](references/gof-patterns-in-python.md) - which GoF patterns collapse into a function, callable, generator, `singledispatch`, `Enum` or `dataclasses.replace`; 19 asserted idioms
