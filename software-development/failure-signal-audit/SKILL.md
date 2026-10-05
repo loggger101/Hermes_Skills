@@ -62,3 +62,7 @@ handoffs — it does not itself patch, run CI, close incidents, or claim reliabi
 - No code/trace/runtime evidence supplied → prepare the audit plan and request the smallest source surface to inspect.
 - User wants live SLO/incident review of a running outage → that is incident command, not this workflow; hand off (`incident-response`).
 - Rendered browser proof needed before PASS on frontend findings → capture it first (screenshot/DOM evidence), then re-judge against the observed state.
+
+## References
+
+- `references/regex-scanner-false-greens.md` - case study of regex scanners (a Terraform security scorer, two feature-flag auditors) that print score 100 / PASS on planted defects, plus a checklist for trusting a scanner's green.

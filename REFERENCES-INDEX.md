@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **450 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **452 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -407,6 +407,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `devops/system-design-scaling/references/asynchronism-communication-security.md` — Asynchronism, Communication & Security
 - `devops/system-design-scaling/references/case-study-patterns.md` — Case-Study Patterns (8 Worked Designs → Reusable Recipes)
 - `devops/system-design-scaling/references/databases-and-caching.md` — Databases, NoSQL & Caching — Trade-Off Tables
+- `devops/system-design-scaling/references/feature-flag-lifecycle.md` — Feature flags as a lifecycle: flag types and lifespans, ring/linear/log/cohort rollout maths, kill-switch registry fields, stale-flag detection and the traps in alirezarezvani's three scripts
 - `devops/system-design-scaling/references/latency-and-estimation.md` — Latency Numbers & Back-of-the-Envelope Estimation
 - `devops/system-design-scaling/references/oo-design-interview-patterns.md` — Object-Oriented Design Interview Patterns (6 Worked Exercises)
 - `devops/system-design-scaling/references/scaling-tradeoffs-and-topics.md` — Scaling Trade-Offs & Networking Topics
@@ -647,6 +648,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## software-development/dogfood
 
 - `software-development/dogfood/references/issue-taxonomy.md` — Issue Taxonomy
+
+## software-development/failure-signal-audit
+
+- `software-development/failure-signal-audit/references/regex-scanner-false-greens.md` — Case study: regex security/lint scanners that report score 100 or PASS on real defects (Terraform scanner, flag auditors); checklist for trusting a scanner's green
 
 ## software-development/hermes-agent-skill-authoring
 
