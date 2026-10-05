@@ -120,3 +120,12 @@ gravity force ratio) feel it; effect parameter `c`; the source is particle 0 unl
 `matthewholman/assist` (ASSIST, "ephemeris-quality integrations of test particles", built on REBOUND; not run here)
 is the tool when an asteroid's position must match Horizons; REBOUND/REBOUNDx are for idealised or population dynamics. Cross-check against `nyx` / `brahe`
 (`optimization-toolkit.md`, `brahe-api-reference.md`).
+
+## celmech (analytic and semi-analytic celestial mechanics on top of REBOUND)
+
+`shadden/celmech` (GPL, Hadden, Tamayo and Hernandez; arXiv 2205.10385; PyPI 1.5.8, 2026-06-25) builds Hamiltonian models of planetary systems: Poincare variables and canonical transformations (`poincare.py`, `canonical_transformations.py`, `lie_transformations.py`),
+secular and resonant models (`secular.py`, `resonances.py`, `multiplanet_hamiltonian.py`, `numerical_resonance_models.py`), disturbing-function expansions (`disturbing_function.py`), Poisson series, and symplectic maps; it takes initial conditions from a REBOUND simulation.
+Use it for resonance widths, secular evolution and averaged dynamics that are too slow to integrate directly.
+
+**Install reality:** the PyPI release is **sdist only** (`celmech-1.5.8.tar.gz`, no wheels), it compiles its own C library (`libcelmech`, loaded with `ctypes` at import), and it requires `reboundx>=4.0.0` (also sdist-only, see above) plus `exoplanet-core`, `pytensor`, `mpmath`, `sympy`, `rebound`.
+On Windows without MSVC it is therefore not installable via pip (same cause as REBOUNDx); use Linux/WSL or conda/pixi, and treat the dependency stack (pytensor, exoplanet-core) as heavy. Not installed or run here.
