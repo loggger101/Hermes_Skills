@@ -141,3 +141,8 @@ Useful sections to add only when missing:
 - **Agent keeps losing context:** Add short signposts to the active harness instructions. On entry, the agent reads the map, status, and only relevant recent decisions, then verifies claims against the repository.
 - **A deleted file keeps coming back:** Record it in the existing status page's delete-zone and preserve the reason and replacement in an ADR or maintenance decision log.
 - **A log contains an old claim or secret:** Redact sensitive content, append a dated correction, and validate the replacement statement against code, tests, configuration, or Git.
+
+## References and scripts
+
+- `references/doc-example-verification.md` - executable-docs method (5-phase fact check, example-to-test rules) from leonardomso/33-js-concepts
+- `scripts/check_doc_examples.py` - runs the ```js examples in Markdown under Node and compares `console.log` output with the `// expected` comments (exit 1 on mismatch); proven on a planted-defect document

@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **163 code files** (42,204 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **164 code files** (42,322 lines total) in this second brain — one line each, grep-friendly.
 Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -265,6 +265,10 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 - `software-development/generating-python-installer/scripts/analyze_dlls.py` (script, python, 143 lines) — DLL dependency footprint analyzer for a Nuitka standalone dist folder
 
+## software-development/living-docs-governance
+
+- `software-development/living-docs-governance/scripts/check_doc_examples.py` (script, python, 118 lines) — Run the JavaScript examples in Markdown docs and compare printed output to the comments
+
 ## software-development/repo-atlas
 
 - `software-development/repo-atlas/scripts/generate_atlas.py` (script, python, 518 lines)
@@ -308,4 +312,4 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `tools/verify-all.py` (repo tooling, python, 475 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*163 code files: 111 scripts, 7 shared helpers, 16 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*164 code files: 112 scripts, 7 shared helpers, 16 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
