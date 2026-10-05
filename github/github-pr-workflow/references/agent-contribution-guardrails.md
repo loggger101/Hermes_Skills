@@ -26,3 +26,8 @@ The repo's own standard: open a clean session on the new harness and send exactl
 ## Why this matters for THIS brain's workflows
 
 The user runs autonomous cron/agent pipelines that occasionally touch external repos or upstreams of their own skills. Before ANY agent-initiated PR: run checks 1-6, keep a short "pre-flight" note (what was searched, what problem is evidenced, who approved the diff) in the commit message or PR body — it's cheap insurance and doubles as the disclosure check #5 wants anyway.
+
+## Per-repo AI policies
+
+The starred repos' own AI-contribution rules (agents forbidden at some, disclosure at most, and conflicting rules on the
+`Co-Authored-By` trailer) are tabulated in `ai-policies-of-starred-repos.md`; read it before opening anything upstream.
