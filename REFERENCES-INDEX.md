@@ -22,7 +22,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `autonomous-ai-agents/cron-job-authoring/references/repo-cronjob.md` — Cron jobs that run against an existing repository
 - `autonomous-ai-agents/cron-job-authoring/references/script-path-resolution.md` — Script Path Resolution Pitfalls
 - `autonomous-ai-agents/cron-job-authoring/references/two-agent-architecture.md` — Two-Agent Architecture: Preparer vs. Commit Agent
-- `autonomous-ai-agents/cron-job-authoring/references/vault-crypto-pattern.md` — Per-User Encrypted Secret Vault (verified from reconurge/flowsint @ 1820569)
+- `autonomous-ai-agents/cron-job-authoring/references/vault-crypto-pattern.md` — Per-User Encrypted Secret Vault (reconurge/flowsint @ 1820569; crypto run 2026-10-05)
 
 ## autonomous-ai-agents/hermes-agent
 
