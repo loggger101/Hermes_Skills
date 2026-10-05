@@ -821,3 +821,7 @@ Before running a query on real data:
 - [ ] CTEs make the query readable, not just nested subqueries
 - [ ] Test on a small subset first (add LIMIT or filter to a known small key set)
 - [ ] For large queries, check the plan if the dialect supports it
+
+## References
+
+- `references/sql-tooling-sqlglot-sqlfluff.md` - sqlglot transpile/AST and sqlfluff lint/fix run live (silent semantic rewrites, unknown functions pass through, `unsupported_level` did not raise), plus the migration-tool map
