@@ -39,6 +39,7 @@ Development tools and coding workflows.
 - [`python-craft`](./python-craft/SKILL.md) — Python craft: uv/ruff/ty setup, style, typing, testing
 - [`python-debugpy`](./python-debugpy/SKILL.md) — Debug Python: pdb REPL + debugpy remote (DAP)
 - [`receiving-code-review`](./receiving-code-review/SKILL.md) — Verify review feedback against the codebase before acting
+- [`repo-atlas`](./repo-atlas/SKILL.md) — In-repo atlas docs + drift check so agents orient fast
 - [`requesting-code-review`](./requesting-code-review/SKILL.md) — Pre-commit review: security scan, quality gates, auto-fix
 - [`rest-graphql-debug`](./rest-graphql-debug/SKILL.md) — Debug REST and GraphQL APIs: auth, schemas, repro
 - [`retro`](./retro/SKILL.md) — Retrospective on a session proposing environment fixes

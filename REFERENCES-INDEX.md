@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **406 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **407 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -624,6 +624,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 - `software-development/python-craft/references/modern-python-tooling.md` — Modern Python tooling: uv, ruff, ty, PEP 723
 - `software-development/python-craft/references/windows-path-separator-trap.md` — Windows os.path.relpath yields backslashes; cross-platform path-string comparison fails silently.
+
+## software-development/repo-atlas
+
+- `software-development/repo-atlas/references/atlas-templates.md` — Atlas Document Templates
 
 ## software-development/systematic-debugging
 
