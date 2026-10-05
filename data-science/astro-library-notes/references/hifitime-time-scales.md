@@ -9,7 +9,7 @@ verified_date: "2026-10-05"
 
 hifitime is an overflow-safe, nanosecond-precision date/time library with leap-second-aware conversions between UTC, TAI, TT, TDB/ET, GPST and others.
 crates.io: `hifitime` 4.3.1 (2026-08-07), MPL-2.0, ~1.26M downloads; the same release is on PyPI as `hifitime` 4.3.1 (`pip install hifitime`, Python `>=3.9`, installed fine on 3.14 here).
-It is used by `nyx` (see `optimization-toolkit.md`). Core types: `Epoch` (datetime equivalent) and `Duration`; `Epoch("2000-02-29T14:57:29.000000037 UTC")`, `Epoch.init_from_gregorian_tai(...)`, `epoch.to_time_scale(TimeScale.TAI)`.
+It is used by `nyx` (see `astro-toolkit-selection/references/optimization-toolkit.md`). Core types: `Epoch` (datetime equivalent) and `Duration`; `Epoch("2000-02-29T14:57:29.000000037 UTC")`, `Epoch.init_from_gregorian_tai(...)`, `epoch.to_time_scale(TimeScale.TAI)`.
 
 ## What worked (Python, run live)
 

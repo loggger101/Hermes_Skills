@@ -43,7 +43,7 @@ const layer = new ScatterplotLayer({ id: 'pts', data, getPosition: d => d.positi
 | React app | `@deck.gl/react` (`<DeckGL>`), with `react-map-gl` + `maplibre-gl` for the basemap |
 | Existing Mapbox/MapLibre/Google Maps map | `@deck.gl/mapbox`, `@deck.gl/maplibre`, `@deck.gl/google-maps` (overlay or interleaved) |
 | Quick prototype without a build | the script-tag flavour (from the README) |
-| Simple charts | plotly / recharts (see `awesome-react-map.md`); deck.gl is for spatial and very large data |
+| Simple charts | plotly / recharts (see `react-ecosystem/references/awesome-react-map.md`); deck.gl is for spatial and very large data |
 | Globe/satellite views of space data | Cesium-based approaches (see `frontend-design/nicegui-app-builder/references/frontend-tooling.md`, gods-eye-view) or deck.gl's `GlobeView` |
 
 ## Practical rules

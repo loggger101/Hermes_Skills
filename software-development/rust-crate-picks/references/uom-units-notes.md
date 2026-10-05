@@ -61,7 +61,7 @@ u = pint.UnitRegistry(); Q = u.Quantity
 | `Q(1,"lbf*s").to("N*s")` | `4.4482216... newton * second` (the orbiter's actual bug class) |
 | `5 + Q(5,"km")` | `DimensionalityError` (a bare number is dimensionless) |
 | `0 + Q(5,"km")` | `5 kilometer` (zero is special-cased and allowed) |
-| `Q(1,"au").to("km")` | `149597870.70000002 kilometer` (IAU value; SPICE's own is 149597870.6137, see `astro-toolkit-selection/references/spiceypy-notes.md`) |
+| `Q(1,"au").to("km")` | `149597870.70000002 kilometer` (IAU value; SPICE's own is 149597870.6137, see `astro-library-notes/references/spiceypy-notes.md`) |
 | `Q(1,"year").to("day")` | `365.25 day` (Julian year) |
 | `Q(5,"km/s").check("[length]/[time]")` | `True`; `Q(5,"km").check("[time]")` is `False` |
 
