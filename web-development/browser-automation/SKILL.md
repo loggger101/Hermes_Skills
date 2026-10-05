@@ -65,6 +65,32 @@ finally:
 | New Python/JS/TS e2e, auto-waiting, tracing, network interception, multi-browser engines bundled | Playwright (installs its own browsers; `playwright install`) |
 | Quick one-off page interaction in an agent session | the built-in browser tools of the host if available; else Playwright |
 
+
+## Crawl4AI (LLM-friendly crawling: URL to clean markdown)
+
+`crawl4ai` 0.9.4 (2026-09-23, Apache-2.0; Python `>=3.10`, classifiers to 3.13) wraps Playwright and returns markdown, links, metadata and optional structured extraction. Install and run verified on Windows in a uv Python 3.12 venv (**554 MB** venv):
+
+```python
+from crawl4ai import AsyncWebCrawler, BrowserConfig, CrawlerRunConfig
+bc = BrowserConfig(browser_type="chromium", chrome_channel="chrome", headless=True)   # reuse the installed Chrome: no browser download
+async with AsyncWebCrawler(config=bc) as crawler:
+    r = await crawler.arun(url=url, config=CrawlerRunConfig())     # r.success, r.markdown.raw_markdown, r.links, r.metadata, r.error_message
+```
+
+Observed with a hand-written test page (nav, `h1`, paragraph, two-row table, external link, footer):
+
+| Check | Result |
+|---|---|
+| `url = "raw:" + html` | works; markdown kept the nav links (`[Home](/home) [About](/about)`), the heading, bold text, the table as a markdown table, the external link and the footer text; `links` gave 3 internal / 0 external (the absolute external link was not counted as external); `metadata["title"]` = "Harbor Tides" |
+| `url = "file://" + str(path)` (Windows path) | works (358 chars of markdown) |
+| `url = path.as_uri()` (`file:///C:/...`) and `"file:///" + posix` | **fail** on Windows: `Local file not found: /C:/Users/...` (the extra leading slash is not stripped); use `file://` + the native path, or `raw:` |
+| `CrawlerRunConfig().cache_mode` | `CacheMode.BYPASS`: no caching unless you ask |
+| **A tiny page** (a heading and a script, about 232 bytes, 10 visible characters) | `success=False`, `Blocked by anti-bot protection: Structural: minimal_text on small page`, with or without `delay_before_return_html` or `wait_for`. The detector (`antibot_detector.py`) treats pages under 5,000 bytes with fewer than 50 visible characters (one weak signal) as blocked, and two weak signals (minimal text + no content elements) at any size under its structural limit |
+| Unresolvable host | `success=False`, `status_code=None`, error text begins `Unexpected error in _crawl_web` |
+
+Practical rules: always check `r.success` and `r.error_message` (a failed crawl does not raise); do not use near-empty pages as test fixtures (give them 50+ visible characters and some content elements) and expect real small status pages or health endpoints to be reported as blocked;
+use `wait_for="css:..."` or `delay_before_return_html` for JS-rendered content on live pages; keep `robots.txt`, rate limits and site terms in mind (see Pitfalls above); and prefer a site's API or the HAR-derived client approach when available.
+Not run: LLM extraction strategies, deep crawling, proxies, sessions.
 ## Pitfalls
 
 - A script that "works" locally and hangs in CI is usually a missing display/headless flag or a driver download blocked by the network.
