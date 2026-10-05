@@ -159,13 +159,13 @@ The writing philosophy, citation verification workflow, and conference reference
 → Start with: Official venue guidelines (NeurIPS, ICML, ICLR, ACL)
 
 ### For Citation Management
-→ Start with: Semantic Scholar API, CrossRef, citation-workflow.md
+→ Start with: Semantic Scholar API, CrossRef, the `paper-citation-workflow` skill
 
 ### For Reviewer Expectations
-→ Start with: Venue reviewer guidelines, reviewer-guidelines.md
+→ Start with: Venue reviewer guidelines, the `conference-review-criteria` skill
 
 ### For Human Evaluation
-→ Start with: human-evaluation.md, Prolific/MTurk documentation
+→ Start with: the `human-evaluation-design` skill, Prolific/MTurk documentation
 
 ### For Non-Empirical Papers (Theory, Survey, Benchmark, Position)
 → Start with: paper-types.md

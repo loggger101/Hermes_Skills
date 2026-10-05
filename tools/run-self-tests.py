@@ -62,9 +62,9 @@ TIMEOUT_S = 600  # big-data harness builds a 200k-row fixture; generous but boun
 # the dedicated CI jobs install those deps so they actually execute there.
 AUTO_RUN = {
     "data-science/algorithms-python-catalog/scripts/algorithms_verify.py",  # numpy only
-    "data-science/space-data-pipelines/scripts/cap_grid_verify.py",  # stdlib only (lgrs-free port)
+    "data-science/lunar-gis-projections/scripts/cap_grid_verify.py",  # stdlib only (lgrs-free port)
     "devops/rest-api-client/scripts/ssrf_guard_verify.py",  # stdlib, no sockets opened
-    "web-development/static-site-patterns/scripts/perf_audit_verify.py",  # stdlib, temp-dir fixtures, no network
+    "web-development/web-perf-audit/scripts/perf_audit_verify.py",  # stdlib, temp-dir fixtures, no network
     "data-science/polars-pipelines/references/big-data-patterns-verify.py",  # duckdb/polars/pyarrow -> skip without them
     "data-science/polars-pipelines/references/polars-v2-verify.py",  # polars 2.0.x rc -> skip on stable/absent (rc 77)
     "data-science/optimization-modeling-pyomo/scripts/pyomo_patterns_verify.py",  # pyomo+highspy -> skip without them
@@ -73,7 +73,7 @@ AUTO_RUN = {
 # Discovered but deliberately NOT auto-run, each with the reason it must stay out:
 EXCLUDED = {
     # probes a live external API on every run — nondeterministic in CI by design
-    "data-science/space-data-pipelines/scripts/lps_projection_verify.py": "live lgrs-oracle comparison (network); keep manual / dedicated job only",
+    "data-science/lunar-gis-projections/scripts/lps_projection_verify.py": "live lgrs-oracle comparison (network); keep manual / dedicated job only",
 }
 
 SKIP_RC = 77  # convention: harness exits this when its pinned env is not present

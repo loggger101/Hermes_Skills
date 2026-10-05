@@ -70,7 +70,7 @@ hermes mcp catalog | install NAME     Curated catalog install
 hermes mcp configure NAME             Toggle tool selection
 hermes mcp serve                      Run Hermes as an MCP server
 ```
-Details (transport, tool discovery, catalog): `references/native-mcp.md`.
+Details (transport, tool discovery, catalog): `hermes-integrations` (`references/native-mcp.md`).
 
 ### Gateway (Messaging Platforms)
 
@@ -94,7 +94,7 @@ hermes cron list|create SCHED|edit ID|pause|resume|run ID|remove|status
     Schedules: '30m', 'every 2h', '0 9 * * *', ISO timestamp
 hermes webhook subscribe NAME|list|remove NAME|test NAME
 ```
-Webhook payloads/routes: `references/webhooks.md`.
+Webhook payloads/routes: `hermes-integrations` (`references/webhooks.md`).
 
 ### Profiles
 

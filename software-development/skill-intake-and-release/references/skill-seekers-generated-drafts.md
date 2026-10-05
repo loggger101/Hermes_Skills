@@ -34,10 +34,10 @@ Input: a two-file Python package (`tidekit/__init__.py` with two documented func
 ## How to turn the draft into a skill in this repo
 
 1. Keep the generated `references/` (API reference, dependency graph) after skimming for errors; they save the mechanical part.
-2. **Rewrite `SKILL.md` by hand** to the repo format (see `SKILL.md` of this skill): trigger-style description under 59 characters, `When to Use`, `What This Skill Does`, procedure, pitfalls, verification, and a `## References` list pointing at the generated files.
+2. **Rewrite `SKILL.md` by hand** to the repo format (see `software-development/hermes-agent-skill-authoring`): trigger-style description under 59 characters, `When to Use`, `What This Skill Does`, procedure, pitfalls, verification, and a `## References` list pointing at the generated files.
 3. Replace the generic "When to Use" with the real tasks users bring; delete the absolute path; state the library version and the date the draft was generated.
 4. Run a claim through the code before writing it as a fact (`living-docs-governance/references/doc-example-verification.md`), and register the skill (`tools/gen-*` indexes, counts, router lane).
-5. For web/PDF sources, check licensing before redistributing generated text (`space-data-pipelines/references/space-data-licensing-audit.md` for the data-licence approach).
+5. For web/PDF sources, check licensing before redistributing generated text (`open-data-catalog-sources/references/space-data-licensing-audit.md` for the data-licence approach).
 
 ## When it is worth using
 

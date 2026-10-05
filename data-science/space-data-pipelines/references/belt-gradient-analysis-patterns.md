@@ -40,4 +40,4 @@ S/C crossover: 2.84 AU raw, 2.41-2.47 AU once corrected, with a 10-to-90% transi
 
 ## Connections to other skills
 
-`bit-identity-float-pipelines` (the bit-for-bit claim and its host limits), `space-data-licensing-audit.md` (citation conditions for catalog sources), `economicspace-pipeline` (consumes the same catalog; its composition priors come from taxonomy, so rule 1 applies to any prior built from `spectral_type`).
+`bit-identity-float-pipelines` (the bit-for-bit claim and its host limits), `open-data-catalog-sources/references/space-data-licensing-audit.md` (citation conditions for catalog sources), `economicspace-pipeline` (consumes the same catalog; its composition priors come from taxonomy, so rule 1 applies to any prior built from `spectral_type`).

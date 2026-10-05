@@ -13,6 +13,7 @@ Web app development beyond static sites: API clients, deploys, in-page agents.
 - [`publish-site`](./publish-site/SKILL.md) — Versioned site deploys to GitHub/Cloudflare/Netlify Pages
 - [`react-ecosystem`](./react-ecosystem/SKILL.md) — Pick React libraries by need, with live npm freshness
 - [`react-library-notes`](./react-library-notes/SKILL.md) — React 19, Next 16, Zustand, Motion: run-live traps
-- [`static-site-patterns`](./static-site-patterns/SKILL.md) — Static-site perf/UX: PWA installability + Core Web Vitals
+- [`static-site-patterns`](./static-site-patterns/SKILL.md) — Static sites: PWA, vanilla JS/CSS, esbuild, CSS lint
+- [`web-perf-audit`](./web-perf-audit/SKILL.md) — Audit a built static site: perf script + UI checklist
 
 *Regenerated from live frontmatter — keep in sync with `tools/gen-skills-index.py`.*

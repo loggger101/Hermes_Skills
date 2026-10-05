@@ -1,14 +1,14 @@
 ---
-description: Hermes Agent second brain — 237 skills across 23 categories, memories, cron configs.
+description: Hermes Agent second brain — 253 skills across 23 categories, memories, cron configs.
 ---
 
 # Hermes Skills Repository (Second Brain)
 
-This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **237 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
+This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **253 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
 
 ## Start here (cheapest → most thorough)
 
-1. **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 237 skills. `grep -i <term>` is the fastest way to find a capability.
+1. **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 253 skills. `grep -i <term>` is the fastest way to find a capability.
 2. **[CODE-INDEX.md](./CODE-INDEX.md)** — flat index of every script, shared helper, test and template (the executable knowledge layer). `grep -i <term> CODE-INDEX.md` finds runnable code by purpose or owner skill.
 3. **[REFERENCES-INDEX.md](./REFERENCES-INDEX.md)** — flat index of all 526 reference docs inside skills' `references/` dirs (nested subdirs included). `grep -i <term> REFERENCES-INDEX.md` finds verified API maps and gotchas tables by topic without knowing which skill owns them.
 4. **[DEPENDENCY.md](./DEPENDENCY.md)** — relationship map: hub skills, standalone skills, full cross-reference validation.
@@ -50,6 +50,8 @@ The fastest way from a job you have in mind to the skill that does it. Not sure 
 | Design CI workflows that prove claims (no always-skip checks, bot commits, canaries) | `ci-gate-design` |
 | Stop one fact living in many places (generate, then diff; point, do not copy) | `one-authority-per-fact` |
 | Write a repo's CLAUDE.md / AGENTS.md (incident-carrying rules, decided register, gates) | `repo-agent-instructions` |
+| Audit a skill library (frontmatter, `related_skills`, headers, judge calibration) | `skill-library-audits` |
+| Vet, import, evolve or release third-party skills (registry security, drafts, GEPA, versioning) | `skill-intake-and-release` |
 | Decide with a blind multi-agent jury, or interview/critique an idea | `multi-agent-deliberation` (splitting independent work → `dispatching-parallel-agents`) |
 | Debug a hard bug | `systematic-debugging`, `mattpocock-diagnosing-bugs` |
 | Test-first development | `test-driven-development`, `mattpocock-tdd` |
@@ -59,6 +61,7 @@ The fastest way from a job you have in mind to the skill that does it. Not sure 
 | Plan a modular-monolith boundary, decomposition or strangler-fig migration | `modular-monolith-migration` (measure first with `architecture-metrics`) |
 | Windows Bash-tool traps (heredocs eat backslashes, `python -` hangs, cp1252 stdout, CRLF) | `windows-agent-shell` |
 | Design a scalable system / prep a system design interview (CAP, caching, sharding, fan-out) | `system-design-scaling` (primer-distilled trade-off tables + 8 case-study patterns; runnable LRU/base62/MapReduce-top-k/availability scripts inside) |
+| System-design case studies and OO design exercises | `system-design-interview-patterns` |
 
 ### Docs and knowledge
 
@@ -74,9 +77,13 @@ The fastest way from a job you have in mind to the skill that does it. Not sure 
 |--------------|------------|
 | Build a Python web/desktop UI (dashboards, internal tools) | `nicegui-app-builder`; data dashboards → `streamlit-dashboards` |
 | Theme or extend Hermes (skins, desktop/TUI plugins, Python plugins, pets) | `hermes-extensions` |
+| Port one skill set to many agent harnesses (hooks, plugins, session-start injection) | `cross-harness-skill-porting` |
+| Keep prompt caches hitting; plan a route-bound context budget | `context-budget-planning` |
+| Connect Hermes to MCP servers, webhooks, Portal auth or Hindsight memory | `hermes-integrations` |
 | Pick CSS / icon / animation libraries for a static site (weight, licence) | `frontend-library-picks`; React projects → `react-ecosystem`; site structure and CSP → `static-site-patterns` |
 | Get cited by AI search, `llms.txt`, agent-ready sites (AEO/GEO) | `ai-search-optimization` (classic SEO → `static-site-seo`) |
 | Bun, standard/neostandard, PostCSS, js-beautify behaviour | `js-tooling-notes` |
+| Audit a built static site (page weight, LCP/CLS, blocking scripts, UI/a11y checklist) | `web-perf-audit` |
 | React 19 / Next.js 16 / Zustand / Motion / shadcn behaviour and traps | `react-library-notes`; which library → `react-ecosystem` |
 | Design or redesign frontend / landing pages | `design-taste-frontend`, `redesign-existing-projects`, `popular-web-designs` (54 real design systems), `claude-design` |
 | Ship UI that doesn't look templated — pick the aesthetic first | `design-taste-frontend` (anti-slop default), presets: `soft-premium-ui`, `editorial-minimalism-ui`, `industrial-brutalist-ui`; motion-heavy → `awwwards-gsap-motion`; Google Stitch DESIGN.md → `stitch` |
@@ -98,8 +105,17 @@ The fastest way from a job you have in mind to the skill that does it. Not sure 
 | Asteroid-mining economics pipeline work | `economicspace-pipeline`; method then tool choice → `astro-toolkit-selection` |
 | Skyfield / astropy / SpiceyPy / Orekit / pykep / hifitime behaviour and traps | `astro-library-notes` (after `astro-toolkit-selection` picks the method) |
 | Build space/astro data pipelines (fetch→parquet→HF) | `space-data-pipelines` (verified API gotchas table inside) |
+| Lunar south-pole mapping (LPS projection, LGRS grids, cap tiling, COG) | `lunar-gis-projections` |
+| Design a layered, extensible enrichment pipeline | `enricher-pipeline-architecture` |
 | Search biomedical literature / genomic databases | `pubmed-database` (NCBI E-utilities), `gget` (Ensembl/BLAST lookups); full genomics/computational-biology work → `bioinformatics` (gateway to 400+ skills) |
 | Evaluate a paper, proposal, or evidence claim | `scholar-evaluation` (9-dimension rubric); build the review itself → `literature-review` |
+| Design and report a human evaluation (annotators, agreement, IRB) | `human-evaluation-design` |
+| Pre-submission check of AI-assisted research (fake citations, invented results) | `ai-research-integrity` |
+| Decide whether LLM self-refinement helps; run a judged refinement loop | `autoreason-refinement` |
+| Find keyless open datasets (HF mirrors, data.gov) and check redistribution licences | `open-data-catalog-sources` |
+| Cite and verify references for a paper (APIs, BibTeX) | `paper-citation-workflow` |
+| Run and analyse ML research experiments (layout, tests, recovery, figures) | `ml-experiment-patterns` |
+| Anticipate reviewers, write a rebuttal (NeurIPS/ICML/ICLR/ACL/AAAI/COLM) | `conference-review-criteria` |
 
 ### Automation, shipping and infrastructure
 

@@ -15,7 +15,7 @@ skills/
 ```
 
 - **Name/path mismatch**: `theme-generator/SKILL.md` declares `name: preline-theme-generator`. Our frontmatter audit rule 7
-  (`references/frontmatter-audit-pattern.md`: `name:` must equal the directory name) would flag it. When importing, rename the directory
+  (`software-development/skill-library-audits/references/frontmatter-audit-pattern.md`: `name:` must equal the directory name) would flag it. When importing, rename the directory
   or the field, not both ways.
 - `agents/openai.yaml` is a per-agent UI manifest: `display_name`, `short_description`, and a `default_prompt` that names the skill
   with a `$preline-mcp` mention and spells out the first three calls. Useful as a model for a "starter prompt" for a skill whose tools must

@@ -31,7 +31,7 @@ help, so a list-diff against `hermes --help` misses them; probe by running `herm
 - `hermes usage [--provider P] [--json]`: the account-limit block `/usage` prints (Codex 5 h and weekly windows, plan, banked resets;
   Anthropic OAuth windows; OpenRouter credits); **exit 1** when no credential is configured or the fetch fails.
 - `hermes prompt-size [--platform P] [--json]`: the fixed prompt budget of a fresh session (system prompt, skills index, memory,
-  user profile, tool-schema JSON), **offline, no API call**. Pairs with `references/context-budget-and-cache-placement.md`.
+  user profile, tool-schema JSON), **offline, no API call**. Pairs with `context-budget-planning`.
 - `hermes monitoring status`: OTLP export of service-health metrics and redacted diagnostics to an operator-set endpoint;
   "content-free by construction" (no prompts, messages, tool args or usage analytics); configured under `monitoring.*`.
 - `hermes journey [--reveal 0..1] [--play] [--json] {list,delete,edit}`: timeline of learned skills and memories; `delete`
@@ -59,7 +59,7 @@ help, so a list-diff against `hermes --help` misses them; probe by running `herm
 - `hermes import-agent [claude-code|codex] [--source DIR] [--dry-run] [--overwrite] [--yes] [--sync]`: one-command import of another
   agent's setup: `CLAUDE.md`/`AGENTS.md` instructions, permission allowlists, MCP servers, skills and memories. Always previews;
   **API keys and credentials are never imported** (run `hermes setup`). `--sync` re-imports every previously imported source whose files
-  changed (registry in `HERMES_HOME/import-sync.json`), without prompts. Complements `references/cross-harness-skill-porting.md`.
+  changed (registry in `HERMES_HOME/import-sync.json`), without prompts. Complements `cross-harness-skill-porting`.
 - `hermes claw {migrate,cleanup,clean}`: from OpenClaw to Hermes (settings, memories, skills, API keys); `cleanup` archives leftovers.
 - `hermes migrate {xai,relay}`: diagnose and optionally rewrite `config.yaml` for retired models or deprecated settings (`xai`: models
   retired 2026-05-15; `relay`: legacy `HERMES_NEMO_RELAY_ATIF_*/ATOF_*` exporter variables into `relay-plugins.toml`).
