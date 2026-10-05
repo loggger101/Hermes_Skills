@@ -73,13 +73,35 @@ arr = product["data"]          # PDS_ndarray / PDS_marray — numpy arrays WITH 
 - Full label object model available if needed: `Label`, `TableStructure`/`TableManifest` + `Meta_Field*`
   (Character/Binary/Delimited/UniformlySampled/Bit), `ArrayStructure`/`ArraySection`, plain-text and FITS header parsers.
 
-## cumulus — NASA's PDS label parser + CMR client [SRC]
+## cumulus — NASA Earth-science cloud ingest framework; two reusable packages [SRC + `@cumulus/pvl` RUN 2026-10-05]
 
-30-package monorepo; the two pipeline-relevant pieces:
+`nasa/cumulus` is **not** a planetary-data tool: it is the "Cumulus Framework", an AWS-based data ingest, archive,
+distribution and management system for NASA EOSDIS Earth-science streams (a monorepo of about 30 `@cumulus/*` packages,
+Apache-2.0). Two packages are reusable on their own:
 
-- **`pvl`** — PDS (label) format parser: `pvlToJS(labelString)` / `jsToPVL(obj)`. JS, but it is the reference
-  implementation of the label grammar that pds4_tools parses in Python.
-- **`cmr-client`** — NASA CMR search/ingest API client with Launchpad token refresh; endpoints documented in its `API.md`.
+- **`@cumulus/pvl`** (npm 22.4.3, modified 2026-10-03) exports `pvlToJS`, `jsToPVL`, `parseValue`, `models`. **It is not a
+  full PDS3/PVL grammar.** The same inputs run through it and through Python `pvl` 1.3.2:
+
+  | PVL input | `@cumulus/pvl` | Python `pvl` 1.3.2 |
+  |---|---|---|
+  | `SOLAR_LONGITUDE = 120.5 <deg>` (unit) | **error** `Failed to parse value` | `[120.5, "deg"]` |
+  | `D = 16#FF#` (based number) | **error** | `255` |
+  | `S = {A,B,C}` and `Q = (1,2,3)` | **error** | frozenset / `[1, 2, 3]` |
+  | multi-line quoted string | **error** | `"line one line two"` |
+  | `NOTE = "he said ""hi"""` (doubled quote) | error | error (`LexerError`) |
+  | `A = 1 /* trailing comment */` | value becomes the *string* `"1 /* trailing */"` | `1` |
+  | `OBJECT = IMAGE ... END_OBJECT` | stored under the key `OBJECT` with `identifier: IMAGE` | `{"IMAGE": {...}}` |
+  | `D2 = 2004-003T12:00:00` (day of year) | text string | parsed datetime |
+  | `B = NULL` | the string `"NULL"` | `None` |
+  | missing `END` | accepted | accepted |
+  | duplicate keys | both kept in `store` | both kept |
+
+  Other JS facts: it returns a model object (`{store: [[key, value]...], type: 'ROOT'}`), not a plain object, and
+  `jsToPVL({A: 1})` on a plain object throws `TypeError: pvlObject.toPVL is not a function` (it expects its own model).
+  So the earlier "reference implementation of the label grammar" description was wrong. For PDS3 labels use Python `pvl`;
+  for PDS4 (XML) use `pds4_tools` (above). `@cumulus/pvl` is only safe for simple `KEY = value` metadata files.
+- **`@cumulus/cmr-client`** — NASA CMR search/ingest API client with Launchpad token refresh; endpoints documented in its
+  `API.md` (source-read; not run).
 
 ## space-map export format — ready-made ephemeris shipping schema [SRC]
 
