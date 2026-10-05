@@ -42,6 +42,7 @@ contributor docs first, then choose the trailer; a user instruction or the repo'
 | igorbarinov/awesome-data-engineering | Neutral | Looks for evidence the project is real and used, whoever wrote the code |
 | **ripienaar/free-for-dev** | **Rejects AI edits** | AI-generated edits closed without discussion; PRs must use the template |
 | **streamlit/streamlit** | **Outside PRs paused** | Not accepting PRs from outside the maintainer team because AI tools raised volume; detailed issues are the way to contribute |
+| PrefectHQ/prefect (policy lives in `docs/contribute/dev-contribute.mdx`, which its `AGENTS.md` points to; the root-file scan did not see it) | Welcome as a starting point | AI output is not evidence of correctness; low-effort, unverified or far-off AI-generated issues and PRs may be closed, whether or not AI was used |
 
 Separately, `alirezarezvani/claude-skills` lists `Co-Authored-By:` among things its contribution guide discusses, and
 `Imbad0202/academic-research-skills` excludes features designed to evade AI-text detection.

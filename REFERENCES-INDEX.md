@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **463 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **464 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -341,6 +341,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## data-science/build-systems-data
 
 - `data-science/build-systems-data/references/data-engineering-tool-map.md` — Data-engineering tool picks from awesome-data-engineering with PyPI freshness and a Python 3.14 install trap (pip silently installs an old great-expectations 0.18 and luigi 3.6)
+- `data-science/build-systems-data/references/prefect-3-notes.md` — Prefect 3.8.7 run locally: ephemeral-server cost (13 s cold, ~1 s per flow), retries, INPUTS caching, parameter validation, failure behaviour, PREFECT_HOME, plus its AGENTS.md rules
 
 ## data-science/economicspace-pipeline
 
