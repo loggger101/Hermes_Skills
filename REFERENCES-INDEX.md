@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **475 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **476 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -746,6 +746,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## software-development/verification-culture
 
+- `software-development/verification-culture/references/agent-quality-bar-patterns.md` — Three agent-engineering disciplines distilled from addyosmani/agent-skills: doubt-driven review (fresh adversarial reviewer), constraint-driven quality bar (CONSTRAINTS.md, floor, ratchets), source-driven implementation (cite official docs)
 - `software-development/verification-culture/references/autonomous-operator-protocol-tlc.md` — Autonomous Operator Protocol: Evidence-or-Stop (verified from tech-leads-club/agent-skills @ 0ab82f6)
 
 ## web-development/browser-automation
