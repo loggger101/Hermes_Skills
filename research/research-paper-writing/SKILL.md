@@ -11,7 +11,7 @@ metadata:
   hermes:
     tags: [Research, Paper Writing, Experiments, ML, AI, NeurIPS, ICML, ICLR, ACL, AAAI, COLM, LaTeX, Citations, Statistical Analysis]
     category: research
-    related_skills: [arxiv, mattpocock-subagent-driven-development, plan, excalidraw, python-data-science, human-evaluation-design, autoreason-refinement, ai-research-integrity]
+    related_skills: [paper-citation-workflow, ml-experiment-patterns, conference-review-criteria, arxiv, mattpocock-subagent-driven-development, plan, excalidraw, python-data-science, human-evaluation-design, autoreason-refinement, ai-research-integrity]
     requires_toolsets: [terminal, files]
 ---
 
@@ -339,7 +339,7 @@ If you cannot verify a citation:
 
 **Always tell the scientist**: "I've marked [X] citations as placeholders that need verification."
 
-See [references/citation-workflow.md](references/citation-workflow.md) for complete API documentation and the full `CitationManager` class.
+See [paper-citation-workflow](../paper-citation-workflow/references/citation-workflow.md) for complete API documentation and the full `CitationManager` class.
 
 ### Step 1.4: Organize Related Work
 
@@ -421,7 +421,7 @@ analyze_results.py             # Statistical analysis
 make_charts.py                 # Visualization
 ```
 
-See [references/experiment-patterns.md](references/experiment-patterns.md) for complete design patterns, cron monitoring, and error recovery.
+See [ml-experiment-patterns](../ml-experiment-patterns/references/experiment-patterns.md) for complete design patterns, cron monitoring, and error recovery.
 
 ### Step 2.5: Design Human Evaluation (If Applicable)
 
@@ -590,7 +590,7 @@ Always compute:
 - **Pairwise tests**: McNemar's test for comparing two methods
 - **Effect sizes**: Cohen's d or h for practical significance
 
-See [references/experiment-patterns.md](references/experiment-patterns.md) for complete implementations of McNemar's test, bootstrapped CIs, and Cohen's h.
+See [ml-experiment-patterns](../ml-experiment-patterns/references/experiment-patterns.md) for complete implementations of McNemar's test, bootstrapped CIs, and Cohen's h.
 
 ### Step 4.3: Identify the Story
 
@@ -846,7 +846,7 @@ Each reviewer can refine their review after seeing the meta-review. Use an early
 
 **Model selection for reviewing**: Reviewing is best done with the strongest available model, even if you wrote the paper with a cheaper one. The reviewer model should be chosen independently from the writing model.
 
-**Few-shot calibration**: If available, include 1-2 real published reviews from the target venue as examples. This dramatically improves score calibration. See [references/reviewer-guidelines.md](references/reviewer-guidelines.md) for example reviews.
+**Few-shot calibration**: If available, include 1-2 real published reviews from the target venue as examples. This dramatically improves score calibration. See [conference-review-criteria](../conference-review-criteria/references/reviewer-guidelines.md) for example reviews.
 
 ### Step 6.1b: Visual Review Pass (VLM)
 
@@ -1177,7 +1177,7 @@ Understanding what reviewers look for helps focus effort:
 - 2: Reject — technical flaws
 - 1: Strong Reject — known results or ethics issues
 
-See [references/reviewer-guidelines.md](references/reviewer-guidelines.md) for detailed guidelines, common concerns, and rebuttal strategies.
+See [conference-review-criteria](../conference-review-criteria/references/reviewer-guidelines.md) for detailed guidelines, common concerns, and rebuttal strategies.
 
 ---
 
@@ -1205,11 +1205,11 @@ See [references/reviewer-guidelines.md](references/reviewer-guidelines.md) for d
 | Document | Contents |
 |----------|----------|
 | [references/writing-guide.md](references/writing-guide.md) | Gopen & Swan 7 principles, Perez micro-tips, Lipton word choice, Steinhardt precision, figure design |
-| [references/citation-workflow.md](references/citation-workflow.md) | Citation APIs, Python code, CitationManager class, BibTeX management |
+| [paper-citation-workflow](../paper-citation-workflow/references/citation-workflow.md) | Citation APIs, Python code, CitationManager class, BibTeX management |
 | [references/checklists.md](references/checklists.md) | NeurIPS 16-item, ICML, ICLR, ACL requirements, universal pre-submission checklist |
-| [references/reviewer-guidelines.md](references/reviewer-guidelines.md) | Evaluation criteria, scoring, common concerns, rebuttal template |
+| [conference-review-criteria](../conference-review-criteria/references/reviewer-guidelines.md) | Evaluation criteria, scoring, common concerns, rebuttal template |
 | [references/sources.md](references/sources.md) | Complete bibliography of all writing guides, conference guidelines, APIs |
-| [references/experiment-patterns.md](references/experiment-patterns.md) | Experiment design patterns, evaluation protocols, monitoring, error recovery |
+| [ml-experiment-patterns](../ml-experiment-patterns/references/experiment-patterns.md) | Experiment design patterns, evaluation protocols, monitoring, error recovery |
 | [autoreason-refinement](../autoreason-refinement/references/autoreason-methodology.md) | Autoreason loop, strategy selection, model guide, prompts, scope constraints, Borda scoring |
 | [human-evaluation-design](../human-evaluation-design/references/human-evaluation.md) | Human evaluation design, annotation guidelines, agreement metrics, crowdsourcing QC, IRB guidance |
 | [references/paper-types.md](references/paper-types.md) | Theory papers (proof writing, theorem structure), survey papers, benchmark papers, position papers |

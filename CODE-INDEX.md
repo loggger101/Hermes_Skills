@@ -86,6 +86,11 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 - `data-science/evolutionary-ml/tests/test_skill_snippets.py` (test, python, 104 lines) — Run the code SKILL.md teaches and assert the claims its prose makes about it
 
+## data-science/lunar-gis-projections
+
+- `data-science/lunar-gis-projections/scripts/cap_grid_verify.py` (script, python, 244 lines) — Verify AEGIS cap-grid tiling invariants + LGRS converter logic (stdlib only)
+- `data-science/lunar-gis-projections/scripts/lps_projection_verify.py` (script, python, 127 lines) — Verify the south-pole Lunar Polar Stereographic (LPS) projection math used by nasa/aegis (AEGIS)
+
 ## data-science/optimization-modeling-pyomo
 
 - `data-science/optimization-modeling-pyomo/scripts/pyomo_patterns_verify.py` (script, python, 174 lines) — Live-verify the Pyomo patterns documented in this skill
@@ -102,8 +107,6 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 ## data-science/space-data-pipelines
 
-- `data-science/space-data-pipelines/scripts/cap_grid_verify.py` (script, python, 244 lines) — Verify AEGIS cap-grid tiling invariants + LGRS converter logic (stdlib only)
-- `data-science/space-data-pipelines/scripts/lps_projection_verify.py` (script, python, 127 lines) — Verify the south-pole Lunar Polar Stereographic (LPS) projection math used by nasa/aegis (AEGIS)
 - `data-science/space-data-pipelines/scripts/pipeline_skeleton.py` (script, python, 228 lines) — Runnable reference implementation of the space-datasets pipeline pattern
 
 ## devops/rest-api-client

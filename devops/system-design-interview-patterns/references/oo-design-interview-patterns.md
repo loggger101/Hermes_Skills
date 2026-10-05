@@ -8,7 +8,7 @@ The recurring meta-pattern across all six:
 2. Model entities as classes; use `Enum` for closed sets (suits, ranks, sizes, states); use an abstract base class (`ABCMeta`) to define the contract subclasses must fill in.
 3. Keep *state* and *behavior* on the right object — a `Call` knows its own state machine, a `ParkingSpot` decides whether it can fit a vehicle, not the other way around.
 
-> The primer ships these as **stubbed** notebook code (method bodies are `# ...`). Below each skeleton is cleaned up to be runnable-shaped; where I kept a stub I say so. Two exercises have real implementations in this skill already: hash map (`solutions/.../hash_map.py`) and LRU cache (`scripts/lru_cache_o1.py` — the primer's own LRU notebook is stubbed, my script implements it for real).
+> The primer ships these as **stubbed** notebook code (method bodies are `# ...`). Below each skeleton is cleaned up to be runnable-shaped; where I kept a stub I say so. Two exercises have real implementations in the `system-design-scaling` skill already: hash map (`solutions/.../hash_map.py`) and LRU cache (`devops/system-design-scaling/scripts/lru_cache_o1.py` — the primer's own LRU notebook is stubbed, my script implements it for real).
 
 ---
 
@@ -46,7 +46,7 @@ Already fully implemented at `solutions/object_oriented_design/hash_table/hash_m
 ## 4. LRU cache
 
 **Clarifying questions**: what are we caching (web-query results)? valid inputs? fits memory?
-The primer's notebook is **stubbed** (`LinkedList.move_to_front/append_to_front/remove_from_tail` are `# ...`). The real O(1) implementation — hash table + doubly-linked list with sentinel head/tail, move-to-front on get, evict-tail at capacity — lives in this skill: **`scripts/lru_cache_o1.py`** (self-tested). Use that.
+The primer's notebook is **stubbed** (`LinkedList.move_to_front/append_to_front/remove_from_tail` are `# ...`). The real O(1) implementation — hash table + doubly-linked list with sentinel head/tail, move-to-front on get, evict-tail at capacity — lives in the `system-design-scaling` skill: **`devops/system-design-scaling/scripts/lru_cache_o1.py`** (self-tested). Use that.
 
 ## 5. Online chat
 

@@ -13,6 +13,7 @@ Skills for academic research, paper discovery, literature review, domain reconna
 - [`blocked-page-recovery`](./blocked-page-recovery/SKILL.md) — Recover blocked/paywalled/WAF'd pages via fallbacks
 - [`blogwatcher`](./blogwatcher/SKILL.md) — Monitor blogs and RSS/Atom feeds via blogwatcher-cli tool
 - [`competitor-news-monitor`](./competitor-news-monitor/SKILL.md) — Watch named companies for material news; cited digests
+- [`conference-review-criteria`](./conference-review-criteria/SKILL.md) — How ML conference reviewers score papers; rebuttals
 - [`general-research-rounds`](./general-research-rounds/SKILL.md) — Run source-anchoring rounds on the General_Research repo
 - [`gget`](./gget/SKILL.md) — gget CLI/Python: quick genomic DB queries + evidence logs
 - [`grounded-citations`](./grounded-citations/SKILL.md) — Ground answers and documents in cited, verifiable sources
@@ -20,6 +21,8 @@ Skills for academic research, paper discovery, literature review, domain reconna
 - [`literature-review`](./literature-review/SKILL.md) — Plan, screen, synthesize and cite technical literature
 - [`llm-wiki`](./llm-wiki/SKILL.md) — Karpathy's LLM Wiki: build/query interlinked markdown KB
 - [`mattpocock-research`](./mattpocock-research/SKILL.md) — Research a question against primary sources
+- [`ml-experiment-patterns`](./ml-experiment-patterns/SKILL.md) — ML experiment infrastructure, evaluation and recovery
+- [`paper-citation-workflow`](./paper-citation-workflow/SKILL.md) — Verify citations via APIs; manage BibTeX for papers
 - [`parallel-cli`](./parallel-cli/SKILL.md) — Agent-native web search, deep research, and enrichment
 - [`pubmed-database`](./pubmed-database/SKILL.md) — PubMed/NCBI E-utilities: MeSH queries, PMID lookup, API
 - [`qmd`](./qmd/SKILL.md) — Hybrid local search over notes, docs, and transcripts
