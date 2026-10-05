@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **492 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **493 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -173,6 +173,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## creative/diagram-design
 
 - `creative/diagram-design/references/animation.md` — Optional animation
+- `creative/diagram-design/references/d3-headless-notes.md` — d3 7.9.0 headless: scales, shapes, layouts and the traps (run live in Node)
 - `creative/diagram-design/references/doctor.md` — Environment doctor
 - `creative/diagram-design/references/export.md` — Export to PNG / SVG
 - `creative/diagram-design/references/import-drawio.md` — Import from draw.io
