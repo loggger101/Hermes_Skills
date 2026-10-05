@@ -88,5 +88,5 @@ Checking results before reaching sample size inflates false-positive rate (each 
 ## Mapping to this brain's workflows
 
 - **CR-pipeline / GA experiments:** the same tiers apply — primary = win-rate or ELO delta, guardrails = no degenerate strategy collapse (diversity metrics), and "one full cycle" floors translate to whole tournament brackets rather than calendar weeks.
-- **Cron-loop self-checks** (`cron-job-authoring/references/loop-engineering.md`): the sample-size gate IS the loop's self-check — a churn-watch on 40 accounts/week is measuring noise; the cadence-vs-signal table already encodes this, these tables give it numbers.
+- **Cron-loop self-checks** (`autonomous-loop-design/references/loop-engineering.md`): the sample-size gate IS the loop's self-check — a churn-watch on 40 accounts/week is measuring noise; the cadence-vs-signal table already encodes this, these tables give it numbers.
 - **Website audits:** when an audit recommends "test X," attach the required sample from these tables so the recommendation includes its own feasibility verdict (a page with 500 visitors/month can't test a 10% relative lift on signup in any sane timeframe — say so).

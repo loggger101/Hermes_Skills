@@ -33,6 +33,7 @@ Development tools and coding workflows.
 - [`mattpocock-to-tickets`](./mattpocock-to-tickets/SKILL.md) — Break a plan or spec into tracer-bullet tickets with edges
 - [`mattpocock-using-git-worktrees`](./mattpocock-using-git-worktrees/SKILL.md) — Set up isolated git worktrees for feature work
 - [`mattpocock-writing-for-agents`](./mattpocock-writing-for-agents/SKILL.md) — Write docs agents can consume: skills, AGENTS.md, specs
+- [`modular-monolith-migration`](./modular-monolith-migration/SKILL.md) — Module boundaries, decomposition, strangler-fig plans
 - [`node-inspect-debugger`](./node-inspect-debugger/SKILL.md) — Debug Node.js via --inspect + Chrome DevTools Protocol CLI
 - [`plan`](./plan/SKILL.md) — Write a markdown plan to .hermes/plans/; no execution
 - [`ponytail`](./ponytail/SKILL.md) — Laziest working solution: reuse, stdlib, native first

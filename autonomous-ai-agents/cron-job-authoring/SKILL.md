@@ -16,7 +16,7 @@ metadata:
 
 ## What This Skill Does
 
-Teaches the pattern for writing prompts for cron jobs that run autonomously on a schedule with no human present. Covers the no-interaction guardrail pattern (never use `clarify`, never prompt for credentials, never present interactive UI), credential handling (skip-and-record strategy when credentials are missing), delivery discipline (the cron system auto-delivers the final response; never call `send_message` yourself), and structural conventions (phased prompts, scorecards, blocked-item handling). Includes loop engineering for *recurring* jobs — nine-part anatomy, cadence-vs-signal-speed matching, two-tier action model with spend caps/allowlists, idempotency state patterns, kill switches, and the vanity-loop detector (`references/loop-engineering.md`). Also includes troubleshooting for common failures like `[drift_skip]` errors and `approvals.cron_mode` blocking, and the full procedure for jobs that automate an existing repository's CI pipeline (`references/repo-cronjob.md`).
+Teaches the pattern for writing prompts for cron jobs that run autonomously on a schedule with no human present. Covers the no-interaction guardrail pattern (never use `clarify`, never prompt for credentials, never present interactive UI), credential handling (skip-and-record strategy when credentials are missing), delivery discipline (the cron system auto-delivers the final response; never call `send_message` yourself), and structural conventions (phased prompts, scorecards, blocked-item handling). Includes loop engineering for *recurring* jobs — nine-part anatomy, cadence-vs-signal-speed matching, two-tier action model with spend caps/allowlists, idempotency state patterns, kill switches, and the vanity-loop detector (`autonomous-ai-agents/autonomous-loop-design/references/loop-engineering.md`). Also includes troubleshooting for common failures like `[drift_skip]` errors and `approvals.cron_mode` blocking, and the full procedure for jobs that automate an existing repository's CI pipeline (`references/repo-cronjob.md`).
 
 Writing prompts for cron jobs that run on a schedule with no human present requires different discipline than writing prompts for interactive sessions. The job cannot ask questions, wait for approvals, or pause for credentials. Every decision point that would normally trigger a `clarify` or a prompt must be resolved in the prompt itself — either with a rule ("skip and note"), a fallback, or an explicit blocker record.
 
@@ -69,7 +69,7 @@ When a cron job's work touches external services, the prompt must tell the agent
 
 Never: attempt to obtain credentials, search for how to get them, enter interactive OAuth flows, or prompt the user.
 
-For *storing* per-user/per-profile secrets at rest (when a pipeline needs its own encrypted vault rather than env vars), `references/vault-crypto-pattern.md` has a verified reference construction from reconurge/flowsint: versioned master key from env -> HKDF-SHA256 with `info=tenant_id` -> AES-256-GCM with AAD bound to the owner, per-row salt+iv+key_version (rotation = additive migration), dual UUID-or-name lookup scoped by ownership in every query, and deferred-secret-resolution so components stay instantiable without a vault.
+For *storing* per-user/per-profile secrets at rest (when a pipeline needs its own encrypted vault rather than env vars), `skill_view(name='secret-vault-pattern')` (its `references/vault-crypto-pattern.md`) has a verified reference construction from reconurge/flowsint: versioned master key from env -> HKDF-SHA256 with `info=tenant_id` -> AES-256-GCM with AAD bound to the owner, per-row salt+iv+key_version (rotation = additive migration), dual UUID-or-name lookup scoped by ownership in every query, and deferred-secret-resolution so components stay instantiable without a vault.
 
 ## Delivery Discipline
 
@@ -104,7 +104,7 @@ Some jobs are watchdogs that should stay silent when nothing changed (e.g. `wake
 
 ### Recurring jobs = loops with state
 
-For any job that runs more than once (watchdogs, monitors, periodic reviews), apply loop engineering: a **self-check** phase before acting (is the signal real vs. noise/stale data?), durable **state/idempotency** (watermark + dedupe keys so re-runs never double-act or re-nag), an explicit **stop/bail-out**, and a per-run log line that doubles as the vanity-loop detector (`acted=0` for weeks → retire it). The full nine-part anatomy, two-tier action model (draft/stage = safe; spend/send/publish/delete = gated behind caps + allowlist + human checkpoint), cadence-vs-signal-speed table, and rollout order for multiple loops are in `references/loop-engineering.md`.
+For any job that runs more than once (watchdogs, monitors, periodic reviews), apply loop engineering: a **self-check** phase before acting (is the signal real vs. noise/stale data?), durable **state/idempotency** (watermark + dedupe keys so re-runs never double-act or re-nag), an explicit **stop/bail-out**, and a per-run log line that doubles as the vanity-loop detector (`acted=0` for weeks → retire it). The full nine-part anatomy, two-tier action model (draft/stage = safe; spend/send/publish/delete = gated behind caps + allowlist + human checkpoint), cadence-vs-signal-speed table, and rollout order for multiple loops are in `autonomous-ai-agents/autonomous-loop-design/references/loop-engineering.md`.
 
 ## Pitfalls
 
@@ -162,7 +162,7 @@ The two mistakes that corrupt data most often: treating a no-change run as failu
 - `references/drift-skip-error.md` — troubleshooting the `[drift_skip]` error when a job's provider/model drifts from global config and gets auto-skipped.
 - `references/cron-approval-mode.md` — configuring `approvals.cron_mode` in `config.yaml` to auto-approve dangerous terminal commands in cron jobs.
 - `references/script-path-resolution.md` — pitfalls when computing REPO_ROOT from `__file__` in invoked scripts, and excluding sync output directories from recursive scans.
-- `references/loop-goal-design-and-review.md` — designing or reviewing a goal-seeking loop: machine-decidable goal + boundary, plan/build/judge with an independent judge, five failure modes, and a run-measured gate that catches an agent deleting tests (and the assert-weakening it misses).
+- `skill_view(name='autonomous-loop-design')` — loop engineering (nine-part anatomy, cadence, two-tier action model) and goal-seeking loop design and review (moved there in round-251)
 - `references/output-alignment.md` — the config-vs-script mismatch pitfall: `threshold` keys and `post_run_verification` commands that name fields the script never emits cause false alerts and silent misses; the correct pattern, plus the real stdout/JSON shape of audit-skills.py, sync-hermes-skills.py and fetch_curate.mjs.
 
 ## Verification
@@ -180,3 +180,6 @@ After editing a cron job prompt, verify:
 9. If the script does recursive scans (`rglob`) with path-string exclusions, verify it normalizes path separators (`.replace("\\", "/")` before `in` checks) — on Windows, backslash paths bypass forward-slash exclusion patterns.
 
 Run the job once manually (`hermes cron run <job_id>`) and watch the session transcript for any `clarify` calls, tool loops on unsupported skills, or stalled tool results — these are signs the guardrails aren't comprehensive enough.
+
+
+- `skill_view(name='secret-vault-pattern')` — per-user encrypted secret vault construction, run live (moved there in round-251)

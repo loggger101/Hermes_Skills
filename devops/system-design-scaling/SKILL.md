@@ -46,7 +46,7 @@ Provides the full decision framework: the 4-step process for any design question
 | The 8 system-design case studies as reusable patterns with their key numbers and the non-obvious tricks (base62 capacity math, celebrity fan-out inversion, crawl signature dedup, bidirectional BFS, MapReduce top-k sort) | `references/case-study-patterns.md` |
 | OO design interviews: all 6 worked exercises (deck/Blackjack multi-ace scoring, call-center cascade dispatch + state machine, hash map chaining, LRU, chat graph-vs-conversation split, parking-lot fit-inversion), each with its clarifying-question list; plus verified source bugs in the primer's own stubbed code | `references/oo-design-interview-patterns.md` |
 | Powers of two, latency numbers every programmer should know, request-rate conversions, nines downtime tables | `references/latency-and-estimation.md` |
-| Feature flags and progressive delivery: flag types and lifespans, ring/linear/log/cohort rollout maths (run), kill-switch registry fields, stale-flag detection and the traps in common flag scripts | `references/feature-flag-lifecycle.md` |
+| Feature flags and progressive delivery: flag types and lifespans, ring/linear/log/cohort rollout maths (run), kill-switch registry fields, stale-flag detection and the traps in common flag scripts | `devops/feature-flag-lifecycle` skill |
 
 ## Runnable scripts (stdlib-only, self-testing — run with `py`)
 
@@ -65,3 +65,6 @@ py devops/system-design-scaling/scripts/availability_math.py       # nines→dow
 - **Expensive operation inline** → queue + workers (async), but keep cheap/realtime paths synchronous; apply back pressure (HTTP 503 + exponential backoff) when queues grow past memory.
 - **CAP**: networks partition, so choose CP (atomic reads/writes, may time out) vs AP (serve stale, propagate later). NoSQL = BASE: basically available, soft state, eventually consistent.
 - **Scaling a DB**: replication first (reads), then federation (by function), then sharding (by key); denormalize when joins hurt; always benchmark before and after.
+
+
+- `skill_view(name='feature-flag-lifecycle')` — progressive delivery and the feature-flag lifecycle (moved there in round-251)

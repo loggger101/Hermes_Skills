@@ -56,7 +56,7 @@ Properties worth copying verbatim:
 Base-class contract (`enricher_base.py`):
 
 - `execute(values)` = `async_init()` -> `preprocess(values)` [Pydantic TypeAdapter validation, invalid items skipped silently + one warning if ALL invalid] -> `await scan(preprocessed)` [pure data gathering — NO graph writes here] -> `postprocess(results, preprocessed)` [graph nodes/relationships only] -> `graph_service.flush()`.
-- **Params are a strict model built at init**: `create_model("ParamsModel", __config__=ConfigDict(extra="forbid"), ...)` from the declared params schema — unknown param keys raise instead of being ignored. vaultSecret fields are deliberately optional in that model (deferred resolution; see cron-job-authoring/references/vault-crypto-pattern.md).
+- **Params are a strict model built at init**: `create_model("ParamsModel", __config__=ConfigDict(extra="forbid"), ...)` from the declared params schema — unknown param keys raise instead of being ignored. vaultSecret fields are deliberately optional in that model (deferred resolution; see secret-vault-pattern/references/vault-crypto-pattern.md).
 - `InputType`/`OutputType` are class attributes as **base types, not lists** (`Domain`, never `List[Domain]`) — the base generates JSON schemas via `TypeAdapter(...).json_schema()` and handles list wrapping. Schema generation even handles `$defs`/`$ref` indirection explicitly (nested-type case) with a documented fallback shape.
 - Every exception in `execute` is caught, logged (`Logger.error`), and returns `[]` — one bad enricher can't take down its flow; the orchestrator records it as an error step instead.
 

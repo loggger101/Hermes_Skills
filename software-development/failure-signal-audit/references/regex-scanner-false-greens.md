@@ -38,7 +38,7 @@ those tools was run here.
 
 `flag_debt_scanner.py` never dates a flag added by editing an existing file, and exempts old flags that are used widely;
 `kill_switch_audit.py` passes `Owner: TBD / Kill switch: none` and passes a sentence that merely contains the words.
-Details and fixes are in `devops/system-design-scaling/references/feature-flag-lifecycle.md`.
+Details and fixes are in `devops/feature-flag-lifecycle/references/feature-flag-lifecycle.md`.
 
 ## Checklist before trusting a scanner's green
 

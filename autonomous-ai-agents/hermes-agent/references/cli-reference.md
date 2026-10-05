@@ -121,8 +121,8 @@ hermes proxy                OpenAI-compatible local proxy backed by an OAuth pro
 hermes portal               Quick setup / sign in via Nous Portal
 hermes kanban <verb>        Multi-agent work-queue board
 hermes project              Named multi-folder workspaces
-hermes skin list|use|set    Switch/tweak skins (see references/themes.md)
-hermes pets <verb>          Pet mascots (see references/petdex.md)
+hermes skin list|use|set    Switch/tweak skins (see hermes-extensions skill: references/themes.md)
+hermes pets <verb>          Pet mascots (see hermes-extensions skill: references/petdex.md)
 hermes memory setup|status|off|reset   Memory provider
 hermes secrets bitwarden|onepassword   External secret stores
 hermes moa                  Mixture-of-Agents slots

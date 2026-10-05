@@ -53,7 +53,7 @@ branch on failure without a traceback.
 - AI policy (`dev-contribute.mdx`, "Using AI tools responsibly"): AI use is allowed as a starting point, not as evidence of
   correctness; maintainers may close issues or PRs that look low-effort, unverified, AI-generated without concrete detail or
   far from the expected implementation, whether or not AI was used. See also
-  `github/github-pr-workflow/references/ai-policies-of-starred-repos.md`.
+  `github/agent-oss-contributions/references/ai-policies-of-starred-repos.md`.
 
 Not run: `prefect server start`, deployments and workers, schedules, work pools, blocks, automations, the UI,
 `flow.serve()`, task runners other than the default, async flows, and the `prefect-client` package.

@@ -3,6 +3,11 @@
 Flat index of all **526 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
+## autonomous-ai-agents/autonomous-loop-design
+
+- `autonomous-ai-agents/autonomous-loop-design/references/loop-engineering.md` — Loop Engineering (scheduled autonomous jobs)
+- `autonomous-ai-agents/autonomous-loop-design/references/loop-goal-design-and-review.md` — Loop goal design and review: a decidable goal, an independent judge, a boundary
+
 ## autonomous-ai-agents/cron-config-authoring
 
 - `autonomous-ai-agents/cron-config-authoring/references/cronjob-config-patterns.md` — (no description)
@@ -16,14 +21,11 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `autonomous-ai-agents/cron-job-authoring/references/drafting-guide.md` — Drafting Guide
 - `autonomous-ai-agents/cron-job-authoring/references/drift-skip-error.md` — Drift Skip: Model/Provider Config Drift
 - `autonomous-ai-agents/cron-job-authoring/references/guardrail-template.md` — Guardrail Template — No-Interaction Block for Cron Jobs
-- `autonomous-ai-agents/cron-job-authoring/references/loop-engineering.md` — Loop Engineering (scheduled autonomous jobs)
-- `autonomous-ai-agents/cron-job-authoring/references/loop-goal-design-and-review.md` — Loop goal design and review: a decidable goal, an independent judge, a boundary
 - `autonomous-ai-agents/cron-job-authoring/references/output-alignment.md` — Output Alignment Reference
 - `autonomous-ai-agents/cron-job-authoring/references/prompt-template.md` — Prompt Body Template
 - `autonomous-ai-agents/cron-job-authoring/references/repo-cronjob.md` — Cron jobs that run against an existing repository
 - `autonomous-ai-agents/cron-job-authoring/references/script-path-resolution.md` — Script Path Resolution Pitfalls
 - `autonomous-ai-agents/cron-job-authoring/references/two-agent-architecture.md` — Two-Agent Architecture: Preparer vs. Commit Agent
-- `autonomous-ai-agents/cron-job-authoring/references/vault-crypto-pattern.md` — Per-User Encrypted Secret Vault (reconurge/flowsint @ 1820569; crypto run 2026-10-05)
 
 ## autonomous-ai-agents/hermes-agent
 
@@ -35,26 +37,29 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `autonomous-ai-agents/hermes-agent/references/contributor-guide.md` — Contributor Quick Reference
 - `autonomous-ai-agents/hermes-agent/references/cross-harness-skill-porting.md` — Cross-Harness Skill Porting — making one skill corpus auto-trigger on N agent runtimes
 - `autonomous-ai-agents/hermes-agent/references/delegate-task-concurrency-diagnosis.md` — delegate_task: diagnosing "my batch was capped"
-- `autonomous-ai-agents/hermes-agent/references/desktop-plugins.md` — Desktop App Plugins — UI Panes, Commands, Widgets
 - `autonomous-ai-agents/hermes-agent/references/hindsight-memory-provider.md` — Hindsight as a Hermes memory provider: catalog install/update/pin, three modes, recall/retain config, why recall comes back empty, and bank/tag rules that prevent cross-user leaks
 - `autonomous-ai-agents/hermes-agent/references/installed-plugins.md` — Installed Plugins — Live Environment Catalog
 - `autonomous-ai-agents/hermes-agent/references/native-mcp.md` — Native MCP Client
-- `autonomous-ai-agents/hermes-agent/references/petdex.md` — Petdex — Animated Pet Mascots
 - `autonomous-ai-agents/hermes-agent/references/portal-auth-for-third-party-apps.md` — Nous Portal — authenticating third-party apps against the subscription
 - `autonomous-ai-agents/hermes-agent/references/project-context-files.md` — Project Context Files
 - `autonomous-ai-agents/hermes-agent/references/providers-and-models.md` — Providers & Model Aliases
-- `autonomous-ai-agents/hermes-agent/references/python-agent-plugins.md` — Python Agent Plugins (the `~/.hermes/plugins/` system) — verified API notes
 - `autonomous-ai-agents/hermes-agent/references/security-privacy.md` — Security & Privacy Toggles
 - `autonomous-ai-agents/hermes-agent/references/slash-commands.md` — Slash Commands (In-Session)
-- `autonomous-ai-agents/hermes-agent/references/themes.md` — Themes / Skins — Author a Hermes Color Theme
 - `autonomous-ai-agents/hermes-agent/references/troubleshooting.md` — Troubleshooting
-- `autonomous-ai-agents/hermes-agent/references/tui-widgets.md` — TUI Widgets — Live Panels for the Ink TUI Dock
 - `autonomous-ai-agents/hermes-agent/references/webhooks.md` — Webhook Subscriptions
 - `autonomous-ai-agents/hermes-agent/references/windows-quirks.md` — Windows-Specific Quirks
 
 ## autonomous-ai-agents/hermes-bot-cloning
 
 - `autonomous-ai-agents/hermes-bot-cloning/references/free-model-discovery.md` — Free Model Discovery on Nous Portal
+
+## autonomous-ai-agents/hermes-extensions
+
+- `autonomous-ai-agents/hermes-extensions/references/desktop-plugins.md` — Desktop App Plugins — UI Panes, Commands, Widgets
+- `autonomous-ai-agents/hermes-extensions/references/petdex.md` — Petdex — Animated Pet Mascots
+- `autonomous-ai-agents/hermes-extensions/references/python-agent-plugins.md` — Python Agent Plugins (the `~/.hermes/plugins/` system) — verified API notes
+- `autonomous-ai-agents/hermes-extensions/references/themes.md` — Themes / Skins — Author a Hermes Color Theme
+- `autonomous-ai-agents/hermes-extensions/references/tui-widgets.md` — TUI Widgets — Live Panels for the Ink TUI Dock
 
 ## autonomous-ai-agents/repowise
 
@@ -372,6 +377,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 - `data-science/evolutionary-ml/references/ga-tuning-measured.md` — GA Tuning — Measured Lessons (CR-pipeline, 2026-09)
 
+## data-science/experiment-design
+
+- `data-science/experiment-design/references/experiment-design-sample-size.md` — Experiment Design & Sample Size (A/B test statistics)
+
 ## data-science/jupyter-notebook
 
 - `data-science/jupyter-notebook/references/notebook-tooling.md` — Notebook tooling run live (jupytext, nbformat, nbconvert, papermill, nbmake, nbdiff): text round-trips, validation, execution failures, parameter injection traps, tests, diffs
@@ -393,18 +402,16 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 - `data-science/optimization-modeling-pyomo/references/formulations-and-algorithms.md` — Pyomo Formulations & Algorithms — measured from source + live execution
 - `data-science/optimization-modeling-pyomo/references/pyomo-source-patterns.md` — Design Patterns Mined from Pyomo Source (portable to any Python project)
-- `data-science/optimization-modeling-pyomo/references/z3-solver-notes.md` — z3-solver 5.1.0 run on Python 3.14: result handling, Int vs BitVec vs Real semantics, Python-operator traps, timeouts, unsat cores, Optimize unbounded, enumeration, pigeonhole scaling
 
 ## data-science/orbital-mechanics-data
 
 - `data-science/orbital-mechanics-data/references/economicspace-library-landscape.md` — Library landscape for the economicspace pipeline
 
-## data-science/python-data-science
+## data-science/polars-pipelines
 
-- `data-science/python-data-science/references/big-data-patterns.md` — Verified big-data patterns (duckdb ad-hoc SQL, polars lazy joins with cardinality checks, parquet row groups, incremental dedup) — all run on 200k-row fixtures, cross-checked against pandas
-- `data-science/python-data-science/references/experiment-design-sample-size.md` — Experiment Design & Sample Size (A/B test statistics)
-- `data-science/python-data-science/references/polars-pymc-api-reference.md` — polars + pymc API references — verified line-numbered facts from cloned sources
-- `data-science/python-data-science/references/polars-v2-engine-and-breaking-changes.md` — polars 2.0 (rc) engine architecture + every breaking change live-verified on polars==2.0.0rc1 — streaming-by-default, row-order semantics, OOC spilling internals, GPU beta
+- `data-science/polars-pipelines/references/big-data-patterns.md` — Verified big-data patterns (duckdb ad-hoc SQL, polars lazy joins with cardinality checks, parquet row groups, incremental dedup) — all run on 200k-row fixtures, cross-checked against pandas
+- `data-science/polars-pipelines/references/polars-pymc-api-reference.md` — polars + pymc API references — verified line-numbered facts from cloned sources
+- `data-science/polars-pipelines/references/polars-v2-engine-and-breaking-changes.md` — polars 2.0 (rc) engine architecture + every breaking change live-verified on polars==2.0.0rc1 — streaming-by-default, row-order semantics, OOC spilling internals, GPU beta
 
 ## data-science/python-numerics-gotchas
 
@@ -436,6 +443,14 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 - `data-science/sql-for-data/references/sql-tooling-sqlglot-sqlfluff.md` — SQL tooling from awesome-db-tools, run live: sqlglot 30.21 transpile/parse/AST (silent semantic changes, unknown functions pass through) and sqlfluff 4.4 lint/fix; plus the migration/schema tool map
 
+## data-science/z3-solver
+
+- `data-science/z3-solver/references/z3-solver-notes.md` — z3-solver 5.1.0 run on Python 3.14: result handling, Int vs BitVec vs Real semantics, Python-operator traps, timeouts, unsat cores, Optimize unbounded, enumeration, pigeonhole scaling
+
+## devops/feature-flag-lifecycle
+
+- `devops/feature-flag-lifecycle/references/feature-flag-lifecycle.md` — Feature flags as a lifecycle: flag types and lifespans, ring/linear/log/cohort rollout maths, kill-switch registry fields, stale-flag detection and the traps in alirezarezvani's three scripts
+
 ## devops/incident-response
 
 - `devops/incident-response/references/incident-command-method.md` — Live Incident Command Method
@@ -450,7 +465,6 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `devops/system-design-scaling/references/asynchronism-communication-security.md` — Asynchronism, Communication & Security
 - `devops/system-design-scaling/references/case-study-patterns.md` — Case-Study Patterns (8 Worked Designs → Reusable Recipes)
 - `devops/system-design-scaling/references/databases-and-caching.md` — Databases, NoSQL & Caching — Trade-Off Tables
-- `devops/system-design-scaling/references/feature-flag-lifecycle.md` — Feature flags as a lifecycle: flag types and lifespans, ring/linear/log/cohort rollout maths, kill-switch registry fields, stale-flag detection and the traps in alirezarezvani's three scripts
 - `devops/system-design-scaling/references/latency-and-estimation.md` — Latency Numbers & Back-of-the-Envelope Estimation
 - `devops/system-design-scaling/references/oo-design-interview-patterns.md` — Object-Oriented Design Interview Patterns (6 Worked Exercises)
 - `devops/system-design-scaling/references/scaling-tradeoffs-and-topics.md` — Scaling Trade-Offs & Networking Topics
@@ -474,6 +488,11 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `frontend-design/nicegui-app-builder/references/frontend-tooling.md` — nicegui / Front-End-Checklist MCP (hosted server run) / HTMLHint (44 rules, only 10 default, run) / dashy — frontend tooling reference from starred clones
 - `frontend-design/nicegui-app-builder/references/python-gui-toolkits.md` — Choosing a Python GUI toolkit (NiceGUI, Streamlit, Dear PyGui, plus others as reviewed) with Dear PyGui 2.3.1 run live: crash-on-no-context and duplicate-tag behaviour
 
+## github/agent-oss-contributions
+
+- `github/agent-oss-contributions/references/agent-contribution-guardrails.md` — Agent Contribution Guardrails (PRs from coding agents to strict repos)
+- `github/agent-oss-contributions/references/ai-policies-of-starred-repos.md` — Per-repo AI-contribution rules found in 18 of the owner's 166 starred repos (disclose, no agents, no Co-Authored-By vs required Co-authored-by, PRs paused) and the check to run before any agent PR
+
 ## github/github-code-review
 
 - `github/github-code-review/references/large-changeset-review-protocol.md` — Reviewing a large diff without cutting corners: deterministic file list, rule grouping, per-file checklist, coverage accounting, position verification, noise filtering
@@ -486,8 +505,6 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## github/github-pr-workflow
 
-- `github/github-pr-workflow/references/agent-contribution-guardrails.md` — Agent Contribution Guardrails (PRs from coding agents to strict repos)
-- `github/github-pr-workflow/references/ai-policies-of-starred-repos.md` — Per-repo AI-contribution rules found in 18 of the owner's 166 starred repos (disclose, no agents, no Co-Authored-By vs required Co-authored-by, PRs paused) and the check to run before any agent PR
 - `github/github-pr-workflow/references/ci-ratchets-and-release-pipeline.md` — CI Ratchets & Release Pipeline (verified from reconurge/flowsint @ 1820569)
 - `github/github-pr-workflow/references/ci-troubleshooting.md` — CI Troubleshooting Quick Reference
 - `github/github-pr-workflow/references/contributor-repo-automation-patterns.md` — Automation a 66k-star contribution repo runs on itself (TheAlgorithms/Java)
@@ -544,11 +561,11 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `mlops/inference/llama-cpp/references/quantization.md` — GGUF Quantization Guide
 - `mlops/inference/llama-cpp/references/server.md` — Server Deployment Guide
 - `mlops/inference/llama-cpp/references/troubleshooting.md` — GGUF Troubleshooting Guide
-- `mlops/inference/llama-cpp/references/unsloth-local-workflow.md` — Unsloth local workflow (unslothai/unsloth, Apache-2.0): LoRA fine-tuning -> GGUF export pipeline + `unsloth start hermes` one-command local-model bridge
 - `mlops/inference/serving-llms-vllm/references/optimization.md` — Performance Optimization
 - `mlops/inference/serving-llms-vllm/references/quantization.md` — Quantization Guide
 - `mlops/inference/serving-llms-vllm/references/server-deployment.md` — Server Deployment Patterns
 - `mlops/inference/serving-llms-vllm/references/troubleshooting.md` — Troubleshooting Guide
+- `mlops/inference/unsloth-gguf/references/unsloth-local-workflow.md` — Unsloth local workflow (unslothai/unsloth, Apache-2.0): LoRA fine-tuning -> GGUF export pipeline + `unsloth start hermes` one-command local-model bridge
 
 ## note-taking/knowledge-ops
 
@@ -648,6 +665,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `security/oss-forensics/references/investigation-templates.md` — Investigation Templates
 - `security/oss-forensics/references/recovery-techniques.md` — Deleted Content Recovery Techniques
 
+## security/secret-vault-pattern
+
+- `security/secret-vault-pattern/references/vault-crypto-pattern.md` — Per-User Encrypted Secret Vault (reconurge/flowsint @ 1820569; crypto run 2026-10-05)
+
 ## security/security-audit
 
 - `security/security-audit/references/AI-AND-LLM.md` — AI, LLM, and Agent Hunting
@@ -672,11 +693,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## software-development/architecture-metrics
 
-- `software-development/architecture-metrics/references/modular-design-principles-violations-and-split-criteria.md` — Modular Design Principles: Violations & Split/Merge Criteria (verified from tech-leads-club/agent-skills @ 0ab82f6)
-- `software-development/architecture-metrics/references/modular-monolith-boundary-validation.md` — Modular Monolith & Boundary Validation (verified from tech-leads-club/agent-skills @ 0ab82f6)
-- `software-development/architecture-metrics/references/monolith-decomposition-pipeline.md` — Monolith Decomposition Analysis Pipeline (verified from tech-leads-club/agent-skills @ 0ab82f6)
 - `software-development/architecture-metrics/references/sentrux-architecture-notes.md` — Sentrux Architecture Notes (source-level findings)
-- `software-development/architecture-metrics/references/strangler-fig-migration-patterns.md` — Strangler Fig Migration Patterns (verified from tech-leads-club/agent-skills @ 0ab82f6)
 
 ## software-development/ast-grep
 
@@ -751,6 +768,13 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 - `software-development/mattpocock-subagent-driven-development/references/implement-spec-task-graph.md` — Implement a whole spec: tickets as a task graph on one integration branch
 
+## software-development/modular-monolith-migration
+
+- `software-development/modular-monolith-migration/references/modular-design-principles-violations-and-split-criteria.md` — Modular Design Principles: Violations & Split/Merge Criteria (verified from tech-leads-club/agent-skills @ 0ab82f6)
+- `software-development/modular-monolith-migration/references/modular-monolith-boundary-validation.md` — Modular Monolith & Boundary Validation (verified from tech-leads-club/agent-skills @ 0ab82f6)
+- `software-development/modular-monolith-migration/references/monolith-decomposition-pipeline.md` — Monolith Decomposition Analysis Pipeline (verified from tech-leads-club/agent-skills @ 0ab82f6)
+- `software-development/modular-monolith-migration/references/strangler-fig-migration-patterns.md` — Strangler Fig Migration Patterns (verified from tech-leads-club/agent-skills @ 0ab82f6)
+
 ## software-development/plan
 
 - `software-development/plan/references/plan-document-reviewer-prompt.md` — Plan Document Reviewer Prompt Template
@@ -816,14 +840,19 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `web-development/frontend-library-picks/references/animejs-4-notes.md` — Anime.js 4.5.0: modular API, v3 migration traps, deterministic values (run in Node + jsdom)
 - `web-development/frontend-library-picks/references/css-blocks-notes.md` — CSS Blocks 1.5.0 (LinkedIn): dormant, breaks on Windows, and what it enforces (core API run on Node 22)
 - `web-development/frontend-library-picks/references/font-awesome-7-free-notes.md` — Font Awesome Free 7.3.1: which delivery method costs what, licences, and the v7 CSS (measured from the npm package)
-- `web-development/frontend-library-picks/references/js-beautify-notes.md` — js-beautify 2.0.3: the tolerant formatter, and the CLI that rewrites files without `--replace` (run live)
 - `web-development/frontend-library-picks/references/materialize-css-notes.md` — Materialize CSS: the starred repo is frozen at 1.0.0; the maintained line is `@materializecss/materialize` 2.x
 - `web-development/frontend-library-picks/references/metro-ui-5-notes.md` — Metro UI 5.1.20 (`@olton/metroui`): a 1.5 MB CSS / 0.9 MB JS framework with a global reset (measured, jsdom run)
-- `web-development/frontend-library-picks/references/postcss-8-notes.md` — PostCSS 8.5.29 and the usual plugins: what each does, config traps, and when native CSS replaces them (run live)
 - `web-development/frontend-library-picks/references/preline-5-notes.md` — Preline UI 5.0.0 (Tailwind component plugins): licence, the peer-dependency pile, `autoInit` (run in jsdom)
 - `web-development/frontend-library-picks/references/pure-css-3-notes.md` — Pure.css 3.1.0 (`purecss`): the small responsive CSS kit, measured from the npm package
 - `web-development/frontend-library-picks/references/scrollreveal-4-notes.md` — ScrollReveal 4.0.9: GPL licence, frozen since 2022, inline-style side effects (jsdom run) and the native replacements
 - `web-development/frontend-library-picks/references/tabler-icons-3-notes.md` — Tabler Icons 3.49.0: 5,184 MIT icons, the webfont weight, and the React barrel (measured from npm)
+
+## web-development/js-tooling-notes
+
+- `web-development/js-tooling-notes/references/bun-runtime-notes.md` — Bun 1.4.2 on Windows: runtime, package manager, test runner, bundler (run live)
+- `web-development/js-tooling-notes/references/js-beautify-notes.md` — js-beautify 2.0.3: the tolerant formatter, and the CLI that rewrites files without `--replace` (run live)
+- `web-development/js-tooling-notes/references/postcss-8-notes.md` — PostCSS 8.5.29 and the usual plugins: what each does, config traps, and when native CSS replaces them (run live)
+- `web-development/js-tooling-notes/references/standard-and-neostandard-notes.md` — standard 17.1.2 vs neostandard 0.13.0: zero-config JS linting, run live
 
 ## web-development/publish-site
 
@@ -832,8 +861,6 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## web-development/react-ecosystem
 
 - `web-development/react-ecosystem/references/awesome-react-map.md` — awesome-react categories with npm latest version and last-modified date for each pick (snapshot 2026-10-05), plus stale/renamed flags
-- `web-development/react-ecosystem/references/bun-runtime-notes.md` — Bun 1.4.2 on Windows: runtime, package manager, test runner, bundler (run live)
-- `web-development/react-ecosystem/references/standard-and-neostandard-notes.md` — standard 17.1.2 vs neostandard 0.13.0: zero-config JS linting, run live
 
 ## web-development/react-library-notes
 

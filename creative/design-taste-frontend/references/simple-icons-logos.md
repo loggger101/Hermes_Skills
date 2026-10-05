@@ -54,7 +54,7 @@ sdk.titleToSlug('AT&T')  // 'atandt' ;  sdk.titleToSlug('C++') // 'cplusplus'
 3. Keep `<title>` for accessibility, or set `aria-label` and drop `role="img"` duplication.
 4. Do not alter proportions or recolour a mark against its `guidelines` entry where one exists.
 5. Contributing here: the repo requires disclosure of AI tool use in the PR (see
-   `github/github-pr-workflow/references/ai-policies-of-starred-repos.md`).
+   `github/agent-oss-contributions/references/ai-policies-of-starred-repos.md`).
 
 Not run: a rendered logo wall, the CDN size/colour parameters beyond `/<slug>/ffffff`, the browser ESM tree-shaking, the
 project's `lint`/`build` scripts, or the separate site icon preview.
