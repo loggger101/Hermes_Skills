@@ -492,4 +492,5 @@ git branch -D pr-$PR_NUMBER
 ## References & Scripts
 
 - `references/pr-judge-protocol-tlc.md` — evidence-first judge protocol from tech-leads-club/agent-skills' `the-judge` skill: verdicts require file+line citations, no praise filler, lint-rule flywheel (repeated findings become automated checks), and the verifier-independence rule.
+- `references/large-changeset-review-protocol.md` — reviewing a big diff without cutting corners (from alibaba/open-code-review): git-built file list keyed on (path, status), bundling and per-path rule groups, coverage accounting (`total/reviewed/skipped/coverage_rate`), line-position verification, severity filtering.
 - `scripts/scan_bypasses.py` — stdlib-only scanner for review-bypass markers in diffs (`# noqa`, `eslint-disable`, `type: ignore`, force-push configs, CI skips...) across ~10 languages; exit 1 on hits. Live-tested (dirty diff → exit 1 with line numbers; clean diff → exit 0).
