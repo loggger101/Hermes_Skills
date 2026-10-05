@@ -670,7 +670,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `software-development/hermes-agent-skill-authoring/references/harness-audit-dual-judge-traps.md` — Harness Audit Protocol: Dual-Judge + Planted Traps (verified from tech-leads-club/agent-skills @ 0ab82f6)
 - `software-development/hermes-agent-skill-authoring/references/related-skills-audit.md` — Auditing and Fixing `related_skills` References
 - `software-development/hermes-agent-skill-authoring/references/section-header-standardization.md` — Section Header Standardization
-- `software-development/hermes-agent-skill-authoring/references/skill-evolution-pipeline.md` — DSPy+GEPA skill-evolution pipeline (NousResearch/hermes-agent-self-evolution) — verified CLI, requirements, when NOT to use
+- `software-development/hermes-agent-skill-authoring/references/skill-evolution-pipeline.md` — DSPy+GEPA skill-evolution pipeline (hermes-agent-self-evolution): CLI, cost, when NOT to use, and what its metric, constraint gate and session importer really do (run)
 - `software-development/hermes-agent-skill-authoring/references/skill-registry-security.md` — Skill registry supply-chain + installer security patterns, mined from tech-leads-club/agent-skills (MIT code / CC-BY-4.0 content)
 - `software-development/hermes-agent-skill-authoring/references/skill-repo-release-engineering.md` — Skill-Repo Release Engineering (versioning, update channel, generated blocks)
 - `software-development/hermes-agent-skill-authoring/references/skill-seekers-generated-drafts.md` — Using Skill Seekers 3.10.0 to draft skill material from a codebase, docs, PDFs and more: offline run on a tiny project (3 s), what it generates, what is boilerplate, and how to finish it into a Hermes skill
