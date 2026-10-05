@@ -227,3 +227,5 @@ A skill exists to make the agent's process more predictable — the agent reliab
 ## References
 
 - `references/skill-seekers-generated-drafts.md` - using Skill Seekers 3.10.0 as a draft generator: offline run on a tiny project, what is useful (API reference, dependency graph) vs boilerplate (SKILL.md), how to finish a draft into a Hermes skill
+
+- `references/skill-invocation-conventions.md` - model-invoked vs user-invoked skills, how one skill tells the agent to run another (name the tool, one skill per call, never target a user-invoked skill), passive vs active domain work; from mattpocock/skills `.agents/invocation.md`, source-read.

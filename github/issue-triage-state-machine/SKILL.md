@@ -56,7 +56,7 @@ Query via `gh issue list` / `gh pr list --state open` (filter by label) and pres
 1. **Gather context.** Read full body, comments, labels, author, dates (for a PR: the diff too). Parse prior triage notes — never re-ask resolved questions. Explore the codebase for two checks: **(a) redundancy** — search by domain concept (not request wording) for an existing implementation; report where you looked; if found it's already-implemented `wontfix` (step 5, no `.out-of-scope/` entry). **(b) prior rejection** — read `.out-of-scope/*.md`, surface any resembling this request.
 2. **Recommend.** State category + state recommendation with reasoning and a brief codebase summary (incl. whether already implemented). Wait for direction.
 3. **Verify the claim.** For bugs: reproduce from reporter's steps. For PRs: check out, run relevant tests/commands, confirm diff does what it claims. Report: confirmed (with code path) / failed / insufficient detail (strong `needs-info` signal). Confirmed verification makes a much stronger brief.
-4. **Grill if needed.** If the request needs fleshing out, use the grilling-interview skill (+ domain-modeling where available): one round of questions at a time; sharpen terms and update CONTEXT.md/ADRs inline as decisions land.
+4. **Grill if needed.** If the request needs fleshing out, use the grilling-interview skill (+ domain-modeling where available): one round of questions at a time; sharpen terms and update GLOSSARY.md/ADRs inline as decisions land.
 5. **Apply outcome:**
    - `ready-for-agent`: post an agent brief comment (template in AGENT-BRIEF.md).
    - `ready-for-human`: same structure, plus why it can't be delegated (judgment calls, external access, design decisions, manual testing).

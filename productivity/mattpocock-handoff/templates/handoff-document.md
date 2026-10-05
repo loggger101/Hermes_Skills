@@ -35,7 +35,7 @@
 
 ## Relevant Context
 
-- Domain glossary: see CONTEXT.md
+- Domain glossary: see GLOSSARY.md
 - ADRs: see docs/adr/
 
 ## Command to Resume
