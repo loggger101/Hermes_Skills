@@ -305,6 +305,8 @@ For scoped, conflict-free CSS, `references/css-blocks-notes.md` records that Lin
 
 For a CSS build step, `references/postcss-8-notes.md` runs PostCSS 8.5.29 with autoprefixer, postcss-nested, cssnano, preset-env, postcss-scss and postcss-cli: always pass `from` (autoprefixer cannot find browserslist without it), the default parser silently swallows `//` comments into selectors, postcss-nested 8 is ESM-only, warnings-only CLI exit codes, and that none of it is needed for a current-browser target.
 
+When a lightweight CSS framework is wanted, `references/pure-css-3-notes.md` has Pure.css 3.1.0 measured (all modules 3.6 kB gzip, no JS, 7 `em` breakpoints, Normalize-only reset); it is the small end of the scale against the Materialize and Metro UI notes.
+
 ## UI/UX code review (beyond performance)
 
 For a full accessibility/forms/animation/copy/dark-mode audit of site markup and JS, use `references/web-interface-guidelines-ui-checklist.md` — Vercel's Web Interface Guidelines ported verbatim with the clickable `file:line` output format. It complements this skill's Core-Web-Vitals section (which covers loading/rendering) by covering interaction quality; pair both when running a site audit.
