@@ -1,8 +1,8 @@
 # Skill Dependency Map
 
-This document maps the relationship network between all **210 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+This document maps the relationship network between all **211 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
 
-**Network stats:** 579 `related_skills` cross-references across 210 skills (2 skills list no `related_skills` of their own).
+**Network stats:** 584 `related_skills` cross-references across 211 skills (2 skills list no `related_skills` of their own).
 
 ## Hub Skills (referenced by 2+ other skills)
 
@@ -11,9 +11,9 @@ These are the core skills that serve as building blocks, referenced by many othe
 | Skill | Referenced By (count) | Referencing Skills |
 |-------|-----------------------|---------------------|
 | `requesting-code-review` | 19 | architecture-metrics, codex, github-issue-to-pr, grilling-interview, hermes-agent-skill-authoring, mattpocock-code-review, mattpocock-evidence-driven, mattpocock-finishing-a-development-branch, mattpocock-security-review, mattpocock-spec-driven-development, mattpocock-subagent-driven-development, plan, ponytail, python-craft, receiving-code-review, sdlc-review, semgrep-rule-creator, simplify-code, skill-flow-router |
-| `test-driven-development` | 18 | dispatching-parallel-agents, executing-plans, generating-python-installer, github-issue-to-pr, grilling-interview, mattpocock-subagent-driven-development, mattpocock-tdd, plan, property-based-testing, python-craft, python-data-science, requesting-code-review, rest-graphql-debug, simplify-code, skill-flow-router, systematic-debugging, test-infra-ml, windows-desktop-e2e |
+| `test-driven-development` | 19 | dispatching-parallel-agents, executing-plans, generating-python-installer, github-issue-to-pr, grilling-interview, mattpocock-subagent-driven-development, mattpocock-tdd, plan, property-based-testing, python-craft, python-data-science, requesting-code-review, rest-graphql-debug, simplify-code, skill-flow-router, structured-llm-outputs, systematic-debugging, test-infra-ml, windows-desktop-e2e |
 | `systematic-debugging` | 16 | ast-grep, dispatching-parallel-agents, failure-signal-audit, github-issue-to-pr, inspecting-hermes-desktop-dom, mattpocock-diagnosing-bugs, mattpocock-gh-fix-ci, mattpocock-resolving-merge-conflicts, mattpocock-tdd, node-inspect-debugger, python-craft, python-data-science, python-debugpy, rest-graphql-debug, skill-flow-router, test-driven-development |
-| `python-craft` | 14 | algorithms-python-catalog, build-systems-data, cli-tool-craft, evolutionary-ml, generating-python-installer, model-export-deploy, orbital-mechanics-data, ponytail, rust-crate-picks, static-site-seo, streamlit-dashboards, system-design-scaling, test-infra-ml, verification-culture |
+| `python-craft` | 15 | algorithms-python-catalog, build-systems-data, cli-tool-craft, evolutionary-ml, generating-python-installer, model-export-deploy, orbital-mechanics-data, ponytail, rust-crate-picks, static-site-seo, streamlit-dashboards, structured-llm-outputs, system-design-scaling, test-infra-ml, verification-culture |
 | `claude-design` | 12 | awwwards-gsap-motion, design-md, editorial-minimalism-ui, frontend-design, industrial-brutalist-ui, popular-web-designs, pretext, sketch, soft-premium-ui, songwriting-and-ai-music, stitch, teach |
 | `excalidraw` | 11 | architecture-diagram, ascii-art, claude-design, design-md, diagram-design, p5js, popular-web-designs, pretext, research-paper-writing, sketch, system-atlas |
 | `hermes-agent` | 11 | apple-reminders, claude-code, codex, cron-job-authoring, dynamic-workflow, hermes-bot-cloning, mattpocock-to-tickets, merge-reconciler, opencode, qmd, repowise |
@@ -74,6 +74,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `dogfood` | 3 | adversarial-ux-test, browser-automation, inspecting-hermes-desktop-dom |
 | `economicspace-pipeline` | 3 | astro-toolkit-selection, optimization-modeling-pyomo, space-data-pipelines |
 | `evolutionary-ml` | 3 | algorithms-python-catalog, model-export-deploy, test-infra-ml |
+| `fastmcp` | 3 | mcporter, repowise, structured-llm-outputs |
 | `findmy` | 3 | apple-reminders, imessage, maps |
 | `github-repo-management` | 3 | code-wiki, codebase-inspection, github-auth |
 | `huggingface-hub` | 3 | huggingface-trackio, llama-cpp, weights-and-biases |
@@ -97,7 +98,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `docker-containers` | 2 | rest-api-client, ssh-remote |
 | `document-to-action-items` | 2 | decision-questionnaire, meeting-action-items |
 | `email-inbox-triage` | 2 | himalaya, weekly-review-planning |
-| `fastmcp` | 2 | mcporter, repowise |
 | `frontend-design` | 2 | react-ecosystem, ui-ux-pro-max |
 | `har-derived-api-client` | 2 | browser-automation, static-site-patterns |
 | `himalaya` | 2 | email-inbox-triage, google-workspace |
@@ -141,6 +141,6 @@ No skill is fully standalone: every skill either lists `related_skills` or is re
 
 ## Related Skills Validation
 
-All 579 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 210 unique skill names.
+All 584 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 211 unique skill names.
 
 ---
