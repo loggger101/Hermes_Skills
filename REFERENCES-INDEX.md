@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **486 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **487 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -394,6 +394,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `data-science/python-data-science/references/plotly-notes.md` — plotly.py 7.1.0 for reports: HTML size (embedded JS 4.8 MB vs CDN 7.6 KB), JSON size, NaN handling, static export via kaleido 1.4 (needs Chrome), default browser renderer; run live
 - `data-science/python-data-science/references/polars-pymc-api-reference.md` — polars + pymc API references — verified line-numbered facts from cloned sources
 - `data-science/python-data-science/references/polars-v2-engine-and-breaking-changes.md` — polars 2.0 (rc) engine architecture + every breaking change live-verified on polars==2.0.0rc1 — streaming-by-default, row-order semantics, OOC spilling internals, GPU beta
+- `data-science/python-data-science/references/scipy-notes.md` — SciPy 1.18.1 notes: what silently goes wrong (run live)
 - `data-science/python-data-science/references/seaborn-0-13-notes.md` — seaborn 0.13.2 on pandas 3.0 / matplotlib 3.11 / Python 3.14: 24 common calls run; deprecations that vanish in 0.14 (palette without hue, ci, distplot, shade), calls that fail, and new warnings
 - `data-science/python-data-science/references/statsmodels-notes.md` — statsmodels 0.15.0 on pandas 3.0 / Python 3.14: no-constant R-squared 0.27 vs 0.66, silent add_constant skip, misleading predict error for unseen levels, term order, degenerate proportion CIs, ARIMA without freq
 - `data-science/python-data-science/references/supervision-cv-notes.md` — roboflow supervision 0.30.7 (computer-vision utilities): Detections filtering/NMS, zones, line counting, annotators, run live on synthetic arrays; OpenCV optional, ByteTrack deprecated, silent empty result on bad input
