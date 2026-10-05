@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **513 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **515 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -715,6 +715,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `software-development/hermes-agent-skill-authoring/references/skill-registry-security.md` — Skill registry supply-chain + installer security patterns, mined from tech-leads-club/agent-skills (MIT code / CC-BY-4.0 content)
 - `software-development/hermes-agent-skill-authoring/references/skill-repo-release-engineering.md` — Skill-Repo Release Engineering (versioning, update channel, generated blocks)
 - `software-development/hermes-agent-skill-authoring/references/skill-seekers-generated-drafts.md` — Using Skill Seekers 3.10.0 to draft skill material from a codebase, docs, PDFs and more: offline run on a tiny project (3 s), what it generates, what is boilerplate, and how to finish it into a Hermes skill
+- `software-development/hermes-agent-skill-authoring/references/vendor-shipped-skills-preline.md` — Skills shipped inside a UI library (Preline): what a vendor skill does well, and where it breaks our conventions
 
 ## software-development/inspecting-hermes-desktop-dom
 
@@ -817,4 +818,5 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `web-development/static-site-patterns/references/font-awesome-7-free-notes.md` — Font Awesome Free 7.3.1: which delivery method costs what, licences, and the v7 CSS (measured from the npm package)
 - `web-development/static-site-patterns/references/js-beautify-notes.md` — js-beautify 2.0.3: the tolerant formatter, and the CLI that rewrites files without `--replace` (run live)
 - `web-development/static-site-patterns/references/materialize-css-notes.md` — Materialize CSS: the starred repo is frozen at 1.0.0; the maintained line is `@materializecss/materialize` 2.x
+- `web-development/static-site-patterns/references/preline-5-notes.md` — Preline UI 5.0.0 (Tailwind component plugins): licence, the peer-dependency pile, `autoInit` (run in jsdom)
 - `web-development/static-site-patterns/references/web-interface-guidelines-ui-checklist.md` — Web Interface Guidelines (UI/UX Review Checklist) [PORTED]
