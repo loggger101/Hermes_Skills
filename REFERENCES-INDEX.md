@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **495 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **496 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -766,6 +766,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## software-development/test-driven-development
 
+- `software-development/test-driven-development/references/pytest-9-notes.md` — pytest 9.1.1: exit codes, built-in subtests, strict mode, config precedence (run live)
 - `software-development/test-driven-development/references/writing-good-tests.md` — Writing Good Tests (Honest-Test Discipline)
 
 ## software-development/verification-culture
