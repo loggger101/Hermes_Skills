@@ -386,6 +386,8 @@ if config_path.exists():
 - **cp1252 consoles kill Unicode output.** Tools that print checkmarks or box-drawing characters crash with `UnicodeEncodeError` under the legacy console codepage. Set UTF-8 explicitly at tool start (`sys.stdout.reconfigure(encoding="utf-8")`) — a validator that dies on its first ✓ has validated nothing.
 - **OneDrive-synced folders cause transient file locks.** Reads can fail intermittently right after writes or during sync; sleep ~0.3 s and re-verify before concluding drift, and treat *unreadable* as fatal in coverage-style checks (a silently skipped file shrinks the check's own scope).
 
+- **pip does not fail on a too-new Python; it quietly installs an older release.** On Python 3.14.6, `pip install great-expectations` would resolve 0.18.22 (latest 1.23.2 requires `<3.14`) and `luigi` 3.6.0 (latest requires `<3.14`). Read the resolved version in the install output (`pip install --dry-run pkg`) and print `pkg.__version__`; detail in `data-science/build-systems-data/references/data-engineering-tool-map.md`.
+
 ### pytest.approx placement
 
 `pytest.approx(x)` on the wrong side of a comparison raises `TypeError`, not an assertion failure: write `assert actual == pytest.approx(expected)`, never `assert pytest.approx(actual) == expected`. For hand-rolled comparisons, use plain floats with explicit epsilon — it reads better in guard tests anyway.
