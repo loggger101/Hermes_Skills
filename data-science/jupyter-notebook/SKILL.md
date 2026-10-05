@@ -189,3 +189,7 @@ uv run "$SCRIPT" restart-run-all --path <notebook.ipynb> --save-outputs --compac
 The script has a 30-second default timeout per execution. For long-running
 operations, pass `--timeout 120`. Use generous timeouts (60+) for initial
 setup or heavy computation.
+
+## References
+
+- `references/notebook-tooling.md` - the file-and-CI side of notebooks, run live: jupytext text twins, nbformat validation, nbconvert/papermill failure behaviour and two papermill traps, nbmake in CI, nbdime diffs
