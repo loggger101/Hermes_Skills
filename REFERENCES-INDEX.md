@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **447 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **448 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -255,6 +255,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `creative/p5js/references/animation.md` — Animation
 - `creative/p5js/references/color-systems.md` — Color Systems
 - `creative/p5js/references/core-api.md` — Core API Reference
+- `creative/p5js/references/creative-coding-ecosystem.md` — Creative-coding libraries from awesome-creative-coding with npm versions (2026-10-05), the p5.js 1.x vs 2.x state, and what to reach for per task
 - `creative/p5js/references/export-pipeline.md` — Export Pipeline
 - `creative/p5js/references/interaction.md` — Interaction
 - `creative/p5js/references/shapes-and-geometry.md` — Shapes and Geometry
