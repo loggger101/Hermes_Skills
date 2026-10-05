@@ -1,6 +1,6 @@
 # Starred-repo review ledger
 
-Working list for the review of the owner's GitHub stars (`gh api user/starred`, 166 repos on 2026-10-05).
+Working list for the review of the owner's GitHub stars (`gh api user/starred`, 166 repos on 2026-10-05; 19 more starred and appended as rows 167-185 on 2026-10-05, 185 total).
 Each repo is reviewed **one at a time**: read it (README, layout, source where it matters), decide what
 it teaches that no existing skill already holds, fold that into a skill or reference, then flip its
 row here and commit. Nothing batches across repos, so a session cut-off loses at most one repo.
@@ -185,3 +185,22 @@ Statuses: `pending` · `done` (skill/reference changed) · `covered` (already we
 | 164 | [mattpocock/skills](https://github.com/mattpocock/skills) | Shell | 2026-10-04 | 1305 | done | round-226: re-audit against mattpocock/skills 1.3.x (38 upstream skills; 2026-09-06 audit had 37): new `github/github-pr-workflow/references/pr-body-shape.md` (`pr` skill), `mattpocock-subagent-driven-development/references/implement-spec-task-graph.md` (`implement-spec`, graduated 1.3.0), `hermes-agent-skill-authoring/references/skill-invocation-conventions.md` (`.agents/invocation.md`); CONTEXT.md -> GLOSSARY.md rename applied across 7 ported files (domain-modeling description now 57 chars). Not ported: in-progress/* (chief-of-staff is experimental, added 2026-10-05) and the setup/scaffold skills (thin or Claude-Code-specific) |
 | 165 | [TheAlgorithms/Python](https://github.com/TheAlgorithms/Python) | Python | 2026-10-05 | 1813 | done | round-227: new `data-science/algorithms-python-catalog/references/thealgorithms-python-delta-2026-10.md`: compared 23c4208 -> 35ccb2c (288 commits, 131+ new files), verify harness still 18/18, 48 oracle checks + 128 doctests on the new crypto/hash/conversion/maths modules; xtea default is 64 cycles (num_rounds=32 matches the published vector), ciphers/base58.py is Base64, base64<->binary converters are radix conversions |
 | 166 | [shadcn-ui/ui](https://github.com/shadcn-ui/ui) | TypeScript | 2026-10-05 | 3103 | done | round-228: new `web-development/react-ecosystem/references/shadcn-cli-4-notes.md` (shadcn CLI 4.21.2 live on a scratch Vite project: help-text preset bug, Base UI default, cn npm package, Tailwind 4 config, info/preset/view/docs/search behaviour, add -y vs overwrite prompt, --diff, -o discards local edits) |
+| 167 | [animate-css/animate.css](https://github.com/animate-css/animate.css) | CSS | 2024-07-29 | 0 | pending | |
+| 168 | [ariakit/ariakit](https://github.com/ariakit/ariakit) | TypeScript | 2026-10-05 | 2 | pending | |
+| 169 | [astral-sh/ty](https://github.com/astral-sh/ty) | Python | 2026-10-05 | 2977 | pending | |
+| 170 | [beautifier/js-beautify](https://github.com/beautifier/js-beautify) | JavaScript | 2026-10-03 | 0 | pending | |
+| 171 | [Dogfalo/materialize](https://github.com/Dogfalo/materialize) | JavaScript | 2026-08-20 | 36 | pending | |
+| 172 | [electron/electron](https://github.com/electron/electron) | C++ | 2026-10-05 | 33 | pending | |
+| 173 | [FortAwesome/Font-Awesome](https://github.com/FortAwesome/Font-Awesome) | JavaScript | 2026-07-15 | 0 | pending | |
+| 174 | [htmlstreamofficial/preline](https://github.com/htmlstreamofficial/preline) | TypeScript | 2026-08-31 | 0 | pending | |
+| 175 | [illicitonion/num_enum](https://github.com/illicitonion/num_enum) | Rust | 2026-04-19 | 0 | pending | |
+| 176 | [jlmakes/scrollreveal](https://github.com/jlmakes/scrollreveal) | JavaScript | 2024-04-05 | 0 | pending | |
+| 177 | [juliangarnier/anime](https://github.com/juliangarnier/anime) | JavaScript | 2026-08-21 | 4 | pending | |
+| 178 | [linkedin/css-blocks](https://github.com/linkedin/css-blocks) | TypeScript | 2023-05-20 | 0 | pending | |
+| 179 | [olton/metroui](https://github.com/olton/metroui) | JavaScript | 2026-02-01 | 0 | pending | |
+| 180 | [Popmotion/popmotion](https://github.com/Popmotion/popmotion) | JavaScript | 2024-03-12 | 0 | pending | |
+| 181 | [postcss/postcss](https://github.com/postcss/postcss) | TypeScript | 2026-10-05 | 4 | pending | |
+| 182 | [pure-css/pure](https://github.com/pure-css/pure) | JavaScript | 2026-10-05 | 693 | pending | |
+| 183 | [tabler/tabler-icons](https://github.com/tabler/tabler-icons) | JavaScript | 2026-10-05 | 4 | pending | |
+| 184 | [thedaviddias/Front-End-Performance-Checklist](https://github.com/thedaviddias/Front-End-Performance-Checklist) | - | 2025-03-23 | 0 | pending | |
+| 185 | [vueComponent/ant-design-vue](https://github.com/vueComponent/ant-design-vue) | Vue | 2026-10-05 | 0 | pending | |
