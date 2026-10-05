@@ -328,7 +328,7 @@ Landing pages and portfolios are **visual products**. Text-only pages with fake-
 
 **Real company logos for social proof.** When the brief calls for a "Trusted by / Used by / Customers" logo wall, do NOT default to plain text wordmarks (`<span>Acme Co</span>` styled in a row). Use real SVG logos:
 
-- **Source: Simple Icons** (`https://cdn.simpleicons.org/{slug}/ffffff` for any color, or `simple-icons` npm package). Covers most known brands.
+- **Source: Simple Icons** (`https://cdn.simpleicons.org/{slug}/ffffff` for any color, or `simple-icons` npm package). Covers most known brands. **Not every brand exists:** LinkedIn, Slack, Microsoft, Adobe, AWS and OpenAI have no entry in the package data (the CDN returned 404 for the four tried: LinkedIn, Slack, Microsoft, OpenAI); Twitter is `x`. Check the slug first, see `references/simple-icons-logos.md`.
 - **Alternative: devicon** for tech-stack logos (`@svgr/cli` or CDN).
 - **Make-up the brand name? Then make-up an SVG mark too.** Generate a simple monogram (one letter in a circle, two-letter ligature, abstract glyph) rendered as an inline `<svg>` matching the page style. Plain text wordmarks for invented brand names look generic.
 - **Always** ensure logos render in both light and dark mode (white-on-dark, black-on-light, or single-color theme variable).
