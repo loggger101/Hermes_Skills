@@ -1,7 +1,7 @@
 ---
 description: "REBOUND + REBOUNDx N-body notes: install reality on Windows (rebound wheel yes, reboundx sdist-only), units/G gotcha, Yarkovsky and radiation-force parameters, ASSIST pointer"
 source_repo: dtamayo/reboundx (GPL-3.0), hannorein/rebound (GPL-3.0), matthewholman/assist (GPL-3.0)
-tested_version: rebound 5.2.1 cp314 win_amd64 wheel installed and run; reboundx 5.1.0 install attempted and failed (no compiler); reboundx docs read via GitHub API @ main
+tested_version: rebound 5.2.1 cp314 win_amd64 wheel installed and run (integrator, restart and Horizons tests added in the hannorein/rebound review); reboundx 5.1.0 install attempted and failed (no compiler); reboundx docs read via GitHub API @ main
 verified_date: "2026-10-05"
 ---
 
@@ -47,6 +47,37 @@ Two gotchas seen in that run:
   explicitly when you need that convention (and print `sim.G` in any run you want to reproduce).
 - `sim.N_active` printed `18446744073709551615` (the unsigned wrap of -1) when no particle was marked as massless-test only;
   it means "all particles active". Use `sim.N` for the count.
+
+## Integrator choice, restarts and units (REBOUND 5.2.1, run live)
+
+**WHFast needs a small enough fixed step for eccentric orbits; IAS15 adapts.** Sun + Jupiter-like planet + a test particle at a = 1.2 AU, e = 0.9
+(perihelion 0.12 AU), 20 yr, compared against IAS15 as reference (the particle is scattered to a = 5.31 AU, e = 0.9766 in that run):
+
+| Integrator | Result vs IAS15 |
+|---|---|
+| WHFast dt = 0.05 yr | garbage: a = -14.6 AU (unbound), position error 43 AU |
+| WHFast dt = 0.01 yr | garbage: a = -91 AU, position error 33 AU |
+| WHFast dt = 0.001 yr | da/a = 1.2e-2, position error 0.33 AU |
+| WHFast dt = 0.0001 yr | da/a = 1.1e-4, position error 3.5e-3 AU (0.067 s) |
+| IAS15 (adaptive; dt settled near 0.36 yr in the earlier quiet case) | reference, about 1 ms here |
+
+For a nearly circular case (e = 0.01) the same WHFast dt = 0.01 gave a position error of only 1.3e-4 AU. Rule: for e above about 0.5 or any close encounter use IAS15
+(or MERCURIUS/TRACE for planetary systems with encounters), and for WHFast set dt to a small fraction of the **pericenter** passage time, not of the period.
+A diverging or unbound result at large dt is the usual symptom, not a code bug. Energy error alone is not a valid check for a massless test particle (it contributes zero
+energy); compare orbital elements or positions against a reference run.
+
+**Time stepping:** `sim.integrate(1.0)` with WHFast dt = 0.07 ended at exactly `t = 1.0` (the last step is shortened); `exact_finish_time=0` ended at `t = 1.05`
+(a whole number of steps).
+
+**Restarts are bit-identical (relevant to `bit-identity-float-pipelines`).** `sim.save_to_file(fn)` at t = 5, reload with `rebound.Simulation(fn)`, integrate on to t = 10: the
+final positions and velocities were **exactly equal** to an uninterrupted run (IAS15, this machine). `save_to_file(fa, interval=1.0, delete_file=True)` builds a
+`Simulationarchive`; snapshots land on step boundaries (times 0, 1.062, 2.164, 3.1, 4.12, 5.0 for interval 1.0), and restarting from snapshot 3 reproduced the final state. Bit-identity is
+host-specific: it was shown on one machine, not across CPUs or builds.
+
+**Units:** a fresh `Simulation()` has `units` = all `None` and `G = 1`; `P` for `a = 1` around `m = 1` is `2*pi`. If you never set `sim.units`, times are in
+"year/2pi" and a 100 "yr" run is 15.9 real years. `sim.add("Ceres", date="2026-01-01 00:00")` queries NASA Horizons over the network and prints
+"Searching NASA Horizons ..." to stdout; it returned a = 2.7609 AU, e = 0.0801, and set the sim's units to `{'length': 'au', 'mass': 'msun', 'time': 'yr2pi'}`. Pin `sim.units`
+before adding Horizons bodies and expect network access and stdout noise in pipelines.
 
 ## REBOUNDx pattern (source-read, not run)
 
