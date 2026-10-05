@@ -160,3 +160,7 @@ Do NOT report success from the deploy log alone. Before telling the user anythin
 4. `git tag --list 'deploy-*'` shows the tag for this deploy.
 
 Then report the live URL to the user, along with the deploy tag they can roll back to.
+
+## References
+
+- `references/cloudflare-ci-wrangler-action.md` - redeploy on every merge or preview per PR from GitHub Actions with `cloudflare/wrangler-action@v4`: inputs, outputs, permissions, secrets, pitfalls.
