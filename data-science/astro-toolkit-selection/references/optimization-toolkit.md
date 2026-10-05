@@ -28,7 +28,7 @@ Rust engine — fine for internal research, a copyleft consideration if you ship
 
 - UDA contract is tiny: a pure-Python problem implements **`fitness(x)`** and **`get_bounds()`**; islands implement `run_evolve`.
   The `_patch_*.py` files in the package show exactly how Python objects get wrapped into the C++ core.
-- Windows install note (unchanged from round 1): PyPI wheels are Linux-only → conda-forge or build.
+- Windows install note (re-checked 2026-10-05 via the PyPI JSON API): `pygmo` is at **2.19.8** (wheels uploaded 2026-04), with **only `manylinux_2_28` wheels (x86_64 and aarch64) for CPython 3.11, 3.12, 3.13 and 3.14** (14 files, 15-17 MB), and nothing for Windows or macOS. `pip download pygmo --platform win_amd64 --only-binary=:all:` and the macOS arm64 tag both found no version; `pip install pygmo` on this Windows box would fall back to a source build. Use WSL2/Linux or conda-forge. `pip index versions pygmo2` finds nothing: the PyPI name is `pygmo` (the repo is called pygmo2).
 
 ## mesa — ⚠️ CORRECTED + LIVE-VERIFIED 2026-09-19 (PyPI 3.5.1 on Python 3.12) [LIVE]
 
