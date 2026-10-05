@@ -138,7 +138,7 @@ if the value type is valid. Unknown component properties produce a warning.
    direction. If they provided a site, image, or vibe, translate it to the
    token shape above.
 2. **Write `DESIGN.md`** in their project root using `write_file`. Always
-   include `name:` and `colors:`; other sections optional but encouraged.
+   include `name:` and `colors:`; other sections optional but encouraged. `templates/starter.md` is a valid, lint-clean file to copy and edit.
 3. **Use token references** (`{colors.primary}`) in the `components:` section
    instead of re-typing hex values. Keeps the palette single-source.
 4. **Lint it** (see below). Fix any broken references or WCAG failures

@@ -542,3 +542,7 @@ curl -s https://api.github.com/repos/$OWNER/$REPO/issues/templates | python -c "
 | List workflows | `gh workflow list` | `curl GET /repos/o/r/actions/workflows` |
 | Rerun CI | `gh run rerun ID` | `curl POST /repos/o/r/actions/runs/ID/rerun` |
 | Set secret | `gh secret set KEY` | `curl PUT /repos/o/r/actions/secrets/KEY` (+ encryption) |
+
+## References
+
+- `references/github-api-cheatsheet.md` — REST API quick reference for curl-only environments: repos, PRs (merge body, review events), issues, Actions, releases, secrets, branch protection, auth, pagination, rate limits and common curl patterns.

@@ -35,6 +35,8 @@ git checkout -b feature/{descriptive-name}
 
 Use a descriptive name that reflects the change: `feature/add-disease-page-pancreatic-cancer` or `fix/arxiv-api-format-change`.
 
+For the PR description use `templates/pr-template.md` (What / Why / How / Validation / Risk).
+
 ### 2. Stage changes
 
 ```bash
