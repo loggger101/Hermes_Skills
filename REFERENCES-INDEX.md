@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **405 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **406 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -150,6 +150,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `creative/comfyui/references/rest-api.md` — ComfyUI REST + WebSocket API Reference
 - `creative/comfyui/references/template-integrity.md` — ComfyUI Workflow-Template Integrity
 - `creative/comfyui/references/workflow-format.md` — ComfyUI Workflow JSON Format
+
+## creative/design-md
+
+- `creative/design-md/references/antd-v6-design-md-exemplar.md` — Ant Design v6 as a real DESIGN.md exemplar and its theming API (ConfigProvider token/algorithm/components/cssVar), plus what its AGENTS.md teaches about agent-facing repo rules
 
 ## creative/design-taste-frontend
 
