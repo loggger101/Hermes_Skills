@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **402 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **403 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -91,6 +91,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `creative/ascii-video/references/scenes.md` — Scene System & Creative Composition
 - `creative/ascii-video/references/shaders.md` — Shader Pipeline & Composable Effects
 - `creative/ascii-video/references/troubleshooting.md` — Troubleshooting Reference
+
+## creative/awwwards-gsap-motion
+
+- `creative/awwwards-gsap-motion/references/acceptance-gates.md` — Acceptance gates for motion-heavy pages: slopscan rule list, honest perf measurement (DPR, GPU, prod build), serve-don't-file://, fallback-payload check
 
 ## creative/baoyu-infographic
 

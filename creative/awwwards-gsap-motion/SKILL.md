@@ -107,3 +107,7 @@ Before writing ANY React/UI code, you MUST output a `<design_plan>` block contai
 4. **Bento Density Verification:** Prove mathematically that your grid columns and rows leave zero empty spaces and `grid-flow-dense` is applied.
 5. **Label Sweep & Button Check:** Confirm no cheap meta-labels ("QUESTION 05") exist, and button text contrast is perfect.
 Only output the UI code after this rigorous verification is complete.
+
+## References
+
+- `references/acceptance-gates.md` - how to prove the built page is done: linter rules (`transition: all`, raw scroll listeners, AI gradient, autoplay sound), serve-over-HTTP screenshot journey, perf numbers measured at DPR 2 / headed / production build, numeric rubric, fallback-payload check (from agiwhitelist/auteur)
