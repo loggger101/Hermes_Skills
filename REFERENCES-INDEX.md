@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **504 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **505 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -328,6 +328,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `data-science/algorithms-python-catalog/references/graph-algorithms-library-map.md` — Shortest path, assignment, flow, SCC, MST, topo-sort: the pathfinding crate's algorithm list mapped to scipy.sparse.csgraph / networkx calls, with live-verified traps
 - `data-science/algorithms-python-catalog/references/keon-algorithms-notes.md` — keon/algorithms (PyPI `algorithms` 1.0.1): oracle-checked, with the bugs it ships
 - `data-science/algorithms-python-catalog/references/llm-vs-expert-puzzle-solving.md` — What Norvig's Advent of Code 2025 LLM notebook measured (LLMs: all correct, ~5x more code, ~3x slower; missed input-specific shortcuts) and how to prompt for better; a verified puzzle-utilities block
+- `data-science/algorithms-python-catalog/references/thealgorithms-python-delta-2026-10.md` — TheAlgorithms/Python: what changed since the 2026-09-13 snapshot, and which new modules hold up (run live)
 
 ## data-science/astro-toolkit-selection
 
