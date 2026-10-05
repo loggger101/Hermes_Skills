@@ -10,7 +10,7 @@ row here and commit. Nothing batches across repos, so a session cut-off loses at
 1. Read this file; take the first row whose Status is `pending` (the table is in work order).
 2. Review that repo (`gh repo view`, `gh api repos/OWNER/NAME/contents`, clone to the scratchpad if source matters).
 3. Search the repo for what already covers it: `grep -ril NAME .` and `SKILLS-INDEX.md`.
-4. Edit or add the skill / reference; run `python tools/verify-all.py`.
+4. Edit or add the skill / reference. A new `references/*.md` needs `python tools/gen-references-index.py` and the reference-doc count in `DESCRIPTION.md` bumped; a new skill needs the skill counts in the docs bumped. Then run `python tools/verify-all.py` (all gates must pass).
 5. Set the row to `done` with a one-line outcome and the commit's round tag; commit; next row.
 
 Statuses: `pending` · `done` (skill/reference changed) · `covered` (already well held, nothing to add) · `skip` (no skill-relevant content, with reason).
@@ -19,7 +19,7 @@ Statuses: `pending` · `done` (skill/reference changed) · `covered` (already we
 
 | # | Repo | Lang | Pushed | Hits | Status | Outcome |
 |---|------|------|--------|------|--------|---------|
-| 1 | [agiwhitelist/auteur](https://github.com/agiwhitelist/auteur) | JavaScript | 2026-08-06 | 0 | pending | |
+| 1 | [agiwhitelist/auteur](https://github.com/agiwhitelist/auteur) | JavaScript | 2026-08-06 | 0 | done | round-67: new `creative/awwwards-gsap-motion/references/acceptance-gates.md` (linter rules, DPR2/headed/prod perf honesty, serve-over-HTTP, fallback payload); `transition: all` removed from design-taste-frontend |
 | 2 | [alibaba/open-code-review](https://github.com/alibaba/open-code-review) | Go | 2026-10-01 | 0 | pending | |
 | 3 | [AndrewAnnex/SpiceyPy](https://github.com/AndrewAnnex/SpiceyPy) | Python | 2026-09-27 | 0 | pending | |
 | 4 | [ant-design/ant-design](https://github.com/ant-design/ant-design) | TypeScript | 2026-10-05 | 0 | pending | |
