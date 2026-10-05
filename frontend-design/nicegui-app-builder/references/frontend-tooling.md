@@ -57,9 +57,29 @@ Useful as a **rule vocabulary** when writing custom HTML linting for the audit p
   did); it was not tested against `onclick` attributes. No rule tested flagged `<a href="">`.
 - Enable the rules you need explicitly in `.htmlhintrc` rather than trusting the default pass.
 
-## dashy — self-hosted dashboard [SRC]
+## dashy — self-hosted dashboard [SRC + schema RUN 2026-10-05]
 
-Single-service docker-compose at repo root; config schema in `config.schema.json`. Relevant only if the user wants a personal ops dashboard (links, health checks) — not part of any current pipeline.
+Single-service docker-compose at repo root. Relevant only if the user wants a personal ops dashboard (links, health checks) — not part of any current pipeline.
+(MIT. The config schema is `src/utils/config/ConfigSchema.json`, 64 KB; the older note naming `config.schema.json` was wrong. Docs: `docs/configuring.md`,
+47 KB, with sections `pageInfo`, `appConfig`, `appConfig.auth` (built-in users, Keycloak, header, OIDC), `sections[]`, `items`, widgets, `displayData`.)
+
+**Validating a `conf.yml` offline (run, `jsonschema` + `pyyaml`).** The schema is JSON Schema draft-07 with `required: ["sections"]`
+and `additionalProperties: false` at the root, where only keys matching `^x-` are allowed as custom extensions. The repo's own
+`user-data/conf.yml` validates with no errors. Planted mistakes:
+
+| Mistake | Result |
+|---|---|
+| `pageinfo` instead of `pageInfo`; `section` instead of `sections` | caught (key not matching `^x-`; `sections` required) |
+| `appConfig.theme: 123`, `statusCheck: 'yes'`, `displayData.cols: 'two'` | caught (type errors) |
+| `appConfig.layout: 'diagonal'` | caught (enum: horizontal, vertical, auto, masonry, sidebar) |
+| unknown `appConfig` key `statuscheck` | caught (additional properties not allowed) |
+| item without `title`; `pageInfo` without `title` | caught (required) |
+| **item without `url`** | **not caught** (zero errors) |
+| **`item.target: 'newwindow'`** | **not caught** (any string accepted) |
+
+So the schema is good for typos and types and silent on semantic gaps. Put `# yaml-language-server: $schema=<ConfigSchema.json URL>`
+on the first line (the sample does) for editor checks, and validate with the schema before restarting the container. Dashy
+was not run (no Docker or build); the app's behaviour is not verified here.
 
 ## gods-eye-view (creative reference) [SRC]
 
