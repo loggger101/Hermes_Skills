@@ -55,4 +55,4 @@ Good: Tailwind-native, headless-leaning plugins with plain data attributes, no f
 Watch: the dual licence, the peer-dependency install, no auto-init for dynamic DOM, and heavy plugins (datatable, datepicker,
 charts) that load third-party libraries. For React apps compare `web-development/react-library-notes/references/ariakit-notes.md` and `shadcn-cli-4-notes.md` there in
 `web-development/react-ecosystem/`. The agent skills this repo ships are covered in
-`software-development/hermes-agent-skill-authoring/references/vendor-shipped-skills-preline.md`.
+`software-development/skill-intake-and-release/references/vendor-shipped-skills-preline.md`.

@@ -12,7 +12,7 @@ Validates all SKILL.md files in the Hermes_Skills repository for:
   7. Hardcoded secrets in skill content (.py/.sh scripts + SKILL.md): AWS key IDs,
      GitHub/OpenAI/Slack token shapes, PEM private-key blocks, and password=literal
      assignments that are not obvious placeholders/examples. Threshold is ZERO — a
-     committed secret is never acceptable (see hermes-agent-skill-authoring/references/skill-registry-security.md).
+     committed secret is never acceptable (see skill-intake-and-release/references/skill-registry-security.md).
 
 Output: JSON report suitable for cronjob delivery.
 Exit codes: 0 = pass within thresholds, 1 = threshold breached.

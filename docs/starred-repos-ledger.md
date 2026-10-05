@@ -15,6 +15,8 @@ row here and commit. Nothing batches across repos, so a session cut-off loses at
 
 Round-249 note: library-notes references written during this review (numpy, pandas, scipy, matplotlib, torch, animate.css, PostCSS and others) were later promoted to their own skills (`python-numerics-gotchas`, `python-plotting`, `ml-cv-library-notes`, `frontend-library-picks`); `Outcome` paths below name the original location, `git log --follow` resolves them.
 
+Round-253 note: three more clusters were promoted to skills, so `Outcome` paths for these rows moved (`git log --follow` resolves them): Skill_Seekers, hermes-agent-self-evolution and preline references now live in `software-development/skill-intake-and-release`; the Front-End-Performance-Checklist script and references (and the Web Interface Guidelines checklist) now live in `web-development/web-perf-audit`; the audit-pattern references from the skill-authoring skill now live in `software-development/skill-library-audits`. A re-run of `gh api user/starred` on 2026-10-05 still listed 185 stars, all in this table.
+
 Statuses: `pending` · `done` (skill/reference changed) · `covered` (already well held, nothing to add) · `skip` (no skill-relevant content, with reason).
 
 `Hits` = number of files in this repo that mention the repo's name before the review started (0 = never mentioned; short generic names inflate it).
