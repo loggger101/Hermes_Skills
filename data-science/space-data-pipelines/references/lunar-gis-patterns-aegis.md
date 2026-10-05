@@ -1,8 +1,8 @@
 ---
-description: "Lunar GIS patterns from nasa/aegis (AEGIS): LPS projection math, GeoTIFF custom-CRS reconstruction, lgrs-verified port"
-source_repos: nasa/aegis (Artemis EVA Geographic Information System)
-tested_version: clone @ 2026-09-13 + GIS_data_conversion_pipeline read @ 2026-09-16; lgrs 0.3.0 oracle on Python 3.13
-verified_date: "2026-09-16"
+description: "Lunar GIS patterns from nasa/aegis (AEGIS): LPS projection math, GeoTIFF custom-CRS reconstruction, lgrs-verified port, categorical-raster to RGBA COG with nearest overviews (run)"
+source_repos: nasa/aegis (now "Application for Exploration Geospatial Integration and Scheduling"; earlier docs read it as Artemis EVA Geographic Information System)
+tested_version: clone @ 2026-09-13 + GIS_data_conversion_pipeline read @ 2026-09-16; lgrs 0.3.0 oracle on Python 3.13; 2026-10-05 update: commits to 2026-10-01 read via API, COG overview test run with rasterio 1.5.2 / GDAL 3.12.2 on Python 3.12
+verified_date: "2026-10-05"
 ---
 
 # Lunar GIS Patterns (nasa/aegis — AEGIS, round-19 live verification + round-27 pipeline pass)
@@ -161,3 +161,37 @@ the code's actual behavior and that the discrepancy exists, so a future upstream
 - Needing LPS/LTM coordinates or lunar map products → **lgrs** (Python ≥3.13) is the reference; AEGIS's TS port is verified equivalent if you're already in a JS stack.
 - Rendering non-Mercator per-mission CRS in OpenLayers with custom ellipsoids → study `projection.ts` + `coordTransform.ts`; QGIS/CesiumJS don't do this out of the box for lunar data.
 - Collaborative geospatial editing (CRDT) → AEGIS uses Automerge; its seeder (`apollo14SeedData.ts`) shows document shape.
+
+## 2026-10-05 update: what changed since the 2026-09-16 pass (30 commits to 2026-10-01)
+
+- **The acronym changed on 2026-09-22.** The README now reads "Application for Exploration Geospatial Integration and
+  Scheduling (AEGIS)", one of the EMSS (Exploration Mission System Software) tools at JSC. Old notes (including this
+  file's earlier text) say "Artemis EVA Geographic Information System". The name is the only part that moved there.
+- **Categorical rasters are a first-class import** (2026-09-28, "GIS September data delivery"): `--in-categorical-raster`,
+  `--categorical-class-definition`, `--categorical-product`, `--out-categorical-raster` (each repeated once per input).
+  Source-read workflow in `common/colorize_categorical_raster.py` and `colorize_classified_mask.py`:
+  1. Validate a **Byte, single-band** GeoTIFF whose nodata equals the value declared in the JSON class definition.
+  2. Every pixel value present must be a declared class or nodata, and the **embedded TIFF palette must match** the JSON
+     colours class by class (the JSON must have consistent hex and RGB, unique values, non-empty labels, no class equal to nodata).
+  3. Expand to RGBA with `gdaldem color-relief ... -alpha -exact_color_entry` (rows `<value> r g b a`; `nv` and nodata map to
+     `0 0 0 0`), then tile, `COMPRESS=DEFLATE`, `BIGTIFF=IF_SAFER`, and convert to COG.
+  4. Write an **audit JSON**: source and class-definition SHA-256, schema and toolbox versions, grid, per-class pixel counts.
+- **Viewshed class values changed**: `0 = background`, `1 = visible`, `2 = non-visible`, optional `255 = nodata` (it was
+  1/2/255 only). Vector imports gained `--fill-null-vector-property`, `--require-vector-property` and
+  `--require-unique-vector-property` to fail fast on missing or duplicate attributes.
+- **COG overviews for categorical data must use `nearest`.** `geotiff_to_cog.py` gained `--overview-resampling {average,nearest}`
+  (default `average`) with the note "use nearest for categorical RGBA rasters". Reproduced (rasterio 1.5.2, GDAL 3.12.2,
+  COG driver, DEFLATE, block 256): a 1024 x 1024 RGBA raster with exactly three colours, coarsest overview (4x, 256 x 256):
+
+  | `overview_resampling` | distinct colours in the overview | colours not in the palette |
+  |---|---|---|
+  | `average` | 80 | **77** (blends such as (13,188,0,255), (17,183,0,255)) |
+  | `nearest` | 3 | 0 |
+
+  So averaged overviews of a class map invent classes and corrupt legends at zoomed-out levels. Use `nearest` (or expand to
+  RGBA only after choosing it) for any class, mask or label raster; reserve `average` for continuous data such as DEMs.
+- Also landed: a staged **Automerge migration framework** (2026-09-29, relevant only if you store AEGIS documents), a
+  slope-graph feature, and UI changes (EVA kebab menu, priority badges). Not reviewed in depth.
+
+Not run in this update: `gdaldem` (not installed here, so the colour-table step is source-read), the AEGIS app, or the
+`pixi` environment its converters expect.
