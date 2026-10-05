@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **472 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **473 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -370,6 +370,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 - `data-science/optimization-modeling-pyomo/references/formulations-and-algorithms.md` — Pyomo Formulations & Algorithms — measured from source + live execution
 - `data-science/optimization-modeling-pyomo/references/pyomo-source-patterns.md` — Design Patterns Mined from Pyomo Source (portable to any Python project)
+- `data-science/optimization-modeling-pyomo/references/z3-solver-notes.md` — z3-solver 5.1.0 run on Python 3.14: result handling, Int vs BitVec vs Real semantics, Python-operator traps, timeouts, unsat cores, Optimize unbounded, enumeration, pigeonhole scaling
 
 ## data-science/orbital-mechanics-data
 
