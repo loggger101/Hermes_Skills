@@ -113,3 +113,7 @@ res = Highs().solve(m)
 assert res.solution_status.name == "optimal" and abs(res.incumbent_objective - 9.0) < 1e-9
 assert [round(value(v), 3) for v in m.x.values()] == [1.0, 1.0, 0.0]   # solution loaded back into model vars
 ```
+
+## References
+
+- `references/z3-solver-notes.md` - z3-solver 5.1.0 on py3.14 (about 35 checks): `model()` after `unsat` raises, signed BitVec compares, Python `and` raises, unbounded `Optimize` returns `sat` with `oo`, timeouts and `unknown`, unsat cores, pigeonhole scaling.
