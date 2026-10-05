@@ -197,3 +197,4 @@ Generate or update a project-specific `AGENTS.md` (or `CLAUDE.md`, whichever har
 ## References
 
 - `references/style-guides-and-enforcers.md` - find the style guide a repo follows and the tool that enforces it: detection signals, language to canonical guide to enforcer (versions checked on PyPI/npm 2026-10-05)
+- `references/gradle-agent-rules.md` - the Gradle repo's own agent instructions (wrapper only, never full build or clean, target subprojects with -q, language levels, Spock test rules, @Incubating/@since API rules); source-read, nothing run.
