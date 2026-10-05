@@ -118,3 +118,7 @@ Script `SCRIPT[:] = [bad, good]`, call the client, then assert on `len(REQS)` an
 ## Verification
 
 Run the fake-server test: valid reply = 1 request; invalid then valid = 2 requests with a `tool` message beginning `Validation Error found`; exhausted retries raise `InstructorRetryException`.
+
+## References
+
+- `references/pydantic-v2-validation-behaviour.md` - pydantic 2.13.5 on py3.14, about 40 checks: what lax mode accepts from model replies, extras ignored, `Optional` is required, `model_copy`/`model_construct`/assignment skip validation, `exclude_unset`, union smart mode, `inf` dumps as `null`.
