@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **491 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **492 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -393,6 +393,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `data-science/python-data-science/references/gensim-notes.md` — gensim 4.4.0 (topic models, Word2Vec) install reality (no cp314 wheel) and a verified small run in a 3.11 venv: reproducibility, OOV errors, LDA
 - `data-science/python-data-science/references/matplotlib-notes.md` — matplotlib 3.11.2 on Windows/Python 3.14 measured: default backend is tkagg, deterministic PNG/SVG/PDF recipes, removed get_cmap and 'seaborn' style, missing glyph warnings, vert deprecation, figure-leak warning, speed
 - `data-science/python-data-science/references/open3d-notes.md` — Open3D 0.20.0 for point clouds and meshes from Python: install size, headless geometry/ICP/IO checks run live, and the silent-failure traps (missing file returns an empty cloud)
+- `data-science/python-data-science/references/pandas-3-notes.md` — pandas 3.0.6: what changed from 2.x and what bites (run live)
 - `data-science/python-data-science/references/plotly-notes.md` — plotly.py 7.1.0 for reports: HTML size (embedded JS 4.8 MB vs CDN 7.6 KB), JSON size, NaN handling, static export via kaleido 1.4 (needs Chrome), default browser renderer; run live
 - `data-science/python-data-science/references/polars-pymc-api-reference.md` — polars + pymc API references — verified line-numbered facts from cloned sources
 - `data-science/python-data-science/references/polars-v2-engine-and-breaking-changes.md` — polars 2.0 (rc) engine architecture + every breaking change live-verified on polars==2.0.0rc1 — streaming-by-default, row-order semantics, OOC spilling internals, GPU beta
