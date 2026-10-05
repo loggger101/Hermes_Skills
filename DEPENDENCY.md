@@ -1,8 +1,8 @@
 # Skill Dependency Map
 
-This document maps the relationship network between all **202 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+This document maps the relationship network between all **203 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
 
-**Network stats:** 538 `related_skills` cross-references across 202 skills (2 skills list no `related_skills` of their own).
+**Network stats:** 542 `related_skills` cross-references across 203 skills (2 skills list no `related_skills` of their own).
 
 ## Hub Skills (referenced by 2+ other skills)
 
@@ -63,6 +63,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `astro-toolkit-selection` | 3 | economicspace-pipeline, optimization-modeling-pyomo, space-data-pipelines |
 | `blocked-page-recovery` | 3 | general-research-rounds, reddit-reading, scrapling |
 | `claude-code` | 3 | codex, hermes-agent, opencode |
+| `codebase-onboarding` | 3 | living-docs-governance, repo-atlas, repowise |
 | `codex` | 3 | claude-code, hermes-agent, opencode |
 | `comfyui` | 3 | baoyu-infographic, songsee, songwriting-and-ai-music |
 | `conversation-to-spec` | 3 | brainstorming, grilling-interview, skill-flow-router |
@@ -79,13 +80,14 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `mattpocock-handoff` | 3 | mattpocock-ask-if-underspecified, mattpocock-to-tickets, mattpocock-writing-for-agents |
 | `meeting-action-items` | 3 | decision-questionnaire, document-to-action-items, teams-meeting-pipeline |
 | `p5js` | 3 | manim-video, pretext, pygame |
+| `repowise` | 3 | architecture-metrics, fastmcp, repo-atlas |
 | `simplify-code` | 3 | ast-grep, dynamic-workflow, python-craft |
 | `sql-for-data` | 3 | duckdb-querying, sqlite-queries, system-design-scaling |
 | `system-design-scaling` | 3 | algorithms-python-catalog, application-threat-model, incident-response |
 | `airtable` | 2 | notion, weekly-review-planning |
 | `architecture-metrics` | 2 | mattpocock-codebase-design, repowise |
 | `ascii-art` | 2 | ascii-video, pretext |
-| `codebase-onboarding` | 2 | living-docs-governance, repowise |
+| `code-wiki` | 2 | codebase-onboarding, repo-atlas |
 | `competitor-news-monitor` | 2 | blogwatcher, rss-feeds |
 | `cron-pipeline-watchdog` | 2 | incident-response, space-data-pipelines |
 | `decision-questionnaire` | 2 | mental-models, one-three-one-rule |
@@ -110,7 +112,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `orbital-mechanics-data` | 2 | astro-toolkit-selection, space-data-pipelines |
 | `pubmed-database` | 2 | bioinformatics, gget |
 | `redesign-existing-projects` | 2 | design-taste-frontend, full-output-enforcement |
-| `repowise` | 2 | architecture-metrics, fastmcp |
 | `rest-api-client` | 2 | rest-graphql-debug, system-design-scaling |
 | `rest-graphql-debug` | 2 | har-derived-api-client, rest-api-client |
 | `rss-feeds` | 2 | reddit-reading, watchers |
@@ -130,6 +131,6 @@ No skill is fully standalone: every skill either lists `related_skills` or is re
 
 ## Related Skills Validation
 
-All 538 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 202 unique skill names.
+All 542 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 203 unique skill names.
 
 ---
