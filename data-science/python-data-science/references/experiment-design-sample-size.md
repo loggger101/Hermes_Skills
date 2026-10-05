@@ -1,6 +1,6 @@
 # Experiment Design & Sample Size (A/B test statistics)
 
-Source: coreyhaines31/marketingskills `skills/ab-testing/` v2.0.0 + references (MIT; mined 2026-09-15). Domain framing is marketing, but the statistical discipline applies to any two-arm comparison — including CR-pipeline-style agent tournaments and pipeline A/B runs. Use this when designing an experiment BEFORE running it: the design decisions (metric tiers, sample size, duration) are where most experiments go wrong; the analysis afterward is mechanical by comparison.
+Source: coreyhaines31/marketingskills `skills/ab-testing/` v2.0.0 + references (MIT; mined 2026-09-15; sample-size tables corrected and recomputed 2026-10-05, see the correction below). Domain framing is marketing, but the statistical discipline applies to any two-arm comparison — including CR-pipeline-style agent tournaments and pipeline A/B runs. Use this when designing an experiment BEFORE running it: the design decisions (metric tiers, sample size, duration) are where most experiments go wrong; the analysis afterward is mechanical by comparison.
 
 ## Design order (hypothesis first)
 
@@ -18,13 +18,36 @@ Inputs: baseline conversion rate + minimum detectable effect (MDE — the smalle
 
 | Baseline | Detect 5% relative lift | 10% | 20% | 50% | 100% (double) |
 |---|---|---|---|---|---|
-| 1% | 1,500,000 | 380,000 | 97,000 | 16,000 | 4,200 |
-| 3% | 480,000 | 120,000 | 31,000 | 5,200 | 1,400 |
-| 5% | 280,000 | 72,000 | 18,000 | 3,100 | 810 |
-| 10% | 130,000 | 34,000 | 8,700 | 1,500 | 400 |
-| 20% | 60,000 | 16,000 | 4,000 | 700 | 200 |
+| 1% | 637,010 | 163,095 | 42,693 | 7,750 | 2,319 |
+| 3% | 207,938 | 53,211 | 13,914 | 2,518 | 749 |
+| 5% | 122,124 | 31,234 | 8,158 | 1,471 | 435 |
+| 10% | 57,763 | 14,751 | 3,841 | 686 | 199 |
+| 20% | 25,583 | 6,510 | 1,683 | 294 | 82 |
 
-Reading: at a 3% baseline you need ~120k per variant to detect a *relative* 10% lift (3.0→3.3%). Low baselines + small expected effects = enormous samples — that's the number telling you "don't test this, or change something bigger."
+Reading: at a 3% baseline you need ~53k per variant to detect a *relative* 10% lift (3.0→3.3%). Low baselines + small expected effects = enormous samples — that's the number telling you "don't test this, or change something bigger."
+
+**Correction (2026-10-05).** This table originally copied the source skill's `references/sample-size-guide.md`, whose cells
+are about **2.3x too large** (for 3% baseline and 10% lift it says 120,000; the standard formula gives 53,211). The source's
+own `SKILL.md` "Quick Reference" is a second, different table whose cells are **8-23% too small** (5% baseline and 10% lift: 27k,
+against 31,234), which under-powers tests. The values above were recomputed for this repo:
+
+```python
+from scipy.stats import norm
+import math
+def n_per_variant(p1, rel_lift, alpha=0.05, power=0.8):          # two-sided, equal split
+    p2 = p1 * (1 + rel_lift); pbar = (p1 + p2) / 2
+    za, zb = norm.ppf(1 - alpha / 2), norm.ppf(power)
+    return math.ceil((za * math.sqrt(2 * pbar * (1 - pbar)) + zb * math.sqrt(p1 * (1 - p1) + p2 * (1 - p2))) ** 2 / (p2 - p1) ** 2)
+```
+
+Checks run: 10% -> 12% gives 3,841 (the value the well-known online calculators print for 80% power and 95% confidence), and
+`statsmodels` `NormalIndPower` with `proportion_effectsize` agreed on the 20 cells compared (baselines 1-10%): within 0.3% for lifts up to 20% (for example 53,182 vs 53,210) and within 3% at 50-100% lifts, where Cohen's h is only an approximation.
+Always recompute with the real baseline and MDE rather than reading a table; 90% power at 20% baseline and 10% lift needs 8,714
+instead of 6,510, and alpha 0.01 needs 9,687.
+
+**Multiple variants.** The source guide's multipliers (3 variants about 1.5x, 4 about 2x) do not match a Bonferroni correction against a shared control at 80% power.
+
+Computed: 3 variants need **1.21x per variant, 1.82x total traffic**; 4 variants **1.33x per variant, 2.67x total**; 5 variants 1.42x per variant, 3.55x total. Budget total traffic, not per-variant, and cut variants rather than hoping for 'near 1.5x'.
 
 **Duration:** `days = (sample_per_variant × n_variants) / (daily_traffic × %exposed)`. Worked: need 10k/variant at 5k visitors/day fully exposed → 4 days. But apply the floor and ceiling rules below on top of the raw number.
 
