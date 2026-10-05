@@ -1,8 +1,8 @@
 ---
-description: "OpenSCvx patterns — State/Control/dynamics core loop, Hohmann constants, autotuners"
+description: "OpenSCvx patterns — State/Control/dynamics core loop, Hohmann constants, autotuners; Hohmann example run on Windows (cost 3.912189 vs analytic 3.912170 km/s)"
 source_repo: OpenSCvx/OpenSCvx (JAX + CVXPY successive convexification)
-tested_version: cloned repo @ 2026-09-05 (examples/spacecraft/hohmann_transfer.py read directly; not pip-run on Windows — JAX+CVXPY stack, verify before relying)
-verified_date: "2026-09-05"
+tested_version: examples/spacecraft/hohmann_transfer.py read 2026-09-05; RUN 2026-10-05: openscvx 0.5.2 + jax 0.11.2 + cvxpy 1.9.3 (QOCO) on Windows 11 / Python 3.12, CPU, the Hohmann example executed headless
+verified_date: "2026-10-05"
 ---
 
 # OpenSCvx — Core Pattern & Verified Constants
@@ -100,3 +100,29 @@ problem.settings.prp.dt = 10.0                 # proximal-relaxation step size k
 - `cost.final = [("minimize", bound)]` is the idiom for "free final value, minimize it" — a plain number pins it instead.
 - Epsilon inside norms (`dv + 1e-6`) is load-bearing: JAX autodiff of `Norm(0)` produces NaN gradients that kill the linearization silently.
 - Windows note: not pip-run in this environment (JAX+CVXPY install weight). Before shipping a maneuver design, run it once and diff against the analytic numbers printed by each example's `__main__` block — they're built-in oracles.
+
+## Run 2026-10-05: it installs and solves on Windows (openscvx 0.5.2)
+
+The earlier "not pip-run on Windows" caveat is retired for the CPU path.
+
+| Step | Result |
+|---|---|
+| `uv venv --python 3.12` then `uv pip install openscvx` | 10 s; pulls `jax` 0.11.2 (CPU, `CpuDevice(id=0)`), `cvxpy` 1.9.3, `qoco`, `diffrax`, `viser`, `plotly`; Python >= 3.11 |
+| `openscvx` import | `openscvx.__version__` does not exist; the banner prints "Version: 0.5.2". Check the version with `pip show openscvx` |
+| Setup (imports plus building the problem) | 8.6 s |
+| `problem.initialize()` | **4.3 s**: JIT-compiles the continuous, discrete and propagation solvers ("not saving/loading from disk"), then initialises the QOCO subproblem |
+| `problem.solve()` | **0.3 s**, 6 SCP iterations (final `J_tr` 1.3e-5, `J_vc` 3.5e-12, all subproblems `optimal`); the banner's main-solve time 0.165 s |
+| `problem.post_process()` | 1.0 s; returns `OptimizationResults` (keys include `X`, `U`, `J_tr_history`, `J_vb_history`, `J_vc_history`, `TR_history`, `VC_history`) with state array shape `(15, 7)` (15 nodes; 7 states including one augmented cost state) |
+| **Answer** | `Cost: 3.912189` km/s versus the analytic Hohmann delta-v **3.912170 km/s** for 250 km LEO to GEO (r_leo 6628.0 km, r_geo 42164.2 km): difference 1.9e-5 km/s (0.02 m/s, about 5e-6 relative) |
+
+Notes:
+
+- The example's `__main__` block calls Plotly `.show()` three times and starts a `viser` server (`server.sleep_forever()`), which would
+  block an unattended run. The check above exec'd the module body above `if __name__ == "__main__":`, then called
+  `initialize / solve / post_process` itself.
+- The problem summary reports `Float Dtype: float32` and `Discretizer: VectorizeDiscretizeLinearize (Dopri8)`; agreement with the analytic value
+  to 5e-6 shows float32 is enough for this problem, not for every one.
+- The first call pays the JIT; a second `solve()` in the same process reuses compiled code. The run does not use a GPU.
+- The banner uses box-drawing characters and the example prints "Δv": this run used `PYTHONUTF8=1` and reconfigured stdout to UTF-8. Piped under the Windows cp1252 default, those prints are expected to raise `UnicodeEncodeError` (the unmodified example was not run to confirm), so set `PYTHONUTF8=1`.
+
+Not run: the other spacecraft examples (halo orbit, low-thrust, LET transfer), GPU JAX, MPC, the autotuner variants, compiled-solver caching on disk.
