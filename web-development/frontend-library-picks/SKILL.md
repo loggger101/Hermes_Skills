@@ -38,8 +38,8 @@ Answers "which CSS framework, icon set, animation library or build helper" for p
 | Ready-made CSS keyframes | animate.css 4.1.1 | 71.7 kB min, repo finished (last push 2024-07); licence line in CSS says MIT, README says Hippocratic | `references/animate-css-4-notes.md` |
 | JS animation and timelines | Anime.js 4.5.0 | ESM, import by subpath: bundle is 118 kB (40.7 kB gz) | `references/animejs-4-notes.md` |
 | Scroll-reveal | native CSS (`animation-timeline`) or IntersectionObserver; ScrollReveal 4.0.9 only for open-source use | GPL-3.0 unless a commercial licence is bought; frozen since 2022 | `references/scrollreveal-4-notes.md` |
-| Build-time CSS transforms | PostCSS 8.5.x with autoprefixer, `postcss-nested`, cssnano | native CSS nesting replaces some plugins | `references/postcss-8-notes.md` |
-| Formatting minified JS/CSS/HTML | js-beautify 2.0.3 (whitespace only), Prettier 3 when the code must parse | CLI rewrites files in place with 2+ inputs | `references/js-beautify-notes.md` |
+| Build-time CSS transforms | PostCSS 8.5.x with autoprefixer, `postcss-nested`, cssnano | native CSS nesting replaces some plugins | `web-development/js-tooling-notes/references/postcss-8-notes.md` |
+| Formatting minified JS/CSS/HTML | js-beautify 2.0.3 (whitespace only), Prettier 3 when the code must parse | CLI rewrites files in place with 2+ inputs | `web-development/js-tooling-notes/references/js-beautify-notes.md` |
 | Statically checked CSS scoping | do not adopt `@css-blocks/core` 1.5.0 | dormant since 2022 and crashes on Windows | `references/css-blocks-notes.md` |
 
 ## Procedure
@@ -78,6 +78,5 @@ Answers "which CSS framework, icon set, animation library or build helper" for p
 - `references/animate-css-4-notes.md` - animate.css 4.1.1 files, class prefixes, compat build, licence mismatch, confirmed traps
 - `references/animejs-4-notes.md` - Anime.js 4.5.0 modular API, v3 migration traps, deterministic values
 - `references/scrollreveal-4-notes.md` - ScrollReveal 4.0.9 GPL licence, frozen state, inline-style side effects, native replacements
-- `references/postcss-8-notes.md` - PostCSS 8.5.29 and the usual plugins, config traps, native CSS replacements
-- `references/js-beautify-notes.md` - js-beautify 2.0.3: tolerant whitespace formatter and the in-place-rewrite CLI trap
+- `skill_view(name='js-tooling-notes')` — PostCSS 8 and js-beautify moved there with Bun and standard/neostandard (round-251)
 - `references/css-blocks-notes.md` - CSS Blocks 1.5.0: dormant, breaks on Windows, what it enforces

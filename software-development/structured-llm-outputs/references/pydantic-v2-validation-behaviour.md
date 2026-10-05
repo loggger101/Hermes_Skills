@@ -75,6 +75,6 @@ use `exclude_unset=True`, and decide explicitly whether `None` means "clear" or 
 
 Its `CONTRIBUTING.md` has an "AI policy": AI use is welcome if you certify you understand the code; PRs may be closed for
 quality, mass submission across repositories, or incoherent AI-written descriptions. See
-`github/github-pr-workflow/references/ai-policies-of-starred-repos.md`.
+`github/agent-oss-contributions/references/ai-policies-of-starred-repos.md`.
 
 Not run: pydantic-settings, dataclass/TypedDict adapters, discriminated unions, generics, performance, v1 compatibility.

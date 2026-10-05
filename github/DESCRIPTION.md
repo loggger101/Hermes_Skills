@@ -6,6 +6,7 @@ description: GitHub workflow skills for managing repositories, pull requests, co
 
 GitHub workflow skills for managing repositories, pull requests, code reviews, issues, and CI/CD pipelines using the gh CLI and git via terminal.
 
+- [`agent-oss-contributions`](./agent-oss-contributions/SKILL.md) — Pre-flight and AI policies for upstream agent PRs
 - [`codebase-inspection`](./codebase-inspection/SKILL.md) — Inspect codebases w/ pygount: LOC, languages, ratios
 - [`github-auth`](./github-auth/SKILL.md) — GitHub auth setup: HTTPS tokens, SSH keys, gh CLI login
 - [`github-code-review`](./github-code-review/SKILL.md) — Review PRs: diffs, inline comments via gh or REST

@@ -12,5 +12,6 @@ Knowledge and Tools for Machine Learning Operations - tools and frameworks for t
 - [`weights-and-biases`](./evaluation/weights-and-biases/SKILL.md) — W&B: log ML experiments, sweeps, registry, dashboards
 - [`llama-cpp`](./inference/llama-cpp/SKILL.md) — llama.cpp local GGUF inference + HF Hub model discovery
 - [`serving-llms-vllm`](./inference/serving-llms-vllm/SKILL.md) — vLLM: LLM serving, OpenAI API, quantization
+- [`unsloth-gguf`](./inference/unsloth-gguf/SKILL.md) — Unsloth fine-tune to GGUF; unsloth start hermes
 
 *Regenerated from live frontmatter — keep in sync with `tools/gen-skills-index.py`.*
