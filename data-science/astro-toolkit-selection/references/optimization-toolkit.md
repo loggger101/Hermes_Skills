@@ -18,6 +18,23 @@ Rust engine — fine for internal research, a copyleft consideration if you ship
 - Modules (from `.pyi` stubs): `anise/` (MetaAlmanac, Aberration, Orbit, CelestialObjects, Frames), `mission_design`,
   **`monte_carlo`** (`MvnSpacecraft`, `StateDispersion`, `OrbitalElement`, `StateParameter` — launch dispersion is first-class),
   `orbit_determination`, `time`.
+
+**Run 2026-10-05 (nyx-space 2.6.0, released 2026-09-12; Windows 11, Python 3.14.6).** PyPI has `win_amd64` wheels for CPython 3.11-3.14
+(8.5 MB), plus manylinux and macOS; `uv pip install nyx-space` took 5 s and `import nyx_space` 0.05 s. Top level exposes `Orbit`, `Spacecraft`,
+`Frame`, `Mass`, `Thruster`, `DragData`, `SRPData`, `GuidanceMode`, `ExportCfg` and the sub-modules `anise`, `mission_design`, `monte_carlo`,
+`orbit_determination`, `time` (matching the stub list above; there is no `nyx_space.cosmic` or `nyx_space.od`). No ephemeris download was made (the
+`MetaAlmanac` path needs network data), so propagation, Monte Carlo and OD were **not run**. Time scales were checked against astropy 8.0.1:
+
+| `Epoch.from_gregorian_utc(2026, 10, 5, 12, 0, 0, 0)` converted to | nyx | astropy |
+|---|---|---|
+| TAI | 12:00:37 | 12:00:37 (UTC+37 s) |
+| TT | 12:01:09.184 | +69.184 s |
+| TDB | 12:01:09.182342053 | TT minus about 1.66 ms (periodic term) |
+| **Leap second `2016-12-31T23:59:60` UTC -> TAI** | **2017-01-01T00:00:35** | **2017-01-01T00:00:36** |
+
+So the engine inherits the one-second error at the leap-second instant documented for hifitime in `hifitime-time-scales.md` (nyx's time layer is
+hifitime). Away from leap seconds the scales agreed. Avoid epochs on a leap-second day when exact TAI matters, and cross-check with astropy. The
+`Orbit` class has the usual `add_sma_km`, `add_inc_deg`, `add_raan_deg`, `add_ta_deg`, `altitude_km`, `apoapsis_km`, `at_epoch`, `c3_km2_s2`, `cartesian_pos_vel` methods.
 - Canonical workflow (examples/01_readme.py): ANISE `MetaAlmanac(dhall).process().load(bpc)` → build `AccelModels`
   (`point_masses=...`, `gravity_field=GravityFieldConfig(degree=50, order=50, filepath="EGM2008...gz")`,
   `solid_tides=SolidTides.earth_moon_system(...)`) → vehicle-dependent forces (`SolarPressure([frames], almanac, correction=Aberration("LT"))`,
