@@ -126,7 +126,7 @@ They moved from open PRs to **issue-first** because "at volume, a machine-genera
 human one" — the entry point became issues where intent settles before code; members keep direct-PR rights. Credit rules: idea author's
 handle in `metadata.author`, issue linked from implementing commit, release-notes credit. AI-assisted contributions are expected with two
 conditions: you can defend every line, and you disclose agent involvement — "an unreviewed agent output submitted as your own work is the
-thing this policy exists to filter." (Relevant if our repo ever gets automated-PR volume; see also `github/github-pr-workflow/references/agent-contribution-guardrails.md`.)
+thing this policy exists to filter." (Relevant if our repo ever gets automated-PR volume; see also `github/agent-oss-contributions/references/agent-contribution-guardrails.md`.)
 
 ## Environment pitfall they document [SRC]
 

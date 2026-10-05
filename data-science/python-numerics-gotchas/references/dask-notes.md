@@ -20,7 +20,7 @@ verified_date: "2026-10-05"
 | `sort_values("v").head(3)` | n/a | 0.196 s |
 
 **At this size plain pandas was faster than dask** (graph building and scheduling overhead). Dask earns its keep when the data does not fit in memory, when many files need parallel reading, or when you have many cores/a cluster and operations that parallelise;
-for an in-memory frame of a few million rows start with pandas (or polars, see `polars-pymc-api-reference.md`) and measure before switching.
+for an in-memory frame of a few million rows start with pandas (or polars, see `data-science/polars-pipelines/references/polars-pymc-api-reference.md`) and measure before switching.
 
 ## Behaviours worth knowing
 

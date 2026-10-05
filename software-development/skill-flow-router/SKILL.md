@@ -70,6 +70,7 @@ named here with a reason — it cannot silently go unrouted.
 - `python-debugpy` — debugger attach for one runtime; reached from `systematic-debugging`, not routed to.
 - `node-inspect-debugger` — same, for Node.
 - `rest-graphql-debug` — debugging one protocol surface; the flow question is already answered by then.
+- `z3-solver` — an SMT solver library with its own traps; reached when a task needs constraint solving or proofs, not a step in the plan/build/verify flow.
 - `docker-containers` — container/Compose mechanics; a build environment, not a decision point.
 - `mattpocock-gh-fix-ci` — acts on a specific failing CI check; no routing choice to make.
 - `bit-identity-float-pipelines` — numeric-correctness verification for float pipelines; a domain technique.

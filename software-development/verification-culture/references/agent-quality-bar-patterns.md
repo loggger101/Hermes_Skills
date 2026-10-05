@@ -80,4 +80,4 @@ trigger unrelated tool use. Related: `grounded-citations`, `blocked-page-recover
 - `verification-before-completion` is about not claiming done without evidence; the doubt cycle is its in-flight counterpart.
 - The CONSTRAINTS floor is the same idea as this repo's `tools/verify-all.py` gates and their planted-defect self-tests (a gate is trusted only after it fails on
   a planted defect): a constraint without a command and a failing example is decoration.
-- The AI-contribution policies tabulated in `github/github-pr-workflow/references/ai-policies-of-starred-repos.md` are the human-side version of "do not weaken the bar".
+- The AI-contribution policies tabulated in `github/agent-oss-contributions/references/ai-policies-of-starred-repos.md` are the human-side version of "do not weaken the bar".

@@ -64,7 +64,7 @@ Two source-verified traps worth knowing before debugging an export that "lost" s
 | Goal | Pick | Why not the other |
 |---|---|---|
 | Fine-tune a model you'll run locally as GGUF | **Unsloth** → `save_to_gguf` | Raw llama.cpp converter needs manual LoRA merge first; Unsloth does it in one call |
-| Just serve/run an existing GGUF on this box | LM Studio / llama-server (see server.md) | No training needed — don't pull a GPU stack for inference |
+| Just serve/run an existing GGUF on this box | LM Studio / llama-server (see `mlops/inference/llama-cpp/references/server.md`) | No training needed — don't pull a GPU stack for inference |
 | Fine-tune without a big NVIDIA card | Unsloth QLoRA 4-bit + `--no-bf16` path, or skip fine-tuning and use prompt/RAG | Verify VRAM math first; the export staging trap above doubles peak disk need |
 
 ## 2026-10-05 re-check (PyPI JSON metadata, GitHub releases and commits; nothing installed or run)

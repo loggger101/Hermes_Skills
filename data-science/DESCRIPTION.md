@@ -14,16 +14,19 @@ Data science workflows and tools.
 - [`duckdb-querying`](./duckdb-querying/SKILL.md) — Query CSV/Parquet/S3 data ad-hoc via DuckDB Friendly SQL
 - [`economicspace-pipeline`](./economicspace-pipeline/SKILL.md) — Use on economicspace (asteroid-mining pipeline)
 - [`evolutionary-ml`](./evolutionary-ml/SKILL.md) — Evolutionary ML: GA, NEAT, tournaments, parallel eval
+- [`experiment-design`](./experiment-design/SKILL.md) — A/B test design: metrics, sample size, duration
 - [`jupyter-notebook`](./jupyter-notebook/SKILL.md) — Iterative Python via live Jupyter kernel (hamelnb)
 - [`ml-cv-library-notes`](./ml-cv-library-notes/SKILL.md) — Torch, CuPy, Open3D, gensim and CV libs: live-run traps
 - [`model-export-deploy`](./model-export-deploy/SKILL.md) — Model export: ONNX, TorchScript, HDF5, NumPy, JSON
 - [`optimization-modeling-pyomo`](./optimization-modeling-pyomo/SKILL.md) — Model LP/MIP/NLP/GDP in Pyomo with live-verified patterns
 - [`orbital-mechanics-data`](./orbital-mechanics-data/SKILL.md) — Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC
+- [`polars-pipelines`](./polars-pipelines/SKILL.md) — polars 2.0, big-data patterns, PyMC on Windows
 - [`python-data-science`](./python-data-science/SKILL.md) — Python DS: EDA, cleaning, modeling, eval, viz
 - [`python-numerics-gotchas`](./python-numerics-gotchas/SKILL.md) — Silent numpy/scipy/pandas/sympy/statsmodels traps
 - [`python-plotting`](./python-plotting/SKILL.md) — Headless matplotlib/seaborn/plotly: output and traps
 - [`regex-vs-llm-structured-text`](./regex-vs-llm-structured-text/SKILL.md) — Regex-first parsing; LLM only for flagged edge cases
 - [`space-data-pipelines`](./space-data-pipelines/SKILL.md) — Build space/astro data pipelines with verified API gotchas
 - [`sql-for-data`](./sql-for-data/SKILL.md) — SQL for data: queries, joins, windows, aggregation
+- [`z3-solver`](./z3-solver/SKILL.md) — Z3 SMT from Python: sat/unsat handling, sorts, traps
 
 *Regenerated from live frontmatter — keep in sync with `tools/gen-skills-index.py`.*

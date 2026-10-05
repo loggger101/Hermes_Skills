@@ -57,7 +57,7 @@ and never serve data you would not post on the LAN.
 
 ## Contributing
 
-Per its `CONTRIBUTING.md` (see `github/github-pr-workflow/references/ai-policies-of-starred-repos.md`), outside pull requests are **paused** because AI tools
+Per its `CONTRIBUTING.md` (see `github/agent-oss-contributions/references/ai-policies-of-starred-repos.md`), outside pull requests are **paused** because AI tools
 raised volume beyond what maintainers can review; contribute through detailed issues with a minimal reproducible app and version info.
 
 Not run: `st.navigation` multipage apps, `st.connection`, custom components, authentication, Docker deployment, `AppTest` on `st.dataframe` / chart contents, or performance under load.

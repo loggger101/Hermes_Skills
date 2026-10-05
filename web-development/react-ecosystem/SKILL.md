@@ -71,6 +71,5 @@ map is in `references/awesome-react-map.md`.
 ## References
 
 - `references/awesome-react-map.md` - per-category picks from the awesome-react list with npm version and last-modified date for each
-- `references/standard-and-neostandard-notes.md` - standard 17.1.2 (still on ESLint 8.57.1, marked unsupported) vs neostandard 0.13.0 on ESLint 9.39.5, same 10 findings on a planted file; `--fix` limits, unflagged trailing `;`, parse errors on the regex `v` flag and `using`, TypeScript files ignored/failing.
-- `references/bun-runtime-notes.md` - Bun 1.4.2 on Windows, about 40 commands run: npm 11 blocks its postinstall (`npm rebuild bun` after approving), no type checking, text `bun.lock`, 0.4 s `bun add`, built-in `bun test` (exit 1 even when no file matches), `--compile` makes an 86 MB exe, `Bun.write` keeps LF, startup 54 ms vs node 116 ms.
+- `skill_view(name='js-tooling-notes')` — Bun runtime and standard/neostandard linting, plus PostCSS and js-beautify (moved there in round-251)
 - `skill_view(name='react-library-notes')` - per-library traps for React 19, Next.js 16, Zustand 5, Motion 14, Popmotion, Ariakit, shadcn CLI, deck.gl and React Native (moved there in round-250)

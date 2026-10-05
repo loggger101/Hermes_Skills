@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **218 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **229 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -12,6 +12,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 
 ## autonomous-ai-agents
 
+- `autonomous-loop-design` — Design scheduled and goal-seeking agent loops _(autonomous-ai-agents)_
 - `claude-code` — Delegate coding to Claude Code CLI (features, PRs) _(autonomous-ai-agents)_
 - `codex` — Delegate coding to OpenAI Codex CLI (features, PRs) _(autonomous-ai-agents)_
 - `computer-use` — Drive the desktop in the background without stealing focus _(autonomous-ai-agents)_
@@ -20,6 +21,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `dynamic-workflow` — Plan-in-code fan-outs, adversarial verification, waves _(autonomous-ai-agents)_
 - `hermes-agent` — Use, configure, theme, extend, orchestrate Hermes Agent _(autonomous-ai-agents)_
 - `hermes-bot-cloning` — Clone Hermes profiles to create identical subagent bots _(autonomous-ai-agents)_
+- `hermes-extensions` — Hermes themes, desktop/TUI/Python plugins, pets _(autonomous-ai-agents)_
 - `mattpocock-resolving-merge-conflicts` — Resolve git merge conflicts by tracing each side's intent _(autonomous-ai-agents)_
 - `merge-reconciler` — Neutral third-party resolution of agent merge conflicts _(autonomous-ai-agents)_
 - `opencode` — Delegate coding to OpenCode CLI (features, PR review) _(autonomous-ai-agents)_
@@ -75,22 +77,26 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `duckdb-querying` — Query CSV/Parquet/S3 data ad-hoc via DuckDB Friendly SQL _(data-science)_
 - `economicspace-pipeline` — Use on economicspace (asteroid-mining pipeline) _(data-science)_
 - `evolutionary-ml` — Evolutionary ML: GA, NEAT, tournaments, parallel eval _(data-science)_
+- `experiment-design` — A/B test design: metrics, sample size, duration _(data-science)_
 - `jupyter-notebook` — Iterative Python via live Jupyter kernel (hamelnb) _(data-science)_
 - `ml-cv-library-notes` — Torch, CuPy, Open3D, gensim and CV libs: live-run traps _(data-science)_
 - `model-export-deploy` — Model export: ONNX, TorchScript, HDF5, NumPy, JSON _(data-science)_
 - `optimization-modeling-pyomo` — Model LP/MIP/NLP/GDP in Pyomo with live-verified patterns _(data-science)_
 - `orbital-mechanics-data` — Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC _(data-science)_
+- `polars-pipelines` — polars 2.0, big-data patterns, PyMC on Windows _(data-science)_
 - `python-data-science` — Python DS: EDA, cleaning, modeling, eval, viz _(data-science)_
 - `python-numerics-gotchas` — Silent numpy/scipy/pandas/sympy/statsmodels traps _(data-science)_
 - `python-plotting` — Headless matplotlib/seaborn/plotly: output and traps _(data-science)_
 - `regex-vs-llm-structured-text` — Regex-first parsing; LLM only for flagged edge cases _(data-science)_
 - `space-data-pipelines` — Build space/astro data pipelines with verified API gotchas _(data-science)_
 - `sql-for-data` — SQL for data: queries, joins, windows, aggregation _(data-science)_
+- `z3-solver` — Z3 SMT from Python: sat/unsat handling, sorts, traps _(data-science)_
 
 ## devops
 
 - `cron-pipeline-watchdog` — Watch cron pipelines for stale jobs; retry and escalate _(devops)_
 - `docker-containers` — Build and debug Docker containers and Compose stacks _(devops)_
+- `feature-flag-lifecycle` — Flag types, rollout maths, kill switches, cleanup _(devops)_
 - `incident-response` — Command an open incident: severity, roles, timeline _(devops)_
 - `pinggy-tunnel` — Zero-install localhost tunnels over SSH via Pinggy _(devops)_
 - `rest-api-client` — Call REST APIs: auth, pagination, rate limits, errors _(devops)_
@@ -121,6 +127,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 
 ## github
 
+- `agent-oss-contributions` — Pre-flight and AI policies for upstream agent PRs _(github)_
 - `codebase-inspection` — Inspect codebases w/ pygount: LOC, languages, ratios _(github)_
 - `github-auth` — GitHub auth setup: HTTPS tokens, SSH keys, gh CLI login _(github)_
 - `github-code-review` — Review PRs: diffs, inline comments via gh or REST _(github)_
@@ -156,6 +163,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `huggingface-hub` — HuggingFace hf CLI: search/download/upload models _(mlops)_
 - `llama-cpp` — llama.cpp local GGUF inference + HF Hub model discovery _(mlops)_
 - `serving-llms-vllm` — vLLM: LLM serving, OpenAI API, quantization _(mlops)_
+- `unsloth-gguf` — Unsloth fine-tune to GGUF; unsloth start hermes _(mlops)_
 - `weights-and-biases` — W&B: log ML experiments, sweeps, registry, dashboards _(mlops)_
 
 ## note-taking
@@ -213,6 +221,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `application-threat-model` — STRIDE app threat modeling with per-control security tests _(security)_
 - `mattpocock-security-review` — Review code for security vulnerabilities by language _(security)_
 - `oss-forensics` — GitHub supply-chain forensics: recovery, IOCs, reporting _(security)_
+- `secret-vault-pattern` — Per-user encrypted secret vault: HKDF + AES-GCM, tested _(security)_
 - `security-audit` — Source-first six-phase codebase security audit workflow _(security)_
 - `semgrep-rule-creator` — Create tested Semgrep rules with taint-mode support _(security)_
 
@@ -254,6 +263,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `mattpocock-to-tickets` — Break a plan or spec into tracer-bullet tickets with edges _(software-development)_
 - `mattpocock-using-git-worktrees` — Set up isolated git worktrees for feature work _(software-development)_
 - `mattpocock-writing-for-agents` — Write docs agents can consume: skills, AGENTS.md, specs _(software-development)_
+- `modular-monolith-migration` — Module boundaries, decomposition, strangler-fig plans _(software-development)_
 - `node-inspect-debugger` — Debug Node.js via --inspect + Chrome DevTools Protocol CLI _(software-development)_
 - `plan` — Write a markdown plan to .hermes/plans/; no execution _(software-development)_
 - `ponytail` — Laziest working solution: reuse, stdlib, native first _(software-development)_
@@ -285,10 +295,11 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `browser-automation` — Browser automation: Selenium 4 patterns, Playwright pick _(web-development)_
 - `frontend-library-picks` — Pick CSS/icon/animation libs by weight and licence _(web-development)_
 - `har-derived-api-client` — Record a site's XHR into a HAR, derive an HTTP client _(web-development)_
+- `js-tooling-notes` — Bun, standard, PostCSS, js-beautify: measured _(web-development)_
 - `publish-site` — Versioned site deploys to GitHub/Cloudflare/Netlify Pages _(web-development)_
 - `react-ecosystem` — Pick React libraries by need, with live npm freshness _(web-development)_
 - `react-library-notes` — React 19, Next 16, Zustand, Motion: run-live traps _(web-development)_
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*218 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*229 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*

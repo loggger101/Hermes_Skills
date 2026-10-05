@@ -17,7 +17,7 @@ shows what an agent running pytest in a loop needs to read from the output.
 
 An agent loop that treats "exit != 0" as "tests failed" will mis-handle 2, 4 and 5: 2 means the suite never ran,
 4 means the command line is wrong, 5 means the selection was empty (a green gate may hide a deleted test; see
-`autonomous-ai-agents/cron-job-authoring/references/loop-goal-design-and-review.md`).
+`autonomous-ai-agents/autonomous-loop-design/references/loop-goal-design-and-review.md`).
 
 ## Built-in subtests (new in 9.x)
 

@@ -50,7 +50,7 @@ brought the same 1 000 records to 34 529 B (**0.43x**). Decompressing without th
 | Frame header of a one-shot `compress()` | `get_frame_info(...).decompressed_size` = the real size (144 141); a streamed `ZstdFile` frame reports `None` |
 | Corrupt tail / garbage input | `ZstdError: ... Data corruption detected` / `... Unknown frame descriptor` |
 | Archives | `tarfile.open(p, "w:zst")` and `"r:*"` round trip; `shutil.get_archive_formats()` now lists **`zstdtar`** |
-| Parquet | zstd is the common codec there (see `python-data-science/references/big-data-patterns.md`) |
+| Parquet | zstd is the common codec there (see `polars-pipelines/references/big-data-patterns.md`) |
 
 ## Where not to use it
 

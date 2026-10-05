@@ -10,7 +10,7 @@ verified_date: "2026-10-05"
 Gradle's `AGENTS.md` is 12 lines pointing at human docs (CONTRIBUTING, ErrorMessages, Javadoc style, Nullability, Testing)
 and a `.agents/` folder with five topical files plus a Claude-format skill `/gradle-code-review` under `.claude/skills/`
 (`add-gradle-project` is the other one). The rules below are from those files. Policy on AI contributions is separate:
-see `github/github-pr-workflow/references/ai-policies-of-starred-repos.md` (no AI co-author trailers; disclose in the PR).
+see `github/agent-oss-contributions/references/ai-policies-of-starred-repos.md` (no AI co-author trailers; disclose in the PR).
 
 ## Building
 
