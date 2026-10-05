@@ -119,7 +119,7 @@ gravity force ratio) feel it; effect parameter `c`; the source is particle 0 unl
 
 `matthewholman/assist` (ASSIST, "ephemeris-quality integrations of test particles", built on REBOUND; source-read, see the next section)
 is the tool when an asteroid's position must match Horizons; REBOUND/REBOUNDx are for idealised or population dynamics. Cross-check against `nyx` / `brahe`
-(`optimization-toolkit.md`, `brahe-api-reference.md`).
+(`astro-toolkit-selection/references/optimization-toolkit.md`, `brahe-api-reference.md`).
 
 ## ASSIST (matthewholman/assist 1.2.3, source-read, not run)
 
@@ -162,7 +162,7 @@ Source-level traps:
   Python module differ (the module string in the repo read 1.2.0 while PyPI is 1.2.3).
 - `import assist` is light; `assist.Extras` imports numpy lazily on first access.
 
-Cross-check against `nyx` / `brahe` (`optimization-toolkit.md`, `brahe-api-reference.md`).
+Cross-check against `nyx` / `brahe` (`astro-toolkit-selection/references/optimization-toolkit.md`, `brahe-api-reference.md`).
 
 ## celmech (analytic and semi-analytic celestial mechanics on top of REBOUND)
 

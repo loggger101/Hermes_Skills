@@ -75,7 +75,7 @@ The shipped media query is `@media print, (prefers-reduced-motion: reduce)`:
 - Good for: marketing pages and static sites with a handful of one-shot entrances where adding a dependency on JS is unwanted
   (class toggle + `animationend` is the whole API). Pair with `IntersectionObserver` for scroll-reveal.
 - Not for: anything interruptible, spring-based, layout-aware or driven by state (use the Motion notes in
-  `web-development/react-ecosystem/references/motion-14-notes.md`), or when 95 KB of CSS for three animations is the wrong
+  `web-development/react-library-notes/references/motion-14-notes.md`), or when 95 KB of CSS for three animations is the wrong
   trade: copy the two or three keyframes you need (each is 5 to 20 lines) instead of linking the file.
 - Respect the existing `prefers-reduced-motion` and performance rules in `references/web-interface-guidelines-ui-checklist.md`;
   the keyframes set only `transform`, `opacity`, `transform-origin` and `visibility` (plus timing functions), so the

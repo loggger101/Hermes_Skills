@@ -7,7 +7,7 @@ verified_date: "2026-09-06"
 
 # Catalog & Archive Data Sources (astroquery, pds4_tools, cumulus)
 
-Companion to [brahe-api-reference.md](./brahe-api-reference.md): brahe does the ephemeris math;
+Companion to [brahe-api-reference.md](../../astro-library-notes/references/brahe-api-reference.md): brahe does the ephemeris math;
 this file covers **catalog metadata**, **archive products**, and NASA's data-service clients.
 All facts source-read from clones (no agents).
 

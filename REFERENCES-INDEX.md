@@ -331,21 +331,24 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `data-science/algorithms-python-catalog/references/llm-vs-expert-puzzle-solving.md` — What Norvig's Advent of Code 2025 LLM notebook measured (LLMs: all correct, ~5x more code, ~3x slower; missed input-specific shortcuts) and how to prompt for better; a verified puzzle-utilities block
 - `data-science/algorithms-python-catalog/references/thealgorithms-python-delta-2026-10.md` — TheAlgorithms/Python: what changed since the 2026-09-13 snapshot, and which new modules hold up (run live)
 
+## data-science/astro-library-notes
+
+- `data-science/astro-library-notes/references/astropy-notes.md` — astropy 8.0.1 traps run on Python 3.12: JD defaults to UTC (TT differs 69.184 s), string offsets rejected, Time+float assumes days, AltAz without location gives an AttributeError, jplephem absent, IERS auto-download defaults
+- `data-science/astro-library-notes/references/brahe-api-reference.md` — brahe 1.7.0 API reference — module map + verified propagation/SPK snippets
+- `data-science/astro-library-notes/references/hifitime-time-scales.md` — hifitime 4.3.1 (Rust + pip) for time scales, run live and cross-checked against astropy 8.0.1: correct scale offsets, but a 1-second TAI->UTC error at leap-second boundaries and UTC subtraction that ignores the leap second
+- `data-science/astro-library-notes/references/orekit-python-notes.md` — Orekit from Python via orekit-jpype 13.1.9: pip-only setup with jdk4py, import-after-initVM rule, what works without data files, data setup helpers
+- `data-science/astro-library-notes/references/pykep-v3-notes.md` — pykep 3 (ESA trajectory design): Linux-only PyPI wheels, API map (Lambert, Lagrangian propagation, legs, trajopt, planets), where it fits vs brahe/OpenSCvx/pygmo
+- `data-science/astro-library-notes/references/rebound-n-body-notes.md` — REBOUND + REBOUNDx N-body notes: install reality on Windows (rebound wheel yes, reboundx sdist-only), units/G gotcha, Yarkovsky and radiation-force parameters, ASSIST pointer
+- `data-science/astro-library-notes/references/skyfield-api-reference.md` — skyfield 1.55 API reference — breaking changes, de430s.bsp 404, phase-angle trap
+- `data-science/astro-library-notes/references/spacekit-notes.md` — spacekit.js (typpo): browser 3D solar-system viewer on three.js; Orbit/Ephem run headless in Node and checked against astropy: planet presets are two-body, Saturn drifts to 1.5 AU by 1900
+- `data-science/astro-library-notes/references/spiceypy-notes.md` — SpiceyPy 8.2 notes: kernel-load discipline, error classes, 80-char kernel-pool truncation, SPICE's own AU, asteroid NAIF ids
+
 ## data-science/astro-toolkit-selection
 
-- `data-science/astro-toolkit-selection/references/astropy-notes.md` — astropy 8.0.1 traps run on Python 3.12: JD defaults to UTC (TT differs 69.184 s), string offsets rejected, Time+float assumes days, AltAz without location gives an AttributeError, jplephem absent, IERS auto-download defaults
-- `data-science/astro-toolkit-selection/references/brahe-api-reference.md` — brahe 1.7.0 API reference — module map + verified propagation/SPK snippets
 - `data-science/astro-toolkit-selection/references/catalog-data-sources.md` — astroquery + pds4_tools + cumulus — catalog/archive access for the small-body pipeline
 - `data-science/astro-toolkit-selection/references/egobox-bayesian-optimization.md` — EGObox 0.38.0 (Rust EGO / Bayesian optimization with Python bindings Egor and Gpx), run live: README example reproduced, seed behaviour, evaluation count, Branin, surrogate behaviour
-- `data-science/astro-toolkit-selection/references/hifitime-time-scales.md` — hifitime 4.3.1 (Rust + pip) for time scales, run live and cross-checked against astropy 8.0.1: correct scale offsets, but a 1-second TAI->UTC error at leap-second boundaries and UTC subtraction that ignores the leap second
 - `data-science/astro-toolkit-selection/references/openscvx-patterns.md` — OpenSCvx patterns — State/Control/dynamics core loop, Hohmann constants, autotuners; Hohmann example run on Windows (cost 3.912189 vs analytic 3.912170 km/s)
 - `data-science/astro-toolkit-selection/references/optimization-toolkit.md` — nyx-py / pygmo2 / mesa v3 / z3 / Pyomo / CamPyRoS — optimization & simulation toolkit
-- `data-science/astro-toolkit-selection/references/orekit-python-notes.md` — Orekit from Python via orekit-jpype 13.1.9: pip-only setup with jdk4py, import-after-initVM rule, what works without data files, data setup helpers
-- `data-science/astro-toolkit-selection/references/pykep-v3-notes.md` — pykep 3 (ESA trajectory design): Linux-only PyPI wheels, API map (Lambert, Lagrangian propagation, legs, trajopt, planets), where it fits vs brahe/OpenSCvx/pygmo
-- `data-science/astro-toolkit-selection/references/rebound-n-body-notes.md` — REBOUND + REBOUNDx N-body notes: install reality on Windows (rebound wheel yes, reboundx sdist-only), units/G gotcha, Yarkovsky and radiation-force parameters, ASSIST pointer
-- `data-science/astro-toolkit-selection/references/skyfield-api-reference.md` — skyfield 1.55 API reference — breaking changes, de430s.bsp 404, phase-angle trap
-- `data-science/astro-toolkit-selection/references/spacekit-notes.md` — spacekit.js (typpo): browser 3D solar-system viewer on three.js; Orbit/Ephem run headless in Node and checked against astropy: planet presets are two-body, Saturn drifts to 1.5 AU by 1900
-- `data-science/astro-toolkit-selection/references/spiceypy-notes.md` — SpiceyPy 8.2 notes: kernel-load discipline, error classes, 80-char kernel-pool truncation, SPICE's own AU, asteroid NAIF ids
 
 ## data-science/bit-identity-float-pipelines
 
@@ -754,15 +757,18 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## software-development/python-craft
 
-- `software-development/python-craft/references/codon-compiler-notes.md` — Codon (exaloop) Python-to-native compiler: when it pays off, what differs from CPython, @codon.jit, CLI flags, @par, and the doc inconsistencies; Linux/macOS only
-- `software-development/python-craft/references/compression-zstd-stdlib.md` — Python 3.14 stdlib compression.zstd (zstd 1.5.7) measured against zlib/bz2/lzma on markdown, CSV and float data; dictionaries for small records, level vs options TypeError, tar.zst, thread count
 - `software-development/python-craft/references/gof-patterns-in-python.md` — Which GoF patterns collapse into Python features (function, callable, generator, singledispatch, Enum, dataclass.replace); 19 runnable idioms, all asserted
-- `software-development/python-craft/references/logging-loguru.md` — Python logging with loguru 0.7.3: setup, brace-format traps, diagnose=True secret leak, rotation/retention, serialize, stdlib interception
-- `software-development/python-craft/references/modern-python-tooling.md` — Modern Python tooling: uv, ruff, ty, PEP 723
-- `software-development/python-craft/references/ruff-0-16-defaults-and-suppressions.md` — Ruff 0.16: the default rule set changed, Markdown is formatted, `ruff: ignore`
 - `software-development/python-craft/references/stdlib-traps-windows.md` — Python stdlib traps measured on Windows / Python 3.14.6: open() cp1252 default, csv blank lines, rename vs replace, rmtree read-only, strftime %-d, json NaN, naive/aware datetimes; plus facts that are no longer traps
-- `software-development/python-craft/references/ty-0-0-84-notes.md` — ty 0.0.84 (Astral type checker): CI exit codes, interpreter discovery, config precedence (run live)
 - `software-development/python-craft/references/windows-path-separator-trap.md` — Windows os.path.relpath yields backslashes; cross-platform path-string comparison fails silently.
+
+## software-development/python-toolchain-notes
+
+- `software-development/python-toolchain-notes/references/codon-compiler-notes.md` — Codon (exaloop) Python-to-native compiler: when it pays off, what differs from CPython, @codon.jit, CLI flags, @par, and the doc inconsistencies; Linux/macOS only
+- `software-development/python-toolchain-notes/references/compression-zstd-stdlib.md` — Python 3.14 stdlib compression.zstd (zstd 1.5.7) measured against zlib/bz2/lzma on markdown, CSV and float data; dictionaries for small records, level vs options TypeError, tar.zst, thread count
+- `software-development/python-toolchain-notes/references/logging-loguru.md` — Python logging with loguru 0.7.3: setup, brace-format traps, diagnose=True secret leak, rotation/retention, serialize, stdlib interception
+- `software-development/python-toolchain-notes/references/modern-python-tooling.md` — Modern Python tooling: uv, ruff, ty, PEP 723
+- `software-development/python-toolchain-notes/references/ruff-0-16-defaults-and-suppressions.md` — Ruff 0.16: the default rule set changed, Markdown is formatted, `ruff: ignore`
+- `software-development/python-toolchain-notes/references/ty-0-0-84-notes.md` — ty 0.0.84 (Astral type checker): CI exit codes, interpreter discovery, config precedence (run live)
 
 ## software-development/repo-atlas
 
@@ -825,19 +831,22 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## web-development/react-ecosystem
 
-- `web-development/react-ecosystem/references/ariakit-notes.md` — Ariakit `@ariakit/react` 0.4.40: store-driven accessible primitives (server-rendered and driven in jsdom)
 - `web-development/react-ecosystem/references/awesome-react-map.md` — awesome-react categories with npm latest version and last-modified date for each pick (snapshot 2026-10-05), plus stale/renamed flags
 - `web-development/react-ecosystem/references/bun-runtime-notes.md` — Bun 1.4.2 on Windows: runtime, package manager, test runner, bundler (run live)
-- `web-development/react-ecosystem/references/deckgl-notes.md` — deck.gl 9.4.0 (WebGL2/WebGPU large-scale data visualization): lockstep packages, layers/views model, basemap pairing, what works in Node vs browser (checked), pitfalls
-- `web-development/react-ecosystem/references/motion-14-notes.md` — Motion 14.0.0 (ex Framer Motion): springs, headless animation, React SSR output (run live)
-- `web-development/react-ecosystem/references/nextjs-16-notes.md` — Next.js 16.3.8 scaffold-build-dev run on Windows (45 s create, 15 s build, 1 s dev ready): generated AGENTS.md/CLAUDE.md that next dev rewrites, bundled docs in node_modules, telemetry, audit and lint notices
-- `web-development/react-ecosystem/references/popmotion-11-notes.md` — Popmotion 11.0.5: the framework-free ancestor of Motion, with identical spring numbers (run in Node)
-- `web-development/react-ecosystem/references/react-19-core-notes.md` — React 19.3.0 core: server rendering, effects, actions, Activity (run live in Node + jsdom)
-- `web-development/react-ecosystem/references/react-native-core.md` — React Native 0.87.1 requirements (Node, React peer), what you can and cannot build per OS, the monorepo layout and agent conventions from its AGENTS.md; npm/README-sourced
-- `web-development/react-ecosystem/references/react-native-navigation.md` — React Native navigation choices (React Navigation 7 stable vs 8 alpha vs Expo Router) with npm versions and the default-branch trap; source-read
-- `web-development/react-ecosystem/references/shadcn-cli-4-notes.md` — shadcn CLI 4.21.2: what `init` and `add` actually do (run live on Windows)
 - `web-development/react-ecosystem/references/standard-and-neostandard-notes.md` — standard 17.1.2 vs neostandard 0.13.0: zero-config JS linting, run live
-- `web-development/react-ecosystem/references/zustand-v5-notes.md` — Zustand 5.0.15 traps run against React 19.3 + jsdom: fresh-object selector loops, removed equality arg, setState replace flag, persist shallow merge and dropped versions, async hydration
+
+## web-development/react-library-notes
+
+- `web-development/react-library-notes/references/ariakit-notes.md` — Ariakit `@ariakit/react` 0.4.40: store-driven accessible primitives (server-rendered and driven in jsdom)
+- `web-development/react-library-notes/references/deckgl-notes.md` — deck.gl 9.4.0 (WebGL2/WebGPU large-scale data visualization): lockstep packages, layers/views model, basemap pairing, what works in Node vs browser (checked), pitfalls
+- `web-development/react-library-notes/references/motion-14-notes.md` — Motion 14.0.0 (ex Framer Motion): springs, headless animation, React SSR output (run live)
+- `web-development/react-library-notes/references/nextjs-16-notes.md` — Next.js 16.3.8 scaffold-build-dev run on Windows (45 s create, 15 s build, 1 s dev ready): generated AGENTS.md/CLAUDE.md that next dev rewrites, bundled docs in node_modules, telemetry, audit and lint notices
+- `web-development/react-library-notes/references/popmotion-11-notes.md` — Popmotion 11.0.5: the framework-free ancestor of Motion, with identical spring numbers (run in Node)
+- `web-development/react-library-notes/references/react-19-core-notes.md` — React 19.3.0 core: server rendering, effects, actions, Activity (run live in Node + jsdom)
+- `web-development/react-library-notes/references/react-native-core.md` — React Native 0.87.1 requirements (Node, React peer), what you can and cannot build per OS, the monorepo layout and agent conventions from its AGENTS.md; npm/README-sourced
+- `web-development/react-library-notes/references/react-native-navigation.md` — React Native navigation choices (React Navigation 7 stable vs 8 alpha vs Expo Router) with npm versions and the default-branch trap; source-read
+- `web-development/react-library-notes/references/shadcn-cli-4-notes.md` — shadcn CLI 4.21.2: what `init` and `add` actually do (run live on Windows)
+- `web-development/react-library-notes/references/zustand-v5-notes.md` — Zustand 5.0.15 traps run against React 19.3 + jsdom: fresh-object selector loops, removed equality arg, setState replace flag, persist shallow merge and dropped versions, async hydration
 
 ## web-development/static-site-patterns
 

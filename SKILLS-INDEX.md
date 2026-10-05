@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **215 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **218 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -68,6 +68,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 ## data-science
 
 - `algorithms-python-catalog` — Python algorithm catalog: when to hand-roll vs stdlib _(data-science)_
+- `astro-library-notes` — Astro libs: skyfield, astropy, SPICE, Orekit, pykep traps _(data-science)_
 - `astro-toolkit-selection` — Space trajectory work: pick the method, then the library _(data-science)_
 - `bit-identity-float-pipelines` — Verify correctness via exact float hashes / bit-identity _(data-science)_
 - `build-systems-data` — Data build systems: orchestration, versioning, CSV at scale _(data-science)_
@@ -259,6 +260,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `property-based-testing` — Hypothesis property tests: roundtrip, oracle, invariant _(software-development)_
 - `python-craft` — Python craft: uv/ruff/ty setup, style, typing, testing _(software-development)_
 - `python-debugpy` — Debug Python: pdb REPL + debugpy remote (DAP) _(software-development)_
+- `python-toolchain-notes` — uv, ruff, ty, loguru, zstd, Codon: measured behavior _(software-development)_
 - `receiving-code-review` — Verify review feedback against the codebase before acting _(software-development)_
 - `repo-atlas` — In-repo atlas docs + drift check so agents orient fast _(software-development)_
 - `requesting-code-review` — Pre-commit review: security scan, quality gates, auto-fix _(software-development)_
@@ -285,7 +287,8 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `har-derived-api-client` — Record a site's XHR into a HAR, derive an HTTP client _(web-development)_
 - `publish-site` — Versioned site deploys to GitHub/Cloudflare/Netlify Pages _(web-development)_
 - `react-ecosystem` — Pick React libraries by need, with live npm freshness _(web-development)_
+- `react-library-notes` — React 19, Next 16, Zustand, Motion: run-live traps _(web-development)_
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*215 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*218 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
