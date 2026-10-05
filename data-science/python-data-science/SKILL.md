@@ -608,3 +608,4 @@ Before reporting results:
 - `references/autograd-notes.md` — autograd 1.9.1 on numpy 2.5 (run live): `grad`/`value_and_grad`/`jacobian`/`hessian`, SciPy `jac=True`, the four errors you hit (int input, non-scalar output, in-place assignment, `sqrt` at 0) and the double-`where` guard, `check_grads` as a unit test.
 - `references/open3d-notes.md` — Open3D 0.20.0 (run headless on py3.14): 488 MB install, voxel/normals/ICP/KD-tree/PLY/mesh checks with numbers, `read_point_cloud` of a missing file returns an empty cloud instead of raising, ICP is local.
 - `references/gensim-notes.md` — gensim 4.4.0: no cp314 wheel (sdist needs a compiler), small Word2Vec/LDA run in a 3.11 venv (reproducibility, OOV KeyError, np.str_ results), LGPL note.
+- `references/plotly-notes.md` — plotly 7.1.0 in scripts: HTML 4.8 MB embedded vs 7.6 KB CDN, JSON size, NaN/inf become null, kaleido 1.4 static export (needs Chrome), default renderer opens a browser.
