@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **208 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **209 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -55,6 +55,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `pretext` — Build creative browser demos with DOM-free text layout _(creative)_
 - `pygame` — Use when building or testing pygame/SDL games _(creative)_
 - `redesign-existing-projects` — Audit-first redesign of existing sites to premium quality _(creative)_
+- `remotion-video` — React compositions rendered to deterministic MP4 _(creative)_
 - `sketch` — Throwaway HTML mockups: 2-3 design variants to compare _(creative)_
 - `soft-premium-ui` — $150k-agency soft UI: double-bezel cards, spring motion _(creative)_
 - `songwriting-and-ai-music` — Songwriting craft and Suno AI music prompts _(creative)_
@@ -281,4 +282,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*208 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*209 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
