@@ -1,14 +1,14 @@
 ---
-description: Hermes Agent second brain — 211 skills across 23 categories, memories, cron configs.
+description: Hermes Agent second brain — 215 skills across 23 categories, memories, cron configs.
 ---
 
 # Hermes Skills Repository (Second Brain)
 
-This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **211 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
+This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **215 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
 
 ## Start here (cheapest → most thorough)
 
-1. **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 211 skills. `grep -i <term>` is the fastest way to find a capability.
+1. **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 215 skills. `grep -i <term>` is the fastest way to find a capability.
 2. **[CODE-INDEX.md](./CODE-INDEX.md)** — flat index of every script, shared helper, test and template (the executable knowledge layer). `grep -i <term> CODE-INDEX.md` finds runnable code by purpose or owner skill.
 3. **[REFERENCES-INDEX.md](./REFERENCES-INDEX.md)** — flat index of all 526 reference docs inside skills' `references/` dirs (nested subdirs included). `grep -i <term> REFERENCES-INDEX.md` finds verified API maps and gotchas tables by topic without knowing which skill owns them.
 4. **[DEPENDENCY.md](./DEPENDENCY.md)** — relationship map: hub skills, standalone skills, full cross-reference validation.
@@ -65,6 +65,7 @@ The fastest way from a job you have in mind to the skill that does it. Not sure 
 | You want to… | Start with |
 |--------------|------------|
 | Build a Python web/desktop UI (dashboards, internal tools) | `nicegui-app-builder`; data dashboards → `streamlit-dashboards` |
+| Pick CSS / icon / animation libraries for a static site (weight, licence) | `frontend-library-picks`; React projects → `react-ecosystem`; site structure and CSP → `static-site-patterns` |
 | Design or redesign frontend / landing pages | `design-taste-frontend`, `redesign-existing-projects`, `popular-web-designs` (54 real design systems), `claude-design` |
 | Ship UI that doesn't look templated — pick the aesthetic first | `design-taste-frontend` (anti-slop default), presets: `soft-premium-ui`, `editorial-minimalism-ui`, `industrial-brutalist-ui`; motion-heavy → `awwwards-gsap-motion`; Google Stitch DESIGN.md → `stitch` |
 | Create diagrams (44 types, 3 variants each) | `diagram-design`; dark SVG arch → `architecture-diagram`; hand-drawn → `excalidraw` |
@@ -75,6 +76,9 @@ The fastest way from a job you have in mind to the skill that does it. Not sure 
 | You want to… | Start with |
 |--------------|------------|
 | Data science: EDA, modeling, SQL at scale | `python-data-science`, `sql-for-data`; exact-float verification → `bit-identity-float-pipelines` |
+| A numpy / pandas 3 / scipy / sympy / statsmodels result looks wrong; is dask worth it | `python-numerics-gotchas` |
+| Headless matplotlib / seaborn / plotly: deterministic output, removed calls | `python-plotting`; what to chart → `dataviz` |
+| Torch, CuPy, Open3D, gensim, supervision: install reality and silent failures | `ml-cv-library-notes` |
 | Asteroid-mining economics pipeline work | `economicspace-pipeline`; method then tool choice → `astro-toolkit-selection` |
 | Build space/astro data pipelines (fetch→parquet→HF) | `space-data-pipelines` (verified API gotchas table inside) |
 | Search biomedical literature / genomic databases | `pubmed-database` (NCBI E-utilities), `gget` (Ensembl/BLAST lookups); full genomics/computational-biology work → `bioinformatics` (gateway to 400+ skills) |

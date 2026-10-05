@@ -108,7 +108,7 @@ output = loaded(example_input)
 - **Trace** records the operations performed for one example input. It doesn't capture dynamic control flow (if the model behaves differently for different inputs, tracing may bake in the wrong path). Use trace for simple feedforward; use script for anything with conditionals or loops.
 - **Script** compiles the model's Python into TorchScript IR. Handles control flow, but can fail on Python features TorchScript doesn't support (some builtins, complex Python idioms).
 - TorchScript files are self-contained runnable models — they include the architecture and weights. Loading them doesn't require the original class definition, which is the main advantage over `state_dict`.
-- **TorchScript on current torch/Python:** with torch 2.14.1 on Python 3.14, `torch.jit.trace` still works but emits `FutureWarning: ... not supported in Python 3.14+ and may break`, while `torch.export.export(model.eval(), (x,))` returned an `ExportedProgram`; prefer export for new code. `torch.load` defaults to `weights_only=True` at runtime, and ONNX export needs `onnxscript` installed. Details: `data-science/python-data-science/references/pytorch-notes.md`.
+- **TorchScript on current torch/Python:** with torch 2.14.1 on Python 3.14, `torch.jit.trace` still works but emits `FutureWarning: ... not supported in Python 3.14+ and may break`, while `torch.export.export(model.eval(), (x,))` returned an `ExportedProgram`; prefer export for new code. `torch.load` defaults to `weights_only=True` at runtime, and ONNX export needs `onnxscript` installed. Details: `data-science/ml-cv-library-notes/references/pytorch-notes.md`.
 
 ### ONNX
 
