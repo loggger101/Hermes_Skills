@@ -26,7 +26,11 @@ algorithm implementations in ~50 categories. Carries three layers:
    matching (KMP, Z-function, Aho-Corasick, Rabin-Karp), checksums (Adler/Fletcher/djb2/sdbm/Luhn),
    haversine geodesy, Brent/Newton root-finding, O(n log n) LIS, N-queens diagonal invariants,
    financial formulas, CPU scheduling — each with its decision rule and verified numbers.
-3. **A re-runnable verification harness** (`scripts/algorithms_verify.py`): every recorded claim is
+3. **Graph, assignment and flow: use the library** (`references/graph-algorithms-library-map.md`, added from the
+   Rust `pathfinding` crate's module list): Dijkstra/A*, Hungarian assignment, max flow, SCC, MST, topological sort mapped
+   to `scipy.sparse.csgraph` / `networkx` / stdlib `graphlib`, with traps run live (dense matrices cannot hold zero-weight edges,
+   `linear_sum_assignment` minimises where the crate maximises, `maximum_flow` needs integer capacities). Not covered by the harness below.
+4. **A re-runnable verification harness** (`scripts/algorithms_verify.py`): every recorded claim is
    asserted live (KMP vs `str.find`, Aho-Corasick vs regex ground truth incl. nested keywords,
    Adler-32 == `zlib.adler32`, haversine vs OSRM road distance, Brent vs `numpy.roots`, N-queens
    solution counts 2/4/92).

@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **414 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **415 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -308,6 +308,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 - `data-science/algorithms-python-catalog/references/algorithms-from-scratch.md` — Algorithms From Scratch (verified)
 - `data-science/algorithms-python-catalog/references/catalog-map.md` — TheAlgorithms/Python — Catalog Map & Decision Guide
+- `data-science/algorithms-python-catalog/references/graph-algorithms-library-map.md` — Shortest path, assignment, flow, SCC, MST, topo-sort: the pathfinding crate's algorithm list mapped to scipy.sparse.csgraph / networkx calls, with live-verified traps
 
 ## data-science/astro-toolkit-selection
 
