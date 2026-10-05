@@ -61,3 +61,7 @@ Things explicitly out for this spec.
 ## Further Notes
 Open questions, risks, follow-ups.
 ```
+
+## Review
+
+Before handing the spec on, dispatch a reviewer subagent with `references/spec-document-reviewer-prompt.md` (checks the spec is complete, consistent and ready for implementation planning).

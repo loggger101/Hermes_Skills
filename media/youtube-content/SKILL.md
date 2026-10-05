@@ -73,6 +73,8 @@ After fetching the transcript, format it based on what the user asks for:
 31:55 Q&A — audience questions on scalability and next steps
 ```
 
+Worked examples of every format (chapters, summary, chapter summaries, thread, blog post, quotes): `references/output-formats.md`.
+
 ## Process
 
 1. **Fetch** the transcript using the helper script with `--text-only --timestamps` via `uv run python`.

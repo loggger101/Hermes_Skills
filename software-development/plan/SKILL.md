@@ -358,6 +358,10 @@ git commit -m "type: description"
 **Bad:** "Create the model file"
 **Good:** "Create: `src/models/user.py`"
 
+## Plan Review
+
+After the plan is written, dispatch a reviewer subagent with `references/plan-document-reviewer-prompt.md` (checks the plan is complete, matches its spec and decomposes into proper tasks), fix what it flags, then offer execution.
+
 ## Execution Handoff
 
 After saving the plan, offer BOTH execution approaches:

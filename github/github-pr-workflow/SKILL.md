@@ -403,3 +403,5 @@ git push -u origin HEAD
 - `references/conventional-commits.md` — commit message conventions used by the automation commits in this repo.
 - `references/agent-contribution-guardrails.md` — pre-flight checks for agent-opened PRs against strict external repos (distilled from obra/superpowers' 94%-rejection-rate contributor rules): template completeness, open+closed duplicate search, real-problem evidence, core-belonging check, authorship disclosure, human diff approval; new-integration acceptance-test standard.
 - `references/ai-policies-of-starred-repos.md` — per-repo AI-contribution rules from 18 starred repos (agents forbidden at polars/loguru/selenium, disclosure at most, streamlit outside PRs paused), plus the `Co-Authored-By` conflict: forbidden at gradle and selenium, required at nicegui.
+- `templates/pr-body-feature.md` — PR body skeleton for a feature (summary, motivation, changes, test plan, notes for reviewers).
+- `templates/pr-body-bugfix.md` — PR body skeleton for a bug fix (bug description, `Fixes #`, root cause, fix, how to verify, risk assessment).

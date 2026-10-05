@@ -235,3 +235,7 @@ lists exactly the cited ids with the ledger's URLs, and the cited share of
 source-bearing sentences meets the threshold. Read the warnings even when the
 exit code is 0 — uncited registered sources usually mean a claim lost its
 attribution during editing.
+
+## References
+
+- `references/grounding-rationale.md` — why ledger ids are numbered, cite-while-writing, verbatim quotes and the formatting conventions; read before changing the citation instructions or the ledger mechanics.
