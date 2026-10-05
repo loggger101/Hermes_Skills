@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **525 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **526 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -161,6 +161,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## creative/design-md
 
+- `creative/design-md/references/ant-design-vue-4-notes.md` — ant-design-vue 4.2.6 (Vue 3 port of Ant Design 5): same seed tokens as antd v6's DESIGN.md, ConfigProvider theming, cssinjs SSR style extraction, runtime weight; run in Node with Vue 3.5 SSR
 - `creative/design-md/references/antd-v6-design-md-exemplar.md` — Ant Design v6 as a real DESIGN.md exemplar and its theming API (ConfigProvider token/algorithm/components/cssVar), plus what its AGENTS.md teaches about agent-facing repo rules
 
 ## creative/design-taste-frontend
