@@ -35,7 +35,7 @@ Result object attributes: `x_doe`, `y_doe` (the evaluated design), `x_opt`, `y_o
 
 ## Practical rules
 
-- Use it only when each evaluation is costly; for cheap closed-form models (e.g. the economicspace per-row calculators) plain vectorised search or `scipy.optimize` is better (see `optimization-toolkit.md`, `python-data-science/references/autograd-notes.md` for gradient-based alternatives).
+- Use it only when each evaluation is costly; for cheap closed-form models (e.g. the economicspace per-row calculators) plain vectorised search or `scipy.optimize` is better (see `optimization-toolkit.md`, `ml-cv-library-notes/references/autograd-notes.md` for gradient-based alternatives).
 - Count evaluations (the initial DOE is extra), fix `seed`, and record bounds; the budget is `max_iters` plus the initial design.
 - Bounds are a list of `[low, high]` pairs, one per dimension; constraints and mixed-integer variables are supported by the library (see its docs; not exercised here).
 - Check the answer against a brute-force grid in low dimensions before trusting it on a high-dimensional objective.

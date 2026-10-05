@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **211 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **215 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -75,10 +75,13 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `economicspace-pipeline` — Use on economicspace (asteroid-mining pipeline) _(data-science)_
 - `evolutionary-ml` — Evolutionary ML: GA, NEAT, tournaments, parallel eval _(data-science)_
 - `jupyter-notebook` — Iterative Python via live Jupyter kernel (hamelnb) _(data-science)_
+- `ml-cv-library-notes` — Torch, CuPy, Open3D, gensim and CV libs: live-run traps _(data-science)_
 - `model-export-deploy` — Model export: ONNX, TorchScript, HDF5, NumPy, JSON _(data-science)_
 - `optimization-modeling-pyomo` — Model LP/MIP/NLP/GDP in Pyomo with live-verified patterns _(data-science)_
 - `orbital-mechanics-data` — Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC _(data-science)_
 - `python-data-science` — Python DS: EDA, cleaning, modeling, eval, viz _(data-science)_
+- `python-numerics-gotchas` — Silent numpy/scipy/pandas/sympy/statsmodels traps _(data-science)_
+- `python-plotting` — Headless matplotlib/seaborn/plotly: output and traps _(data-science)_
 - `regex-vs-llm-structured-text` — Regex-first parsing; LLM only for flagged edge cases _(data-science)_
 - `space-data-pipelines` — Build space/astro data pipelines with verified API gotchas _(data-science)_
 - `sql-for-data` — SQL for data: queries, joins, windows, aggregation _(data-science)_
@@ -278,10 +281,11 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 ## web-development
 
 - `browser-automation` — Browser automation: Selenium 4 patterns, Playwright pick _(web-development)_
+- `frontend-library-picks` — Pick CSS/icon/animation libs by weight and licence _(web-development)_
 - `har-derived-api-client` — Record a site's XHR into a HAR, derive an HTTP client _(web-development)_
 - `publish-site` — Versioned site deploys to GitHub/Cloudflare/Netlify Pages _(web-development)_
 - `react-ecosystem` — Pick React libraries by need, with live npm freshness _(web-development)_
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*211 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*215 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*

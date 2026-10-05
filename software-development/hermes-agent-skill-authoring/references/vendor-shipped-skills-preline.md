@@ -2,7 +2,7 @@
 
 Source: the `skills/` directory of [htmlstreamofficial/preline](https://github.com/htmlstreamofficial/preline) (read through the
 GitHub contents API on 2026-10-05; the library itself is covered in
-`web-development/static-site-patterns/references/preline-5-notes.md`). Source-read only: the MCP server these skills call was not
+`web-development/frontend-library-picks/references/preline-5-notes.md`). Source-read only: the MCP server these skills call was not
 run, and the theme generator's scripts were not executed. Install command in the README: `npx skills add htmlstreamofficial/preline`.
 
 ## Layout
