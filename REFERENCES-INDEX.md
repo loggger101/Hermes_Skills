@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **416 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **417 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -638,6 +638,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## software-development/repo-atlas
 
 - `software-development/repo-atlas/references/atlas-templates.md` — Atlas Document Templates
+
+## software-development/rust-crate-picks
+
+- `software-development/rust-crate-picks/references/bumpalo-arena-notes.md` — bumpalo 3.20 bump-arena notes: trade-offs, the no-Drop rule, reset, features, Send but not Sync, API names; source-read
 
 ## software-development/systematic-debugging
 

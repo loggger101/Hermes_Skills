@@ -44,6 +44,7 @@ Development tools and coding workflows.
 - [`requesting-code-review`](./requesting-code-review/SKILL.md) — Pre-commit review: security scan, quality gates, auto-fix
 - [`rest-graphql-debug`](./rest-graphql-debug/SKILL.md) — Debug REST and GraphQL APIs: auth, schemas, repro
 - [`retro`](./retro/SKILL.md) — Retrospective on a session proposing environment fixes
+- [`rust-crate-picks`](./rust-crate-picks/SKILL.md) — Pick Rust crates by need: arena, units, time, graphs
 - [`simplify-code`](./simplify-code/SKILL.md) — Parallel 4-agent cleanup of recent code changes
 - [`skill-flow-router`](./skill-flow-router/SKILL.md) — Route any task through the right skill flow in this brain
 - [`spike`](./spike/SKILL.md) — Throwaway experiments to validate an idea before build
