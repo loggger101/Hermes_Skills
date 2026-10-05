@@ -104,3 +104,7 @@ on one setting to another setting of that same cell — not from a sample to the
 - [ ] Line terminator pinned in writers + hasher; same on both hosts if cross-host
 - [ ] Cross-host: re-baselined and comparing with tolerance, deltas NOT filed as regressions
 - [ ] Any "cleanup" checked for arithmetic re-association (only EVICT-only changes are free)
+
+## References
+
+- `references/hashing-floats-xxhash.md` - which hash to use (xxh3 vs sha256, measured) and the canonical byte layout for float arrays (-0.0, NaN payloads, endianness, dtype, element order)

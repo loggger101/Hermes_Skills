@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **413 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **414 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -320,6 +320,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `data-science/astro-toolkit-selection/references/rebound-n-body-notes.md` — REBOUND + REBOUNDx N-body notes: install reality on Windows (rebound wheel yes, reboundx sdist-only), units/G gotcha, Yarkovsky and radiation-force parameters, ASSIST pointer
 - `data-science/astro-toolkit-selection/references/skyfield-api-reference.md` — skyfield 1.55 API reference — breaking changes, de430s.bsp 404, phase-angle trap
 - `data-science/astro-toolkit-selection/references/spiceypy-notes.md` — SpiceyPy 8.2 notes: kernel-load discipline, error classes, 80-char kernel-pool truncation, SPICE's own AU, asteroid NAIF ids
+
+## data-science/bit-identity-float-pipelines
+
+- `data-science/bit-identity-float-pipelines/references/hashing-floats-xxhash.md` — Choosing and using a hash for bit-identity checks: xxh3 vs sha256 measured on this machine, canonical byte layout for float arrays (-0.0, NaN, endianness, order, dtype)
 
 ## data-science/economicspace-pipeline
 
