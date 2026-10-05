@@ -33,6 +33,7 @@ call out. Entries are added as each starred Rust repo is reviewed; each has a re
 | Many short-lived allocations freed together (parsers, per-request or per-frame work, AST/graph building) | `bumpalo` | MIT OR Apache-2.0 | 3.20.3 (2026-05-22), MSRV 1.71.1, `no_std` by default | `references/bumpalo-arena-notes.md` |
 | Shortest path, flow and matching over implicit or explicit graphs (A*, Dijkstra, BFS/DFS, Yen, Edmonds-Karp, Kuhn-Munkres, SCC, Kruskal) | `pathfinding` | Apache-2.0 / MIT | 4.16.0 per its README | Python equivalents in `algorithms-python-catalog/references/graph-algorithms-library-map.md` |
 | Compile-time unit and dimension checking (no more mixed km/s or lbf/N) | `uom` | Apache-2.0 OR MIT | 0.38.0 (2026-02-14), MSRV 1.68.0, `no_std` via feature | `references/uom-units-notes.md` (includes the Python analogue `pint`) |
+| Native desktop GUI in Rust with ready components, headless UI tests, WASM | `gpui-kit` (over `gpui`) | Apache-2.0 | 0.7.1 (2026-10-05); gpui 0.2.2 | `references/gpui-kit-notes.md` |
 
 Further entries (leap-second-correct time, Bayesian optimisation) are added as those repos are reviewed.
 
@@ -63,3 +64,4 @@ The default Windows Rust target (`x86_64-pc-windows-msvc`) needs the Microsoft C
 
 - `references/bumpalo-arena-notes.md` - bump allocation trade-offs, the no-`Drop` rule, features, thread-safety, when not to use an arena
 - `references/uom-units-notes.md` - uom 0.38 type-safe units (features, design) and the Python analogue pint 0.26.1 run live
+- `references/gpui-kit-notes.md` - gpui-kit 0.7 layering, headless UI tests, and the tested-recipe documentation pattern
