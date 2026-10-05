@@ -1,8 +1,8 @@
 ---
 description: "All 230 keyless Hugging Face space/astro/physics mirrors from juliensimon/space-datasets — load_dataset one-liner, no API keys; grouped by domain"
-source_repos: juliensimon/space-datasets README.md @ 5f886cd (catalog extracted programmatically this pass)
+source_repos: juliensimon/space-datasets README.md @ 5f886cd (catalog extracted programmatically 2026-09-12; re-checked against the README and HF API 2026-10-05)
 tested_version: clone @ 2026-09-12; NHATS mirror parquet endpoint re-probed LIVE same day (HTTP 200, real file list)
-verified_date: "2026-09-12"
+verified_date: "2026-10-05"
 ---
 
 # Keyless Space Data Mirrors on Hugging Face (juliensimon/*)
@@ -122,6 +122,7 @@ tracks per-dataset dates + `_rows`).
 | `juliensimon/globular-star-clusters` | 167 Milky Way globular clusters with masses, structural parameters, and metallicities |
 | `juliensimon/goes-xray-flux` | 1-minute GOES solar X-ray flux (both bands) with A/B/C/M/X flare classification from NOAA SWPC |
 | `juliensimon/gravitational-lenses` | 33K strong gravitational lenses from the lenscat community catalog |
+| `juliensimon/gw-candidate-alerts` | 5.5K low-latency gravitational-wave candidate alerts from GraceDB across O3 and O4, including unconfirmed ones (**added after the 2026-09-12 extraction; found 2026-10-05**) |
 | `juliensimon/gravitational-wave-events` | 260+ black hole and neutron star mergers detected by LIGO/Virgo/KAGRA |
 | `juliensimon/grbweb-unified-grb-catalog` | Unified GRB catalog from GRBweb combining Fermi, Swift, BATSE, BeppoSAX, and IPN detectors |
 | `juliensimon/gswlc-galaxy-properties` | 659K galaxies with stellar masses, star formation rates, and dust attenuation from GALEX-SDSS-WISE |
@@ -271,3 +272,12 @@ wmo-oscar-satellites · esa-rosetta-observations · esa-exomars-tgo-observations
 - `nhats-accessible-asteroids` — population-scale Δv oracle mirror (see skill `economicspace-pipeline`).
 - `asterank-asteroid-mining` — 50-col snapshot, NO dv column (dv is targeted-query-only on the live API; see SKILL.md).
 - `jpl-small-body-database`, `neo-close-approaches`, `sentry-impact-risk`, `nesvorny-asteroid-families`, `bus-demeo-asteroid-taxonomy`, `sdss-asteroid-taxonomy`, `launch-cost-to-leo` — the soft-assumption sources tabulated in `economicspace-pipeline/references/dv-oracles-and-economics-sources.md`.
+
+## Re-check 2026-10-05 (README and the Hugging Face API)
+
+- The repo README now headlines **230** datasets in its intro and **232** in its stats line; the README links **225 distinct dataset pages**, of which 224
+  are in this catalog. The only one missing was `gw-candidate-alerts` (added to the gravitational section above).
+- `GET https://huggingface.co/api/datasets?author=juliensimon&limit=1000` (keyless) returns **235** datasets. The extra ones are not space data:
+  the `agent-traces-*` family (code-review pipeline, content generation, customer-support triage, data-pipeline debugging, legal-document analysis,
+  market research), `open-agent-traces`, `amazon-shoe-reviews`, `autonlp-data-song-lyrics` and `food102`. Filter by the README list, not by author, when you want only space data.
+- Every README-linked name was present in the API listing (none dangling).
