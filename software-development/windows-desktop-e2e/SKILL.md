@@ -32,7 +32,7 @@ End-to-end test automation for Windows native desktop apps (WPF, WinForms, Win32
 ### When NOT to Use
 
 - Web applications → use `e2e-testing` skill (Playwright)
-- Electron / CEF / WebView2 apps → the HTML layer needs browser automation, not UIA
+- Electron / CEF / WebView2 apps → the HTML layer needs browser automation, not UIA (for Electron, launch with `--remote-debugging-port` and drive it over CDP: see `inspecting-hermes-desktop-dom/references/electron-44-cdp-notes.md`)
 - Mobile apps → use platform-specific tools (UIAutomator, XCUITest)
 - Pure unit or integration tests that don't need a running GUI
 

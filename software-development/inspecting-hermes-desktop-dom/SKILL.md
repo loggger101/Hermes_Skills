@@ -162,3 +162,7 @@ also want the perf harness.
   (`.result.result.value`). Use the wrapper.
 - **`import.meta.env.DEV` is `true` under `vite dev`** in this repo. The note in
   `apps/desktop/scripts/profile-typing-lag.md` claiming otherwise is stale.
+
+## References
+
+- `references/electron-44-cdp-notes.md` - generic Electron 44.5.1 run live (Chromium 152, Node 24.21): `--remote-debugging-port` and `--inspect` on any app, sandboxed-preload and context-isolation defaults, lazy 368 MB binary download, and why hidden-window screenshots failed here.
