@@ -384,3 +384,7 @@ When the build is more than one script — orchestrate it.
 - [ ] Schema is validated on load, especially for cumulative runs
 - [ ] Assembly order is documented and correct
 - [ ] Module interfaces are explicit (no ambiguous shared globals)
+
+## References
+
+- `references/data-engineering-tool-map.md` - Python-installable data-engineering tools by stage with PyPI freshness; on Python 3.14 pip silently installs great-expectations 0.18.22 and luigi 3.6.0 instead of the current releases; PyPI name collisions (`bruin`, `evidence`).

@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **421 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **422 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -325,6 +325,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## data-science/bit-identity-float-pipelines
 
 - `data-science/bit-identity-float-pipelines/references/hashing-floats-xxhash.md` — Choosing and using a hash for bit-identity checks: xxh3 vs sha256 measured on this machine, canonical byte layout for float arrays (-0.0, NaN, endianness, order, dtype)
+
+## data-science/build-systems-data
+
+- `data-science/build-systems-data/references/data-engineering-tool-map.md` — Data-engineering tool picks from awesome-data-engineering with PyPI freshness and a Python 3.14 install trap (pip silently installs an old great-expectations 0.18 and luigi 3.6)
 
 ## data-science/economicspace-pipeline
 
