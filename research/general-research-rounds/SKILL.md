@@ -90,3 +90,5 @@ Lessons from rounds R42–R66, carried in the copy committed as `069e19a` (2026-
 ## Source access notes
 
 Per-site fetch patterns (NTRS, NASA OIG, ADS, AIAA, vendor datasheets) verified from this machine: see `references/source-access-notes.md`.
+
+Registry rules added since this skill was written (seven access classes, licence-from-the-file rule, append-at-top log, rejection and permanent ids, revision-candidate updates) and fetch routes re-checked on 2026-10-05, including User-Agent gates that run in opposite directions per host: see `references/registry-rules-and-routes.md`.

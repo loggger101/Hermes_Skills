@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **458 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **459 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -558,6 +558,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## research/general-research-rounds
 
+- `research/general-research-rounds/references/registry-rules-and-routes.md` — General_Research registry rules from its AGENTS.md/README that SKILL.md lacks (access classes, licence rule, log append-at-top, rejection, permanent ids) and fetch routes re-checked 2026-10-05
 - `research/general-research-rounds/references/source-access-notes.md` — Source access notes (verified from this machine)
 
 ## research/grounded-citations
