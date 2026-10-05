@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **419 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **420 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -348,6 +348,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## data-science/python-data-science
 
+- `data-science/python-data-science/references/autograd-notes.md` — HIPS/autograd 1.9.1 on numpy 2.5: grad/jacobian/hessian usage, scipy.optimize integration, and the errors you hit (int input, non-scalar output, in-place assignment, sqrt at 0). Run live.
 - `data-science/python-data-science/references/big-data-patterns.md` — Verified big-data patterns (duckdb ad-hoc SQL, polars lazy joins with cardinality checks, parquet row groups, incremental dedup) — all run on 200k-row fixtures, cross-checked against pandas
 - `data-science/python-data-science/references/experiment-design-sample-size.md` — Experiment Design & Sample Size (A/B test statistics)
 - `data-science/python-data-science/references/polars-pymc-api-reference.md` — polars + pymc API references — verified line-numbered facts from cloned sources
