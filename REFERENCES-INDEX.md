@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **496 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **497 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -28,6 +28,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## autonomous-ai-agents/hermes-agent
 
 - `autonomous-ai-agents/hermes-agent/references/background-systems.md` — Durable & Background Systems
+- `autonomous-ai-agents/hermes-agent/references/cli-commands-added-0-21.md` — Hermes CLI commands the older references do not cover (live `--help`, v0.21.5)
 - `autonomous-ai-agents/hermes-agent/references/cli-reference.md` — Hermes CLI Reference
 - `autonomous-ai-agents/hermes-agent/references/configuration.md` — Configuration, Toolsets & Voice
 - `autonomous-ai-agents/hermes-agent/references/context-budget-and-cache-placement.md` — Prompt-cache placement rules and a route-bound context budget (usable = window - output - reserve - history) with the invalidation table run through oh-my-hermes 3.0.0's omh CLI

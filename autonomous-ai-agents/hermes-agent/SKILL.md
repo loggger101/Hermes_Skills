@@ -97,6 +97,7 @@ Profiles use `~/.hermes/profiles/<name>/` with the same layout. When a profile i
 | **Anything not listed below — "can Hermes do X?", "how do I set up X?"** | **https://hermes-agent.nousresearch.com/docs/llms.txt** |
 | Bots that chat, run routines, or message each other; the Bots tab | docs: `/user-guide/bot-mode` |
 | CLI commands, subcommands, flags, "how do I run X" | `references/cli-reference.md` |
+| Newer CLI commands (pause/resume, worktree, checkpoints, backup, egress, vault, peer, sync, verify, serve, desktop, import-agent, usage, prompt-size, ...) | `references/cli-commands-added-0-21.md` |
 | In-session slash commands | `references/slash-commands.md` |
 | Provider setup, API keys, OAuth | `references/providers-and-models.md` |
 | config.yaml sections, toolsets, voice/STT/TTS | `references/configuration.md` |
