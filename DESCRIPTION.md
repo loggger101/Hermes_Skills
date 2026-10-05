@@ -1,14 +1,14 @@
 ---
-description: Hermes Agent second brain — 240 skills across 23 categories, memories, cron configs.
+description: Hermes Agent second brain — 245 skills across 23 categories, memories, cron configs.
 ---
 
 # Hermes Skills Repository (Second Brain)
 
-This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **240 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
+This repository is the **second brain** of its owner's Hermes Agent environment: a centralized collection of **245 verified, audit-passing skills**, persistent agent memories, and cronjob configuration — organized so that any agent can clone it and be productive in under a minute.
 
 ## Start here (cheapest → most thorough)
 
-1. **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 240 skills. `grep -i <term>` is the fastest way to find a capability.
+1. **[SKILLS-INDEX.md](./SKILLS-INDEX.md)** — flat one-line-per-skill index of all 245 skills. `grep -i <term>` is the fastest way to find a capability.
 2. **[CODE-INDEX.md](./CODE-INDEX.md)** — flat index of every script, shared helper, test and template (the executable knowledge layer). `grep -i <term> CODE-INDEX.md` finds runnable code by purpose or owner skill.
 3. **[REFERENCES-INDEX.md](./REFERENCES-INDEX.md)** — flat index of all 526 reference docs inside skills' `references/` dirs (nested subdirs included). `grep -i <term> REFERENCES-INDEX.md` finds verified API maps and gotchas tables by topic without knowing which skill owns them.
 4. **[DEPENDENCY.md](./DEPENDENCY.md)** — relationship map: hub skills, standalone skills, full cross-reference validation.
@@ -76,6 +76,7 @@ The fastest way from a job you have in mind to the skill that does it. Not sure 
 |--------------|------------|
 | Build a Python web/desktop UI (dashboards, internal tools) | `nicegui-app-builder`; data dashboards → `streamlit-dashboards` |
 | Theme or extend Hermes (skins, desktop/TUI plugins, Python plugins, pets) | `hermes-extensions` |
+| Connect Hermes to MCP servers, webhooks, Portal auth or Hindsight memory | `hermes-integrations` |
 | Pick CSS / icon / animation libraries for a static site (weight, licence) | `frontend-library-picks`; React projects → `react-ecosystem`; site structure and CSP → `static-site-patterns` |
 | Get cited by AI search, `llms.txt`, agent-ready sites (AEO/GEO) | `ai-search-optimization` (classic SEO → `static-site-seo`) |
 | Bun, standard/neostandard, PostCSS, js-beautify behaviour | `js-tooling-notes` |
@@ -103,6 +104,10 @@ The fastest way from a job you have in mind to the skill that does it. Not sure 
 | Build space/astro data pipelines (fetch→parquet→HF) | `space-data-pipelines` (verified API gotchas table inside) |
 | Search biomedical literature / genomic databases | `pubmed-database` (NCBI E-utilities), `gget` (Ensembl/BLAST lookups); full genomics/computational-biology work → `bioinformatics` (gateway to 400+ skills) |
 | Evaluate a paper, proposal, or evidence claim | `scholar-evaluation` (9-dimension rubric); build the review itself → `literature-review` |
+| Design and report a human evaluation (annotators, agreement, IRB) | `human-evaluation-design` |
+| Pre-submission check of AI-assisted research (fake citations, invented results) | `ai-research-integrity` |
+| Decide whether LLM self-refinement helps; run a judged refinement loop | `autoreason-refinement` |
+| Find keyless open datasets (HF mirrors, data.gov) and check redistribution licences | `open-data-catalog-sources` |
 
 ### Automation, shipping and infrastructure
 

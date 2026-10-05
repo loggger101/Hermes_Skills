@@ -165,7 +165,7 @@ The writing philosophy, citation verification workflow, and conference reference
 → Start with: Venue reviewer guidelines, reviewer-guidelines.md
 
 ### For Human Evaluation
-→ Start with: human-evaluation.md, Prolific/MTurk documentation
+→ Start with: the `human-evaluation-design` skill, Prolific/MTurk documentation
 
 ### For Non-Empirical Papers (Theory, Survey, Benchmark, Position)
 → Start with: paper-types.md

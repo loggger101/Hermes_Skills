@@ -8,7 +8,7 @@ platforms: [linux, macos, windows]
 metadata:
   hermes:
     tags: [pipelines, parquet, huggingface, api-gotchas, licensing]
-    related_skills: [astro-toolkit-selection, orbital-mechanics-data, economicspace-pipeline, cron-pipeline-watchdog]
+    related_skills: [astro-toolkit-selection, orbital-mechanics-data, economicspace-pipeline, cron-pipeline-watchdog, open-data-catalog-sources]
 ---
 
 ## What This Skill Does
@@ -19,7 +19,7 @@ Pattern for self-maintaining public space/astronomy datasets, distilled from the
 
 - Ingesting public space/astronomy feeds (JPL SSD, VizieR TAP, HEASARC TAP, MAST TAP, CelesTrak, Space-Track) into Parquet datasets
 - Building or maintaining scheduled data pipelines that must survive flaky upstreams
-- Deciding how to license redistributed space data (ESA/VizieR traps — see references below)
+- Deciding how to license redistributed space data (ESA/VizieR traps — see `open-data-catalog-sources`)
 
 ## One script per dataset (6 steps)
 
@@ -74,22 +74,13 @@ The upstream repo's `hf_dataset_utils` package is the reference implementation o
 `http://www.asterank.com/api/asterank?query=<JSON>&limit=<N>&offset=<M>` — keyless, ~600K rows via limit/offset pagination.
 **Two query modes with different schemas:** bulk scans (`query={}`) never carry a `dv` key; **targeted queries DO** (re-verified this machine 2026-09-12: `{"name":"Eros"}` → dv=6.112354). Query param is a JSON object, not free text — plain numbers give HTTP 500; working keys are `name` and `pdes`. Economics fields (`price`/`profit`) remain partially garbage (real values for some bodies, 1e-44-scale nonsense for others) — order-of-magnitude priors only. Reliably present in both modes: spectral types (`spec`=SMASSII, `spec_B`, `spec_T`), diameter + sigma, albedo, rotation period, GM, full orbital elements, orbit-quality fields (condition_code/data_arc/rms/orbit_id), **per-element covariance diagonal** (`sigma_a`…`sigma_tp`) and obs provenance. Full correction history: skill `economicspace-pipeline`, ref `dv-oracles-and-economics-sources.md`.
 
-## Keyless HF mirrors of the same feeds (see `references/hf-mirror-catalog.md`)
+## Catalogs, mirrors and licensing
 
-~230 datasets under `juliensimon/*` on Hugging Face — no API keys, one-line load. Useful as frozen snapshots for cross-checks/backfills when the live feed needs auth (Space-Track), per-body calls (Asterank dv), or has dead endpoints (UCS). Cadence: ~50 daily / ~20 weekly / rest static; upstream `status.json` tracks dates + row counts.
-
-## data.gov catalog API (see `references/data-gov-catalog-api.md`)
-
-catalog.data.gov (515k+ datasets, incl. NASA planetary science) **dropped the CKAN `/api/3/action/*` endpoints** (404 on 2026-10-05). Use `GET /search?q=...&per_page=...&after=<cursor>`
-(cursor pagination, no total count) and `/api/organizations` for valid `org_slug` values (NASA is `nasa`; a wrong slug returns an empty 200). Many records have no machine-readable distribution.
+Keyless Hugging Face mirrors (`juliensimon/*`), the post-CKAN data.gov catalog API and the space-data licensing traps (ESA CC BY-NC, VizieR scientific-use terms) moved to `open-data-catalog-sources`. Check it before redistributing any space dataset.
 
 ## Debiasing taxonomy-based statistics (see `references/belt-gradient-analysis-patterns.md`)
 
 From the user's asteroid-belt-gradient analysis: count only measured labels (83% of catalog taxonomy labels were imputed from semimajor-axis albedo), collapse collisional families to one body, limit by size not brightness (size-complete cut plus inverse-completeness weighting), and make optional corrections switchable.
-
-## Licensing redistributed space data (see `references/space-data-licensing-audit.md`)
-
-Default "NASA/ESA public API ⇒ CC-BY-4.0" is **wrong** for a large fraction of providers: ESA Space Science Archives = **CC BY-NC 3.0 IGO** (no commercial use), WDC Kyoto geomagnetic indices no-commercial, SILSO sunspot numbers CC BY-NC 4.0, AAVSO NC-only, and VizieR's own terms are "scientific context" — not CC-BY at all. The source license travels with the data: fetching ESA catalogs via VizieR/HEASARC mirrors does NOT strip the restriction. When unsure, label `license: other` + upstream policy link rather than over-permissive cc-by-4.0.
 
 ## Lunar-surface GIS (see `references/lunar-gis-patterns-aegis.md`)
 

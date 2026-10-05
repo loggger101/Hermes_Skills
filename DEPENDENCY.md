@@ -1,8 +1,8 @@
 # Skill Dependency Map
 
-This document maps the relationship network between all **240 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+This document maps the relationship network between all **245 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
 
-**Network stats:** 742 `related_skills` cross-references across 240 skills (2 skills list no `related_skills` of their own).
+**Network stats:** 772 `related_skills` cross-references across 245 skills (2 skills list no `related_skills` of their own).
 
 ## Hub Skills (referenced by 2+ other skills)
 
@@ -15,13 +15,13 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `systematic-debugging` | 19 | ast-grep, dispatching-parallel-agents, failure-signal-audit, git-on-sync-clients, github-issue-to-pr, inspecting-hermes-desktop-dom, mattpocock-diagnosing-bugs, mattpocock-gh-fix-ci, mattpocock-resolving-merge-conflicts, mattpocock-tdd, node-inspect-debugger, python-craft, python-data-science, python-debugpy, python-toolchain-notes, rest-graphql-debug, skill-flow-router, test-driven-development, windows-agent-shell |
 | `python-craft` | 18 | algorithms-python-catalog, build-systems-data, cli-tool-craft, evolutionary-ml, generating-python-installer, model-export-deploy, orbital-mechanics-data, ponytail, python-numerics-gotchas, python-toolchain-notes, rust-crate-picks, static-site-seo, streamlit-dashboards, structured-llm-outputs, system-design-scaling, test-infra-ml, verification-culture, windows-agent-shell |
 | `github-pr-workflow` | 14 | agent-oss-contributions, ci-gate-design, feature-flag-lifecycle, git-on-sync-clients, github-auth, github-code-review, github-issue-to-pr, github-issues, github-repo-management, mattpocock-finishing-a-development-branch, mattpocock-gh-fix-ci, mattpocock-using-git-worktrees, mattpocock-yeet, skill-intake-and-release |
+| `hermes-agent` | 14 | apple-reminders, claude-code, codex, cron-job-authoring, dynamic-workflow, hermes-bot-cloning, hermes-extensions, hermes-integrations, mattpocock-to-tickets, merge-reconciler, opencode, qmd, repowise, unsloth-gguf |
 | `python-data-science` | 14 | build-systems-data, evolutionary-ml, experiment-design, gget, huggingface-trackio, jupyter-notebook, ml-cv-library-notes, orbital-mechanics-data, polars-pipelines, python-numerics-gotchas, python-plotting, regex-vs-llm-structured-text, research-paper-writing, sql-for-data |
-| `hermes-agent` | 13 | apple-reminders, claude-code, codex, cron-job-authoring, dynamic-workflow, hermes-bot-cloning, hermes-extensions, mattpocock-to-tickets, merge-reconciler, opencode, qmd, repowise, unsloth-gguf |
 | `claude-design` | 12 | awwwards-gsap-motion, design-md, editorial-minimalism-ui, frontend-design, industrial-brutalist-ui, popular-web-designs, pretext, sketch, soft-premium-ui, songwriting-and-ai-music, stitch, teach |
 | `cron-job-authoring` | 12 | apple-reminders, autonomous-loop-design, cron-config-authoring, cron-pipeline-watchdog, experiment-design, findmy, hermes-bot-cloning, mattpocock-using-git-worktrees, mattpocock-yeet, product-price-monitor, secret-vault-pattern, watchers |
 | `design-taste-frontend` | 12 | awwwards-gsap-motion, editorial-minimalism-ui, frontend-library-picks, full-output-enforcement, industrial-brutalist-ui, react-library-notes, redesign-existing-projects, soft-premium-ui, static-site-patterns, stitch, ui-ux-pro-max, web-perf-audit |
 | `excalidraw` | 11 | architecture-diagram, ascii-art, claude-design, design-md, diagram-design, p5js, popular-web-designs, pretext, research-paper-writing, sketch, system-atlas |
-| `grounded-citations` | 10 | ai-search-optimization, blocked-page-recovery, general-research-rounds, literature-review, mattpocock-research, parallel-cli, pubmed-database, reddit-reading, rss-feeds, scholar-evaluation |
+| `grounded-citations` | 11 | ai-research-integrity, ai-search-optimization, blocked-page-recovery, general-research-rounds, literature-review, mattpocock-research, parallel-cli, pubmed-database, reddit-reading, rss-feeds, scholar-evaluation |
 | `mattpocock-subagent-driven-development` | 10 | dispatching-parallel-agents, executing-plans, grilling-interview, mattpocock-to-tickets, plan, requesting-code-review, research-paper-writing, spike, systematic-debugging, test-driven-development |
 | `verification-culture` | 10 | autonomous-loop-design, bit-identity-float-pipelines, ci-gate-design, failure-signal-audit, incident-response, modular-monolith-migration, one-authority-per-fact, pinned-data-contracts, retro, verification-before-completion |
 | `architecture-diagram` | 9 | claude-design, design-md, diagram-design, excalidraw, hyperframes-video, popular-web-designs, pretext, sketch, system-atlas |
@@ -35,6 +35,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `mattpocock-domain-modeling` | 7 | issue-triage-state-machine, living-docs-governance, mattpocock-codebase-design, mattpocock-handoff, mattpocock-spec-driven-development, mattpocock-to-tickets, mattpocock-writing-for-agents |
 | `bit-identity-float-pipelines` | 6 | astro-library-notes, one-authority-per-fact, pinned-data-contracts, polars-pipelines, python-numerics-gotchas, z3-solver |
 | `docx` | 6 | document-to-action-items, ocr-and-documents, pdf, powerpoint, website-audit, xlsx |
+| `economicspace-pipeline` | 6 | astro-library-notes, astro-toolkit-selection, open-data-catalog-sources, optimization-modeling-pyomo, pinned-data-contracts, space-data-pipelines |
 | `failure-signal-audit` | 6 | ci-gate-design, feature-flag-lifecycle, one-authority-per-fact, python-toolchain-notes, secret-vault-pattern, systematic-debugging |
 | `github-code-review` | 6 | agent-oss-contributions, github-auth, github-pr-workflow, mattpocock-code-review, receiving-code-review, requesting-code-review |
 | `manim-video` | 6 | ascii-video, hyperframes-video, p5js, pygame, remotion-video, touchdesigner-mcp |
@@ -43,15 +44,17 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `ocr-and-documents` | 6 | arxiv, document-to-action-items, general-research-rounds, grounded-citations, nano-pdf, pdf |
 | `pdf` | 6 | document-to-action-items, docx, nano-pdf, ocr-and-documents, powerpoint, xlsx |
 | `popular-web-designs` | 6 | claude-design, design-md, frontend-design, redesign-existing-projects, sketch, ui-ux-pro-max |
+| `space-data-pipelines` | 6 | astro-library-notes, cron-pipeline-watchdog, duckdb-querying, open-data-catalog-sources, pinned-data-contracts, polars-pipelines |
 | `static-site-patterns` | 6 | ai-search-optimization, frontend-library-picks, js-tooling-notes, publish-site, react-ecosystem, web-perf-audit |
 | `ascii-video` | 5 | hyperframes-video, manim-video, p5js, pretext, touchdesigner-mcp |
 | `astro-toolkit-selection` | 5 | astro-library-notes, economicspace-pipeline, optimization-modeling-pyomo, rust-crate-picks, space-data-pipelines |
 | `codebase-onboarding` | 5 | living-docs-governance, modular-monolith-migration, repo-agent-instructions, repo-atlas, repowise |
 | `design-md` | 5 | claude-design, popular-web-designs, react-ecosystem, stitch, ui-ux-pro-max |
-| `economicspace-pipeline` | 5 | astro-library-notes, astro-toolkit-selection, optimization-modeling-pyomo, pinned-data-contracts, space-data-pipelines |
 | `evolutionary-ml` | 5 | algorithms-python-catalog, experiment-design, ml-cv-library-notes, model-export-deploy, test-infra-ml |
+| `fastmcp` | 5 | hermes-extensions, hermes-integrations, mcporter, repowise, structured-llm-outputs |
 | `github-issues` | 5 | agent-oss-contributions, github-auth, github-issue-to-pr, github-repo-management, mattpocock-to-tickets |
 | `google-workspace` | 5 | box, email-inbox-triage, himalaya, meeting-action-items, weekly-review-planning |
+| `huggingface-hub` | 5 | huggingface-trackio, llama-cpp, open-data-catalog-sources, unsloth-gguf, weights-and-biases |
 | `mattpocock-tdd` | 5 | mattpocock-code-review, mattpocock-codebase-design, mattpocock-diagnosing-bugs, mattpocock-evidence-driven, mattpocock-spec-driven-development |
 | `mattpocock-to-tickets` | 5 | mattpocock-handoff, mattpocock-spec-driven-development, mattpocock-subagent-driven-development, skill-flow-router, wayfinder-map-planning |
 | `notion` | 5 | airtable, document-to-action-items, meeting-action-items, obsidian, weekly-review-planning |
@@ -59,7 +62,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `publish-site` | 5 | ai-search-optimization, frontend-library-picks, js-tooling-notes, react-ecosystem, react-library-notes |
 | `python-numerics-gotchas` | 5 | experiment-design, ml-cv-library-notes, polars-pipelines, python-plotting, z3-solver |
 | `react-ecosystem` | 5 | browser-automation, frontend-library-picks, js-tooling-notes, react-library-notes, remotion-video |
-| `space-data-pipelines` | 5 | astro-library-notes, cron-pipeline-watchdog, duckdb-querying, pinned-data-contracts, polars-pipelines |
 | `sql-for-data` | 5 | duckdb-querying, polars-pipelines, python-numerics-gotchas, sqlite-queries, system-design-scaling |
 | `static-site-seo` | 5 | ai-search-optimization, frontend-library-picks, publish-site, static-site-patterns, web-perf-audit |
 | `system-design-scaling` | 5 | algorithms-python-catalog, application-threat-model, feature-flag-lifecycle, incident-response, modular-monolith-migration |
@@ -68,16 +70,17 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `blogwatcher` | 4 | competitor-news-monitor, rss-feeds, watchers, youtube-content |
 | `ci-gate-design` | 4 | one-authority-per-fact, pinned-data-contracts, skill-intake-and-release, skill-library-audits |
 | `dogfood` | 4 | adversarial-ux-test, browser-automation, inspecting-hermes-desktop-dom, web-perf-audit |
-| `fastmcp` | 4 | hermes-extensions, mcporter, repowise, structured-llm-outputs |
 | `frontend-design` | 4 | frontend-library-picks, react-ecosystem, react-library-notes, ui-ux-pro-max |
 | `github-repo-management` | 4 | code-wiki, codebase-inspection, git-on-sync-clients, github-auth |
-| `huggingface-hub` | 4 | huggingface-trackio, llama-cpp, unsloth-gguf, weights-and-biases |
 | `literature-review` | 4 | general-research-rounds, gget, pubmed-database, scholar-evaluation |
 | `living-docs-governance` | 4 | one-authority-per-fact, repo-agent-instructions, repo-atlas, skill-library-audits |
 | `mattpocock-using-git-worktrees` | 4 | executing-plans, mattpocock-evidence-driven, mattpocock-finishing-a-development-branch, mattpocock-subagent-driven-development |
+| `mcporter` | 4 | fastmcp, hermes-extensions, hermes-integrations, repowise |
+| `orbital-mechanics-data` | 4 | astro-library-notes, astro-toolkit-selection, open-data-catalog-sources, space-data-pipelines |
 | `p5js` | 4 | hyperframes-video, manim-video, pretext, pygame |
 | `parallel-cli` | 4 | blocked-page-recovery, blogwatcher, competitor-news-monitor, mattpocock-research |
 | `powerpoint` | 4 | docx, ocr-and-documents, pdf, xlsx |
+| `research-paper-writing` | 4 | ai-research-integrity, autoreason-refinement, grounded-citations, human-evaluation-design |
 | `security-audit` | 4 | application-threat-model, mattpocock-security-review, secret-vault-pattern, skill-intake-and-release |
 | `simplify-code` | 4 | ast-grep, dynamic-workflow, ponytail, python-craft |
 | `sketch` | 4 | architecture-diagram, frontend-design, popular-web-designs, spike |
@@ -85,6 +88,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `verification-before-completion` | 4 | ci-gate-design, git-on-sync-clients, structured-llm-outputs, windows-agent-shell |
 | `weights-and-biases` | 4 | evaluating-llms-harness, evolutionary-ml, python-data-science, serving-llms-vllm |
 | `xlsx` | 4 | docx, pdf, powerpoint, sql-for-data |
+| `ai-research-integrity` | 3 | autoreason-refinement, human-evaluation-design, research-paper-writing |
 | `apple-reminders` | 3 | apple-notes, findmy, imessage |
 | `architecture-metrics` | 3 | mattpocock-codebase-design, modular-monolith-migration, repowise |
 | `awwwards-gsap-motion` | 3 | design-taste-frontend, hyperframes-video, remotion-video |
@@ -95,6 +99,9 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `conversation-to-spec` | 3 | brainstorming, grilling-interview, skill-flow-router |
 | `cron-pipeline-watchdog` | 3 | autonomous-loop-design, incident-response, space-data-pipelines |
 | `decision-questionnaire` | 3 | mental-models, multi-agent-deliberation, one-three-one-rule |
+| `dispatching-parallel-agents` | 3 | autoreason-refinement, mattpocock-subagent-driven-development, multi-agent-deliberation |
+| `duckdb-querying` | 3 | open-data-catalog-sources, polars-pipelines, python-numerics-gotchas |
+| `experiment-design` | 3 | autonomous-loop-design, feature-flag-lifecycle, human-evaluation-design |
 | `findmy` | 3 | apple-reminders, imessage, maps |
 | `frontend-library-picks` | 3 | js-tooling-notes, react-library-notes, web-perf-audit |
 | `huggingface-trackio` | 3 | huggingface-hub, python-data-science, weights-and-biases |
@@ -104,11 +111,9 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `mattpocock-finishing-a-development-branch` | 3 | executing-plans, mattpocock-subagent-driven-development, mattpocock-using-git-worktrees |
 | `mattpocock-handoff` | 3 | mattpocock-ask-if-underspecified, mattpocock-to-tickets, mattpocock-writing-for-agents |
 | `mattpocock-yeet` | 3 | agent-oss-contributions, mattpocock-finishing-a-development-branch, mattpocock-using-git-worktrees |
-| `mcporter` | 3 | fastmcp, hermes-extensions, repowise |
 | `meeting-action-items` | 3 | decision-questionnaire, document-to-action-items, teams-meeting-pipeline |
 | `one-authority-per-fact` | 3 | ci-gate-design, pinned-data-contracts, repo-agent-instructions |
 | `optimization-modeling-pyomo` | 3 | algorithms-python-catalog, astro-toolkit-selection, z3-solver |
-| `orbital-mechanics-data` | 3 | astro-library-notes, astro-toolkit-selection, space-data-pipelines |
 | `repowise` | 3 | architecture-metrics, fastmcp, repo-atlas |
 | `rest-api-client` | 3 | rest-graphql-debug, secret-vault-pattern, system-design-scaling |
 | `serving-llms-vllm` | 3 | llama-cpp, unsloth-gguf, weights-and-biases |
@@ -118,19 +123,18 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `algorithms-python-catalog` | 2 | maps, rust-crate-picks |
 | `application-threat-model` | 2 | mattpocock-security-review, secret-vault-pattern |
 | `ascii-art` | 2 | ascii-video, pretext |
+| `autoreason-refinement` | 2 | ai-research-integrity, research-paper-writing |
 | `brainstorming` | 2 | multi-agent-deliberation, ponytail |
 | `code-wiki` | 2 | codebase-onboarding, repo-atlas |
 | `competitor-news-monitor` | 2 | blogwatcher, rss-feeds |
 | `cron-config-authoring` | 2 | autonomous-loop-design, cron-job-authoring |
-| `dispatching-parallel-agents` | 2 | mattpocock-subagent-driven-development, multi-agent-deliberation |
 | `docker-containers` | 2 | rest-api-client, ssh-remote |
 | `document-to-action-items` | 2 | decision-questionnaire, meeting-action-items |
-| `duckdb-querying` | 2 | polars-pipelines, python-numerics-gotchas |
 | `dynamic-workflow` | 2 | autonomous-loop-design, dispatching-parallel-agents |
 | `email-inbox-triage` | 2 | himalaya, weekly-review-planning |
-| `experiment-design` | 2 | autonomous-loop-design, feature-flag-lifecycle |
 | `har-derived-api-client` | 2 | browser-automation, static-site-patterns |
 | `himalaya` | 2 | email-inbox-triage, google-workspace |
+| `human-evaluation-design` | 2 | ai-research-integrity, research-paper-writing |
 | `humanizer` | 2 | no-ai-slop, songwriting-and-ai-music |
 | `hyperframes-video` | 2 | manim-video, remotion-video |
 | `imessage` | 2 | apple-reminders, findmy |
@@ -141,11 +145,13 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `mattpocock-spec-driven-development` | 2 | conversation-to-spec, mattpocock-to-tickets |
 | `mental-models` | 2 | multi-agent-deliberation, one-three-one-rule |
 | `model-export-deploy` | 2 | ml-cv-library-notes, unsloth-gguf |
+| `multi-agent-deliberation` | 2 | autoreason-refinement, skill-library-audits |
 | `nicegui-app-builder` | 2 | python-plotting, react-ecosystem |
 | `no-ai-slop` | 2 | humanizer, ui-ux-pro-max |
 | `node-inspect-debugger` | 2 | inspecting-hermes-desktop-dom, python-debugpy |
 | `one-three-one-rule` | 2 | mental-models, multi-agent-deliberation |
 | `opencode` | 2 | claude-code, hermes-agent |
+| `pinned-data-contracts` | 2 | ci-gate-design, open-data-catalog-sources |
 | `ponytail` | 2 | rust-crate-picks, simplify-code |
 | `pubmed-database` | 2 | bioinformatics, gget |
 | `python-debugpy` | 2 | node-inspect-debugger, python-toolchain-notes |
@@ -153,7 +159,9 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `repo-atlas` | 2 | one-authority-per-fact, repo-agent-instructions |
 | `rest-graphql-debug` | 2 | har-derived-api-client, rest-api-client |
 | `rss-feeds` | 2 | reddit-reading, watchers |
+| `scholar-evaluation` | 2 | ai-research-integrity, human-evaluation-design |
 | `scrapling` | 2 | algorithms-python-catalog, browser-automation |
+| `secret-vault-pattern` | 2 | hermes-integrations, skill-intake-and-release |
 | `semgrep-rule-creator` | 2 | oss-forensics, security-audit |
 | `skill-intake-and-release` | 2 | hermes-agent-skill-authoring, skill-library-audits |
 | `skill-library-audits` | 2 | hermes-agent-skill-authoring, skill-intake-and-release |
@@ -169,6 +177,6 @@ No skill is fully standalone: every skill either lists `related_skills` or is re
 
 ## Related Skills Validation
 
-All 742 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 240 unique skill names.
+All 772 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 245 unique skill names.
 
 ---

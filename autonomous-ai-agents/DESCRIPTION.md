@@ -16,6 +16,7 @@ Skills for spawning and orchestrating autonomous AI coding agents and multi-agen
 - [`hermes-agent`](./hermes-agent/SKILL.md) — Use, configure, theme, extend, orchestrate Hermes Agent
 - [`hermes-bot-cloning`](./hermes-bot-cloning/SKILL.md) — Clone Hermes profiles to create identical subagent bots
 - [`hermes-extensions`](./hermes-extensions/SKILL.md) — Hermes themes, desktop/TUI/Python plugins, pets
+- [`hermes-integrations`](./hermes-integrations/SKILL.md) — Hermes MCP servers, webhooks, Portal auth, Hindsight
 - [`mattpocock-resolving-merge-conflicts`](./mattpocock-resolving-merge-conflicts/SKILL.md) — Resolve git merge conflicts by tracing each side's intent
 - [`merge-reconciler`](./merge-reconciler/SKILL.md) — Neutral third-party resolution of agent merge conflicts
 - [`opencode`](./opencode/SKILL.md) — Delegate coding to OpenCode CLI (features, PR review)

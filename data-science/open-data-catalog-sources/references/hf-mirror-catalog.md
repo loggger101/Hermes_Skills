@@ -270,7 +270,7 @@ wmo-oscar-satellites · esa-rosetta-observations · esa-exomars-tgo-observations
 ## Notable for the economicspace pipeline specifically
 
 - `nhats-accessible-asteroids` — population-scale Δv oracle mirror (see skill `economicspace-pipeline`).
-- `asterank-asteroid-mining` — 50-col snapshot, NO dv column (dv is targeted-query-only on the live API; see SKILL.md).
+- `asterank-asteroid-mining` — 50-col snapshot, NO dv column (dv is targeted-query-only on the live API; see `space-data-pipelines`).
 - `jpl-small-body-database`, `neo-close-approaches`, `sentry-impact-risk`, `nesvorny-asteroid-families`, `bus-demeo-asteroid-taxonomy`, `sdss-asteroid-taxonomy`, `launch-cost-to-leo` — the soft-assumption sources tabulated in `economicspace-pipeline/references/dv-oracles-and-economics-sources.md`.
 
 ## Re-check 2026-10-05 (README and the Hugging Face API)
