@@ -6,6 +6,7 @@ description: Web app development beyond static sites: API clients, deploys, in-p
 
 Web app development beyond static sites: API clients, deploys, in-page agents.
 
+- [`browser-automation`](./browser-automation/SKILL.md) — Browser automation: Selenium 4 patterns, Playwright pick
 - [`har-derived-api-client`](./har-derived-api-client/SKILL.md) — Record a site's XHR into a HAR, derive an HTTP client
 - [`publish-site`](./publish-site/SKILL.md) — Versioned site deploys to GitHub/Cloudflare/Netlify Pages
 - [`react-ecosystem`](./react-ecosystem/SKILL.md) — Pick React libraries by need, with live npm freshness

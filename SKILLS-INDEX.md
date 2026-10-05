@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **209 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **210 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -276,10 +276,11 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 
 ## web-development
 
+- `browser-automation` — Browser automation: Selenium 4 patterns, Playwright pick _(web-development)_
 - `har-derived-api-client` — Record a site's XHR into a HAR, derive an HTTP client _(web-development)_
 - `publish-site` — Versioned site deploys to GitHub/Cloudflare/Netlify Pages _(web-development)_
 - `react-ecosystem` — Pick React libraries by need, with live npm freshness _(web-development)_
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*209 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*210 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*

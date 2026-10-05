@@ -1,8 +1,8 @@
 # Skill Dependency Map
 
-This document maps the relationship network between all **209 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+This document maps the relationship network between all **210 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
 
-**Network stats:** 574 `related_skills` cross-references across 209 skills (2 skills list no `related_skills` of their own).
+**Network stats:** 579 `related_skills` cross-references across 210 skills (2 skills list no `related_skills` of their own).
 
 ## Hub Skills (referenced by 2+ other skills)
 
@@ -71,6 +71,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `codex` | 3 | claude-code, hermes-agent, opencode |
 | `comfyui` | 3 | baoyu-infographic, songsee, songwriting-and-ai-music |
 | `conversation-to-spec` | 3 | brainstorming, grilling-interview, skill-flow-router |
+| `dogfood` | 3 | adversarial-ux-test, browser-automation, inspecting-hermes-desktop-dom |
 | `economicspace-pipeline` | 3 | astro-toolkit-selection, optimization-modeling-pyomo, space-data-pipelines |
 | `evolutionary-ml` | 3 | algorithms-python-catalog, model-export-deploy, test-infra-ml |
 | `findmy` | 3 | apple-reminders, imessage, maps |
@@ -95,10 +96,10 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `decision-questionnaire` | 2 | mental-models, one-three-one-rule |
 | `docker-containers` | 2 | rest-api-client, ssh-remote |
 | `document-to-action-items` | 2 | decision-questionnaire, meeting-action-items |
-| `dogfood` | 2 | adversarial-ux-test, inspecting-hermes-desktop-dom |
 | `email-inbox-triage` | 2 | himalaya, weekly-review-planning |
 | `fastmcp` | 2 | mcporter, repowise |
 | `frontend-design` | 2 | react-ecosystem, ui-ux-pro-max |
+| `har-derived-api-client` | 2 | browser-automation, static-site-patterns |
 | `himalaya` | 2 | email-inbox-triage, google-workspace |
 | `humanizer` | 2 | no-ai-slop, songwriting-and-ai-music |
 | `hyperframes-video` | 2 | manim-video, remotion-video |
@@ -117,10 +118,12 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `orbital-mechanics-data` | 2 | astro-toolkit-selection, space-data-pipelines |
 | `ponytail` | 2 | rust-crate-picks, simplify-code |
 | `pubmed-database` | 2 | bioinformatics, gget |
+| `react-ecosystem` | 2 | browser-automation, remotion-video |
 | `redesign-existing-projects` | 2 | design-taste-frontend, full-output-enforcement |
 | `rest-api-client` | 2 | rest-graphql-debug, system-design-scaling |
 | `rest-graphql-debug` | 2 | har-derived-api-client, rest-api-client |
 | `rss-feeds` | 2 | reddit-reading, watchers |
+| `scrapling` | 2 | algorithms-python-catalog, browser-automation |
 | `security-audit` | 2 | application-threat-model, mattpocock-security-review |
 | `semgrep-rule-creator` | 2 | oss-forensics, security-audit |
 | `serving-llms-vllm` | 2 | llama-cpp, weights-and-biases |
@@ -138,6 +141,6 @@ No skill is fully standalone: every skill either lists `related_skills` or is re
 
 ## Related Skills Validation
 
-All 574 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 209 unique skill names.
+All 579 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 210 unique skill names.
 
 ---
