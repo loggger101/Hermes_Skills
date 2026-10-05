@@ -44,6 +44,8 @@ Each slice must be:
 
 ### Ticket Template
 
+Full template with a worked example: `templates/ticket-template.md`.
+
 ```markdown
 # <NN>: <title>
 **What to build:** end-to-end behaviour

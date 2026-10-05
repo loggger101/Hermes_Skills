@@ -29,6 +29,8 @@ Loads `skill_view(name='mattpocock-writing-for-agents')` for guidance on writing
 
 ## Handoff Document Structure
 
+Fill-in version of this structure: `templates/handoff-document.md` (context, current state, done / in progress / blocked, known issues, next steps, command to resume).
+
 ### 1. Summarise the state
 
 - What problem are we solving?

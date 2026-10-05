@@ -385,3 +385,7 @@ curl -s \
 | Comment | `gh issue comment N --body ...` | `POST /repos/{o}/{r}/issues/N/comments` |
 | Close | `gh issue close N` | `PATCH /repos/{o}/{r}/issues/N` |
 | Search | `gh issue list --search "..."` | `GET /search/issues?q=...` |
+
+## Templates
+
+Copy-and-fill issue bodies: `templates/bug-report.md` (description, reproduction steps, expected vs actual behaviour, environment, error output) and `templates/feature-request.md` (description, motivation, proposed solution, alternatives, scope/effort).
