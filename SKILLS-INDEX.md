@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **229 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **237 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -34,6 +34,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 
 ## creative
 
+- `ai-search-optimization` — Get cited by AI search; agent-ready sites (AEO/GEO) _(creative)_
 - `architecture-diagram` — Dark-themed SVG architecture/cloud/infra diagrams as HTML _(creative)_
 - `ascii-art` — ASCII art: pyfiglet, cowsay, boxes, image-to-ascii _(creative)_
 - `ascii-video` — ASCII video: convert video/audio to colored ASCII MP4/GIF _(creative)_
@@ -83,6 +84,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `model-export-deploy` — Model export: ONNX, TorchScript, HDF5, NumPy, JSON _(data-science)_
 - `optimization-modeling-pyomo` — Model LP/MIP/NLP/GDP in Pyomo with live-verified patterns _(data-science)_
 - `orbital-mechanics-data` — Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC _(data-science)_
+- `pinned-data-contracts` — Frozen releases, contract versions, checked pins _(data-science)_
 - `polars-pipelines` — polars 2.0, big-data patterns, PyMC on Windows _(data-science)_
 - `python-data-science` — Python DS: EDA, cleaning, modeling, eval, viz _(data-science)_
 - `python-numerics-gotchas` — Silent numpy/scipy/pandas/sympy/statsmodels traps _(data-science)_
@@ -105,6 +107,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `ssh-remote` — Commands and file transfer on remote machines over SSH _(devops)_
 - `system-design-scaling` — Scalable system design: CAP, caches, shards, tradeoffs _(devops)_
 - `watchers` — Poll RSS, JSON APIs, and GitHub with watermark dedup _(devops)_
+- `windows-agent-shell` — Windows Bash-tool traps: heredocs, cp1252, CRLF _(devops)_
 - `wizard` — Bash wizard walking a human through manual-only steps _(devops)_
 
 ## doc-coauthoring
@@ -128,7 +131,9 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 ## github
 
 - `agent-oss-contributions` — Pre-flight and AI policies for upstream agent PRs _(github)_
+- `ci-gate-design` — CI that proves claims: no always-skip checks _(github)_
 - `codebase-inspection` — Inspect codebases w/ pygount: LOC, languages, ratios _(github)_
+- `git-on-sync-clients` — Fix git in OneDrive/Drive folders: refs, mmap, copies _(github)_
 - `github-auth` — GitHub auth setup: HTTPS tokens, SSH keys, gh CLI login _(github)_
 - `github-code-review` — Review PRs: diffs, inline comments via gh or REST _(github)_
 - `github-issue-to-pr` — Carry a GitHub issue to a verified PR with honest CI state _(github)_
@@ -264,14 +269,17 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `mattpocock-using-git-worktrees` — Set up isolated git worktrees for feature work _(software-development)_
 - `mattpocock-writing-for-agents` — Write docs agents can consume: skills, AGENTS.md, specs _(software-development)_
 - `modular-monolith-migration` — Module boundaries, decomposition, strangler-fig plans _(software-development)_
+- `multi-agent-deliberation` — Jury, interview and critique protocols for decisions _(software-development)_
 - `node-inspect-debugger` — Debug Node.js via --inspect + Chrome DevTools Protocol CLI _(software-development)_
+- `one-authority-per-fact` — One authority per fact; copies generated or checked _(software-development)_
 - `plan` — Write a markdown plan to .hermes/plans/; no execution _(software-development)_
 - `ponytail` — Laziest working solution: reuse, stdlib, native first _(software-development)_
 - `property-based-testing` — Hypothesis property tests: roundtrip, oracle, invariant _(software-development)_
 - `python-craft` — Python craft: uv/ruff/ty setup, style, typing, testing _(software-development)_
 - `python-debugpy` — Debug Python: pdb REPL + debugpy remote (DAP) _(software-development)_
-- `python-toolchain-notes` — uv, ruff, ty, loguru, zstd, Codon: measured behavior _(software-development)_
+- `python-toolchain-notes` — uv, ruff, ty, pytest, loguru, tqdm, zstd: measured _(software-development)_
 - `receiving-code-review` — Verify review feedback against the codebase before acting _(software-development)_
+- `repo-agent-instructions` — Write CLAUDE.md/AGENTS.md with incidents and gates _(software-development)_
 - `repo-atlas` — In-repo atlas docs + drift check so agents orient fast _(software-development)_
 - `requesting-code-review` — Pre-commit review: security scan, quality gates, auto-fix _(software-development)_
 - `rest-graphql-debug` — Debug REST and GraphQL APIs: auth, schemas, repro _(software-development)_
@@ -302,4 +310,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*229 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*237 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*

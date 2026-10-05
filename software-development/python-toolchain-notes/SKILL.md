@@ -1,13 +1,13 @@
 ---
 name: python-toolchain-notes
-description: "uv, ruff, ty, loguru, zstd, Codon: measured behavior."
+description: "uv, ruff, ty, pytest, loguru, tqdm, zstd: measured."
 version: 1.0.0
 author: Hermes Agent (promoted from python-craft references; uv recipe from trailofbits/skills, live-run 2026-10)
 license: MIT
 platforms: [linux, macos, windows]
 metadata:
   hermes:
-    tags: [python, uv, ruff, ty, loguru, logging, zstd, codon, tooling, ci, pep-723]
+    tags: [python, uv, ruff, ty, pytest, tqdm, loguru, logging, zstd, codon, tooling, ci, pep-723]
     related_skills: [python-craft, test-driven-development, python-debugpy, systematic-debugging, failure-signal-audit]
 ---
 
@@ -24,6 +24,7 @@ Reference for the tools around Python code rather than the code itself: **uv** p
 - ty exits 1 on warnings, or reports walls of `unresolved-import`
 - Adding logging to a script or service (loguru vs stdlib), or logs contain colour codes or secrets
 - Choosing a compressor (zstd vs zlib/bz2/lzma) or asking whether Codon is worth it
+- A pytest gate reports the wrong thing (exit codes 2, 4, 5), or a tqdm bar floods a CI log
 - Not for language idioms, patterns, packaging layout or testing approach (`python-craft`), or debugging runtime failures (`python-debugpy`, `systematic-debugging`)
 
 ## Which reference
@@ -33,6 +34,8 @@ Reference for the tools around Python code rather than the code itself: **uv** p
 | New project, standalone script, migrating from pip/Poetry/mypy/black | `references/modern-python-tooling.md` | `uv add` not `uv pip install`; PEP 723 inline metadata for scripts; `[dependency-groups]`; `uv run`, never activate; ty config lives under `[tool.ty.environment]`. CC-BY-SA-4.0 (Trail of Bits) |
 | Ruff upgrade or no-config behaviour | `references/ruff-0-16-defaults-and-suppressions.md` | bare `ruff check` runs 413 rules since 0.16 (was 59); pin `select`; `ruff format` rewrites Markdown python blocks by default; `# ruff: ignore[...]` |
 | ty in CI | `references/ty-0-0-84-notes.md` | warnings-only exits 1 (use `--exit-zero-on-warning`); `ty.toml` replaces pyproject's `[tool.ty]`, no merge; no `.venv` gives walls of `unresolved-import` |
+| Test runs in an agent loop or CI | `references/pytest-9-notes.md` | exit codes 0/1/2/4/5 (2 means the suite never ran, 4 a bad command line, 5 an empty selection); built-in `subtests`; `strict = true` in `pytest.toml`; one config file wins |
+| Progress bars in scripts and CI | `references/tqdm-progress-bars.md` | bar goes to stderr and floods piped logs with carriage returns; `print()` corrupts it; `TQDM_DISABLE` and `TQDM_MININTERVAL` tame logs |
 | Logging | `references/logging-loguru.md` | brace-format `KeyError` once any argument is passed; `diagnose=True` leaks secrets; colour codes in captured output unless `colorize=False` |
 | Compression | `references/compression-zstd-stdlib.md` | `compression.zstd` measured against zlib/bz2/lzma; dictionaries matter for tiny records; `level` and `options` conflict |
 | Speeding up pure Python | `references/codon-compiler-notes.md` | AOT compiler, Linux/macOS only, 64-bit int and static-typing differences; source-read |
@@ -70,3 +73,5 @@ Reference for the tools around Python code rather than the code itself: **uv** p
 - `references/logging-loguru.md` - loguru 0.7.3 setup and traps (brace-format `KeyError`, `diagnose=True` leaking secrets, colour codes), stdlib interception
 - `references/compression-zstd-stdlib.md` - Python 3.14 `compression.zstd` vs zlib/bz2/lzma: ratio and speed, dictionary effect on small records, `level`/`options` conflict, `tar.zst`
 - `references/codon-compiler-notes.md` - Codon (exaloop) AOT compiler: when it pays off, 64-bit int and static typing differences, `@codon.jit`, `-release`, `@par`
+- `references/pytest-9-notes.md` - pytest 9.1.1 on Windows: exit codes to gate on, built-in subtests, strict mode, config precedence, collection traps
+- `references/tqdm-progress-bars.md` - tqdm 4.70.1 in scripts, logs and CI: stderr output, carriage-return floods, `print()` corruption, env settings, per-iteration cost

@@ -1,6 +1,6 @@
 # Hermes Skills Repository
 
-A comprehensive collection of **229 Hermes Agent skills** across 23 categories — the second brain for its owner's Hermes Agent environment.
+A comprehensive collection of **237 Hermes Agent skills** across 23 categories — the second brain for its owner's Hermes Agent environment.
 
 - Task → skill lookup ladder: [DESCRIPTION.md](./DESCRIPTION.md)
 - Every skill, one line each: [SKILLS-INDEX.md](./SKILLS-INDEX.md)
@@ -61,10 +61,10 @@ grep -i "raster\|token bridge" CODE-INDEX.md   # runnable code instead of skills
 
 ## Overview
 
-This repository is a centralized database of all **229 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities.
+This repository is a centralized database of all **237 Hermes Agent skills**, organized by category. Skills are reusable procedures and workflows that extend Hermes Agent's capabilities.
 
 - Every skill uses the standard `SKILL.md` format: consistent frontmatter, section headers and `related_skills` cross-references.
-- 677 cross-references mapped across 229 skills, and every skill is connected to at least one other ([DEPENDENCY.md](./DEPENDENCY.md) has the full relationship map).
+- 722 cross-references mapped across 237 skills, and every skill is connected to at least one other ([DEPENDENCY.md](./DEPENDENCY.md) has the full relationship map).
 - The full audit history is in the [audit notes](docs/archive/audit-notes-skills-repo-pass.md).
 
 ### Categories
@@ -74,14 +74,14 @@ This repository is a centralized database of all **229 Hermes Agent skills**, or
 | [apple/](./apple/) | Apple platform integrations | 4 |
 | [autonomous-ai-agents/](./autonomous-ai-agents/) | Multi-agent orchestration and delegation | 14 |
 | [communication/](./communication/) | Decision-brief formats (1-3-1 rule) + mental-model latticeworks | 2 |
-| [creative/](./creative/) | Creative content generation and design | 32 |
-| [data-science/](./data-science/) | Data science workflows and tools | 22 |
-| [devops/](./devops/) | Infrastructure, containers, and deployment + zero-install SSH tunnels (Pinggy) + system-design knowledge layer + live incident command | 12 |
+| [creative/](./creative/) | Creative content generation and design | 33 |
+| [data-science/](./data-science/) | Data science workflows and tools | 23 |
+| [devops/](./devops/) | Infrastructure, containers, and deployment + zero-install SSH tunnels (Pinggy) + system-design knowledge layer + live incident command | 13 |
 | [doc-coauthoring/](./doc-coauthoring/) | Structured document co-authoring workflow | 1 |
 | [dogfood/](./dogfood/) | Exploratory QA and testing | 1 |
 | [email/](./email/) | Email management and triage | 2 |
 | [frontend-design/](./frontend-design/) | Visual design for AI-generated UI (incl. Python reactive-UI builders) | 2 |
-| [github/](./github/) | GitHub workflow management | 13 |
+| [github/](./github/) | GitHub workflow management | 15 |
 | [huggingface-trackio/](./huggingface-trackio/) | ML experiment tracking with Trackio | 1 |
 | [mcp/](./mcp/) | MCP: server authoring (FastMCP) + terminal client (mcporter) | 2 |
 | [media/](./media/) | Media content generation | 3 |
@@ -92,10 +92,10 @@ This repository is a centralized database of all **229 Hermes Agent skills**, or
 | [security/](./security/) | Security review, audit orchestration, forensics, rule authoring + STRIDE app threat modeling | 6 |
 | [smart-home/](./smart-home/) | Smart home device control | 1 |
 | [social-media/](./social-media/) | Social media content | 2 |
-| [software-development/](./software-development/) | Development tools and workflows + failure-signal auditing | 53 |
+| [software-development/](./software-development/) | Development tools and workflows + failure-signal auditing | 56 |
 | [web-development/](./web-development/) | Web/API client derivation (HAR-based), versioned static-site publishing, React library choice, browser automation, static-site CSS/icon/animation library picks, React library behaviour notes | 8 |
 
-**Total: 229 skills across 23 categories**. The per-category `DESCRIPTION.md` files regenerate from live frontmatter with `python tools/gen-skills-index.py`. This table is hand-maintained, and verify-all's doc-count gate checks it against disk.
+**Total: 237 skills across 23 categories**. The per-category `DESCRIPTION.md` files regenerate from live frontmatter with `python tools/gen-skills-index.py`. This table is hand-maintained, and verify-all's doc-count gate checks it against disk.
 
 ### Skill Catalog
 
@@ -247,7 +247,7 @@ against Claude Code 2.1.270:
 [`tools/gen-claude-plugin.py`](./tools/gen-claude-plugin.py) therefore writes an
 explicit `skills` array into [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json),
 listing each nested skill path. The Hermes-native layout is preserved, nothing is
-duplicated, and 226 skills load (`docx`, `pdf`, and `xlsx` are held back because
+duplicated, and 234 skills load (`docx`, `pdf`, and `xlsx` are held back because
 Claude Code ships first-party skills of the same name — two near-identical entries
 for one request only degrades skill selection).
 
@@ -317,7 +317,7 @@ The Python scripts in [`tools/`](./tools/) keep the repository healthy. The audi
 
 | Tool | Purpose | When to run |
 |------|---------|-------------|
-| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 229 skills: YAML frontmatter, description length, `related_skills` resolution, body sections, `skill_view()` call sync, category `DESCRIPTION.md` | Weekly job `hermes-skills-audit` ([status](#cron-job-authoring)) |
+| [`audit-skills.py`](./tools/audit-skills.py) | Validates all 237 skills: YAML frontmatter, description length, `related_skills` resolution, body sections, `skill_view()` call sync, category `DESCRIPTION.md` | Weekly job `hermes-skills-audit` ([status](#cron-job-authoring)) |
 | [`check-links.py`](./tools/check-links.py) | Verifies every relative markdown link resolves. Skips URLs, code spans and historical `profiles-export/` snapshots; exit 1 on any broken link | After doc edits |
 | [`check-router-coverage.py`](./tools/check-router-coverage.py) | Every skill in `skill-flow-router`'s declared scope is either routed or declined with a reason | Gate in verify-all |
 | [`check-skill-pointers.py`](./tools/check-skill-pointers.py) | Every `skill_view(name=...)`, `hermes skill load <category>/<name>` and `skill_manage("install", ...)` pointer in prose or cron JSON names a skill that exists at that path | Gate in verify-all |
@@ -429,9 +429,9 @@ It requires **pyyaml** (`pip install -r requirements.txt`). Without it the audit
 
 **Enforced by a gate.** `tools/audit-skills.py` and `tools/check-links.py` check these on every audit run. The threshold-gated subset (a non-zero count fails the run) is `broken_refs`, `yaml_errors`, `long_descriptions`, `duplicate_skills`, `missing_body_sections` and `temps_scripts`.
 
-- All 229 skills have valid frontmatter (`name`, `version`, `author`, `platforms`, `metadata.hermes`) and parse without errors
+- All 237 skills have valid frontmatter (`name`, `version`, `author`, `platforms`, `metadata.hermes`) and parse without errors
 - No duplicate skill names; no empty skill directories
-- All `related_skills` references resolve to existing in-repo skills — 677 cross-references across 229 skills (see [DEPENDENCY.md](./DEPENDENCY.md))
+- All `related_skills` references resolve to existing in-repo skills — 722 cross-references across 237 skills (see [DEPENDENCY.md](./DEPENDENCY.md))
 - All descriptions ≤59 chars, double-quoted YAML strings
 - Every skill has a body section (`## What This Skill Does` or an audit-recognized alternative) and standard header capitalization
 - Every multi-skill category directory has a `DESCRIPTION.md` (all 23 do)
