@@ -36,5 +36,6 @@ Creative content generation — ASCII art, hand-drawn style diagrams, and visual
 - [`stitch`](./stitch/SKILL.md) — Generate premium anti-generic DESIGN.md files for Stitch
 - [`system-atlas`](./system-atlas/SKILL.md) — Build explorable isometric architecture atlases as HTML
 - [`touchdesigner-mcp`](./touchdesigner-mcp/SKILL.md) — Control TouchDesigner via twozero MCP
+- [`ui-ux-pro-max`](./ui-ux-pro-max/SKILL.md) — Design-system generator: BM25 search over UI/UX data
 
 *Regenerated from live frontmatter — keep in sync with `tools/gen-skills-index.py`.*

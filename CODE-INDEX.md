@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **164 code files** (42,322 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **168 code files** (45,283 lines total) in this second brain — one line each, grep-friendly.
 Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -62,6 +62,13 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 ## creative/touchdesigner-mcp
 
 - `creative/touchdesigner-mcp/scripts/setup.sh` (script, bash, 115 lines) — setup.sh — Automated setup for twozero MCP plugin for TouchDesigner
+
+## creative/ui-ux-pro-max
+
+- `creative/ui-ux-pro-max/scripts/core.py` (script, python, 993 lines)
+- `creative/ui-ux-pro-max/scripts/design_system.py` (script, python, 1668 lines)
+- `creative/ui-ux-pro-max/scripts/reasoning_contract.py` (script, python, 123 lines) — Closed, non-executable grammar for design-system decision rules.
+- `creative/ui-ux-pro-max/scripts/search.py` (script, python, 177 lines)
 
 ## data-science/algorithms-python-catalog
 
@@ -312,4 +319,4 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `tools/verify-all.py` (repo tooling, python, 475 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*164 code files: 112 scripts, 7 shared helpers, 16 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*168 code files: 116 scripts, 7 shared helpers, 16 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*

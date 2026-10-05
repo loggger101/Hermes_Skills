@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **207 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **208 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -62,6 +62,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `stitch` — Generate premium anti-generic DESIGN.md files for Stitch _(creative)_
 - `system-atlas` — Build explorable isometric architecture atlases as HTML _(creative)_
 - `touchdesigner-mcp` — Control TouchDesigner via twozero MCP _(creative)_
+- `ui-ux-pro-max` — Design-system generator: BM25 search over UI/UX data _(creative)_
 
 ## data-science
 
@@ -280,4 +281,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `static-site-patterns` — Static-site perf/UX: PWA installability + Core Web Vitals _(web-development)_
 
 ---
-*207 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*208 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
