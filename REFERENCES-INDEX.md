@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **456 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **457 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -29,6 +29,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `autonomous-ai-agents/hermes-agent/references/background-systems.md` — Durable & Background Systems
 - `autonomous-ai-agents/hermes-agent/references/cli-reference.md` — Hermes CLI Reference
 - `autonomous-ai-agents/hermes-agent/references/configuration.md` — Configuration, Toolsets & Voice
+- `autonomous-ai-agents/hermes-agent/references/context-budget-and-cache-placement.md` — Prompt-cache placement rules and a route-bound context budget (usable = window - output - reserve - history) with the invalidation table run through oh-my-hermes 3.0.0's omh CLI
 - `autonomous-ai-agents/hermes-agent/references/contributor-guide.md` — Contributor Quick Reference
 - `autonomous-ai-agents/hermes-agent/references/cross-harness-skill-porting.md` — Cross-Harness Skill Porting — making one skill corpus auto-trigger on N agent runtimes
 - `autonomous-ai-agents/hermes-agent/references/delegate-task-concurrency-diagnosis.md` — delegate_task: diagnosing "my batch was capped"

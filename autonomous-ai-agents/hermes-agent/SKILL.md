@@ -118,6 +118,7 @@ Profiles use `~/.hermes/profiles/<name>/` with the same layout. When a profile i
 | "Can app X use my Nous Portal subscription/OAuth?" | `references/portal-auth-for-third-party-apps.md` |
 | **What plugins are installed / plugin inventory** | `references/installed-plugins.md` |
 | **Hindsight memory provider: install, update, pin, modes, recall config, "memory not recalling", tag leaks** | `references/hindsight-memory-provider.md` |
+| **Long sessions: prompt-cache placement rules, route-bound context budget (usable = window - output - reserve - history), `omh context budget-plan` traps** | `references/context-budget-and-cache-placement.md` |
 | Connecting a messaging platform (Telegram, Discord, Slack, WhatsApp, …) | docs: `/user-guide/messaging` |
 
 The reference list above is not the feature list — it is the set of topics that
