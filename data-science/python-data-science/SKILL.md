@@ -610,3 +610,4 @@ Before reporting results:
 - `references/gensim-notes.md` — gensim 4.4.0: no cp314 wheel (sdist needs a compiler), small Word2Vec/LDA run in a 3.11 venv (reproducibility, OOV KeyError, np.str_ results), LGPL note.
 - `references/plotly-notes.md` — plotly 7.1.0 in scripts: HTML 4.8 MB embedded vs 7.6 KB CDN, JSON size, NaN/inf become null, kaleido 1.4 static export (needs Chrome), default renderer opens a browser.
 - `references/supervision-cv-notes.md` — roboflow supervision 0.30.7 (run live on synthetic detections): Detections/NMS/zones/LineZone/annotators, OpenCV optional (NumPy fallback warning), ByteTrack deprecated (removal in 0.31), bad adapter input returns empty Detections silently.
+- `references/dask-notes.md` — dask 2026.8.0 DataFrame measured on 4M rows (pandas groupby 0.073 s vs dask 0.091 s: dask is not faster in memory), lazy semantics, head() reads one partition, meta warning, seeded sampling.
