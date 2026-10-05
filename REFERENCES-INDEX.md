@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **430 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **431 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/cron-config-authoring
@@ -341,6 +341,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## data-science/evolutionary-ml
 
 - `data-science/evolutionary-ml/references/ga-tuning-measured.md` — GA Tuning — Measured Lessons (CR-pipeline, 2026-09)
+
+## data-science/jupyter-notebook
+
+- `data-science/jupyter-notebook/references/notebook-tooling.md` — Notebook tooling run live (jupytext, nbformat, nbconvert, papermill, nbmake, nbdiff): text round-trips, validation, execution failures, parameter injection traps, tests, diffs
 
 ## data-science/optimization-modeling-pyomo
 
