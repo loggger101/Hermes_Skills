@@ -29,7 +29,7 @@ Work from conversation context. If a reference is passed (spec path, issue URL),
 
 ### 2. Explore the codebase
 
-Ticket titles should use domain glossary vocabulary and respect ADRs. Check `CONTEXT.md` or `docs/adr/` for existing terminology. Load `skill_view(name='mattpocock-domain-modeling')` if domain terms are unclear.
+Ticket titles should use domain glossary vocabulary and respect ADRs. Check `GLOSSARY.md` or `docs/adr/` for existing terminology. Load `skill_view(name='mattpocock-domain-modeling')` if domain terms are unclear.
 
 ### 3. Draft vertical slices
 
@@ -104,7 +104,7 @@ Each ticket must declare what **blocks** it (other tickets that must finish firs
 - [ ] Every ticket declares what blocks it (empty is valid only for the root ticket)
 - [ ] No ticket is sized XL (>1 day) — all are XS/M/S/L or smaller
 - [ ] Tickets are ordered by dependency (blockers first when publishing)
-- [ ] Each ticket uses domain vocabulary consistently with CONTEXT.md
+- [ ] Each ticket uses domain vocabulary consistently with GLOSSARY.md
 - [ ] All tickets together cover the full scope without gaps or overlaps
 
 ## AspireCURES Context

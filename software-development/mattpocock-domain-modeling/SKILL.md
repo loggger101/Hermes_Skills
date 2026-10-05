@@ -1,6 +1,6 @@
 ---
 name: mattpocock-domain-modeling
-description: "Sharpen domain terms and update CONTEXT.md and ADRs inline."
+description: "Sharpen domain terms; update GLOSSARY.md and ADRs inline."
 version: 1.1.0
 author: Adapted from mattpocock/skills
 license: MIT
@@ -17,13 +17,15 @@ Use when actively changing a project's domain model, not just consuming it — i
 
 ## What This Skill Does
 
-Actively builds and sharpens the project's domain model: maintains a `CONTEXT.md` glossary, writes ADRs (Architecture Decision Records) for key decisions, and stress-tests terms against edge cases throughout the session.
+Actively builds and sharpens the project's domain model: maintains a `GLOSSARY.md` glossary, writes ADRs (Architecture Decision Records) for key decisions, and stress-tests terms against edge cases throughout the session.
+
+> **Renamed upstream:** mattpocock/skills 1.3.0 renamed `CONTEXT.md` to `GLOSSARY.md` (and `CONTEXT-MAP.md` to `GLOSSARY-MAP.md`); its skills look only for the new names. In a repo that still has the old file, `git mv CONTEXT.md GLOSSARY.md`.
 
 ## File Structure
 
 ```text
 /
-├── CONTEXT.md          # Glossary — every term → definition
+├── GLOSSARY.md          # Glossary — every term → definition
 ├── docs/
 │   └── adr/
 │       ├── 0001-some-decision.md
@@ -35,7 +37,7 @@ Actively builds and sharpens the project's domain model: maintains a `CONTEXT.md
 
 ### 1. Read the existing glossary first
 
-Before introducing any term, check `CONTEXT.md`. Terms should be:
+Before introducing any term, check `GLOSSARY.md`. Terms should be:
 
 - **Precise** — one clear definition, no overlap with other terms
 - **Domain-first** — defined in the project's language, not technical jargon
@@ -43,7 +45,7 @@ Before introducing any term, check `CONTEXT.md`. Terms should be:
 
 ### 2. Add/Sharpen terms as you work
 
-`CONTEXT.md` is a **glossary** and nothing else. Each entry: `term` → `definition in domain language`.
+`GLOSSARY.md` is a **glossary** and nothing else. Each entry: `term` → `definition in domain language`.
 
 **Good entry:**
 
@@ -99,7 +101,7 @@ What becomes easier/harder. Include AspireCURES-specific impacts.
 
 ### 5. Challenge every new term against the glossary
 
-**Every new term** → check `CONTEXT.md`. Add if missing, sharpen if vague, reconcile overlaps. If you can't define it in one sentence, you don't understand it well enough yet.
+**Every new term** → check `GLOSSARY.md`. Add if missing, sharpen if vague, reconcile overlaps. If you can't define it in one sentence, you don't understand it well enough yet.
 
 ## ADR Lifecycle
 
@@ -118,10 +120,10 @@ Only write an ADR when the decision is real (affects code, tests, or data flow) 
 - **Tautological definitions** — \"A parser is something that parses\" tells you nothing
 - **Overlapping terms** — \"disease profile\" vs \"disease page\" vs \"disease entry\" — pick one and alias the rest
 - **Forgotten ADRs** — if you change a decision, update the ADR's status or write a superseding one
-- **Glossary drift** — terms used in code diverge from `CONTEXT.md` definitions
+- **Glossary drift** — terms used in code diverge from `GLOSSARY.md` definitions
 
 ## AspireCURES Context
 
 Your domain has rich terminology: \"materialization cascade\", \"disease profile\", \"gating\", \"preparer → executor\", \"Claude gatekeeper\", \"patient matching\". This skill helps you sharpen these terms and capture decisions as ADRs. Essential when adding new disease pages or refactoring the pipeline.
 
-For the cronjob preparer agent: every new data source integration should add terms to `CONTEXT.md` — e.g., \"materialization depth\", \"confidence score\", \"source priority\". For the executor agent: each disease-page rendering change that alters behavior should get an ADR documenting the before/after and why.
+For the cronjob preparer agent: every new data source integration should add terms to `GLOSSARY.md` — e.g., \"materialization depth\", \"confidence score\", \"source priority\". For the executor agent: each disease-page rendering change that alters behavior should get an ADR documenting the before/after and why.

@@ -24,7 +24,7 @@ Answers "which skill or flow fits this situation?" for this brain's whole catalo
 
 ## The main flow: idea → ship
 
-1. **Sharpen by interview** → `grilling-interview`. Start here whenever you are working in a real repo: it's stateful, retaining what it learns in CONTEXT.md and ADRs (domain terms via `mattpocock-domain-modeling`). For a plan that already exists and needs attacking rather than eliciting, run it in attack mode ("grill me") — an adversarial interview of *your* plan before any code. Unsure whether the idea is even a spike vs. a real build? `brainstorming` triages that first.
+1. **Sharpen by interview** → `grilling-interview`. Start here whenever you are working in a real repo: it's stateful, retaining what it learns in GLOSSARY.md and ADRs (domain terms via `mattpocock-domain-modeling`). For a plan that already exists and needs attacking rather than eliciting, run it in attack mode ("grill me") — an adversarial interview of *your* plan before any code. Unsure whether the idea is even a spike vs. a real build? `brainstorming` triages that first.
 2. **Branch — can every question be settled in conversation?** If one needs a runnable answer (state, business logic, UI you must see), detour through throwaway code with `spike`, bridged by `mattpocock-handoff` out and back so the original thread keeps what was learned.
 3. **Branch — multi-session build?**
    - **Yes** → `conversation-to-spec` (thread into a spec; `mattpocock-spec-driven-development` if the spec itself is the artifact you'll drive from), then `plan` to sequence it and `mattpocock-to-tickets` to split into tracer-bullet tickets with declared blocking edges; work blockers-first, each ticket self-contained so its context is disposable when done.

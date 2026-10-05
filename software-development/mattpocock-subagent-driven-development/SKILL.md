@@ -112,3 +112,7 @@ Package the whole branch (`git diff` from merge-base) to one file. Dispatch on t
 ## AspireCURES Context
 
 Your two-agent split maps closely to this: the preparer agent collects/gates/emits JSON (the "plan" in structured form), then the executor can use subagent-driven development to implement changes across the 9 disease pages independently. Each disease page = one subagent task, reviewed before merge — a natural plan-scoped workspace per weekly run keeps ledgers from contaminating each other between runs.
+
+## Related reference
+
+- `references/implement-spec-task-graph.md` - the whole-spec orchestration recipe from mattpocock/skills `implement-spec` (tickets as a task graph, frontier, one worktree per implementer, integration branch, merger subagent); source-read.

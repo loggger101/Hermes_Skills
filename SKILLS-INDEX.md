@@ -242,7 +242,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `mattpocock-ask-if-underspecified` — Ask clarifying questions when a request is ambiguous _(software-development)_
 - `mattpocock-codebase-design` — Deep modules: design seams, survey code for shallow ones _(software-development)_
 - `mattpocock-diagnosing-bugs` — Diagnose hard bugs via tight feedback loops and bisection _(software-development)_
-- `mattpocock-domain-modeling` — Sharpen domain terms and update CONTEXT.md and ADRs inline _(software-development)_
+- `mattpocock-domain-modeling` — Sharpen domain terms; update GLOSSARY.md and ADRs inline _(software-development)_
 - `mattpocock-evidence-driven` — Validate code changes with evidence and testing gates _(software-development)_
 - `mattpocock-spec-driven-development` — Spec-driven development with planning and quality gates _(software-development)_
 - `mattpocock-subagent-driven-development` — Dispatch fresh subagents per task with task review _(software-development)_

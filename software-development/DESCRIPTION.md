@@ -25,7 +25,7 @@ Development tools and coding workflows.
 - [`mattpocock-ask-if-underspecified`](./mattpocock-ask-if-underspecified/SKILL.md) — Ask clarifying questions when a request is ambiguous
 - [`mattpocock-codebase-design`](./mattpocock-codebase-design/SKILL.md) — Deep modules: design seams, survey code for shallow ones
 - [`mattpocock-diagnosing-bugs`](./mattpocock-diagnosing-bugs/SKILL.md) — Diagnose hard bugs via tight feedback loops and bisection
-- [`mattpocock-domain-modeling`](./mattpocock-domain-modeling/SKILL.md) — Sharpen domain terms and update CONTEXT.md and ADRs inline
+- [`mattpocock-domain-modeling`](./mattpocock-domain-modeling/SKILL.md) — Sharpen domain terms; update GLOSSARY.md and ADRs inline
 - [`mattpocock-evidence-driven`](./mattpocock-evidence-driven/SKILL.md) — Validate code changes with evidence and testing gates
 - [`mattpocock-spec-driven-development`](./mattpocock-spec-driven-development/SKILL.md) — Spec-driven development with planning and quality gates
 - [`mattpocock-subagent-driven-development`](./mattpocock-subagent-driven-development/SKILL.md) — Dispatch fresh subagents per task with task review

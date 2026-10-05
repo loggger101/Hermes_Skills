@@ -77,7 +77,7 @@ Capture the diff: `git diff <base>...HEAD -- > /tmp/diff.patch`. Confirm the fix
 
 ### 3. Identify the standards sources
 
-`CODING_STANDARDS.md`, `CONTRIBUTING.md`, `AGENTS.md`, `.cursorrules`, `CLAUDE.md`, etc. Panel mode also needs the decision record: `docs/adr/`, `CONTEXT.md`.
+`CODING_STANDARDS.md`, `CONTRIBUTING.md`, `AGENTS.md`, `.cursorrules`, `CLAUDE.md`, etc. Panel mode also needs the decision record: `docs/adr/`, `GLOSSARY.md`.
 
 ### 4. Run parallel sub-agents
 
@@ -148,7 +148,7 @@ changes with file:line references.
 
 # Historical context (written in round-57; the source named this reviewer without a prompt)
 Review this diff against the project's recorded decisions (docs/adr/,
-CONTEXT.md). Flag changes that contradict a decision, reintroduce an
+GLOSSARY.md). Flag changes that contradict a decision, reintroduce an
 approach that was reverted, or rename a domain term, with file:line
 references and the decision they conflict with.
 ```
