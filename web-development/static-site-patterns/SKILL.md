@@ -295,6 +295,8 @@ For icons, `references/font-awesome-7-free-notes.md` compares Font Awesome Free 
 
 For Tailwind component plugins, `references/preline-5-notes.md` covers Preline UI 5.0.0: the MIT-plus-Fair-Use licence, the non-optional peer-dependency pile (jQuery via datatables.net), and measured `HSStaticMethods.autoInit()` behaviour, including that DOM added after load is not initialised until `autoInit()` runs again.
 
+For scroll-reveal effects, `references/scrollreveal-4-notes.md` says why not to reach for ScrollReveal 4 (GPL-3.0 with a paid commercial licence, frozen since 2022, rewrites inline `transform`, ignores `prefers-reduced-motion`) and gives the native CSS `animation-timeline: view()` and `IntersectionObserver` replacements.
+
 ## UI/UX code review (beyond performance)
 
 For a full accessibility/forms/animation/copy/dark-mode audit of site markup and JS, use `references/web-interface-guidelines-ui-checklist.md` — Vercel's Web Interface Guidelines ported verbatim with the clickable `file:line` output format. It complements this skill's Core-Web-Vitals section (which covers loading/rendering) by covering interaction quality; pair both when running a site audit.
