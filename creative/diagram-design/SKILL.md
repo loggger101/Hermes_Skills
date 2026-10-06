@@ -502,14 +502,14 @@ Run before producing any diagram.
 - [ ] **No two connectors overlap, share a stroke path, or run on top of each other? Crossings use the bridge/hop primitive?**
 - [ ] **When several connectors enter or exit the same edge of a box, each has its own attach point (≥12px apart)? No connector hides another?**
 - [ ] **No connector passes behind a non-endpoint box, except the unavoidable-intervening-box case (§6 rule 5) — and in that case, the stroke is dashed and the label sits at the visible end?**
-- [ ] **No label mask overlaps a node drawn after it? (Node fill would clip the text — §6 rule 6. From a repository checkout, run `python3 <repo-root>/scripts/verify-geometry.py <file>`.)**
+- [ ] **No label mask overlaps a node drawn after it? (Node fill would clip the text — §6 rule 6. `verify-geometry.py` lives in the upstream diagram-design repository checkout, not in this skill; here, check by eye.)**
 - [ ] Every arrow label has an opaque `fill="#f5f5f5"` rect behind it?
 - [ ] Legend is a horizontal bottom strip, not floating?
 - [ ] No vertical `writing-mode` text?
 - [ ] `viewBox` expanded for the legend strip (~60px)?
 - [ ] Every font size, coord, width, height, gap divisible by 4?
 - [ ] From the installed skill directory, did `python3 scripts/self_check.py <file>` pass? (Accessible-SVG contract, single-file safety, motion basics; ships with the skill.)
-- [ ] If animated, does the complete static/no-JS frame work, does reduced motion hide/disable playback, and is the controller copied verbatim from `assets/template-motion.html`? From a repository checkout, also run `python3 <repo-root>/scripts/verify-motion.py path/to/generated.html` plus the skin linter; from an installed skill, manually check print and static-query states on top of the self-check.
+- [ ] If animated, does the complete static/no-JS frame work, does reduced motion hide/disable playback, and is the controller copied verbatim from `assets/template-motion.html`? `verify-motion.py` and the skin linter live only in the upstream diagram-design repository checkout and are not shipped here; manually check print and static-query states on top of the self-check.
 
 **Typography:**
 
