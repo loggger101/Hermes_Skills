@@ -298,8 +298,14 @@ When summarizing for the user, **always include the count of files affected**, n
 
 ## Testing the skill itself
 
-`tests/smoke.sh` exercises the helper end-to-end on POSIX (macOS/Linux/WSL/Git Bash) using **only stdlib python3** — no ast-grep binary needed. Run it after touching `scripts/ast_grep_helper.py`:
+`tests/smoke.sh` exercises the helper end-to-end on POSIX (macOS/Linux/WSL/Git Bash) using **only stdlib python3** — no ast-grep binary needed. `tests/smoke.ps1` is the Windows PowerShell twin. Run one after touching `scripts/ast_grep_helper.py`; the repo's `tools/run-skill-tests.py` runs both:
 
 ```bash
-bash tests/smoke.sh   # 11 checks: version, langs, validate exit codes, doctor, install --help, frontmatter shape
+bash tests/smoke.sh   # 15 checks: version, langs, validate exit codes, doctor, binary resolution, install --help, frontmatter shape
 ```
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File tests/smoke.ps1   # 12 checks
+```
+
+On a Windows host the bash fake `sg` cannot be spawned by native Python, so the resolution checks there assert the resolved path plus the helper's "cannot execute" error (exit 4) instead of a successful run.

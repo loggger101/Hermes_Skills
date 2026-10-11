@@ -1,12 +1,11 @@
 # CI gate for the second brain: every push and pull request runs the full
-# health check (tools/verify-all.py — every gate in its GATE_LABELS, incl. self-tests of the
-# doc-count checker, the hardcoded-secret scan, the audit's other checks,
-# the harness runner, the
-# cron threshold-key contract, and the skill-flow-router coverage gate) plus
-# the pytest suites that ship inside skills AND a dedicated job that executes
-# the standalone *_verify.py self-test harnesses against real duckdb/polars/
-# pyarrow/numpy installs (the base gate runs them too but classifies missing
-# optional deps as SKIP — this job is what actually exercises those engines).
+# health check (tools/verify-all.py — every gate in its GATE_LABELS, incl. the mutation
+# self-tests that prove each gate fails on planted defects, and the tooling's own unit
+# tests), plus every test suite that ships inside a skill (pytest, node --test, sh/ps1
+# smoke), AND a dedicated job that executes the standalone *_verify.py self-test
+# harnesses against real duckdb/polars/pyarrow/numpy/pyomo installs (the base gate runs
+# them too but classifies declared-missing optional deps as SKIP — this job runs them
+# with --strict, so there a skip is a failure).
 name: CI
 
 on:
@@ -31,8 +30,11 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install tooling deps (pyyaml is the hard dependency)
-        run: pip install "pyyaml>=6.0"
+      # pyyaml is the audit's hard dependency; pytest runs the 'tool unit tests' gate and the
+      # skill-test runner's mutation self-test. node and bash (preinstalled on ubuntu-latest)
+      # are needed by that self-test too: a missing one FAILS the gate, it never skips.
+      - name: Install tooling deps
+        run: pip install "pyyaml>=6.0" pytest
 
       # verify-all.py launches every child gate with sys.executable, so no PATH
       # games are needed; exit 1 on any failed gate fails this job.
@@ -55,10 +57,12 @@ jobs:
       - name: Install test deps
         run: pip install -r test-requirements.txt
 
-      # Discovery-based runner: finds every <skill>/tests/ dir with test files
-      # (currently docx/pdf/powerpoint/xlsx/comfyui) and runs each — so the next
-      # skill that ships a tests/ dir is in CI automatically, no YAML edit.
-      # Exit 1 on any failed suite; an empty scan is FATAL by design.
+      # Discovery-based runner: pytest suites in <skill>/tests/, node --test suites
+      # (*.test.cjs/js/mjs), and sh/ps1 smoke scripts in tests/ dirs — the next skill
+      # that ships any of these is in CI automatically, no YAML edit. node, bash and
+      # pwsh are preinstalled on ubuntu-latest. Exit 1 on any failed suite, on a suite
+      # whose every test skipped, on an orphan test file no suite runs, and on an
+      # empty scan.
       - name: Run all discovered skill test suites
         run: python tools/run-skill-tests.py
 
@@ -82,6 +86,8 @@ jobs:
 
       # Same runner verify-all uses as gate "self-test harnesses"; here the engines are
       # present, so big-data-patterns-verify.py runs end-to-end against pandas ground truth.
-      # Exit 1 on any real failure; SKIP lines stay non-fatal by contract (see --list).
+      # --strict: a SKIP from any harness marked ci_required is a FAIL here, because this
+      # job installed its deps — a skip means the install broke and the harness silently
+      # stopped running. (polars-v2-verify.py is not ci_required: it pins a 2.0 rc.)
       - name: Run every registered self-test harness
-        run: python tools/run-self-tests.py
+        run: python tools/run-self-tests.py --strict

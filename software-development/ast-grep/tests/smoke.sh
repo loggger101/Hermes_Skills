@@ -58,7 +58,8 @@ SH
 }
 
 # 1. --version
-$HELPER --version | grep -q "ast-grep-helper" || fail "--version output missing"
+# A version number, not just the program name: argparse's usage error names it too.
+$HELPER --version | grep -Eq "^ast-grep-helper [0-9]+\.[0-9]+" || fail "--version output missing"
 pass "--version"
 
 # 2. langs (must list 25)
@@ -110,17 +111,51 @@ set -e
 grep -qi 'alternation\|regex' "$OUTPUT_DIR/v5.out" || fail "validate should mention alternation"
 pass "validate detects literal | alternation"
 
-# 8. doctor (informational)
-$HELPER doctor > "$OUTPUT_DIR/doc.out" 2>&1 || true
+# 8. doctor (informational: rc 0 = binary works, rc 1 = not found with hint; a
+#    traceback or any other rc is a helper bug, never "informational")
+set +e
+$HELPER doctor > "$OUTPUT_DIR/doc.out" 2>&1
+RC=$?
+set -e
+case "$RC" in 0|1) ;; *) fail "doctor exited $RC: $(cat "$OUTPUT_DIR/doc.out")" ;; esac
+grep -q "Traceback" "$OUTPUT_DIR/doc.out" && fail "doctor crashed: $(cat "$OUTPUT_DIR/doc.out")"
 grep -q "ast-grep-helper" "$OUTPUT_DIR/doc.out" || fail "doctor missing helper version line"
-pass "doctor produces output"
+pass "doctor produces output (rc=$RC)"
+
+# The fake sg below is a bash script. On a Windows host (Git Bash / MSYS / Cygwin) the
+# native Python helper resolves it but cannot spawn it, and it reports paths in Windows
+# form. There the contract under test is: the right path is resolved AND the helper says
+# it cannot execute it (exit 4), instead of crashing. On POSIX the fake must run (exit 0).
+case "$(uname -s)" in
+  MINGW*|MSYS*|CYGWIN*) WINDOWS_HOST=1 ;;
+  *) WINDOWS_HOST=0 ;;
+esac
+native_path() {
+  if [ "$WINDOWS_HOST" = 1 ]; then cygpath -w "$1"; else printf '%s' "$1"; fi
+}
+# Usage: check_fake_doctor <outfile> <rc> <expected path> <what>
+check_fake_doctor() {
+  local out="$1" rc="$2" want="$3" what="$4"
+  grep -Fq "ast-grep binary: $want" "$out" || fail "$what was not resolved (rc=$rc): $(cat "$out")"
+  grep -q "Traceback" "$out" && fail "doctor crashed on $what: $(cat "$out")"
+  if [ "$WINDOWS_HOST" = 1 ]; then
+    [ "$rc" -eq 4 ] || fail "doctor on an unrunnable $what should exit 4, got $rc: $(cat "$out")"
+    grep -q "cannot execute ast-grep binary" "$out" || fail "doctor did not say it cannot execute $what: $(cat "$out")"
+  else
+    [ "$rc" -eq 0 ] || fail "doctor with $what should exit 0, got $rc: $(cat "$out")"
+    grep -q "version: ast-grep 0.45.0 fake" "$out" || fail "doctor did not run $what: $(cat "$out")"
+  fi
+}
 
 # Given OMO_AST_GREP_SG_PATH points at a fake executable.
 # When doctor resolves ast-grep, then it reports that exact path.
 FAKE_ENV_SG="$OUTPUT_DIR/fake-env/sg"
 fake_sg "$FAKE_ENV_SG"
+set +e
 OMO_AST_GREP_SG_PATH="$FAKE_ENV_SG" $HELPER doctor > "$OUTPUT_DIR/omo-env.out" 2>&1
-grep -Fq "ast-grep binary: $FAKE_ENV_SG" "$OUTPUT_DIR/omo-env.out" || fail "OMO_AST_GREP_SG_PATH was not preferred: $(cat "$OUTPUT_DIR/omo-env.out")"
+RC=$?
+set -e
+check_fake_doctor "$OUTPUT_DIR/omo-env.out" "$RC" "$(native_path "$FAKE_ENV_SG")" "OMO_AST_GREP_SG_PATH"
 pass "OMO_AST_GREP_SG_PATH resolves first"
 
 # Given HOME has an OMO runtime sg executable.
@@ -133,8 +168,13 @@ case "$RUNTIME_SLUG" in
 esac
 FAKE_RUNTIME_SG="$RUNTIME_HOME/.omo/runtime/ast-grep/$RUNTIME_SLUG/$RUNTIME_BIN"
 fake_sg "$FAKE_RUNTIME_SG"
-HOME="$RUNTIME_HOME" CODEX_HOME= OMO_AST_GREP_SG_PATH= $HELPER doctor > "$OUTPUT_DIR/omo-runtime.out" 2>&1
-grep -Fq "ast-grep binary: $FAKE_RUNTIME_SG" "$OUTPUT_DIR/omo-runtime.out" || fail "OMO HOME runtime was not resolved: $(cat "$OUTPUT_DIR/omo-runtime.out")"
+# Windows Python takes the home dir from USERPROFILE, not HOME; set both.
+set +e
+HOME="$RUNTIME_HOME" USERPROFILE="$(native_path "$RUNTIME_HOME")" CODEX_HOME= OMO_AST_GREP_SG_PATH= \
+  $HELPER doctor > "$OUTPUT_DIR/omo-runtime.out" 2>&1
+RC=$?
+set -e
+check_fake_doctor "$OUTPUT_DIR/omo-runtime.out" "$RC" "$(native_path "$FAKE_RUNTIME_SG")" "OMO HOME runtime"
 pass "OMO HOME runtime resolves before standalone fallback"
 
 # 9. search w/o binary => either runs successfully (binary found) OR exits 3 with hint
@@ -164,9 +204,11 @@ grep -qi 'install' "$OUTPUT_DIR/inst.out" || fail "install.sh --help missing key
 pass "install.sh syntax + --help"
 
 # 11. SKILL.md frontmatter
-python3 - <<PY
-import re, sys
-src = open("$SKILL_DIR/SKILL.md").read()
+# The path goes in as an argument, not interpolated into the script text: MSYS converts
+# /c/... argv paths for a native Windows python, but never paths inside stdin.
+python3 - "$SKILL_DIR" <<'PY' || fail "SKILL.md frontmatter shape check failed (see above)"
+import pathlib, re, sys
+src = (pathlib.Path(sys.argv[1]) / "SKILL.md").read_text(encoding="utf-8")
 assert src.startswith("---\n"), "SKILL.md must start with YAML frontmatter"
 end = src.find("\n---\n", 4)
 assert end > 0, "SKILL.md missing closing ---"

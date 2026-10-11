@@ -20,13 +20,18 @@ Usage:
     python3 hermes-agent/scripts/sync-installed-plugins.py --check    # verify drift
 
 Exit codes:
-    0 — doc matches live state (or gate was skipped — see below)
-    1 — drift detected (doc does not match live state)
-    2 — scan produced fewer plugins than the floor (treated as a scan failure)
+    0  — doc matches live state (or, without --check, the doc was written)
+    1  — drift detected (doc does not match live state)
+    2  — the live environment could not be read: Hermes is installed but its CLI
+         failed, a data source is unreadable, or the scan came back below the floor.
+         Never downgraded to a skip or to an empty doc section: a gate that cannot
+         read what it checks has not checked it.
+    77 — skipped (no local Hermes install, or the doc is another machine's
+         inventory). verify-all prints this as SKIP, never as PASS.
 
 CI / no-local-install behavior:
     When no local Hermes installation is found (no ``$HERMES_HOME`` directory
-    with a ``config.yaml``), the script prints ``skipped: …`` and exits 0.
+    with a ``config.yaml``), the script prints ``skipped: …`` and exits 77.
     This is a deliberately local-only gate — it only catches drift when run
     on a machine that actually has Hermes installed. In CI it is a no-op that
     keeps the pipeline green so the reference doc doesn't rot in the repo.
@@ -35,7 +40,7 @@ Per-machine inventory:
     Two machines share this repo, each with its own Hermes install and its
     own plugin set. The doc records the OS user of the machine that generated
     it (``Generated on machine: `Owner` ``). ``--check`` on a different
-    machine prints ``skipped: …`` and exits 0 instead of reporting permanent
+    machine prints ``skipped: …`` and exits 77 instead of reporting permanent
     drift; running without ``--check`` there adopts that machine's inventory.
     A doc with no machine line is checked as before, so it fails until it is
     regenerated.
@@ -68,6 +73,12 @@ except (AttributeError, ValueError):
     pass
 
 MIN_PLUGINS = 1  # write-guard floor — a scan returning 0 plugins is a failed scan
+SKIP_RC = 77  # same convention as tools/run-self-tests.py: skipped, not passed
+SCAN_FAILED_RC = 2
+
+
+class ScanError(Exception):
+    """A live data source exists but could not be read; the doc must not be built."""
 
 # The OS user names the machine (`Loggg`, `Owner`); the hostname stays out of a public repo.
 MACHINE = getpass.getuser()
@@ -177,52 +188,65 @@ def find_hermes_dir():
 
 
 def run_hermes_cmd(args, timeout=30):
-    """Run a hermes CLI command, return (stdout_str, ok)."""
+    """Run a hermes CLI command; return stdout or raise ScanError saying why it failed."""
+    cmd = "hermes " + " ".join(args)
     try:
         # The CLI prints UTF-8 (✓/✗ markers); the Windows default codepage
         # cannot decode it and the reader thread dies, leaving stdout empty.
         proc = subprocess.run(["hermes"] + args, capture_output=True,
                               encoding="utf-8", errors="replace", timeout=timeout)
-        if proc.returncode != 0:
-            return "", False
-        return proc.stdout, True
-    except (FileNotFoundError, subprocess.TimeoutExpired):
-        return "", False
+    except FileNotFoundError:
+        raise ScanError(f"`{cmd}`: hermes CLI not found on PATH")
+    except subprocess.TimeoutExpired:
+        raise ScanError(f"`{cmd}` timed out after {timeout}s")
+    if proc.returncode != 0:
+        detail = (proc.stderr or proc.stdout or "").strip().splitlines()
+        raise ScanError(f"`{cmd}` exited {proc.returncode}: "
+                        f"{detail[-1][:200] if detail else '(no output)'}")
+    return proc.stdout
 
 
 def get_plugins_json():
     """Return parsed output of `hermes plugins list --json --no-bundled`."""
-    stdout, ok = run_hermes_cmd(["plugins", "list", "--json", "--no-bundled"])
-    if not ok:
-        return None
+    stdout = run_hermes_cmd(["plugins", "list", "--json", "--no-bundled"])
     try:
         return json.loads(stdout)
-    except json.JSONDecodeError:
-        return None
+    except json.JSONDecodeError as e:
+        raise ScanError(f"`hermes plugins list --json` printed invalid JSON: {e}")
 
 
 def get_install_metadata(hermes_dir):
-    """Read .install-metadata.json for full source URLs and revisions."""
+    """Read .install-metadata.json for full source URLs and revisions.
+
+    An absent file is a real state (nothing installed through the installer) and gives
+    {}; a present file that cannot be read or parsed is a ScanError, because writing
+    'unknown' for every source would publish a doc that looks right and is wrong.
+    """
     path = hermes_dir / "plugins" / ".install-metadata.json"
-    if path.exists():
-        try:
-            return json.loads(path.read_text(encoding="utf-8"))
-        except (json.JSONDecodeError, OSError):
-            pass
-    return {}
+    if not path.exists():
+        return {}
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as e:
+        raise ScanError(f"{path} is unreadable: {e}")
 
 
 def get_config_enabled(hermes_dir):
-    """Read config.yaml for the plugins.enabled list."""
+    """Read config.yaml for the plugins.enabled list (ScanError if it cannot be read)."""
     path = hermes_dir / "config.yaml"
-    if not path.exists():
-        return []
     try:
         import yaml
-        cfg = yaml.safe_load(path.read_text(encoding="utf-8"))
-        return cfg.get("plugins", {}).get("enabled", [])
-    except Exception:
-        return []
+    except ModuleNotFoundError:
+        raise ScanError("pyyaml is not installed, so config.yaml cannot be read "
+                        "(pip install -r requirements.txt)")
+    try:
+        cfg = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    except (OSError, yaml.YAMLError) as e:
+        raise ScanError(f"{path} is unreadable: {e}")
+    plugins = cfg.get("plugins") or {}
+    if not isinstance(plugins, dict):
+        raise ScanError(f"{path}: `plugins` is a {type(plugins).__name__}, expected a mapping")
+    return plugins.get("enabled") or []
 
 
 def get_standalone_desktop_plugins(hermes_dir):
@@ -457,34 +481,40 @@ def generate_doc(plugins, metadata, config_enabled, tools_enabled, tools_disable
     L.append("- `python3 hermes-agent/scripts/sync-installed-plugins.py` — regenerate from live env")
     L.append("- `python3 hermes-agent/scripts/sync-installed-plugins.py --check` — verify no drift")
     L.append("- Data sources: `hermes plugins list --json`, `.install-metadata.json`, `config.yaml`, `hermes tools list`, `desktop-plugins/` dir scan")
-    L.append("- CI note: when no local Hermes installation is found, the gate skips gracefully (exit 0)")
+    L.append("- CI note: when no local Hermes installation is found, the gate skips (exit 77, shown as SKIP)")
     L.append("")
 
     return "\n".join(L) + "\n"
 
 
 def main():
+    try:
+        return _main()
+    except ScanError as e:
+        print(f"[FATAL] sync-installed-plugins: Hermes is installed but its live state "
+              f"could not be read — {e}. Nothing was checked or written.")
+        return SCAN_FAILED_RC
+
+
+def _main():
     check_mode = "--check" in sys.argv[1:]
 
     hermes_dir = find_hermes_dir()
     if hermes_dir is None:
         print("skipped: no local Hermes installation found "
               "($HERMES_HOME / $LOCALAPPDATA/hermes / ~/.hermes) — local-only gate")
-        return 0
+        return SKIP_RC
 
     if check_mode and REF_DOC.exists():
         m = MACHINE_RE.search(REF_DOC.read_text(encoding="utf-8"))
         if m and m.group(1) != MACHINE:
             print(f"skipped: {REF_DOC.name} is {m.group(1)}'s inventory, this is "
                   f"{MACHINE}'s machine — run without --check to adopt this one's")
-            return 0
+            return SKIP_RC
 
-    # 1. Plugin data from `hermes plugins list --json`
+    # 1. Plugin data from `hermes plugins list --json`. Hermes IS installed here, so a
+    #    CLI that cannot answer is a failure to check, not a reason to skip.
     plugins = get_plugins_json()
-    if plugins is None:
-        print("skipped: `hermes plugins list --json` unavailable — "
-              "hermes CLI not found on PATH")
-        return 0
     if len(plugins) < MIN_PLUGINS:
         print(f"[FATAL] sync-installed-plugins: scan produced only "
               f"{len(plugins)} plugins (floor {MIN_PLUGINS}). "
@@ -497,15 +527,13 @@ def main():
     # 3. Config-enabled plugins
     config_enabled = get_config_enabled(hermes_dir)
 
-    # 4. Tool configuration from `hermes tools list`
-    tools_stdout, ok = run_hermes_cmd(["tools", "list"])
-    if ok and tools_stdout:
-        tools_enabled, tools_disabled = parse_tools_list(tools_stdout)
-    else:
-        # Fall back: empty lists if `hermes tools list` is not parseable
-        tools_enabled, tools_disabled = [], []
-        print("WARNING: `hermes tools list` not available — "
-              "tool configuration section will be empty")
+    # 4. Tool configuration from `hermes tools list`. No fallback to empty lists: that
+    #    wrote a doc with an empty tool section (or reported misleading drift) whenever
+    #    the command hiccuped, instead of saying the command failed.
+    tools_enabled, tools_disabled = parse_tools_list(run_hermes_cmd(["tools", "list"]))
+    if not tools_enabled and not tools_disabled:
+        raise ScanError("`hermes tools list` printed no ✓/✗ toolset rows — "
+                        "its output format changed or it listed nothing")
 
     # 4b. Standalone desktop plugins (not visible via hermes CLI)
     desktop_plugins = get_standalone_desktop_plugins(hermes_dir)

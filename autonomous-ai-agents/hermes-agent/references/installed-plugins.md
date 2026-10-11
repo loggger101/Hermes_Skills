@@ -249,5 +249,5 @@ This reference is machine-generated from the live Hermes environment:
 - `python3 hermes-agent/scripts/sync-installed-plugins.py` — regenerate from live env
 - `python3 hermes-agent/scripts/sync-installed-plugins.py --check` — verify no drift
 - Data sources: `hermes plugins list --json`, `.install-metadata.json`, `config.yaml`, `hermes tools list`, `desktop-plugins/` dir scan
-- CI note: when no local Hermes installation is found, the gate skips gracefully (exit 0)
+- CI note: when no local Hermes installation is found, the gate skips (exit 77, shown as SKIP)
 

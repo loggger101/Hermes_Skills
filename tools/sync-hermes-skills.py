@@ -103,27 +103,36 @@ MAX_DELETIONS = 25
 LOCAL_MEMORIES_DIR = HERMES_HOME / "memories"
 LOCAL_PROFILES_DIR = HERMES_HOME / "profiles"
 
-# Prevent git from prompting for credentials interactively
-os.environ["GIT_TERMINAL_PROMPT"] = "0"
-# Ensure git has a user identity for commits
-subprocess.run(["git", "config", "user.name", "hermes-cronbot"], capture_output=True, timeout=5)
-subprocess.run(
-    ["git", "config", "user.email", "cronbot@hermes.local"], capture_output=True, timeout=5
-)
-subprocess.run(["git", "config", "pull.rebase", "true"], capture_output=True, timeout=5)
-# Also set in the repo itself (in case global config differs)
-subprocess.run(
-    ["git", "config", "user.name", "hermes-cronbot"], cwd=REPO_ROOT, capture_output=True, timeout=5
-)
-subprocess.run(
-    ["git", "config", "user.email", "cronbot@hermes.local"],
-    cwd=REPO_ROOT,
-    capture_output=True,
-    timeout=5,
-)
-subprocess.run(
-    ["git", "config", "pull.rebase", "true"], cwd=REPO_ROOT, capture_output=True, timeout=5
-)
+
+def configure_git():
+    """Give git a non-interactive identity for the sync's commits. Called by main() only:
+    at import time these calls rewrote git config in whatever repo the importer's cwd was
+    (a unit test importing this module would have done it)."""
+    # Prevent git from prompting for credentials interactively
+    os.environ["GIT_TERMINAL_PROMPT"] = "0"
+    # Ensure git has a user identity for commits
+    subprocess.run(["git", "config", "user.name", "hermes-cronbot"], capture_output=True, timeout=5)
+    subprocess.run(
+        ["git", "config", "user.email", "cronbot@hermes.local"], capture_output=True, timeout=5
+    )
+    subprocess.run(["git", "config", "pull.rebase", "true"], capture_output=True, timeout=5)
+    # Also set in the repo itself (in case global config differs)
+    subprocess.run(
+        ["git", "config", "user.name", "hermes-cronbot"],
+        cwd=REPO_ROOT,
+        capture_output=True,
+        timeout=5,
+    )
+    subprocess.run(
+        ["git", "config", "user.email", "cronbot@hermes.local"],
+        cwd=REPO_ROOT,
+        capture_output=True,
+        timeout=5,
+    )
+    subprocess.run(
+        ["git", "config", "pull.rebase", "true"], cwd=REPO_ROOT, capture_output=True, timeout=5
+    )
+
 
 # ── Helpers ─────────────────────────────────────────────────────
 
@@ -420,7 +429,14 @@ def git_add_commit_push(
 
 def sync_skills_pull(repo_root: Path, local_dir: Path, dry_run: bool = False, retired=()) -> dict:
     """Copy skill files from repo to local Hermes environment (never a retired skill)."""
-    result = {"action": "pull_skills", "files_copied": 0, "files_skipped": 0, "details": []}
+    result = {
+        "action": "pull_skills",
+        "success": True,
+        "files_copied": 0,
+        "files_skipped": 0,
+        "errors": [],
+        "details": [],
+    }
 
     if not local_dir.exists():
         local_dir.mkdir(parents=True, exist_ok=True)
@@ -466,12 +482,18 @@ def sync_skills_pull(repo_root: Path, local_dir: Path, dry_run: bool = False, re
             if dry_run:
                 result["files_copied"] += 1
                 result["details"].append(f"Would copy: {rel_path}")
+                result.setdefault("planned", []).append(rel_path)
                 continue
             dest_path.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(src_path, dest_path)
             result["files_copied"] += 1
             result["details"].append(f"Copied: {rel_path}")
         except Exception as e:
+            # A failed copy is a failed step: before round-256 it was only a details line,
+            # success was never set, and pull_skills was not among the steps has_errors
+            # inspected, so a run could exit 0 in silent mode with files left uncopied.
+            result["success"] = False
+            result["errors"].append(f"{rel_path}: {e}")
             result["details"].append(f"Error copying {rel_path}: {e}")
 
     return result
@@ -483,11 +505,18 @@ def sync_skills_push(
     dry_run: bool = False,
     allow_mass_delete: bool = False,
     retired=(),
+    pulled_in_dry_run=frozenset(),
 ) -> dict:
     """Copy skill files from local Hermes environment to repo.
 
     Handles new files, updated files, and deleted files (bidirectional sync). Files under a
     retired skill dir (tools/retired-skills.txt) are never copied back into the repo.
+
+    `pulled_in_dry_run`: in a dry run the PULL step copies nothing, so files it would have
+    copied repo -> local are still missing or stale locally. Read naively they look
+    "deleted locally" / "changed locally": on a machine behind the repo the dry run reported
+    302 pending deletes and tripped the safety cap, while a live run (pull first) would
+    delete none. Those paths are treated as what the live run would see: in sync.
     """
     result = {
         "action": "push_skills",
@@ -520,6 +549,11 @@ def sync_skills_push(
         # Skip the .hermes/cron/ directory in the local environment —
         # that's the cron config, not user-generated skill content
         if rel_path.startswith(".hermes/"):
+            continue
+
+        # Dry run: the pull would have overwritten this local file with the repo copy.
+        if rel_path in pulled_in_dry_run:
+            result["files_skipped"] += 1
             continue
 
         # Skip top-level files (README.md, DEPENDENCY.md, NOTES.md) —
@@ -574,6 +608,10 @@ def sync_skills_push(
             else:
                 result["files_skipped"] += 1
         except Exception as e:
+            # Fails the step (and therefore should_push): publishing a half-copied tree
+            # is exactly what the pre-push gate exists to prevent.
+            result["success"] = False
+            result.setdefault("errors", []).append(f"{rel_path}: {e}")
             result["details"].append(f"Error copying {rel_path}: {e}")
 
     # --- Delete files that were removed locally (repo -> delete) ---
@@ -597,6 +635,8 @@ def sync_skills_push(
         ):
             continue
         local_path = local_dir / rel_path
+        if rel_path in pulled_in_dry_run:
+            continue  # dry run: the pull would have created it locally
         if not local_path.exists() and repo_path.exists():
             pending_deletes.append((rel_path, repo_path))
 
@@ -636,7 +676,13 @@ def sync_skills_push(
 
 def sync_memories(repo_root: Path, local_memories_dir: Path, dry_run: bool = False) -> dict:
     """Export new/modified memory files from local to repo."""
-    result = {"action": "sync_memories", "files_synced": 0, "details": []}
+    result = {
+        "action": "sync_memories",
+        "success": True,
+        "files_synced": 0,
+        "errors": [],
+        "details": [],
+    }
 
     if not local_memories_dir.exists():
         result["details"].append("No local memories directory — skipping")
@@ -665,6 +711,8 @@ def sync_memories(repo_root: Path, local_memories_dir: Path, dry_run: bool = Fal
                 result["files_synced"] += 1
                 result["details"].append(f"Synced memory: {rel_path}")
         except Exception as e:
+            result["success"] = False
+            result["errors"].append(f"{rel_path}: {e}")
             result["details"].append(f"Error syncing memory {rel_path}: {e}")
 
     return result
@@ -678,7 +726,13 @@ def sync_profiles(repo_root: Path, local_profiles_dir: Path, dry_run: bool = Fal
     count files_synced toward publishable changes or the commit message will claim files
     that never reach git (round-34 live run caught exactly this: 'sync 10 file(s) … 8
     profiles' when only 2 memory files were actually pushed)."""
-    result = {"action": "sync_profiles", "files_synced": 0, "local_only": True, "details": []}
+    result = {
+        "action": "sync_profiles",
+        "success": True,
+        "files_synced": 0,
+        "local_only": True,
+        "details": [],
+    }
 
     if not local_profiles_dir.exists():
         result["details"].append("No local profiles directory — skipping")
@@ -932,6 +986,35 @@ def run_verify_all(repo_root: Path) -> dict:
 # ── Main ──
 
 
+GATED_ACTIONS = (
+    "pull",
+    "pull_skills",
+    "retire_local_skills",
+    "push_skills",
+    "sync_memories",
+    "sync_profiles",
+    "indexes",
+    "audit",
+    "verify_all",
+    "push",
+)
+
+
+def failed_steps(steps):
+    """Actions of every step that did not prove success (missing key = not proven)."""
+    bad = []
+    for step in steps:
+        action = step.get("action")
+        if action not in GATED_ACTIONS:
+            bad.append(f"unknown step action {action!r}")
+            continue
+        if step.get("skipped") is True:
+            continue
+        if step.get("success") is not True:
+            bad.append(action)
+    return bad
+
+
 def should_push(total_changes, audit_result, verify_result, push_scan_ok):
     """Pure decision for the pre-push gate (round-34): returns (push?, reason).
 
@@ -942,10 +1025,10 @@ def should_push(total_changes, audit_result, verify_result, push_scan_ok):
     commit was already remote."""
     if total_changes <= 0:
         return True, ""  # nothing to publish; gate is vacuously satisfied
-    audit_ok = audit_result.get("success", False) and not audit_result.get(
-        "threshold_breached", True
+    audit_ok = (
+        audit_result.get("success") is True and audit_result.get("threshold_breached") is False
     )
-    verify_ok = verify_result.get("success", False) or verify_result.get("skipped", False)
+    verify_ok = verify_result.get("success") is True or verify_result.get("skipped") is True
     if audit_ok and verify_ok and push_scan_ok:
         return True, ""
     reasons = [
@@ -973,6 +1056,7 @@ def main():
         help="Permit more than MAX_DELETIONS repo deletions in one run",
     )
     args = parser.parse_args()
+    configure_git()
 
     report = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -1011,6 +1095,9 @@ def main():
         dry_run=args.dry_run,
         allow_mass_delete=args.allow_mass_delete,
         retired=retired,
+        pulled_in_dry_run=frozenset(pull_skills.get("planned", ()))
+        if args.dry_run
+        else frozenset(),
     )
     report["steps"].append(push_skills)
 
@@ -1033,12 +1120,15 @@ def main():
         idx_result = regenerate_indexes(REPO_ROOT, dry_run=False)
         report["steps"].append(idx_result)
     elif dep_needs_regen and args.dry_run:
-        # dry-run: prove the generators would succeed without writing (their --check mode)
+        # dry-run: the generators are NOT run (nothing was copied, so there is nothing to
+        # regenerate). This used to claim success=True under a comment saying it proved the
+        # generators would succeed; it proved nothing. Say skipped, not passed.
         idx_result = {
             "action": "indexes",
-            "success": True,
+            "success": None,
+            "skipped": True,
             "updated": False,
-            "dry_run_unchanged": True,
+            "note": "dry-run: index generators not run",
         }
         report["steps"].append(idx_result)
     else:
@@ -1062,9 +1152,9 @@ def main():
     if args.dry_run:
         verify_result = {
             "action": "verify_all",
-            "success": True,
+            "success": None,
             "skipped": True,
-            "error": "dry-run",
+            "note": "dry-run: verify-all not run",
         }
     else:
         verify_result = run_verify_all(REPO_ROOT)
@@ -1095,8 +1185,8 @@ def main():
     # them rejected (or could not check at all). Without this the push happened regardless
     # and the run merely exited 1 afterwards -- too late, the commit was already remote.
     do_push, skip_reason = should_push(
-        total_changes, audit_result, verify_result, push_skills.get("success", True)
-    )  # False when the delete cap tripped
+        total_changes, audit_result, verify_result, push_skills["success"] is True
+    )  # False when the delete cap tripped or any copy failed
     if not do_push:
         commit_result = {
             "action": "push",
@@ -1145,15 +1235,17 @@ def main():
         # but NEVER pushed; keep the key distinct from anything that implies publication.
         "profiles_local_mirror_refreshed": prof_result["files_synced"],
         "total_changes_pushed": total_changes,
-        "audit_passed": audit_result.get("success", False),
-        "threshold_breached": audit_result.get("threshold_breached", False),
-        "verify_all_passed": verify_result.get("success", True)
+        "audit_passed": audit_result.get("success") is True,
+        "threshold_breached": audit_result.get("threshold_breached"),
+        "verify_all_passed": verify_result.get("success")
         if not verify_result.get("skipped")
         else None,
-        "git_pull_success": pull_result.get("success", True),
-        "git_push_success": commit_result.get("pushed", True)
-        if (commit_result and commit_result.get("action") == "push")
-        else True,
+        "git_pull_success": pull_result.get("success"),
+        # 'pushed' when a push was attempted; otherwise the push step's own verdict
+        # ('No local changes to push' is success=True). Never a default True.
+        "git_push_success": commit_result.get("pushed", commit_result.get("success"))
+        if commit_result
+        else None,
         "dep_map_updated": dep_updated,
         "empty_dirs_removed": repo_empty + local_empty,
         "local_skills_retired": retire_result["moved"],
@@ -1162,13 +1254,11 @@ def main():
     # Silent mode: only output if there are changes, errors, or threshold breach.
     # verify_all/indexes failures count as errors even at zero total_changes — a broken
     # tree must be delivered, not swallowed by the silent-when-clean contract.
-    has_errors = any(
-        not step.get("success", True)
-        for step in report["steps"]
-        if step.get("action")
-        in ("pull", "push", "push_skills", "retire_local_skills", "audit", "indexes", "verify_all")
-    )
-    has_threshold_breach = audit_result.get("threshold_breached", False)
+    # A step counts as clean only if it says success=True, or it was explicitly skipped.
+    # The old test `not step.get("success", True)` read a MISSING key as success, and
+    # pull_skills / sync_memories / sync_profiles were not in the list at all.
+    has_errors = bool(failed_steps(report["steps"]))
+    has_threshold_breach = audit_result.get("threshold_breached") is not False
 
     # A retirement moves folders in the user's local skills tree: always report it.
     if total_changes > 0 or retire_result["moved"] > 0 or has_errors or has_threshold_breach:

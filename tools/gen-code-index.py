@@ -51,8 +51,11 @@ def first_summary(path: Path, lang: str) -> str:
     """First meaningful docstring line (python) or comment line (sh/js)."""
     try:
         text = path.read_text(encoding="utf-8")
-    except Exception:
-        return ""
+    except (OSError, UnicodeDecodeError) as e:
+        # Fatal, not an empty summary: the old `except Exception: return ""` indexed an
+        # unreadable file as if it simply had no docstring.
+        print(f"[FATAL] gen-code-index: cannot read {path}: {e}", file=sys.stderr)
+        raise SystemExit(2)
     lines = text.splitlines()
 
     if lang == "python":

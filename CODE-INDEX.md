@@ -1,11 +1,11 @@
 # CODE-INDEX
 
-Flat index of all **171 code files** (45,735 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **179 code files** (47,632 lines total) in this second brain — one line each, grep-friendly.
 Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
 
-- `autonomous-ai-agents/hermes-agent/scripts/sync-installed-plugins.py` (script, python, 549 lines) — Sync the installed-plugins reference doc from the live Hermes environment
+- `autonomous-ai-agents/hermes-agent/scripts/sync-installed-plugins.py` (script, python, 577 lines) — Sync the installed-plugins reference doc from the live Hermes environment
 
 ## autonomous-ai-agents/hermes-extensions
 
@@ -255,7 +255,7 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `security/security-audit/scripts/validate-coverage-ledger.cjs` (script, javascript, 872 lines) — Validates coverage-ledger.json and its canonical coverage IDs. Usage: node validate-coverage-ledger.cjs \<path-…
 - `security/security-audit/scripts/validate-coverage-ledger.test.cjs` (script, javascript, 740 lines)
 - `security/security-audit/scripts/validate-findings.cjs` (script, javascript, 773 lines) — Validates findings.json against report-schema.json. Usage: node validate-findings.cjs \<path-to-findings.json>
-- `security/security-audit/scripts/validate-findings.test.cjs` (script, javascript, 652 lines)
+- `security/security-audit/scripts/validate-findings.test.cjs` (script, javascript, 672 lines)
 
 ## social-media/reddit-reading
 
@@ -271,8 +271,8 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 ## software-development/ast-grep
 
 - `software-development/ast-grep/install.sh` (script, bash, 286 lines) — install.sh - install the ast-grep binary on POSIX systems (macOS, Linux, WSL, Git Bash)
-- `software-development/ast-grep/scripts/ast_grep_helper.py` (script, python, 790 lines) — ast-grep-helper: a thin LLM-friendly wrapper around `sg` (ast-grep)
-- `software-development/ast-grep/tests/smoke.sh` (test, bash, 212 lines) — Smoke test for the ast-grep skill on POSIX (macOS / Linux / WSL / Git Bash)
+- `software-development/ast-grep/scripts/ast_grep_helper.py` (script, python, 796 lines) — ast-grep-helper: a thin LLM-friendly wrapper around `sg` (ast-grep)
+- `software-development/ast-grep/tests/smoke.sh` (test, bash, 254 lines) — Smoke test for the ast-grep skill on POSIX (macOS / Linux / WSL / Git Bash)
 
 ## software-development/generating-python-installer
 
@@ -307,31 +307,39 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 ## Repo-level tooling (`tools/`, `.hermes/cron/`)
 
-- `tools/_index_output.py` (shared helper, python, 76 lines) — Shared write-guard for the index generators (gen-*.py, regen-dependency-map.py)
+- `tools/_index_output.py` (shared helper, python, 81 lines) — Shared write-guard for the index generators (gen-*.py, regen-dependency-map.py)
 - `.hermes/cron/templates/repo-automation.py` (template, python, 66 lines) — Repo Automation Cronjob Template (Two-Agent Split)
 - `.hermes/cron/templates/skill-watchdog.py` (template, python, 47 lines) — Skill Watchdog Cronjob Template
+- `tools/tests/conftest.py` (test, python, 27 lines) — Shared helpers for the tooling's own unit tests (run by verify-all's 'tool unit tests' gate)
+- `tools/tests/test_index_output.py` (test, python, 63 lines) — _index_output.emit(): the write-guard and --check behind every index generator
+- `tools/tests/test_sync_hermes_skills.py` (test, python, 176 lines) — sync-hermes-skills.py: the pre-push decision and error propagation
+- `tools/tests/test_sync_installed_plugins.py` (test, python, 115 lines) — sync-installed-plugins.py: skips are exit 77, unreadable live state is exit 2
+- `tools/tests/test_verify_all.py` (test, python, 109 lines) — verify-all.py: gate verdicts (PASS / FAIL / SKIP) and the audit summariser
 - `.hermes/cron/validate-cronjobs.py` (repo tooling, python, 267 lines) — Validate cronjob JSON config files for structural correctness + cross-consistency
 - `.hermes/cron/validate-skill-refs.py` (repo tooling, python, 59 lines) — Lightweight JSON + skill-ref validator (no_agent-compatible).
 - `tools/audit-skills.py` (repo tooling, python, 552 lines)
-- `tools/check-links.py` (repo tooling, python, 150 lines) — Broken-link checker for this second brain (stdlib only)
+- `tools/check-links.py` (repo tooling, python, 207 lines) — Broken-link checker for this second brain (stdlib only)
 - `tools/check-router-coverage.py` (repo tooling, python, 150 lines) — Gate: the skill-flow-router must keep pace with the catalog it claims to map
 - `tools/check-skill-pointers.py` (repo tooling, python, 147 lines) — Check that every skill pointer written in prose names a skill that exists
 - `tools/gen-claude-plugin.py` (repo tooling, python, 172 lines) — Regenerate the Claude Code plugin manifests from live skill frontmatter
-- `tools/gen-code-index.py` (repo tooling, python, 219 lines) — Regenerate CODE-INDEX.md from live code files (flat, grep-friendly)
+- `tools/gen-code-index.py` (repo tooling, python, 222 lines) — Regenerate CODE-INDEX.md from live code files (flat, grep-friendly)
 - `tools/gen-references-index.py` (repo tooling, python, 111 lines) — Rebuild REFERENCES-INDEX.md from every skill's references/ directory
 - `tools/gen-skills-index.py` (repo tooling, python, 184 lines) — Regenerate SKILLS-INDEX.md from live skill frontmatter (flat, grep-friendly)
 - `tools/mutation-test-audit-gate.py` (repo tooling, python, 148 lines) — Mutation test for audit-skills.run_audit — the per-skill audit checks test themselves
 - `tools/mutation-test-cron-gate.py` (repo tooling, python, 116 lines) — Mutation self-test for the cron threshold-key verification (round-36)
-- `tools/mutation-test-doc-gate.py` (repo tooling, python, 424 lines) — Mutation test for verify-all.check_doc_counts — the doc-count gate tests itself
+- `tools/mutation-test-doc-gate.py` (repo tooling, python, 518 lines) — Mutation test for verify-all.check_doc_counts — the doc-count gate tests itself
+- `tools/mutation-test-drift-gates.py` (repo tooling, python, 222 lines) — Mutation self-test for the five index drift gates (`--check` of every generator)
+- `tools/mutation-test-link-gate.py` (repo tooling, python, 174 lines) — Mutation self-test for check-links.py
 - `tools/mutation-test-pointer-gate.py` (repo tooling, python, 191 lines) — Mutation self-test for check-skill-pointers.py (round-65)
 - `tools/mutation-test-router-gate.py` (repo tooling, python, 195 lines) — Mutation self-test for check-router-coverage.py (round-43)
 - `tools/mutation-test-secret-gate.py` (repo tooling, python, 160 lines) — Mutation test for audit-skills.scan_repo_for_secrets — the secret scan tests itself
-- `tools/mutation-test-selftest-gate.py` (repo tooling, python, 134 lines) — Mutation self-test for tools/run-self-tests.py (the self-test harness gate)
+- `tools/mutation-test-selftest-gate.py` (repo tooling, python, 184 lines) — Mutation self-test for tools/run-self-tests.py (the self-test harness gate)
+- `tools/mutation-test-skilltest-gate.py` (repo tooling, python, 233 lines) — Mutation self-test for run-skill-tests.py, the runner behind CI's skill-tests job
 - `tools/regen-dependency-map.py` (repo tooling, python, 140 lines) — Regenerate DEPENDENCY.md from live related_skills frontmatter (same format as repo convention).
-- `tools/run-self-tests.py` (repo tooling, python, 241 lines) — Discovery-based runner for the skill self-test harnesses (*_verify.py)
-- `tools/run-skill-tests.py` (repo tooling, python, 145 lines) — Discover and run every pytest suite that ships inside a skill, one command
-- `tools/sync-hermes-skills.py` (repo tooling, python, 1183 lines)
-- `tools/verify-all.py` (repo tooling, python, 475 lines) — Run every health gate in this repo and report one verdict
+- `tools/run-self-tests.py` (repo tooling, python, 327 lines) — Discovery-based runner for the skill self-test harnesses (*_verify.py)
+- `tools/run-skill-tests.py` (repo tooling, python, 354 lines) — Discover and run every test suite that ships inside a skill, one command
+- `tools/sync-hermes-skills.py` (repo tooling, python, 1273 lines)
+- `tools/verify-all.py` (repo tooling, python, 563 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*171 code files: 119 scripts, 7 shared helpers, 16 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*179 code files: 119 scripts, 7 shared helpers, 21 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
