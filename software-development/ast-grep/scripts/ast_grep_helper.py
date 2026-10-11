@@ -44,7 +44,8 @@ EXIT CODES
     1  Argument error
     2  Pattern hint failure (regex misuse, missing body, etc.) - call would have failed
     3  ast-grep binary not found and auto-install declined
-    4  ast-grep call failed (returned non-zero, with stderr forwarded)
+    4  ast-grep call failed (returned non-zero, with stderr forwarded, or the
+       resolved binary could not be executed at all)
     5  Timeout (5 minutes per call by default)
 """
 
@@ -414,6 +415,11 @@ def run_sg(
     except subprocess.TimeoutExpired:
         err(f"ast-grep call timed out after {timeout}s")
         sys.exit(5)
+    except OSError as e:
+        # Resolved but not runnable (a POSIX script on Windows, wrong arch, no exec bit):
+        # a failed call, not a crash. Name the path so the user can see which one won.
+        err(f"cannot execute ast-grep binary {binary}: {e}")
+        sys.exit(4)
 
 
 # ---------- subcommands ----------

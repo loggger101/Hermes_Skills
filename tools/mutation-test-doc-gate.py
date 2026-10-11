@@ -60,6 +60,16 @@ def load_gate():
     return mod
 
 
+def load_runner():
+    """Import run-skill-tests.py: the single source of what a suite is and how it counts."""
+    spec = importlib.util.spec_from_file_location(
+        "run_skill_tests", REPO / "tools" / "run-skill-tests.py"
+    )
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
 def build_fixture(tmp: Path):
     """Copy the minimal file set check_doc_counts reads into tmp, preserving relative paths."""
     for p in REPO.rglob("SKILL.md"):
@@ -88,21 +98,22 @@ def build_fixture(tmp: Path):
         shutil.copy2(plugin_json, tmp / ".claude-plugin" / "plugin.json")
 
     # claim class 6 needs live discovery inside the fixture: copy run-skill-tests.py and
-    # every pytest tests/ dir (relative paths preserved). Without these, suites_truth is
-    # None in the gate and the whole class silently skips — which would make its
-    # mutations below prove nothing.
+    # every file of every suite it discovers (pytest, node, sh, ps1; relative paths
+    # preserved). Without these the gate reports 'no suites discovered' and the class's
+    # mutations below would prove nothing.
     (tmp / "tools").mkdir(parents=True, exist_ok=True)
     shutil.copy2(REPO / "tools" / "run-skill-tests.py", tmp / "tools" / "run-skill-tests.py")
-    for tf in REPO.rglob("*.py"):
-        rel = tf.relative_to(REPO)
-        parts = list(rel.parts)
-        if len(parts) < 2 or parts[-2] != "tests":
-            continue
-        if any(x in parts for x in ("profiles-export", ".git")):
-            continue
-        d = tmp / Path(*parts[:-1])
-        d.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(tf, d / tf.name)
+    rst = load_runner()
+    for suite in rst.discover_suites(REPO):
+        files = suite.files if suite.kind != "pytest" else sorted(suite.dir.rglob("*.py"))
+        for f in files:
+            dest = tmp / f.relative_to(REPO)
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(f, dest)
+    for name in ("workflows",):
+        src = REPO / ".github" / name / "ci.yml"
+        (tmp / ".github" / name).mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, tmp / ".github" / name / "ci.yml")
 
 
 def mutate(tmp: Path, fname: str, old: str, new: str):
@@ -153,6 +164,31 @@ def live_truths():
         refdocs = int(m.group(1)) if m else None
 
     return live, xrefs, exposed, refdocs
+
+
+# Every class build_mutations() must produce. Adding a class to check_doc_counts means
+# adding its mutation AND its name here; removing a name needs a reason in the commit.
+REQUIRED_CLASSES = {
+    "plugin exposure ('skills load')",
+    "prose skill total ('all NNN skills')",
+    "bold skill total ('**Total: NNN skills')",
+    "cross-reference count (prose)",
+    "category table row",
+    "reference-docs count",
+    "pytest suite count (listed pair)",
+    "pytest suite count-word",
+    "category count ('across NNN categories')",
+    "gate count ('NNN gates')",
+    "gate count ('NN health gates')",
+    "category table missing row",
+    "category table phantom row",
+    "truth unreadable: DEPENDENCY network stats",
+    "truth unreadable: REFERENCES-INDEX header",
+    "truth unreadable: plugin.json skills key",
+    "truth unreadable: SKILLS-INDEX footer",
+    "truth unreadable: suite discovery crashes",
+    "truth unreadable: ci.yml jobs",
+}
 
 
 def build_mutations(tmp: Path):
@@ -252,20 +288,8 @@ def build_mutations(tmp: Path):
     # 7+8) pytest suite counts — README's 'Seven suites currently: comfyui N / ...' line.
     #      Truth comes from run-skill-tests.discover_suites() — the SAME imported path
     #      verify-all uses, so this test and the gate can never disagree on what a suite is.
-    spec = importlib.util.spec_from_file_location(
-        "run_skill_tests", REPO / "tools" / "run-skill-tests.py"
-    )
-    rst = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(rst)
-    suite_counts = {}
-    for label, tests_dir in rst.discover_suites(REPO):
-        n = 0
-        for tf in sorted(tests_dir.rglob("*.py")):
-            txt = tf.read_text(encoding="utf-8", errors="replace")
-            n += len(re.findall(r"^\s*def (test_\w+)", txt, re.M))
-        parts = Path(label).parts
-        if len(parts) >= 3:
-            suite_counts[parts[-2]] = n
+    rst = load_runner()
+    suite_counts = {s.key: rst.count_tests(s) for s in rst.discover_suites(REPO)}
 
     m = re.search(r"\b(\w+) suites currently:\s*([^()\n]+)", readme)
     if m and len(suite_counts):
@@ -277,18 +301,7 @@ def build_mutations(tmp: Path):
                 ("pytest suite count (listed pair)", "README.md", old, f"{name} {n + 1}")
             )
         # 8) the count-word itself ('Seven suites' vs disk truth)
-        word_to_n = {
-            "One": 1,
-            "Two": 2,
-            "Three": 3,
-            "Four": 4,
-            "Five": 5,
-            "Six": 6,
-            "Seven": 7,
-            "Eight": 8,
-            "Nine": 9,
-            "Ten": 10,
-        }
+        word_to_n = {w: i for i, w in enumerate(load_gate().NUMBER_WORDS, start=1)}
         if m.group(1) in word_to_n and word_to_n[m.group(1)] == len(suite_counts):
             wrong = (
                 {v: k for k, v in word_to_n.items()}[len(suite_counts) - 1]
@@ -340,6 +353,83 @@ def build_mutations(tmp: Path):
                 )
             )
 
+    # 11) category table, both directions (round-256): a category on disk with no row, and
+    #     a row for a category that has no skills. Before, both passed silently.
+    if rows:
+        cat, count = rows[0]
+        link = f"[{cat}/](./{cat}/)"
+        row_line = next((line for line in readme.splitlines() if link in line), None)
+        if row_line is not None:
+            mutations.append(("category table missing row", "README.md", row_line + "\n", ""))
+            phantom = row_line.replace(f"[{cat}/](./{cat}/)", "[zz-ghost/](./zz-ghost/)", 1)
+            mutations.append(
+                ("category table phantom row", "README.md", row_line, row_line + "\n" + phantom)
+            )
+
+    # 12) underivable truths (round-256): each source's anchor line reworded or its file
+    #     made unreadable must FAIL the gate. Before, each made its class return early, so
+    #     a generator rewording its own header switched that class off without a sound.
+    dep = (tmp / "DEPENDENCY.md").read_text(encoding="utf-8")
+    m = re.search(r"\*\*Network stats:\*\* \d+ `related_skills` cross-references", dep)
+    if m:
+        mutations.append(
+            (
+                "truth unreadable: DEPENDENCY network stats",
+                "DEPENDENCY.md",
+                m.group(0),
+                m.group(0).replace("Network stats", "Graph stats"),
+            )
+        )
+    ri = (tmp / "REFERENCES-INDEX.md").read_text(encoding="utf-8")
+    m = re.search(r"\*\*\d+ reference documents?\*\*", ri)
+    if m:
+        mutations.append(
+            (
+                "truth unreadable: REFERENCES-INDEX header",
+                "REFERENCES-INDEX.md",
+                m.group(0),
+                m.group(0).replace("reference doc", "reference file"),
+            )
+        )
+    pj = (tmp / ".claude-plugin" / "plugin.json").read_text(encoding="utf-8")
+    if pj.count('"skills"') == 1:
+        mutations.append(
+            (
+                "truth unreadable: plugin.json skills key",
+                ".claude-plugin/plugin.json",
+                '"skills"',
+                '"skillz"',
+            )
+        )
+    m = re.search(r"\d+ skills across \d+ categories", sk_footer)
+    if m and sk_footer.count(m.group(0)) == 1:
+        mutations.append(
+            (
+                "truth unreadable: SKILLS-INDEX footer",
+                "SKILLS-INDEX.md",
+                m.group(0),
+                m.group(0).replace("categories", "groups"),
+            )
+        )
+    mutations.append(
+        (
+            "truth unreadable: suite discovery crashes",
+            "tools/run-skill-tests.py",
+            "    root = Path(root or REPO)\n    by_key = {}\n",
+            '    raise RuntimeError("planted discovery crash")\n',
+        )
+    )
+    ci = (tmp / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+    if ci.count("\njobs:\n") == 1:
+        mutations.append(
+            (
+                "truth unreadable: ci.yml jobs",
+                ".github/workflows/ci.yml",
+                "\njobs:\n",
+                "\njobs: [\n",
+            )
+        )
+
     return live, xrefs, exposed, refdocs, mutations
 
 
@@ -352,8 +442,8 @@ def main():
         mod.REPO = tmp
 
         # The fixture must start green — otherwise the mutations prove nothing.
-        label, ok, note = mod.check_doc_counts()
-        if not ok:
+        label, verdict, note = mod.check_doc_counts()
+        if verdict != mod.PASS:
             print(f"[FAIL] baseline does not pass on the real docs: {note}")
             return 1
         print(f"baseline OK ({note})")
@@ -369,16 +459,20 @@ def main():
             )
             if v is None
         ]
-        # 10 claim classes (skills total bold+prose, xrefs, plugin exposure, ref docs,
-        # category table row, pytest suite count + count-word, category count, gate count in
-        # both its bare and qualified forms).
-        # The floor counts BUILT mutations; each class contributes at least one when its truths are
-        # present. A missing anchor means a doc's wording drifted from what this test
-        # expects — fail loudly rather than silently stop guarding that class.
-        if len(mutations) < 11:
+        # Every claim class must build its mutation, BY NAME. (The old check was a floor of
+        # 11 on the total: one class could lose its anchor while another gained a mutation,
+        # and the class would go unguarded behind an unchanged count.) A missing class
+        # means a doc's wording drifted from this test's anchor — fail loudly.
+        built = {
+            label.split(" (")[0] if label.startswith("category table row") else label
+            for label, *_ in mutations
+        }
+        missing = sorted(REQUIRED_CLASSES - built)
+        if missing:
             print(
-                f"[FAIL] only {len(mutations)}/11 mutations built — truths missing: "
-                f"{missing_truths or 'none'}; a doc's wording must have drifted from an anchor"
+                f"[FAIL] {len(missing)} claim class(es) built no mutation: {missing}; "
+                f"truths missing: {missing_truths or 'none'}. A doc's wording drifted from an "
+                "anchor in build_mutations(); update the anchor, never drop the class."
             )
             return 1
 
@@ -392,10 +486,10 @@ def main():
             orig = f.read_text(encoding="utf-8")
             try:
                 mutate(tmp, fname, old, new)
-                _, ok, note = mod.check_doc_counts()
+                _, verdict, note = mod.check_doc_counts()
             finally:
                 f.write_text(orig, encoding="utf-8")  # always restore the clean baseline
-            if ok:
+            if verdict == mod.PASS:
                 failures.append(label)
                 print(f"[FAIL] mutation NOT caught: {label}")
             else:
@@ -403,8 +497,8 @@ def main():
 
         # final sanity: after all reverts the fixture must be green again — a leak in
         # any revert would otherwise silently corrupt nothing but prove our loop is broken.
-        _, ok, note = mod.check_doc_counts()
-        if not ok:
+        _, verdict, note = mod.check_doc_counts()
+        if verdict != mod.PASS:
             print(f"[FAIL] baseline no longer passes after mutation cycle (revert leaked): {note}")
             return 1
 

@@ -42,12 +42,17 @@ def emit(path, content: str, *, count: int, floor: int, label: str, check: bool)
     """
     path = Path(path)
     if count < floor:
-        raise SystemExit(
+        # Print, then exit 2. (`raise SystemExit("message")` exits 1 -- the drift code -- so
+        # until round-256 a failed scan was indistinguishable from ordinary drift, contrary
+        # to this docstring. mutation-test-drift-gates.py now pins the 2.)
+        print(
             "[FATAL] " + label + ": scan produced only " + str(count) + " entries "
             "(floor " + str(floor) + "). Refusing to overwrite " + _shown(path) + " -- "
             "this is a failed scan, not an empty repo. Check the working directory "
-            "and that the tree is intact."
+            "and that the tree is intact.",
+            file=sys.stderr,
         )
+        raise SystemExit(2)
     if check:
         current = path.read_text(encoding="utf-8") if path.exists() else ""
         if current != content:

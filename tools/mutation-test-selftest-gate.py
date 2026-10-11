@@ -6,12 +6,19 @@ that cannot be proven to fail is worse than no gate. This one proves the runner'
 classification logic catches every failure mode that matters, using throwaway
 fixtures in a temp dir (explicit-path mode — never touches the repo tree):
 
-  M1 PASS      trivial green fixture            -> ok=True , note starts 'PASS'
-  M2 SKIP-rc77 fixture exits 77                 -> ok=True , note starts 'SKIP'
-  M3 SKIP-dep  fixture raises ModuleNotFoundErr -> ok=True , note names the module
-  M4 FAIL      fixture prints a failed check    -> ok=False, note carries rc + detail
-  M5 drift     manifest_check() with an unregistered candidate returns a problem;
-               exact match returns None (both directions asserted)
+  M1  PASS      trivial green fixture                      -> ok=True , note starts 'PASS'
+  M2a SKIP-rc77 exit 77 from an entry declared skip_rc_ok      -> ok=True , SKIP
+  M2b rc77      exit 77 from an entry NOT declared            -> ok=False (no undeclared skips)
+  M3a SKIP-dep  missing module the entry declares optional   -> ok=True , SKIP names it
+  M3b dep       missing module the entry does NOT declare    -> ok=False, names it
+                (a renamed sibling module used to SKIP green)
+  M3c SKIP-dep  missing submodule of a declared package      -> ok=True (top-level match)
+  M4  FAIL      fixture prints a failed check                -> ok=False, rc + detail
+  M5  drift     manifest_check(): exact match -> None; unregistered / vanished -> problem
+  M6  silent    rc 0 with no output at all                   -> ok=False
+  M7a strict    declared skip on a ci_required entry          -> ok=False under --strict
+  M7b strict    declared skip on a not-ci_required entry      -> still SKIP under --strict
+  M8  flags     an unknown flag (a typo'd --strict)           -> exit 2, never a normal run
 
 Exit 0 = every mutation caught. Exit 1 = the gate would have shipped blind.
 """
@@ -66,22 +73,52 @@ def main() -> int:
         label, ok, note = r.run_one(f1)
         check("M1 pass-fixture -> PASS", ok and note.startswith("PASS"), note[:120])
 
-        # M2 — exit-77 fixture classifies SKIP (pinned-env-missing convention)
+        H = r.Harness
+        skip77 = H(skip_rc_ok=True)
+
+        # M2 — exit 77 is a SKIP only for an entry declared skip_rc_ok
         f2 = write_fixture(
             tmp, "skiprc", 'import sys\nprint("SKIP - pinned env missing")\nraise SystemExit(77)\n'
         )
+        label, ok, note = r.run_one(f2, skip77)
+        check("M2a declared rc-77 -> SKIP", ok and note.startswith("SKIP"), f"ok={ok} {note[:100]}")
         label, ok, note = r.run_one(f2)
-        check(
-            "M2 rc-77 -> SKIP (not FAIL)", ok and note.startswith("SKIP"), f"ok={ok} {note[:100]}"
-        )
+        check("M2b undeclared rc-77 -> FAIL", not ok and "rc=77" in note, f"ok={ok} {note[:100]}")
 
-        # M3 — missing-import fixture classifies SKIP naming the module
-        f3 = write_fixture(tmp, "skipdep", "import this_module_definitely_does_not_exist_xyz\n")
+        # M3 — a missing module is a SKIP only when the entry declares it optional
+        missing = "this_module_definitely_does_not_exist_xyz"
+        f3 = write_fixture(tmp, "skipdep", f"import {missing}\n")
+        label, ok, note = r.run_one(f3, H({missing}))
+        check(
+            "M3a declared missing dep -> SKIP names it",
+            ok and note.startswith("SKIP") and missing in note,
+            f"ok={ok} {note[:100]}",
+        )
         label, ok, note = r.run_one(f3)
         check(
-            "M3 ModuleNotFoundError -> SKIP names dep",
-            ok and note.startswith("SKIP") and "this_module_definitely_does_not_exist_xyz" in note,
-            f"ok={ok} {note[:100]}",
+            "M3b undeclared missing module -> FAIL names it",
+            (not ok) and missing in note and "not a declared optional dep" in note,
+            f"ok={ok} {note[:120]}",
+        )
+        f3c = write_fixture(tmp, "skipsub", f"import {missing}.sub.module\n")
+        label, ok, note = r.run_one(f3c, H({missing}))
+        check(
+            "M3c declared package's submodule -> SKIP", ok and note.startswith("SKIP"), note[:100]
+        )
+
+        # M6 — exit 0 that printed nothing proves nothing
+        f6 = write_fixture(tmp, "silent", "x = 1\n")
+        label, ok, note = r.run_one(f6)
+        check(
+            "M6 silent rc-0 -> FAIL", not ok and "printed nothing" in note, f"ok={ok} {note[:100]}"
+        )
+
+        # M7 — --strict: a ci_required harness may not skip; a not-ci_required one may
+        label, ok, note = r.run_one(f3, H({missing}), strict=True)
+        check("M7a strict + ci_required skip -> FAIL", not ok and "--strict" in note, note[:100])
+        label, ok, note = r.run_one(f3, H({missing}, ci_required=False), strict=True)
+        check(
+            "M7b strict + not-ci_required skip -> SKIP", ok and note.startswith("SKIP"), note[:100]
         )
 
         # M4 — real failure classifies FAIL with rc + the failing line surfaced
@@ -118,6 +155,18 @@ def main() -> int:
         "expected a problem string",
     )
 
+    # M8 — a typo'd flag must stop the run, not silently run non-strict
+    import subprocess
+
+    proc = subprocess.run(
+        [sys.executable, str(RUNNER), "--strcit"], capture_output=True, text=True, timeout=60
+    )
+    check(
+        "M8 unknown flag -> exit 2",
+        proc.returncode == 2,
+        f"rc={proc.returncode} {proc.stdout[:100]}",
+    )
+
     print()
     if failures:
         print(
@@ -125,7 +174,8 @@ def main() -> int:
         )
         return 1
     print(
-        "ALL MUTATIONS CAUGHT — run-self-tests.py classification verified fail-loud (PASS/SKIP-77/SKIP-dep/FAIL/drift)."
+        "ALL MUTATIONS CAUGHT — run-self-tests.py classification verified fail-loud "
+        "(PASS/declared-SKIP/undeclared-FAIL/silent/strict/drift/flags)."
     )
     return 0
 

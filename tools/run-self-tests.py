@@ -13,12 +13,24 @@ closes that gap with the same discovery philosophy as run-skill-tests.py:
     <skill>/references/ dir (excluding .hermes/, docs/, profiles-export/) is a
     candidate harness;
   * each runs once with sys.executable, cwd = its own directory, and the result
-    is classified:
-        rc == 0                          -> PASS
-        rc == 77 or ModuleNotFoundError  -> SKIP (missing optional dependency —
-                                            e.g. polars/duckdb/pyomo not installed;
-                                            a dedicated CI job installs them)
+    is classified against that harness's manifest entry:
+        rc == 0 with output              -> PASS
+        rc == 0 printing nothing         -> FAIL (a harness whose checks never ran —
+                                            e.g. a lost `if __name__` block — exits 0 too)
+        ModuleNotFoundError for a module
+          the entry DECLARES optional    -> SKIP (polars/duckdb/pyomo not installed;
+                                            the dedicated CI job installs them)
+        ModuleNotFoundError for any
+          other module                   -> FAIL (a renamed sibling module or a new hard
+                                            dependency is a regression, not a skip;
+                                            before round-256 every missing module SKIPped)
+        rc == 77 from an entry declared
+          skip_rc_ok                     -> SKIP (pinned env absent, e.g. polars 2.0 rc)
+        rc == 77 from any other harness  -> FAIL
         any other non-zero               -> FAIL (a real regression, printed loud)
+  * --strict (the CI job that installs every optional dep): a SKIP from a harness
+    marked ci_required is a FAIL — there the deps are present, so a skip means the
+    install broke and the harness silently stopped running.
   * the manifest below is the single source of truth for what may auto-run:
     every discovered harness must appear in AUTO_RUN or EXCLUDED. A new verify
     script that lands unregistered makes this runner exit 1 until someone decides
@@ -33,6 +45,7 @@ throwaway fixtures, not repo harnesses).
 
 Usage:
     py tools/run-self-tests.py            # run every registered harness
+    py tools/run-self-tests.py --strict   # CI job with every optional dep installed
     py tools/run-self-tests.py --list     # print discovery + classification
 """
 
@@ -56,18 +69,43 @@ PY = sys.executable or "python3"
 CHILD_IO = dict(encoding="utf-8", errors="replace", env=dict(os.environ, PYTHONIOENCODING="utf-8"))
 TIMEOUT_S = 600  # big-data harness builds a 200k-row fixture; generous but bounded
 
+
 # --------------------------------------------------------------------------- manifest
+class Harness:
+    """How one harness may legitimately not run.
+
+    optional     top-level module names whose absence is a SKIP (anything else missing
+                 is a FAIL)
+    skip_rc_ok   the harness may exit 77 to say its pinned environment is absent
+    ci_required  under --strict (the CI job that installs selftest-requirements.txt)
+                 a SKIP is a FAIL: there the deps exist, so a skip means it stopped running
+    """
+
+    def __init__(self, optional=(), skip_rc_ok=False, ci_required=True):
+        self.optional = frozenset(optional)
+        self.skip_rc_ok = skip_rc_ok
+        self.ci_required = ci_required
+
+
+STDLIB_ONLY = Harness()  # nothing may be missing, nothing may skip
+
 # Harnesses that are self-contained (no required CLI args, no live network I/O) and
-# safe to auto-run in any environment. Missing *optional* deps classify as SKIP —
-# the dedicated CI jobs install those deps so they actually execute there.
+# safe to auto-run in any environment, each with what it may lack.
 AUTO_RUN = {
-    "data-science/algorithms-python-catalog/scripts/algorithms_verify.py",  # numpy only
-    "data-science/lunar-gis-projections/scripts/cap_grid_verify.py",  # stdlib only (lgrs-free port)
-    "devops/rest-api-client/scripts/ssrf_guard_verify.py",  # stdlib, no sockets opened
-    "web-development/web-perf-audit/scripts/perf_audit_verify.py",  # stdlib, temp-dir fixtures, no network
-    "data-science/polars-pipelines/references/big-data-patterns-verify.py",  # duckdb/polars/pyarrow -> skip without them
-    "data-science/polars-pipelines/references/polars-v2-verify.py",  # polars 2.0.x rc -> skip on stable/absent (rc 77)
-    "data-science/optimization-modeling-pyomo/scripts/pyomo_patterns_verify.py",  # pyomo+highspy -> skip without them
+    "data-science/algorithms-python-catalog/scripts/algorithms_verify.py": Harness({"numpy"}),
+    "data-science/lunar-gis-projections/scripts/cap_grid_verify.py": STDLIB_ONLY,  # lgrs-free port
+    "devops/rest-api-client/scripts/ssrf_guard_verify.py": STDLIB_ONLY,  # no sockets opened
+    "web-development/web-perf-audit/scripts/perf_audit_verify.py": STDLIB_ONLY,  # temp-dir fixtures
+    "data-science/polars-pipelines/references/big-data-patterns-verify.py": Harness(
+        {"numpy", "pandas", "duckdb", "polars", "pyarrow"}
+    ),
+    # pins polars 2.0.x rc behavior: exits 77 on stable or absent polars, CI included
+    "data-science/polars-pipelines/references/polars-v2-verify.py": Harness(
+        {"polars", "pyarrow"}, skip_rc_ok=True, ci_required=False
+    ),
+    "data-science/optimization-modeling-pyomo/scripts/pyomo_patterns_verify.py": Harness(
+        {"pyomo", "highspy"}
+    ),
 }
 
 # Discovered but deliberately NOT auto-run, each with the reason it must stay out:
@@ -105,7 +143,7 @@ def discover() -> list[str]:
 def manifest_check(candidates: list[str]) -> int | None:
     """Return a problem string, or None when discovery == manifest (no drift)."""
     unregistered = [c for c in candidates if c not in AUTO_RUN and c not in EXCLUDED]
-    stale_auto = sorted(AUTO_RUN - set(candidates))
+    stale_auto = sorted(AUTO_RUN.keys() - set(candidates))
     stale_excl = sorted(EXCLUDED.keys() - set(candidates))
     problems = []
     if unregistered:
@@ -130,8 +168,11 @@ def _label(target: Path) -> str:
         return f"{target.name}  [{target.parent.as_posix()}]"
 
 
-def run_one(target: Path) -> tuple[str, bool, str]:
-    """Run one harness; classify PASS / SKIP / FAIL. Returns (label, ok, note)."""
+def run_one(target: Path, spec=STDLIB_ONLY, strict=False) -> tuple[str, bool, str]:
+    """Run one harness; classify PASS / SKIP / FAIL against its manifest entry.
+
+    Returns (label, ok, note); note starts with PASS / SKIP / a failure reason.
+    """
     label = _label(target)
     try:
         proc = subprocess.run(
@@ -145,16 +186,44 @@ def run_one(target: Path) -> tuple[str, bool, str]:
         return label, False, f"TIMEOUT after {TIMEOUT_S}s"
     out = (proc.stdout or "") + "\n" + (proc.stderr or "")
 
+    tail = [line.strip() for line in out.splitlines() if line.strip()]
     if proc.returncode == 0:
-        tail = [line.strip() for line in out.splitlines() if line.strip()]
-        return label, True, "PASS — " + (tail[-1][:120] if tail else "(silent)")
-    missing_dep = (
-        proc.returncode == SKIP_RC
-        or re.search(r"ModuleNotFoundError: No module named '([A-Za-z_][\w.]*)'", out) is not None
-    )
-    if missing_dep:
-        m = re.search(r"No module named '([^']+)'", out)
-        return label, True, f"SKIP — optional dep missing ({m.group(1) if m else 'env'})"
+        if not tail:
+            return label, False, "rc=0 but printed nothing — its checks may never have run"
+        return label, True, "PASS — " + tail[-1][:120]
+
+    skip_note = None
+    if proc.returncode == SKIP_RC:
+        if not spec.skip_rc_ok:
+            return (
+                label,
+                False,
+                (
+                    f"rc=77 (skip) from a harness not declared skip_rc_ok — "
+                    f"{tail[-1][:120] if tail else '(no output)'}"
+                ),
+            )
+        skip_note = f"SKIP — pinned env absent: {tail[-1][:100] if tail else '(no output)'}"
+    else:
+        m = re.search(r"ModuleNotFoundError: No module named '([A-Za-z_][\w.]*)'", out)
+        if m:
+            top = m.group(1).split(".")[0]
+            if top not in spec.optional:
+                declared = ", ".join(sorted(spec.optional)) or "none"
+                return (
+                    label,
+                    False,
+                    (
+                        f"rc={proc.returncode} — missing module {m.group(1)!r} is not a declared "
+                        f"optional dep (declared: {declared}); a renamed sibling or a new hard "
+                        "dependency is a regression, not a skip"
+                    ),
+                )
+            skip_note = f"SKIP — optional dep missing ({m.group(1)})"
+    if skip_note:
+        if strict and spec.ci_required:
+            return label, False, f"--strict: {skip_note[7:]} — this job installs it, so it must run"
+        return label, True, skip_note
     # real failure: surface the failing line(s), capped so one harness can't flood CI
     bad = [
         line.strip()
@@ -172,6 +241,11 @@ def main(argv: list[str]) -> int:
     flags = [a for a in argv if a.startswith("--")]
     positions = [a for a in argv if not a.startswith("--")]
     explicit_mode = bool(positions) and "--list" not in flags
+    strict = "--strict" in flags
+    unknown = sorted(set(flags) - {"--list", "--strict"})
+    if unknown:
+        print(f"[FATAL] unknown flag(s): {', '.join(unknown)}")
+        return 2
 
     if explicit_mode:
         # literal paths (used by tools/mutation-test-selftest-gate.py on throwaway
@@ -192,12 +266,19 @@ def main(argv: list[str]) -> int:
                 f"{len(EXCLUDED)} excluded:"
             )
             for c in candidates:
-                tag = (
-                    "AUTO-RUN"
-                    if c in AUTO_RUN
-                    else ("EXCLUDE  " + EXCLUDED[c][:60] if c in EXCLUDED else "!! UNREGISTERED")
-                )
-                print(f"  {tag:<12} {c}")
+                if c in AUTO_RUN:
+                    h = AUTO_RUN[c]
+                    tag = "AUTO-RUN"
+                    extra = (
+                        f"  optional={','.join(sorted(h.optional)) or '-'}"
+                        f"{' rc77-ok' if h.skip_rc_ok else ''}"
+                        f"{'' if h.ci_required else ' not-ci-required'}"
+                    )
+                elif c in EXCLUDED:
+                    tag, extra = "EXCLUDE  " + EXCLUDED[c][:60], ""
+                else:
+                    tag, extra = "!! UNREGISTERED", ""
+                print(f"  {tag:<12} {c}{extra}")
             if drift:
                 print("\n[FATAL] manifest drift:\n  " + drift)
                 return 1
@@ -211,11 +292,16 @@ def main(argv: list[str]) -> int:
 
         targets = [REPO / c for c in auto]
 
+    if not targets:
+        print("[FATAL] nothing to run: no registered harness was discovered")
+        return 1
     results = []
     for (
         t
     ) in targets:  # both branches produce absolute Paths (discovery: REPO/c, explicit: resolved)
-        label, ok, note = run_one(Path(t))
+        rel = _label(Path(t))
+        spec = AUTO_RUN.get(rel, STDLIB_ONLY)  # explicit fixture paths get the strictest entry
+        label, ok, note = run_one(Path(t), spec, strict)
         results.append((label, ok, note))
 
     print("=== self-test harnesses ===" + ("  (explicit paths)" if explicit_mode else ""))

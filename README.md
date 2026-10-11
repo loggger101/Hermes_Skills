@@ -299,26 +299,29 @@ The Python scripts in [`tools/`](./tools/) keep the repository healthy. The audi
 
 ### Start here
 
-[`verify-all.py`](./tools/verify-all.py) runs every gate in one shot and exits 0 only when all 21 gates pass. Run it before any commit.
+[`verify-all.py`](./tools/verify-all.py) runs every gate in one shot and exits 0 only when all 25 gates pass or are declared skips. Run it before any commit.
+
+Each gate prints PASS, FAIL or SKIP. A SKIP is never reported as a pass. Only a gate declared skippable may produce one: today that is only installed-plugins, in CI or on the machine whose inventory the doc is not. When a gate skips, the summary line names it instead of saying all gates passed.
 
 | Gate group | What it covers |
 |------------|----------------|
 | Audit | Frontmatter, descriptions, `related_skills`, body sections, plus a zero-threshold hardcoded-secret scan |
-| Links | Every relative markdown link resolves |
+| Links | Every relative markdown link resolves, and every `#anchor` names a real heading |
 | Index drift | The four generated indexes, the Claude Code manifests and the per-machine installed-plugins doc |
 | Cron validators | The config validator proves every `no_agent` threshold key matches what its script emits |
 | Doc counts | README and DESCRIPTION counts match disk |
 | Self-test harnesses | Every registered `*_verify.py` runs |
 | Router coverage | `skill-flow-router` routes (or declines with a reason) every skill in its scope |
 | Skill pointers | Prose `skill_view` / `hermes skill load` / install pointers resolve |
-| Mutation self-tests | Seven gates are proven to fail on planted defects |
+| Mutation self-tests | Ten gates and the five index drift checks are proven to fail on planted defects |
+| Tool unit tests | `tools/tests/`: the sync pre-push decision and error paths, installed-plugins failures, verify-all verdicts, the index write-guard |
 
 ### Checks
 
 | Tool | Purpose | When to run |
 |------|---------|-------------|
 | [`audit-skills.py`](./tools/audit-skills.py) | Validates all 253 skills: YAML frontmatter, description length, `related_skills` resolution, body sections, `skill_view()` call sync, category `DESCRIPTION.md` | Weekly job `hermes-skills-audit` ([status](#cron-job-authoring)) |
-| [`check-links.py`](./tools/check-links.py) | Verifies every relative markdown link resolves. Skips URLs, code spans and historical `profiles-export/` snapshots; exit 1 on any broken link | After doc edits |
+| [`check-links.py`](./tools/check-links.py) | Verifies every relative markdown link resolves and every `#anchor` into a markdown file names a heading or `<a id>`. Skips URLs, code spans and historical `profiles-export/` snapshots; exit 1 on any broken link or anchor, exit 2 when the scan itself failed | After doc edits |
 | [`check-router-coverage.py`](./tools/check-router-coverage.py) | Every skill in `skill-flow-router`'s declared scope is either routed or declined with a reason | Gate in verify-all |
 | [`check-skill-pointers.py`](./tools/check-skill-pointers.py) | Every `skill_view(name=...)`, `hermes skill load <category>/<name>` and `skill_manage("install", ...)` pointer in prose or cron JSON names a skill that exists at that path | Gate in verify-all |
 | [`validate-skill-refs.py`](./.hermes/cron/validate-skill-refs.py) | Cronjob JSON skill references resolve to in-repo skill directories | Before scheduling any cronjob |
@@ -346,10 +349,17 @@ Each generator supports `--check` (compare to disk, write nothing). The four ind
 
 | Tool | Purpose | Where it runs |
 |------|---------|---------------|
-| [`run-skill-tests.py`](./tools/run-skill-tests.py) | Discovery-based pytest runner. Finds every `<skill>/tests/` suite at runtime and runs each; exit 1 on any failure, and an empty scan is FATAL | CI job `skill-tests`; manually before shipping a new suite |
-| [`run-self-tests.py`](./tools/run-self-tests.py) | Discovery-based runner for the standalone `*_verify.py` / `*-verify.py` harnesses. A registered manifest separates auto-run from excluded; a missing optional dep is a SKIP and a real regression is a FAIL | CI job `self-test-harnesses`; also a verify-all gate |
+| [`run-skill-tests.py`](./tools/run-skill-tests.py) | Discovery-based runner for every suite kind a skill ships: pytest (`<skill>/tests/`), `node --test` (`*.test.cjs/js/mjs`), and sh/ps1 smoke scripts in `tests/`. Exit 1 on any failure | CI job `skill-tests`; `--root tools` runs the tool unit tests in verify-all |
+| [`run-self-tests.py`](./tools/run-self-tests.py) | Discovery-based runner for the standalone `*_verify.py` / `*-verify.py` harnesses. A registered manifest separates auto-run from excluded, and declares each harness's optional deps | CI job `self-test-harnesses` (`--strict`); also a verify-all gate |
 
-`run-self-tests.py` exits 1 when it finds a verify script that is not yet registered, until someone decides how to handle it.
+What counts as a failure:
+
+- `run-skill-tests.py` fails a suite that exits non-zero, prints no summary, or passes zero tests because everything skipped.
+- It also fails on an orphan: a test-shaped file no suite runs, such as a `test_*.py` outside `tests/` or a `*.test.ts`. An empty scan is FATAL.
+- `run-self-tests.py` exits 1 when it finds a verify script that is not yet registered, until someone decides how to handle it.
+- It SKIPs a harness only when a module the manifest declares optional is missing, or when a harness declared `skip_rc_ok` exits 77.
+- Any other missing module is a FAIL, and so is a harness that exits 0 without printing anything.
+- `--strict` turns a skip of any `ci_required` harness into a FAIL.
 
 ### Mutation self-tests
 
@@ -357,13 +367,16 @@ A gate that cannot be proven to fail is worse than no gate. Each script below pl
 
 | Script | Defects it plants |
 |--------|-------------------|
-| [`mutation-test-selftest-gate.py`](./tools/mutation-test-selftest-gate.py) | PASS / SKIP (rc 77) / SKIP (missing dep) / FAIL classification and manifest drift in `run-self-tests.py` |
-| [`mutation-test-doc-gate.py`](./tools/mutation-test-doc-gate.py) | A wrong count |
+| [`mutation-test-selftest-gate.py`](./tools/mutation-test-selftest-gate.py) | Declared and undeclared skips (rc 77, missing module), a silent exit 0, `--strict`, a typo'd flag, FAIL classification and manifest drift in `run-self-tests.py` |
+| [`mutation-test-doc-gate.py`](./tools/mutation-test-doc-gate.py) | A wrong count in every claim class, a missing or phantom category row, and each truth source made unreadable (every class required by name) |
 | [`mutation-test-secret-gate.py`](./tools/mutation-test-secret-gate.py) | A fake credential |
 | [`mutation-test-audit-gate.py`](./tools/mutation-test-audit-gate.py) | A skill with no frontmatter |
 | [`mutation-test-cron-gate.py`](./tools/mutation-test-cron-gate.py) | A phantom threshold key |
 | [`mutation-test-router-gate.py`](./tools/mutation-test-router-gate.py) | An unrouted skill |
 | [`mutation-test-pointer-gate.py`](./tools/mutation-test-pointer-gate.py) | A dangling skill pointer |
+| [`mutation-test-skilltest-gate.py`](./tools/mutation-test-skilltest-gate.py) | Per suite kind (pytest, node, sh, ps1): a failing test, an all-skipped suite, zero tests collected, a collection error, a silent smoke script; orphan test files; an empty scan |
+| [`mutation-test-link-gate.py`](./tools/mutation-test-link-gate.py) | A missing file, a broken cross-file and same-file `#anchor`, an unreadable file, a scan below its floor |
+| [`mutation-test-drift-gates.py`](./tools/mutation-test-drift-gates.py) | A new skill, script and reference doc, each index hand-edited or deleted, and an emptied tree that must hit every generator's floor without overwriting |
 
 ### Sync and install
 
@@ -388,7 +401,7 @@ It has `--dry-run`. Always dry-run before a first live run: round 19b caught two
 One command runs everything:
 
 ```bash
-py tools/verify-all.py      # 21 gates; exit 0 = all pass
+py tools/verify-all.py      # 25 gates; exit 0 = all pass (declared skips are named)
 ```
 
 On Windows, use `py` wherever bare `python` is the Microsoft Store alias stub (it exits 49 without running anything; true on the Owner machine, not on the Loggg one). Linux and macOS: `python3`.
@@ -416,13 +429,13 @@ It requires **pyyaml** (`pip install -r requirements.txt`). Without it the audit
 
 [`.github/workflows/ci.yml`](./.github/workflows/ci.yml) makes "the repo passes its own gates" a property of the remote, not just local discipline. Every push to `main` and every PR runs three jobs:
 
-1. **Health gates** — `pip install pyyaml`, then `python tools/verify-all.py`.
-2. **Skill test suites** — [`tools/run-skill-tests.py`](./tools/run-skill-tests.py) discovers them at runtime: every `<skill>/tests/` dir with a pytest file is picked up automatically, so no workflow edit is needed when a new suite ships.
-   - Nine suites currently: comfyui 117 / docx 29 / pdf 21 / powerpoint 21 / xlsx 12 / regex-vs-llm-structured-text 14 / sqlite-queries 20 / evolutionary-ml 5 / ascii-video 5 (gate-enforced since round-33 — verify-all's doc-count check recomputes every count from the live `def test_` definitions and fails on drift; originally counted by hand 2026-09-09).
+1. **Health gates** — `pip install pyyaml pytest`, then `python tools/verify-all.py`.
+2. **Skill test suites** — [`tools/run-skill-tests.py`](./tools/run-skill-tests.py) discovers them at runtime: pytest dirs, `node --test` files and smoke scripts are picked up automatically, so no workflow edit is needed when a new suite ships.
+   - Twelve suites currently: comfyui 117 / docx 29 / pdf 21 / powerpoint 21 / xlsx 12 / regex-vs-llm-structured-text 14 / sqlite-queries 20 / evolutionary-ml 5 / ascii-video 5 / security-audit:node 65 / ast-grep:sh 16 / ast-grep:ps1 13 (gate-enforced since round-33 — verify-all's doc-count check recomputes every count with `run-skill-tests.count_tests()`: `def test_` definitions, `node --test` call sites, smoke `pass` call sites; it fails on drift. Originally counted by hand 2026-09-09).
    - The sqlite suite is stdlib-only and its four `sqlite3`-CLI tests skip on hosts without the binary, so it adds zero new dependencies.
    - Test deps for the library-backed suites come from [`test-requirements.txt`](./test-requirements.txt), a single source of truth created by running all suites in a clean venv until green (verified 2026-09-09: all pass, pure wheels only, no poppler binary needed because `pypdfium2` covers rasterization). When you add test dependencies to any skill's suite, update that file too.
-3. **Self-test harnesses** — runs [`tools/run-self-tests.py`](./tools/run-self-tests.py) against a real install of duckdb/polars/pyarrow/numpy/pyomo/highspy (deps from [`selftest-requirements.txt`](./selftest-requirements.txt)).
-   - The standalone `*_verify.py` harnesses re-execute documented engine behavior against concrete cases. Here they actually run on Linux instead of classifying as SKIP.
+3. **Self-test harnesses** — runs [`tools/run-self-tests.py`](./tools/run-self-tests.py) `--strict` against a real install of duckdb/polars/pyarrow/numpy/pyomo/highspy (deps from [`selftest-requirements.txt`](./selftest-requirements.txt)).
+   - The standalone `*_verify.py` harnesses re-execute documented engine behavior against concrete cases. Here they actually run on Linux, and a `ci_required` harness that skips anyway fails the job.
    - An upstream API change therefore breaks CI loudly rather than quietly rotting a reference doc.
 
 ### Live Invariants

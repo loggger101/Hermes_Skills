@@ -82,27 +82,57 @@ GATE_LABELS = [
     "cron gate self-test",  # mutation-test-cron-gate.py — phantom threshold keys caught
     "router gate self-test",  # mutation-test-router-gate.py — proves all 5 coverage classes fail loud
     "pointer gate self-test",  # mutation-test-pointer-gate.py — one planted defect per pointer form
+    "skill-test runner self-test",  # mutation-test-skilltest-gate.py — every suite verdict proven
+    "link gate self-test",  # mutation-test-link-gate.py — broken path/anchor, unreadable, floor
+    "drift gate self-test",  # mutation-test-drift-gates.py — each index --check reports planted drift
+    "tool unit tests",  # tools/tests via run-skill-tests.py --root tools
 ]
 
 
-def run(label, args, cwd=REPO):
-    """Run a child tool; return (label, ok, first meaningful output line)."""
+# A gate reports one of three verdicts. SKIP is not a pass: it is printed as SKIP, named in
+# the summary line, and only gates declared skippable may produce it (child exit 77, the
+# repo-wide convention). Before round-256 the installed-plugins gate skipped with exit 0
+# and the table said PASS, the same word it used for a gate that had checked something.
+PASS, FAIL, SKIP = "PASS", "FAIL", "SKIP"
+SKIP_RC = 77
+NUMBER_WORDS = (
+    "One Two Three Four Five Six Seven Eight Nine Ten Eleven Twelve Thirteen Fourteen "
+    "Fifteen Sixteen Seventeen Eighteen Nineteen Twenty"
+).split()
+
+
+def run(label, args, cwd=REPO, may_skip=False, timeout=300):
+    """Run a child tool; return (label, verdict, first meaningful output line)."""
     try:
         proc = subprocess.run(
-            [PY] + args, cwd=str(cwd), capture_output=True, timeout=300, **CHILD_IO
+            [PY] + args, cwd=str(cwd), capture_output=True, timeout=timeout, **CHILD_IO
         )
-    except Exception as e:
-        return label, False, str(e)[:200]
+    except subprocess.TimeoutExpired:
+        return label, FAIL, f"TIMEOUT after {timeout}s"
+    except OSError as e:
+        return label, FAIL, f"could not start: {e}"[:200]
     out = (proc.stdout or "") + (proc.stderr or "")
     tail = [ln for ln in out.splitlines() if ln.strip()]
+    # A failing gate is summarised by its first FATAL/DRIFT/... line; a passing one by its
+    # last line (its verdict). Mutation tests print '[OK] ... is FATAL' for each caught
+    # defect, which the keyword search would otherwise show as a passing gate's note.
     note = ""
-    for ln in tail:
-        if any(k in ln for k in ("FATAL", "DRIFT", "BROKEN", "ERROR", "Errors:")):
-            note = ln.strip()
-            break
+    if proc.returncode != 0:
+        for ln in tail:
+            if any(k in ln for k in ("FATAL", "DRIFT", "BROKEN", "ERROR", "Errors:")):
+                note = ln.strip()
+                break
     if not note and tail:
         note = tail[-1].strip()
-    return label, proc.returncode == 0, note[:160]
+    if not tail:
+        note = "(no output)"
+    if proc.returncode == 0:
+        return label, PASS, note[:160]
+    if proc.returncode == SKIP_RC:
+        if may_skip:
+            return label, SKIP, note[:160]
+        return label, FAIL, f"exit 77 (skip) from a gate that may not skip: {note}"[:160]
+    return label, FAIL, f"exit {proc.returncode}: {note}"[:160]
 
 
 def run_audit_gate():
@@ -116,17 +146,22 @@ def run_audit_gate():
             timeout=300,
             **CHILD_IO,
         )
-    except Exception as e:
-        return label, False, str(e)[:200]
+    except (subprocess.TimeoutExpired, OSError) as e:
+        return label, FAIL, str(e)[:200]
     try:
         data = json.loads(proc.stdout)
-    except json.JSONDecodeError:
+        note = f"{data['skill_count']} skills, breached={data['threshold_breached']}"
+        breached = data["threshold_breached"]
+    except (json.JSONDecodeError, KeyError, TypeError) as e:
         first = (proc.stdout + proc.stderr).strip().splitlines()
-        return label, False, (first[0] if first else "no output")[:160]
-    note = f"{data['skill_count']} skills, breached={data['threshold_breached']}"
+        return (
+            label,
+            FAIL,
+            f"unreadable report ({type(e).__name__}): {first[0] if first else 'no output'}"[:160],
+        )
     if data.get("breaches"):
         note += " | " + "; ".join(data["breaches"])
-    return label, proc.returncode == 0 and not data["threshold_breached"], note[:160]
+    return label, PASS if proc.returncode == 0 and not breached else FAIL, note[:160]
 
 
 def check_doc_counts():
@@ -164,32 +199,52 @@ def check_doc_counts():
     ]
     live = len(skills)
 
-    # truths from the machine-generated files (each already drift-gated upstream of here)
-    xrefs, exposed, refdocs = None, None, None
-    dep = REPO / "DEPENDENCY.md"
-    if dep.exists():
-        m = re.search(
-            r"\*\*Network stats:\*\* (\d+) `related_skills` cross-references",
-            dep.read_text(encoding="utf-8"),
-        )
-        xrefs = int(m.group(1)) if m else None
-    plugin_json = REPO / ".claude-plugin" / "plugin.json"
-    if plugin_json.exists():
-        try:
-            exposed = len(json.loads(plugin_json.read_text(encoding="utf-8")).get("skills", []))
-        except (json.JSONDecodeError, OSError):
-            pass
-    refs_index = REPO / "REFERENCES-INDEX.md"
-    if refs_index.exists():
-        m = re.search(r"\*\*(\d+) reference documents?\*\*", refs_index.read_text(encoding="utf-8"))
-        refdocs = int(m.group(1)) if m else None
+    # Truths from the machine-generated files (each drift-gated upstream of here). A truth
+    # that cannot be derived is itself a problem: until round-256 a missing file or a
+    # changed header made its whole claim class return early, so a generator rewording
+    # its own header silently switched this gate off for that class.
+    problems = []
 
-    # 6) pytest suite counts — truth = live discovery (imported, not reimplemented).
+    def truth_regex(path, pattern, what):
+        if not path.exists():
+            problems.append(f"{path.name} missing: {what} claims cannot be checked")
+            return None
+        m = re.search(pattern, path.read_text(encoding="utf-8"))
+        if not m:
+            problems.append(
+                f"{path.name}: no line matches {pattern!r} — its format changed, so "
+                f"{what} claims cannot be checked"
+            )
+            return None
+        return int(m.group(1))
+
+    xrefs = truth_regex(
+        REPO / "DEPENDENCY.md",
+        r"\*\*Network stats:\*\* (\d+) `related_skills` cross-references",
+        "cross-reference",
+    )
+    refdocs = truth_regex(
+        REPO / "REFERENCES-INDEX.md", r"\*\*(\d+) reference documents?\*\*", "reference-doc"
+    )
+    exposed = None
+    plugin_json = REPO / ".claude-plugin" / "plugin.json"
+    try:
+        skills_list = json.loads(plugin_json.read_text(encoding="utf-8"))["skills"]
+        if not isinstance(skills_list, list):
+            raise TypeError(f"`skills` is a {type(skills_list).__name__}")
+        exposed = len(skills_list)
+    except (OSError, json.JSONDecodeError, KeyError, TypeError) as e:
+        problems.append(
+            f".claude-plugin/plugin.json unreadable ({type(e).__name__}: {e}) — "
+            "plugin-exposure claims cannot be checked"
+        )
+
+    # 6) test suite counts — truth = live discovery (imported, not reimplemented).
     #    run-skill-tests.py is loaded from the CURRENT REPO global so the mutation
-    #    self-test's fixture tree works; counting `def test_*` per suite matches how
-    #    a human reads "comfyui 117 / docx 29". Parametrize-expanded cases are NOT
-    #    counted (documented limitation in the module docstring) — if a suite gains
-    #    them, this fails loudly and forces a conscious README update.
+    #    self-test's fixture tree works, and its own count_tests() does the counting, so
+    #    the README line, CI's suite set and this gate can never disagree. Static counts
+    #    (`def test_*`, `test(`, smoke `pass` call sites), not runtime cases — documented
+    #    in count_tests(). A discovery crash or an empty result is a problem, not a skip.
     suites_truth = None
     try:
         spec = importlib.util.spec_from_file_location(
@@ -198,23 +253,24 @@ def check_doc_counts():
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
         counts = {}
-        for label, tests_dir in mod.discover_suites(REPO):
-            n = 0
-            for tf in sorted(tests_dir.rglob("*.py")):
-                txt = tf.read_text(encoding="utf-8", errors="replace")
-                n += len(re.findall(r"^\s*def (test_\w+)", txt, re.M))
-            counts[label] = n
-        suites_truth = counts if counts else None
-    except Exception:  # discovery is a convenience truth; absence -> skip the class
-        pass
-
-    problems = []
+        for suite in mod.discover_suites(REPO):
+            if suite.key in counts:
+                problems.append(f"two test suites share the README key {suite.key!r}")
+            counts[suite.key] = (suite.label, mod.count_tests(suite))
+        if counts:
+            suites_truth = counts
+        else:
+            problems.append("run-skill-tests discovered no suites: suite counts cannot be checked")
+    except Exception as e:  # noqa: BLE001 — any crash here means the class went unchecked
+        problems.append(
+            f"suite discovery crashed ({type(e).__name__}: {e}): suite counts unchecked"
+        )
     for name in ("README.md", "DESCRIPTION.md"):
         text = (REPO / name).read_text(encoding="utf-8")
 
         def check(pattern, truth, label):
             if truth is None:
-                return  # source file missing — its own drift gate already failed or will
+                return  # already reported above as an underivable truth
             for m in re.finditer(pattern, text):
                 val = int(m.group(1))
                 if val != truth:
@@ -252,22 +308,39 @@ def check_doc_counts():
         check(r"all (\d{2,4}) reference docs?\b", refdocs, "reference docs")
 
     # 5) README summary-table category rows: '| [cat/](./cat/) | ... | NN |'
+    #    Both directions: every row matches disk, and every category on disk has a row.
+    #    (Before round-256 a category added without a row, or a row whose skills were
+    #    all removed, passed: only rows that existed AND had skills were compared.)
     readme = REPO / "README.md"
     if readme.exists():
+        # count by TOP-LEVEL dir (nested skills like mlops/inference/x belong to mlops)
+        on_disk = {}
+        for p in skills:
+            top = p.relative_to(REPO).parts[0]
+            on_disk[top] = on_disk.get(top, 0) + 1
+        rows = {}
         for m in re.finditer(
             r"\|\s*\[([a-z0-9_-]+)/\]\(\./[a-z0-9_-]+/\)\s*\|[^\n|]*\|\s*(\d+)\s*\|",
             readme.read_text(encoding="utf-8"),
         ):
             cat, claimed = m.group(1), int(m.group(2))
-            # count by TOP-LEVEL dir (nested skills like mlops/inference/x belong to mlops)
-            actual = sum(1 for p in skills if p.relative_to(REPO).parts[0] == cat)
-            # a category may legitimately hold 0 SKILL.md (stub dir); only flag real drift
-            if actual and claimed != actual:
+            if cat in rows:
+                problems.append(f"README table lists {cat}/ twice")
+            rows[cat] = claimed
+            actual = on_disk.get(cat, 0)
+            if claimed != actual:
                 problems.append(f"README table: {cat}/ claims {claimed} skills, disk has {actual}")
+        if not rows:
+            problems.append("README category table not found (row format changed?)")
+        for cat in sorted(set(on_disk) - set(rows)):
+            problems.append(f"README table has no row for {cat}/ ({on_disk[cat]} skills on disk)")
 
-    # 6) pytest suite counts — README's 'Seven suites currently: comfyui 117 / ...' line.
+    # 6) test suite counts — README's 'Twelve suites currently: comfyui 117 / ...' line.
     #    Parsed from the segment between 'suites currently:' and the first '(' so the
     #    trailing '(counted YYYY-MM-DD; ...)' annotation can never be mistaken for a pair.
+    #    Keys are run-skill-tests' Suite.key: the skill dir for pytest suites, '<skill>:<kind>'
+    #    for node/sh/ps1 suites. (The old parts[-2] keying silently dropped any suite whose
+    #    label had fewer than three path parts from the per-name comparison.)
     if readme.exists() and suites_truth:
         text = readme.read_text(encoding="utf-8")
         m = re.search(r"\b(\w+) suites currently:\s*([^()\n]+)", text)
@@ -275,24 +348,13 @@ def check_doc_counts():
         if not m:
             problems.append(
                 "README: 'NNN suites currently:' list missing while "
-                f"{len(suites_truth)} pytest suite(s) are on disk"
+                f"{len(suites_truth)} test suite(s) are on disk"
             )
         else:
-            # the count-word itself is a claim too ('Seven' must stay in sync with
+            # the count-word itself is a claim too ('Twelve' must stay in sync with
             # both the listed pairs and discovery — round-33 found all three correct,
             # but none of them was guarded before this gate existed).
-            word_to_n = {
-                "One": 1,
-                "Two": 2,
-                "Three": 3,
-                "Four": 4,
-                "Five": 5,
-                "Six": 6,
-                "Seven": 7,
-                "Eight": 8,
-                "Nine": 9,
-                "Ten": 10,
-            }
+            word_to_n = {w: i for i, w in enumerate(NUMBER_WORDS, start=1)}
             if m.group(1) not in word_to_n:
                 problems.append(
                     f"README suite list: count-word {m.group(1)!r} is not a "
@@ -308,42 +370,33 @@ def check_doc_counts():
                 if not pm:
                     problems.append(f"README suite list: unparseable token {tok!r}")
                     continue
+                if pm.group(1) in listed:
+                    problems.append(f"README suite list names {pm.group(1)!r} twice")
                 listed[pm.group(1)] = int(pm.group(2))
 
-            # truth keyed by skill dir name (discovery labels are <cat>/<skill>/tests)
-            truth_by_skill = {}
-            for label, n in suites_truth.items():
-                parts = Path(label).parts
-                if len(parts) >= 3:
-                    truth_by_skill[parts[-2]] = (label, n)
-
             for name, claimed in listed.items():
-                t = truth_by_skill.get(name)
+                t = suites_truth.get(name)
                 if t is None:
                     problems.append(
-                        f"README suite list names '{name}' but no such pytest suite exists on disk"
+                        f"README suite list names '{name}' but no such test suite exists on disk"
                     )
                 elif claimed != t[1]:
                     problems.append(
                         f"README suite list: {name} claims {claimed} tests, "
                         f"disk has {t[1]} ({t[0]})"
                     )
-            for name in truth_by_skill:
+            for name, (label, n) in suites_truth.items():
                 if name not in listed:
-                    label, n = truth_by_skill[name]
-                    problems.append(f"README suite list omits live suite {label} ({n} tests)")
+                    problems.append(
+                        f"README suite list omits live suite {label} as '{name}' ({n} tests)"
+                    )
 
     # 7) category counts — 'NNN categories' prose claims. Truth = SKILLS-INDEX.md's own
     #    footer ('*N skills across M categories.*'), the same line its drift gate keeps
     #    fresh, so this can never disagree with gen-skills-index.py's enumeration.
-    sk_index = REPO / "SKILLS-INDEX.md"
-    if sk_index.exists():
-        m = re.search(
-            r"\*\s*(?:\d+) skills across (\d+) categories\b", sk_index.read_text(encoding="utf-8")
-        )
-        cats_truth = int(m.group(1)) if m else None
-    else:
-        cats_truth = None
+    cats_truth = truth_regex(
+        REPO / "SKILLS-INDEX.md", r"\*\s*(?:\d+) skills across (\d+) categories\b", "category-count"
+    )
     if cats_truth is not None:
         for name in ("README.md", "DESCRIPTION.md"):
             f = REPO / name
@@ -372,23 +425,28 @@ def check_doc_counts():
     # 9) CI job counts — 'three jobs' prose vs the actual jobs in ci.yml.
     ci = REPO / ".github" / "workflows" / "ci.yml"
     if ci.exists():
+        n_jobs = None
         try:
             import yaml as _yaml
 
-            n_jobs = len(_yaml.safe_load(ci.read_text(encoding="utf-8")).get("jobs", {}))
-        except Exception:
-            n_jobs = None  # unreadable YAML — the CI itself would fail; don't double-report here
+            n_jobs = len(_yaml.safe_load(ci.read_text(encoding="utf-8")).get("jobs") or {})
+        except Exception as e:  # noqa: BLE001 — unreadable means the class is unchecked
+            problems.append(f"ci.yml unreadable ({type(e).__name__}: {e}): CI job claims unchecked")
+        if n_jobs == 0:
+            problems.append("ci.yml defines no jobs: CI job claims cannot be checked")
         if n_jobs:
-            word_to_n = {"two": 2, "three": 3, "four": 4}
+            word_to_n = {w.lower(): i for i, w in enumerate(NUMBER_WORDS, start=1)}
             for name in ("README.md", "DESCRIPTION.md"):
                 text = (REPO / name).read_text(encoding="utf-8")
-                for m in re.finditer(r"\b(two|three|four) jobs\b", text):
+                for m in re.finditer(r"\b(" + "|".join(word_to_n) + r") jobs\b", text):
                     if word_to_n[m.group(1)] != n_jobs:
                         problems.append(
                             f"{name}: claims {m.group(1)} CI jobs, ci.yml defines {n_jobs}"
                         )
 
-    return ("doc counts", not problems, "; ".join(problems)[:160] or f"{live} skills, counts agree")
+    if problems:
+        return "doc counts", FAIL, "; ".join(problems)[:300]
+    return "doc counts", PASS, f"{live} skills, counts agree"
 
 
 def main():
@@ -406,11 +464,13 @@ def main():
         run("cron: configs", [".hermes/cron/validate-cronjobs.py"]),
         run("cron: skill refs", [".hermes/cron/validate-skill-refs.py"]),
         # Local-only gate: verifies references/installed-plugins.md matches the
-        # live Hermes plugin registry. Skips gracefully (exit 0) in CI where no
-        # local Hermes install exists — the doc is committed to the repo for human review.
+        # live Hermes plugin registry. The one gate allowed to SKIP (exit 77): in CI there
+        # is no Hermes install, and on the other machine the doc is not its inventory. A
+        # Hermes install whose CLI cannot answer is a FAIL, never a skip.
         run(
             "drift: installed-plugins",
             ["autonomous-ai-agents/hermes-agent/scripts/sync-installed-plugins.py", "--check"],
+            may_skip=True,
         ),
         check_doc_counts(),
         # The router is the brain's discovery entry point, and until round-43 nothing
@@ -451,22 +511,50 @@ def main():
         # name as skill, wrong category, missing path, missing install, JSON-escaped), plus
         # placeholders, archive files and a clean control that must stay clean.
         run("pointer gate self-test", ["tools/mutation-test-pointer-gate.py"]),
+        # The skill-test runner (CI's skill-tests job) tests itself: pass/fail/all-skipped/
+        # zero-collected/collection-error per suite kind (pytest, node, sh, ps1), orphan test
+        # files and an empty scan. Round-256 found it blind to node and shell suites.
+        run("skill-test runner self-test", ["tools/mutation-test-skilltest-gate.py"], timeout=600),
+        # The link checker tests itself: a broken path, a broken #anchor, an unreadable file,
+        # links inside code that must be ignored, and a scan below its floor.
+        run("link gate self-test", ["tools/mutation-test-link-gate.py"]),
+        # The five index drift gates test themselves: a temp copy of the tree gets one planted
+        # change per index and each --check must report DRIFT; an emptied tree must hit the floor.
+        run("drift gate self-test", ["tools/mutation-test-drift-gates.py"], timeout=600),
+        # Unit tests for the tooling itself (tools/tests/): the sync pre-push decision and
+        # its error propagation, the installed-plugins failure paths, verify-all's verdicts
+        # and the index write-guard. Run by the same proven runner as the skill suites.
+        run("tool unit tests", ["tools/run-skill-tests.py", "--root", "tools"]),
     ]
     assert [r[0] for r in results] == GATE_LABELS, (
         "verify-all's result labels diverged from GATE_LABELS — the doc-count gate counts "
         f"against that list: {[r[0] for r in results]}"
     )
 
+    bad = [r for r in results if r[1] not in (PASS, FAIL, SKIP)]
+    assert not bad, f"gate returned an unknown verdict: {bad}"
+
     width = max(len(r[0]) for r in results)
     print("\n=== verify-all ===")
-    for label, ok, note in results:
-        print(f"  {'PASS' if ok else 'FAIL'}  {label.ljust(width)}  {note}")
+    for label, verdict, note in results:
+        print(f"  {verdict}  {label.ljust(width)}  {note}")
 
-    failed = [r[0] for r in results if not r[1]]
+    failed = [r[0] for r in results if r[1] == FAIL]
+    skipped = [r[0] for r in results if r[1] == SKIP]
     print()
     if failed:
         print(f"FAILED ({len(failed)}/{len(results)}): {', '.join(failed)}")
+        if skipped:
+            print(f"also SKIPPED (not checked): {', '.join(skipped)}")
         return 1
+    if skipped:
+        # Exit 0: every skip here is a declared, explained one (may_skip=True). But the line
+        # never says 'ALL GATES PASSED' while something went unchecked.
+        print(
+            f"{len(results) - len(skipped)}/{len(results)} GATES PASSED, "
+            f"{len(skipped)} SKIPPED (not checked here): {', '.join(skipped)}"
+        )
+        return 0
     print(f"ALL {len(results)} GATES PASSED")
     return 0
 

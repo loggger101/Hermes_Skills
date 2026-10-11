@@ -7,19 +7,36 @@ $SkillDir  = Split-Path -Parent $ScriptDir
 $Helper    = Join-Path $SkillDir 'scripts/ast_grep_helper.py'
 $Python    = if (Get-Command py -ErrorAction SilentlyContinue) { 'py' } else { 'python' }
 
-$Output = Join-Path $env:TEMP ("ast-grep-skill-smoke-" + [guid]::NewGuid().ToString('N').Substring(0,8))
+# GetTempPath, not $env:TEMP: CI runs this under pwsh on Linux, where TEMP is unset.
+$Output = Join-Path ([System.IO.Path]::GetTempPath()) ("ast-grep-skill-smoke-" + [guid]::NewGuid().ToString('N').Substring(0,8))
 New-Item -ItemType Directory -Path $Output -Force | Out-Null
 
 function Pass([string]$msg) { Write-Host "PASS: $msg" }
 function Fail([string]$msg) { Write-Host "FAIL: $msg" -ForegroundColor Red; Remove-Item -Recurse -Force $Output -ErrorAction SilentlyContinue; exit 1 }
 
-function Run([string[]]$Args) {
+# The parameter must not be called $Args: that is PowerShell's automatic variable, and
+# naming a parameter after it silently drops every argument (the helper then ran bare,
+# and check 1 passed only because the usage text happens to contain 'ast-grep-helper').
+# The call operator, not Start-Process -ArgumentList, keeps 'function $N' one argument.
+function Run([string[]]$HelperArgs) {
     $stdoutFile = Join-Path $Output ("out-" + [guid]::NewGuid().ToString('N').Substring(0,8) + ".txt")
-    $proc = Start-Process -FilePath $Python -ArgumentList (@($Helper) + $Args) -NoNewWindow -PassThru -Wait -RedirectStandardOutput $stdoutFile -RedirectStandardError "$stdoutFile.err"
+    $prev = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'  # PS 5.1 turns native stderr into terminating errors under 'Stop'
+    try {
+        & $Python $Helper @HelperArgs > $stdoutFile 2> "$stdoutFile.err"
+        $code = $LASTEXITCODE
+    } finally {
+        $ErrorActionPreference = $prev
+    }
     $stdout = if (Test-Path $stdoutFile) { Get-Content $stdoutFile -Raw } else { '' }
     $stderr = if (Test-Path "$stdoutFile.err") { Get-Content "$stdoutFile.err" -Raw } else { '' }
+    if ($null -eq $stdout) { $stdout = '' }
+    if ($null -eq $stderr) { $stderr = '' }
+    if ($stderr -match 'Traceback \(most recent call last\)') {
+        Fail "helper crashed on '$($HelperArgs -join ' ')': $stderr"
+    }
     return [pscustomobject]@{
-        ExitCode = $proc.ExitCode
+        ExitCode = $code
         Stdout = $stdout
         Stderr = $stderr
         Combined = "$stdout`n$stderr"
@@ -29,7 +46,9 @@ function Run([string[]]$Args) {
 try {
     # 1. --version
     $r = Run @('--version')
-    if ($r.Combined -notmatch 'ast-grep-helper') { Fail '--version output missing' }
+    # A version number, not just the program name: argparse's usage error names it too.
+    if ($r.ExitCode -ne 0) { Fail "--version should exit 0, got $($r.ExitCode)" }
+    if ($r.Stdout -notmatch '(?m)^ast-grep-helper \d+\.\d+') { Fail "--version output missing: $($r.Combined)" }
     Pass '--version'
 
     # 2. langs (must list >=25)
