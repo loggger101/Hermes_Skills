@@ -78,9 +78,17 @@ def test_gate_labels_unique(va):
     assert len(va.GATE_LABELS) == len(set(va.GATE_LABELS))
 
 
-def test_number_words_cover_every_suite_count_up_to_twenty(va):
-    assert va.NUMBER_WORDS[0] == "One" and va.NUMBER_WORDS[-1] == "Twenty"
-    assert len(va.NUMBER_WORDS) == 20
+def test_number_words_cover_one_to_ninety_nine(va):
+    """Round-257 took the suite count to 24, past the old 'Twenty' ceiling."""
+    words = va.NUMBER_WORDS
+    assert len(words) == 99 and len(set(words)) == 99
+    assert (words[0], words[19], words[20], words[23], words[98]) == (
+        "One",
+        "Twenty",
+        "Twenty-one",
+        "Twenty-four",
+        "Ninety-nine",
+    )
 
 
 def test_main_prints_skip_and_never_says_all_passed(va, monkeypatch, capsys):

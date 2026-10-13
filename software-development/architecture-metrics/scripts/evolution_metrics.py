@@ -24,12 +24,6 @@ def git(repo: str, *args):
     return subprocess.run(["git", "-C", repo, *args], capture_output=True, text=True)
 
 
-def is_merge(repo: str, epoch_s: str) -> bool:
-    """True if the commit at this timestamp has >1 parent (sentrux skip rule)."""
-    out = git(repo, "rev-list", "--parents", "-n", "1", f"@{epoch_s}").stdout.split()
-    return len(out) > 2
-
-
 def walk_commits(repo: str, days: int):
     """Yield (epoch, author, [(path, added, removed)]) for non-merge commits in window.
 
@@ -42,7 +36,7 @@ def walk_commits(repo: str, days: int):
         "--no-renames",
         "--numstat",
         "--date=format-local:%s",
-        "--pretty=format:@%ad|%an",
+        "--pretty=format:@%ad|%P|%an",
     )
     if r.returncode != 0:
         raise SystemExit(f"git log failed (not a git repo?): {r.stderr.strip()}")
@@ -62,12 +56,15 @@ def walk_commits(repo: str, days: int):
             continue
         if line.startswith("@"):
             finalize()
-            epoch_s, author = line[1:].split("|", 1)
+            epoch_s, parents, author = line[1:].split("|", 2)
+            # Parent count comes from the log line itself. The old is_merge() ran
+            # `git rev-list @{<epoch>}`, which git reads as reflog entry N (not a date): it
+            # failed, returned False for every commit, and the merge-skip rule never fired.
             cur = {
                 "epoch": int(epoch_s),
                 "author": author,
                 "files": [],
-                "is_merge": is_merge(repo, epoch_s),
+                "is_merge": len(parents.split()) > 1,
             }
         else:
             parts = line.split("\t")
@@ -84,12 +81,16 @@ def walk_commits(repo: str, days: int):
 
 
 def main():
-    args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    as_json = "--json" in sys.argv
+    argv = sys.argv[1:]
+    as_json = "--json" in argv
     days = 90
-    for i, a in enumerate(sys.argv):
-        if a == "--days":
-            days = int(sys.argv[i + 1])
+    if "--days" in argv:
+        i = argv.index("--days")
+        if i + 1 >= len(argv) or not argv[i + 1].isdigit():
+            raise SystemExit("usage: --days N")
+        days = int(argv[i + 1])
+        argv = argv[:i] + argv[i + 2 :]  # its value is not the repo dir
+    args = [a for a in argv if not a.startswith("--")]
     repo = Path(args[0] if args else ".").resolve()
 
     commits = walk_commits(str(repo), days)
@@ -250,4 +251,8 @@ def main():
 
 
 if __name__ == "__main__":
+    # Non-ASCII output (print, SystemExit messages) raises UnicodeEncodeError on a cp1252
+    # console or pipe: switch both streams to UTF-8.
+    for _stream in (sys.stdout, sys.stderr):
+        _stream.reconfigure(encoding="utf-8", errors="replace")
     main()

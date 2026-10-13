@@ -6,14 +6,20 @@ captured on this machine (Windows py3.11) 2026-09-07 with duckdb 1.5.5 / polars
 
 Portable: the fixture dir is a per-run tempdir (was a hardcoded Windows path,
 which broke on Linux CI). Needs numpy/pandas/duckdb/polars/pyarrow importable;
-exit code = number of failed checks (0 = all green), so it can run in CI.
+Exit 1 if any check failed (never the count: it wraps at 256 and 77 means SKIP) (0 = all green), so it can run in CI.
 """
 
 import os
+import sys
 import time
 import tempfile
 import numpy as np
 import pandas as pd
+
+# Non-ASCII output (print, SystemExit messages) raises UnicodeEncodeError on a cp1252
+# console or pipe: switch both streams to UTF-8.
+for _stream in (sys.stdout, sys.stderr):
+    _stream.reconfigure(encoding="utf-8", errors="replace")
 
 rng = np.random.default_rng(42)
 N = 200_000
@@ -22,7 +28,7 @@ FAILURES: list[str] = []
 
 
 def check(name: str, cond: bool, detail: str = "") -> None:
-    """Record + print one verification. Exit code at the end = number of failures."""
+    """Record + print one verification. The script exits 1 at the end if any failed."""
     print(
         f"  {'PASS' if cond else 'FAIL'}  {name}"
         + (f"   [{detail}]" if detail and not cond else "")
@@ -289,5 +295,5 @@ print(f"rows scanned: {t_total:,} | audit matched pandas exactly (b={exp_b}, c={
 # ── summary (fail loud) ───────────────────────────────────────────────────────────
 if FAILURES:
     print(f"\nFAILED ({len(FAILURES)}): {', '.join(FAILURES)}")
-    raise SystemExit(len(FAILURES))
+    raise SystemExit(1)
 print("\nALL CHECKS PASSED — big-data patterns verified against pandas ground truth.")

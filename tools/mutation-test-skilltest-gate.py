@@ -27,7 +27,7 @@ them; no repo file is touched) and asserts each verdict:
   C1  a root with only passing suites                -> exit 0, ALL N SUITES PASSED
   L1  --list on the real repo                        -> exit 0, no orphans
 
-Exit code = number of failed checks (0 = runner proven fail-loud). Needs pytest and node
+Exit 1 if any check failed (never the count: it wraps at 256 and 77 means SKIP) (0 = runner proven fail-loud). Needs pytest and node
 on PATH, like the CI job it guards; if either is missing the affected checks fail.
 """
 
@@ -226,7 +226,7 @@ if failures:
     print(f"FAILED ({len(failures)}):")
     for f in failures:
         print("  - " + f.replace("\n", "\n    "))
-    sys.exit(len(failures))
+    sys.exit(1 if failures else 0)
 print(
     "ALL CHECKS PASSED — run-skill-tests.py verified fail-loud (pytest/node/sh/ps1, orphans, empty scan)."
 )

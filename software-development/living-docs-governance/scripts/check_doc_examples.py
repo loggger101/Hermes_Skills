@@ -14,8 +14,10 @@ Rules (kept deliberately small):
     first line is `// throws`.
   * Comparison is whitespace-insensitive and treats 'x' and "x" as the same string.
   * A block marked `// no-run` on its first line is skipped (browser-only, pseudo-code).
+  * A `// throws` block that runs clean is a FAIL; a run that checks no block exits 2.
 Requires `node` on PATH. Stdlib only. Exit codes: 0 all good, 1 mismatches, 2 usage/runtime problem.
 """
+
 import json
 import re
 import shutil
@@ -63,7 +65,9 @@ def run_block(code_lines, node):
         f.write(code)
         path = f.name
     try:
-        p = subprocess.run([node, path], capture_output=True, text=True, timeout=20, encoding="utf-8")
+        p = subprocess.run(
+            [node, path], capture_output=True, text=True, timeout=20, encoding="utf-8"
+        )
     finally:
         Path(path).unlink(missing_ok=True)
     out = None
@@ -98,19 +102,35 @@ def main(argv):
                 bad += 1
                 print(f"FAIL {fn}:{lineno}: block crashed (rc {rc}) {err}")
                 continue
+            if rc == 0 and first.startswith("// throws"):
+                # The doc promises an error the code no longer raises: that is drift too.
+                bad += 1
+                print(f"FAIL {fn}:{lineno}: block is marked // throws but ran without error")
+                continue
             got = out or []
             if len(got) != len(expected):
                 bad += 1
-                print(f"FAIL {fn}:{lineno}: {len(expected)} expected console.log value(s), program printed {len(got)}: {got}")
+                print(
+                    f"FAIL {fn}:{lineno}: {len(expected)} expected console.log value(s), program printed {len(got)}: {got}"
+                )
                 continue
-            diffs = [(i + 1, e, g) for i, (e, g) in enumerate(zip(expected, got)) if norm(e) != norm(g)]
+            diffs = [
+                (i + 1, e, g) for i, (e, g) in enumerate(zip(expected, got)) if norm(e) != norm(g)
+            ]
             if diffs:
                 bad += 1
                 for i, e, g in diffs:
-                    print(f"FAIL {fn}:{lineno}: console.log #{i} comment says {e!r} but printed {g!r}")
+                    print(
+                        f"FAIL {fn}:{lineno}: console.log #{i} comment says {e!r} but printed {g!r}"
+                    )
             elif verbose:
                 print(f"ok   {fn}:{lineno}: {len(expected)} value(s)")
     print(f"{checked} block(s) checked, {bad} failing")
+    if checked == 0:
+        # Nothing was compared, so nothing was verified: not a pass (wrong files, or the
+        # docs lost their `// expected` comments).
+        print("ERROR: no checkable block (console.log with a trailing // comment) in the input")
+        return 2
     return 1 if bad else 0
 
 

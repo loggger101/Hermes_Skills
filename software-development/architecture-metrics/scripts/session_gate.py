@@ -9,6 +9,8 @@ using architecture_metrics.py as the scan engine (subprocess --json):
   - circular-dependency count increased        (any increase = violation)
   - god-file count increased                   (any increase = violation)
   - complex-function (CC>15) count increased   (any increase = violation)
+  - unparsable-file count increased             (any increase = violation; this port's
+    addition: a file that stops parsing leaves every metric and can make them improve)
 degraded = signal drop OR any violation — exit 0 pass / 1 degraded, CI-friendly.
 
 Usage:
@@ -49,6 +51,7 @@ def save(project, baseline):
             )
         },
         "god_file_count": len(snap["god_files"]),
+        "unparsable_count": len(snap["unparsable_files"]),
         "modules": snap["modules"],
         "edges": snap["edges"],
     }
@@ -89,6 +92,16 @@ def check(project, baseline):
             f"Complex functions (CC>15) increased: {base.get('complex_functions_gt15', 0)} → {cf}"
         )
 
+    # A file that stops parsing drops out of every metric above and can make them look
+    # better, so more unparsable files is a violation in itself (round-257).
+    up = len(cur["unparsable_files"])
+    if up > base.get("unparsable_count", 0):
+        violations.append(
+            f"Unparsable files increased: {base.get('unparsable_count', 0)} → {up} ("
+            + ", ".join(u["file"] for u in cur["unparsable_files"])
+            + ")"
+        )
+
     degraded = delta < -SIGNAL_DROP or bool(violations)
     print("Session gate — " + str(project))
     print(f"  signal: {base['quality_signal']} → {cur['quality_signal']} ({delta:+.1f})")
@@ -114,6 +127,8 @@ def main():
     for i, a in enumerate(sys.argv):
         if a == "--baseline":
             baseline_arg = Path(sys.argv[i + 1])
+    if len(sys.argv) < 3 or sys.argv[1] not in ("save", "check") or not args:
+        raise SystemExit(__doc__)
     cmd = sys.argv[1]
     project = Path(args[0]).resolve()
     baseline = baseline_arg or (project / ".sentrux-baseline.json")
@@ -126,4 +141,8 @@ def main():
 
 
 if __name__ == "__main__":
+    # Non-ASCII output (print, SystemExit messages) raises UnicodeEncodeError on a cp1252
+    # console or pipe: switch both streams to UTF-8.
+    for _stream in (sys.stdout, sys.stderr):
+        _stream.reconfigure(encoding="utf-8", errors="replace")
     main()

@@ -18,7 +18,7 @@ the defect:
   M10 a scan root with no skills                                         -> MUST fail loud
   M11 the real repo                                                      -> MUST pass
 
-Exit code = number of failed checks (0 = gate proven fail-loud).
+Exit 1 if any check failed (never the count: it wraps at 256 and 77 means SKIP) (0 = gate proven fail-loud).
 """
 
 import os
@@ -186,6 +186,6 @@ if failures:
     print(f"FAILED ({len(failures)}):")
     for f in failures:
         print("  " + f)
-    sys.exit(len(failures))
+    sys.exit(1 if failures else 0)
 print("ALL 11 CHECKS PASSED — skill pointer gate verified fail-loud.")
 sys.exit(0)

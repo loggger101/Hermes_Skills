@@ -16,7 +16,7 @@ and asserts the gate exits 1 with the right class tag:
   M7  unmutated fixture                         -> MUST pass (no false positive)
   M8  the real repo                             -> MUST pass (no false positive)
 
-Exit code = number of failed checks (0 = gate proven fail-loud).
+Exit 1 if any check failed (never the count: it wraps at 256 and 77 means SKIP) (0 = gate proven fail-loud).
 """
 
 import os
@@ -190,6 +190,6 @@ if failures:
     print(f"FAILED ({len(failures)}):")
     for f in failures:
         print("  " + f)
-    sys.exit(len(failures))
+    sys.exit(1 if failures else 0)
 print("ALL 8 MUTATIONS CAUGHT — router coverage gate verified fail-loud.")
 sys.exit(0)

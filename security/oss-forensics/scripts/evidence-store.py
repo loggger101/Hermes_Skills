@@ -6,7 +6,7 @@ Manages a JSON-based evidence store for forensic investigations.
 Commands:
   add      - Add a piece of evidence
   list     - List all evidence (optionally filter by type or actor)
-  verify   - Re-check SHA-256 hashes for integrity
+  verify   - Re-check SHA-256 hashes, ids and the chain of custody (exit 1 on any issue)
   query    - Search evidence by keyword
   export   - Export evidence as a Markdown table
   summary  - Print investigation statistics
@@ -61,7 +61,9 @@ IOC_TYPES = [
 
 
 def _now_iso():
-    return datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds") + "Z"
+    # isoformat() of an aware datetime already ends '+00:00'; appending "Z" produced
+    # '...+00:00Z', which strict ISO 8601 parsers reject.
+    return datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def _sha256(content: str) -> str:
@@ -100,7 +102,12 @@ class EvidenceStore:
             json.dump(self.data, f, indent=2, ensure_ascii=False)
 
     def _next_id(self) -> str:
-        return f"EV-{len(self.data['evidence']) + 1:04d}"
+        # Numbered past every id ever logged, not len()+1: after a deletion len()+1 re-issued
+        # an id the chain of custody already attributes to other content.
+        used = [c.get("evidence_id", "") for c in self.data["chain_of_custody"]]
+        used += [e.get("id", "") for e in self.data["evidence"]]
+        nums = [int(u[3:]) for u in used if u.startswith("EV-") and u[3:].isdigit()]
+        return f"EV-{max(nums, default=0) + 1:04d}"
 
     def add(
         self,
@@ -150,19 +157,37 @@ class EvidenceStore:
         return results
 
     def verify_integrity(self):
-        """Re-compute SHA-256 for all entries and report mismatches."""
+        """Re-compute SHA-256 for all entries, and cross-check entries against the chain of
+        custody. Returns [{"id", "problem"}].
+
+        Hash-only verification passed a store with an entry deleted outright (nothing left
+        to re-hash), and _next_id() then re-issued the deleted entry's id. Every evidence id
+        must be unique and logged by an 'add' custody record, and every 'add' record must
+        still have its entry.
+        """
         issues = []
+        seen = set()
         for entry in self.data["evidence"]:
+            eid = entry.get("id", "?")
+            if eid in seen:
+                issues.append({"id": eid, "problem": "duplicate evidence id"})
+            seen.add(eid)
             expected = _sha256(entry["content"])
             stored = entry.get("content_sha256", "")
             if expected != stored:
                 issues.append(
                     {
-                        "id": entry["id"],
-                        "stored_sha256": stored,
-                        "computed_sha256": expected,
+                        "id": eid,
+                        "problem": f"sha256 mismatch: stored={stored[:16]}... computed={expected[:16]}...",
                     }
                 )
+        added = [
+            c.get("evidence_id") for c in self.data["chain_of_custody"] if c.get("action") == "add"
+        ]
+        for eid in sorted(seen - set(added)):
+            issues.append({"id": eid, "problem": "no 'add' record in chain_of_custody"})
+        for eid in sorted(set(added) - seen):
+            issues.append({"id": eid, "problem": "logged as added but the entry is gone"})
         return issues
 
     def query(self, keyword: str):
@@ -287,6 +312,19 @@ def main():
         parser.print_help()
         sys.exit(0)
 
+    # The ✓/✗ marks below raised UnicodeEncodeError on a cp1252 console or pipe (Windows),
+    # AFTER `add` had saved: a successful add exited 1, inviting a duplicate re-add.
+    for stream in (sys.stdout, sys.stderr):
+        stream.reconfigure(encoding="utf-8", errors="replace")
+
+    if args.command != "add" and not os.path.exists(args.store):
+        # A mistyped --store path used to load an empty store: 'verify' then printed
+        # "All 0 evidence entries passed" and exited 0.
+        print(
+            f"Error: no evidence store at '{args.store}' (only 'add' creates one)", file=sys.stderr
+        )
+        sys.exit(1)
+
     store = EvidenceStore(args.store)
 
     if args.command == "add":
@@ -327,9 +365,7 @@ def main():
         else:
             print(f"✗ {len(issues)} integrity issue(s) detected:")
             for i in issues:
-                print(
-                    f"  [{i['id']}] stored={i['stored_sha256'][:16]}... computed={i['computed_sha256'][:16]}..."
-                )
+                print(f"  [{i['id']}] {i['problem']}")
             sys.exit(1)
 
     elif args.command == "query":

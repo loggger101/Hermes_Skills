@@ -18,7 +18,7 @@ fixture trees (LINK_CHECK_ROOT redirects the scan; no repo file is touched) and 
   K11 LINK_CHECK_MIN_LINKS without LINK_CHECK_ROOT      -> ignored (real floor stays 200)
   K12 the real repo                                     -> exit 0
 
-Exit code = number of failed checks (0 = gate proven fail-loud).
+Exit 1 if any check failed (never the count: it wraps at 256 and 77 means SKIP) (0 = gate proven fail-loud).
 """
 
 import os
@@ -169,6 +169,6 @@ if failures:
     print(f"FAILED ({len(failures)}):")
     for f in failures:
         print("  - " + f.replace("\n", "\n    "))
-    sys.exit(len(failures))
+    sys.exit(1 if failures else 0)
 print("ALL 12 CHECKS PASSED — link gate verified fail-loud (paths, anchors, unreadable, floor).")
 sys.exit(0)

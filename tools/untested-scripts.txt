@@ -1,0 +1,79 @@
+# Scripts no test, *_verify.py harness or smoke script exercises yet: tools/check-script-coverage.py.
+#
+# The gate fails on a script missing from this list (a new untested script), on a line whose
+# script is now tested (delete it: this list only shrinks), on a line naming no script, and on
+# a line without a reason. Every script here still has to PARSE (check-script-syntax.py) and
+# pass lint (check-lint.py); this list only records that no test runs its behavior.
+#
+# Format: <repo path>  # <why it has no test yet>
+# Reasons, by kind:
+#   bundled   the skill ships with Hermes Agent (profile/.bundled_manifest); a test added here
+#             changes the skill's hash and stops upstream updates, so its tests belong upstream
+#   template  copied and edited by the reader, never run as shipped
+#   live      only meaningful against a real external service, device or toolchain
+#   backlog   offline-testable and not done yet: the next rounds' work, in this order
+#
+# Started 2026-10-13 (round-257): 81 untested before that round's tests, 54 after
+# (72 of 126 tested). Next up: the backlog block below, top to bottom.
+
+# --- backlog: offline-testable, next up --------------------------------------------------
+creative/diagram-design/scripts/drawio_extract.py  # backlog: pure XML parsing
+creative/diagram-design/scripts/mermaid_extract.py  # backlog: pure text parsing
+creative/ui-ux-pro-max/scripts/core.py  # backlog: BM25 search over the shipped CSV data
+creative/ui-ux-pro-max/scripts/search.py  # backlog: CLI over core.py
+creative/ui-ux-pro-max/scripts/design_system.py  # backlog: generator over core.py results
+creative/ui-ux-pro-max/scripts/reasoning_contract.py  # backlog: pure data contract
+creative/system-atlas/assets/build.mjs  # backlog: node build of the example atlas
+
+# --- live: needs a real service, device or toolchain ------------------------------------
+data-science/economicspace-pipeline/scripts/asterank_sigma_probe.py  # live: probes the public Asterank API; the output is the finding
+data-science/economicspace-pipeline/scripts/nhats_rank_crosscheck.py  # live: cross-checks live JPL NHATS against Asterank
+social-media/reddit-reading/scripts/reddit.py  # live: Reddit's public JSON endpoints
+web-development/har-derived-api-client/scripts/har_capture.py  # live: drives a real browser (Playwright) to record a HAR
+web-development/har-derived-api-client/scripts/har_capture_cdp.py  # live: attaches to a running Chrome over CDP
+software-development/generating-python-installer/scripts/analyze_dlls.py  # live: inspects a built PyInstaller dist on Windows
+software-development/generating-python-installer/scripts/slim_dist.ps1  # live: prunes a built PyInstaller dist on Windows
+
+# --- template: copied and edited, never run as shipped ----------------------------------
+.hermes/cron/templates/repo-automation.py  # template: cron job skeleton for authors to copy
+.hermes/cron/templates/skill-watchdog.py  # template: cron job skeleton for authors to copy
+autonomous-ai-agents/hermes-extensions/templates/clock.mjs  # template: Hermes desktop plugin starter
+autonomous-ai-agents/hermes-extensions/templates/plugin.js  # template: Hermes desktop plugin starter
+creative/system-atlas/assets/data.example.mjs  # template: example atlas data the reader replaces
+devops/wizard/template.sh  # template: setup-wizard skeleton the reader fills in
+
+# --- bundled: ships with Hermes Agent; tests belong upstream ----------------------------
+creative/comfyui/scripts/auto_fix_deps.py  # bundled (also live: a ComfyUI install)
+creative/comfyui/scripts/comfyui_setup.sh  # bundled (also live: installs ComfyUI)
+creative/comfyui/scripts/fetch_logs.py  # bundled (also live: a running ComfyUI server)
+creative/comfyui/scripts/hardware_check.py  # bundled (also live: probes the GPU)
+creative/comfyui/scripts/run_batch.py  # bundled (also live: a running ComfyUI server)
+creative/comfyui/scripts/ws_monitor.py  # bundled (also live: ComfyUI websocket)
+creative/excalidraw/scripts/upload.py  # bundled (also live: excalidraw.com upload)
+creative/manim-video/scripts/setup.sh  # bundled (also live: installs manim)
+creative/p5js/scripts/export-frames.js  # bundled (also live: headless browser)
+creative/p5js/scripts/render.sh  # bundled (also live: headless browser + ffmpeg)
+creative/p5js/scripts/serve.sh  # bundled (also live: local web server)
+creative/p5js/scripts/setup.sh  # bundled (also live: installs node deps)
+creative/touchdesigner-mcp/scripts/setup.sh  # bundled (also live: TouchDesigner)
+github/github-auth/scripts/gh-env.sh  # bundled (also live: gh credentials)
+github/github-auth/scripts/git-credential-token.py  # bundled (also live: git credential protocol)
+media/youtube-content/scripts/fetch_transcript.py  # bundled (also live: YouTube)
+productivity/docx/scripts/docx_common.py  # bundled; imported by the docx scripts tests/test_docx_skill.py runs
+productivity/docx/specs/build-audit-v2.py  # bundled: one-off spec build script kept as an example
+productivity/docx/specs/build-audit-v3.py  # bundled: one-off spec build script kept as an example
+productivity/docx/specs/build-audit.py  # bundled: one-off spec build script kept as an example
+productivity/docx/specs/patch-audit.py  # bundled: one-off spec build script kept as an example
+productivity/google-workspace/scripts/_hermes_home.py  # bundled (also live: Google APIs)
+productivity/google-workspace/scripts/google_api.py  # bundled (also live: Google APIs)
+productivity/google-workspace/scripts/gws_bridge.py  # bundled (also live: Google APIs)
+productivity/google-workspace/scripts/setup.py  # bundled (also live: Google OAuth)
+productivity/maps/scripts/maps_client.py  # bundled (also live: OSM/Nominatim APIs)
+productivity/ocr-and-documents/scripts/extract_marker.py  # bundled (also live: marker models)
+productivity/ocr-and-documents/scripts/extract_pymupdf.py  # bundled (needs PyMuPDF)
+productivity/pdf/scripts/_raster.py  # bundled; imported by pdf_page_image.py, which tests/test_pdf_skill.py runs
+research/arxiv/scripts/search_arxiv.py  # bundled (also live: arXiv API)
+research/blocked-page-recovery/scripts/recover_page.py  # bundled (also live: web archives)
+research/grounded-citations/scripts/_hermes_home.py  # bundled helper
+research/grounded-citations/scripts/sources.py  # bundled (also live: citation sources)
+software-development/systematic-debugging/scripts/find_polluter.sh  # bundled: bisects a real test suite

@@ -25,6 +25,7 @@ rankings disagree most). Writes nothing; prints a report. Read-only research too
 never feeds ranking math.
 """
 
+import sys
 import argparse
 import math
 import time
@@ -210,4 +211,8 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    # Non-ASCII output (print, SystemExit messages) raises UnicodeEncodeError on a cp1252
+    # console or pipe: switch both streams to UTF-8.
+    for _stream in (sys.stdout, sys.stderr):
+        _stream.reconfigure(encoding="utf-8", errors="replace")
     raise SystemExit(main())

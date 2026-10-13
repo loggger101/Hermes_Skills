@@ -34,6 +34,15 @@ FOUNDATION_I = 0.30  # I <= this => foundation, excluded from D average (Martin 
 STABLE_FOUNDATION_I = 0.15  # SDP: mostly depended-on + little outgoing
 MIN_STABLE_FAN_IN = 3  # fan-in floor so leaves aren't "foundations"
 
+# Files the scan could not use: (relative path, reason). Reported, never dropped quietly:
+# a file that stops parsing used to vanish from the graph, taking its imports, cycles and
+# complexity with it, so a session that broke a file's syntax scored BETTER (round-257).
+SKIPPED = []
+
+
+def _skip(p, root, reason):
+    SKIPPED.append((p.relative_to(root).as_posix(), reason))
+
 
 def find_py_files(root):
     out = []
@@ -45,7 +54,8 @@ def find_py_files(root):
             continue
         try:
             src = p.read_text(encoding="utf-8", errors="replace")
-        except OSError:
+        except OSError as e:
+            _skip(p, root, f"unreadable: {e.strerror or e}")
             continue
         out.append((p, src))
     return out
@@ -104,7 +114,8 @@ def build_graph(files, root):
         m = module_name(p, root)
         try:
             tree = ast.parse(src)
-        except SyntaxError:
+        except SyntaxError as e:
+            _skip(p, root, f"SyntaxError line {e.lineno}: {e.msg}")
             continue
         cache[m] = (tree, str(p))
         pkg_parts = list(Path(m).parts[:-1]) if "." in m else []
@@ -333,14 +344,23 @@ def _composite_signal(
 
 
 def main():
-    args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    as_json = "--json" in sys.argv
+    argv = sys.argv[1:]
+    as_json = "--json" in argv
     dsm_limit = None
-    for i, a in enumerate(sys.argv):
-        if a == "--dsm":
-            dsm_limit = int(sys.argv[i + 1])
+    if "--dsm" in argv:
+        i = argv.index("--dsm")
+        if i + 1 >= len(argv) or not argv[i + 1].isdigit():
+            raise SystemExit("usage: --dsm N  (N = rows to print)")
+        dsm_limit = int(argv[i + 1])
+        argv = argv[:i] + argv[i + 2 :]  # its value is not the project dir
+    args = [a for a in argv if not a.startswith("--")]
     root = Path(args[0] if args else ".").resolve()
+    if not root.is_dir():
+        raise SystemExit(f"architecture_metrics: no such directory: {root}")
     files = find_py_files(root)
+    if not files:
+        # A typo'd path or a non-Python tree scored as a flawless empty project.
+        raise SystemExit(f"architecture_metrics: no readable .py files under {root}")
     nodes, edges, cache = build_graph(files, root)
 
     levels, max_level = compute_levels(edges)
@@ -485,6 +505,7 @@ def main():
         "files": len(files),
         "modules": len(nodes),
         "edges": len(edges),
+        "unparsable_files": [{"file": f, "reason": why} for f, why in SKIPPED],
         "max_level": max_level,
         # Composite 0–100 signal (sentrux root-cause weighting scheme adapted to
         # this port's structural inputs; sentrux normalizes the same idea to 0–10000).
@@ -569,6 +590,8 @@ def main():
             f"  files={r['files']} modules={r['modules']} edges={r['edges']} "
             f"max_level={r['max_level']}"
         )
+        for u in r["unparsable_files"]:
+            print(f"  UNPARSABLE (left out of every metric): {u['file']} -- {u['reason']}")
         uv = r["upward_violations"]
         print(
             f"  upward violations: {len(uv)} (top: "
@@ -609,4 +632,8 @@ def main():
 
 
 if __name__ == "__main__":
+    # Non-ASCII output (print, SystemExit messages) raises UnicodeEncodeError on a cp1252
+    # console or pipe: switch both streams to UTF-8.
+    for _stream in (sys.stdout, sys.stderr):
+        _stream.reconfigure(encoding="utf-8", errors="replace")
     main()

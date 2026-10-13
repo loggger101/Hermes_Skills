@@ -16,7 +16,7 @@ the tree to a temp dir (no repo file is touched) and asserts:
   D6  every category dir removed, write mode    -> each generator exits 2 [FATAL] below its
                                                    floor AND leaves its index byte-identical
 
-Exit code = number of failed checks (0 = all five drift gates proven fail-loud).
+Exit 1 if any check failed (never the count: it wraps at 256 and 77 means SKIP) (0 = all five drift gates proven fail-loud).
 """
 
 import hashlib
@@ -217,6 +217,6 @@ if failures:
     print(f"FAILED ({len(failures)}):")
     for f in failures:
         print("  - " + f.replace("\n", "\n    "))
-    sys.exit(len(failures))
+    sys.exit(1 if failures else 0)
 print("ALL CHECKS PASSED — the five index drift gates verified fail-loud (drift, deletion, floor).")
 sys.exit(0)

@@ -10,7 +10,7 @@ resolve against this repo, so no repo file is ever touched):
   M3  unmodified real configs      -> validator MUST pass clean (no false positive)
   M4  --job <file> flag            -> single-job mode works; unknown name exits 1
 
-Exit code = number of failed checks.
+Exit 1 if any check failed (never the count: it wraps at 256 and 77 means SKIP).
 """
 
 import json
@@ -109,7 +109,7 @@ finally:
 if failures:
     for f in failures:
         print(f"[FAIL] {f}")
-    sys.exit(len(failures))
+    sys.exit(1 if failures else 0)
 print(
     "[OK] all 5 cron-gate mutations verified (M1-M4b): phantom keys caught, "
     "real configs clean, --job flag live"

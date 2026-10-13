@@ -55,5 +55,5 @@ and added identically elsewhere is a move, not new code — don't re-review it a
 
 ## Ported script in this skill
 
-`scripts/scan_bypasses.py` — verbatim port of their scanner (stdlib-only, stdin diff → `path:line category content`,
-always exit 0). Run it on any PR/branch diff before LLM review to zero-token-detect bypass markers; treat hits as candidates.
+`scripts/scan_bypasses.py` — port of their scanner (stdlib-only, stdin diff → `path:line category content`,
+always exit 0; this brain adds a stderr notice when the input holds no diff). Run it on any PR/branch diff before LLM review to zero-token-detect bypass markers; treat hits as candidates.

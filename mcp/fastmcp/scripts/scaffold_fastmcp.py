@@ -4,13 +4,18 @@
 from __future__ import annotations
 
 import argparse
+import json
 from pathlib import Path
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 SKILL_DIR = SCRIPT_DIR.parent
 TEMPLATE_DIR = SKILL_DIR / "templates"
-PLACEHOLDER = "__SERVER_NAME__"
+# The placeholder sits inside a string literal: FastMCP("__SERVER_NAME__"). The name is
+# substituted for the WHOLE quoted literal as an escaped string, so a name holding a quote
+# or backslash cannot break the generated file (it used to be pasted in raw: the file was
+# written, "Wrote ..." printed, and it failed only when someone ran it).
+PLACEHOLDER = '"__SERVER_NAME__"'
 
 
 def list_templates() -> list[str]:
@@ -22,7 +27,18 @@ def render_template(template_name: str, server_name: str) -> str:
     if not template_path.exists():
         available = ", ".join(list_templates())
         raise SystemExit(f"Unknown template '{template_name}'. Available: {available}")
-    return template_path.read_text(encoding="utf-8").replace(PLACEHOLDER, server_name)
+    text = template_path.read_text(encoding="utf-8")
+    if text.count(PLACEHOLDER) != 1:
+        raise SystemExit(
+            f"Template {template_path.name} has {text.count(PLACEHOLDER)} {PLACEHOLDER} "
+            "placeholders (expected 1): the server name would not land where it should"
+        )
+    rendered = text.replace(PLACEHOLDER, json.dumps(server_name, ensure_ascii=False))
+    try:
+        compile(rendered, template_path.name, "exec")
+    except SyntaxError as e:
+        raise SystemExit(f"Rendered {template_path.name} does not parse (line {e.lineno}: {e.msg})")
+    return rendered
 
 
 def main() -> int:
@@ -46,8 +62,9 @@ def main() -> int:
     if output_path.exists() and not args.force:
         raise SystemExit(f"Refusing to overwrite existing file: {output_path}")
 
+    rendered = render_template(args.template, args.name)  # before touching the disk
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(render_template(args.template, args.name), encoding="utf-8")
+    output_path.write_text(rendered, encoding="utf-8")
     print(f"Wrote {output_path}")
     return 0
 

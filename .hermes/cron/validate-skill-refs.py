@@ -38,9 +38,13 @@ for path, _dirs, files in os.walk(BASE):
         valid[rel] = nm
 
 ok = True
-for job in sorted(os.listdir(JOBS_DIR)):
-    if not job.endswith(".json"):
-        continue
+jobs = sorted(j for j in os.listdir(JOBS_DIR) if j.endswith(".json"))
+if not jobs:
+    # Round-257: an empty (or emptied) active/ dir printed "ALL OK" having checked nothing.
+    print(f"[FATAL] no job configs (*.json) in {JOBS_DIR}: nothing to validate")
+    sys.exit(2)
+refs = 0
+for job in jobs:
     fp = os.path.join(JOBS_DIR, job)
     with open(fp, encoding="utf-8") as f:
         data = json.load(f)  # raises if invalid
@@ -48,12 +52,15 @@ for job in sorted(os.listdir(JOBS_DIR)):
     loaded = skills.get("loaded", skills) if isinstance(skills, dict) else skills
     if isinstance(loaded, str):
         loaded = [loaded]
+    if not loaded:
+        print(f"  NONE:   {job} loads no skills")
     for s in loaded:
+        refs += 1
         sid = s if isinstance(s, str) else s.get("id", "?")
         if sid not in valid:
             print(f"  BROKEN: {job} -> {sid}")
             ok = False
         else:
             print(f"  OK:     {job} -> {sid} (name={valid[sid]})")
-print(f"\n{'ALL OK' if ok else 'ISSUES'} | valid_skills={len(valid)}")
+print(f"\n{'ALL OK' if ok else 'ISSUES'} | jobs={len(jobs)} refs={refs} valid_skills={len(valid)}")
 sys.exit(0 if ok else 1)

@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **179 code files** (47,632 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **200 code files** (52,257 lines total) in this second brain — one line each, grep-friendly.
 Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -41,6 +41,7 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `creative/diagram-design/scripts/drawio_extract.py` (script, python, 875 lines) — Extract a normalized intermediate representation (IR) from a draw.io file
 - `creative/diagram-design/scripts/mermaid_extract.py` (script, python, 1325 lines) — Extract a normalized intermediate representation (IR) from Mermaid text
 - `creative/diagram-design/scripts/self_check.py` (script, python, 396 lines) — Self-check a generated diagram HTML file, with no third-party deps
+- `creative/diagram-design/tests/test_self_check.py` (test, python, 93 lines) — scripts/self_check.py: every shipped example passes, and each rule fails on a planted
 
 ## creative/excalidraw
 
@@ -68,10 +69,10 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 ## creative/ui-ux-pro-max
 
-- `creative/ui-ux-pro-max/scripts/core.py` (script, python, 993 lines)
-- `creative/ui-ux-pro-max/scripts/design_system.py` (script, python, 1668 lines)
-- `creative/ui-ux-pro-max/scripts/reasoning_contract.py` (script, python, 123 lines) — Closed, non-executable grammar for design-system decision rules.
-- `creative/ui-ux-pro-max/scripts/search.py` (script, python, 177 lines)
+- `creative/ui-ux-pro-max/scripts/core.py` (script, python, 1450 lines)
+- `creative/ui-ux-pro-max/scripts/design_system.py` (script, python, 1836 lines)
+- `creative/ui-ux-pro-max/scripts/reasoning_contract.py` (script, python, 119 lines) — Closed, non-executable grammar for design-system decision rules.
+- `creative/ui-ux-pro-max/scripts/search.py` (script, python, 255 lines)
 
 ## data-science/algorithms-python-catalog
 
@@ -79,8 +80,8 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 ## data-science/economicspace-pipeline
 
-- `data-science/economicspace-pipeline/scripts/asterank_sigma_probe.py` (script, python, 157 lines) — Asterank orbit-sigma + Shoemaker-Helin dv probe
-- `data-science/economicspace-pipeline/scripts/nhats_rank_crosscheck.py` (script, python, 213 lines) — NHATS rank cross-check for the economicspace closed-form dv estimator
+- `data-science/economicspace-pipeline/scripts/asterank_sigma_probe.py` (script, python, 162 lines) — Asterank orbit-sigma + Shoemaker-Helin dv probe
+- `data-science/economicspace-pipeline/scripts/nhats_rank_crosscheck.py` (script, python, 218 lines) — NHATS rank cross-check for the economicspace closed-form dv estimator
 
 ## data-science/evolutionary-ml
 
@@ -88,8 +89,8 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 ## data-science/lunar-gis-projections
 
-- `data-science/lunar-gis-projections/scripts/cap_grid_verify.py` (script, python, 244 lines) — Verify AEGIS cap-grid tiling invariants + LGRS converter logic (stdlib only)
-- `data-science/lunar-gis-projections/scripts/lps_projection_verify.py` (script, python, 127 lines) — Verify the south-pole Lunar Polar Stereographic (LPS) projection math used by nasa/aegis (AEGIS)
+- `data-science/lunar-gis-projections/scripts/cap_grid_verify.py` (script, python, 248 lines) — Verify AEGIS cap-grid tiling invariants + LGRS converter logic (stdlib only)
+- `data-science/lunar-gis-projections/scripts/lps_projection_verify.py` (script, python, 131 lines) — Verify the south-pole Lunar Polar Stereographic (LPS) projection math used by nasa/aegis (AEGIS)
 
 ## data-science/optimization-modeling-pyomo
 
@@ -97,7 +98,7 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 ## data-science/polars-pipelines
 
-- `data-science/polars-pipelines/references/big-data-patterns-verify.py` (script, python, 293 lines) — Verify the general big-data patterns for python-data-science reference doc
+- `data-science/polars-pipelines/references/big-data-patterns-verify.py` (script, python, 299 lines) — Verify the general big-data patterns for python-data-science reference doc
 - `data-science/polars-pipelines/references/polars-v2-verify.py` (script, python, 589 lines) — Live verification of polars 2.0.0rc1 behavior claims (from docs/source/releases/upgrade/2.md)
 
 ## data-science/regex-vs-llm-structured-text
@@ -107,7 +108,8 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 ## data-science/space-data-pipelines
 
-- `data-science/space-data-pipelines/scripts/pipeline_skeleton.py` (script, python, 228 lines) — Runnable reference implementation of the space-datasets pipeline pattern
+- `data-science/space-data-pipelines/scripts/pipeline_skeleton.py` (script, python, 256 lines) — Runnable reference implementation of the space-datasets pipeline pattern
+- `data-science/space-data-pipelines/tests/test_pipeline_skeleton.py` (test, python, 183 lines) — scripts/pipeline_skeleton.py offline: the helpers and validation gate against stubbed HTTP,
 
 ## devops/rest-api-client
 
@@ -122,15 +124,17 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 - `devops/system-design-scaling/scripts/availability_math.py` (script, python, 132 lines) — Availability math — verifies the "nines" downtime tables and sequence/parallel
 - `devops/system-design-scaling/scripts/lru_cache_o1.py` (script, python, 129 lines) — O(1) LRU cache — implements the design doc from donnemartin/system-design-primer's
-- `devops/system-design-scaling/scripts/shortlink_base62.py` (script, python, 110 lines) — Base62 URL shortener — implements + verifies the pastebin/Bit.ly pattern from
+- `devops/system-design-scaling/scripts/shortlink_base62.py` (script, python, 115 lines) — Base62 URL shortener — implements + verifies the pastebin/Bit.ly pattern from
 - `devops/system-design-scaling/scripts/topk_mapreduce_sim.py` (script, python, 108 lines) — Top-k-per-group via two-stage MapReduce — simulates the sales_rank case study from
+- `devops/system-design-scaling/tests/test_scripts.py` (test, python, 121 lines) — The four worked-example scripts: their built-in self-tests run, and are not vacuous
 
 ## devops/watchers
 
-- `devops/watchers/scripts/watch_github.py` (script, python, 176 lines) — Watch GitHub activity — issues, pulls, releases, or commits — with dedup
-- `devops/watchers/scripts/watch_http_json.py` (script, python, 147 lines) — Watch any JSON endpoint that returns a list of objects; dedup by ID field
-- `devops/watchers/scripts/watch_rss.py` (script, python, 124 lines) — Watch an RSS 2.0 or Atom feed; print new items to stdout, silent on empty
-- `devops/watchers/scripts/_watermark.py` (shared helper, python, 146 lines) — Shared watermark helper used by the three watcher scripts
+- `devops/watchers/scripts/watch_github.py` (script, python, 187 lines) — Watch GitHub activity — issues, pulls, releases, or commits — with dedup
+- `devops/watchers/scripts/watch_http_json.py` (script, python, 169 lines) — Watch any JSON endpoint that returns a list of objects; dedup by ID field
+- `devops/watchers/scripts/watch_rss.py` (script, python, 141 lines) — Watch an RSS 2.0 or Atom feed; print new items to stdout, silent on empty
+- `devops/watchers/scripts/_watermark.py` (shared helper, python, 207 lines) — Shared watermark helper used by the three watcher scripts
+- `devops/watchers/tests/test_watchers.py` (test, python, 367 lines) — The watcher scripts and their shared watermark, offline
 
 ## devops/wizard
 
@@ -143,14 +147,16 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 ## github/github-code-review
 
-- `github/github-code-review/scripts/scan_bypasses.py` (script, python, 71 lines) — invariant: hits are Pass F candidates, never findings; always exit 0 so a detector cannot block the review
+- `github/github-code-review/scripts/scan_bypasses.py` (script, python, 79 lines) — invariant: hits are Pass F candidates, never findings; always exit 0 so a detector cannot block the review
+- `github/github-code-review/tests/test_scan_bypasses.py` (test, python, 80 lines) — scripts/scan_bypasses.py: every category fires on an added line, never on context or
 
 ## mcp/fastmcp
 
-- `mcp/fastmcp/scripts/scaffold_fastmcp.py` (script, python, 56 lines) — Copy a FastMCP starter template into a working file.
+- `mcp/fastmcp/scripts/scaffold_fastmcp.py` (script, python, 73 lines) — Copy a FastMCP starter template into a working file.
 - `mcp/fastmcp/templates/api_wrapper.py` (template, python, 54 lines)
 - `mcp/fastmcp/templates/database_server.py` (template, python, 77 lines)
 - `mcp/fastmcp/templates/file_processor.py` (template, python, 55 lines)
+- `mcp/fastmcp/tests/test_scaffold_fastmcp.py` (test, python, 77 lines) — scripts/scaffold_fastmcp.py and the three templates it renders (api_wrapper, database_server,
 
 ## media/youtube-content
 
@@ -216,7 +222,8 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 ## productivity/session-librarian
 
-- `productivity/session-librarian/scripts/transcript_stats.py` (script, python, 135 lines) — Read-only, context-safe stats for a Claude Code session transcript (.jsonl)
+- `productivity/session-librarian/scripts/transcript_stats.py` (script, python, 154 lines) — Read-only, context-safe stats for a Claude Code session transcript (.jsonl)
+- `productivity/session-librarian/tests/test_transcript_stats.py` (test, python, 97 lines) — scripts/transcript_stats.py on synthetic Claude Code transcripts: usage counted once per
 
 ## productivity/xlsx
 
@@ -244,11 +251,13 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 ## research/rss-feeds
 
-- `research/rss-feeds/scripts/feed.py` (script, python, 301 lines) — Read RSS / Atom / JSON Feed sources and discover feeds behind a page URL
+- `research/rss-feeds/scripts/feed.py` (script, python, 320 lines) — Read RSS / Atom / JSON Feed sources and discover feeds behind a page URL
+- `research/rss-feeds/tests/test_feed.py` (test, python, 176 lines) — scripts/feed.py against a local HTTP server: RSS 2.0, Atom, RSS 1.0 and JSON Feed parsing,
 
 ## security/oss-forensics
 
-- `security/oss-forensics/scripts/evidence-store.py` (script, python, 353 lines)
+- `security/oss-forensics/scripts/evidence-store.py` (script, python, 389 lines)
+- `security/oss-forensics/tests/test_evidence_store.py` (test, python, 122 lines) — scripts/evidence-store.py: the CLI round trip, and `verify` catching every kind of
 
 ## security/security-audit
 
@@ -263,10 +272,11 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 ## software-development/architecture-metrics
 
-- `software-development/architecture-metrics/scripts/architecture_metrics.py` (script, python, 612 lines) — Architecture metrics: levels, violations, blast radius, A/I/D distance,
-- `software-development/architecture-metrics/scripts/evolution_metrics.py` (script, python, 253 lines) — Git evolution metrics: churn, change coupling, temporal hotspots, code age, bus factor
-- `software-development/architecture-metrics/scripts/quality_signal.py` (script, python, 412 lines) — Code quality signal: 5 ungameable root-cause metrics on a Python codebase
-- `software-development/architecture-metrics/scripts/session_gate.py` (script, python, 129 lines) — Session quality gate: save an architectural baseline before an agent session,
+- `software-development/architecture-metrics/scripts/architecture_metrics.py` (script, python, 639 lines) — Architecture metrics: levels, violations, blast radius, A/I/D distance,
+- `software-development/architecture-metrics/scripts/evolution_metrics.py` (script, python, 258 lines) — Git evolution metrics: churn, change coupling, temporal hotspots, code age, bus factor
+- `software-development/architecture-metrics/scripts/quality_signal.py` (script, python, 481 lines) — Code quality signal: 5 ungameable root-cause metrics on a Python codebase
+- `software-development/architecture-metrics/scripts/session_gate.py` (script, python, 148 lines) — Session quality gate: save an architectural baseline before an agent session,
+- `software-development/architecture-metrics/tests/test_architecture_metrics.py` (test, python, 243 lines) — The four architecture-metrics scripts on fixture projects
 
 ## software-development/ast-grep
 
@@ -280,15 +290,18 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 ## software-development/living-docs-governance
 
-- `software-development/living-docs-governance/scripts/check_doc_examples.py` (script, python, 118 lines) — Run the JavaScript examples in Markdown docs and compare printed output to the comments
+- `software-development/living-docs-governance/scripts/check_doc_examples.py` (script, python, 138 lines) — Run the JavaScript examples in Markdown docs and compare printed output to the comments
+- `software-development/living-docs-governance/tests/test_check_doc_examples.py` (test, python, 79 lines) — scripts/check_doc_examples.py: matching docs pass, drift fails, and a run that checks
 
 ## software-development/multi-agent-deliberation
 
-- `software-development/multi-agent-deliberation/scripts/tally_jury.py` (script, python, 313 lines) — Ported verbatim from tech-leads-club/agent-skills (CC-BY-4.0), skill "the-jury" v1.0.0,
+- `software-development/multi-agent-deliberation/scripts/tally_jury.py` (script, python, 337 lines) — Ported (verbatim but for strict input validation in main(), round-257) from tech-leads-club/agent-skills (CC-B…
+- `software-development/multi-agent-deliberation/tests/test_tally_jury.py` (test, python, 127 lines) — scripts/tally_jury.py: the verdict cascade, and bad input refused instead of defaulted.
 
 ## software-development/repo-atlas
 
-- `software-development/repo-atlas/scripts/generate_atlas.py` (script, python, 518 lines)
+- `software-development/repo-atlas/scripts/generate_atlas.py` (script, python, 652 lines)
+- `software-development/repo-atlas/tests/test_generate_atlas.py` (test, python, 122 lines) — scripts/generate_atlas.py, installed the way its usage line says (scripts/atlas/ inside a
 
 ## software-development/systematic-debugging
 
@@ -298,28 +311,35 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 
 - `web-development/har-derived-api-client/scripts/har_capture.py` (script, python, 81 lines) — Record a HAR file while driving a website with Playwright
 - `web-development/har-derived-api-client/scripts/har_capture_cdp.py` (script, python, 141 lines) — Capture a HAR from a browser you connect to over CDP (not one you launch)
-- `web-development/har-derived-api-client/scripts/har_to_client.py` (script, python, 167 lines) — Distill a HAR file into an API summary an agent can turn into a client
+- `web-development/har-derived-api-client/scripts/har_to_client.py` (script, python, 187 lines) — Distill a HAR file into an API summary an agent can turn into a client
+- `web-development/har-derived-api-client/tests/test_har_to_client.py` (test, python, 141 lines) — scripts/har_to_client.py on synthetic HAR files: API filtering, {id} grouping, header and
 
 ## web-development/web-perf-audit
 
-- `web-development/web-perf-audit/scripts/perf_audit.py` (script, python, 203 lines) — Zero-dependency static-site audit of the machine-checkable Front-End Performance Checklist items
-- `web-development/web-perf-audit/scripts/perf_audit_verify.py` (script, python, 113 lines) — Self-test for perf_audit.py: one clean site must pass, and each rule must fire on a planted defect
+- `web-development/web-perf-audit/scripts/perf_audit.py` (script, python, 254 lines) — Zero-dependency static-site audit of the machine-checkable Front-End Performance Checklist items
+- `web-development/web-perf-audit/scripts/perf_audit_verify.py` (script, python, 131 lines) — Self-test for perf_audit.py: one clean site must pass, and each rule must fire on a planted defect
 
 ## Repo-level tooling (`tools/`, `.hermes/cron/`)
 
 - `tools/_index_output.py` (shared helper, python, 81 lines) — Shared write-guard for the index generators (gen-*.py, regen-dependency-map.py)
+- `tools/_repo_files.py` (shared helper, python, 25 lines) — The repo's file list, shared by the gates that scan code (check-lint, check-script-syntax,
 - `.hermes/cron/templates/repo-automation.py` (template, python, 66 lines) — Repo Automation Cronjob Template (Two-Agent Split)
 - `.hermes/cron/templates/skill-watchdog.py` (template, python, 47 lines) — Skill Watchdog Cronjob Template
 - `tools/tests/conftest.py` (test, python, 27 lines) — Shared helpers for the tooling's own unit tests (run by verify-all's 'tool unit tests' gate)
 - `tools/tests/test_index_output.py` (test, python, 63 lines) — _index_output.emit(): the write-guard and --check behind every index generator
+- `tools/tests/test_sync_git_steps.py` (test, python, 187 lines) — sync-hermes-skills.py: the git steps (round-257)
 - `tools/tests/test_sync_hermes_skills.py` (test, python, 176 lines) — sync-hermes-skills.py: the pre-push decision and error propagation
 - `tools/tests/test_sync_installed_plugins.py` (test, python, 115 lines) — sync-installed-plugins.py: skips are exit 77, unreadable live state is exit 2
-- `tools/tests/test_verify_all.py` (test, python, 109 lines) — verify-all.py: gate verdicts (PASS / FAIL / SKIP) and the audit summariser
+- `tools/tests/test_validate_skill_refs.py` (test, python, 79 lines) — .hermes/cron/validate-skill-refs.py (verify-all gate 'cron: skill refs') on throwaway trees
+- `tools/tests/test_verify_all.py` (test, python, 117 lines) — verify-all.py: gate verdicts (PASS / FAIL / SKIP) and the audit summariser
 - `.hermes/cron/validate-cronjobs.py` (repo tooling, python, 267 lines) — Validate cronjob JSON config files for structural correctness + cross-consistency
-- `.hermes/cron/validate-skill-refs.py` (repo tooling, python, 59 lines) — Lightweight JSON + skill-ref validator (no_agent-compatible).
-- `tools/audit-skills.py` (repo tooling, python, 552 lines)
+- `.hermes/cron/validate-skill-refs.py` (repo tooling, python, 66 lines) — Lightweight JSON + skill-ref validator (no_agent-compatible).
+- `tools/audit-skills.py` (repo tooling, python, 554 lines)
 - `tools/check-links.py` (repo tooling, python, 207 lines) — Broken-link checker for this second brain (stdlib only)
+- `tools/check-lint.py` (repo tooling, python, 239 lines) — Gate: the repo's Python is clean under `ruff check` and `ruff format --check`, and every
 - `tools/check-router-coverage.py` (repo tooling, python, 150 lines) — Gate: the skill-flow-router must keep pace with the catalog it claims to map
+- `tools/check-script-coverage.py` (repo tooling, python, 185 lines) — Gate: every script the repo ships is exercised by a test, or is in the untested ledger
+- `tools/check-script-syntax.py` (repo tooling, python, 190 lines) — Gate: every script the repo ships must at least parse
 - `tools/check-skill-pointers.py` (repo tooling, python, 147 lines) — Check that every skill pointer written in prose names a skill that exists
 - `tools/gen-claude-plugin.py` (repo tooling, python, 172 lines) — Regenerate the Claude Code plugin manifests from live skill frontmatter
 - `tools/gen-code-index.py` (repo tooling, python, 222 lines) — Regenerate CODE-INDEX.md from live code files (flat, grep-friendly)
@@ -332,14 +352,15 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `tools/mutation-test-link-gate.py` (repo tooling, python, 174 lines) — Mutation self-test for check-links.py
 - `tools/mutation-test-pointer-gate.py` (repo tooling, python, 191 lines) — Mutation self-test for check-skill-pointers.py (round-65)
 - `tools/mutation-test-router-gate.py` (repo tooling, python, 195 lines) — Mutation self-test for check-router-coverage.py (round-43)
-- `tools/mutation-test-secret-gate.py` (repo tooling, python, 160 lines) — Mutation test for audit-skills.scan_repo_for_secrets — the secret scan tests itself
+- `tools/mutation-test-script-gates.py` (repo tooling, python, 275 lines) — Mutation self-test for the three round-257 code gates: check-script-syntax.py,
+- `tools/mutation-test-secret-gate.py` (repo tooling, python, 168 lines) — Mutation test for audit-skills.scan_repo_for_secrets — the secret scan tests itself
 - `tools/mutation-test-selftest-gate.py` (repo tooling, python, 184 lines) — Mutation self-test for tools/run-self-tests.py (the self-test harness gate)
 - `tools/mutation-test-skilltest-gate.py` (repo tooling, python, 233 lines) — Mutation self-test for run-skill-tests.py, the runner behind CI's skill-tests job
 - `tools/regen-dependency-map.py` (repo tooling, python, 140 lines) — Regenerate DEPENDENCY.md from live related_skills frontmatter (same format as repo convention).
 - `tools/run-self-tests.py` (repo tooling, python, 327 lines) — Discovery-based runner for the skill self-test harnesses (*_verify.py)
 - `tools/run-skill-tests.py` (repo tooling, python, 354 lines) — Discover and run every test suite that ships inside a skill, one command
-- `tools/sync-hermes-skills.py` (repo tooling, python, 1273 lines)
-- `tools/verify-all.py` (repo tooling, python, 563 lines) — Run every health gate in this repo and report one verdict
+- `tools/sync-hermes-skills.py` (repo tooling, python, 1290 lines)
+- `tools/verify-all.py` (repo tooling, python, 585 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*179 code files: 119 scripts, 7 shared helpers, 21 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*200 code files: 119 scripts, 8 shared helpers, 37 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*

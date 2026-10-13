@@ -12,9 +12,11 @@ target-version = "py38" # sync-hermes-skills.py refuses to run below 3.8
 # ships them. Hermes compares each bundled skill against its shipped hash and stops updating
 # any skill whose files changed, so a purely cosmetic reformat here would silently opt every
 # untouched bundled skill out of upstream fixes once sync copies it to ~/.hermes/skills/.
-# Only the bundled skills that contain Python need listing.
+# Only the bundled skills that contain Python need listing; tools/check-lint.py fails when this
+# list and the manifest disagree (round-257 found ascii-video and session-librarian missing).
 extend-exclude = [
     "autonomous-ai-agents/hermes-agent",
+    "creative/ascii-video",
     "creative/comfyui",
     "creative/excalidraw",
     "github/github-auth",
@@ -26,6 +28,7 @@ extend-exclude = [
     "productivity/ocr-and-documents",
     "productivity/pdf",
     "productivity/powerpoint",
+    "productivity/session-librarian",
     "productivity/xlsx",
     "research/arxiv",
     "research/blocked-page-recovery",
@@ -45,6 +48,6 @@ exclude = ["*.md"]
 [lint.per-file-ignores]
 # Each PATTERN section imports the engine it exercises, so it reads as the self-contained
 # snippet the reference doc quotes.
-"data-science/python-data-science/references/big-data-patterns-verify.py" = ["E402"]
+"data-science/polars-pipelines/references/big-data-patterns-verify.py" = ["E402"]
 # l and r bound the Z-box: the textbook notation, quoted verbatim in algorithms-from-scratch.md.
 "data-science/algorithms-python-catalog/scripts/algorithms_verify.py" = ["E741"]

@@ -22,7 +22,13 @@ from pathlib import Path
 from xml.etree import ElementTree as ET
 
 sys.path.insert(0, str(Path(__file__).parent))
-from _watermark import Watermark, format_items_as_markdown  # type: ignore
+from _watermark import (  # type: ignore
+    Watermark,
+    WatermarkError,
+    cap,
+    checked_filter,
+    format_items_as_markdown,
+)
 
 
 def _strip_ns(tag: str) -> str:
@@ -38,6 +44,12 @@ def _parse_feed(xml_bytes: bytes):
         root = ET.fromstring(xml_bytes)
     except ET.ParseError as e:
         print(f"watch_rss: invalid XML: {e}", file=sys.stderr)
+        sys.exit(2)
+
+    # An HTML error or login page parses as XML often enough; it used to yield zero
+    # entries, i.e. a feed that is silently empty forever.
+    if _strip_ns(root.tag).lower() not in {"rss", "feed", "rdf"}:
+        print(f"watch_rss: not an RSS/Atom feed (root element <{root.tag}>)", file=sys.stderr)
         sys.exit(2)
 
     entries = []
@@ -58,8 +70,6 @@ def _parse_feed(xml_bytes: bytes):
             href = ""
         guid = (guid_el.text or "").strip() if guid_el is not None else ""
         guid = guid or href
-        if not guid:
-            continue
 
         title_el = children.get("title")
         title = (title_el.text or "").strip() if title_el is not None else ""
@@ -69,7 +79,9 @@ def _parse_feed(xml_bytes: bytes):
             summ_el = children.get("summary")
         summary = (summ_el.text or "").strip() if summ_el is not None else ""
 
-        entries.append({"id": guid, "title": title, "url": href, "summary": summary})
+        # No guid and no link: id None, so checked_filter() counts and reports it (an
+        # entry without either used to be dropped here without a word).
+        entries.append({"id": guid or None, "title": title, "url": href, "summary": summary})
     return entries
 
 
@@ -103,17 +115,22 @@ def main() -> int:
 
     entries = _parse_feed(xml_bytes)
 
-    wm = Watermark.load(args.name)
-    new_items = wm.filter_new(entries, id_key="id")
+    try:
+        wm = Watermark.load(args.name)
+    except WatermarkError as e:
+        print(f"watch_rss: {e}", file=sys.stderr)
+        return 2
+    new_items, rc = checked_filter(wm, entries, "id", "watch_rss")
+    if rc is not None:
+        return rc
     wm.save()
 
     # Cap emitted items (watermark still records all seen IDs so we don't
-    # re-emit them next tick).
-    if args.max > 0:
-        new_items = new_items[: args.max]
+    # re-emit them next tick); the overflow is announced, not dropped silently.
+    new_items, not_shown = cap(new_items, args.max)
 
     body_key = "summary" if args.with_summary else None
-    output = format_items_as_markdown(new_items, body_key=body_key)
+    output = format_items_as_markdown(new_items, body_key=body_key, not_shown=not_shown)
     if output:
         sys.stdout.write(output)
     # Empty stdout on no-new — cron treats that as silent.

@@ -14,6 +14,8 @@ get a 403/401.
 """
 
 import argparse
+import base64
+import binascii
 import json
 import re
 import sys
@@ -65,6 +67,22 @@ def is_api_entry(entry: dict) -> bool:
     return False
 
 
+def body_text(content: dict) -> str:
+    """A response body as text. HAR stores binary-ish bodies base64-encoded with
+    content.encoding == "base64"; printing that raw passed base64 off as the body."""
+    text = content.get("text") or ""
+    if content.get("encoding") != "base64":
+        return text
+    try:
+        raw = base64.b64decode(text, validate=True)
+    except (binascii.Error, ValueError):
+        return "[undecodable base64 body] " + text
+    try:
+        return raw.decode("utf-8")
+    except UnicodeDecodeError:
+        return f"[binary body, {len(raw)} bytes]"
+
+
 def trunc(text, n: int) -> str:
     text = text if isinstance(text, str) else str(text)
     return text if len(text) <= n else text[:n] + f"... [{len(text)} chars total]"
@@ -92,7 +110,9 @@ def main() -> int:
         if not args.include_static:
             if STATIC_EXT.search(url.path) or not is_api_entry(entry):
                 continue
-        key = (req["method"], url.netloc, path_template(url.path))
+        # The scheme is part of the key: every endpoint used to print as https://, so an
+        # http-only API was summarized under a URL it does not serve.
+        key = (req["method"], url.scheme, url.netloc, path_template(url.path))
         g = groups.setdefault(
             key, {"count": 0, "queries": set(), "headers": {}, "req_body": None, "resp": None}
         )
@@ -113,7 +133,7 @@ def main() -> int:
             g["resp"] = (
                 resp.get("status"),
                 content.get("mimeType", ""),
-                trunc(content.get("text") or "", args.max_body),
+                trunc(body_text(content), args.max_body),
             )
 
     if not groups:
@@ -141,8 +161,8 @@ def main() -> int:
     if saw_auth:
         print("  Authorization/token header present -> extract and resend it.")
 
-    for (method, host, path), g in groups.items():
-        print(f"\n=== {method} https://{host}{path}  (x{g['count']})")
+    for (method, scheme, host, path), g in groups.items():
+        print(f"\n=== {method} {scheme}://{host}{path}  (x{g['count']})")
         if g["queries"]:
             print("  query params:")
             for name, val in sorted(g["queries"]):

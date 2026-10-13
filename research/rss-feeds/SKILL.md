@@ -46,7 +46,7 @@ Run through `terminal` with the skill-relative script path:
 python3 scripts/feed.py read https://hnrss.org/frontpage --limit 10
 python3 scripts/feed.py read https://simonwillison.net/            # page URL → discovers the feed
 python3 scripts/feed.py read URL --since 2026-09-01 --json          # only newer entries, machine-readable
-python3 scripts/feed.py discover https://example.com/               # list candidate feed URLs
+python3 scripts/feed.py discover https://example.com/               # feeds the page advertises (exit 1 if none)
 ```
 
 ## Quick Reference
