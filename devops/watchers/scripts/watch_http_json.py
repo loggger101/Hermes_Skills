@@ -28,7 +28,13 @@ import urllib.request
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from _watermark import Watermark, format_items_as_markdown  # type: ignore
+from _watermark import (  # type: ignore
+    Watermark,
+    WatermarkError,
+    cap,
+    checked_filter,
+    format_items_as_markdown,
+)
 
 
 def _dig(obj, path: str):
@@ -122,14 +128,29 @@ def main() -> int:
         return 2
 
     # Keep only dicts — skip any bare strings / numbers so filter_new doesn't crash.
-    items = [i for i in items if isinstance(i, dict)]
+    dicts = [i for i in items if isinstance(i, dict)]
+    if len(dicts) < len(items):
+        print(
+            f"watch_http_json: warning: {len(items) - len(dicts)} of {len(items)} item(s) "
+            "are not objects and are skipped",
+            file=sys.stderr,
+        )
+    if items and not dicts:
+        print("watch_http_json: no item in the list is a JSON object", file=sys.stderr)
+        return 2
+    items = dicts
 
-    wm = Watermark.load(args.name)
-    new_items = wm.filter_new(items, id_key=args.id_field)
+    try:
+        wm = Watermark.load(args.name)
+    except WatermarkError as e:
+        print(f"watch_http_json: {e}", file=sys.stderr)
+        return 2
+    new_items, rc = checked_filter(wm, items, args.id_field, "watch_http_json")
+    if rc is not None:
+        return rc
     wm.save()
 
-    if args.max > 0:
-        new_items = new_items[: args.max]
+    new_items, not_shown = cap(new_items, args.max)
 
     body_key = args.body_field or None
     output = format_items_as_markdown(
@@ -137,6 +158,7 @@ def main() -> int:
         title_key=args.title_field,
         url_key=args.url_field,
         body_key=body_key,
+        not_shown=not_shown,
     )
     if output:
         sys.stdout.write(output)

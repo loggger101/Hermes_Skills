@@ -13,7 +13,7 @@ behavior changes are real, each backed by either source file:line or a live exec
 
 **Companion files:** `polars-pymc-api-reference.md` (stable-API idioms) · `big-data-patterns.md`
 (pattern selection). **Re-run the verification any time:** `references/polars-v2-verify.py` — 39 checks,
-last full run 2026-09-14: **39/39 PASS** on polars 2.0.0-rc.1 (exit code = failure count).
+last full run 2026-09-14: **39/39 PASS** on polars 2.0.0-rc.1 (exits 1 on any failure).
 
 ## Version status (verified 2026-09-14 via PyPI JSON API)
 

@@ -178,7 +178,10 @@ def parse_feed(data: bytes, content_type: str = "") -> dict:
 
 
 def discover(page_url: str, page_html: bytes | None = None) -> list[str]:
-    """Return candidate feed URLs for a page: <link rel=alternate> first, then well-known paths."""
+    """Feed URLs the page advertises with <link rel=alternate>; empty when it advertises none.
+
+    It used to fall back to the well-known paths and return them as if the page had listed
+    them, so `discover` printed nine guesses as findings. Guessing is candidates()'s job."""
     if page_html is None:
         page_html, _ = fetch(page_url)
     text = page_html.decode("utf-8", "replace")
@@ -195,6 +198,13 @@ def discover(page_url: str, page_html: bytes | None = None) -> list[str]:
         url = urllib.parse.urljoin(page_url, html.unescape(href_m.group(1)))
         if url not in found:
             found.append(url)
+    return found
+
+
+def candidates(page_url: str, page_html: bytes) -> list[str]:
+    """What read() tries: the advertised feeds, else the well-known paths (each fetched and
+    checked before use, so a guess is never reported as a feed)."""
+    found = discover(page_url, page_html)
     if found:
         return found
     parsed = urllib.parse.urlsplit(page_url)
@@ -218,9 +228,9 @@ def read(url: str) -> dict:
         feed = parse_feed(data, ctype)
         feed["url"] = url
         return feed
-    candidates = discover(url, data)
+    tried = candidates(url, data)
     errors = []
-    for cand in candidates:
+    for cand in tried:
         try:
             cdata, cctype = fetch(cand)
         except (urllib.error.URLError, OSError) as exc:
@@ -231,9 +241,7 @@ def read(url: str) -> dict:
             feed["url"] = cand
             feed["discovered_from"] = url
             return feed
-    raise SystemExit(
-        f"no feed found at {url}; tried {len(candidates)} candidates\n" + "\n".join(errors)
-    )
+    raise SystemExit(f"no feed found at {url}; tried {len(tried)} candidates\n" + "\n".join(errors))
 
 
 def filter_entries(entries: list[dict], limit: int, since: str | None) -> list[dict]:
@@ -245,6 +253,10 @@ def filter_entries(entries: list[dict], limit: int, since: str | None) -> list[d
         )
         if cutoff.tzinfo is None:
             cutoff = cutoff.replace(tzinfo=timezone.utc)
+        undated = sum(1 for e in entries if not e["published"])
+        if undated:
+            # These cannot be compared with --since; dropping them unannounced hid them.
+            print(f"note: {undated} undated entr(y/ies) left out by --since", file=sys.stderr)
         entries = [
             e
             for e in entries
@@ -283,6 +295,13 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if args.cmd == "discover":
             urls = discover(args.url)
+            if not urls:
+                print(
+                    f"no feed advertised by {args.url} (no <link rel=alternate> with a feed "
+                    "type); `read` will also try the common paths: " + ", ".join(COMMON_FEED_PATHS),
+                    file=sys.stderr,
+                )
+                return 1
             print(json.dumps(urls, indent=2) if args.json else "\n".join(urls))
             return 0
         feed = read(args.url)

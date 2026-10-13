@@ -6,7 +6,7 @@ Self-contained: no fixtures needed, everything is built inline. Requires polars 
     uv pip install --python <that venv's python> "polars==2.0.0rc1" numpy pyarrow pandas
     <that venv's python> <repo>\data-science\python-data-science\references\polars-v2-verify.py
 
-Every check prints PASS / FAIL with a short detail. Exit code = number of failures (0 = all green).
+Every check prints PASS / FAIL with a short detail. Exit 1 if any check failed (0 = all green).
 Last full runs: 2026-10-02 39/39 PASS on polars 2.0.0-rc.1; 2026-10-05 39/39 PASS on 2.0.0-rc.2 (Python 3.14.6, Windows). Checks 20/30/33 gained the
 assertions their PASS details claim; each was shown to fail on a planted wrong value).
 """
@@ -586,4 +586,4 @@ check("39. streaming engine correctness on group_by/agg", c_streaming_fallback)
 print(f"\n{'=' * 60}\nTOTAL: 39 checks, {len(FAILS)} failures")
 if FAILS:
     print("FAILED:", *FAILS, sep="\n  - ")
-sys.exit(len(FAILS))
+sys.exit(1 if FAILS else 0)

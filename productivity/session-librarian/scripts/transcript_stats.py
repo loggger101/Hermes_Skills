@@ -11,6 +11,7 @@ Prints: size and long lines, record-type counts, token totals counted once per
 API message id (streamed records repeat the same usage), the five largest tool
 results, gaps over ten minutes, and tool calls repeated at or over --repeat.
 """
+
 import argparse
 import collections
 import json
@@ -57,7 +58,7 @@ def main(argv):
     a = ap.parse_args(argv)
 
     types = collections.Counter()
-    long_lines, bad = [], 0
+    long_lines, bad, bad_stamps = [], 0, 0
     usage_by_msg = {}
     usage_naive = collections.Counter()
     results = []
@@ -69,7 +70,7 @@ def main(argv):
         lines, total_bytes = n, total_bytes + size
         if size > LONG_LINE:
             long_lines.append((n, size))
-        if rec is None:
+        if not isinstance(rec, dict):  # unparsable, or valid JSON that is not a record
             bad += 1
             continue
         types[rec.get("type", "?")] += 1
@@ -77,12 +78,17 @@ def main(argv):
         if ts:
             try:
                 stamps.append((datetime.fromisoformat(ts.replace("Z", "+00:00")), n))
-            except ValueError:
-                pass
+            except (ValueError, AttributeError):
+                bad_stamps += 1  # counted and printed: dropping it silently hid gaps
         msg = rec.get("message") or {}
         u = msg.get("usage")
         if rec.get("type") == "assistant" and isinstance(u, dict):
-            for k in ("input_tokens", "output_tokens", "cache_creation_input_tokens", "cache_read_input_tokens"):
+            for k in (
+                "input_tokens",
+                "output_tokens",
+                "cache_creation_input_tokens",
+                "cache_read_input_tokens",
+            ):
                 usage_naive[k] += u.get(k) or 0
             usage_by_msg[msg.get("id") or f"line{n}"] = u  # last record per message id wins
         for b in blocks(rec):
@@ -90,11 +96,22 @@ def main(argv):
                 results.append((block_size(b), n, b.get("tool_use_id", "")))
             elif b.get("type") == "tool_use":
                 inp = b.get("input") or {}
-                key = (inp.get("file_path") or inp.get("command") or inp.get("pattern")
-                       or inp.get("description") or inp.get("query") or json.dumps(inp, sort_keys=True))
+                key = (
+                    inp.get("file_path")
+                    or inp.get("command")
+                    or inp.get("pattern")
+                    or inp.get("description")
+                    or inp.get("query")
+                    or json.dumps(inp, sort_keys=True)
+                )
                 calls[(b.get("name", "?"), cut(key, 200))].append(n)
 
     print(f"file: {a.path}\nlines: {lines}  bytes: {total_bytes}  unparsable: {bad}")
+    if lines == bad:
+        # Every line failed to parse (or the file is empty): this is not a transcript, and
+        # all-zero stats below would read as a quiet session.
+        print(f"ERROR: no JSON record in {a.path}: not a .jsonl transcript", file=sys.stderr)
+        return 1
     print("lines over 100k chars:", ", ".join(f"{n}({s})" for n, s in long_lines) or "none")
     print("record types:", dict(types.most_common()))
 
@@ -104,7 +121,9 @@ def main(argv):
             once[k] += u.get(k) or 0
     print("\ntokens, once per message id  :", dict(once))
     print("tokens, naive sum of records :", dict(usage_naive))
-    print(f"assistant records vs distinct message ids: {types.get('assistant', 0)} vs {len(usage_by_msg)}")
+    print(
+        f"assistant records vs distinct message ids: {types.get('assistant', 0)} vs {len(usage_by_msg)}"
+    )
 
     print("\nlargest tool results (chars, line):")
     for size, n, tid in sorted(results, reverse=True)[:5]:
@@ -113,7 +132,7 @@ def main(argv):
     stamps.sort()
     gaps = [(b[0] - a_[0], a_[1], b[1]) for a_, b in zip(stamps, stamps[1:])]
     big = [g for g in gaps if g[0].total_seconds() > 600]
-    print(f"\ngaps over 10 min: {len(big)}")
+    print(f"\ngaps over 10 min: {len(big)}  (unparsable timestamps, not measured: {bad_stamps})")
     for g, l1, l2 in sorted(big, reverse=True)[:5]:
         print(f"  {g}  between lines {l1} and {l2}")
 

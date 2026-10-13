@@ -84,10 +84,15 @@ class Page(HTMLParser):
         if a.get("loading", "").lower() == "lazy":
             self.lazy_imgs += 1
         if not (a.get("width") and a.get("height")):
-            self._add("img-dimensions", f"<img src={a.get('src', '?')!r}> lacks width and/or height (layout shift)")
+            self._add(
+                "img-dimensions",
+                f"<img src={a.get('src', '?')!r}> lacks width and/or height (layout shift)",
+            )
         src = a.get("src", "")
         if src.startswith("data:") and len(src) > self.max_data_uri:
-            self._add("img-base64", f"data: URI image of {len(src)} bytes (limit {self.max_data_uri})")
+            self._add(
+                "img-base64", f"data: URI image of {len(src)} bytes (limit {self.max_data_uri})"
+            )
         elif src and not src.startswith(LOCAL_SKIP):
             self.assets.append(src)
 
@@ -95,7 +100,9 @@ class Page(HTMLParser):
         src = a["src"]
         deferred = "defer" in a or "async" in a or a.get("type", "").lower() == "module"
         if self.in_head and not deferred:
-            self._add("script-blocking", f"<script src={src!r}> in <head> without defer/async/module")
+            self._add(
+                "script-blocking", f"<script src={src!r}> in <head> without defer/async/module"
+            )
             self.blocking_script_seen = True
         if not src.startswith(LOCAL_SKIP):
             self.assets.append(src)
@@ -134,11 +141,23 @@ def audit_page(page: Path, root: Path, opts: argparse.Namespace) -> list[str]:
     p.feed(html)
     out = [(ln, r, m) for ln, r, m in p.findings]
     if p.imgs > 3 and p.lazy_imgs == 0:
-        out.append((1, "img-lazy", f"{p.imgs} <img> elements and none uses loading=\"lazy\""))
+        out.append((1, "img-lazy", f'{p.imgs} <img> elements and none uses loading="lazy"'))
     if len(p.iframes) > opts.max_iframes:
-        out.append((p.iframes[opts.max_iframes], "iframe-count", f"{len(p.iframes)} <iframe> elements (limit {opts.max_iframes})"))
+        out.append(
+            (
+                p.iframes[opts.max_iframes],
+                "iframe-count",
+                f"{len(p.iframes)} <iframe> elements (limit {opts.max_iframes})",
+            )
+        )
     if p.font_hosts and "fonts.gstatic.com" not in p.preconnect_hosts:
-        out.append((p.font_hosts[0][0], "font-preconnect", "Google Fonts stylesheet without <link rel=preconnect href=https://fonts.gstatic.com>"))
+        out.append(
+            (
+                p.font_hosts[0][0],
+                "font-preconnect",
+                "Google Fonts stylesheet without <link rel=preconnect href=https://fonts.gstatic.com>",
+            )
+        )
     total = len(html.encode("utf-8"))
     font_bytes = 0
     seen: set[Path] = set()
@@ -152,33 +171,65 @@ def audit_page(page: Path, root: Path, opts: argparse.Namespace) -> list[str]:
         if f.suffix == ".css":
             css = f.read_text(encoding="utf-8", errors="replace")
             if not f.name.endswith(".min.css") and looks_unminified(css):
-                out.append((1, "not-minified", f"{ref} looks unminified ({size} bytes, many short lines)"))
+                out.append(
+                    (1, "not-minified", f"{ref} looks unminified ({size} bytes, many short lines)")
+                )
             for face in FACE_RE.findall(css):
                 if "font-display" not in face.lower():
                     out.append((1, "font-display", f"@font-face in {ref} has no font-display"))
                 srcs = FONT_RE.findall(face)
                 if srcs and not any(".woff2" in s.lower() for s in srcs):
-                    out.append((1, "font-format", f"@font-face in {ref} has no woff2 source ({', '.join(srcs)})"))
+                    out.append(
+                        (
+                            1,
+                            "font-format",
+                            f"@font-face in {ref} has no woff2 source ({', '.join(srcs)})",
+                        )
+                    )
                 for s in srcs:
                     ff = resolve(s, f, root)
                     if ff.is_file() and ff not in seen:
                         seen.add(ff)
                         font_bytes += ff.stat().st_size
                         total += ff.stat().st_size
-        elif f.suffix == ".js" and not f.name.endswith(".min.js") and looks_unminified(f.read_text(encoding="utf-8", errors="replace")):
-            out.append((1, "not-minified", f"{ref} looks unminified ({size} bytes, many short lines)"))
+        elif (
+            f.suffix == ".js"
+            and not f.name.endswith(".min.js")
+            and looks_unminified(f.read_text(encoding="utf-8", errors="replace"))
+        ):
+            out.append(
+                (1, "not-minified", f"{ref} looks unminified ({size} bytes, many short lines)")
+            )
     if font_bytes > opts.max_font_kb * 1024:
-        out.append((1, "font-weight", f"local web fonts total {font_bytes // 1024} kB (limit {opts.max_font_kb} kB)"))
+        out.append(
+            (
+                1,
+                "font-weight",
+                f"local web fonts total {font_bytes // 1024} kB (limit {opts.max_font_kb} kB)",
+            )
+        )
     if total > opts.max_page_kb * 1024:
-        out.append((1, "page-weight", f"page plus local assets is {total // 1024} kB (limit {opts.max_page_kb} kB)"))
+        out.append(
+            (
+                1,
+                "page-weight",
+                f"page plus local assets is {total // 1024} kB (limit {opts.max_page_kb} kB)",
+            )
+        )
     rel = page.as_posix()
-    return [f"{rel}:{ln}: {rule}: {msg}" for ln, rule, msg in sorted(out, key=lambda x: (x[0], x[1]))]
+    return [
+        f"{rel}:{ln}: {rule}: {msg}" for ln, rule, msg in sorted(out, key=lambda x: (x[0], x[1]))
+    ]
 
 
 def main(argv: list[str]) -> int:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     ap.add_argument("paths", nargs="+")
-    ap.add_argument("--root", default=".", help="site root for /-absolute references (default: cwd)")
+    ap.add_argument(
+        "--root", default=".", help="site root for /-absolute references (default: cwd)"
+    )
     ap.add_argument("--max-page-kb", type=int, default=1500)
     ap.add_argument("--max-font-kb", type=int, default=300)
     ap.add_argument("--max-iframes", type=int, default=2)

@@ -31,10 +31,12 @@ jobs:
           python-version: "3.12"
 
       # pyyaml is the audit's hard dependency; pytest runs the 'tool unit tests' gate and the
-      # skill-test runner's mutation self-test. node and bash (preinstalled on ubuntu-latest)
-      # are needed by that self-test too: a missing one FAILS the gate, it never skips.
+      # skill-test runner's mutation self-test; ruff (pinned exactly, so a ruff release cannot
+      # change the verdict) runs the 'lint: ruff' gate. node, bash and pwsh (preinstalled on
+      # ubuntu-latest) are needed by the skill-test self-test and the 'script syntax' gate:
+      # a missing one FAILS the gate, it never skips.
       - name: Install tooling deps
-        run: pip install "pyyaml>=6.0" pytest
+        run: pip install "pyyaml>=6.0" pytest "ruff==0.16.9"
 
       # verify-all.py launches every child gate with sys.executable, so no PATH
       # games are needed; exit 1 on any failed gate fails this job.

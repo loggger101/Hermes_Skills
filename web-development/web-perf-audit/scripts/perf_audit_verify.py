@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Self-test for perf_audit.py: one clean site must pass, and each rule must fire on a planted defect.
 
-Stdlib only. Exit code = number of failed checks (0 = all pass).
+Stdlib only. Exit 1 if any check failed (never the count: it wraps at 256 and 77 means SKIP) (0 = all pass).
 """
 
 from __future__ import annotations
@@ -28,7 +28,10 @@ def check(name: str, cond: bool, detail: str = "") -> None:
 def run(root: Path, *args: str) -> tuple[int, str]:
     p = subprocess.run(
         [sys.executable, str(AUDIT), "--root", str(root), *args, str(root)],
-        capture_output=True, text=True, encoding="utf-8", check=False,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        check=False,
     )
     return p.returncode, p.stdout + p.stderr
 
@@ -39,7 +42,9 @@ GOOD_HTML = """<!doctype html><html><head><meta charset=utf-8>
 <script src="js/app.js" defer></script></head>
 <body><img src="a.png" width="10" height="10" loading="lazy"><p>hi</p></body></html>"""
 
-GOOD_CSS = "@font-face{font-family:F;src:url(../f.woff2) format('woff2');font-display:swap}body{margin:0}"
+GOOD_CSS = (
+    "@font-face{font-family:F;src:url(../f.woff2) format('woff2');font-display:swap}body{margin:0}"
+)
 
 BAD_HTML = """<!doctype html><html><head><meta charset=utf-8>
 <script src="js/blocking.js"></script>
@@ -81,9 +86,18 @@ def main() -> int:
         rc, out = run(bad)
         check("planted-defect site -> exit 1", rc == 1, out)
         for rule in (
-            "img-dimensions", "img-base64", "script-blocking", "css-after-js", "style-in-body",
-            "iframe-count", "font-format", "font-display", "font-preconnect", "not-minified",
-            "font-weight", "page-weight",
+            "img-dimensions",
+            "img-base64",
+            "script-blocking",
+            "css-after-js",
+            "style-in-body",
+            "iframe-count",
+            "font-format",
+            "font-display",
+            "font-preconnect",
+            "not-minified",
+            "font-weight",
+            "page-weight",
         ):
             check(f"rule fires: {rule}", f": {rule}:" in out, out)
         check("rule fires: img-lazy (5 imgs, none lazy)", ": img-lazy:" in out, out)
@@ -102,11 +116,15 @@ def main() -> int:
 
         # thresholds are honoured
         rc, out = run(good, "--max-page-kb", "0")
-        check("--max-page-kb 0 makes the clean site fail page-weight", rc == 1 and ": page-weight:" in out, out)
+        check(
+            "--max-page-kb 0 makes the clean site fail page-weight",
+            rc == 1 and ": page-weight:" in out,
+            out,
+        )
         rc, _ = run(Path(td) / "does-not-exist")
         check("missing path -> non-zero", rc != 0)
     print(f"\n{COUNT - len(FAILS)}/{COUNT} checks passed")
-    return len(FAILS)
+    return 1 if FAILS else 0
 
 
 if __name__ == "__main__":

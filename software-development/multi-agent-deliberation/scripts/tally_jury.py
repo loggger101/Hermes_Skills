@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ported verbatim from tech-leads-club/agent-skills (CC-BY-4.0), skill "the-jury" v1.0.0,
+"""Ported (verbatim but for strict input validation in main(), round-257) from tech-leads-club/agent-skills (CC-BY-4.0), skill "the-jury" v1.0.0,
 author Felipe Rodrigues / Tech Leads Club — attribution required by the license.
 Used with references/multi-agent-deliberation-jury.md in this brain.
 tally.py - deterministic verdict aggregation for the-jury skill.
@@ -27,7 +27,7 @@ INPUT JSON SHAPE
       "final_choice": "B",                   // Round 2 final vote
       "final_confidence": 65,                // 0..100
       "flip_reason": "cited eval X",         // "" / null if none (only matters when choice changed)
-      "evidence_grade": "B"                  // A | B | C | D behind the FINAL position
+      "evidence_grade": "B"                  // A | B | C | D behind the FINAL position (required)
     }
   ]
 }
@@ -106,7 +106,7 @@ EXAMPLE = {
 def weighted_scores(jurors, choice_key, conf_key):
     scores = defaultdict(float)
     for j in jurors:
-        scores[j[choice_key]] += float(j.get(conf_key, 0) or 0)
+        scores[j[choice_key]] += float(j[conf_key])  # validated 0..100 in main()
     return dict(scores)
 
 
@@ -126,7 +126,7 @@ def margin_ratio(ranked):
 
 def avg_grade_for(jurors, choice_key, winner):
     vals = [
-        GRADE_VALUE.get(str(j.get("evidence_grade", "C")).upper(), 2)
+        GRADE_VALUE[str(j["evidence_grade"]).upper()]  # validated A-D in main()
         for j in jurors
         if j[choice_key] == winner
     ]
@@ -198,13 +198,37 @@ def main():
     if len(jurors) < 3:
         print("ERROR: need at least 3 jurors.", file=sys.stderr)
         return 2
+    # This brain's change (round-257): bad values are input errors, not defaults. The port
+    # read a missing or misspelled evidence_grade as "C", a null/blank confidence as 0 and
+    # any diversity other than "low" as not-low -- each silently moved the verdict's tier.
     for j in jurors:
-        for k in ("initial_choice", "initial_confidence", "final_choice", "final_confidence"):
+        jid = j.get("id", "?")
+        for k in (
+            "initial_choice",
+            "initial_confidence",
+            "final_choice",
+            "final_confidence",
+            "evidence_grade",
+        ):
             if k not in j:
-                print(f"ERROR: juror {j.get('id', '?')} missing field '{k}'.", file=sys.stderr)
+                print(f"ERROR: juror {jid} missing field '{k}'.", file=sys.stderr)
                 return 2
+        for k in ("initial_confidence", "final_confidence"):
+            v = j[k]
+            if isinstance(v, bool) or not isinstance(v, (int, float)) or not 0 <= v <= 100:
+                print(f"ERROR: juror {jid} {k}={v!r}: must be a number 0..100.", file=sys.stderr)
+                return 2
+        if str(j["evidence_grade"]).upper() not in GRADE_VALUE:
+            print(
+                f"ERROR: juror {jid} evidence_grade={j['evidence_grade']!r}: must be A, B, C or D.",
+                file=sys.stderr,
+            )
+            return 2
 
     diversity = str(data.get("diversity", "medium")).lower()
+    if diversity not in ("high", "medium", "low"):
+        print(f"ERROR: diversity={diversity!r}: must be high, medium or low.", file=sys.stderr)
+        return 2
 
     init_scores = weighted_scores(jurors, "initial_choice", "initial_confidence")
     final_scores = weighted_scores(jurors, "final_choice", "final_confidence")

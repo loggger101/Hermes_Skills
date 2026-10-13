@@ -7,7 +7,7 @@ Hermes Agent environment (~/.hermes/skills/, ~/.hermes/memories/, profiles).
 
 Designed for autonomous cron execution (no_agent=true):
   - No interactive prompts (GIT_TERMINAL_PROMPT=0)
-  - Git push failure is non-fatal — sync still completes and reports the error
+  - A failed git push fails the push step (exit 1); the commit stays local, reported
   - Hash-based change detection (no unnecessary copies)
   - Silent when nothing changed (empty stdout = no delivery)
 
@@ -110,28 +110,22 @@ def configure_git():
     (a unit test importing this module would have done it)."""
     # Prevent git from prompting for credentials interactively
     os.environ["GIT_TERMINAL_PROMPT"] = "0"
-    # Ensure git has a user identity for commits
-    subprocess.run(["git", "config", "user.name", "hermes-cronbot"], capture_output=True, timeout=5)
-    subprocess.run(
-        ["git", "config", "user.email", "cronbot@hermes.local"], capture_output=True, timeout=5
-    )
-    subprocess.run(["git", "config", "pull.rebase", "true"], capture_output=True, timeout=5)
-    # Also set in the repo itself (in case global config differs)
-    subprocess.run(
-        ["git", "config", "user.name", "hermes-cronbot"],
-        cwd=REPO_ROOT,
-        capture_output=True,
-        timeout=5,
-    )
-    subprocess.run(
-        ["git", "config", "user.email", "cronbot@hermes.local"],
-        cwd=REPO_ROOT,
-        capture_output=True,
-        timeout=5,
-    )
-    subprocess.run(
-        ["git", "config", "pull.rebase", "true"], cwd=REPO_ROOT, capture_output=True, timeout=5
-    )
+    # The identity goes into REPO_ROOT only. The old version also ran these three without a
+    # cwd, writing into whatever repo the caller happened to be in, and ignored every exit
+    # code: an identity that failed to set surfaced much later as a confusing commit error.
+    for key, value in (
+        ("user.name", "hermes-cronbot"),
+        ("user.email", "cronbot@hermes.local"),
+        ("pull.rebase", "true"),
+    ):
+        proc = subprocess.run(
+            ["git", "config", key, value], cwd=REPO_ROOT, capture_output=True, text=True, timeout=5
+        )
+        if proc.returncode != 0:
+            raise SystemExit(
+                f"[FAIL] git config {key} in {REPO_ROOT} exited {proc.returncode}: "
+                + (proc.stderr or proc.stdout).strip()[:300]
+            )
 
 
 # ── Helpers ─────────────────────────────────────────────────────
@@ -252,11 +246,19 @@ def git_pull(repo_path: Path, dry_run: bool = False) -> dict:
             text=True,
             timeout=10,
         )
-        has_changes = bool(proc_status.stdout.strip())
     except Exception as e:
         result["success"] = False
         result["output"] = str(e)
         return result
+    if proc_status.returncode != 0:
+        # Empty stdout from a FAILED status (not a repo, broken index) used to read as a
+        # clean tree, and a dry run then reported "Would pull" with success=True.
+        result["success"] = False
+        result["output"] = (
+            "git status failed: " + (proc_status.stderr or proc_status.stdout).strip()[:300]
+        )
+        return result
+    has_changes = bool(proc_status.stdout.strip())
 
     if dry_run:
         result["output"] = (
@@ -273,13 +275,23 @@ def git_pull(repo_path: Path, dry_run: bool = False) -> dict:
                 ["git", "stash"], cwd=repo_path, capture_output=True, text=True, timeout=30
             )
             if proc_stash.returncode != 0:
-                # Not fatal (there may be nothing to stash), but the pull below then
-                # runs against a dirty tree -- record it instead of discarding it.
+                # The tree is dirty (has_changes), so there WAS something to stash. Pulling
+                # anyway ran a rebase over uncommitted work and buried this error under the
+                # pull's own; stop here with the stash error as the reason.
                 result["stashed"] = False
-                result["stash_warning"] = (proc_stash.stderr or proc_stash.stdout).strip()[:300]
+                result["success"] = False
+                result["error"] = (
+                    "git stash failed on a dirty tree; not pulling: "
+                    + (proc_stash.stderr or proc_stash.stdout).strip()[:300]
+                )
+                return result
         except Exception as e:
             result["stashed"] = False
-            result["stash_warning"] = f"git stash failed: {type(e).__name__}: {e}"
+            result["success"] = False
+            result["error"] = (
+                f"git stash failed on a dirty tree; not pulling: {type(e).__name__}: {e}"
+            )
+            return result
 
     try:
         proc = subprocess.run(
@@ -325,103 +337,108 @@ def git_pull(repo_path: Path, dry_run: bool = False) -> dict:
 def git_add_commit_push(
     repo_path: Path, message: str, max_retries: int = 3, dry_run: bool = False
 ) -> dict:
-    """Stage all changes, commit, and push. Push failure is non-fatal with retries.
+    """Stage all changes, commit, and push; the step succeeds only if all three did.
+
+    Every git call's exit code decides the step. The old version ignored `git status`,
+    `git add` and `git rev-parse` exit codes, and treated a failed push as "non-fatal"
+    (success=True, a NOTE in the output), so a sync that committed locally but never
+    reached GitHub exited 0 and the next run started from a diverged branch.
 
     Args:
         repo_path: Path to the git repository.
         message: Commit message.
-        max_retries: Number of times to retry git push on failure.
+        max_retries: Attempts for a push that fails with a network error; any other push
+            error (auth, diverged remote) is not retried.
     """
-    result = {"action": "push", "success": True, "output": "", "commit_hash": None, "pushed": False}
+    result = {
+        "action": "push",
+        "success": False,
+        "output": "",
+        "commit_hash": None,
+        "pushed": False,
+    }
+
+    def fail(step, proc_or_exc):
+        if isinstance(proc_or_exc, BaseException):
+            detail = f"{type(proc_or_exc).__name__}: {proc_or_exc}"
+        else:
+            detail = (
+                f"exit {proc_or_exc.returncode}: "
+                + (proc_or_exc.stderr or proc_or_exc.stdout).strip()[:300]
+            )
+        result["error"] = f"git {step} failed ({detail})"
+        return result
+
+    def git(*args, timeout):
+        return subprocess.run(
+            ["git", *args], cwd=repo_path, capture_output=True, text=True, timeout=timeout
+        )
 
     try:
-        # Check for changes
-        proc_status = subprocess.run(
-            ["git", "status", "--porcelain"],
-            cwd=repo_path,
-            capture_output=True,
-            text=True,
-            timeout=10,
-        )
-        if not proc_status.stdout.strip():
-            result["output"] = "No changes to commit"
-            return result
-
-        if dry_run:
-            result["output"] = "[DRY RUN] Would commit and push:\n" + proc_status.stdout
-            result["pushed"] = True  # Pretend success
-            return result
-
-        # Stage all changes
-        subprocess.run(
-            ["git", "add", "-A"], cwd=repo_path, timeout=30, capture_output=True, text=True
-        )
-
-        # Commit
-        proc_commit = subprocess.run(
-            ["git", "commit", "-m", message],
-            cwd=repo_path,
-            capture_output=True,
-            text=True,
-            timeout=30,
-        )
-        result["output"] = proc_commit.stdout + proc_commit.stderr
-        commit_success = proc_commit.returncode == 0
-
-        if commit_success:
-            # Get commit hash
-            proc_hash = subprocess.run(
-                ["git", "rev-parse", "HEAD"],
-                cwd=repo_path,
-                capture_output=True,
-                text=True,
-                timeout=10,
-            )
-            result["commit_hash"] = proc_hash.stdout.strip()[:12]
-
-            # Push with retry (non-fatal if it fails — e.g. no credentials, diverged remote)
-            for attempt in range(max_retries):
-                proc_push = subprocess.run(
-                    ["git", "push"],
-                    cwd=repo_path,
-                    capture_output=True,
-                    text=True,
-                    timeout=120,
-                )
-                push_output = proc_push.stdout + proc_push.stderr
-                result["pushed"] = proc_push.returncode == 0
-                result["output"] += push_output
-                result["push_attempts"] = attempt + 1
-
-                if result["pushed"]:
-                    break
-                else:
-                    # Brief delay before retry (only for retry-worthy errors)
-                    if (
-                        "Could not resolve host" in push_output
-                        or "Connection refused" in push_output
-                    ):
-                        import time
-
-                        time.sleep(2 * (attempt + 1))  # Exponential backoff: 2s, 4s, 6s
-                    else:
-                        # Non-retryable error (auth, diverged, etc.)
-                        break
-
-            if not result["pushed"]:
-                result["output"] += (
-                    "\nNOTE: git push failed after {} attempt(s) — changes committed locally but not pushed".format(
-                        result.get("push_attempts", max_retries)
-                    )
-                )
-        else:
-            result["success"] = False
-            result["output"] += "\nCommit failed"
+        proc_status = git("status", "--porcelain", timeout=10)
     except Exception as e:
-        result["success"] = False
-        result["output"] = str(e)
+        return fail("status", e)
+    if proc_status.returncode != 0:
+        return fail("status", proc_status)
+    if not proc_status.stdout.strip():
+        result["success"] = True
+        result["output"] = "No changes to commit"
+        return result
 
-    return result
+    if dry_run:
+        # Nothing was pushed, so pushed stays False; would_push says what a real run does.
+        result["success"] = True
+        result["dry_run"] = True
+        result["would_push"] = True
+        result["output"] = "[DRY RUN] Would commit and push:\n" + proc_status.stdout
+        return result
+
+    try:
+        proc_add = git("add", "-A", timeout=30)
+    except Exception as e:
+        return fail("add", e)
+    if proc_add.returncode != 0:
+        return fail("add", proc_add)
+
+    try:
+        proc_commit = git("commit", "-m", message, timeout=30)
+    except Exception as e:
+        return fail("commit", e)
+    result["output"] = proc_commit.stdout + proc_commit.stderr
+    if proc_commit.returncode != 0:
+        return fail("commit", proc_commit)
+
+    try:
+        proc_hash = git("rev-parse", "HEAD", timeout=10)
+    except Exception as e:
+        return fail("rev-parse", e)
+    if proc_hash.returncode != 0:
+        return fail("rev-parse", proc_hash)
+    result["commit_hash"] = proc_hash.stdout.strip()[:12]
+
+    for attempt in range(1, max_retries + 1):
+        result["push_attempts"] = attempt
+        try:
+            proc_push = git("push", timeout=120)
+        except Exception as e:
+            return fail("push", e)
+        result["output"] += proc_push.stdout + proc_push.stderr
+        if proc_push.returncode == 0:
+            result["pushed"] = True
+            result["success"] = True
+            return result
+        push_output = proc_push.stdout + proc_push.stderr
+        retryable = "Could not resolve host" in push_output or "Connection refused" in push_output
+        if not retryable or attempt == max_retries:
+            fail("push", proc_push)
+            result["error"] += (
+                f" after {attempt} attempt(s); commit {result['commit_hash']} exists locally only"
+            )
+            return result
+        import time
+
+        time.sleep(2 * attempt)  # backoff: 2s, 4s, ...
+    raise AssertionError("unreachable: the push loop always returns")  # max_retries < 1
 
 
 # ── Sync Functions ───────────────────────────────────────────────

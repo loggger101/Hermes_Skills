@@ -12,10 +12,17 @@ The one-script-per-dataset pattern it demonstrates:
 
 This file runs end-to-end against the LIVE JPL NHATS endpoint as a self-test:
 
-    python pipeline_skeleton.py            # fetch ~7k NEAs, validate, write parquet/CSV to ./out
-    python pipeline_skeleton.py --dry-run  # stop after validation (no files written)
+    python pipeline_skeleton.py              # fetch ~7k NEAs, validate, write parquet to ./out
+    python pipeline_skeleton.py --format csv # same, CSV output (no pyarrow needed)
+    python pipeline_skeleton.py --dry-run    # stop after validation (no files written)
 
-Dependencies: requests + pandas (core); pyarrow only if you want parquet output.
+Dependencies: requests + pandas (core); pyarrow for the default parquet output.
+
+Fail-loud contract (round-257; every one of these used to degrade quietly): parquet without
+pyarrow exits 2 (it once wrote CSV under the same run), a VizieR catalog that cannot be
+paginated raises instead of returning a truncated frame, a VizieR error page (VOTable XML)
+raises instead of parsing as data, a missing critical column fails validation, and an
+unreadable status.json fails the row-trend guard instead of switching it off.
 """
 
 import argparse
@@ -61,6 +68,10 @@ PAGE_SIZE = 500_000
 def _fetch_page(adql: str, timeout: int) -> pd.DataFrame:
     resp = requests.post(TAP_URL, data={"QUERY": adql}, params={"FORMAT": "text"}, timeout=timeout)
     resp.raise_for_status()
+    # VizieR reports query errors as VOTable XML with HTTP 200 even when text was asked for
+    # (SKILL.md gotcha); read_csv would turn the error page into a one-column "dataset".
+    if resp.text.lstrip().startswith("<?xml"):
+        raise RuntimeError(f"VizieR TAP returned an XML error page: {resp.text[:300]}")
     return pd.read_csv(io.StringIO(resp.text), sep="\t")
 
 
@@ -80,8 +91,11 @@ def vizier_query(adql: str, max_rows: int | None = None, timeout: int = 300) -> 
     all_dfs = [df]
     while True:
         if "recno" not in df.columns:
-            print("  WARNING: no recno column for pagination; returning what we have")
-            break
+            # Returning the first page here handed a truncated catalog to validation.
+            raise RuntimeError(
+                "VizieR result has no recno column, so it cannot be paginated past "
+                f"{sum(len(d) for d in all_dfs):,} rows: add recno to the SELECT"
+            )
         paged = _add_recno_filter(adql, int(df["recno"].max()))
         time.sleep(1)
         df = _fetch_page(paged, timeout)
@@ -125,11 +139,14 @@ def check_dataset(
             f"::error::VALIDATION FAILED [{dataset_name}]: completely empty columns: {sorted(all_null)}"
         )
         sys.exit(1)
+    # Critical columns must exist (a missing one used to be skipped silently)
+    absent = [c for c in critical_columns or [] if c not in df.columns]
+    if absent:
+        print(f"::error::VALIDATION FAILED [{dataset_name}]: missing critical columns: {absent}")
+        sys.exit(1)
     # Critical-column nulls (warn only)
     warnings = 0
     for col in critical_columns or []:
-        if col not in df.columns:
-            continue
         null_pct = float(df[col].isna().mean())
         if null_pct > max_null_pct:
             print(
@@ -140,14 +157,15 @@ def check_dataset(
     if status_file and Path(status_file).exists():
         try:
             prev = json.loads(Path(status_file).read_text()).get("_rows", {}).get(dataset_name)
-            if prev and len(df) < prev * 0.8:
-                drop = (prev - len(df)) / prev
-                print(
-                    f"::warning::[{dataset_name}] row count dropped {drop:.0%}: "
-                    f"{prev:,} -> {len(df):,}"
-                )
-        except (json.JSONDecodeError, TypeError, ValueError):
-            pass
+        except (json.JSONDecodeError, AttributeError) as e:
+            # Swallowing this switched the truncated-upload guard off without a word.
+            print(f"::error::VALIDATION FAILED [{dataset_name}]: unreadable {status_file}: {e}")
+            sys.exit(1)
+        if prev and len(df) < prev * 0.8:
+            drop = (prev - len(df)) / prev
+            print(
+                f"::warning::[{dataset_name}] row count dropped {drop:.0%}: {prev:,} -> {len(df):,}"
+            )
     print(
         f"Validation passed [{dataset_name}]: {len(df):,} rows, "
         f"{len(df.columns)} columns, {'0 warnings' if not warnings else str(warnings) + ' warning(s)'}"
@@ -186,7 +204,17 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--dry-run", action="store_true", help="validate only; write nothing")
     ap.add_argument("--out-dir", default="out", help="output directory (default ./out)")
+    ap.add_argument("--format", choices=["parquet", "csv"], default="parquet")
     args = ap.parse_args()
+
+    if args.format == "parquet" and not args.dry_run:
+        try:
+            import pyarrow  # noqa: F401
+        except ImportError:
+            print("ERROR: parquet output needs pyarrow (pip install pyarrow), or pass --format csv")
+            return 2
+    out = Path(args.out_dir)
+    sf = out / "status.json"
 
     print("Fetching NASA NHATS accessible asteroids...")
     df = fetch_nhats()
@@ -198,25 +226,21 @@ def main() -> int:
         min_rows=5000,  # the study covers ~7k NEAs; a drop below this = broken fetch
         expected_columns=["designation", "min_delta_v_kms", "orbit_condition_code"],
         critical_columns=["min_delta_v_kms", "n_viable_trajectories"],
+        status_file=sf,  # was never passed: the row-trend guard never ran here
     )
 
     if args.dry_run:
         print("--dry-run: skipping write.")
         return 0
 
-    out = Path(args.out_dir)
     out.mkdir(parents=True, exist_ok=True)
-    try:
-        import pyarrow  # noqa: F401
-
+    if args.format == "parquet":
         path = out / "nhats.parquet"
         df.to_parquet(path, compression="zstd", index=False)
-    except ImportError:
+    else:
         path = out / "nhats.csv"
         df.to_csv(path, index=False)
-        print("  (pyarrow not installed — wrote CSV instead of parquet)")
     # status.json is the row-trend guard's memory across runs.
-    sf = out / "status.json"
     prev = json.loads(sf.read_text()) if sf.exists() else {"_rows": {}}
     prev["_rows"]["nhats-accessible-asteroids"] = len(df)
     sf.write_text(json.dumps(prev, indent=2))
@@ -225,4 +249,8 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+    # Non-ASCII output (print, SystemExit messages) raises UnicodeEncodeError on a cp1252
+    # console or pipe: switch both streams to UTF-8.
+    for _stream in (sys.stdout, sys.stderr):
+        _stream.reconfigure(encoding="utf-8", errors="replace")
     raise SystemExit(main())

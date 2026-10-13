@@ -54,10 +54,19 @@ All three live in `$HERMES_HOME/skills/devops/watchers/scripts/` once the skill 
 All three:
 
 - First run records a baseline — never replays existing feed
-- Watermark is a bounded ID set (max 500) to cap memory
+- Watermark is a bounded ID set (max 500) to cap memory; the oldest IDs go first and the
+  current batch is always kept
 - Output format: `## <title>\n<url>\n\n<optional body>` per item
 - Empty stdout on no-new — the caller treats that as silent
-- Non-zero exit on fetch errors
+- New items cut by `--max` are marked seen, and the output ends with a line saying how many
+- Exit 2 (nothing recorded) on fetch errors, a non-feed or non-JSON response, an unusable
+  state file, and when no item carries the id field (a mistyped `--id-field`, or a feed
+  whose entries have neither guid nor link); a warning on stderr when only some lack it
+
+All of these exits used to be silent: a corrupt state file restarted as a first run (and
+dropped everything since the last good run), a wrong id field never fired, an HTML login
+page read as an empty feed, and the `--max` overflow vanished. `tests/test_watchers.py`
+runs each case.
 
 ## Usage
 
@@ -98,6 +107,9 @@ Every watcher writes `$HERMES_HOME/watcher-state/<name>.json`. Inspect:
 ```bash
 cat $HERMES_HOME/watcher-state/hn.json
 ```
+
+A state file that is not valid JSON stops the watcher with exit 2 and is left untouched
+for inspection. Deleting it re-baselines (the next run emits nothing).
 
 Force a replay (next run treated as first poll):
 

@@ -17,11 +17,16 @@ Provenance: cathrynlavery/repo-atlas (MIT, Copyright (c) 2026 Cathryn Lavery).
 Local patch: read_text/write_text now pass encoding="utf-8". Upstream used the
 platform default, so on Windows (cp1252) a non-ASCII commit subject crashed
 --write with UnicodeEncodeError after repo-map.md was already written.
+Local patch (round-257): a failing `git log` exits 2 instead of writing "0 commits";
+a quiet window no longer lists the last 20 commits under the "last 14 days" heading
+(they get their own, honest heading); an unreadable directory is shown as such in
+the tree; --check no longer creates docs/atlas/; and the map leaves out its own output,
+so --check right after --write passes (upstream always reported STALE there).
 """
+
 from __future__ import annotations
 
 import argparse
-import os
 import subprocess
 import sys
 from collections import Counter
@@ -39,12 +44,37 @@ REPO_NAME = REPO_ROOT.name
 # Directories/files to exclude (matched by exact path segment, NOT substring).
 # Each entry is compared against individual directory names in the path.
 IGNORE_NAMES = {
-    ".git", "node_modules", "__pycache__", ".build", "DerivedData",
-    ".DS_Store", "Pods", "build", "dist", ".next", ".nuxt", ".output",
-    ".venv", "venv", ".env", ".tox", ".mypy_cache", ".pytest_cache",
-    ".ruff_cache", "coverage", ".nyc_output", ".turbo", ".cache",
-    "target", "obj", ".gradle", ".idea", ".vscode",
-    ".beads", ".swiftpm", "Assets.xcassets",
+    ".git",
+    "node_modules",
+    "__pycache__",
+    ".build",
+    "DerivedData",
+    ".DS_Store",
+    "Pods",
+    "build",
+    "dist",
+    ".next",
+    ".nuxt",
+    ".output",
+    ".venv",
+    "venv",
+    ".env",
+    ".tox",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    "coverage",
+    ".nyc_output",
+    ".turbo",
+    ".cache",
+    "target",
+    "obj",
+    ".gradle",
+    ".idea",
+    ".vscode",
+    ".beads",
+    ".swiftpm",
+    "Assets.xcassets",
 }
 
 # Directory annotations — map directory names to short descriptions.
@@ -58,27 +88,51 @@ TREE_ANNOTATIONS: dict[str, str | None] = {
 # Entrypoint file names to detect (matched by filename only)
 ENTRYPOINT_NAMES = {
     # Python
-    "main.py", "app.py", "manage.py", "wsgi.py", "asgi.py", "__main__.py",
-    "cli.py", "server.py",
+    "main.py",
+    "app.py",
+    "manage.py",
+    "wsgi.py",
+    "asgi.py",
+    "__main__.py",
+    "cli.py",
+    "server.py",
     # JavaScript/TypeScript
-    "index.js", "index.ts", "index.tsx", "main.js", "main.ts", "main.tsx",
-    "app.js", "app.ts", "app.tsx", "server.js", "server.ts",
+    "index.js",
+    "index.ts",
+    "index.tsx",
+    "main.js",
+    "main.ts",
+    "main.tsx",
+    "app.js",
+    "app.ts",
+    "app.tsx",
+    "server.js",
+    "server.ts",
     # Go
     "main.go",
     # Rust
-    "main.rs", "lib.rs",
+    "main.rs",
+    "lib.rs",
     # Swift
     "main.swift",
     # Ruby
-    "config.ru", "Rakefile",
+    "config.ru",
+    "Rakefile",
     # Java/Kotlin
-    "Application.java", "App.java", "Main.java", "Application.kt", "App.kt",
+    "Application.java",
+    "App.java",
+    "Main.java",
+    "Application.kt",
+    "App.kt",
     # C/C++
-    "main.c", "main.cpp", "main.cc",
+    "main.c",
+    "main.cpp",
+    "main.cc",
     # C#
     "Program.cs",
     # PHP
-    "index.php", "artisan",
+    "index.php",
+    "artisan",
     # Elixir
     "mix.exs",
     # Dart
@@ -96,10 +150,10 @@ ENTRYPOINT_PATH_PATTERNS: dict[str, str] = {
 
 # Patterns to search for in file content (for annotation-based entrypoint detection)
 ENTRYPOINT_CONTENT_MARKERS = {
-    "@main": "Entry point (@main)",                       # Swift
+    "@main": "Entry point (@main)",  # Swift
     "@SpringBootApplication": "Spring Boot entry point",  # Java/Kotlin
-    "func main()": "Go entry point",                      # Go
-    "fn main()": "Rust entry point",                      # Rust
+    "func main()": "Go entry point",  # Go
+    "fn main()": "Rust entry point",  # Rust
 }
 
 # Conventional commit prefixes → category names (supports `feat!:` breaking syntax)
@@ -131,9 +185,26 @@ CHANGELOG_DAYS = 14
 # Shared helpers
 # ---------------------------------------------------------------------------
 
+
 def _is_ignored(path: Path) -> bool:
-    """Check if any path segment matches an ignored name (exact segment match)."""
+    """Check if any path segment matches an ignored name (exact segment match), or the file
+    is one of the atlas's own outputs."""
+    if ATLAS_DIR in path.parents:
+        return True
     return any(part in IGNORE_NAMES for part in path.relative_to(REPO_ROOT).parts)
+
+
+def _is_atlas_output(d: Path) -> bool:
+    """True for docs/atlas/ and for any parent holding nothing but it.
+
+    The map must not describe its own output: upstream listed docs/atlas/ in the tree and
+    counted the two generated .md files, so the first --write changed what the next run
+    generates and `--check` right after `--write` always reported STALE (round-257)."""
+    if d == ATLAS_DIR:
+        return True
+    if d not in ATLAS_DIR.parents:
+        return False
+    return all(_is_atlas_output(c) for c in d.iterdir() if c.name not in IGNORE_NAMES)
 
 
 def _strip_dynamic_content(content: str) -> str:
@@ -145,16 +216,45 @@ def _strip_dynamic_content(content: str) -> str:
 # Directory tree generation
 # ---------------------------------------------------------------------------
 
+
 def _collect_root_files() -> list[str]:
     """Collect notable files at the repo root for the tree."""
     notable_extensions = {
-        ".md", ".txt", ".yml", ".yaml", ".json", ".toml", ".cfg", ".ini",
-        ".swift", ".py", ".js", ".ts", ".go", ".rs", ".java", ".kt", ".rb",
-        ".c", ".cpp", ".cs", ".php", ".ex", ".exs", ".dart",
+        ".md",
+        ".txt",
+        ".yml",
+        ".yaml",
+        ".json",
+        ".toml",
+        ".cfg",
+        ".ini",
+        ".swift",
+        ".py",
+        ".js",
+        ".ts",
+        ".go",
+        ".rs",
+        ".java",
+        ".kt",
+        ".rb",
+        ".c",
+        ".cpp",
+        ".cs",
+        ".php",
+        ".ex",
+        ".exs",
+        ".dart",
     }
     notable_names = {
-        "Makefile", "Dockerfile", "Gemfile", "Rakefile", "Procfile",
-        "Vagrantfile", "Jenkinsfile", "LICENSE", "LICENCE",
+        "Makefile",
+        "Dockerfile",
+        "Gemfile",
+        "Rakefile",
+        "Procfile",
+        "Vagrantfile",
+        "Jenkinsfile",
+        "LICENSE",
+        "LICENCE",
     }
     files = []
     try:
@@ -179,9 +279,11 @@ def generate_tree(root: Path, prefix: str = "", depth: int = 0) -> list[str]:
     try:
         entries = sorted(root.iterdir(), key=lambda p: (not p.is_dir(), p.name.lower()))
     except PermissionError:
-        return []
+        return [f"{prefix}(unreadable: permission denied)"]
 
-    dirs = [e for e in entries if e.is_dir() and e.name not in IGNORE_NAMES]
+    dirs = [
+        e for e in entries if e.is_dir() and e.name not in IGNORE_NAMES and not _is_atlas_output(e)
+    ]
 
     for i, entry in enumerate(dirs):
         is_last = i == len(dirs) - 1
@@ -199,15 +301,32 @@ def generate_tree(root: Path, prefix: str = "", depth: int = 0) -> list[str]:
 # Entrypoints detection
 # ---------------------------------------------------------------------------
 
+
 def find_entrypoints() -> list[tuple[str, str]]:
     """Detect entry files by name, path pattern, and content markers."""
     entrypoints = []
     seen_paths: set[str] = set()
 
     SOURCE_EXTENSIONS = {
-        ".swift", ".py", ".ts", ".tsx", ".js", ".jsx",
-        ".go", ".rs", ".java", ".kt", ".rb", ".c", ".cpp", ".cc",
-        ".cs", ".php", ".ex", ".exs", ".dart",
+        ".swift",
+        ".py",
+        ".ts",
+        ".tsx",
+        ".js",
+        ".jsx",
+        ".go",
+        ".rs",
+        ".java",
+        ".kt",
+        ".rb",
+        ".c",
+        ".cpp",
+        ".cc",
+        ".cs",
+        ".php",
+        ".ex",
+        ".exs",
+        ".dart",
     }
 
     # Single pass over the repo for filename + content marker detection
@@ -305,6 +424,7 @@ def find_entrypoints() -> list[tuple[str, str]]:
 # File statistics
 # ---------------------------------------------------------------------------
 
+
 def file_stats() -> dict[str, int]:
     """Count files by extension (includes extensionless files like Dockerfile)."""
     counts: Counter = Counter()
@@ -321,6 +441,7 @@ def file_stats() -> dict[str, int]:
 # Changelog generation
 # ---------------------------------------------------------------------------
 
+
 def parse_commit(line: str) -> tuple[str, str, str]:
     """Parse a git log line into (hash, category, message).
 
@@ -333,34 +454,42 @@ def parse_commit(line: str) -> tuple[str, str, str]:
     commit_hash, message = parts
     msg_lower = message.lower()
     for prefix, category in CONVENTIONAL_COMMITS.items():
-        if (msg_lower.startswith(prefix + ":")
-                or msg_lower.startswith(prefix + "(")
-                or msg_lower.startswith(prefix + "!:")
-                or msg_lower.startswith(prefix + "!(")):
+        if (
+            msg_lower.startswith(prefix + ":")
+            or msg_lower.startswith(prefix + "(")
+            or msg_lower.startswith(prefix + "!:")
+            or msg_lower.startswith(prefix + "!(")
+        ):
             return commit_hash, category, message
     return commit_hash, "Other", message
 
 
-def generate_changelog() -> str:
-    """Generate changelog from git log."""
+def _git_log(*args: str) -> list[str]:
+    """`git log --oneline` lines; a git failure is fatal, never an empty history."""
     try:
         result = subprocess.run(
-            ["git", "log", "--oneline", f"--since={CHANGELOG_DAYS} days ago", "--no-merges"],
-            capture_output=True, text=True, cwd=REPO_ROOT
+            ["git", "log", "--oneline", "--no-merges", *args],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            cwd=REPO_ROOT,
         )
-        lines = result.stdout.strip().split("\n") if result.stdout.strip() else []
-    except (subprocess.SubprocessError, FileNotFoundError):
-        lines = []
+    except (subprocess.SubprocessError, FileNotFoundError) as e:
+        raise SystemExit(f"generate_atlas: cannot run git: {e}")
+    if result.returncode != 0:
+        raise SystemExit(
+            f"generate_atlas: git log failed in {REPO_ROOT}: {result.stderr.strip()[:300]}"
+        )
+    return [ln for ln in result.stdout.strip().split("\n") if ln.strip()]
 
-    if not lines:
-        try:
-            result = subprocess.run(
-                ["git", "log", "--oneline", "-20", "--no-merges"],
-                capture_output=True, text=True, cwd=REPO_ROOT
-            )
-            lines = result.stdout.strip().split("\n") if result.stdout.strip() else []
-        except (subprocess.SubprocessError, FileNotFoundError):
-            lines = []
+
+def generate_changelog() -> str:
+    """Generate changelog from git log."""
+    lines = _git_log(f"--since={CHANGELOG_DAYS} days ago")
+    # A quiet window shows the most recent commits under their own heading: they used to be
+    # counted and listed as if they fell inside the window.
+    recent = [] if lines else _git_log("-20")
 
     categories: dict[str, list[tuple[str, str]]] = {}
     for line in lines:
@@ -384,6 +513,10 @@ def generate_changelog() -> str:
         "## Changes by Category",
         "",
     ]
+    if recent:
+        output += [f"No commits in the window. The {len(recent)} most recent, for context:", ""]
+        output += [f"- {ln.strip()}" for ln in recent]
+        output.append("")
 
     ordered_categories = list(CONVENTIONAL_COMMITS.values()) + ["Other"]
     for category in dict.fromkeys(ordered_categories):
@@ -401,6 +534,7 @@ def generate_changelog() -> str:
 # ---------------------------------------------------------------------------
 # Repo map generation
 # ---------------------------------------------------------------------------
+
 
 def generate_repo_map() -> str:
     """Generate the full repo-map.md content."""
@@ -474,14 +608,13 @@ def generate_repo_map() -> str:
 # Main
 # ---------------------------------------------------------------------------
 
+
 def main():
     parser = argparse.ArgumentParser(description="Generate atlas files for this repository")
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--write", action="store_true", default=True, help="Write files (default)")
     group.add_argument("--check", action="store_true", help="Check if files are up to date")
     args = parser.parse_args()
-
-    ATLAS_DIR.mkdir(parents=True, exist_ok=True)
 
     files = {
         ATLAS_DIR / "repo-map.md": generate_repo_map(),
@@ -508,6 +641,7 @@ def main():
             print("Atlas files are up to date.")
             sys.exit(0)
     else:
+        ATLAS_DIR.mkdir(parents=True, exist_ok=True)
         for path, content in files.items():
             path.write_text(content, encoding="utf-8")
             print(f"  Wrote {path.relative_to(REPO_ROOT)}")

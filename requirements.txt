@@ -3,6 +3,10 @@
 # sync-hermes-skills.py's index-regeneration step (which shells out to the latter)
 # would fail. Install with: pip install -r requirements.txt
 pyyaml>=5.1
+# ruff runs verify-all's 'lint: ruff' gate (tools/check-lint.py). Pinned exactly: a new ruff
+# can add or change rules and formatting, which would flip the gate with no code change.
+# Keep in step with the pin in .github/workflows/ci.yml.
+ruff==0.16.9
 
 # NVIDIA AI Workbench environment (see .project/spec.yaml), not used by tools/
 jupyterlab>3.0

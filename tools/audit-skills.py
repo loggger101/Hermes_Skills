@@ -75,7 +75,9 @@ SECRET_PATTERNS = [
     ("aws_access_key_id", re.compile(r"AKIA[0-9A-Z]{16}")),
     (
         "github_token",
-        re.compile(r"\b(?:ghp|gho)_[A-Za-z0-9]{30,}\b|\bgitHub_pat_[A-Za-z0-9_]{20,}\b"),
+        # ghp_ classic PAT, gho_ OAuth, ghu_ user-to-server, ghs_ server-to-server,
+        # ghr_ refresh; github_pat_ fine-grained (lowercase: 'gitHub_pat_' matched nothing).
+        re.compile(r"\bgh[pousr]_[A-Za-z0-9]{30,}\b|\bgithub_pat_[A-Za-z0-9_]{20,}\b"),
     ),
     ("openai_style_secret", re.compile(r"\bsk-[A-Za-z0-9_-]{20,}")),
     ("slack_token", re.compile(r"xox[baprs]-[A-Za-z0-9-]{10,}")),

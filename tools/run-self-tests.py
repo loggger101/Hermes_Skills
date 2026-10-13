@@ -37,7 +37,7 @@ closes that gap with the same discovery philosophy as run-skill-tests.py:
     how it should be handled — fail-loud, same contract as run-skill-tests.py's
     empty-scan-is-FATAL rule and the index drift gates.
 
-Exit code: number of failed harnesses (0 = all pass or skip). --list prints what
+Exit code: 1 if any harness failed, 2 on a usage or manifest problem (0 = all pass or skip). --list prints what
 would run without executing anything. Extra path args override discovery for that
 run only (used by tools/mutation-test-selftest-gate.py to test a mutated copy in
 a temp dir — those paths bypass the manifest check deliberately, since they are

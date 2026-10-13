@@ -17,7 +17,7 @@ Re-derives the math from nasa/aegis GIS_data_conversion_pipeline/esri-to-aegis-l
     * ACC split rules: 6-char -> [3:5]/[5:], 5-char -> [3:4]/[4:]
     * row/column scan over centre-Y steps with the blank-before-new-row rule
 
-Exit code = number of failed checks (0 = all pass). Re-run any time: `py scripts/cap_grid_verify.py`.
+Exit 1 if any check failed (never the count: it wraps at 256 and 77 means SKIP) (0 = all pass). Re-run any time: `py scripts/cap_grid_verify.py`.
 """
 
 from __future__ import annotations
@@ -237,8 +237,12 @@ def main() -> None:
     print(
         f"\n{'=' * 50}\n{len(FAILS)} failed / {'ALL CHECKS PASSED' if not FAILS else 'SEE ABOVE'}"
     )
-    sys.exit(len(FAILS))
+    sys.exit(1 if FAILS else 0)
 
 
 if __name__ == "__main__":
+    # Non-ASCII output (print, SystemExit messages) raises UnicodeEncodeError on a cp1252
+    # console or pipe: switch both streams to UTF-8.
+    for _stream in (sys.stdout, sys.stderr):
+        _stream.reconfigure(encoding="utf-8", errors="replace")
     main()

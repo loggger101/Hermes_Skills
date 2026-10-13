@@ -291,7 +291,7 @@ def build_mutations(tmp: Path):
     rst = load_runner()
     suite_counts = {s.key: rst.count_tests(s) for s in rst.discover_suites(REPO)}
 
-    m = re.search(r"\b(\w+) suites currently:\s*([^()\n]+)", readme)
+    m = re.search(r"\b([\w-]+) suites currently:\s*([^()\n]+)", readme)
     if m and len(suite_counts):
         # 7) one listed count off by one (largest suite, so the anchor 'name N' is unique)
         name, n = max(suite_counts.items(), key=lambda kv: kv[1])

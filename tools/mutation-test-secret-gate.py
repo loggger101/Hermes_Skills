@@ -59,6 +59,14 @@ def load_auditor():
 POSITIVE_FILES = {
     "devops/fake-skill/scripts/aws_leak.py": 'KEY = "AKIAABCDEFGHIJKLMNOP"\n',
     "devops/fake-skill/scripts/gh_leak.py": 'TOKEN = "ghp_abcdefghijklmnopqrstuvwxyz0123456789AB"\n',
+    # One plant per ALTERNATIVE inside a class, not just per class: the github_token regex
+    # spelled the fine-grained prefix 'gitHub_pat_' (case-sensitive), so real 'github_pat_'
+    # tokens were never caught while the ghp_ plant above kept this self-test green.
+    # Variable names avoid SECRET_ASSIGN's keywords so only the github_token regex can match.
+    "devops/fake-skill/scripts/gh_pat_leak.py": (
+        'GH = "github_pat_11ABCDEFG0abcdefghijkl_mnopqrstuvwxyz0123456789ABCDEFGHIJ"\n'
+    ),
+    "devops/fake-skill/scripts/gh_app_leak.py": 'GH = "ghs_abcdefghijklmnopqrstuvwxyz0123456789AB"\n',
     "devops/fake-skill/scripts/oai_leak.py": 'SECRET = "sk-abcdefghijklmnopqrstuvwx"\n',
     "devops/fake-skill/scripts/slack_leak.py": 'SLACK = "xoxb-1234567890-abcdEFgh"\n',
     "devops/fake-skill/scripts/pem_leak.py": 'PEM = "-----BEGIN RSA PRIVATE KEY-----"\n',

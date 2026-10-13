@@ -37,11 +37,13 @@ def main() -> int:
     path = None
     new_line = 0
     hits = 0
+    files = 0
     for raw in sys.stdin:
         line = raw.rstrip("\n")
         m = FILE_RE.match(line)
         if m:
             path = m.group(1)
+            files += 1
             continue
         m = HUNK_RE.match(line)
         if m:
@@ -63,7 +65,13 @@ def main() -> int:
             continue
         else:
             new_line += 1
-    print(f"scan: {hits} candidate(s)", file=sys.stderr)
+    if files == 0:
+        # Exit stays 0 (the invariant above), but "0 candidates" from input that held no
+        # diff at all read as a clean scan. Added in this brain, round-257.
+        print("scan: input had no '+++ b/<path>' headers: not a unified diff, nothing scanned",
+              file=sys.stderr)
+        return 0
+    print(f"scan: {hits} candidate(s) in {files} file(s)", file=sys.stderr)
     return 0
 
 

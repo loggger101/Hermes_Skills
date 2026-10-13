@@ -299,7 +299,7 @@ The Python scripts in [`tools/`](./tools/) keep the repository healthy. The audi
 
 ### Start here
 
-[`verify-all.py`](./tools/verify-all.py) runs every gate in one shot and exits 0 only when all 25 gates pass or are declared skips. Run it before any commit.
+[`verify-all.py`](./tools/verify-all.py) runs every gate in one shot and exits 0 only when all 29 gates pass or are declared skips. Run it before any commit.
 
 Each gate prints PASS, FAIL or SKIP. A SKIP is never reported as a pass. Only a gate declared skippable may produce one: today that is only installed-plugins, in CI or on the machine whose inventory the doc is not. When a gate skips, the summary line names it instead of saying all gates passed.
 
@@ -313,8 +313,11 @@ Each gate prints PASS, FAIL or SKIP. A SKIP is never reported as a pass. Only a 
 | Self-test harnesses | Every registered `*_verify.py` runs |
 | Router coverage | `skill-flow-router` routes (or declines with a reason) every skill in its scope |
 | Skill pointers | Prose `skill_view` / `hermes skill load` / install pointers resolve |
-| Mutation self-tests | Ten gates and the five index drift checks are proven to fail on planted defects |
-| Tool unit tests | `tools/tests/`: the sync pre-push decision and error paths, installed-plugins failures, verify-all verdicts, the index write-guard |
+| Mutation self-tests | Thirteen gates and the five index drift checks are proven to fail on planted defects |
+| Tool unit tests | `tools/tests/`: the sync pre-push decision, its git steps against real temp repos, error paths, installed-plugins failures, verify-all verdicts, the index write-guard |
+| Lint | `ruff check` and `ruff format --check` at the version pinned in `requirements.txt`; every `ruff.toml` path still exists; its excludes equal the bundled skills that hold Python; no script prints non-ASCII without UTF-8 output |
+| Script syntax | Every `.py`, `.js`/`.cjs`/`.mjs`, `.sh` and `.ps1` in the repo parses (Python compile, `node --check`, `bash -n`, PowerShell's parser) |
+| Script coverage | Every script inside a skill is run by a test, or is listed in [`tools/untested-scripts.txt`](./tools/untested-scripts.txt) with a reason; that ledger may only shrink |
 
 ### Checks
 
@@ -324,6 +327,9 @@ Each gate prints PASS, FAIL or SKIP. A SKIP is never reported as a pass. Only a 
 | [`check-links.py`](./tools/check-links.py) | Verifies every relative markdown link resolves and every `#anchor` into a markdown file names a heading or `<a id>`. Skips URLs, code spans and historical `profiles-export/` snapshots; exit 1 on any broken link or anchor, exit 2 when the scan itself failed | After doc edits |
 | [`check-router-coverage.py`](./tools/check-router-coverage.py) | Every skill in `skill-flow-router`'s declared scope is either routed or declined with a reason | Gate in verify-all |
 | [`check-skill-pointers.py`](./tools/check-skill-pointers.py) | Every `skill_view(name=...)`, `hermes skill load <category>/<name>` and `skill_manage("install", ...)` pointer in prose or cron JSON names a skill that exists at that path | Gate in verify-all |
+| [`check-lint.py`](./tools/check-lint.py) | `ruff check` + `ruff format --check` at the pinned ruff, live `ruff.toml` paths, excludes == bundled skills with Python, UTF-8-safe output; exit 1 on findings, 2 when it cannot run | Gate in verify-all; after Python edits |
+| [`check-script-syntax.py`](./tools/check-script-syntax.py) | Parses every `.py`, `.js`/`.cjs`/`.mjs`, `.sh` and `.ps1`; a missing parser (node, bash, PowerShell) is a FAIL | Gate in verify-all |
+| [`check-script-coverage.py`](./tools/check-script-coverage.py) | Every skill script is run by a test or listed in `tools/untested-scripts.txt` with a reason; a listed script that gains a test must leave the list. `--list-untested` prints the gap | Gate in verify-all; after adding a script or a test |
 | [`validate-skill-refs.py`](./.hermes/cron/validate-skill-refs.py) | Cronjob JSON skill references resolve to in-repo skill directories | Before scheduling any cronjob |
 | [`validate-cronjobs.py`](./.hermes/cron/validate-cronjobs.py) | Structural schema, skill refs, threshold-key alignment and `no_agent` consistency. `--job <file>` validates one config | Before committing a cronjob config change |
 
@@ -401,7 +407,7 @@ It has `--dry-run`. Always dry-run before a first live run: round 19b caught two
 One command runs everything:
 
 ```bash
-py tools/verify-all.py      # 25 gates; exit 0 = all pass (declared skips are named)
+py tools/verify-all.py      # 29 gates; exit 0 = all pass (declared skips are named)
 ```
 
 On Windows, use `py` wherever bare `python` is the Microsoft Store alias stub (it exits 49 without running anything; true on the Owner machine, not on the Loggg one). Linux and macOS: `python3`.
@@ -431,7 +437,7 @@ It requires **pyyaml** (`pip install -r requirements.txt`). Without it the audit
 
 1. **Health gates** — `pip install pyyaml pytest`, then `python tools/verify-all.py`.
 2. **Skill test suites** — [`tools/run-skill-tests.py`](./tools/run-skill-tests.py) discovers them at runtime: pytest dirs, `node --test` files and smoke scripts are picked up automatically, so no workflow edit is needed when a new suite ships.
-   - Twelve suites currently: comfyui 117 / docx 29 / pdf 21 / powerpoint 21 / xlsx 12 / regex-vs-llm-structured-text 14 / sqlite-queries 20 / evolutionary-ml 5 / ascii-video 5 / security-audit:node 65 / ast-grep:sh 16 / ast-grep:ps1 13 (gate-enforced since round-33 — verify-all's doc-count check recomputes every count with `run-skill-tests.count_tests()`: `def test_` definitions, `node --test` call sites, smoke `pass` call sites; it fails on drift. Originally counted by hand 2026-09-09).
+   - Twenty-six suites currently: comfyui 117 / docx 29 / pdf 21 / powerpoint 21 / xlsx 12 / regex-vs-llm-structured-text 14 / sqlite-queries 20 / evolutionary-ml 5 / ascii-video 5 / security-audit:node 65 / ast-grep:sh 16 / ast-grep:ps1 13 / space-data-pipelines 13 / system-design-scaling 9 / github-code-review 4 / session-librarian 5 / oss-forensics 9 / living-docs-governance 8 / multi-agent-deliberation 8 / watchers 20 / har-derived-api-client 8 / rss-feeds 9 / repo-atlas 5 / architecture-metrics 16 / fastmcp 5 / diagram-design 5 (round-257 added the last fourteen; gate-enforced since round-33 — verify-all's doc-count check recomputes every count with `run-skill-tests.count_tests()`: `def test_` definitions, `node --test` call sites, smoke `pass` call sites; it fails on drift. Originally counted by hand 2026-09-09).
    - The sqlite suite is stdlib-only and its four `sqlite3`-CLI tests skip on hosts without the binary, so it adds zero new dependencies.
    - Test deps for the library-backed suites come from [`test-requirements.txt`](./test-requirements.txt), a single source of truth created by running all suites in a clean venv until green (verified 2026-09-09: all pass, pure wheels only, no poppler binary needed because `pypdfium2` covers rasterization). When you add test dependencies to any skill's suite, update that file too.
 3. **Self-test harnesses** — runs [`tools/run-self-tests.py`](./tools/run-self-tests.py) `--strict` against a real install of duckdb/polars/pyarrow/numpy/pyomo/highspy (deps from [`selftest-requirements.txt`](./selftest-requirements.txt)).
@@ -459,7 +465,7 @@ It requires **pyyaml** (`pip install -r requirements.txt`). Without it the audit
   - the sync-owned `memories/` files (the historical snapshot in singular `profile/` is likewise untouched, because sync skips it)
 - **Trailing whitespace.** Markdown is **not** blanket-stripped. A double trailing space is a hard line break, so a blanket strip would silently reflow docs; only stray single spaces go.
 - **Formatting.**
-  - Python is formatted with `ruff format` and kept clean under `ruff check` (settings in [`ruff.toml`](./ruff.toml), 100 columns).
+  - Python is formatted with `ruff format` and kept clean under `ruff check` (settings in [`ruff.toml`](./ruff.toml), 100 columns). The `lint: ruff` gate enforces both, at the ruff version pinned in `requirements.txt`.
   - Markdown keeps a blank line around every heading, list, fenced block and table, and uses `-` bullets.
 - **Bundled skills.** Skills bundled with Hermes Agent (listed in `profile/.bundled_manifest`) are left as upstream ships them. Hermes stops updating a bundled skill once its files change, so a cosmetic reformat would opt it out of upstream fixes.
 

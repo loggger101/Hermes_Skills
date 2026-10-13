@@ -29,7 +29,13 @@ import urllib.request
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from _watermark import Watermark, format_items_as_markdown  # type: ignore
+from _watermark import (  # type: ignore
+    Watermark,
+    WatermarkError,
+    cap,
+    checked_filter,
+    format_items_as_markdown,
+)
 
 
 VALID_SCOPES = ("issues", "pulls", "releases", "commits")
@@ -158,15 +164,20 @@ def main() -> int:
     # Drop any items that flattened without an ID (defensive).
     items = [i for i in items if i.get("id")]
 
-    wm = Watermark.load(args.name)
-    new_items = wm.filter_new(items, id_key="id")
+    try:
+        wm = Watermark.load(args.name)
+    except WatermarkError as e:
+        print(f"watch_github: {e}", file=sys.stderr)
+        return 2
+    new_items, rc = checked_filter(wm, items, "id", "watch_github")
+    if rc is not None:
+        return rc
     wm.save()
 
-    if args.max > 0:
-        new_items = new_items[: args.max]
+    new_items, not_shown = cap(new_items, args.max)
 
     body_key = "body" if args.with_body else None
-    output = format_items_as_markdown(new_items, body_key=body_key)
+    output = format_items_as_markdown(new_items, body_key=body_key, not_shown=not_shown)
     if output:
         sys.stdout.write(output)
     return 0

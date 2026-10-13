@@ -86,6 +86,10 @@ GATE_LABELS = [
     "link gate self-test",  # mutation-test-link-gate.py — broken path/anchor, unreadable, floor
     "drift gate self-test",  # mutation-test-drift-gates.py — each index --check reports planted drift
     "tool unit tests",  # tools/tests via run-skill-tests.py --root tools
+    "lint: ruff",  # check-lint.py — ruff check + format, live ruff.toml paths, bundled excludes, UTF-8 output
+    "script syntax",  # check-script-syntax.py — every .py/.js/.sh/.ps1 parses
+    "script coverage",  # check-script-coverage.py — every script tested or in the reasoned ledger
+    "script gates self-test",  # mutation-test-script-gates.py — the three gates above fail loud
 ]
 
 
@@ -95,10 +99,17 @@ GATE_LABELS = [
 # and the table said PASS, the same word it used for a gate that had checked something.
 PASS, FAIL, SKIP = "PASS", "FAIL", "SKIP"
 SKIP_RC = 77
-NUMBER_WORDS = (
+_UNITS = (
     "One Two Three Four Five Six Seven Eight Nine Ten Eleven Twelve Thirteen Fourteen "
-    "Fifteen Sixteen Seventeen Eighteen Nineteen Twenty"
+    "Fifteen Sixteen Seventeen Eighteen Nineteen"
 ).split()
+_TENS = "Twenty Thirty Forty Fifty Sixty Seventy Eighty Ninety".split()
+# One..Ninety-nine, index i = the number i + 1 ('Twenty-four'). The list stopped at Twenty
+# until round-257 took the suite count past it; a word the gate cannot read is reported as
+# drift, never guessed.
+NUMBER_WORDS = _UNITS + [
+    t + ("" if u is None else "-" + u.lower()) for t in _TENS for u in [None] + _UNITS[:9]
+]
 
 
 def run(label, args, cwd=REPO, may_skip=False, timeout=300):
@@ -343,7 +354,7 @@ def check_doc_counts():
     #    label had fewer than three path parts from the per-name comparison.)
     if readme.exists() and suites_truth:
         text = readme.read_text(encoding="utf-8")
-        m = re.search(r"\b(\w+) suites currently:\s*([^()\n]+)", text)
+        m = re.search(r"\b([\w-]+) suites currently:\s*([^()\n]+)", text)
         listed = {}
         if not m:
             problems.append(
@@ -525,6 +536,17 @@ def main():
         # its error propagation, the installed-plugins failure paths, verify-all's verdicts
         # and the index write-guard. Run by the same proven runner as the skill suites.
         run("tool unit tests", ["tools/run-skill-tests.py", "--root", "tools"]),
+        # Round-257: README promised ruff-clean code and nothing ran ruff (16 findings, 10
+        # unformatted files, a per-file ignore for a file that had moved). Also: ruff.toml's
+        # bundled-skill excludes must equal the manifest, and output must survive cp1252.
+        run("lint: ruff", ["tools/check-lint.py"]),
+        # Only scripts a test happened to import were ever parsed; shell, PowerShell and
+        # JavaScript files were parsed by nothing at all.
+        run("script syntax", ["tools/check-script-syntax.py"]),
+        # 81 of 126 skill scripts had no test and no gate said so. Untested scripts now live
+        # in tools/untested-scripts.txt with a reason, and that list may only shrink.
+        run("script coverage", ["tools/check-script-coverage.py"]),
+        run("script gates self-test", ["tools/mutation-test-script-gates.py"], timeout=600),
     ]
     assert [r[0] for r in results] == GATE_LABELS, (
         "verify-all's result labels diverged from GATE_LABELS — the doc-count gate counts "

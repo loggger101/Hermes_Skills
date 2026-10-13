@@ -5,7 +5,7 @@ Re-implements (verbatim-in-spirit) the guard + retry policy from reconurge/flows
 @ 1820569: templates/loader/yaml_loader.py and core/template_enricher.py, then asserts
 every documented behavior against concrete cases. Stdlib only — run with `py` or `python`.
 
-Exit code = number of failed checks (0 = all pass).
+Exit 1 if any check failed (never the count: it wraps at 256 and 77 means SKIP) (0 = all pass).
 """
 
 from __future__ import annotations
@@ -281,7 +281,7 @@ check("explicitly-listed 4xx (418) -> retry", retry_decision(418, cfg) == "retry
 print()
 if FAILS:
     print(f"RESULT: {len(FAILS)} FAILED / {COUNT - len(FAILS)} passed (of {COUNT})")
-    raise SystemExit(len(FAILS))
+    raise SystemExit(1 if FAILS else 0)
 print(
     f"RESULT: all {COUNT} checks PASSED (guard ranges, schemes, hostnames, both documented "
     f"limitations, sanitization, dot-notation extraction, backoff schedule, retry decision table)"

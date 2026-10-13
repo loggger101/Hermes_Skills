@@ -132,7 +132,7 @@ The fastest way from a job you have in mind to the skill that does it. Not sure 
 | Publish a site/dashboard/docs build with versioned deploys + rollback | `publish-site` (GitHub Pages → Cloudflare → Netlify ladder, live-URL verification) |
 | Expose a local service / receive webhooks with no extra install | `pinggy-tunnel` (SSH reverse tunnel, webhook + MCP + LLM-endpoint recipes inside) |
 | Call tools on an MCP server from the terminal | `mcporter` (npx; list/call/auth/daemon); authoring servers → `fastmcp` |
-| Verify this repo's own health | `py tools/verify-all.py` — all 25 gates in one run |
+| Verify this repo's own health | `py tools/verify-all.py` — all 29 gates in one run |
 
 ## Organization
 
@@ -163,7 +163,7 @@ category/
 
 ### verify-all
 
-**`verify-all.py`** is the one command. It runs all 25 gates and prints a PASS / FAIL / SKIP table. Run it before every commit. A SKIP is never a pass: only a gate declared skippable may skip (today only installed-plugins, on a machine whose inventory the doc is not), and the summary names it instead of saying all gates passed.
+**`verify-all.py`** is the one command. It runs all 29 gates and prints a PASS / FAIL / SKIP table. Run it before every commit. A SKIP is never a pass: only a gate declared skippable may skip (today only installed-plugins, on a machine whose inventory the doc is not), and the summary names it instead of saying all gates passed.
 
 - **Audit** — includes the zero-threshold hardcoded-secret scan over every skill script and SKILL.md.
 - **Links** — every relative markdown link resolves.
@@ -173,8 +173,11 @@ category/
 - **Router coverage** — every skill in the router's declared scope is either routed or explicitly declined with a reason.
 - **Skill pointers** — every `skill_view` / `hermes skill load` / `skill_manage install` pointer in prose names a skill that exists.
 - **Self-test harness execution** — via `run-self-tests.py`.
-- **Mutation self-tests** — of the doc-count gate, the secret gate, the rest of the audit, the harness runner, the cron contract check, the router gate, the pointer gate, the skill-test runner, the link checker and the five index drift gates.
-- **Tool unit tests** — `tools/tests/`: the sync script's pre-push decision and error propagation, the installed-plugins failure paths, verify-all's verdicts and the index write-guard.
+- **Mutation self-tests** — of the doc-count gate, the secret gate, the rest of the audit, the harness runner, the cron contract check, the router gate, the pointer gate, the skill-test runner, the link checker, the five index drift gates, and the lint, script-syntax and script-coverage gates.
+- **Tool unit tests** — `tools/tests/`: the sync script's pre-push decision, its git steps against real temp repos and its error propagation, the installed-plugins failure paths, verify-all's verdicts and the index write-guard.
+- **Lint** — `ruff check` + `ruff format --check` at the pinned ruff; live `ruff.toml` paths; excludes equal to the bundled skills holding Python; UTF-8-safe output.
+- **Script syntax** — every Python, JavaScript, shell and PowerShell file parses.
+- **Script coverage** — every skill script is run by a test or listed in `tools/untested-scripts.txt` with a reason; the ledger only shrinks.
 
 ### Checks and generators
 
@@ -200,8 +203,8 @@ category/
 
 [`.github/workflows/ci.yml`](./.github/workflows/ci.yml) runs three jobs on every push and PR:
 
-1. Runs all 25 health gates.
-2. Every test suite that ships inside a skill, found by discovery: nine pytest suites (comfyui, docx, pdf, powerpoint, xlsx, regex-vs-llm-structured-text, sqlite-queries, evolutionary-ml, ascii-video), the security-audit `node --test` suite and the ast-grep sh/ps1 smoke scripts, with deps from [`test-requirements.txt`](./test-requirements.txt). A suite whose every test skipped fails, and so does a test file no suite runs.
+1. Runs all 29 health gates.
+2. Every test suite that ships inside a skill, found by discovery: twenty-three pytest suites (comfyui, docx, pdf, powerpoint, xlsx, regex-vs-llm-structured-text, sqlite-queries, evolutionary-ml, ascii-video, space-data-pipelines, system-design-scaling, github-code-review, session-librarian, oss-forensics, living-docs-governance, multi-agent-deliberation, watchers, har-derived-api-client, rss-feeds, repo-atlas, architecture-metrics, fastmcp, diagram-design), the security-audit `node --test` suite and the ast-grep sh/ps1 smoke scripts, with deps from [`test-requirements.txt`](./test-requirements.txt). A suite whose every test skipped fails, and so does a test file no suite runs.
 3. A dedicated `self-test-harnesses` job that executes every registered `*_verify.py` harness against real duckdb/polars/pyarrow/numpy/pyomo/highspy installs (deps from [`selftest-requirements.txt`](./selftest-requirements.txt)) with `--strict`, so a harness that skips there fails. An upstream engine change then breaks CI instead of quietly rotting the docs.
 
 ## Getting Started

@@ -41,6 +41,16 @@ SKIP_DIRS = {
 }
 
 
+# Files the scan could not use: (relative path, reason). Reported, never dropped quietly:
+# a file that stops parsing used to vanish from the graph, taking its imports, cycles and
+# complexity with it, so a session that broke a file's syntax scored BETTER (round-257).
+SKIPPED = []
+
+
+def _skip(p, root, reason):
+    SKIPPED.append((p.relative_to(root).as_posix(), reason))
+
+
 def find_py_files(root: Path):
     out = []
     for p in sorted(root.rglob("*.py")):
@@ -51,7 +61,8 @@ def find_py_files(root: Path):
             continue
         try:
             src = p.read_text(encoding="utf-8", errors="replace")
-        except OSError:
+        except OSError as e:
+            _skip(p, root, f"unreadable: {e.strerror or e}")
             continue
         out.append((p, src))
     return out
@@ -86,7 +97,8 @@ def build_graph(files, root: Path):
         m = module_name(p, root)
         try:
             tree = ast.parse(src)
-        except SyntaxError:
+        except SyntaxError as e:
+            _skip(p, root, f"SyntaxError line {e.lineno}: {e.msg}")
             continue
         cache[m] = (tree, str(p), src)  # keep source text to avoid re-reading
         pkg_parts = list(Path(m).parts[:-1]) if "." in m else []
@@ -331,11 +343,49 @@ def redundancy(cache):
     return dead, dups, total_fns, ratio
 
 
+# Baseline gate (sentrux `gate`): degraded = signal drop > SIGNAL_DROP (2% of the
+# 0-10000 scale, session_gate.py's 2-of-100 rule), or more cycles, or more unparsable files.
+SIGNAL_DROP = 200
+
+
+def compare(base: dict, cur: dict) -> list:
+    out = []
+    drop = base["quality_signal"] - cur["quality_signal"]
+    if drop > SIGNAL_DROP:
+        out.append(f"quality signal dropped {base['quality_signal']} -> {cur['quality_signal']}")
+    if cur["raw"]["cycles"] > base["raw"]["cycles"]:
+        out.append(f"cycles increased {base['raw']['cycles']} -> {cur['raw']['cycles']}")
+    nb, nc = len(base["unparsable_files"]), len(cur["unparsable_files"])
+    if nc > nb:
+        out.append(f"unparsable files increased {nb} -> {nc}")
+    return out
+
+
 def main():
-    args = [a for a in sys.argv[1:] if not a.startswith("--")]
-    as_json = "--json" in sys.argv
+    # --save-baseline / --baseline were documented here and in SKILL.md (exit 0/1 for CI)
+    # but never implemented: both flags were ignored and every run exited 0 (round-257).
+    argv = sys.argv[1:]
+    opts = {}
+    for flag in ("--save-baseline", "--baseline"):
+        if flag in argv:
+            i = argv.index(flag)
+            if i + 1 >= len(argv):
+                raise SystemExit(f"usage: {flag} FILE.json")
+            opts[flag] = Path(argv[i + 1])
+            argv = argv[:i] + argv[i + 2 :]
+    if len(opts) == 2:
+        raise SystemExit("use --save-baseline OR --baseline, not both")
+    unknown = [a for a in argv if a.startswith("--") and a != "--json"]
+    if unknown:
+        raise SystemExit(f"unknown option(s): {' '.join(unknown)}")
+    args = [a for a in argv if not a.startswith("--")]
+    as_json = "--json" in argv
     root = Path(args[0] if args else ".").resolve()
+    if not root.is_dir():
+        raise SystemExit(f"quality_signal: no such directory: {root}")
     files = find_py_files(root)
+    if not files:
+        raise SystemExit(f"quality_signal: no readable .py files under {root}")
     nodes, edges, cache = build_graph(files, root)
     adj = defaultdict(set)
     for s, d in edges:
@@ -387,7 +437,23 @@ def main():
         "scores": {k: round(v, 4) for k, v in scores.items()},
         "quality_signal": signal,
         "bottleneck": bottleneck,
+        "unparsable_files": [{"file": f, "reason": why} for f, why in SKIPPED],
     }
+    if "--save-baseline" in opts:
+        opts["--save-baseline"].write_text(json.dumps(result, indent=2), encoding="utf-8")
+        print(f"baseline saved: {opts['--save-baseline']} (quality {signal})")
+        return 0
+    if "--baseline" in opts:
+        path = opts["--baseline"]
+        if not path.is_file():
+            raise SystemExit(f"no baseline at {path}: run with --save-baseline first")
+        base = json.loads(path.read_text(encoding="utf-8"))
+        problems = compare(base, result)
+        print(f"quality {base['quality_signal']} -> {signal}")
+        for p in problems:
+            print(f"  DEGRADED: {p}")
+        print("RESULT: DEGRADED" if problems else "RESULT: PASS")
+        return 1 if problems else 0
     if as_json:
         print(json.dumps(result, indent=2))
     else:
@@ -406,7 +472,10 @@ def main():
             f"  redundancy   dead={r['dead_functions']} dup_extra={r['duplicate_extras']:>3d}"
             f"             score {s['redundancy']:.4f}"
         )
+        for u in result["unparsable_files"]:
+            print(f"  UNPARSABLE (left out of every metric): {u['file']} -- {u['reason']}")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

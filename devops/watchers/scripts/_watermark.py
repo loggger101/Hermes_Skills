@@ -6,9 +6,14 @@ runs, so the next run only emits items we haven't seen before.
 Contract:
 - First run: record all IDs from the fetched batch, emit nothing.
 - Subsequent runs: emit items whose ID isn't in the stored set.
-- Bounded: keep at most `max_seen` IDs (default 500).
+- Bounded: keep at most `max_seen` IDs (default 500), dropping the ones
+  seen longest ago; IDs in the current batch are always kept.
 - Atomic: write to a .tmp file and rename, so a crashed script can't
   leave a half-written state file that permanently breaks dedup.
+- Loud (round-257): an unreadable state file raises WatermarkError. It
+  used to restart as a first run, and a first run emits nothing, so every
+  item since the last good run vanished without a trace. Items without an
+  ID are counted in `missing_id` for the caller to report.
 
 Import and use from any custom watcher script:
 
@@ -23,6 +28,7 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional
 
@@ -37,6 +43,10 @@ def _state_dir() -> Path:
     return Path(hermes_home) / "watcher-state"
 
 
+class WatermarkError(Exception):
+    """The state file exists but cannot be used. Never silently re-baselined."""
+
+
 class Watermark:
     """Per-watcher state. Persisted to <state_dir>/<name>.json."""
 
@@ -47,19 +57,28 @@ class Watermark:
         self.max_seen = max_seen
         self._path = _state_dir() / f"{name}.json"
         self._data: Dict[str, Any] = {"seen_ids": [], "first_run": True}
+        self.missing_id = 0  # items in the last filter_new() batch without an id
 
     @classmethod
     def load(cls, name: str, *, max_seen: int = 500) -> "Watermark":
         wm = cls(name, max_seen=max_seen)
         if wm._path.exists():
             try:
-                wm._data = json.loads(wm._path.read_text(encoding="utf-8"))
-                wm._data.setdefault("seen_ids", [])
-                wm._data["first_run"] = False
-            except (OSError, json.JSONDecodeError):
-                # Corrupt state file — treat as a first run but don't crash.
-                wm._data = {"seen_ids": [], "first_run": True}
+                data = json.loads(wm._path.read_text(encoding="utf-8"))
+            except (OSError, UnicodeDecodeError, json.JSONDecodeError) as e:
+                raise WatermarkError(wm._unusable(f"{type(e).__name__}: {e}")) from e
+            if not isinstance(data, dict) or not isinstance(data.get("seen_ids", []), list):
+                raise WatermarkError(wm._unusable("not a {'seen_ids': [...]} object"))
+            data.setdefault("seen_ids", [])
+            data["first_run"] = False
+            wm._data = data
         return wm
+
+    def _unusable(self, why: str) -> str:
+        return (
+            f"watermark state {self._path} is unusable ({why}). Inspect it; deleting it "
+            "re-baselines, and the next run then emits nothing."
+        )
 
     @property
     def is_first_run(self) -> bool:
@@ -78,14 +97,17 @@ class Watermark:
         batch (so save() persists the full new watermark).  On first run,
         records every id but returns an empty list (baseline, no replay).
         """
-        existing = set(str(x) for x in self._data.get("seen_ids", []))
+        ordered = [str(x) for x in self._data.get("seen_ids", [])]  # oldest first
+        existing = set(ordered)
         was_first_run = self.is_first_run
 
         new_items: List[Dict[str, Any]] = []
         batch_ids: List[str] = []
+        self.missing_id = 0
         for item in items:
             ident = item.get(id_key)
             if ident is None:
+                self.missing_id += 1
                 continue
             ident_str = str(ident)
             batch_ids.append(ident_str)
@@ -95,7 +117,12 @@ class Watermark:
                 continue  # record but don't emit
             new_items.append(item)
 
-        combined = list(existing) + [i for i in batch_ids if i not in existing]
+        # Order-preserving, with this batch moved to the newest end. This read
+        # `list(existing)` (a set: arbitrary order), so trimming to max_seen dropped random
+        # IDs, including ones still in the feed, which then came back as "new".
+        batch = list(dict.fromkeys(batch_ids))
+        in_batch = set(batch)
+        combined = [i for i in ordered if i not in in_batch] + batch
         if len(combined) > self.max_seen:
             combined = combined[-self.max_seen :]
         self._data["seen_ids"] = combined
@@ -119,12 +146,14 @@ def format_items_as_markdown(
     url_key: str = "url",
     body_key: Optional[str] = None,
     max_body_chars: int = 500,
+    not_shown: int = 0,
 ) -> str:
     """Render a list of items as Markdown for cron delivery.
 
     One heading per item + its URL + optional snippet of body.  Output is
     empty string when items is empty — cron will then treat stdout as
-    silent and skip delivery (existing behavior).
+    silent and skip delivery (existing behavior).  `not_shown` new items cut by
+    --max get a closing line: they are already marked seen and never come back.
     """
     if not items:
         return ""
@@ -143,4 +172,36 @@ def format_items_as_markdown(
                 lines.append("")
                 lines.append(body)
         lines.append("")
+    if not_shown:
+        lines.append(
+            f"_{not_shown} more new item(s) not shown (over --max); they are marked seen._"
+        )
     return "\n".join(lines).rstrip() + "\n"
+
+
+def checked_filter(wm: "Watermark", items: List[Dict[str, Any]], id_key: str, prog: str):
+    """filter_new() plus the checks every watcher needs. Returns (new_items, exit_code);
+    exit_code is None to continue. Every item lacking id_key means the watcher can never
+    fire (a mistyped --id-field): exit 2 without saving. Some lacking it: a warning."""
+    new_items = wm.filter_new(items, id_key=id_key)
+    if items and wm.missing_id == len(items):
+        print(
+            f"{prog}: none of the {len(items)} item(s) has the id field {id_key!r}; "
+            "nothing can ever be emitted",
+            file=sys.stderr,
+        )
+        return [], 2
+    if wm.missing_id:
+        print(
+            f"{prog}: warning: {wm.missing_id} of {len(items)} item(s) lack {id_key!r} "
+            "and are skipped",
+            file=sys.stderr,
+        )
+    return new_items, None
+
+
+def cap(items: List[Dict[str, Any]], max_n: int):
+    """(shown, not_shown) under --max; max_n <= 0 means no cap."""
+    if max_n > 0 and len(items) > max_n:
+        return items[:max_n], len(items) - max_n
+    return items, 0

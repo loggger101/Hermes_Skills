@@ -6,8 +6,10 @@
 #   creative/comfyui/tests         (117 tests) -> requests; everything else stdlib
 #   data-science/evolutionary-ml/tests (5 tests)   -> numpy, pytest (skips cleanly without numpy)
 #   creative/ascii-video/tests         (5 tests)   -> numpy, pytest (skips cleanly without numpy)
-# The other suites run-skill-tests.py discovers (sqlite-queries,
-# regex-vs-llm-structured-text) are stdlib-only and need nothing here.
+#   data-science/space-data-pipelines/tests (17 tests) -> pandas, pyarrow, requests (no network:
+#                                                          HTTP is stubbed; no skips)
+# The other suites run-skill-tests.py discovers are stdlib-only and need nothing here
+# (node suites need node, sh/ps1 smoke suites need bash/PowerShell).
 #
 # Verified complete by running all five suites in a clean venv on 2026-09-09:
 # docx 29 passed / pdf 21 passed / powerpoint 21 passed / xlsx 11+1 skip /
@@ -26,3 +28,5 @@ pypdfium2>=4.0
 python-pptx>=1.0
 requests>=2.31
 numpy>=1.26
+pandas>=2.0
+pyarrow>=14.0
