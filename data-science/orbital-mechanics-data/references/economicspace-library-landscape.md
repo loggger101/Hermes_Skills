@@ -8,18 +8,21 @@ what is actually useful to wire in vs. what is a dead end.
 ## The pipeline it maps onto
 
 economicspace = `~/OneDrive/Documents/GitHub/economicspace` (GitHub loggger101/economicspace).
-Four stages, hand off via CSVs on disk:
+Four stages, hand off via CSVs on disk. Since master v1.59.0 (2026-10-26) the first three
+install pinned inputs built in other repos, and no stage fetches a live price:
 
 | stage | module | does |
 |---|---|---|
-| 1 catalog | `catalog.py` | build asteroid catalog from JPL SBDB + MP3C + SsODNet ssoBFT (parquet) + NEOWISE IR diameters/albedos |
-| 2 mineral_value | `mineral_value.py` | price the minerals each body contains (+ densities) |
-| 3 transportation | `transportation.py` | launch / propellant / dv-segment / ops costs; carries a literature-cited hardcoded dv segment table (GEO, Mars MOI, NEA->NRHO Oberth capture) |
-| 4 calc | `calc.py` | rocket equation + cost cascade -> ranked profitability table. **Already hand-codes its own patched-conic / Hohmann dv** (`asteroid_transfer_dv_km_s(a_au,e,i_deg)`, canonical-unit heliocentric transfer, `synodic_period_yr`) |
+| 1 catalog | `modules/catalog.py` | install a pinned AsteroidCatalog release (built there from JPL SBDB + MP3C + SsODNet ssoBFT + NEOWISE IR diameters/albedos) |
+| 2 mineral_value | `modules/mineral_value.py` | install a pinned **spacevalue** price release (`prices-2026-10-07`); spacevalue (loggger101/spacevalue) prices the minerals each body contains (+ densities) at each destination from a recorded quote snapshot |
+| 3 transportation | `modules/transportation.py` | adapter over **spacecost** (`v0.14.0`): launch / propellant / dv-segment / ops costs, fuel priced from the recorded snapshot `fuel-2026-10-17`; spacecost carries the literature-cited dv segment table (GEO, Mars MOI, NEA->NRHO Oberth capture) |
+| 4 calc | `modules/calc.py` | rocket equation + cost cascade -> ranked profitability table. **Already hand-codes its own patched-conic / Hohmann dv** (`asteroid_transfer_dv_km_s(a_au,e,i_deg)`, canonical-unit heliocentric transfer, `synodic_period_yr`) |
 
-Current deps: `requests pandas numpy yfinance tqdm pyarrow` (+ streamlit for the UI).
+Current deps (`requirements.txt`, 2026-10-26): `requests pandas numpy tqdm` plus spacecost and spacevalue pinned
+by git tag (+ streamlit for the UI). yfinance is no longer one: quotes are recorded in spacecost/spacevalue.
 **None of the 17 starred repos are imported yet.** So this is a "what could plug in where"
-survey. The hand-coded dv means an external astrodynamics lib is a **cross-check / enrichment**,
+survey (as of 2026-10-26 the only borrowed code is root `orbital.py`'s `elements_to_state`, adapted from
+skyfield, for the dashboard's orbit diagram). The hand-coded dv means an external astrodynamics lib is a **cross-check / enrichment**,
 not a replacement -- and economicspace argues every release from bit-identity, so any new dep
 must be added to BOTH `requirements.txt` AND `requirements-lock.txt` (pinned) or it can move a
 float in the last bit.
@@ -61,8 +64,9 @@ transitional deprecation window (their own guidance).
 **Computational surface (from its `brahe-py` binding modules):** propagators + integrators
 (RK4, SGP4), orbit determination/estimation, frames/time/EOP handling, Earth gravity models
 (ICGEM), relative motion, access windows -- AND data clients for **SBDB, JPL Horizons, SPICE,
-Celestrak, Space-Track**. That last point matters: brahe overlaps BOTH economicspace's catalog
-data sources (stage 1) and its dv math (stage 4) in one MIT library. It also ships comparative
+Celestrak, Space-Track**. That last point matters: brahe overlaps BOTH the catalog's data
+sources (AsteroidCatalog, which builds what stage 1 installs) and economicspace's dv math (stage 4)
+in one MIT library. It also ships comparative
 benchmarks against nyx, so it is a fair cross-check target.
 
 ## The different computational calculations (paradigms)
@@ -133,26 +137,29 @@ positions at any epoch. Useful to compute exact launch-window phase angles and t
 ### astroquery -- catalog enrichment (stage 1)
 
 BSD-3-Clause, astropy-affiliated. Sub-packages for JPL Horizons, SIMBAD, NEOWISE, etc. Could
-add sources to `catalog.py` beyond the current SBDB/MP3C/ssoBFT/NEOWISE set. Watch rate limits
+add sources to the catalog build (AsteroidCatalog since master v1.34.0) beyond the current SBDB/MP3C/ssoBFT/NEOWISE set. Watch rate limits
 on large catalogs (it's a query layer over web services).
 
-### pymc -- optional uncertainty layer (stage 2)
+### pymc -- optional uncertainty layer (prices: spacevalue; ranking: stage 4)
 
 Apache-2.0, Bayesian inference. If point estimates for mineral prices / densities should become
-distributions with credible intervals on the profit ranking, this is the tool. Heavy dep chain
+distributions with credible intervals on the profit ranking, this is the tool. Price distributions
+would be a spacevalue change (and a new price release), not an economicspace Stage 2 edit. Heavy dep chain
 (pytensor/Aesara lineage) -- only add if the uncertainty question is actually wanted.
 
 ### space-datasets -- bulk data source (stage 1)
 
 200+ auto-updated datasets on Hugging Face from NASA/NOAA/ESA/JPL/SpaceX/Wikidata. Could feed
-catalog.py or mineral_value.py without per-source scraping. License shows NOASSERTION -- check
+AsteroidCatalog (stage 1's builder) or spacevalue's reference table without per-source scraping. License shows NOASSERTION -- check
 the actual dataset licenses before relying on it.
 
 ## Dead ends / blockers (do NOT import into the pipeline)
 
-- **nyx** -- AGPLv3: linking/depending on it forces economicspace to be AGPL too; AND the Python
-  package `nyx_space` is **temporarily disabled** (issue #311). Mission-proven (Blue Ghost 1,
-  CAPSTONE) but wrong license + no working Python path for this project. Use brahe instead.
+- **nyx** -- AGPLv3: linking/depending on it forces economicspace to be AGPL too. Mission-proven
+  (Blue Ghost 1, CAPSTONE) but wrong license for this project. (The Python package `nyx_space` was
+  reported "temporarily disabled" (issue #311) when this survey was made; skill
+  `astro-toolkit-selection` later verified it installs from pip, py>=3.11. The licence alone rules
+  it out as a dependency; a reference/cross-check outside the pipeline is fine.) Use brahe instead.
 - **Celestia** -- GPL-2.0 copyleft; it's a standalone visualization app, not a library to link
   into a headless pipeline. Fine as a separate viewing tool only.
 - **CamPyRoS** -- GPL-3.0 + stale (last push Jul 2025). Rocket trajectory sim; not worth the
@@ -160,7 +167,8 @@ the actual dataset licenses before relying on it.
 - **pds4_tools** -- no license detected -> legally risky to import directly. If PDS4 small-bodies
   data is needed, read the raw PDS4 products yourself rather than depending on an unlicensed wrapper.
 - **space-map** -- AGPL-3.0 + only 2 stars; tiny and copyleft.
-- **polars** -- MIT but redundant: pyarrow already in the stack for parquet (ssoBFT). Don't add a
+- **polars** -- MIT but redundant here: economicspace is pandas end to end, and the parquet reading
+  it once needed pyarrow for (ssoBFT) left with the catalog build for AsteroidCatalog. Don't add a
   second DataFrame engine. Refined after the round-22 deep-dive (see `polars-pipelines/references/polars-v2-engine-and-breaking-changes.md`): its real strengths are join-cardinality validation (`validate="m:1"` catches fan-out at plan time) and — in 2.x — a streaming default engine with out-of-core spilling for larger-than-RAM queries. Neither is needed while the catalog fits in RAM and pyarrow covers parquet; if it ever IS adopted, pin to stable 1.x (bit-reproducibility discipline) because 2.0 changes row-order guarantees by default.
 - **mesa / z3 / Pyomo / pygmo2 / OpenSCvx** -- modeling/optimization/constraint tools that don't
   fit a deterministic profitability ranking. calc.py already solves its own rocket-equation
