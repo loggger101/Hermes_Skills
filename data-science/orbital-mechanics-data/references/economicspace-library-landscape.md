@@ -21,7 +21,8 @@ install pinned inputs built in other repos, and no stage fetches a live price:
 Current deps (`requirements.txt`, 2026-10-26): `requests pandas numpy tqdm` plus spacecost and spacevalue pinned
 by git tag (+ streamlit for the UI). yfinance is no longer one: quotes are recorded in spacecost/spacevalue.
 **None of the 17 starred repos are imported yet.** So this is a "what could plug in where"
-survey. The hand-coded dv means an external astrodynamics lib is a **cross-check / enrichment**,
+survey (as of 2026-10-26 the only borrowed code is root `orbital.py`'s `elements_to_state`, adapted from
+skyfield, for the dashboard's orbit diagram). The hand-coded dv means an external astrodynamics lib is a **cross-check / enrichment**,
 not a replacement -- and economicspace argues every release from bit-identity, so any new dep
 must be added to BOTH `requirements.txt` AND `requirements-lock.txt` (pinned) or it can move a
 float in the last bit.
@@ -63,8 +64,9 @@ transitional deprecation window (their own guidance).
 **Computational surface (from its `brahe-py` binding modules):** propagators + integrators
 (RK4, SGP4), orbit determination/estimation, frames/time/EOP handling, Earth gravity models
 (ICGEM), relative motion, access windows -- AND data clients for **SBDB, JPL Horizons, SPICE,
-Celestrak, Space-Track**. That last point matters: brahe overlaps BOTH economicspace's catalog
-data sources (stage 1) and its dv math (stage 4) in one MIT library. It also ships comparative
+Celestrak, Space-Track**. That last point matters: brahe overlaps BOTH the catalog's data
+sources (AsteroidCatalog, which builds what stage 1 installs) and economicspace's dv math (stage 4)
+in one MIT library. It also ships comparative
 benchmarks against nyx, so it is a fair cross-check target.
 
 ## The different computational calculations (paradigms)
@@ -153,9 +155,11 @@ the actual dataset licenses before relying on it.
 
 ## Dead ends / blockers (do NOT import into the pipeline)
 
-- **nyx** -- AGPLv3: linking/depending on it forces economicspace to be AGPL too; AND the Python
-  package `nyx_space` is **temporarily disabled** (issue #311). Mission-proven (Blue Ghost 1,
-  CAPSTONE) but wrong license + no working Python path for this project. Use brahe instead.
+- **nyx** -- AGPLv3: linking/depending on it forces economicspace to be AGPL too. Mission-proven
+  (Blue Ghost 1, CAPSTONE) but wrong license for this project. (The Python package `nyx_space` was
+  reported "temporarily disabled" (issue #311) when this survey was made; skill
+  `astro-toolkit-selection` later verified it installs from pip, py>=3.11. The licence alone rules
+  it out as a dependency; a reference/cross-check outside the pipeline is fine.) Use brahe instead.
 - **Celestia** -- GPL-2.0 copyleft; it's a standalone visualization app, not a library to link
   into a headless pipeline. Fine as a separate viewing tool only.
 - **CamPyRoS** -- GPL-3.0 + stale (last push Jul 2025). Rocket trajectory sim; not worth the
@@ -163,7 +167,8 @@ the actual dataset licenses before relying on it.
 - **pds4_tools** -- no license detected -> legally risky to import directly. If PDS4 small-bodies
   data is needed, read the raw PDS4 products yourself rather than depending on an unlicensed wrapper.
 - **space-map** -- AGPL-3.0 + only 2 stars; tiny and copyleft.
-- **polars** -- MIT but redundant: pyarrow already in the stack for parquet (ssoBFT). Don't add a
+- **polars** -- MIT but redundant here: economicspace is pandas end to end, and the parquet reading
+  it once needed pyarrow for (ssoBFT) left with the catalog build for AsteroidCatalog. Don't add a
   second DataFrame engine. Refined after the round-22 deep-dive (see `polars-pipelines/references/polars-v2-engine-and-breaking-changes.md`): its real strengths are join-cardinality validation (`validate="m:1"` catches fan-out at plan time) and — in 2.x — a streaming default engine with out-of-core spilling for larger-than-RAM queries. Neither is needed while the catalog fits in RAM and pyarrow covers parquet; if it ever IS adopted, pin to stable 1.x (bit-reproducibility discipline) because 2.0 changes row-order guarantees by default.
 - **mesa / z3 / Pyomo / pygmo2 / OpenSCvx** -- modeling/optimization/constraint tools that don't
   fit a deterministic profitability ranking. calc.py already solves its own rocket-equation
