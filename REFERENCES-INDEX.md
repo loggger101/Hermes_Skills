@@ -383,7 +383,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `data-science/economicspace-pipeline/references/dv-oracles-and-economics-sources.md` — External delta-v oracles + soft-assumption data sources — Asterank two-mode API correction (2026-09-07 re-probe #2), NHATS, per-element sigmas; 2026-09-12 deep pass adds keyless HF mirrors + licensing traps
 - `data-science/economicspace-pipeline/references/load-bearing-assumptions.md` — Load-bearing model assumptions (economicspace)
 - `data-science/economicspace-pipeline/references/low-thrust-screening-prospector.md` — How Karmanplus/prospector screens asteroids for low-thrust reachability: tiered solvers, errors-must-point-low rule, Edelbaum + intercept bracket (formula run live), validation vs Dawn/Psyche/Hayabusa2/DART, pixi/conda-forge install
-- `data-science/economicspace-pipeline/references/yfinance-live-behaviour.md` — yfinance 1.7.0 as economicspace uses it (Ticker.history 5d on HG/GC/SI/PL/PA=F): failures are logged not raised, last bar can be an in-progress session, TIO=F data conflicts with the pipeline's CNY note
+- `data-science/economicspace-pipeline/references/yfinance-live-behaviour.md` — yfinance 1.7.0 as spacecost.quotes.fetch_closes calls it (Ticker.history 5d), behind `spacevalue quotes record`, `spacecost quotes record` and the opt-in live builds; no economicspace stage calls it. Failures are logged not raised, the last bar can be an in-progress session (why recording drops today's bar), TIO=F data conflicts with spacevalue's CNY note
 
 ## data-science/enricher-pipeline-architecture
 

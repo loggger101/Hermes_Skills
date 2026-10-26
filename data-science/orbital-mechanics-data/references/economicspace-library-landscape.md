@@ -8,16 +8,18 @@ what is actually useful to wire in vs. what is a dead end.
 ## The pipeline it maps onto
 
 economicspace = `~/OneDrive/Documents/GitHub/economicspace` (GitHub loggger101/economicspace).
-Four stages, hand off via CSVs on disk:
+Four stages, hand off via CSVs on disk. Since master v1.59.0 (2026-10-26) the first three
+install pinned inputs built in other repos, and no stage fetches a live price:
 
 | stage | module | does |
 |---|---|---|
-| 1 catalog | `catalog.py` | build asteroid catalog from JPL SBDB + MP3C + SsODNet ssoBFT (parquet) + NEOWISE IR diameters/albedos |
-| 2 mineral_value | `mineral_value.py` | price the minerals each body contains (+ densities) |
-| 3 transportation | `transportation.py` | launch / propellant / dv-segment / ops costs; carries a literature-cited hardcoded dv segment table (GEO, Mars MOI, NEA->NRHO Oberth capture) |
-| 4 calc | `calc.py` | rocket equation + cost cascade -> ranked profitability table. **Already hand-codes its own patched-conic / Hohmann dv** (`asteroid_transfer_dv_km_s(a_au,e,i_deg)`, canonical-unit heliocentric transfer, `synodic_period_yr`) |
+| 1 catalog | `modules/catalog.py` | install a pinned AsteroidCatalog release (built there from JPL SBDB + MP3C + SsODNet ssoBFT + NEOWISE IR diameters/albedos) |
+| 2 mineral_value | `modules/mineral_value.py` | install a pinned **spacevalue** price release (`prices-2026-10-07`); spacevalue (loggger101/spacevalue) prices the minerals each body contains (+ densities) at each destination from a recorded quote snapshot |
+| 3 transportation | `modules/transportation.py` | adapter over **spacecost** (`v0.14.0`): launch / propellant / dv-segment / ops costs, fuel priced from the recorded snapshot `fuel-2026-10-17`; spacecost carries the literature-cited dv segment table (GEO, Mars MOI, NEA->NRHO Oberth capture) |
+| 4 calc | `modules/calc.py` | rocket equation + cost cascade -> ranked profitability table. **Already hand-codes its own patched-conic / Hohmann dv** (`asteroid_transfer_dv_km_s(a_au,e,i_deg)`, canonical-unit heliocentric transfer, `synodic_period_yr`) |
 
-Current deps: `requests pandas numpy yfinance tqdm pyarrow` (+ streamlit for the UI).
+Current deps (`requirements.txt`, 2026-10-26): `requests pandas numpy tqdm` plus spacecost and spacevalue pinned
+by git tag (+ streamlit for the UI). yfinance is no longer one: quotes are recorded in spacecost/spacevalue.
 **None of the 17 starred repos are imported yet.** So this is a "what could plug in where"
 survey. The hand-coded dv means an external astrodynamics lib is a **cross-check / enrichment**,
 not a replacement -- and economicspace argues every release from bit-identity, so any new dep
@@ -133,19 +135,20 @@ positions at any epoch. Useful to compute exact launch-window phase angles and t
 ### astroquery -- catalog enrichment (stage 1)
 
 BSD-3-Clause, astropy-affiliated. Sub-packages for JPL Horizons, SIMBAD, NEOWISE, etc. Could
-add sources to `catalog.py` beyond the current SBDB/MP3C/ssoBFT/NEOWISE set. Watch rate limits
+add sources to the catalog build (AsteroidCatalog since master v1.34.0) beyond the current SBDB/MP3C/ssoBFT/NEOWISE set. Watch rate limits
 on large catalogs (it's a query layer over web services).
 
-### pymc -- optional uncertainty layer (stage 2)
+### pymc -- optional uncertainty layer (prices: spacevalue; ranking: stage 4)
 
 Apache-2.0, Bayesian inference. If point estimates for mineral prices / densities should become
-distributions with credible intervals on the profit ranking, this is the tool. Heavy dep chain
+distributions with credible intervals on the profit ranking, this is the tool. Price distributions
+would be a spacevalue change (and a new price release), not an economicspace Stage 2 edit. Heavy dep chain
 (pytensor/Aesara lineage) -- only add if the uncertainty question is actually wanted.
 
 ### space-datasets -- bulk data source (stage 1)
 
 200+ auto-updated datasets on Hugging Face from NASA/NOAA/ESA/JPL/SpaceX/Wikidata. Could feed
-catalog.py or mineral_value.py without per-source scraping. License shows NOASSERTION -- check
+AsteroidCatalog (stage 1's builder) or spacevalue's reference table without per-source scraping. License shows NOASSERTION -- check
 the actual dataset licenses before relying on it.
 
 ## Dead ends / blockers (do NOT import into the pipeline)

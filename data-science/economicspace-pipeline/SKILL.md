@@ -1,7 +1,7 @@
 ---
 name: economicspace-pipeline
 description: "Use on economicspace (asteroid-mining pipeline)."
-version: v0.12.0
+version: v0.13.0
 author: Hermes Agent (ported from starred-repo research)
 license: MIT
 platforms: [linux, macos, windows]
@@ -26,7 +26,7 @@ Repo: `~/OneDrive/Documents/GitHub/economicspace` (`C:/Users/Owner/...` or `C:/U
 Argues from **BIT-IDENTITY**: releases are defended by exact float hashes of output CSVs, not tolerance.
 The repo's own `CLAUDE.md` is the authority for traps; this skill distills it so an agent can work here without re-learning a day-cost per mistake. **Read-only default: never edit the repo unless explicitly asked.**
 
-> **Freshness.** Distilled at master v1.24.0 (2026-09-07). Re-checked against `29a0309` (master v1.40.0) on 2026-10-01: the version stamps, Stages 1 and 3, the build renames, destinations and campaign, `verify.py`/`verify_docs.py`, the headline result and runtime were updated from the repo, and so were the three CLAUDE.md-derived reference docs (each says what moved). Anything else carries its own date and may have moved since. On any conflict the repo's README.md and CLAUDE.md win, and this skill is the one that needs fixing.
+> **Freshness.** Distilled at master v1.24.0 (2026-09-07). Re-checked against `29a0309` (master v1.40.0) on 2026-10-01: the version stamps, Stages 1 and 3, the build renames, destinations and campaign, `verify.py`/`verify_docs.py`, the headline result and runtime were updated from the repo, and so were the three CLAUDE.md-derived reference docs (each says what moved). Re-checked against `0bd4be6` (master v1.59.0) on 2026-10-26 for Stage 2, Stage 3's fuel prices and every passage about prices or yfinance: Stage 2 now installs a pinned spacevalue price release, and no stage fetches a live price. Anything else carries its own date and may have moved since. On any conflict the repo's README.md and CLAUDE.md win, and this skill is the one that needs fixing.
 
 ## Routing (read before acting)
 
@@ -46,18 +46,19 @@ The repo's own `CLAUDE.md` is the authority for traps; this skill distills it so
 | `CITATIONS.md` | references and attribution obligations | where sources came from — **never values** (a number's source is cited on the row that carries it, in `modules/*.py`) |
 | `CLAUDE.md` | traps, invariants, reasoning behind decisions that look wrong | how to edit safely |
 
-Subdirs: `campaign/` = 20-cell campaign rig + frozen Stage-2 prices per destination (`campaign/stage2/`); findings promoted into the three main docs. `research/starred-repos/` = read-only audit of the user's star list (17 repos) against this pipeline; **nothing wired in**, scripts can't invalidate baselines. Its two Δv findings point opposite ways and partially cancel: F1 plane change overcharged, F4 transfer geometry undercharged by more — fixing either alone makes the model worse. `patch_neowise_async.py` there is a PATCH CANDIDATE, not live code.
+Subdirs: `campaign/` = campaign rig + the hand-frozen Stage 2 and Stage 3 tables the cells before master v1.59.0 read (`campaign/stage2/`, `campaign/stage3/`: history, never inputs to refresh); findings promoted into the three main docs. `research/starred-repos/` = read-only audit of the user's star list (17 repos) against this pipeline; **nothing wired in**, scripts can't invalidate baselines. Its two Δv findings point opposite ways and partially cancel: F1 plane change overcharged, F4 transfer geometry undercharged by more — fixing either alone makes the model worse. `patch_neowise_async.py` there is a PATCH CANDIDATE, not live code.
 
 ## Build discipline (before any edit)
 
 - **Nothing is built** (since master v1.57.0). `modules/` is a package and `master.py` a hand-written shim: it imports the four modules, binds the aliases, holds `MasterConfig` and `run_full_pipeline`, and forwards every other `master.<name>` to the module that defines it. Edit the module; there is no rebuild step.
 - **Aliases**: catalog `CONFIG→CATALOG_CONFIG`, `build_catalog→build_asteroid_catalog`; mineral_value `CONFIG→MINERAL_CONFIG`, `validate→validate_minerals`; transportation `CONFIG→TRANSPORT_CONFIG`, `validate→validate_transport`; calc `CONFIG→CALC_CONFIG`. A name two modules bind to different objects is **refused**, not resolved (`master.CONFIG` raises); read it from the module or add an alias. `verify_docs.py` check 18 resolves every `master.<name>` the repo reads.
 - `modules/__init__.py` imports no module (a Stage 4 worker imports `modules.calc` alone). `modules/_runtime.py` holds what every module does first: UTF-8 console, the spawned-worker silence, `DEFAULT_OUTPUT_DIR`, `install()` and `confirm_overwrite()`.
-- **Stage 3 is an adapter over the `spacecost` package**, pinned to a tag (`PIP_SPEC` in `modules/_runtime.py` and `requirements.txt`; `verify_docs.py` check 7 holds every copy together), and Stage 2's delivery chains live there too (`spacecost.delivery`). Since master v1.58.0 `TransportConfig` is `spacecost.SpacecostConfig` with two defaults overridden (`use_yfinance`, `output_dir`), so the stamp is inherited. `_runtime.install()` holds the installed copy to the tag at import: another tag or revision is reinstalled with `--no-deps`; an editable checkout, a shadowing copy or an install with no git record is refused. A Module 3 table edit is four steps: change it in spacecost, bump and tag a release, repin here, `py platform_check.py`.
+- **Stage 2 installs prices; it does not price** (since master v1.59.0). The pricing (reference table, the eight destinations, in-space utility, demand ceilings, recorded metal quotes) is the separate **spacevalue** package (loggger101/spacevalue), which publishes `prices-YYYY-MM-DD` releases: every destination's table built from one recorded quote snapshot, gated and checksummed. `modules/mineral_value.py` pins one (`MineralValueConfig.price_release = "prices-2026-10-07"`), refuses a manifest whose data contract is not its `pipeline_version`, checks every table's sha256, caches the release under `asteroid_pipeline/mineral_value/<tag>/` and installs the table for `delivery_destination`. It also imports spacevalue itself, pinned to tag `v0.1.0` (`PIP_SPEC` and `requirements.txt`), for the names it re-exports (`verify.py` check 6 recomputes the installed table through them). A pricing change is a spacevalue release, then a `prices-*` release, then a repin of `price_release` here.
+- **Stage 3 is an adapter over the `spacecost` package**, pinned to tag `v0.14.0` (`PIP_SPEC` in `modules/_runtime.py` and `requirements.txt`; `verify_docs.py` check 7 holds every copy of both packages' pins together). spacevalue reads its delivery chains from `spacecost.delivery`, so a name dropped there fails Stage 2 first. Stage 3 prices fuel from spacecost's recorded quote snapshot `fuel-2026-10-17` (`TransportConfig.quote_snapshot`), so a re-run rebuilds the same tables offline. `TransportConfig` is `spacecost.SpacecostConfig` with two defaults overridden (`quote_snapshot`, `output_dir`), so the stamp is inherited. `_runtime.install()` holds each installed package to its tag at import: another tag or revision is reinstalled with `--no-deps`; an editable checkout, a shadowing copy or an install with no git record is refused. A Module 3 table edit is four steps: change it in spacecost, bump and tag a release, repin here, `py platform_check.py`.
 
-## Version stamps (verified from module code 2026-10-25, `115adc3`)
+## Version stamps (verified from module code 2026-10-26, `0bd4be6`)
 
-Current: **catalog `1.10.0`, mineral_value `1.16.0`, transportation `1.23.6`, calc `1.32.0`, master `1.58.0`** (the master literal is `MASTER_VERSION` in `master.py`; transportation's is spacecost's data contract). Re-read the `pipeline_version` fields in `modules/*.py` before quoting these.
+Current: **catalog `1.10.0`, mineral_value `1.17.0`, transportation `1.23.6`, calc `1.32.0`, master `1.59.0`** (the master literal is `MASTER_VERSION` in `master.py`; catalog's is AsteroidCatalog's data contract, mineral_value's spacevalue's and transportation's spacecost's, each checked or inherited rather than stamped by this repo). Re-read the `pipeline_version` fields in `modules/*.py` before quoting these.
 
 - **calc 1.20.0 (2026-09-04): both insurance premiums are OFF by default** behind new `charge_insurance=False`. Module 3 prices third-party liability ($1.5M flat/mission) + launch insurance (10% of launch+spacecraft book value); the cascade charged both on every mission.
   - **Rationale:** a premium is priced off an underwriter's book, not a mass/dv/kW — out of scope for a marginal-physics model. It also double-prices risk that `model_reliability` already carries (premiums don't touch p_launch/p_cruise/p_mining).
@@ -77,15 +78,15 @@ Current: **catalog `1.10.0`, mineral_value `1.16.0`, transportation `1.23.6`, ca
 
 Destinations: `earth_surface` (default), `leo`, `cislunar`, `lunar_surface`, `mars_orbit`, `geo`, `mars_surface`.
 
-- **All seven destinations are measured.** The 28-cell matrix (7 destinations × {raw/beneficiated} × {search off/on}, `market_model = "capacity_cap"`, `charge_insurance=False`, a fresh price epoch, calc v1.21.2) replaced the 20-cell campaign of 2026-08-23/24 (five destinations, calc 1.17.7); README tabulates it and versions.md keeps the superseded one. `campaign/run_queue.py`'s `DESTS` holds all seven, with frozen Stage-2 prices for each under `campaign/stage2/`.
+- **All seven destinations are measured.** The 28-cell matrix (7 destinations × {raw/beneficiated} × {search off/on}, `market_model = "capacity_cap"`, `charge_insurance=False`, a fresh price epoch, calc v1.21.2) replaced the 20-cell campaign of 2026-08-23/24 (five destinations, calc 1.17.7); README tabulates it and versions.md keeps the superseded one. `campaign/run_queue.py`'s `DESTS` holds all seven. `campaign/stage2/` keeps the hand-frozen tables those cells read; since master v1.59.0 `run_cell.py` installs each cell's Stage 2 table from the pinned price release instead.
 - What still holds: **cislunar is the best case**, but narrowly (6.6622× on the default cell against `mars_orbit` at 7.3681×, within 11%, in that matrix), and **the programme search never changes the evaluable set** at any destination (N enters nothing in the mass cascade).
 - The cislunar cells have been re-measured at later releases while the other six destinations have not, so a cross-destination comparison has to use one matrix's numbers throughout.
-- `mars_orbit` = control on the ISRU discount (takes BASE utility profile; empty dict is deliberate). `geo` = control on saturation (smallest in-space market at 40,000 kg/yr vs earth_surface's ~10¹⁵ where saturation is numerically inert and 100% of rows run to the fleet ceiling — its searched cells are NOT optima; "raise max_fleet_ships and they keep improving").
+- `mars_orbit` = control on the ISRU discount (takes BASE utility profile; the empty dict in spacevalue's `IN_SPACE_UTILITY_BY_DESTINATION` is deliberate). `geo` = control on saturation (smallest in-space market at 40,000 kg/yr vs earth_surface's ~10¹⁵ where saturation is numerically inert and 100% of rows run to the fleet ceiling — its searched cells are NOT optima; "raise max_fleet_ships and they keep improving").
 - **calc `1.19.2` fixed a latent mars_orbit defect**: `synodic_period_yr`'s second argument was chosen by a conditional testing `== "mars_surface"`, written in two places, so the later-added destination took the else branch and phased launch windows against EARTH — wrong on 99.97% of rows (median synodic 1.2976 yr vs correct 3.3033). Now reads off `DELIVERY_ARCHITECTURES`. General shape: **a conditional that names one member of a set instead of asking the set a question**; defence = put the answer in the table where the destination already declares what it is, and assert the field is total.
 
 ## THE DESTINATION TRAP (the classic error)
 
-`delivery_destination` must be set in TWO places and they must agree: `MINERAL_CONFIG.delivery_destination` decides what a kg SELLS for; `CALC_CONFIG.delivery_destination` decides the architecture that PUTS it there. Disagreement = pricing cargo at a depot while paying to land it in Utah.
+`delivery_destination` must be set in TWO places and they must agree: `MINERAL_CONFIG.delivery_destination` decides which destination's spacevalue table Stage 2 installs, i.e. what a kg SELLS for; `CALC_CONFIG.delivery_destination` decides the architecture that PUTS it there. Disagreement = pricing cargo at a depot while paying to land it in Utah.
 
 - Stage 4's `destination_check()` catches it and **shouts on STDOUT** — where a harness is least likely to be listening, and which `grep` for result lines filters away, printing a clean-looking number. This was hit measuring v1.15.0: two figures recorded as "cislunar" were run against earth_surface prices; paired comparisons stayed valid (identical inputs) but LEVELS were not.
 - In `master.py` use `MASTER_CONFIG.delivery_destination`, which writes both. **Set the destination explicitly in any harness**; if you must filter stdout, keep `MISMATCH` in the pattern.
@@ -94,7 +95,7 @@ Destinations: `earth_surface` (default), `leo`, `cislunar`, `lunar_surface`, `ma
 
 ## Verification workflow (the six checks)
 
-`verify.py` runs these numbered checks (re-read its docstring for the current list): 1 BIT-IDENTITY vs baseline, 2 PRUNE ON vs OFF, 3 SERIAL vs PARALLEL, 4 MASS LEDGER (`hardware_total_kg == rig + power_system_kg + ep_system_kg`; the rig is a CONFIG CONSTANT — writing it verbatim against the CSV raises KeyError), 5 NEVER-WORSE (both invariants at cap 400; `median(1 − r)` convention), 6 STAGE-2 TABLES, 7 MARKET CEILINGS (a capacity ceiling may only ever cost, never pay). Checks 1–5 and 7 cover Stage 4, 6 covers Stage 2's tables; Stage 1 has its own harness, `verify_stage1.py`; Stage 3's seam is the pin guard in `modules/_runtime.py`, which runs on `import master` (a hard CI step), and spacecost's own suite. Three commands:
+`verify.py` runs these numbered checks (re-read its docstring for the current list): 1 BIT-IDENTITY vs baseline, 2 PRUNE ON vs OFF, 3 SERIAL vs PARALLEL, 4 MASS LEDGER (`hardware_total_kg == rig + power_system_kg + ep_system_kg`; the rig is a CONFIG CONSTANT — writing it verbatim against the CSV raises KeyError), 5 NEVER-WORSE (both invariants at cap 400; `median(1 − r)` convention), 6 STAGE-2 TABLES, 7 MARKET CEILINGS (a capacity ceiling may only ever cost, never pay). Checks 1–5 and 7 cover Stage 4; 6 recomputes the installed Stage 2 table through the pinned spacevalue's functions (no network, no re-run of any stage); Stage 1 has its own harness, `verify_stage1.py`; Stage 3's seam is the pin guard in `modules/_runtime.py`, which runs on `import master` (a hard CI step), and spacecost's own suite. Three commands:
 
 ```bash
 py verify.py baseline --tag 1.17.7   # clean tree, BEFORE editing
@@ -136,13 +137,13 @@ A sample predicts full-catalog runtime here **to no better than ~5×**, and the 
 
 ## Campaign rig (campaign/) details
 
-- `run_cell.py` shells out to run_pipeline.py as a SUBPROCESS: `[sys.executable, run_pipeline.py, --stages 4, --destination <dest>, --rows 0]` — inherits preflight(), can't hit the destination trap; resumable queue in run_queue.py (`DESTS` = all seven destinations).
+- `run_cell.py` shells out to run_pipeline.py as SUBPROCESSES: first `--stages 2 --destination <dest> --yes`, which installs the cell's table from the pinned price release and stops the cell before Stage 4 if it fails, then Stage 4 — inherits preflight(), can't hit the destination trap. Stages 1 and 3 are never run there. Resumable queue in run_queue.py (`DESTS` = all seven destinations).
 - `results.csv` is the committed measurement record: one row per cell with wall_s, best_obj, winner/vehicle/propellant/conc_ratio/power_source, programme structure (N/fleet/trips/span), payload_kg, saturation, p_mining, aerocapture/rtg/isru shares, full prop_shares + vehicle_shares strings, calc_version and catalog_date. The per-cell gz archives (~350–500 MB each) are gitignored under campaign/cells/.
-- Frozen Stage-2 prices live in `campaign/stage2/mineral_value_catalog.<dest>.csv`, one per destination (all seven).
+- `campaign/stage2/mineral_value_catalog.<dest>.csv` (one per destination) and `campaign/stage3/spacecost-<ver>/` are the hand-frozen tables the cells before master v1.59.0 read: the record of those campaigns, never refreshed.
 
 ## Citations that travel with any publication
 
-CITATIONS.md is the authority for references, never values. Two sources require citation as a condition of use: **IMCCE SsODNet/ssoBFT** (Berthier et al. 2023) and **NEOWISE Diameters & Albedos V2.0** (Mainzer et al. 2019, doi:10.26033/18S3-2Z54); the committed SDSS taxonomy table (Hasselmann/Carvano/Lazzaro PDS + Carvano et al. 2010 method paper) is cited as a condition of its use too. Prices are live, so any derived figure is a figure ON A DATE — quote `catalog_date`.
+CITATIONS.md is the authority for references, never values. Two sources require citation as a condition of use: **IMCCE SsODNet/ssoBFT** (Berthier et al. 2023) and **NEOWISE Diameters & Albedos V2.0** (Mainzer et al. 2019, doi:10.26033/18S3-2Z54); the committed SDSS taxonomy table (Hasselmann/Carvano/Lazzaro PDS + Carvano et al. 2010 method paper) is cited as a condition of its use too. Prices come from a pinned spacevalue release built from one recorded quote snapshot (spacevalue's README and CITATIONS.md list the COMEX/NYMEX closes and the dated USGS/LME/LBMA reference rows), so any derived figure is still a figure ON A DATE: quote `catalog_date` (the day the quotes were recorded) and the `price_release`.
 
 ## Runtime anchors
 
@@ -183,13 +184,13 @@ Forward-looking items from the star-list audit that would benefit this repo but 
 4. Baseline taken BEFORE edit, `verify.py check` AFTER
 5. Provenance columns checked before comparing to committed numbers (`spectral_type_source`, `source_*`)
 6. `py verify_docs.py` after touching config fields / reference tables
-7. No stage 1/2/3 re-fetch ran since the baseline (it destroys every `.verify` baseline + overwrites the only frozen-input copies)
+7. No Stage 1/2/3 run since the baseline: all three rebuild from pins now (catalog release, price release, fuel snapshot), but each overwrites its CSVs, and Stage 2 installs ONE destination's table over whatever the baseline was measured on
 
 ## References (verified detail lives here, not in this file)
 
 - `references/load-bearing-assumptions.md` — model terms that look wrong but are deliberate; read before "fixing" any result.
 - `references/defect-classes-and-traps.md` — the recurring failure shapes, bit-identity refusals, code traps (incl. the market-ceiling ones), cache rules.
-- `references/data-sources-environment-entrypoints.md` — Stage 1's pinned release, soft price failures, the Drive mount (`tree_check.py`, silent reverts), cross-host notes, entry points.
-- `references/yfinance-live-behaviour.md` — yfinance 1.7.0 as `fetch_yfinance` calls it (run live 2026-10-05): bad tickers return empty frames and only log, the last daily bar can be an in-progress session (GC=F volume 57k vs 130-156k), TIO=F history/quote conflict vs the "CNY/MT" skip note.
+- `references/data-sources-environment-entrypoints.md` — the three pins Stages 1–3 install (catalog release, spacevalue price release, spacecost fuel snapshot), the Drive mount (`tree_check.py`, silent reverts), cross-host notes, entry points.
+- `references/yfinance-live-behaviour.md` — yfinance 1.7.0 as `spacecost.quotes.fetch_closes` calls it (run live 2026-10-05), which is what `spacevalue quotes record` and `spacecost quotes record` go through, and the opt-in live builds: bad tickers return empty frames and only log, the last daily bar can be an in-progress session (why recording drops today's bar), TIO=F history/quote conflict vs spacevalue's "CNY/MT" skip note. No economicspace stage calls yfinance.
 - `references/dv-oracles-and-economics-sources.md` — external Δv oracles (NHATS; Asterank schema change 2026-09-07) + the nine soft-assumption data sources with exact fetch specs. Companion: `data-science/astro-toolkit-selection/references/catalog-data-sources.md`.
 - `references/low-thrust-screening-prospector.md` — Karmanplus/prospector method: tiered solvers, "screen errors must point low, never cull", Edelbaum+intercept bracket (formula re-run: Ceres-like 13.64, Bennu-like 5.07 km/s), validation vs Dawn/Psyche/Hayabusa2/DART, pixi/conda-forge install
