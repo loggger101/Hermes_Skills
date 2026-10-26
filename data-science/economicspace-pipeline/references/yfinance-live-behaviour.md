@@ -7,7 +7,7 @@ verified_date: "2026-10-05"
 
 # yfinance, as the pipeline calls it
 
-`economicspace` Stage 2 (`master.py::fetch_yfinance`, mirrored in `modules/mineral_value.py`) takes each reference row with a
+`economicspace` Stage 2 (`modules/mineral_value.py::fetch_yfinance`) takes each reference row with a
 `yfinance_ticker` (`HG=F` copper USD/lb, `GC=F` gold, `SI=F` silver, `PL=F` platinum, `PA=F` palladium, all USD/troy oz except
 copper), calls `yf.Ticker(t).history(period="5d", auto_adjust=False)`, takes the last non-NaN `Close`, and converts to USD/kg.
 This note records what that call returns today. See `data-sources-environment-entrypoints.md` for why soft price failures

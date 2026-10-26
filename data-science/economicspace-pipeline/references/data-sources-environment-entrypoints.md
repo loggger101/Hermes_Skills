@@ -113,10 +113,9 @@ Everything consuming built master.py sits at repo root. Three that run the model
 | `verify.py` | yes | the release checks (count them in its own header); sets destination explicitly, asserts MISMATCH absent from stdout |
 | `tree_check.py` | no | does the disk hold what git says it holds; every harness calls it first and refuses on a finding |
 | `verify_stage1.py` | no | Stage 1's seam: the pinned release exists at this pipeline's data contract (network checks run on CI) and the on-disk catalog is that release byte for byte. Never writes the catalog |
-| `verify_stage3.py` | no | Stage 3's seam: the adapter against the pinned `spacecost` package; temp dir, no baseline, no network |
-| `.github/workflows/verify.yml` | no | CI: build-sync, docs checks, both seams, `platform_check.py` as a report. Not `verify.py`, which needs inputs no clone has |
+| `.github/workflows/verify.yml` | no | CI: tree check, `import master` (which is also Stage 3's seam: the pin guard), docs checks, the Stage 1 release, `platform_check.py` as a report. Not `verify.py`, which needs inputs no clone has |
 | `verify_docs.py` | no | docs checks (count them in its own docstring); imports master + four configs but never builds a stage |
-| `run.bat` / `run.sh` | no | Windows / POSIX launchers: terminal menu over run_pipeline/verify/build_master/dashboard. Same options and semantics (`quick` 400-row sample all stages, `rerun` Stage-4-only against on-disk catalogs, `standard` 20k rows Stage-4-only, `full` = THE PIPELINE DEFAULTS — measured 13,581 s / 3.8 h at earth_surface vs 5,692 s cislunar). run.sh adds `setup`, `platform`, `inputs` (second-host checks) and runs the dashboard in foreground on 0.0.0.0. No model behaviour of their own; quick/standard cap rows + raw ore N=1 rather than starting the multi-hour default cell |
+| `run.bat` / `run.sh` | no | Windows / POSIX launchers: terminal menu over run_pipeline/verify/dashboard. Same options and semantics (`quick` 400-row sample all stages, `rerun` Stage-4-only against on-disk catalogs, `standard` 20k rows Stage-4-only, `full` = THE PIPELINE DEFAULTS — measured 13,581 s / 3.8 h at earth_surface vs 5,692 s cislunar). run.sh adds `setup`, `platform`, `inputs` (second-host checks) and runs the dashboard in foreground on 0.0.0.0. No model behaviour of their own; quick/standard cap rows + raw ore N=1 rather than starting the multi-hour default cell |
 | `_START HERE.vbs` | no | double-click entry point (was `Dashboard.vbs` until 2026-09-04): starts the dashboard with NO console, ever, via Windows Script Host. Both oddities in the name are load-bearing: `_` (not `!`, which `run.bat`'s delayed expansion eats) sorts it first in Explorer, and the space makes it read as an instruction. Callers must quote it: `start "" wscript.exe "_START HERE.vbs"` |
 | `launch_ui.py` | no | supervises `streamlit run ui.py`, owns the stop button. **Deliberately imports NOTHING from this project** (not master/ui/modules) — spawns streamlit as child + watches a socket; it's the one process that must not fail, so putting a 1 MB module + multiprocessing pool inside the supervisor is exactly backwards |
 
@@ -128,7 +127,7 @@ Everything consuming built master.py sits at repo root. Three that run the model
 - `*.sh .githooks/*` → LF: a fresh clone with CRLF hooks fails `#!/bin/sh` as "bad interpreter" — silently, because a failing hook is easy to miss; these are the very hooks that repair the Drive stat cache.
 - `Dockerfile *.json *.yml *.yaml` → LF: a CR after a backslash continuation puts it into the argument and breaks multi-line RUN on the build host.
 - `*.bat *.vbs` → **CRLF**: batch is all labels/goto/call (where LF-only misbehaves) and wscript expects CRLF.
-- `master.py linguist-generated=true`; `*.tab -text` (originally for `sdsstax_ast.tab`): a PDS3 archive arrives CRLF and must be checked out byte-for-byte — a mechanically rewritten archive file is no longer the artefact its citation names, in a repo that argues releases from byte-identity.
+- `*.tab -text` (originally for `sdsstax_ast.tab`): a PDS3 archive arrives CRLF and must be checked out byte-for-byte — a mechanically rewritten archive file is no longer the artefact its citation names, in a repo that argues releases from byte-identity.
 
 ## Launcher prompt rule (both run.bat and run.sh)
 
