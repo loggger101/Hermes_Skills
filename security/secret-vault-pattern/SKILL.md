@@ -22,7 +22,7 @@ Gives a small, copyable design for storing user-supplied secrets (third-party AP
 - A pipeline or app must store per-user or per-profile secrets and environment variables are not enough
 - Reviewing a secret store for tenant isolation and rotation
 - Letting tools declare a secret by name and have it bound automatically
-- Not for deciding what to scan in a codebase (`security-audit`), outbound HTTP hardening (`rest-api-client`), or cron credential handling (`cron-job-authoring`, `references/credential-strategy.md`)
+- Not for deciding what to scan in a codebase (`security-audit`), outbound HTTP hardening (`rest-api-client`), or cron credential handling (`cron-job-authoring`)
 
 ## The construction
 

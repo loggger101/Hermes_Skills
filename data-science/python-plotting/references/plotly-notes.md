@@ -33,7 +33,7 @@ with a clear message; do not let a missing browser fail the data pipeline.
 
 - `plotly.io.renderers.default` was `'browser'`: `fig.show()` **opens a browser tab**. In unattended jobs write files instead, or set `pio.renderers.default = "png"`/`"json"` deliberately.
 - `px.line(data, x="a", y="zzz")` raises a clear `ValueError: Value of 'y' is not the name of a column in 'data_frame'. Expected one of ['a', 'b'] but received: zzz`.
-- Default template is `plotly` (the familiar light grey grid); set a template explicitly (`plotly_white`, `simple_white`) for reports, and keep colour and contrast decisions with the `dataviz` guidance.
+- Default template is `plotly` (the familiar light grey grid); set a template explicitly (`plotly_white`, `simple_white`) for reports, and keep colour and contrast decisions with project style guidance.
 
 ## Choosing against other tools in this repo
 

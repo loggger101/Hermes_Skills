@@ -22,7 +22,7 @@ States eight rules for GitHub Actions workflows taken from the comments of nine 
 - Writing or reviewing a workflow, or deciding what CI should prove
 - A check always skips, is always red, or went green on a broken input
 - Bot or scheduled jobs commit to `main`
-- Not for debugging a failing run (`github-pr-workflow`, `references/ci-troubleshooting.md`), gating a backlog with ratchets (`github-pr-workflow/references/ci-ratchets-and-release-pipeline.md`), or auditing for masked failures in code (`failure-signal-audit`)
+- Not for debugging a failing run (`github-pr-workflow/references/ci-troubleshooting.md`), gating a backlog with ratchets (`github-pr-workflow/references/ci-ratchets-and-release-pipeline.md`), or auditing for masked failures in code (`failure-signal-audit`)
 
 ## The eight rules
 

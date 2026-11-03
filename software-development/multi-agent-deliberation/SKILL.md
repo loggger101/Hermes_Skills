@@ -3,7 +3,7 @@ name: multi-agent-deliberation
 description: "Jury, interview and critique protocols for decisions."
 version: 1.0.0
 author: Hermes Agent (promoted from dispatching-parallel-agents; tech-leads-club/agent-skills the-jury, tlc-discover, the-fool; CC-BY-4.0, attribution Tech Leads Club / Felipe Rodrigues)
-license: MIT
+license: "MIT skill text; ported content under CC BY 4.0 - attribution in author"
 platforms: [linux, macos, windows]
 metadata:
   hermes:

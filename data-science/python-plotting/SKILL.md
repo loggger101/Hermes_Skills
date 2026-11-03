@@ -23,7 +23,7 @@ Covers what an **unattended** plotting script (agent, cron job, CI, report build
 - Committed or diffed figures must be reproducible (PNG, SVG, PDF)
 - Producing many figures or a report and the output size or time matters
 - Choosing between matplotlib/seaborn (static, publication) and plotly (interactive, shareable)
-- Not for deciding what to chart or how it should look (use the `dataviz` skill), the modelling workflow around the plots (`python-data-science`), or interactive dashboards (`streamlit-dashboards`, `nicegui-app-builder`)
+- Not for deciding what to chart or how it should look (project house-style governs; no dedicated chart-design skill exists yet), the modelling workflow around the plots (`python-data-science`), or interactive dashboards (`streamlit-dashboards`, `nicegui-app-builder`)
 
 ## Choosing the tool
 

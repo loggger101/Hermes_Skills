@@ -3,7 +3,7 @@ name: modular-monolith-migration
 description: "Module boundaries, decomposition, strangler-fig plans."
 version: 1.0.0
 author: Hermes Agent (promoted from architecture-metrics references; tech-leads-club/agent-skills, CC-BY-4.0, attribution Tech Leads Club / Felipe Rodrigues)
-license: MIT
+license: "MIT; ported material under CC BY 4.0 tech-leads-club material - attribution in author"
 platforms: [linux, macos, windows]
 metadata:
   hermes:
