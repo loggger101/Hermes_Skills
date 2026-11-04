@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **543 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **545 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-loop-design
@@ -842,6 +842,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 - `software-development/python-toolchain-notes/references/codon-compiler-notes.md` — Codon (exaloop) Python-to-native compiler: when it pays off, what differs from CPython, @codon.jit, CLI flags, @par, and the doc inconsistencies; Linux/macOS only
 - `software-development/python-toolchain-notes/references/compression-zstd-stdlib.md` — Python 3.14 stdlib compression.zstd (zstd 1.5.7) measured against zlib/bz2/lzma on markdown, CSV and float data; dictionaries for small records, level vs options TypeError, tar.zst, thread count
+- `software-development/python-toolchain-notes/references/cpython-runtime-facts-windows.md` — the CPython interpreter this box actually runs and how to discover it (Hermes-managed 3.14.9 standalone build that the Windows py launcher does NOT register, so `py -3.14` fails while `py -0p` shows only 3.13 and a uv-managed 3.11), its measured GIL state (Py_GIL_DISABLED=0 — a normal GIL build, not free-threaded, which is why cp314t wheels never get selected here), the real pip situation (`No module named pip` yet `ensurepip` importable, bootstrap deliberately left unverified), and how wheel ABI tags explain silent C-extension fallbacks like galpy's
 - `software-development/python-toolchain-notes/references/logging-loguru.md` — Python logging with loguru 0.7.3: setup, brace-format traps, diagnose=True secret leak, rotation/retention, serialize, stdlib interception
 - `software-development/python-toolchain-notes/references/modern-python-tooling.md` — Modern Python tooling: uv, ruff, ty, PEP 723
 - `software-development/python-toolchain-notes/references/pytest-9-notes.md` — pytest 9.1.1: exit codes, built-in subtests, strict mode, config precedence (run live)
@@ -859,6 +860,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `software-development/rust-crate-picks/references/gpui-kit-notes.md` — gpui-kit 0.7 (Rust desktop UI on GPUI): layering, features, headless UI testing, and its tested-recipe documentation pattern; source-read
 - `software-development/rust-crate-picks/references/num-enum-notes.md` — num_enum 0.7.6 (Rust): derive macros for enum <-> integer conversion (IntoPrimitive, TryFromPrimitive, FromPrimitive, UnsafeFromPrimitive), attributes, features; plus the Python IntEnum analogue run live on 3.14
 - `software-development/rust-crate-picks/references/rust-numeric-and-ui-testing-notes.md` — Registry-verified notes on four starred Rust crates - sprs (sparse matrices, with its LGPL opt-in Cholesky trap), statrs (statistics; nalgebra is optional-but-default, MSRV 1.89), num-traits (frozen since 2024 yet the de-facto numeric abstraction; Float/Real need the libm feature under no_std) and trybuild (compile-fail UI tests: wip/ directory, TRYBUILD=overwrite, 'fails to fail' semantics) - with Python equivalents for choosing between ecosystems
+- `software-development/rust-crate-picks/references/toolchain-absence-and-release-cadence.md` — Rust reality on this box measured again (cargo, rustc and rustup all absent — so every crate claim in this skill stays documentation-sourced until a toolchain is installed) plus release cadence derived from actual rust-lang/rust release dates rather than remembered ('.0' releases exactly 42 days apart across three consecutive intervals; patch releases interleaving irregularly), how to determine current stable without installing anything, and the MSRV-vs-channel check that matters more than tracking latest
 - `software-development/rust-crate-picks/references/uom-units-notes.md` — uom 0.38 (Rust type-safe units of measure): features, design, usage; plus the Python analogue pint 0.26.1 run live (dimension errors, temperature offset trap, AU and year definitions)
 
 ## software-development/skill-intake-and-release
