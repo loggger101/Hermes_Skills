@@ -453,6 +453,7 @@ If rate-limited mid-investigation, record the partial results in the evidence st
 - [github-archive-guide.md](./references/github-archive-guide.md) — BigQuery queries, CDX API, 12 event types
 - [evidence-types.md](./references/evidence-types.md) — IOC taxonomy, evidence source types, observation types
 - [recovery-techniques.md](./references/recovery-techniques.md) — Recovering deleted commits, PRs, issues
+- [binary-inspection-ghidra-raddebugger.md](./references/binary-inspection-ghidra-raddebugger.md) — Ghidra headless for bulk artifact triage (what `-import`/`-process`/`-preScript`/`-postScript`/separated script logging do; where `analyzeHeadless` actually lives in the master tree vs the release layout guides assume; current JDK 25 + Gradle 9.1 build requirement), and Epic's RAD stack — RDI debug-info format specified in code, `radbin --bin` to dump what debug info a binary carries, plus two documented Windows footguns (huge builds overflow PDBs' internal 32-bit tables; `/rad_large_pages` fragments host memory until reboot, so never outside a disposable image) and no LTO yet
 - [investigation-templates.md](./references/investigation-templates.md) — Pre-built hypothesis templates per attack type
 - [evidence-store.py](./scripts/evidence-store.py) — CLI tool for managing the evidence JSON store
 - [forensic-report.md](./templates/forensic-report.md) — Structured report template

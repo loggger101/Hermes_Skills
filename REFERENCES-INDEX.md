@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **540 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **541 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-loop-design
@@ -718,6 +718,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## security/oss-forensics
 
+- `security/oss-forensics/references/binary-inspection-ghidra-raddebugger.md` — binary-inspection tooling read from primary source rather than remembered tutorials: Ghidra's headless analyzer (what it can do without a GUI, where analyzeHeadless actually lives in the master tree versus the release layout most guides assume, and its current JDK 25 / Gradle 9.1 build requirement) plus Epic's RAD Debugger stack — RDI debug-info format, radbin for dumping debug info standalone, and the RAD Linker including two documented Windows footguns (32-bit PDB table overflow on huge builds; large-pages mode fragmenting host memory until reboot)
 - `security/oss-forensics/references/evidence-types.md` — Evidence Types Reference
 - `security/oss-forensics/references/github-archive-guide.md` — GitHub Archive Query Guide (BigQuery)
 - `security/oss-forensics/references/investigation-templates.md` — Investigation Templates
