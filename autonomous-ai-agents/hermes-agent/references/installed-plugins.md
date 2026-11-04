@@ -10,17 +10,17 @@
 
 | Metric | Count |
 |--------|-------|
-| Total plugins installed | 14 |
-| Enabled | 13 |
+| Total plugins installed | 16 |
+| Enabled | 15 |
 | Disabled | 1 |
 | Dashboard/UI-only plugins | 4 |
 | Tool-providing plugins | 6 |
-| Community catalog plugins | 13 |
-| Official catalog plugins | 1 |
+| Community catalog plugins | 14 |
+| Official catalog plugins | 2 |
 | Standalone desktop plugins | 0 |
-| Total toolsets | 31 |
+| Total toolsets | 30 |
 | Toolsets enabled | 21 |
-| Toolsets disabled | 10 |
+| Toolsets disabled | 9 |
 
 ## Plugin Catalog
 
@@ -28,22 +28,24 @@
 |---|--------|---------|---------|--------|--------|----------|------|
 | 1 | agent-analytics | 0.1.0 | community | enabled | Agent-Analytics/agent-analytics-hermes-plugin | 63f11d36 | dashboard |
 | 2 | bot-forge | 0.4.1 | community | enabled | BkashJEE/hermes-bot-forge | 88dd338a | tool |
-| 3 | hermes-ledgerline | 0.1.7.post2 | community | enabled | Adolanium/hermes-ledgerline | 9be4b850 | dashboard |
-| 4 | hermes-memory-ui | 0.6.0 | community | enabled | xraysight/hermes-memory-ui | 9472bed7 | dashboard |
-| 5 | hermes-telemetry | 0.8.0 | community | disabled | nujovich/hermes-telemetry | 146f6744 | unknown |
-| 6 | hindsight | 1.0.1 | community | enabled | vectorize-io/hindsight#hindsight-integrations/hermes | 176f8c2d | unknown |
-| 7 | home-dashboard | 1.3.0 | community | enabled | albertocvrrbs/hermes-home-dashboard | a8a01822 | unknown |
-| 8 | icarus | 0.3.0 | community | enabled | esaradev/icarus-plugin | e46cba30 | tool |
-| 9 | job-search | 0.9.0 | community | enabled | agent-data/job-search | dba0c099 | tool |
-| 10 | memory-wiki | 1.0.0 | official | enabled | NousResearch/hermes-memory-wiki | 9bc3913b | dashboard |
-| 11 | mnemosyne-dashboard | 0.14.0 | community | enabled | wysie/mnemosyne-dashboard | a918e5e0 | tool |
-| 12 | prompt-optimizer | 1.0.0 | community | enabled | Sahil-SS9/hermes-multichannel-prompt-optimizer | e83eba9a | unknown |
-| 13 | web-search-plus | 4.2.0 | community | enabled | robbyczgw-cla/hermes-web-search-plus | d4840c9b | tool |
-| 14 | yantrikdb | 0.25.0 | community | enabled | yantrikos/yantrikdb-hermes-plugin | d7ccc7ec | tool |
+| 3 | hermes-ledgerline | 0.1.9 | community | enabled | Adolanium/hermes-ledgerline | a89efcea | dashboard |
+| 4 | hermes-memory-ui | 0.6.4 | community | enabled | xraysight/hermes-memory-ui | 8f798101 | dashboard |
+| 5 | hermes-telemetry | 0.9.1 | community | disabled | nujovich/hermes-telemetry | 872eadc4 | unknown |
+| 6 | hindsight | 1.2.3 | community | enabled | vectorize-io/hindsight#hindsight-integrations/hermes | d952b6e6 | unknown |
+| 7 | holographic | 0.26.2 | community | enabled | itpartypattaya/hermes-plugin-holographic | 327adc7b | unknown |
+| 8 | home-dashboard | 1.3.0 | community | enabled | albertocvrrbs/hermes-home-dashboard | a8a01822 | unknown |
+| 9 | homeassistant | 2.0.1 | official | enabled | NousResearch/hermes-official-plugins#homeassistant | 4d492b1d | unknown |
+| 10 | icarus | 0.3.0 | community | enabled | esaradev/icarus-plugin | e46cba30 | tool |
+| 11 | job-search | 0.9.0 | community | enabled | agent-data/job-search | dba0c099 | tool |
+| 12 | memory-wiki | 1.0.0 | official | enabled | NousResearch/hermes-memory-wiki | 9bc3913b | dashboard |
+| 13 | mnemosyne-dashboard | 0.14.0 | community | enabled | wysie/mnemosyne-dashboard | a918e5e0 | tool |
+| 14 | prompt-optimizer | 1.0.0 | community | enabled | Sahil-SS9/hermes-multichannel-prompt-optimizer | e83eba9a | unknown |
+| 15 | web-search-plus | 5.1.7 | community | enabled | robbyczgw-cla/hermes-web-search-plus | 4eebfd77 | tool |
+| 16 | yantrikdb | 0.27.1 | community | enabled | yantrikos/yantrikdb-hermes-plugin | d9badf26 | tool |
 
 ## Tool Configuration
 
-> Auto-generated from `hermes tools list` — 21/31 toolsets enabled.
+> Auto-generated from `hermes tools list` — 21/30 toolsets enabled.
 
 ### Enabled toolsets
 
@@ -81,10 +83,9 @@
 | `stt` | Speech-to-Text | (not enabled) | built-in |
 | `kanban` | Kanban | (opt-in task board) | built-in |
 | `context_engine` | Context Engine | (no active context engine) | built-in |
-| `homeassistant` | Home Assistant | (no API key) | built-in |
-| `spotify` | Spotify | (not configured) | built-in |
 | `yuanbao` | Yuanbao | (not configured) | built-in |
 | `a2a` | A2A | Agent-to-Agent protocol | a2a |
+| `homeassistant` | Homeassistant | (no API key) | built-in |
 
 ## Per-Plugin Details
 
@@ -112,49 +113,60 @@
 
 ### 3. `hermes-ledgerline`
 
-- **Version**: 0.1.7.post2
+- **Version**: 0.1.9
 - **Catalog**: community
 - **Status**: enabled
 - **Install source**: https://github.com/Adolanium/hermes-ledgerline
-- **Revision**: `9be4b850` (`9be4b850c874cebaa18b0077cdc5164b5e7b953b`) — pinned
+- **Revision**: `a89efcea` (`a89efceab1ff5eb0cc3f58c0482c0f1d368a6d1b`) — pinned
 - **Type**: Dashboard/UI panel
 - **Tools**: None (dashboard panel only)
 - **Description**: Inspect session costs and usage in Hermes Desktop.
 
 ### 4. `hermes-memory-ui`
 
-- **Version**: 0.6.0
+- **Version**: 0.6.4
 - **Catalog**: community
 - **Status**: enabled
 - **Install source**: https://github.com/xraysight/hermes-memory-ui
-- **Revision**: `9472bed7` (`9472bed7e20a51ac4f6c48f882bd9f80ea54d4ee`) — pinned
+- **Revision**: `8f798101` (`8f798101a61a33e16f38eb22c3b1ad50ef9484a1`) — pinned
 - **Type**: Dashboard/UI panel
 - **Tools**: None (dashboard panel only)
 - **Description**: Read-only Hermes Dashboard and Desktop plugin for inspecting built-in, holographic, Mem0, Honcho, Mnemosyne, Hindsight, and ByteRover memory.
 
 ### 5. `hermes-telemetry`
 
-- **Version**: 0.8.0
+- **Version**: 0.9.1
 - **Catalog**: community
 - **Status**: disabled
 - **Install source**: https://github.com/nujovich/hermes-telemetry
-- **Revision**: `146f6744` (`146f6744fc4117ade784eefd7aa231c9b3f36281`) — pinned
+- **Revision**: `872eadc4` (`872eadc4b1e6797bc72c8eed3daf54f199d2bed5`) — pinned
 - **Type**: Agent tool-providing
 - **Tools**: Not reflected in `hermes tools list` (may register via agent tool discovery)
 - **Description**: Observability + budget guardrails for Hermes Agent — tokens, cost, latency, tool calls per session and cron job. Persists to local SQLite. Exposes /stats and /budget slash commands.
 
 ### 6. `hindsight`
 
-- **Version**: 1.0.1
+- **Version**: 1.2.3
 - **Catalog**: community
 - **Status**: enabled
 - **Install source**: https://github.com/vectorize-io/hindsight#hindsight-integrations/hermes
-- **Revision**: `176f8c2d` (`176f8c2de1369f569c489b831d143b78128b5535`) — pinned
+- **Revision**: `d952b6e6` (`d952b6e655fccab4581ee0722b51c5f103873d12`) — pinned
 - **Type**: Agent tool-providing
 - **Tools**: Not reflected in `hermes tools list` (may register via agent tool discovery)
 - **Description**: Hindsight — long-term memory with knowledge graph, entity resolution, and multi-strategy retrieval.
 
-### 7. `home-dashboard`
+### 7. `holographic`
+
+- **Version**: 0.26.2
+- **Catalog**: community
+- **Status**: enabled
+- **Install source**: https://github.com/itpartypattaya/hermes-plugin-holographic
+- **Revision**: `327adc7b` (`327adc7bfdf55c6d85209b5fc9dbf485111394a1`) — pinned
+- **Type**: Agent tool-providing
+- **Tools**: Not reflected in `hermes tools list` (may register via agent tool discovery)
+- **Description**: Holographic memory — local SQLite fact store with FTS5 search, trust scoring, and HRR-based compositional retrieval; optional online search by meaning through an embeddings API (off by default).
+
+### 8. `home-dashboard`
 
 - **Version**: 1.3.0
 - **Catalog**: community
@@ -165,7 +177,19 @@
 - **Tools**: Not reflected in `hermes tools list` (may register via agent tool discovery)
 - **Description**: Personalizable rice-style Home page with draggable, resizable glass widgets for Hermes Web and Desktop.
 
-### 8. `icarus`
+### 9. `homeassistant`
+
+- **Version**: 2.0.1
+- **Catalog**: official
+- **Status**: enabled
+- **Install source**: https://github.com/NousResearch/hermes-official-plugins#homeassistant
+- **Revision**: `4d492b1d` (`4d492b1dc5326af3e38bb2cf3e4b9ad6d65f0072`) — pinned
+- **Type**: Agent tool-providing
+- **Tools**: Not reflected in `hermes tools list` (may register via agent tool discovery)
+- **Description**: Home Assistant for Hermes Agent: a gateway platform adapter plus four smart-home tools. The adapter subscribes to HA's WebSocket event bus and forwards state-change events (with per-entity cooldowns and domain/entity filtering) to the agent; replies are delivered as HA persistent notifications, and cron deliver=homeassistant goes through the target's notify service (notify.<target>). The homeassistant toolset (ha_list_entities, ha_get_state, ha_list_services, ha_call_service) queries and controls devices over the REST API. Formerly built into Hermes core.
+
+
+### 10. `icarus`
 
 - **Version**: 0.3.0
 - **Catalog**: community
@@ -176,7 +200,7 @@
 - **Tools**: `fabric` (Fabric) — self-memory + replacement model tools
 - **Description**: Self-memory and replacement models for Hermes agents. Remember your work. Train your replacement.
 
-### 9. `job-search`
+### 11. `job-search`
 
 - **Version**: 0.9.0
 - **Catalog**: community
@@ -187,7 +211,7 @@
 - **Tools**: Not reflected in `hermes tools list` (may register via agent tool discovery)
 - **Description**: A private, local-first job-search assistant that finds postings, judges them against your prose preferences (no scores), and writes digests on a schedule you control.
 
-### 10. `memory-wiki`
+### 12. `memory-wiki`
 
 - **Version**: 1.0.0
 - **Catalog**: official
@@ -198,7 +222,7 @@
 - **Tools**: None (dashboard panel only)
 - **Description**: Memory Wiki dashboard tab: browsable subject pages and daily logs derived from local session history, plus a read-only Persistent Memory audit panel (MEMORY.md / USER.md).
 
-### 11. `mnemosyne-dashboard`
+### 13. `mnemosyne-dashboard`
 
 - **Version**: 0.14.0
 - **Catalog**: community
@@ -209,7 +233,7 @@
 - **Tools**: `mnemosyne-dashboard` (Mnemosyne-Dashboard) — memory browsing & visualization
 - **Description**: Local-only web dashboard for browsing and visualising Mnemosyne memories, triples, stats, and consolidation history.
 
-### 12. `prompt-optimizer`
+### 14. `prompt-optimizer`
 
 - **Version**: 1.0.0
 - **Catalog**: community
@@ -220,24 +244,24 @@
 - **Tools**: Not reflected in `hermes tools list` (may register via agent tool discovery)
 - **Description**: Model-aware prompt rewriter with token-efficiency scoring, coaching metrics, and slash commands.
 
-### 13. `web-search-plus`
+### 15. `web-search-plus`
 
-- **Version**: 4.2.0
+- **Version**: 5.1.7
 - **Catalog**: community
 - **Status**: enabled
 - **Install source**: https://github.com/robbyczgw-cla/hermes-web-search-plus
-- **Revision**: `d4840c9b` (`d4840c9b9572281735d67d511814dd9a51f922d0`) — pinned
+- **Revision**: `4eebfd77` (`4eebfd77a4572111306f4ff551be4e53ef76f450`) — pinned
 - **Type**: Agent tool-providing
 - **Tools**: `web-search-plus` (Web-Search-Plus) — multi-provider search, URL extraction, reports
 - **Description**: Multi-provider web search, URL extraction, quality reports, and opt-in research mode
 
-### 14. `yantrikdb`
+### 16. `yantrikdb`
 
-- **Version**: 0.25.0
+- **Version**: 0.27.1
 - **Catalog**: community
 - **Status**: enabled
 - **Install source**: https://github.com/yantrikos/yantrikdb-hermes-plugin
-- **Revision**: `d7ccc7ec` (`d7ccc7ec423591438f1897ad9a2f4ca197500fe5`) — pinned
+- **Revision**: `d9badf26` (`d9badf26807aaf086fe05705b1c5617e3611fafa`) — pinned
 - **Type**: Agent tool-providing
 - **Tools**: `memory` (Memory) — yantrikdb_remember, yantrikdb_recall, yantrikdb_forget, yantrikdb_conflicts, yantrikdb_relate, yantrikdb_tasks, yantrikdb_resolve_conflict
 - **Description**: YantrikDB — self-maintaining memory for Hermes with canonicalization, contradiction tracking, recency-aware ranking, explainable recall, and pluggable embedders (bundled potion-2M default; first-class loaders for the model2vec family and the HF sentence-transformers ecosystem; custom Python embedder class as escape hatch). As of v0.2.0 the default backend is in-process (`pip install` and go); HTTP-to-server is optional for HA cluster setups.

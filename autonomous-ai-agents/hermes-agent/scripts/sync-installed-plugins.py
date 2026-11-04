@@ -187,7 +187,7 @@ def find_hermes_dir():
     return None
 
 
-def run_hermes_cmd(args, timeout=30):
+def run_hermes_cmd(args, timeout=180):  # 2026-11-04: cold-start `hermes plugins list` runs 50-70s on Windows; 30s cap made this gate unfailable-by-design (live copy carries the same Oct-31 raise)
     """Run a hermes CLI command; return stdout or raise ScanError saying why it failed."""
     cmd = "hermes " + " ".join(args)
     try:
