@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **537 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **538 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-loop-design
@@ -567,6 +567,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 - `mcp/fastmcp/references/fastmcp-cli.md` — FastMCP CLI Reference
 - `mcp/fastmcp/references/mcp-server-design-patterns-tlc.md` — MCP Server Design Patterns (verified from tech-leads-club/agent-skills @ 0ab82f6)
+
+## mcp/mcporter
+
+- `mcp/mcporter/references/tool-evidence-and-recovery-discipline.md` — Agent-tool discipline distilled from morluto/rea (429k stars), whose skill pack is the most rigorous MCP contract available: capability-vs-instructions separation, summary-first analysis with retained evidence references, treating client-side truncation of a SUCCESSFUL result as incomplete rather than canonical, retry-once-only-if-safe semantics for dropped tool calls, no-repeat-without-changed-input, and observations vs inferences vs unknowns - plus verified artifact facts (PyInstaller CArchive layering, Bun --compile module graph, ESP32 0xE9 magic) and the absence-inference trap from scoped captures
 
 ## media/youtube-content
 
