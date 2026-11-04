@@ -30,5 +30,5 @@ Their 51KB create-technical-design-doc skill is notable mainly for its MANDATORY
 
 ## Cross-links
 
-- `note-taking/living-docs-governance/SKILL.md` — ADR index placement, one-canonical-owner-per-fact discipline (the governance side).
+- `software-development/living-docs-governance/SKILL.md` — ADR index placement, one-canonical-owner-per-fact discipline (the governance side).
 - `software-development/mattpocock-spec-driven-development/references/spec-driven-patterns-tlc.md` §6b — one-way doors: which decisions even DESERVE a decision document.

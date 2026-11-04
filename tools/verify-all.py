@@ -63,6 +63,7 @@ CHILD_IO = dict(encoding="utf-8", errors="replace", env=dict(os.environ, PYTHONI
 GATE_LABELS = [
     "audit-skills",  # incl. zero-threshold hardcoded-secret scan + its mutation self-test below
     "check-links",  # honest denominator: checked vs skipped-by-design per category
+    "citations",  # backticked in-repo path citations resolve to real files
     "drift: SKILLS-INDEX",  # gen-skills-index.py --check (index + all 23 category DESCRIPTIONs)
     "drift: CODE-INDEX",  # gen-code-index.py --check
     "drift: REFERENCES-INDEX",  # gen-references-index.py --check
@@ -83,6 +84,7 @@ GATE_LABELS = [
     "router gate self-test",  # mutation-test-router-gate.py — proves all 5 coverage classes fail loud
     "pointer gate self-test",  # mutation-test-pointer-gate.py — one planted defect per pointer form
     "skill-test runner self-test",  # mutation-test-skilltest-gate.py — every suite verdict proven
+    "citation gate self-test",  # mutation-test-citation-gate.py - stale move, fence skip, archive skip, floor, unreadable
     "link gate self-test",  # mutation-test-link-gate.py — broken path/anchor, unreadable, floor
     "drift gate self-test",  # mutation-test-drift-gates.py — each index --check reports planted drift
     "tool unit tests",  # tools/tests via run-skill-tests.py --root tools
@@ -467,6 +469,7 @@ def main():
     results = [
         run_audit_gate(),
         run("check-links", ["tools/check-links.py"]),
+        run("citations", ["tools/check-citations.py"]),
         run("drift: SKILLS-INDEX", ["tools/gen-skills-index.py", "--check"]),
         run("drift: CODE-INDEX", ["tools/gen-code-index.py", "--check"]),
         run("drift: REFERENCES-INDEX", ["tools/gen-references-index.py", "--check"]),
@@ -528,6 +531,7 @@ def main():
         run("skill-test runner self-test", ["tools/mutation-test-skilltest-gate.py"], timeout=600),
         # The link checker tests itself: a broken path, a broken #anchor, an unreadable file,
         # links inside code that must be ignored, and a scan below its floor.
+        run("citation gate self-test", ["tools/mutation-test-citation-gate.py"]),
         run("link gate self-test", ["tools/mutation-test-link-gate.py"]),
         # The five index drift gates test themselves: a temp copy of the tree gets one planted
         # change per index and each --check must report DRIFT; an emptied tree must hit the floor.

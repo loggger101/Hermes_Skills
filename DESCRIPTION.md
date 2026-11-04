@@ -132,7 +132,7 @@ The fastest way from a job you have in mind to the skill that does it. Not sure 
 | Publish a site/dashboard/docs build with versioned deploys + rollback | `publish-site` (GitHub Pages → Cloudflare → Netlify ladder, live-URL verification) |
 | Expose a local service / receive webhooks with no extra install | `pinggy-tunnel` (SSH reverse tunnel, webhook + MCP + LLM-endpoint recipes inside) |
 | Call tools on an MCP server from the terminal | `mcporter` (npx; list/call/auth/daemon); authoring servers → `fastmcp` |
-| Verify this repo's own health | `py tools/verify-all.py` — all 29 gates in one run |
+| Verify this repo's own health | `py tools/verify-all.py` — all 31 gates in one run |
 
 ## Organization
 
@@ -163,7 +163,7 @@ category/
 
 ### verify-all
 
-**`verify-all.py`** is the one command. It runs all 29 gates and prints a PASS / FAIL / SKIP table. Run it before every commit. A SKIP is never a pass: only a gate declared skippable may skip (today only installed-plugins, on a machine whose inventory the doc is not), and the summary names it instead of saying all gates passed.
+**`verify-all.py`** is the one command. It runs all 31 gates and prints a PASS / FAIL / SKIP table. Run it before every commit. A SKIP is never a pass: only a gate declared skippable may skip (today only installed-plugins, on a machine whose inventory the doc is not), and the summary names it instead of saying all gates passed.
 
 - **Audit** — includes the zero-threshold hardcoded-secret scan over every skill script and SKILL.md.
 - **Links** — every relative markdown link resolves.
@@ -183,6 +183,7 @@ category/
 
 - **`audit-skills.py`** — validates all skills against repo conventions; exit 0 = clean. Hard-fails if pyyaml is missing or the scan finds <100 skills, so an unrunnable audit can never report clean.
 - **`check-links.py`** — broken-link gate: every relative markdown link must resolve, and every `#anchor` into a markdown file must name a real heading (skips URLs, code spans, historical `profiles-export/` snapshots). Run alongside the audit before committing doc changes.
+- **`check-citations.py`** — citation gate: every backticked in-repo path must resolve. A move or rename that leaves prose pointing at a deleted location is caught (the filename existing elsewhere is the signature); references into upstream projects are reported but never block, and historical `docs/archive/` notes are left as written. Run after any skill move.
 - **`gen-skills-index.py`** — rebuilds `SKILLS-INDEX.md` and every category `DESCRIPTION.md` from live frontmatter (stdlib-only). `--check` reports drift without writing.
 - **`gen-code-index.py`** — rebuilds `CODE-INDEX.md` from every code file in the repo: path, kind (script/helper/test/template), language, size, and a one-line purpose extracted from its docstring or header comment. Run after adding, removing or renaming scripts.
 - **`gen-references-index.py`** — rebuilds `REFERENCES-INDEX.md` from every skill's `references/*.md`: a flat grep index with each doc's frontmatter description and owning skill. Run after adding or removing reference docs.
@@ -203,7 +204,7 @@ category/
 
 [`.github/workflows/ci.yml`](./.github/workflows/ci.yml) runs three jobs on every push and PR:
 
-1. Runs all 29 health gates.
+1. Runs all 31 health gates.
 2. Every test suite that ships inside a skill, found by discovery: twenty-three pytest suites (comfyui, docx, pdf, powerpoint, xlsx, regex-vs-llm-structured-text, sqlite-queries, evolutionary-ml, ascii-video, space-data-pipelines, system-design-scaling, github-code-review, session-librarian, oss-forensics, living-docs-governance, multi-agent-deliberation, watchers, har-derived-api-client, rss-feeds, repo-atlas, architecture-metrics, fastmcp, diagram-design), the security-audit `node --test` suite and the ast-grep sh/ps1 smoke scripts, with deps from [`test-requirements.txt`](./test-requirements.txt). A suite whose every test skipped fails, and so does a test file no suite runs.
 3. A dedicated `self-test-harnesses` job that executes every registered `*_verify.py` harness against real duckdb/polars/pyarrow/numpy/pyomo/highspy installs (deps from [`selftest-requirements.txt`](./selftest-requirements.txt)) with `--strict`, so a harness that skips there fails. An upstream engine change then breaks CI instead of quietly rotting the docs.
 

@@ -299,7 +299,7 @@ The Python scripts in [`tools/`](./tools/) keep the repository healthy. The audi
 
 ### Start here
 
-[`verify-all.py`](./tools/verify-all.py) runs every gate in one shot and exits 0 only when all 29 gates pass or are declared skips. Run it before any commit.
+[`verify-all.py`](./tools/verify-all.py) runs every gate in one shot and exits 0 only when all 31 gates pass or are declared skips. Run it before any commit.
 
 Each gate prints PASS, FAIL or SKIP. A SKIP is never reported as a pass. Only a gate declared skippable may produce one: today that is only installed-plugins, in CI or on the machine whose inventory the doc is not. When a gate skips, the summary line names it instead of saying all gates passed.
 
@@ -325,6 +325,7 @@ Each gate prints PASS, FAIL or SKIP. A SKIP is never reported as a pass. Only a 
 |------|---------|-------------|
 | [`audit-skills.py`](./tools/audit-skills.py) | Validates all 254 skills: YAML frontmatter, description length, `related_skills` resolution, body sections, `skill_view()` call sync, category `DESCRIPTION.md` | Weekly job `hermes-skills-audit` ([status](#cron-job-authoring)) |
 | [`check-links.py`](./tools/check-links.py) | Verifies every relative markdown link resolves and every `#anchor` into a markdown file names a heading or `<a id>`. Skips URLs, code spans and historical `profiles-export/` snapshots; exit 1 on any broken link or anchor, exit 2 when the scan itself failed | After doc edits |
+| [`check-citations.py`](./tools/check-citations.py) | Verifies every backticked in-repo path citation (`category/skill/references/x.md`) resolves: FAIL when the filename exists elsewhere (an un-followed move), WARN-only for paths that point into upstream projects; skips fences, `profiles-export/`, `docs/archive/` and globs. Exit 1 stale / exit 2 unreadable-or-below-floor | After any skill rename or move |
 | [`check-router-coverage.py`](./tools/check-router-coverage.py) | Every skill in `skill-flow-router`'s declared scope is either routed or declined with a reason | Gate in verify-all |
 | [`check-skill-pointers.py`](./tools/check-skill-pointers.py) | Every `skill_view(name=...)`, `hermes skill load <category>/<name>` and `skill_manage("install", ...)` pointer in prose or cron JSON names a skill that exists at that path | Gate in verify-all |
 | [`check-lint.py`](./tools/check-lint.py) | `ruff check` + `ruff format --check` at the pinned ruff, live `ruff.toml` paths, excludes == bundled skills with Python, UTF-8-safe output; exit 1 on findings, 2 when it cannot run | Gate in verify-all; after Python edits |
@@ -382,6 +383,7 @@ A gate that cannot be proven to fail is worse than no gate. Each script below pl
 | [`mutation-test-pointer-gate.py`](./tools/mutation-test-pointer-gate.py) | A dangling skill pointer |
 | [`mutation-test-skilltest-gate.py`](./tools/mutation-test-skilltest-gate.py) | Per suite kind (pytest, node, sh, ps1): a failing test, an all-skipped suite, zero tests collected, a collection error, a silent smoke script; orphan test files; an empty scan |
 | [`mutation-test-link-gate.py`](./tools/mutation-test-link-gate.py) | A missing file, a broken cross-file and same-file `#anchor`, an unreadable file, a scan below its floor |
+| [`mutation-test-citation-gate.py`](./tools/mutation-test-citation-gate.py) | A citation whose file moved (unique basename or renamed skill dir), a fence/archive/glob/upstream path wrongly flagged, an unreadable file, a scan below its floor |
 | [`mutation-test-drift-gates.py`](./tools/mutation-test-drift-gates.py) | A new skill, script and reference doc, each index hand-edited or deleted, and an emptied tree that must hit every generator's floor without overwriting |
 
 ### Sync and install
@@ -407,7 +409,7 @@ It has `--dry-run`. Always dry-run before a first live run: round 19b caught two
 One command runs everything:
 
 ```bash
-py tools/verify-all.py      # 29 gates; exit 0 = all pass (declared skips are named)
+py tools/verify-all.py      # 31 gates; exit 0 = all pass (declared skips are named)
 ```
 
 On Windows, use `py` wherever bare `python` is the Microsoft Store alias stub (it exits 49 without running anything; true on the Owner machine, not on the Loggg one). Linux and macOS: `python3`.

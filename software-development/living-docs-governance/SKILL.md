@@ -112,7 +112,7 @@ Start with a role map, not four new files:
 | Constitution | `AGENTS.md` | Link existing contribution rules |
 | Map | `docs/architecture.md` | Add ownership and "find X" table |
 | Status | `docs/roadmap.md` | Add blockers and delete-zone section |
-| History | `docs/adr/README.md` | Use ADRs for durable decisions; Git for routine changes |
+| History | `README.md` | Use ADRs for durable decisions; Git for routine changes |
 
 Useful sections to add only when missing:
 
