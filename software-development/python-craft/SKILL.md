@@ -616,4 +616,5 @@ For new Python code:
 - [`references/windows-path-separator-trap.md`](references/windows-path-separator-trap.md) - backslash paths silently failing string comparison
 - [`references/stdlib-traps-windows.md`](references/stdlib-traps-windows.md) - measured on Windows/Python 3.14: `open()` cp1252 default, csv blank lines, rename vs replace, rmtree read-only, strftime `%-d`, json NaN, naive/aware datetimes; plus things that are no longer traps
 - [`references/gof-patterns-in-python.md`](references/gof-patterns-in-python.md) - which GoF patterns collapse into a function, callable, generator, `singledispatch`, `Enum` or `dataclasses.replace`; 19 asserted idioms
+- [`references/venv-isolation-and-pythonpath-windows.md`](references/venv-isolation-and-pythonpath-windows.md) - ambient PYTHONPATH shadows fresh venvs; uv silently installs into a live agent env when VIRTUAL_ENV is an MSYS `/tmp` path; verify with `-E` + `module.__file__`
 - `skill_view(name='python-toolchain-notes')` - uv/ruff/ty setup and measured behaviour, loguru, `compression.zstd`, Codon (moved there in round-250)

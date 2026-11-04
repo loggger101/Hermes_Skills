@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **253 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **254 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -83,6 +83,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `enricher-pipeline-architecture` — Layered enricher pipelines: types, tools, two phases _(data-science)_
 - `evolutionary-ml` — Evolutionary ML: GA, NEAT, tournaments, parallel eval _(data-science)_
 - `experiment-design` — A/B test design: metrics, sample size, duration _(data-science)_
+- `gis-spatial-analysis` — Vector GIS in Python: indexes, CRS traps, verified picks _(data-science)_
 - `jupyter-notebook` — Iterative Python via live Jupyter kernel (hamelnb) _(data-science)_
 - `lunar-gis-projections` — Lunar polar GIS: LPS projection, cap grids, COG rules _(data-science)_
 - `ml-cv-library-notes` — Torch, CuPy, Open3D, gensim and CV libs: live-run traps _(data-science)_
@@ -326,4 +327,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `web-perf-audit` — Audit a built static site: perf script + UI checklist _(web-development)_
 
 ---
-*253 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*254 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*

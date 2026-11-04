@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **526 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **529 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-loop-design
@@ -396,6 +396,11 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## data-science/experiment-design
 
 - `data-science/experiment-design/references/experiment-design-sample-size.md` — Experiment Design & Sample Size (A/B test statistics)
+
+## data-science/gis-spatial-analysis
+
+- `data-science/gis-spatial-analysis/references/geospatial-stack-freshness.md` — PyPI distribution reality for the Python geospatial stack on Windows/Python 3.14+: which packages ship ABI-free vs per-minor-version wheels, free-threaded (cp314t) coverage, and the one whose analysis binary is not on PyPI at all
+- `data-science/gis-spatial-analysis/references/spatial-index-and-crs-measurements.md` — Measured cost/correctness behaviour of the Python vector-GIS stack on Windows/py3.14: R-tree build vs bulk sindex (8.07s vs 0.048s), numpy mask beating an index, rtree bounds/NaN error contract, save() removal, silent wrong answers from CRS axis order and read_file bbox, invalid-geometry area==0.0, WhiteboxTools API shape
 
 ## data-science/jupyter-notebook
 
@@ -811,6 +816,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 - `software-development/python-craft/references/gof-patterns-in-python.md` — Which GoF patterns collapse into Python features (function, callable, generator, singledispatch, Enum, dataclass.replace); 19 runnable idioms, all asserted
 - `software-development/python-craft/references/stdlib-traps-windows.md` — Python stdlib traps measured on Windows / Python 3.14.6: open() cp1252 default, csv blank lines, rename vs replace, rmtree read-only, strftime %-d, json NaN, naive/aware datetimes; plus facts that are no longer traps
+- `software-development/python-craft/references/venv-isolation-and-pythonpath-windows.md` — Measured on this Windows box: an ambient PYTHONPATH shadows fresh venvs (imports resolve elsewhere), uv silently installs into a live Hermes agent env when VIRTUAL_ENV is given as an MSYS /tmp path, and how to force/verify true isolation with -E plus module __file__
 - `software-development/python-craft/references/windows-path-separator-trap.md` — Windows os.path.relpath yields backslashes; cross-platform path-string comparison fails silently.
 
 ## software-development/python-toolchain-notes

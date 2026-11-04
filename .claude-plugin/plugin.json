@@ -1,7 +1,7 @@
 {
   "name": "hermes",
   "version": "1.0.0",
-  "description": "Hermes second brain: 250 skills across 23 categories.",
+  "description": "Hermes second brain: 251 skills across 23 categories.",
   "author": {
     "name": "Hermes Agent",
     "url": "https://github.com/loggger101"
@@ -75,6 +75,7 @@
     "./data-science/enricher-pipeline-architecture",
     "./data-science/evolutionary-ml",
     "./data-science/experiment-design",
+    "./data-science/gis-spatial-analysis",
     "./data-science/jupyter-notebook",
     "./data-science/lunar-gis-projections",
     "./data-science/ml-cv-library-notes",
