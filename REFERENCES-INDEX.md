@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **536 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **537 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-loop-design
@@ -847,6 +847,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `software-development/rust-crate-picks/references/bumpalo-arena-notes.md` — bumpalo 3.20 bump-arena notes: trade-offs, the no-Drop rule, reset, features, Send but not Sync, API names; source-read
 - `software-development/rust-crate-picks/references/gpui-kit-notes.md` — gpui-kit 0.7 (Rust desktop UI on GPUI): layering, features, headless UI testing, and its tested-recipe documentation pattern; source-read
 - `software-development/rust-crate-picks/references/num-enum-notes.md` — num_enum 0.7.6 (Rust): derive macros for enum <-> integer conversion (IntoPrimitive, TryFromPrimitive, FromPrimitive, UnsafeFromPrimitive), attributes, features; plus the Python IntEnum analogue run live on 3.14
+- `software-development/rust-crate-picks/references/rust-numeric-and-ui-testing-notes.md` — Registry-verified notes on four starred Rust crates - sprs (sparse matrices, with its LGPL opt-in Cholesky trap), statrs (statistics; nalgebra is optional-but-default, MSRV 1.89), num-traits (frozen since 2024 yet the de-facto numeric abstraction; Float/Real need the libm feature under no_std) and trybuild (compile-fail UI tests: wip/ directory, TRYBUILD=overwrite, 'fails to fail' semantics) - with Python equivalents for choosing between ecosystems
 - `software-development/rust-crate-picks/references/uom-units-notes.md` — uom 0.38 (Rust type-safe units of measure): features, design, usage; plus the Python analogue pint 0.26.1 run live (dimension errors, temperature offset trap, AU and year definitions)
 
 ## software-development/skill-intake-and-release
