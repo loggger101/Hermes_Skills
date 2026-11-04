@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **533 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **535 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-loop-design
@@ -186,6 +186,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## creative/design-taste-frontend
 
 - `creative/design-taste-frontend/references/appendices.md` — design-taste-frontend appendices: install commands per design system, canonical doc links, Apple Liquid Glass web approximation
+- `creative/design-taste-frontend/references/hallmark-css-floors.md` — Concrete CSS, typography and access floors from hallmark's 39 KB gate list - the blank-page-at-rest reveal gotcha, transition/animation bans, focus-ring and tooltip timing, contrast thresholds with APCA numbers, layout traps (dvh not vh, minmax(0,1fr), sticky-sticky collision, overflow-x clip), honesty floors (no invented metrics, no fake-send forms, capture the real product instead of drawing it) - each as tell plus fix; static-checked by sloplint and live-run on Node 22
 - `creative/design-taste-frontend/references/image-first-workflow.md` — Image-first web design-to-code workflow distilled from taste-skill's imagegen/image-to-code/brandkit skills - generate, analyze, implement; per-section frames; consistency rules
 - `creative/design-taste-frontend/references/impeccable-detector.md` — impeccable 4.1.0: a deterministic anti-slop detector CLI for UI (npx impeccable detect) run live on planted-slop and clean HTML, plus its PRODUCT.md-first workflow and 24 commands
 - `creative/design-taste-frontend/references/scroll-animation-skeletons.md` — GSAP canonical skeletons for design-taste-frontend: sticky-stack, horizontal-pan, scroll-reveal stagger (start/pin/scrub rules)
@@ -886,6 +887,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `software-development/verification-culture/references/agent-quality-bar-patterns.md` — Three agent-engineering disciplines distilled from addyosmani/agent-skills: doubt-driven review (fresh adversarial reviewer), constraint-driven quality bar (CONSTRAINTS.md, floor, ratchets), source-driven implementation (cite official docs)
 - `software-development/verification-culture/references/autonomous-operator-protocol-tlc.md` — Autonomous Operator Protocol: Evidence-or-Stop (verified from tech-leads-club/agent-skills @ 0ab82f6)
 - `software-development/verification-culture/references/pstack-principle-steering.md` — pstack's steering-by-principle-name technique and its 24 named principles (core/architecture/verification/delegation/meta), with an honest map of which are already held by skills in this catalog and what is genuinely new - the accountability rule that a cited principle must name the decision it changed
+- `software-development/verification-culture/references/tiered-gates-and-waivers.md` — Gate-design machinery worth stealing from hallmark's sloplint: four refusal tiers that say whether you may disagree, class = who checks it (static/render/judged) so tools and eyes never duplicate work, grades reported separately to keep '0 FAIL' honest, a waiver protocol whose guard is re-derived by the machine with reason-quality rejection rules, stable retired gate IDs, pre-emit self-critique with an anti-theatre clause - plus this file's own live measurements of sloplint on Node 22
 
 ## web-development/browser-automation
 
