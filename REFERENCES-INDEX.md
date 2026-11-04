@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **535 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **536 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-loop-design
@@ -779,6 +779,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## software-development/hermes-agent-skill-authoring
 
 - `software-development/hermes-agent-skill-authoring/references/behavioral-skill-testing.md` — Behavioral Skill Testing (RED-GREEN for Discipline Skills)
+- `software-development/hermes-agent-skill-authoring/references/multi-harness-distribution.md` — Shipping one guidance document across Claude Code, Cursor and Hermes surfaces - the file shapes observed in multica-ai/andrej-karpathy-skills (single-file CLAUDE.md, .cursor/rules/*.mdc with its two frontmatter keys, skills/<name>/SKILL.md, plugin.json + marketplace.json), the /plugin marketplace install flow, a provenance trap where the repo moved org but its own install URLs still name the old owner - plus a map of Karpathy's four coding principles onto skills this catalog already holds
 - `software-development/hermes-agent-skill-authoring/references/skill-invocation-conventions.md` — Skill invocation conventions: model-invoked vs user-invoked, and how skills call each other
 
 ## software-development/inspecting-hermes-desktop-dom
