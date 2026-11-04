@@ -359,3 +359,4 @@ Before declaring a project's verification culture healthy:
 ## References
 
 - `references/agent-quality-bar-patterns.md` - doubt-driven review (fresh adversarial reviewer, 3-cycle bound, doubt theater), CONSTRAINTS.md quality bar (floor, ratchets, guard the bar), source-driven implementation with retrieval safety; distilled from addyosmani/agent-skills (source-read).
+- `references/pstack-principle-steering.md` — steering by named principle instead of paragraphs, plus pstack's 24 principles grouped and mapped onto this catalog (~a third restated, ~half renameable-but-already-held, a handful genuine gaps), with the accountability rule that a cited principle must name the decision it changed. Source-read; no harness run.

@@ -162,6 +162,7 @@ The two mistakes that corrupt data most often: treating a no-change run as failu
 - `references/drift-skip-error.md` — troubleshooting the `[drift_skip]` error when a job's provider/model drifts from global config and gets auto-skipped.
 - `references/cron-approval-mode.md` — configuring `approvals.cron_mode` in `config.yaml` to auto-approve dangerous terminal commands in cron jobs.
 - `references/script-path-resolution.md` — pitfalls when computing REPO_ROOT from `__file__` in invoked scripts, and excluding sync output directories from recursive scans.
+- `references/benny-repro-automation-safety.md` — the fail-closed / never-fallback-post safety contract for automations that read an external channel and open code changes (pstack's benny pack): frozen source coordinates re-preflighted before every post, marker+identity verdicts instead of free-form approval, single-poster rule with credential-isolated children, no-confirmed-repro-no-fix. Source-read; nothing executed.
 - `skill_view(name='autonomous-loop-design')` — loop engineering (nine-part anatomy, cadence, two-tier action model) and goal-seeking loop design and review (moved there in round-251)
 - `references/output-alignment.md` — the config-vs-script mismatch pitfall: `threshold` keys and `post_run_verification` commands that name fields the script never emits cause false alerts and silent misses; the correct pattern, plus the real stdout/JSON shape of audit-skills.py, sync-hermes-skills.py and fetch_curate.mjs.
 

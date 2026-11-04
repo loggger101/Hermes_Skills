@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **529 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **531 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-loop-design
@@ -19,6 +19,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## autonomous-ai-agents/cron-job-authoring
 
 - `autonomous-ai-agents/cron-job-authoring/references/agent-vs-script-checklist.md` — Agent-vs-Script Checklist
+- `autonomous-ai-agents/cron-job-authoring/references/benny-repro-automation-safety.md` — Safety contract for recurring automations that read an external channel and open code changes, distilled from pstack's benny pack: fail-closed config, immutable source coordinates with preflight before every post, trusted-author marker verdicts, single-poster rule, credential-isolated children, no-confirmed-repro-no-fix, verify-mode when a PR already exists
 - `autonomous-ai-agents/cron-job-authoring/references/credential-strategy.md` — Credential Strategy for Cron Jobs
 - `autonomous-ai-agents/cron-job-authoring/references/cron-approval-mode.md` — Cron Approval Mode
 - `autonomous-ai-agents/cron-job-authoring/references/delivery-discipline.md` — Delivery Discipline for Cron Jobs
@@ -879,6 +880,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 - `software-development/verification-culture/references/agent-quality-bar-patterns.md` — Three agent-engineering disciplines distilled from addyosmani/agent-skills: doubt-driven review (fresh adversarial reviewer), constraint-driven quality bar (CONSTRAINTS.md, floor, ratchets), source-driven implementation (cite official docs)
 - `software-development/verification-culture/references/autonomous-operator-protocol-tlc.md` — Autonomous Operator Protocol: Evidence-or-Stop (verified from tech-leads-club/agent-skills @ 0ab82f6)
+- `software-development/verification-culture/references/pstack-principle-steering.md` — pstack's steering-by-principle-name technique and its 24 named principles (core/architecture/verification/delegation/meta), with an honest map of which are already held by skills in this catalog and what is genuinely new - the accountability rule that a cited principle must name the decision it changed
 
 ## web-development/browser-automation
 
