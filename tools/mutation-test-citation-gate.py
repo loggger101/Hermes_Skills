@@ -18,6 +18,8 @@ file is touched) and asserts:
   C11  fixture below the scan floor                     -> exit 2 [FATAL]
   C12  MIN_CITATIONS set WITHOUT a fixture root         -> must be ignored (real run exits 0)
   C13  markdown that is not valid UTF-8                 -> exit 2 [FATAL]
+  C15  a moved SCRIPT (unique tail-two match)           -> exit 1, names moved?-> target
+  C16  ambiguous generic code basename (index.js x2)    -> WARN only, exit 0
   C14  the real repo                                    -> exit 0
 
 Exit 1 if any check failed (never the count: it wraps at 256 and 77 means SKIP) (0 = gate proven fail-loud).
@@ -217,6 +219,24 @@ case(
     bad_bytes=True,
 )
 
+# C15: a moved SCRIPT (unique tail-two-segment match) is the same defect class as a moved doc.
+case(
+    "C15 moved script citation fails loud",
+    1,
+    "moved?->devops/alpha/scripts/perf_audit.py",
+    extra={"devops/alpha/scripts/perf_audit.py": '"""audit"""\n'},
+    doc="Run `github/beta/scripts/perf_audit.py` before shipping.\n",
+)
+
+# C16: generic code names collide across projects - an ambiguous code hit must stay a WARN.
+case(
+    "C16 ambiguous generic code basename is WARN only",
+    0,
+    "informational: 1",
+    extra={"web/x/index.js": "// a\n", "tools/y/index.js": "// b\n"},
+    doc="See `web/z/index.js` for the pattern.\n",
+)
+
 r = subprocess.run(
     [sys.executable, str(GATE)],
     capture_output=True,
@@ -238,6 +258,6 @@ if failures:
         print("  - " + f.replace("\n", "\n    "))
     sys.exit(1 if failures else 0)
 print(
-    "ALL 14 CHECKS PASSED — citation gate verified fail-loud (moves, fences, archives, floor, unreadable)."
+    "ALL 16 CHECKS PASSED — citation gate verified fail-loud (doc moves, script moves, fences, archives, floor, unreadable)."
 )
 sys.exit(0)

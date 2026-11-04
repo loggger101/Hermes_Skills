@@ -48,7 +48,11 @@ SKIP_DIRS = {".git", "profiles-export", "node_modules", "__pycache__"}
 # historical snapshots quote paths as-of-writing; rewriting them would falsify the record
 SKIP_REL_PREFIXES = ("docs/archive/",)
 FENCE = re.compile(r"^\s*(```|~~~)")
-CITATION = re.compile(r"`([^`\s]+/[^`\s]+\.md)`")
+# Citations name docs AND code: a moved script strands knowledge exactly like a moved doc,
+# and CODE-INDEX tracks 200+ of them. Config paths (.json/.yml) are excluded - those live
+# under dotted dirs that TOPS deliberately ignores.
+CITED_EXT = ("md", "py", "sh", "ps1", "js")
+CITATION = re.compile(r"`([^`\s]+/[^`\s]+\.(?:%s))`" % "|".join(CITED_EXT))
 
 
 def top_level_dirs() -> set[str]:
@@ -62,20 +66,20 @@ def top_level_dirs() -> set[str]:
 TOPS = top_level_dirs()
 
 
-def all_md_paths():
-    """Repo-relative markdown paths, skipping excluded dirs and archived notes."""
+def walk(exts):
+    """Repo-relative paths whose extension is in `exts`, skipping excluded dirs."""
     for root, dirs, files in os.walk(ROOT):
         dirs[:] = [d for d in dirs if d not in SKIP_DIRS]
         for f in files:
-            if not f.endswith(".md"):
-                continue
-            rel = os.path.relpath(os.path.join(root, f), ROOT).replace("\\", "/")
-            if rel.startswith(SKIP_REL_PREFIXES):
-                continue
-            yield rel
+            if "." in f and f.rsplit(".", 1)[-1].lower() in exts:
+                yield os.path.relpath(os.path.join(root, f), ROOT).replace("\\", "/")
 
 
-ALLPATHS = set(all_md_paths())
+# Resolution TARGETS include docs/archive/** - a citation may legitimately point at a
+# historical note. The SCAN set excludes it: archived audit notes quote paths as-of-writing
+# and rewriting them would falsify the record.
+ALLPATHS = set(walk(set(CITED_EXT)))
+SCAN_PATHS = {p for p in ALLPATHS if p.endswith(".md") and not p.startswith(SKIP_REL_PREFIXES)}
 
 BY_BASE: dict[str, list[str]] = {}
 for _rel in ALLPATHS:
@@ -119,11 +123,14 @@ def resolve(tok: str):
     hits = BY_BASE.get(base, [])
     if not hits:
         return "warn", "no-such-filename-here(upstream-path?)"
-    if len(hits) == 1:
-        return "fail", "moved?->" + hits[0]
     tail_cands = [h for h in hits if tok.endswith("/" + "/".join(h.split("/")[-2:]))]
     if len(tail_cands) == 1:
         return "fail", "moved?->" + tail_cands[0]
+    # A unique basename is a move signature for DOCS. It is not one for code: generic names
+    # (index.js, main.py, verify.sh) collide across unrelated projects, so an ambiguous or
+    # bare-basename code hit stays informational rather than crying wolf.
+    if tok.endswith(".md") and len(hits) == 1:
+        return "fail", "moved?->" + hits[0]
     return "warn", "basename-elsewhere(%d)-ambiguous" % len(hits)
 
 
@@ -161,7 +168,7 @@ def main() -> int:
     warns: list[tuple[str, int, str, str]] = []
     checked = 0
 
-    for rel_self in sorted(ALLPATHS):
+    for rel_self in sorted(SCAN_PATHS):
         try:
             found = list(citations_in(rel_self))
         except UnicodeDecodeError as e:

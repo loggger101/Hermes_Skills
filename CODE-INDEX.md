@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **202 code files** (52,718 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **202 code files** (52,745 lines total) in this second brain — one line each, grep-friendly.
 Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -335,7 +335,7 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `.hermes/cron/validate-cronjobs.py` (repo tooling, python, 267 lines) — Validate cronjob JSON config files for structural correctness + cross-consistency
 - `.hermes/cron/validate-skill-refs.py` (repo tooling, python, 66 lines) — Lightweight JSON + skill-ref validator (no_agent-compatible).
 - `tools/audit-skills.py` (repo tooling, python, 554 lines)
-- `tools/check-citations.py` (repo tooling, python, 214 lines) — Check that backticked in-repo path citations resolve to real files
+- `tools/check-citations.py` (repo tooling, python, 221 lines) — Check that backticked in-repo path citations resolve to real files
 - `tools/check-links.py` (repo tooling, python, 207 lines) — Broken-link checker for this second brain (stdlib only)
 - `tools/check-lint.py` (repo tooling, python, 239 lines) — Gate: the repo's Python is clean under `ruff check` and `ruff format --check`, and every
 - `tools/check-router-coverage.py` (repo tooling, python, 150 lines) — Gate: the skill-flow-router must keep pace with the catalog it claims to map
@@ -347,7 +347,7 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `tools/gen-references-index.py` (repo tooling, python, 111 lines) — Rebuild REFERENCES-INDEX.md from every skill's references/ directory
 - `tools/gen-skills-index.py` (repo tooling, python, 184 lines) — Regenerate SKILLS-INDEX.md from live skill frontmatter (flat, grep-friendly)
 - `tools/mutation-test-audit-gate.py` (repo tooling, python, 148 lines) — Mutation test for audit-skills.run_audit — the per-skill audit checks test themselves
-- `tools/mutation-test-citation-gate.py` (repo tooling, python, 243 lines) — Mutation self-test for check-citations.py
+- `tools/mutation-test-citation-gate.py` (repo tooling, python, 263 lines) — Mutation self-test for check-citations.py
 - `tools/mutation-test-cron-gate.py` (repo tooling, python, 116 lines) — Mutation self-test for the cron threshold-key verification (round-36)
 - `tools/mutation-test-doc-gate.py` (repo tooling, python, 518 lines) — Mutation test for verify-all.check_doc_counts — the doc-count gate tests itself
 - `tools/mutation-test-drift-gates.py` (repo tooling, python, 222 lines) — Mutation self-test for the five index drift gates (`--check` of every generator)
