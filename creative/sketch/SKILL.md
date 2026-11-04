@@ -194,6 +194,8 @@ A sketch is interactive enough when the user can:
 
 More than that is over-engineering a throwaway. Less than that is a screenshot.
 
+Two contracts worth enforcing on every sketch, from `references/fidelity-contract-effective-html.md` (plannotator/effective-html, source-read): **a direction must vary a product decision** — navigation model, grouping/order, primary-action placement, density, overview-vs-stepwise, mobile reflow — *"do not call color changes or minor card rearrangements separate directions"*; and low fidelity is never permission for lorem ipsum where wording affects layout. That file also carries the states list an interactive sketch should model (loading/empty/error/success/disabled/mobile, async actions showing success *and* failure), the keyboard/focus/dialog/hover accessibility checklist, and the rule to remove dead buttons rather than fake completion ("explain the boundary instead of pretending it completed").
+
 ## Frontier mode (picking what to sketch next)
 
 If sketches already exist and the user says "what should I sketch next?":

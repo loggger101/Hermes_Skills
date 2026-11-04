@@ -362,6 +362,8 @@ git commit -m "type: description"
 
 After the plan is written, dispatch a reviewer subagent with `references/plan-document-reviewer-prompt.md` (checks the plan is complete, matches its spec and decomposes into proper tasks), fix what it flags, then offer execution.
 
+Before handing off, run the traceability pass in `references/artifact-traceability-rules.md` (from plannotator/effective-html's html-plan skill, source-read): no commitment disappeared relative to the source material, stages keep their intended order, accepted decisions are separated from assumptions and open questions, and **no timeline, progress percentage or status badge was added unless the source supports it** — an invented date column reads as fact to every later reader. Finish by naming any structural interpretation you introduced (a grouping you chose, an ordering you inferred) so the reviewer audits exactly those places.
+
 ## Execution Handoff
 
 After saving the plan, offer BOTH execution approaches:

@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **531 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **533 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-loop-design
@@ -302,6 +302,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## creative/pretext
 
 - `creative/pretext/references/patterns.md` — Pretext Patterns
+
+## creative/sketch
+
+- `creative/sketch/references/fidelity-contract-effective-html.md` — Fidelity contracts for HTML review artifacts, from plannotator/effective-html: the authority ordering to settle before coding, what counts as a genuinely different direction (product decisions, not colours), intentional-unfinishedness vs sloppiness, the states list an interactive artifact must model, the interaction-completeness/accessibility checklist, and anti-house-style specifics
 
 ## creative/static-site-seo
 
@@ -811,6 +815,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## software-development/plan
 
+- `software-development/plan/references/artifact-traceability-rules.md` — Traceability rules for turning source material into a reviewable plan, from plannotator/effective-html's html-plan skill (medium-agnostic, applies to markdown plans too): no invented timelines or status badges, decisions separated from assumptions and open questions, sequence shown only where real, plus the before-delivery verification list - no commitment disappeared, stages in intended order, ownership legible
 - `software-development/plan/references/plan-document-reviewer-prompt.md` — Plan Document Reviewer Prompt Template
 
 ## software-development/python-craft
