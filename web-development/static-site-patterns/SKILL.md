@@ -237,6 +237,19 @@ npx stylelint "**/*.css"          # report; add --fix to rewrite
 `--fix` rewrote 5 of them, leaving the single-line-block rule for hand edit. Lint at build/CI, not as a pre-commit rewrite of
 files you did not touch.
 
+**Re-measured 2026-11-04 (Node v22.23.2, Windows) — stylelint 18 exists and the ordering config does not support it yet.**
+`npm i stylelint@latest` installs **stylelint 18.0.0**, but `stylelint-config-recess-order@7.10.0` declares
+`peer stylelint@"^16.18.0 || ^17.0.0"`, so the trio above fails with `ERESOLVE` ("Found: stylelint@18.0.0 … Could not resolve
+dependency"). Pin **`stylelint@17`** while you want property ordering (verified working: `order/properties-order` fired three times
+on an out-of-order block, all fixable), or run 18 with rule sets that accept it and add ordering later. Measured on 18.0.0 itself:
+modern syntax parses natively — nested `& .title` **and** range media `@media (width >= 60em)` produced no parse error, and rules
+applied correctly *inside* the nested block (`alpha-value-notation` fired at the nested declaration), which is exactly where csscomb
+threw. Exit codes: **2 on any error, 0 when clean — not 1**, so a CI step written as `[ $? -eq 1 ] && fail` silently passes; read
+non-zero, not one. `--fix` converted `0px`→`0` and `/ 0.5`→`/ 50%`, collapsed duplicate `gap: 8px; gap: 10px;` keeping the **last**
+value (cascade-correct), left the non-fixable finding, kept exit 2, and a second run changed nothing — idempotent. Unknown rule names
+fail loudly rather than being ignored (`Unknown rule color-no-hexx. Did you mean color-no-hex?`, exit 2), so a typo'd config cannot
+quietly become a no-op gate.
+
 For whitespace-only reformatting of JS/CSS/HTML (legacy or broken files, minified code, HTML with server-side template tags), `web-development/js-tooling-notes/references/js-beautify-notes.md` holds the js-beautify 2.0.3 run: the CLI **rewrites files in place when given two or more files or a glob, with no `--replace`**; syntax errors exit 0 with garbage output and there is no `--check`; TypeScript and JSX come out mangled; `.editorconfig` needs `--editorconfig`. Prettier is the choice for TS/JSX or a CI format gate.
 
 If a Materialize (Material Design CSS) look is requested, `web-development/frontend-library-picks/references/materialize-css-notes.md` explains that the starred Dogfalo repo is frozen at 1.0.0 (2018) and the maintained line is `@materializecss/materialize` 2.x, with the measured size, icon-font and grid-markup (`col s12` became `s12`) migration traps.
