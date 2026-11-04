@@ -247,7 +247,7 @@ against Claude Code 2.1.270:
 [`tools/gen-claude-plugin.py`](./tools/gen-claude-plugin.py) therefore writes an
 explicit `skills` array into [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json),
 listing each nested skill path. The Hermes-native layout is preserved, nothing is
-duplicated, and 250 skills load (`docx`, `pdf`, and `xlsx` are held back because
+duplicated, and 251 skills load (`docx`, `pdf`, and `xlsx` are held back because
 Claude Code ships first-party skills of the same name — two near-identical entries
 for one request only degrades skill selection).
 
