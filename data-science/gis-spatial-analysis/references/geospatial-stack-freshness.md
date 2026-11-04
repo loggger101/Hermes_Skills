@@ -22,8 +22,14 @@ with every CPython minor release.
 | `folium` | 0.20.0 | pure Python (`py2.py3-none-any`) + sdist | renders offline HTML; tile layers still need network unless `tiles=None` |
 
 Also fetched in the same pass, for astro work: **`galpy` 1.12.1 ships cp314 win_amd64 wheels** (so galactic-dynamics
-work is installable on this box's Python without a compiler), and **`anise-py` does not exist on PyPI** —
-a `pip install anise-py` returns HTTP 404, so ANISE must be reached through its Rust crate / maturin-built asset.
+work is installable on this box's Python without a compiler). This paragraph previously claimed ANISE
+had no PyPI distribution and had to come from its Rust crate; **that was wrong (corrected
+2026-11-05)**. `pip install anise-py` does return HTTP 404, but that only proves the *hyphenated guess*
+is absent — ANISE publishes on PyPI under its plain project name, **`anise` v0.10.6** (requires-python
+>=3.9, license **MPL-2.0**, homepage `nyxspace.com`, source `github.com/nyx-space/anise`), so the
+Python binding installs directly with no Rust toolchain or maturin build. Rule worth keeping: **a 404 on
+a guessed name is not evidence of absence** — check the plain project name, and record the license when
+you cite a package (`anise` is MPL-2.0, not MIT).
 
 ## Practical rules from this table
 

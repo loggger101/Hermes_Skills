@@ -269,7 +269,8 @@ Always report agreement metrics. Without them, reviewers assume your annotations
 
 ```python
 # Krippendorff's alpha (preferred — handles missing data, any scale)
-# pip install krippendorffs-alpha
+# pip install krippendorff          # PyPI name is `krippendorff` (v0.9.0, py>=3.11), NOT
+#                                   # `krippendorffs-alpha`, which 404s on PyPI (checked 2026-11-05)
 import krippendorff
 
 # Ratings: rows = annotators, columns = items, values = scores

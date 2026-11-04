@@ -166,7 +166,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 ## media
 
 - `gif-search` — Search/download GIFs from Tenor via curl + jq _(media)_
-- `songsee` — Audio spectrograms and feature extraction via CLI _(media)_
+- `songsee` — Spectrograms from audio with ffmpeg showspectrumpic _(media)_
 - `youtube-content` — YouTube transcripts to summaries, threads, blogs _(media)_
 
 ## mlops

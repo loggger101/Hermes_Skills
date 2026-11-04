@@ -1,160 +1,121 @@
 ---
 name: songsee
-description: "Audio spectrograms and feature extraction via CLI."
-version: 1.0.0
+description: "Spectrograms from audio with ffmpeg showspectrumpic"
+version: 2.0.0
 author: Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
 metadata:
   hermes:
-    tags: [Audio, Spectrogram, Features, MFCC, Chroma, Mel, Signal-Processing]
-    related_skills: [comfyui, youtube-content]
+    tags: [Audio, Spectrogram, FFmpeg, Signal-Processing, Visualization]
+    related_skills: [youtube-content, comfyui]
 ---
 
-# Songsee — Audio Feature Extraction
+# Audio spectrograms (there is no `songsee` package)
 
 ## What This Skill Does
 
-Generates audio spectrograms, chroma features, MFCCs, and other signal-processing visualizations from local audio files or YouTube URLs. Wraps the `librosa` library and `ffmpeg` into a CLI tool (`songsee`) that handles format conversion, parameter selection, and output rendering. Loads `skill_view(name='youtube-content')` for transcript extraction and `skill_view(name='comfyui')` for AI-generated visual art.
+Produces spectrogram images from local audio or a URL using **ffmpeg's built-in
+`showspectrumpic` filter**, and states plainly what the previous version of this skill got wrong.
 
-Audio spectrograms and feature extraction via CLI. Generates mel spectrograms, chroma features, MFCCs, and other audio analysis visualizations from audio files or YouTube links.
+**Corrected 2026-11-05.** Version 1.0.0 documented a CLI called `songsee` — subcommands, flags, a
+defaults table, a verification checklist. **No such distribution exists on PyPI**:
+`https://pypi.org/pypi/songsee/json` returns HTTP 404 (checked 2026-11-05), so every install line in
+v1 (`uv pip install songsee`, `pip install songsee`) failed by construction and the documented flags
+were never observed running. Nothing below is carried over from v1; what follows was run on this
+machine today.
 
 ## When to Use
 
-Use when the user wants to:
-- "Generate a spectrogram from this audio file"
-- "Extract MFCC features from this song"
-- "Show me the chroma features of this track"
-- "Analyze the frequency content of this recording"
-- "Convert this YouTube link to a spectrogram"
+- Render a spectrogram of a recording to inspect it visually.
+- Check bandwidth, hum, clipping or silence in a file before processing it.
+- Make a time-frequency figure without Python.
+
+For **numeric** features (MFCC arrays, chroma vectors) you need `librosa`, not ffmpeg — see the last
+section; that route is *not* measured on this box and is labelled accordingly.
 
 ## Prerequisites
 
-```bash
-# Install with uv (recommended)
-uv pip install songsee
-
-# Or with pip
-pip install songsee
-```
-
-**Requirements:**
-- `ffmpeg` installed (for audio format conversion)
-- `numpy` and `scipy` (installed automatically)
-- `matplotlib` for visualizations (install: `uv pip install matplotlib`)
-
-## Process
-
-### 1. Identify the audio source
-
-The tool accepts:
-- Local file path: `path/to/audio.mp3`
-- YouTube URL: `https://youtube.com/watch?v=VIDEO_ID`
-- Any URL: direct link to an audio file
-
-### 2. Choose the feature type
-
-| Feature | Description | Best For |
-|---------|-------------|----------|
-| **Mel spectrogram** | 2D time-frequency representation using mel-scale | General audio analysis, vocal detection |
-| **Chroma** | 12-bin pitch class representation | Key detection, chord analysis, cover song ID |
-| **MFCC** | 13 coefficients representing spectral envelope | Speech recognition, genre classification |
-| **Spectral centroid** | "Brightness" of the spectrum over time | Timbral analysis, instrument identification |
-| **Spectral rolloff** | Frequency below which 85% of energy lies | Texture analysis |
-| **Zero crossing rate** | Rate of sign changes in the signal | Rhythm analysis, onset detection |
-
-### 3. Run the extraction
+ffmpeg only. Measured here: `ffmpeg 8.1.1-full_build` (Winget Gyan build), filter present:
 
 ```bash
-# Mel spectrogram from local file
-songsee mel-spectrogram audio.mp3 --output mel.png
-
-# Chroma features from YouTube
-songsee chroma "https://youtube.com/watch?v=VIDEO_ID" --output chroma.png
-
-# MFCC with default settings
-songsee mfcc audio.wav --output mfcc.png
-
-# Spectral features (multiple at once)
-songsee features audio.mp3 --output features.png
+ffmpeg -hide_banner -filters | grep showspectrumpic
+# .S showspectrumpic   A->V   Convert input audio to a spectrum video output single picture.
 ```
 
-### 4. Analyze results
+## Procedure
 
-- Examine the visualization for patterns (repeating sections, key changes, timbral shifts)
-- Check for artifacts (clipping, silence, noise bursts)
-- Compare features across tracks for similarity analysis
+### 1. Single-picture spectrogram
 
-### 5. Iterate if needed
+Measured command (synthetic 440 Hz, 2 s):
 
-Adjust parameters:
 ```bash
-# Customize mel spectrogram
-songsee mel-spectrogram audio.mp3 \
-  --sr 22050 \
-  --n-mels 128 \
-  --n-fft 2048 \
-  --hop-length 512 \
-  --output custom_mel.png
-
-# Save raw data as JSON
-songsee mfcc audio.wav --save-data features.json --output mfcc.png
+ffmpeg -hide_banner -loglevel error \
+  -f lavfi -i "sine=frequency=440:duration=2" \
+  -lavfi "showspectrumpic=s=1024x512:legend=1" -y spec.png
 ```
 
-## Common Use Cases
+Result on this box: **PNG, 69,080 bytes**.
 
-### Vocal Analysis
+### 2. Verify the artifact instead of trusting exit code 0
+
+ffmpeg can exit 0 having written nothing useful, so probe the output:
+
 ```bash
-# Extract vocal mel-spectrogram (isolate vocal range)
-songsee mel-spectrogram audio.mp3 --min-freq 80 --max-freq 400 --output vocal_mel.png
+ffprobe -v error -select_streams v:0 \
+  -show_entries stream=width,height,codec_name -of default=nw=1 spec.png
+# codec_name=png / width=1306 / height=640
 ```
 
-### Rhythm Analysis
+**Measured gotcha:** the image is **larger than the requested `s=` size**. Asking for `1024x512`
+with `legend=1` produced **1306×640**, because the legend adds axis margins outside the plot area. If
+a layout needs an exact geometry, request a smaller plot or re-scale afterwards — do not read `s=` as
+the output size.
+
+### 3. Filtered / log-scale variants
+
+Measured: chaining audio filters ahead of the picture filter works —
+
 ```bash
-# Zero crossing rate for percussion detection
-songsee zero-crossing-rate audio.mp3 --output zcr.png
+ffmpeg -hide_banner -loglevel error -f lavfi -i "sine=frequency=880:duration=1" \
+  -af "highpass=f=200" -lavfi "showspectrumpic=s=512x256:scale=log" -y spec2.png
+# -> PNG, 60,780 bytes
 ```
 
-### Genre Classification
-```bash
-# Full feature set for ML pipeline
-songsee features audio.mp3 \
-  --output-spec \
-  --output-mfcc \
-  --output-chroma \
-  --save-data features.json
-```
+Useful knobs (`ffmpeg -h filter=showspectrumpic` for the live list): `scale=` (`lin`, `log`, `sqrt`),
+`legend=1`, `axes=1`, `saturation=`, plus `-af highpass/lowpass` in front to zoom into a band.
 
-## Parameters Reference
+### 4. Real files, including from a URL
 
-| Parameter | Default | Range | Description |
-|-----------|---------|-------|-------------|
-| `--sr` | 22050 | 8000-48000 | Sample rate in Hz |
-| `--n-mels` | 128 | 32-256 | Number of mel bands |
-| `--n-mfcc` | 13 | 10-40 | Number of MFCC coefficients |
-| `--n-fft` | 2048 | 512-8192 | FFT window size |
-| `--hop-length` | 512 | 128-2048 | Hop length for framing |
-| `--min-freq` | 0 | 0-20000 | Minimum frequency |
-| `--max-freq` | 11025 | 1000-22050 | Maximum frequency |
+Same shape: replace the `lavfi` input with `-i input.mp3` or an http(s) audio URL. For video
+containers ffmpeg takes the first audio stream; add `-vn` to be explicit and `-ac 1` for mono.
+
+## Numeric features (`librosa`) — documented, NOT measured here
+
+For arrays rather than pictures, `librosa` is the usual tool (e.g. `librosa.feature.mfcc(...)`). Its
+PyPI distribution exists, but **no install or run was performed on this machine**, so wheel
+availability for this interpreter (standalone CPython 3.14 — see
+`software-development/python-toolchain-notes/references/cpython-runtime-facts-windows.md`) stays an
+open question here rather than a claim. Verify before promising it: `uv venv`, install, then run one
+real call on one real file. Same rule as
+`data-science/gis-spatial-analysis/references/geospatial-stack-freshness.md`: install success proves
+nothing until a tool actually runs.
 
 ## Pitfalls
 
-- **Silent files**: Audio files with silence will produce empty/near-empty visualizations — check amplitude first
-- **YouTube rate limiting**: YouTube may block frequent automated requests — use direct file URLs when possible
-- **Format compatibility**: Some formats (e.g., AAC in MP4) may require additional ffmpeg codecs
-- **Memory usage**: High-resolution spectrograms on long files can use significant RAM
-- **Mono vs stereo**: Some features expect mono input — convert with `ffmpeg -i input.mp3 -ac 1 output.wav`
-- **Clipping**: Distorted audio will show as saturated bands in spectrograms
+- **Do not search for or install `songsee`.** It is not a package; v1 of this skill invented it.
+- **Silence looks like failure:** a silent input yields an empty-looking spectrogram, which is correct output. Check amplitude first: `ffmpeg -i in.mp3 -af volumedetect -f null -`.
+- **`s=` is the plot area, not the file geometry** (measured legend gotcha above).
+- **Log scale hides low-level content**; state the scale in any figure caption.
+- **Long files are memory-hungry**; render a window with `-ss`/`-t` instead of whole albums.
 
 ## Verification
 
-- [ ] Audio was successfully loaded and sampled (check for "loaded N samples" output)
-- [ ] Output visualization file exists and is non-empty
-- [ ] Features match the expected type (verify labels on axes)
-- [ ] For raw data: JSON contains expected fields and dimensions
-- [ ] No silent/empty regions in the visualization
+- [ ] `ffprobe` reports a PNG with non-zero width and height (a byte count alone is not enough).
+- [ ] Energy appears where expected: a 440 Hz tone must show as one low band.
+- [ ] Scale, legend and any `-af` filters used are recorded next to the figure.
 
 ## Related Skills
 
-- `creative/comfyui` — for AI-generated visual art including spectrogram-to-image
-- `creative/p5js` — for custom audio visualization rendering
+- `media/youtube-content` — get audio or transcripts from a link before analysing it.
+- `creative/comfyui` — turn a spectrogram into stylised imagery.
