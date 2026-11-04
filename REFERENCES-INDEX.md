@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **538 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **539 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-loop-design
@@ -370,6 +370,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 - `data-science/astro-toolkit-selection/references/catalog-data-sources.md` — astroquery + pds4_tools + cumulus — catalog/archive access for the small-body pipeline
 - `data-science/astro-toolkit-selection/references/egobox-bayesian-optimization.md` — EGObox 0.38.0 (Rust EGO / Bayesian optimization with Python bindings Egor and Gpx), run live: README example reproduced, seed behaviour, evaluation count, Branin, surrogate behaviour
+- `data-science/astro-toolkit-selection/references/galpy-and-anise-measured.md` — galpy 1.12.1 measured live on py3.14 Windows (its cp314 C extension fails to load and falls back silently; plain-float inputs are read in natural units so a 'solar' orbit escapes the galaxy with perfect energy conservation, while astropy Quantity inputs give the sane answer) and ANISE 0.10.6 as a SPICE replacement (kernel-support matrix showing CK/SCLK/DSK unsupported, TRL-9 flight heritage, bindings importable on py3.14 where anise.time is hifitime)
 - `data-science/astro-toolkit-selection/references/openscvx-patterns.md` — OpenSCvx patterns — State/Control/dynamics core loop, Hohmann constants, autotuners; Hohmann example run on Windows (cost 3.912189 vs analytic 3.912170 km/s)
 - `data-science/astro-toolkit-selection/references/optimization-toolkit.md` — nyx-py / pygmo2 / mesa v3 / z3 / Pyomo / CamPyRoS — optimization & simulation toolkit
 
