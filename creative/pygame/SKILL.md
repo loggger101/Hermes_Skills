@@ -159,3 +159,7 @@ Patterns extracted 2026-09-04 from pygame/pygame main: `examples/headless_no_win
 toggle — the canonical reference example in their repo), `test/__main__.py` (subprocess runner with
 timeout kill / randomize / interactive opt-in), `src_py/sprite.py` (Group/Sprite API). Repo: 8.9k stars,
 active; C core (`src_c`) + pure-Python API layer (`src_py`).
+
+## Engine choice — when Godot beats pygame
+
+Godot is MIT-licensed, cross-platform 2D/3D, editor-driven with one-click export to desktop/mobile/web/consoles, and its scripting ships as in-tree modules (`gdscript`, `mono` for C#) — **there is no Python runtime inside it**, so a pygame project cannot be "ported", only rewritten. Stay with pygame when the program is a thing under test: launchable, steppable and assertable from ordinary Python/pytest headlessly, which Godot offers no equivalent of. Reach for Godot when the program is a shipped product needing art pipelines, visual scene editing and multi-platform builds. Decision detail and source notes: [references/godot-vs-pygame.md](references/godot-vs-pygame.md).

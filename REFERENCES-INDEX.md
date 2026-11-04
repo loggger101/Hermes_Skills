@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **541 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **543 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-loop-design
@@ -207,6 +207,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `creative/diagram-design/references/primitive-sketchy.md` — Sketchy Filter (hand-drawn variant)
 - `creative/diagram-design/references/primitive-terminal.md` — Terminal Window (CLI-chrome variant)
 - `creative/diagram-design/references/profiles.md` — Client profiles
+- `creative/diagram-design/references/rendering-backends-and-icon-assets.md` — SVG rasterisation options actually checked on this Windows box (rsvg-convert, Inkscape, ImageMagick and resvg all absent; cairosvg absent while matplotlib is present; node exists but @resvg/resvg-js does not — plus the trap that `convert` resolves to Windows' disk converter, not ImageMagick), what Skia actually is per its own README versus how it reaches us (CanvasKit/WASM rather than a pip package), and homelab-svg-assets' licensing nuance: repository code MIT but every brand icon stays the vendor's trademark with end-user responsibility for brand-guideline compliance
 - `creative/diagram-design/references/semantic-patterns.md` — Semantic patterns
 - `creative/diagram-design/references/style-guide.md` — Style Guide
 - `creative/diagram-design/references/type-architecture-delta.md` — Architecture delta
@@ -303,6 +304,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## creative/pretext
 
 - `creative/pretext/references/patterns.md` — Pretext Patterns
+
+## creative/pygame
+
+- `creative/pygame/references/godot-vs-pygame.md` — when to reach for Godot instead of pygame (and back), with the parts read from primary source kept separate from judgement: Godot is MIT-licensed cross-platform 2D/3D engine whose editor exports one-click to desktop/mobile/web/consoles, and whose scripting layers ship in-tree as modules (gdscript, mono for C#, plus third-party physics like raycast) — meaning no Python runtime anywhere in it; pygame stays the right tool when a simulation must be driven headlessly from Python tests
 
 ## creative/sketch
 
