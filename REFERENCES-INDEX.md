@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **539 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **540 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-loop-design
@@ -861,6 +861,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `software-development/skill-intake-and-release/references/skill-registry-security.md` — Skill registry supply-chain + installer security patterns, mined from tech-leads-club/agent-skills (MIT code / CC-BY-4.0 content)
 - `software-development/skill-intake-and-release/references/skill-repo-release-engineering.md` — Skill-Repo Release Engineering (versioning, update channel, generated blocks)
 - `software-development/skill-intake-and-release/references/skill-seekers-generated-drafts.md` — Using Skill Seekers 3.10.0 to draft skill material from a codebase, docs, PDFs and more: offline run on a tiny project (3 s), what it generates, what is boilerplate, and how to finish it into a Hermes skill
+- `software-development/skill-intake-and-release/references/two-external-skill-packs-reviewed.md` — two external skill-packs the owner starred, reviewed as intake candidates and kept upstream rather than ported: K-Dense's 177-skill Scientific Agent Skills (catalog shape, its maintenance-metadata frontmatter convention worth adopting, autoskill's screenpipe-driven skill-drafting with a stated single data source) and ppt-master (a closed intermediate-DSL whose three-state input contract and per-layer non-responsibilities are a reusable pattern for any agent-authored markup compiled into a strict target format)
 - `software-development/skill-intake-and-release/references/vendor-shipped-skills-preline.md` — Skills shipped inside a UI library (Preline): what a vendor skill does well, and where it breaks our conventions
 
 ## software-development/skill-library-audits
