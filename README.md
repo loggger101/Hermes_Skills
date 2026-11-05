@@ -166,14 +166,14 @@ This repository also includes a ready-to-use **cronjob registry** at [`.hermes/c
 - **`.hermes/cron/active/`** — Active cronjob definitions (JSON config) ready to be loaded via `cronjob()`
 - **`.hermes/cron/archive/`** — Deprecated or old cronjob definitions kept for reference
 
-> **Registration status (Owner machine, verified 2026-09-17).** This is the one place the README records it.
+> **Registration status (Owner machine, verified 2026-11-05 via live `cron list`).** This is the one place the README records it.
 >
-> Registrations are per machine. Only the Owner machine has a scheduler (`%LOCALAPPDATA%/hermes/cron/jobs.json`); the Loggg machine has none as of 2026-10-01. The Owner machine had three registered jobs:
+> Registrations are per machine. Only the Owner machine has a scheduler (`%LOCALAPPDATA%/hermes/cron/jobs.json`); the Loggg machine has none as of 2026-10-01. The Owner machine's three registered jobs — all currently paused (live check, same date):
 >
 > | Job | State | Notes |
 > |-----|-------|-------|
-> | `aspirecures-weekly-research` | **disabled** | |
-> | `hermes-skills-audit` | **enabled** | Sun 3 AM. Silent when clean; runs the repo's own audit via a shim. |
+> | `aspirecures-weekly-research` | **paused** | Mon 13:17. Last run 2026-08-31 ok; paused since early Sep. |
+> | `hermes-skills-audit` | **paused** | Sun 3 AM, silent when clean, via a shim. Ran through 2026-10-04 ok before pausing. |
 > | `hermes-skills-bidirectional-sync` | **paused by design** | Registered, but stays paused until the owner opts it on. |
 >
 > Load or enable a definition with the `cronjob()` tool to change that. Until then, run the checks yourself: `py tools/verify-all.py`.

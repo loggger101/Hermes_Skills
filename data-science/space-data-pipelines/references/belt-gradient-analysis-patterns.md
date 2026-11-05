@@ -2,13 +2,13 @@
 description: "Debiasing an asteroid taxonomy analysis (loggger101/asteroid-belt-gradient): published-labels-only rule, family collapse, size-complete vs inverse-completeness weighting, KS+Bonferroni, reproducibility layout; headline numbers"
 source_repo: loggger101/asteroid-belt-gradient (analysis code for L. Edwards 2026, Florida Tech)
 tested_version: README read via GitHub API @ main; package not re-run here (needs a ~280 MB fetch); H-to-diameter arithmetic re-computed locally
-verified_date: "2026-10-05"
+verified_date: "2026-11-05"
 ---
 
 # Debiased taxonomic analysis of the main belt: patterns that transfer
 
 The repo tests whether the belt's S-to-C compositional gradient is primordial or an artefact, on 161,659 main-belt asteroids with a published taxonomy from the
-`AsteroidCatalog` release (1,568,641 bodies; merges JPL SBDB, SsODNet, NEOWISE, MP3C) plus Nesvorny HCM families. It is the user's own analysis, so this note records its
+`AsteroidCatalog` release `data-2026-09-29c` (1,568,882 bodies; data contract 1.8.1; merges JPL SBDB, SsODNet, NEOWISE, MP3C) plus Nesvorny HCM families. It is the user's own analysis, so this note records its
 methodology as reusable rules for any catalog-derived population statistic.
 
 ## Rules, in the order they bite
