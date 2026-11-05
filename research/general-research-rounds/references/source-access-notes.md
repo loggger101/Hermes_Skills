@@ -35,7 +35,7 @@ Per-site fetch patterns that actually work here. Update when a route changes.
 
 ## Johnson Matthey PGM market report + Base Prices — extraction-only T2 (no hosting)
 
-- Annual report PDF: `https://matthey.com/documents/...` pattern found via web search; freely downloadable, 36 pp. Price data sits in narrative around Figure 1 image — extract with pymupdf word coordinates.
+- Annual report PDF: `https://matthey.com/documents/...` pattern found via web search; freely downloadable, 36 pp. Price data sits in narrative around Figure 1 image — extract with pymupdf word coordinates. **Re-checked 2026-11-05:** the `/documents/…` path no longer resolves (matthey.com root is live, that subtree 404s) and `gaddum.matthey.com` does not resolve at all — re-discover a current download route before relying on this extraction recipe.
 - Live Base Prices page is a Liferay portlet: embedded JSON default-loads Platinum only (23 rows); divs exist for Pt/Pd/Rh/Ir/Ru but NO osmium; CSV downloads are Liferay resource URLs.
 - Licensing (base-price-trading-disclaimer, verbatim): "The Prices are the property of Johnson Matthey Plc ... Any use of the Prices without the prior consent of Johnson Matthey Plc is prohibited" → NEVER commit price data to full_texts/; register T2 extraction-only with every number in extracted_data/. Check terms BEFORE downloading.
 - Osmium: absent from report text, live page divs, JSON and CSV endpoints — no institutional Os price reachable (standing gap).

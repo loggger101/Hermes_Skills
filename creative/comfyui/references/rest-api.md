@@ -310,3 +310,10 @@ curl -X POST "http://127.0.0.1:8188/manager/queue/install_model" \
 | `OOMError` | Out of GPU memory |
 | `InsufficientFundsError` | Account balance too low (partner nodes) |
 | `InactiveSubscriptionError` | Subscription not active |
+## Cloud endpoints — verification status (2026-11-05)
+
+The documented `https://cloud.comfy.org/api/*` routes (`/api/prompt`, `/api/jobs/{id}`,
+`/api/view`, `/api/upload/image`) return 404 against the live host as of this check; the
+site root is up, so paths or auth changed upstream rather than the service being gone.
+The localhost API section above is unaffected. Re-check current Comfy Cloud docs before
+scripting against cloud endpoints — do not treat these paths as verified.

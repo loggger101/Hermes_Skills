@@ -37,7 +37,7 @@ The writing philosophy, citation verification workflow, and conference reference
 | How To Write A Research Paper In ML | [Blog](https://grigorisg9gr.github.io/machine%20learning/research%20paper/how-to-write-a-research-paper-in-machine-learning/) | Practical walkthrough, LaTeX tips |
 | A Recipe for Training Neural Networks | [Karpathy Blog](http://karpathy.github.io/2019/04/25/recipe/) | Debugging methodology that translates to paper structure |
 | ICML Paper Writing Best Practices | [ICML](https://icml.cc/Conferences/2022/BestPractices) | Official venue guidance |
-| Bill Freeman's Writing Slides | [MIT](https://billf.mit.edu/sites/default/files/documents/cvprPapers.pdf) | Visual guide to paper structure |
+| Bill Freeman's Writing Slides | (MIT host offline as of 2026-11-05 — `billf.mit.edu` no longer resolves) | Visual guide to paper structure; for open-access example papers use [CVF](https://openaccess.thecvf.com/CVPR2025) instead |
 
 ---
 
@@ -49,7 +49,7 @@ The writing philosophy, citation verification workflow, and conference reference
 |----------|-----|---------|
 | Paper Checklist Guidelines | [NeurIPS](https://neurips.cc/public/guides/PaperChecklist) | 16-item mandatory checklist |
 | Reviewer Guidelines 2025 | [NeurIPS](https://neurips.cc/Conferences/2025/ReviewerGuidelines) | Evaluation criteria, scoring |
-| Style Files | [NeurIPS](https://neurips.cc/Conferences/2025/PaperInformation/StyleFiles) | LaTeX templates |
+| Style Files | [NeurIPS](https://neurips.cc/) — year-specific paths like `/Conferences/20XX/PaperInformation/StyleFiles` 404 after each cycle (checked 2026-11-05); use the current-year site's Author Information page | LaTeX templates |
 
 ### ICML
 
@@ -77,7 +77,7 @@ The writing philosophy, citation verification workflow, and conference reference
 
 | Document | URL | Purpose |
 |----------|-----|---------|
-| Author Kit 2026 | [AAAI](https://aaai.org/authorkit26/) | Templates and guidelines |
+| Author Kit 2026 | [AAAI](https://aaai.org/conference/aaai/aaai-26/) | Conference page (verified live 2026-11-05); kit links rotate yearly — old `/authorkit26/` path is dead |
 
 ### COLM
 

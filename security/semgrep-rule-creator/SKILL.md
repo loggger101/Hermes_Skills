@@ -188,10 +188,13 @@ Semgrep Rule Progress:
 
 **REQUIRED**: Before writing any rule, use WebFetch to read **all** of these 7 links with Semgrep documentation:
 
-1. [Rule Syntax](https://raw.githubusercontent.com/semgrep/semgrep-docs/refs/heads/main/docs/writing-rules/rule-syntax.mdx)
-2. [Pattern Syntax](https://raw.githubusercontent.com/semgrep/semgrep-docs/refs/heads/main/docs/writing-rules/pattern-syntax.mdx)
-3. [Testing Rules](https://raw.githubusercontent.com/semgrep/semgrep-docs/refs/heads/main/docs/writing-rules/testing-rules.mdx)
-4. [Taint analysis](https://raw.githubusercontent.com/semgrep/semgrep-docs/refs/heads/main/docs/writing-rules/data-flow/taint-mode/overview.mdx)
-5. [Advanced techniques for taint analysis](https://raw.githubusercontent.com/semgrep/semgrep-docs/refs/heads/main/docs/writing-rules/data-flow/taint-mode/advanced.mdx)
-6. [Constant propagation](https://raw.githubusercontent.com/semgrep/semgrep-docs/refs/heads/main/docs/writing-rules/data-flow/constant-propagation.mdx)
+1. [Rule Syntax](https://semgrep.dev/docs/writing-rules/rule-syntax/)
+2. [Pattern Syntax](https://semgrep.dev/docs/writing-rules/pattern-syntax/)
+3. [Testing Rules](https://semgrep.dev/docs/writing-rules/testing-rules/)
+4. [Taint analysis / data-flow rules](https://semgrep.dev/docs/writing-rules/) — upstream reorganized; taint-mode pages now live under the writing-rules index (verified 2026-11-05)
+5. [Advanced techniques for taint analysis](https://semgrep.dev/docs/writing-rules/) — see data-flow section of the same index
+6. [Constant propagation](https://semgrep.dev/docs/writing-rules/) — see data-flow section of the same index
+
 7. [Trail of Bits Testing Handbook - Semgrep chapter](https://raw.githubusercontent.com/trailofbits/testing-handbook/refs/heads/main/content/docs/static-analysis/semgrep/10-advanced.md)
+
+> **Link maintenance (verified 2026-11-05):** the previous links pointed at `raw.githubusercontent.com/semgrep/semgrep-docs/refs/heads/main/docs/writing-rules/*.mdx` — that raw path is dead (all variants 404). The rendered docs URLs above are live; items 4–6 have no stable deep link after upstream's reorg, so they route through the section index.

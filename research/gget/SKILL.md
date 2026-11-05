@@ -167,7 +167,7 @@ Also record:
 
 ## References
 
-- [gget documentation](https://pachterlab.github.io/gget/)
-- [gget updates](https://pachterlab.github.io/gget/en/updates.html)
+- [gget documentation](https://scverse.org/gget/) — canonical home since the docs migrated (verified 2026-11-05; mdBook)
+- `pachterlab.github.io/gget/` is now a one-link redirect stub to scverse; old deep paths (`en/index.html`, `en/updates.html`) are dead
 - [gget GitHub repository](https://github.com/pachterlab/gget)
 - [gget Bioinformatics paper](https://doi.org/10.1093/bioinformatics/btac836)

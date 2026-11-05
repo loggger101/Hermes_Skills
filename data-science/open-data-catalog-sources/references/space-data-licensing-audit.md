@@ -56,7 +56,7 @@ https://cds.unistra.fr/vizier-org/licences_vizier.html. Per-catalog spot-check r
 
 - **US government work product = public domain** (17 USC §105): NASA PDS/GSFC/JPL SSD-CNEOS, NOAA SWPC, USGS Astropedia/planetarynames.
 - **STScI/MAST**: *"Most MAST data are in the public domain with no use restrictions"* — https://archive.stsci.edu/publishing/data-use (HLSPs already CC-BY-4.0).
-- Explicitly permissive: GFZ Kp index (**CC-BY-4.0** at https://kp.gfz.de/en/data), GWOSC LIGO/Virgo (**CC-BY-4.0**), GALAH DR4, PDG (RPP 2024 in Phys Rev D CC-BY-4.0), Jonathan McDowell GCAT (**CC-BY-4.0** at https://planet4589.org/space/gcat/web/intro/credits.html).
+- Explicitly permissive: GFZ Kp index (**CC-BY-4.0** at https://kp.gfz.de/en/data), GWOSC LIGO/Virgo (**CC-BY-4.0**), GALAH DR4, PDG (RPP 2024 in Phys Rev D CC-BY-4.0), Jonathan McDowell GCAT (**CC-BY-4.0**; the former credits page `…/gcat/web/intro/credits.html` was removed upstream as of 2026-11-05 — cite https://planet4589.org/space/gcat/web/intro/index.html instead and re-confirm the license statement on-site before relying on it).
 - **Space-Track**: USSPACECOM blanket approval for basic SSA + attribution required — the citation line must be in the README: *"Basic SSA data distributed under USSPACECOM blanket authorization via www.Space-Track.org."* (https://www.space-track.org/documentation)
 - Wikidata: CC0, accurate as declared.
 
