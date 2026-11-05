@@ -181,3 +181,27 @@ Per-site fetch patterns that actually work here. Update when a route changes.
 - **Arithmetic reconciliation can pass even when your mental parse was wrong** (R65): my first hand-parse of the 25-start breakdown dropped two clauses and 'proved' sum=23; the code regex `(\\d+) on` + leading-'I'=one gave exactly 25. Always compute the check in code against the stated total, and when it FAILS suspect YOUR parse before declaring an OCR artifact — a failed reconciliation is usually a parser bug, not source corruption.
 - **Programmatic token slices can drop trailing decimals** (R64 defect found R65): slicing `t9[i:i+7]` around '444.4' captured '±2' instead of the full '±2.5' (the ± is a separate SymbolMT font span, and my slice length was guessed). Before trusting any sliced token: print repr() AND verify against the dict-level spans (`get_text('dict')`) that you have the complete run; when repairing an already-committed truncation, repair ALL committed occurrences in one build step (FINDINGS + CSV + INDEX) with count-asserted replacements.
 - **MEMORY.md can be clobbered MID-round** (R65 #20), not just at round start: re-check the file immediately before EVERY memory write — if entry[0] no longer starts with this round's expected header, back up as `-mid-clobber-N` and re-run the full saved chain + marker swap first. The external writer ingests session content (fragments contain truncated lines from my own recent reports).
+
+## Table alignment verification (word coordinates) - portable mirrored copy
+(canonical owner-machine original lives inside the BUNDLED skill `ocr-and-documents/references/
+table-alignment-verification.md`, which repo convention forbids mirroring into; this section is that
+method's home in-mirror, ported verbatim-in-substance 2026-11-05.)
+
+Use when a claim cites a number FROM A TABLE in a PDF: verbatim text search alone is unsafe - a value
+like `123` may appear elsewhere on the page (caption, footnote, another row). Coordinate alignment
+proves the value sits inside the expected cell.
+
+Method (pymupdf >= 1.28; note pymupdf.open needs stream= kwarg for bytes): get_text("words") gives
+(x0,y0,x1,y1,word,...) tuples -> cluster words into rows by y-center within ~4.5 pt tolerance (tune to
+font size), order each row by x0, then locate the target value's cell and read its row label (leftmost
+word of that row) plus header columns from overlapping x-bands. Only when '<row label> | ... | <value>
+appears under the expected column header is 'the table says X' defensible.
+
+Pitfalls: hyphenated line-breaks split values (normalize by stripping commas / joining across row);
+multi-line headers need both y-bands clustered into one logical column map; footnote markers attach as
+separate words - cluster on the main word's y-center, not the superscript; rotated pages report coords
+in unrotated space (check page.rotation, set_rotation(0) if needed); a summary table can repeat an
+appendix row on the same page - match against BOTH row label AND header columns.
+
+When overkill: single-column lists, prose numbers, and values appearing exactly once on the page
+(count == 1 in get_text()) need only verbatim search. Coordinate alignment is for tables specifically.
