@@ -33,7 +33,7 @@ Answers "will this library install and behave on this machine, and what fails si
 | Gradients of plain NumPy code, `jac=True` for SciPy | autograd 1.9.1 | `references/autograd-notes.md` | import `autograd.numpy`; int input, non-scalar output and in-place assignment all raise; `check_grads` is the unit test |
 | NumPy on an NVIDIA GPU | CuPy 14.2.0 | `references/cupy-notes.md` | `import cupy` succeeds with no GPU; test `cupy.cuda.is_available()` and the first allocation |
 | Point clouds, meshes, ICP | Open3D 0.20.0 | `references/open3d-notes.md` | 488 MB install; reading a missing file returns an empty cloud, not an error; ICP is local, so give a good initial guess |
-| Post-process detector output (NMS, zones, line counts) | supervision 0.30.7 | `references/supervision-cv-notes.md` | `ByteTrack` removed in 0.31; bad adapter input returns empty `Detections` silently |
+| Post-process detector output (NMS, zones, line counts) | supervision 0.30/0.31 (reverified) | `references/supervision-cv-notes.md` | `ByteTrack` removed in 0.31; bad adapter input returns empty `Detections` silently |
 | Word2Vec, LDA | gensim 4.4.0 | `references/gensim-notes.md` | no cp314 wheel (sdist needs a compiler), use a 3.11-3.13 venv; LGPL-2.1 |
 
 ## Procedure
@@ -66,5 +66,5 @@ Answers "will this library install and behave on this machine, and what fails si
 - `references/autograd-notes.md` - autograd 1.9.1 on numpy 2.5: `grad`/`jacobian`/`hessian`, SciPy `jac=True`, the four errors you hit, the double-`where` guard, `check_grads`
 - `references/cupy-notes.md` - CuPy 14.2.0: installs and imports with no GPU, arrays fail; NumPy-difference rules, async timing and memory-pool rules from the docs
 - `references/open3d-notes.md` - Open3D 0.20.0 headless: voxel/normals/ICP/KD-tree/PLY/mesh checks with numbers, empty cloud on a missing file, ICP is local
-- `references/supervision-cv-notes.md` - supervision 0.30.7 on synthetic detections: `Detections`/NMS/zones/`LineZone`/annotators, optional OpenCV, deprecated ByteTrack, silent empty result
+- `references/supervision-cv-notes.md` - supervision notes, reverified on 0.31.4: synthetic-detection results reproduce exactly; ByteTrack-era removals resolved: `Detections`/NMS/zones/`LineZone`/annotators, optional OpenCV, deprecated ByteTrack, silent empty result
 - `references/gensim-notes.md` - gensim 4.4.0: no cp314 wheel, small Word2Vec/LDA run in a 3.11 venv, reproducibility, out-of-vocabulary `KeyError`, LGPL note

@@ -1,5 +1,5 @@
 ---
-description: "roboflow supervision 0.30.7 (computer-vision utilities): Detections filtering/NMS, zones, line counting, annotators, run live on synthetic arrays; OpenCV optional, ByteTrack deprecated, silent empty result on bad input"
+description: "roboflow supervision 0.30.7 (computer-vision utilities): Detections filtering/NMS, zones, line counting, annotators, run live on synthetic arrays; OpenCV optional, ByteTrack removed at 0.31 (reverified on 0.31.4), silent empty result on bad input"
 source_repo: roboflow/supervision (MIT)
 tested_version: supervision 0.30.7 pip --target on Windows py3.14 (343 MB with numpy 2.5.3, scipy 1.18.1, matplotlib 3.11.2, av 19); synthetic detections and blank images only, no model run
 verified_date: "2026-10-05"
@@ -7,7 +7,7 @@ verified_date: "2026-10-05"
 
 # supervision: model-agnostic detection utilities
 
-Wraps the output of any detector (Ultralytics, Transformers, Inference, ...) in a `sv.Detections` object and provides filtering, NMS, zones, line counting, tracking and annotators. MIT; 0.30.7 (2026-10-04), Python `>=3.10` (classifiers to 3.14).
+Wraps the output of any detector (Ultralytics, Transformers, Inference, ...) in a `sv.Detections` object and provides filtering, NMS, zones, line counting, tracking and annotators. MIT; 0.30.7 (2026-10-04), Python `>=3.10` (classifiers to 3.14). Reverified live on supervision==0.31.4 / py3.14, 2026-11-05 - see §0.31.x delta.
 It is a post-processing layer: it does not run models itself.
 
 ```python
@@ -32,7 +32,7 @@ det = sv.Detections(xyxy=np.array([[10,10,50,50],[12,11,52,49],[100,100,160,180]
 ## Surprises and traps
 
 - **OpenCV is optional.** Importing printed `UserWarning: OpenCV (opencv-python) is not installed; supervision is using its pure NumPy fallback backend instead. Some operations may be slower or behave slightly differently.` Annotators still worked. For production speed and exact drawing behaviour install `opencv-python`; for a pinned, reproducible pipeline decide on one backend and record it.
-- **`sv.ByteTrack` is deprecated**: `FutureWarning: The ByteTrack was deprecated since v0.28.0. It will be removed in v0.31.0.` (the current version is 0.30.7, so removal is one minor away). It kept one id (`[1]` on each of 6 frames) for a steadily moving box. Move tracking to the replacement the project points to (its separate `trackers` package) before upgrading to 0.31.
+- **`sv.ByteTrack` is deprecated**: `FutureWarning: The ByteTrack was deprecated since v0.28.0. It will be removed in v0.31.0.` (the current version is 0.30.7, so removal is one minor away). It kept one id (`[1]` on each of 6 frames) for a steadily moving box. Move tracking to the replacement the project points to (its separate `trackers` package) before upgrading to 0.31. **RESOLVED by measurement (2026-11-05, sv==0.31.4):** removal happened as promised - `hasattr(sv,'ByteTrack')` is False,
 - **Bad input can yield an empty result instead of an error.** `sv.Detections.from_ultralytics(object())` returned an empty `Detections` (shape `(0, 4)`) with no exception. In a pipeline this looks like "nothing detected"; assert that the adapter received the expected result type and count frames with zero detections.
 - Annotating a 2-D (grayscale) `uint8` array did not raise; it returned an array of the same shape. Pass 3-channel BGR frames to get coloured boxes.
 - The install is heavy (343 MB here) because it pulls scipy, matplotlib and PyAV; fine for analysis boxes, avoid in minimal containers.
@@ -43,3 +43,17 @@ det = sv.Detections(xyxy=np.array([[10,10,50,50],[12,11,52,49],[100,100,160,180]
 - Choose zone polygons and line endpoints in the same pixel space as the frames you annotate (resize first or scale the polygon).
 - Test counting logic on a short clip with a known answer; the in/out direction convention is easy to invert.
 - Record versions: detector weights, supervision, and the OpenCV backend, since annotations and tracker behaviour change between releases.
+
+## 0.31.x delta (measured on supervision==0.31.4 / py3.14, Windows, 2026-11-05)
+
+- **Core behaviour unchanged:** the exact documented regression reproduces bit-for-bit - `det.area` `[1600, 1520, 4800, 1500]`,
+  mask/class filters (3/2), `with_nms(threshold=0.5)` -> confidences `[0.9, 0.8, 0.3]` (the IoU~0.86 pair still suppresses the
+  0.6 box), PolygonZone trigger `[True,True,False,False]` with `current_count == 2`, identical ValueError text on length
+  mismatch, `empty().xyxy.shape == (0,4)`. Everything above stays valid.
+- **Removals landed at 0.31.0 as promised:** `sv.ByteTrack`, the `supervision.keypoint` module, `sv.LMM` and the legacy
+  `sv.MeanAveragePrecision` are gone (all measured absent). Migration target is the STANDALONE PyPI package **`trackers`**
+  (v2.6.1 registry-verified) - there is NO `supervision.tracker` submodule; code that guesses it will crash on import.
+- **Zone API gained camera-motion support:** `PolygonZone.trigger(detections, coord_transform)` now takes a transform so zones
+  keep their place when the camera pans (0.30.x assumed a fixed camera). Old single-arg calls still work.
+- New depth subsystem (`sv.DepthMap`/`DepthCamera`/`measure_detections`) works as in upstream's own example - measured
+  `depth_m == [4., 20.]` on their synthetic map. Not yet explored beyond that one call.
