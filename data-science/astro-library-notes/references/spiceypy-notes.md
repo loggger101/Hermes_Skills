@@ -13,6 +13,11 @@ docstrings link to the NAIF C docs, and the NAIF-authored "Lessons" are in the p
 (`lessonindex.rst`); the Python docs are intentionally abridged, so the NAIF C docs are the real reference.
 
 Install: `pip install spiceypy` (8.2.0 on 2026-10-05; wheels for CPython 3.10-3.14, Linux/macOS/Windows, x64 and arm).
+**v8.3.0 (2026-10-11) reverified 2026-11-05:** upstream release notes read whole - packaging + typing only
+(py3.15 wheels, PEP 561 `py.typed`, NumPy scalar/0-d acceptance in top-level cyice functions), zero mentions of a CSPICE toolkit bump.
+Measured on spiceypy==8.3.0 / py3.14: kernel-free behaviour unchanged (`conics`/`oscelt` roundtrip reproduces exactly). New measured
+gap: **there is no runtime getter for the bundled CSPICE version** - `cver` does not exist on the module, and the native lib ships as a
+plain unversioned `cspice.dll`, so toolkit provenance can only be pinned from release notes, never queried at runtime.
 conda-forge also ships it. No kernels are bundled.
 
 ## Nothing works until kernels are loaded (verified live)

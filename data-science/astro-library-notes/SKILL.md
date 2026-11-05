@@ -32,7 +32,7 @@ Per-library reference for ephemeris, time-scale and propagation libraries used i
 | Planet and satellite positions, no build step | skyfield 1.55 | `references/skyfield-api-reference.md` | `load()` contract changed in 1.55; de430s.bsp 404 on both JPL mirrors; no asteroids in any de-series kernel; phase-angle trap |
 | Time scales, coordinates, units, IERS | astropy 8.0.1 | `references/astropy-notes.md` | numeric JD is UTC by default (TT differs 69.184 s); `Time + float` assumes days; AltAz without location gives a misleading error |
 | Time scales in Rust or Python (`pip install hifitime`) | hifitime 4.3.1 | `references/hifitime-time-scales.md` | correct TAI/TT/TDB/GPST offsets but a 1 s TAI to UTC error at leap boundaries |
-| NAIF/SPICE kernels and geometry | SpiceyPy 8.2 | `references/spiceypy-notes.md` | empty kernel pool errors; 80-char kernel-pool strings truncate silently; SPICE AU is 149597870.6137 km, not the IAU value |
+| NAIF/SPICE kernels and geometry | SpiceyPy 8.3 (reverified) | `references/spiceypy-notes.md` | empty kernel pool errors; 80-char kernel-pool strings truncate silently; SPICE AU is 149597870.6137 km, not the IAU value |
 | High-fidelity propagation (Java) | Orekit 13.1.9 via `orekit-jpype` | `references/orekit-python-notes.md` | import only after `initVM`; UTC/ITRF fail without orekit-data; pip-provided JDK works |
 | N-body integration | REBOUND 5.2.1 (+ REBOUNDx) | `references/rebound-n-body-notes.md` | `sim.G` in AU/yr/Msun is 39.4769; REBOUNDx is sdist-only (needs a C compiler); GPL-3.0 |
 | Lambert, Taylor propagation, trajectory legs (ESA) | pykep 3.0.1 | `references/pykep-v3-notes.md` | PyPI wheels are manylinux-only, so not pip-installable on Windows/macOS (conda-forge instead) |
@@ -68,7 +68,7 @@ Per-library reference for ephemeris, time-scale and propagation libraries used i
 - `references/skyfield-api-reference.md` - skyfield 1.55 breaking changes (`load()` contract), de430s.bsp 404 on both JPL mirrors, phase-angle trap with numbers, osculating-elements solver for independent checks
 - `references/astropy-notes.md` - astropy 8.0.1: numeric JD is UTC by default, string UTC offsets rejected, `Time + float` assumes days, AltAz without location, IERS auto-download
 - `references/hifitime-time-scales.md` - hifitime 4.3.1 cross-checked against astropy: correct scale offsets, 1 s TAI to UTC error at leap boundaries, UTC `timedelta` ignoring the leap second
-- `references/spiceypy-notes.md` - SpiceyPy 8.2: empty kernel-pool errors, `KernelPool` clearing hand-set variables, 80-char truncation, SPICE AU vs IAU, asteroid ids
+- `references/spiceypy-notes.md` - SpiceyPy notes, reverified on 8.3: empty kernel-pool errors, `KernelPool` clearing hand-set variables, 80-char truncation, SPICE AU vs IAU, asteroid ids
 - `references/orekit-python-notes.md` - Orekit 13.1.9 from Python via `orekit-jpype` and a pip JDK: import-after-`initVM`, SI/radian units, Kepler propagation, orekit-data needs
 - `references/rebound-n-body-notes.md` - REBOUND 5.2.1 live run, REBOUNDx build failure, Yarkovsky/radiation-force parameters, GPL-3.0, ASSIST pointers
 - `references/pykep-v3-notes.md` - pykep 3.0.1: manylinux-only wheels, conda-forge route, API map for Lambert, propagation and legs
