@@ -79,6 +79,12 @@ increase downward — the sign flip happens naturally in the division.
 Plain haversine with a **parameterized planet radius** (`src/utils/mapping/geoMath.ts`) — so the same
 code serves Earth (6371e3) and Moon (1737.4e3). Nothing lunar-specific; great-circle only, no terrain.
 
+> **Numeric cross-check (2026-11-05):** the constants in this file were verified against primary
+> sources — NASA Planetary Fact Sheet (nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html):
+> Moon volumetric mean radius 1737.4 km, Earth 6371.0 km; GeoTIFF spec + tag register:
+> `ProjectedCSTypeGeoKey = 32767` is "user-defined" and `ProjLinearUnitsGeoKey = 9001` is
+> Linear_Meter. All match as transcribed — no correction needed at this date.
+
 ## LGRS display labels [SRC]
 
 `lgrs 0.3.0` owns coordinate display: grid zone + easting/northing digits at **10 m precision**
