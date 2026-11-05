@@ -14,7 +14,7 @@ The step is a check — link rot against an auth-gated endpoint, a live API call
 > CR5 cross-check (huggingface-trackio): Could not verify the HuggingFace CLI commands against current docs — no HF_TOKEN in environment. Marked unverified. Structure, trigger, and steps all PASS.
 
 **Example (link rot):**
-> Skill 'arxiv' references https://arxiv.org/help/search — could not fetch (no network credential available in this environment). Marked unverified. All other CR8 checks for this skill were testable locally and PASS.
+> Skill 'arxiv' references https://arxiv.org/help/search — could not fetch (no network credential available in this environment). Marked unverified. All other CR8 checks for this skill were testable locally and PASS. *(Close-out pattern, re-checked 2026-11-05: `**Resolved:** the old URL is dead upstream (404), not a network problem — arXiv help moved to https://info.arxiv.org/help/ (live, verified).`)*
 
 ### 2. Use what's available (scope to existing credentials)
 
