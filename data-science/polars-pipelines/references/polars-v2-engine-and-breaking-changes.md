@@ -1,11 +1,16 @@
 ---
 description: "polars 2.0 (rc) engine architecture + every breaking change live-verified on polars==2.0.0rc1 — streaming-by-default, row-order semantics, OOC spilling internals, GPU beta"
 source_repos: pola-rs/polars @ main commit 6a00e21 (cloned %LOCALAPPDATA%\Temp\polars-dive), pyproject version = 2.0.0rc1; PyPI stable at time of writing = 1.44.x, rc available as polars==2.0.0rc1
-tested_versions: "RE-RUN 2026-10-05 on polars 2.0.0-rc.2 (released 2026-09-20; PyPI stable is still 1.44.2): polars-v2-verify.py 39/39 PASS, so the rc1 findings below hold for rc2; original: live checks on polars 2.0.0-rc.1 (venv %LOCALAPPDATA%\Temp\polars-dive-venv) + API-surface probes on stable 1.44.2 (venv %LOCALAPPDATA%\Temp\polars-1x-venv)"
+tested_versions: "RE-RUN 2026-10-05 on polars 2.0.0-rc.2 (released 2026-09-20; PyPI stable is still 1.44.2): polars-v2-verify.py 39/39 PASS, so the rc1 findings below hold for rc2; original: live checks on polars 2.0.0-rc.1 (venv %LOCALAPPDATA%\\Temp\\polars-dive-venv) + API-surface probes on stable 1.44.2 (venv %LOCALAPPDATA%\\Temp\\polars-1x-venv); **re-checked 2026-11-05: polars 2.0 GA shipped 2026-10-06 and current stable is 2.1.0 (2026-10-25) — the 'stable is still 1.44.x' framing has expired; findings NOT yet re-run against rc->GA deltas**"
 verified_date: "2026-10-05"
 ---
 
 # Polars 2.0 — Engine Architecture & Verified Breaking Changes
+
+> **Currency (re-checked 2026-11-05):** everything below was verified on `2.0.0rc1`/`rc.2`. 2.x is
+> now GA and moved again: **2.0.0 released 2026-10-06, stable today is 2.1.0 (2026-10-25)** — so the
+> "coming in v2" framing reads as present tense for anyone installing polars now, and rc→GA/2.1 deltas
+> are unverified here. Re-run `polars-v2-verify.py` against 2.1.x before citing this file as current.
 
 Deep-dive of `pola-rs/polars` (MIT, ~39.6k stars) at the **2.0 release candidate**. This is not a
 skill: it's general code knowledge — what the engine actually does under the hood and which 1.x → 2.0

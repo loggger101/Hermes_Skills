@@ -49,6 +49,9 @@ hifitime). Away from leap seconds the scales agreed. Avoid epochs on a leap-seco
 
 ## mesa — ⚠️ CORRECTED + LIVE-VERIFIED 2026-09-19 (PyPI 3.5.1 on Python 3.12) [LIVE]
 
+> **Freshness re-check (2026-11-05):** PyPI latest is now **3.5.2** (released 2026-10-28). The
+> section below stays verified against 3.5.1 only — patch-level move, not yet re-run.
+
 Round 2 read **master** and reported "v4 API, two blockers". Live probes against the actual PyPI
 release change that picture:
 

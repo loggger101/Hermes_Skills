@@ -7,6 +7,10 @@ verified_date: "2026-09-07"
 
 # Big-Data Patterns for Python Pipelines (verified, not copied)
 
+> **Currency pointer (2026-11-05):** verified on polars 1.44.1 / duckdb 1.5.5; PyPI stable is now
+> **polars 2.1.0** — read `polars-v2-engine-and-breaking-changes.md` alongside before running these
+> against a fresh install, since the v2 breaking changes apply to current polars by default.
+
 General code knowledge for when a dataset outgrows in-memory pandas — the patterns that
 actually matter at 1M+ rows. **Every snippet below was executed on this machine** against a
 200k-row fixture (orders × customers); outputs quoted are real, and each result is cross-checked

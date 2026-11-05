@@ -11,6 +11,14 @@ Astrodynamics library with a Rust core (`brahe._brahe`) exposed through thin Pyt
 that re-export via `__all__`. **The authoritative symbol list lives in each module's docstring**
 (the compiled `_brahe` has no parseable Python source). Install: `pip install brahe`.
 
+> **Freshness re-check (2026-11-05):** upstream moved — brahe 1.8.0 shipped 2026-10-16 and
+> **1.8.1 is PyPI latest** (released 2026-10-31). Everything below was verified against **1.7.0**
+> and has NOT been re-run on 1.8.x; treat symbol-level claims as "as of 1.7.0". Headline from the
+> upstream changelog: batch/vectorised Earth-frame transforms (`rotations_/positions_/states_{eci_to_ecef, ecef_to_eci, gcrf_to_itrf, itrf_to_gcrf}`)
+> built on new crate-private `utils::batch` primitives (length-1-or-N broadcast rule); 1.8.1 adds
+> Python 3.15 wheels/CI and PyO3 dependency updates. The full v1.8.0 changelog is ~68 KB — see the
+> GitHub release tag rather than expecting it transcribed here.
+
 ## Module map (from wrapper docstrings, v1.7.0)
 
 | Module | Contents |
