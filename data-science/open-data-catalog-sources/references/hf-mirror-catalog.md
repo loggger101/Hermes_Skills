@@ -28,7 +28,9 @@ tracks per-dataset dates + `_rows`).
 **Licensing caveat:** most are cc-by-4.0, but **~89 carry restrictive upstream terms** — see `space-data-licensing-audit.md` in this skill
 (ESA mirrors = CC BY-NC 3.0 IGO; VizieR-sourced catalogs = scientific-use only). Check the per-dataset card before redistributing commercially.
 
-## Catalog (224 datasets, alphabetical)
+## Catalog (225 datasets, alphabetical)
+
+> **Recount 2026-11-05:** the table holds 225 unique rows; the heading's "224" was an extraction off-by-one. The author account now publishes **235** HF datasets — all 10 additions since this catalog were cut are non-space domains (seven agent-traces variants, `amazon-shoe-reviews`, `autonlp-data-song-lyrics`, `food102`) and deliberately out of scope for a space-pipeline mirror list. Before assuming missing coverage on any future recount, re-run the same reconciliation: HF API `datasets?author=juliensimon` vs table rows, then filter by domain.
 
 | HF dataset | What it is |
 |---|---|
