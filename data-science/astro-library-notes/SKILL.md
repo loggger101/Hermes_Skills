@@ -36,7 +36,7 @@ Per-library reference for ephemeris, time-scale and propagation libraries used i
 | High-fidelity propagation (Java) | Orekit 13.1.9 via `orekit-jpype` | `references/orekit-python-notes.md` | import only after `initVM`; UTC/ITRF fail without orekit-data; pip-provided JDK works |
 | N-body integration | REBOUND 5.2.1 (+ REBOUNDx) | `references/rebound-n-body-notes.md` | `sim.G` in AU/yr/Msun is 39.4769; REBOUNDx is sdist-only (needs a C compiler); GPL-3.0 |
 | Lambert, Taylor propagation, trajectory legs (ESA) | pykep 3.0.1 | `references/pykep-v3-notes.md` | PyPI wheels are manylinux-only, so not pip-installable on Windows/macOS (conda-forge instead) |
-| Propagation, frames, SBDB/Horizons/Celestrak clients | brahe 1.7.0 | `references/brahe-api-reference.md` | Horizons SPK recipe works for any small body; check version before pinning |
+| Propagation, frames, SBDB/Horizons/Celestrak clients | brahe 1.8.x (batch + EOP measured) | `references/brahe-api-reference.md` | Horizons SPK recipe works for any small body; check version before pinning |
 | 3D orbit viewer in the browser | spacekit.js | `references/spacekit-notes.md` | planet presets are fixed two-body elements (Saturn 0.09 AU off today, 1.5 AU in 1900) |
 
 ## Procedure
@@ -72,5 +72,5 @@ Per-library reference for ephemeris, time-scale and propagation libraries used i
 - `references/orekit-python-notes.md` - Orekit 13.1.9 from Python via `orekit-jpype` and a pip JDK: import-after-`initVM`, SI/radian units, Kepler propagation, orekit-data needs
 - `references/rebound-n-body-notes.md` - REBOUND 5.2.1 live run, REBOUNDx build failure, Yarkovsky/radiation-force parameters, GPL-3.0, ASSIST pointers
 - `references/pykep-v3-notes.md` - pykep 3.0.1: manylinux-only wheels, conda-forge route, API map for Lambert, propagation and legs
-- `references/brahe-api-reference.md` - brahe 1.7.0 module map with live-run snippets: Horizons SPK fetch for any small body, Celestrak query builder, EKF/UKF/BLS estimation
+- `references/brahe-api-reference.md` - brahe module map (as of 1.7) plus v1.8.x batch/EOP measured notes with live-run snippets: Horizons SPK fetch for any small body, Celestrak query builder, EKF/UKF/BLS estimation
 - `references/spacekit-notes.md` - spacekit.js 3D viewer: headless Node bundle, fixed-element planet presets checked against astropy, npm facts

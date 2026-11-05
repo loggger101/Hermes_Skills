@@ -13,7 +13,7 @@ that re-export via `__all__`. **The authoritative symbol list lives in each modu
 
 > **Freshness re-check (2026-11-05):** upstream moved — brahe 1.8.0 shipped 2026-10-16 and
 > **1.8.1 is PyPI latest** (released 2026-10-31). Everything below was verified against **1.7.0**
-> and has NOT been re-run on 1.8.x; treat symbol-level claims as "as of 1.7.0". Headline from the
+> and has NOT been re-run on 1.8.x; treat symbol-level claims as "as of 1.7.0". **RESOLVED for the batch/EOP surface:** v1.8.x measured 2026-11-05 on brahe==1.8.1 / py3.14 — see §v1.8.x at the end; the remaining 1.7-era symbol claims were not re-run and stay as-of-1.7. Headline from the
 > upstream changelog: batch/vectorised Earth-frame transforms (`rotations_/positions_/states_{eci_to_ecef, ecef_to_eci, gcrf_to_itrf, itrf_to_gcrf}`)
 > built on new crate-private `utils::batch` primitives (length-1-or-N broadcast rule); 1.8.1 adds
 > Python 3.15 wheels/CI and PyO3 dependency updates. The full v1.8.0 changelog is ~68 KB — see the
@@ -91,4 +91,36 @@ print(resp.path)
 - **Units are SI at the boundary**: elements take meters (not km), angles via `AngleFormat`; trajectory states come back in m / m·s⁻¹ — divide by 1e3 for km display.
 - EOP data must be initialized before high-fidelity frame transforms: call `bh.initialize_eop()` once per process.
 - The Python layer is a re-export façade; if an attribute "doesn't exist", check the module docstring's bullet list (it enumerates every exported name) rather than guessing from Rust crate names.
-- License: MIT-ish — safe to import into shipped code (contrast with nyx, AGPLv3).
+- License: MIT - firm now, GitHub repo license metadata reads SPDX `MIT` (verified via API 2026-11-05). Safe to import into
+  shipped code (contrast with nyx, AGPLv3).
+
+## v1.8.x batch transforms + EOP provider (measured on brahe==1.8.1, py3.14.7, Windows cp314 wheel, 2026-11-05)
+
+- **EOP is now mandatory and explicit.** Earth-frame calls panic without init: `PanicException: EOP polar motion
+  unavailable … (EOP provider not initialized); initialize a global EOP provider covering this epoch or set extrapolation to Hold
+  or Zero`. One-liner before any frame call: `import brahe; brahe.initialize_eop()` (zero args, recommended defaults,
+  downloads IERS data into the cache dir).
+- **Chicken-and-egg gotcha:** `brahe.ensure_global_eop_coverage(mjd_start, mjd_end)` itself raises BraheError when no
+  provider exists - call `initialize_eop()` first; its error text names both fixes. Other knobs: `FileEOPProvider`,
+  `StaticEOPProvider`, `CachingEOPProvider`, `download_standard_eop_file`/`download_c04_eop_file`, `get_global_eop()`,
+  `get_eop_cache_dir()`.
+- **Python names are singular only.** The changelog's plural forms (`rotations_eci_to_ecef` …) are Rust-side; the Python
+  surface is `rotation_/position_/state_*`. There is no `Vector` class - pass lists or numpy arrays. Changelog transcription
+  would ship broken imports (both traps hit during this measurement).
+- **Batch semantics (measured):** epoch list -> rotations `(N,3,3)`, states broadcast a single 6-vector to `(N,6)`; a single
+  Epoch x N vectors broadcasts the other way too; `axis=` follows numpy component-axis convention (`(3,N)` in -> `(3,N)`
+  out at axis=0). **Batch results are bit-identical to per-item loops** (max abs diff 0.0 across rotation matrices); batched
+  ECI->ECEF->ECI roundtrip err 2.7e-12 m - float noise, no systematic error from the hoisted IAU rotations.
+- **Epoch API in 1.8.1 (measured):** `Epoch("iso string")` defaults to UTC; the old kwarg form `scale="utc"` raises TypeError
+  (`__new__` accepts "1, or 3-7 arguments": ISO string or numeric components). `.mjd` is a bound method returning float (not
+  a property); epoch + seconds(float) works via `__add__`; there is no `.plus()`; `Epoch.from_datetime(...)` takes *components*
+  `(y,m,d,h,min,s,ns,time_system)`, not a datetime object - use `to_pydatetime`/`to_datetime` for interop.
+- Minimal verified snippet:
+
+```python
+import numpy as np, brahe as B
+B.initialize_eop()                       # once per process, before any Earth-frame call
+from brahe import Epoch, rotation_eci_to_ecef
+ts = [Epoch(f"2026-11-05 12:{i:02d}:00.000") for i in range(4)]
+R = np.asarray(rotation_eci_to_ecef(ts)) # -> (4,3,3), bit-exact vs per-item loop
+```
