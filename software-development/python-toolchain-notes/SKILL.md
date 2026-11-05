@@ -38,6 +38,7 @@ Reference for the tools around Python code rather than the code itself: **uv** p
 | Progress bars in scripts and CI | `references/tqdm-progress-bars.md` | bar goes to stderr and floods piped logs with carriage returns; `print()` corrupts it; `TQDM_DISABLE` and `TQDM_MININTERVAL` tame logs |
 | Logging | `references/logging-loguru.md` | brace-format `KeyError` once any argument is passed; `diagnose=True` leaks secrets; colour codes in captured output unless `colorize=False` |
 | Compression | `references/compression-zstd-stdlib.md` | `compression.zstd` measured against zlib/bz2/lzma; dictionaries matter for tiny records; `level` and `options` conflict |
+| Install was killed / venv suspect afterwards | `references/uv-killed-install-recovery.md` | interrupted uv install leaves metadata satisfied but files missing; later installs no-op silently; recreate the venv |
 | Speeding up pure Python | `references/codon-compiler-notes.md` | AOT compiler, Linux/macOS only, 64-bit int and static-typing differences; source-read |
 
 ## Procedure
@@ -68,6 +69,7 @@ Reference for the tools around Python code rather than the code itself: **uv** p
 ## References
 
 - `references/modern-python-tooling.md` - uv/ruff/ty/pytest setup, PEP 723 scripts, migration table; includes uv 0.12.17 measured behaviour (`uv init` makes a src package with no main.py, `--locked` vs `--frozen`, exit codes 1 vs 2)
+- `references/uv-killed-install-recovery.md` - phantom-complete packages after a killed uv install: observed Alembic ImportError shape, why reinstall no-ops, recreate vs --reinstall-package remedies (latter untested)
 - `references/ruff-0-16-defaults-and-suppressions.md` - ruff 0.16.10: default rule set 59 to 413, Markdown code-block formatting and how to exclude it, `# ruff: ignore[...]`, `--add-noqa`
 - `references/ty-0-0-84-notes.md` - ty 0.0.84: exit codes in CI, interpreter discovery, `ty.toml` precedence, 136 rules by default level, output formats
 - `references/logging-loguru.md` - loguru 0.7.3 setup and traps (brace-format `KeyError`, `diagnose=True` leaking secrets, colour codes), stdlib interception
