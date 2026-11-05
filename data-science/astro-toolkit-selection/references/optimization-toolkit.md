@@ -89,7 +89,7 @@ class Economy(mesa.Model):
 - New in 3.x PyPI: `mesa.discrete_space` (Grid/HexGrid/VoronoiGrid, CellAgent) — spatial models with no
   external deps.
 
-## z3-solver 5.1.0 (pip) — ⚠️ CORRECTED API NAMES vs round-2 source read [LIVE]
+## z3-solver 5.1.0 (pip; reverified on 5.3.3.0 - all corrected names hold; see `z3-solver/references/z3-solver-notes.md` §5.3.x for two API drifts) — ⚠️ CORRECTED API NAMES vs round-2 source read [LIVE]
 
 Round 2 read the repo's `src/api/python/z3/z3.py` at a newer revision and quoted names that **do not
 exist in `pip install z3-solver` (5.1.0)**: no `RegExConst`, no `SeqVal`. What actually works (verified):

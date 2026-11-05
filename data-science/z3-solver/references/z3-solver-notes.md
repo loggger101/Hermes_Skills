@@ -67,3 +67,15 @@ timeout.
 
 Not run: `FP` conversions (covered live in `optimization-toolkit.md`), `Fixedpoint`/Horn clauses, tactics and `SimpleSolver`, `z3 -smt2`
 command line, parallel solving, memory limits.
+
+## 5.3.x drift (measured on z3-solver==5.3.3.0, cp314 wheel, py3.14, Windows, 2026-11-05)
+
+- **Everything documented above still holds** across two majors: corrected names verified absent (`RegExConst`,
+  `SeqVal`, `BitVectorVal`, `BVVal`), `BitVecVal` works; IEEE double proof and regex simplify reproduce exactly;
+  module-level `solve`/`simplify`/`prove` present.
+- **API drift #1 - result objects went opaque:** `CheckSatResult` now exposes ZERO public methods (dir() shows none);
+  the classic `.toString()` is gone. Use `str(r)` or compare with `r == sat`. Code calling `.toString()` on a check()
+  result raises AttributeError on 5.3.x.
+- **API drift #2 - model printing:** an open-interval maximize now prints a decimal approximation with a trailing
+  `'?'` (x = "4.9999999999?") where 5.1.0 returned the exact rational `319/64`; value also sits closer to the open
+  boundary than before. Do not parse model values assuming rational (`num/den`) format across versions.
