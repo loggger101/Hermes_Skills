@@ -70,3 +70,5 @@ gain — it makes them referenceable mid-task); and only a handful (`Redesign fr
 Load`, `Outcome-Oriented Execution`, `Boundary Discipline`, `Test Behavior Not Implementation`) are genuine content gaps.
 pstack itself ships no planning skills by choice ("cursor already has a great plan mode... personally, i don't believe
 in planning"), so nothing here competes with our `plan`/`brainstorming` lanes.
+Reverified 2026-11-05 against upstream: the maintainer's own sync-log commits (4a3f660, ecec42a) state no content change since our read, and the only
+functional commit after it (06572d2, 'statechart run on Windows #17') is tool signal-handling - not principle knowledge. The 24-principle set documented here stands.
