@@ -1,5 +1,9 @@
 # Tabler Icons 3.49.0: 5,184 MIT icons, the webfont weight, and the React barrel (measured from npm)
 
+> **Freshness check 2026-11-05:** npm current is **3.50.0** (published 2026-10-27; this file measured
+> 3.49.0, published the day it was mined). For a set that ships minors every ~3 weeks, treat icon counts
+> and weights as of-3.49.0 until re-measured against current.
+
 Source: [tabler/tabler-icons](https://github.com/tabler/tabler-icons) (21.9k stars, MIT, pushed daily). npm `@tabler/icons` **3.49.0** (SVG files and metadata),
 `@tabler/icons-webfont` 3.49.0, `@tabler/icons-react` 3.49.0 (all published 2026-10-05; also `@tabler/icons-sprite` and `@tabler/icons-vue` at the same version), installed on
 Node 22.23.2 / Windows with React 19; file sizes, `icons.json` and an SSR render were measured. Not covered: the sprite and Vue packages, the Figma kit, a browser render.
