@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **545 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **549 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-loop-design
@@ -399,6 +399,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## data-science/enricher-pipeline-architecture
 
+- `data-science/enricher-pipeline-architecture/references/flowsint-enricher-builder-reviewed.md` — flowsint-enricher-builder — reviewed (source-read 2026-11-05; banked from round-170 "not reviewed")
 - `data-science/enricher-pipeline-architecture/references/flowsint-pipeline-patterns.md` — Flowsint Pipeline Architecture Patterns (verified from reconurge/flowsint @ 1820569, v1.2.12)
 
 ## data-science/evolutionary-ml
@@ -429,7 +430,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `data-science/ml-cv-library-notes/references/gensim-notes.md` — gensim 4.4.0 (topic models, Word2Vec) install reality (no cp314 wheel) and a verified small run in a 3.11 venv: reproducibility, OOV errors, LDA
 - `data-science/ml-cv-library-notes/references/open3d-notes.md` — Open3D 0.20.0 for point clouds and meshes from Python: install size, headless geometry/ICP/IO checks run live, and the silent-failure traps (missing file returns an empty cloud)
 - `data-science/ml-cv-library-notes/references/pytorch-notes.md` — PyTorch 2.14.1 (CPU) on Windows + Python 3.14: what actually happens
-- `data-science/ml-cv-library-notes/references/supervision-cv-notes.md` — roboflow supervision 0.30.7 (computer-vision utilities): Detections filtering/NMS, zones, line counting, annotators, run live on synthetic arrays; OpenCV optional, ByteTrack deprecated, silent empty result on bad input
+- `data-science/ml-cv-library-notes/references/supervision-cv-notes.md` — roboflow supervision 0.30.7 (computer-vision utilities): Detections filtering/NMS, zones, line counting, annotators, run live on synthetic arrays; OpenCV optional, ByteTrack removed at 0.31 (reverified on 0.31.4), silent empty result on bad input
 
 ## data-science/model-export-deploy
 
@@ -509,6 +510,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `devops/system-design-scaling/references/databases-and-caching.md` — Databases, NoSQL & Caching — Trade-Off Tables
 - `devops/system-design-scaling/references/latency-and-estimation.md` — Latency Numbers & Back-of-the-Envelope Estimation
 - `devops/system-design-scaling/references/scaling-tradeoffs-and-topics.md` — Scaling Trade-Offs & Networking Topics
+- `devops/system-design-scaling/references/slo-burn-rate-and-chaos-abort-criteria.md` — SLO error-budget & chaos abort-criteria math (from alirezarezvani/claude-skills slo-architect + chaos-engineering; measured-consistent 2026-11-05)
 
 ## devops/watchers
 
@@ -849,6 +851,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `software-development/python-toolchain-notes/references/ruff-0-16-defaults-and-suppressions.md` — Ruff 0.16: the default rule set changed, Markdown is formatted, `ruff: ignore`
 - `software-development/python-toolchain-notes/references/tqdm-progress-bars.md` — tqdm 4.70.1 measured: bar goes to stderr and floods piped logs with CRs, print() corrupts it, TQDM_ASCII=1 crashes the program, TQDM_DISABLE and MININTERVAL tame logs, per-iteration cost
 - `software-development/python-toolchain-notes/references/ty-0-0-84-notes.md` — ty 0.0.84 (Astral type checker): CI exit codes, interpreter discovery, config precedence (run live)
+- `software-development/python-toolchain-notes/references/uv-killed-install-recovery.md` — uv: killed installs leave phantom-complete packages (observed 2026-11-05)
 
 ## software-development/repo-atlas
 
@@ -868,6 +871,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `software-development/skill-intake-and-release/references/skill-evolution-pipeline.md` — DSPy+GEPA skill-evolution pipeline (hermes-agent-self-evolution): CLI, cost, when NOT to use, and what its metric, constraint gate and session importer really do (run)
 - `software-development/skill-intake-and-release/references/skill-registry-security.md` — Skill registry supply-chain + installer security patterns, mined from tech-leads-club/agent-skills (MIT code / CC-BY-4.0 content)
 - `software-development/skill-intake-and-release/references/skill-repo-release-engineering.md` — Skill-Repo Release Engineering (versioning, update channel, generated blocks)
+- `software-development/skill-intake-and-release/references/skill-security-auditor-and-tester-measured.md` — skill-security-auditor + skill-tester (alirezarezvani/claude-skills) — measured 2026-11-05
 - `software-development/skill-intake-and-release/references/skill-seekers-generated-drafts.md` — Using Skill Seekers 3.10.0 to draft skill material from a codebase, docs, PDFs and more: offline run on a tiny project (3 s), what it generates, what is boilerplate, and how to finish it into a Hermes skill
 - `software-development/skill-intake-and-release/references/two-external-skill-packs-reviewed.md` — two external skill-packs the owner starred, reviewed as intake candidates and kept upstream rather than ported: K-Dense's 177-skill Scientific Agent Skills (catalog shape, its maintenance-metadata frontmatter convention worth adopting, autoskill's screenpipe-driven skill-drafting with a stated single data source) and ppt-master (a closed intermediate-DSL whose three-state input contract and per-layer non-responsibilities are a reusable pattern for any agent-authored markup compiled into a strict target format)
 - `software-development/skill-intake-and-release/references/vendor-shipped-skills-preline.md` — Skills shipped inside a UI library (Preline): what a vendor skill does well, and where it breaks our conventions

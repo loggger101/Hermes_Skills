@@ -71,3 +71,4 @@ Also covered:
 ## References
 
 - `references/flowsint-pipeline-patterns.md` - ten sections: layers, registry, two-phase execution, graph write semantics, YAML templates and LLM generation, orchestration, the embedded builder skill, Docker wrappers, tests, recurring bug classes
+- `references/flowsint-enricher-builder-reviewed.md` - upstream builder skill read whole: decision trees and refusal rules generalizing to our own intake (reuse/extend/create-new before codegen, entropy containment for known smells, escape hatches must have addresses)
