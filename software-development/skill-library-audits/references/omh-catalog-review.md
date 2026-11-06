@@ -33,6 +33,17 @@ mirror skills this repo already holds - cross-harness projections of the same ge
   other is not review - it is convergence"; a round producing no objections means an angle was missing: name the
   missing perspective, add or replace before claiming consensus. (Lands on `multi-agent-deliberation` and any
   grill/review flow.)
+## Process lesson banked this round (byte-level markdown editing on CRLF files)
+
+Insert AFTER the full line terminator (`split at j+1` where `j = find("\n")`), never AT `j`: inserting at `j` orphans
+the preceding CR and yields lone-CR + bare-LF pairs. This bug was introduced three rounds running (r298, twice in r300)
+despite being banked as a lesson - the scan-after-edit step caught all three, but the fix is to change the splice point,
+not to rely on catching it. After ANY byte insertion assert BOTH `lone-CR == 0` and `bare-LF == 0` (the file's declared
+convention), not just lone-CR - r300 showed a bare LF can hide in the stamped line itself. Ledger row-stamping pattern
+that finally worked: locate row start marker, find first LF after it, insert at j+1 with CRLF-prefixed text; verify by
+row-index containment (start < pos < next-row-start) when rows are long and visually ambiguous - a stamp landing on the
+"wrong" looking fragment may be right if that IS the target row's tail.
+
 - **Mechanical vs judgement classification before wording** any distilled rule candidate: machine-findable-from-
   text alone vs requiring human judgement - routes review effort correctly; distill principles from large ecosystems,
   never wholesale copy (converges with our intake doctrine).
