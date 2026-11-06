@@ -57,3 +57,38 @@ branch on failure without a traceback.
 
 Not run: `prefect server start`, deployments and workers, schedules, work pools, blocks, automations, the UI,
 `flow.serve()`, task runners other than the default, async flows, and the `prefect-client` package.
+
+## Returned-Failed retries were silently stranded before 3.9.1 (added r294, source-derived)
+
+**The behaviour gap.** A flow that *returns* a `Failed` state object instead of raising it did not
+rely on anything exotic - but with `retries=N`, prefect <= 3.9.0 never retried: the run ended in
+status **`AwaitingRetry`**, and nothing ever picked it up again. Silent non-retry, no error line.
+
+**Mechanism (from merged fix PR text).** The server policy `RetryFailedFlows` did propose a retry -
+it turned the proposed `Failed` into `AwaitingRetry` with `retry_type="in_process"`. But only
+`handle_exception` / `handle_timeout` in the engine recognised that signal and looped back to
+`Running`; **`handle_success` (sync and async) did not**, so when a flow *returned* failure the
+engine loop exited, leaving the run parked in `AwaitingRetry` - and workers skip `in_process` runs,
+so no scheduler ever resumed it. Fix: `handle_success` now applies the same check as the other two
+handlers (`terminal_state.is_failed() and state.is_scheduled()`), resets `_return_value` to `NotSet`,
+sets `Running`, returns early (skipping success telemetry/result linking). Resetting `_return_value`
+matters because a stale return value otherwise survives into the retry.
+
+**Versions.** Bug report [#23534](https://github.com/PrefectHQ/prefect/issues/23534); fix PR
+[#23535](https://github.com/PrefectHQ/prefect/pull/23535) merged 2026-10-23 (merge commit
+`b79132f125`). `3.9.1.dev*` builds began the same day, so **affected: <= 3.9.0; first stable with
+the fix: >= 3.9.1** - which is this skill's tested pin line. Practical audit rule when upgrading
+from <= 3.9.0: any flow that returns state objects (rather than raising) and relies on `retries`
+was silently not retrying before the upgrade; after it, those flows start actually looping - budget
+for that side effect.
+
+**Evidence tier + local measurement note.** Claims above derive from upstream issue/PR text, not a
+local A/B: this machine could not boot prefect's ephemeral API server on fresh Python 3.14 venvs of
+either version (both died with `RuntimeError: Timed out while attempting to connect to ephemeral
+Prefect API server`, uvicorn startup failing - environment-specific, likely localhost-port or
+first-run-DB interaction; earlier r279 measurements ran fine in the then-current setup). The half-install
+incident during that diagnosis is separately documented in
+`software-development/python-toolchain-notes/references/uv-killed-install-recovery.md`.
+
+Still not run: everything in the paragraph above - this section adds knowledge from upstream, not new execution.
+
