@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **550 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **551 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-loop-design
@@ -845,6 +845,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `software-development/python-toolchain-notes/references/codon-compiler-notes.md` — Codon (exaloop) Python-to-native compiler: when it pays off, what differs from CPython, @codon.jit, CLI flags, @par, and the doc inconsistencies; Linux/macOS only
 - `software-development/python-toolchain-notes/references/compression-zstd-stdlib.md` — Python 3.14 stdlib compression.zstd (zstd 1.5.7) measured against zlib/bz2/lzma on markdown, CSV and float data; dictionaries for small records, level vs options TypeError, tar.zst, thread count
 - `software-development/python-toolchain-notes/references/cpython-runtime-facts-windows.md` — the CPython interpreter this box actually runs and how to discover it (Hermes-managed 3.14.9 standalone build that the Windows py launcher does NOT register, so `py -3.14` fails while `py -0p` shows only 3.13 and a uv-managed 3.11), its measured GIL state (Py_GIL_DISABLED=0 — a normal GIL build, not free-threaded, which is why cp314t wheels never get selected here), the real pip situation (`No module named pip` yet `ensurepip` importable, bootstrap deliberately left unverified), and how wheel ABI tags explain silent C-extension fallbacks like galpy's
+- `software-development/python-toolchain-notes/references/isolated-venvs-for-ab-experiments.md` — A/B experiments need isolated venvs — a shared uv env self-raced and faked an upstream failure (measured 2026-11-05/06)
 - `software-development/python-toolchain-notes/references/logging-loguru.md` — Python logging with loguru 0.7.3: setup, brace-format traps, diagnose=True secret leak, rotation/retention, serialize, stdlib interception
 - `software-development/python-toolchain-notes/references/modern-python-tooling.md` — Modern Python tooling: uv, ruff, ty, PEP 723
 - `software-development/python-toolchain-notes/references/pytest-9-notes.md` — pytest 9.1.1: exit codes, built-in subtests, strict mode, config precedence (run live)

@@ -82,13 +82,11 @@ from <= 3.9.0: any flow that returns state objects (rather than raising) and rel
 was silently not retrying before the upgrade; after it, those flows start actually looping - budget
 for that side effect.
 
-**Evidence tier + local measurement note.** Claims above derive from upstream issue/PR text, not a
-local A/B: this machine could not boot prefect's ephemeral API server on fresh Python 3.14 venvs of
-either version (both died with `RuntimeError: Timed out while attempting to connect to ephemeral
-Prefect API server`, uvicorn startup failing - environment-specific, likely localhost-port or
-first-run-DB interaction; earlier r279 measurements ran fine in the then-current setup). The half-install
-incident during that diagnosis is separately documented in
-`software-development/python-toolchain-notes/references/uv-killed-install-recovery.md`.
+**Evidence tier - CONFIRMED by local A/B, 2026-11-06 (r301).** Isolated `uv venv --python 3.13` envs per version; probes run with inherited PYTHONPATH cleared and interpreter `-I`.
+Same probe both arms: a flow (`retries=2`) that *returns* `Failed(message=...)`, attempt count persisted to file.
+- **prefect 3.8.7:** attempts = **1**; run ends `AwaitingRetry('returned failed state', type=SCHEDULED)` and is never resumed - the stranding signature exactly as the merged-fix text describes.
+- **prefect 3.9.1:** attempts = **3** (initial + both retries execute), then raises `FailedRun` after exhaustion. The fix behaviour, and with it the audit rule above ("budget for flows that suddenly start looping"), is now empirically backed, not just PR-derived.
 
-Still not run: everything in the paragraph above - this section adds knowledge from upstream, not new execution.
+**New upstream fact found en route:** a *fresh* 2026 install of prefect==3.8.7 resolves fastapi to **0.162** under its own declared `fastapi>=0.139,<1.0.0`, and that server code still passes the removed kwarg - API import dies with `TypeError: Body() got an unexpected keyword argument 'min_items'`. Downgrading to `fastapi==0.139.0` (the low end of its own range, ~release-time) restores ephemeral-server startup. Pin-range bug class: a package can ship constraints that admit breaking minors released after it; reproduce old versions with era-pinned deps or expect import-time breakage.
 
+**Correction to this file's earlier note:** "this machine could not boot prefect's ephemeral API server" was WRONG - the failures were harness artifacts (a globally exported PYTHONPATH silently shadowed every venv interpreter, plus a reinstall racing arm-1 on the first attempt). Clean-room rerun here worked first try. See `software-development/python-toolchain-notes/references/isolated-venvs-for-ab-experiments.md`. The half-install incident from r279-era diagnosis remains documented in `uv-killed-install-recovery.md`.
