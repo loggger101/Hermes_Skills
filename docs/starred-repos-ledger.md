@@ -8,6 +8,7 @@ row here and commit. Nothing batches across repos, so a session cut-off loses at
 ## How to resume
 
 1. Read this file; take the first row whose Status is `pending` (the table is in work order).
+   (Steady state since round-302: ALL rows carry verdicts - no `pending` exists. Resumption = run the freshness sweep against *Active watches* below; only commit what findings warrant.)
 2. Review that repo (`gh repo view`, `gh api repos/OWNER/NAME/contents`, clone to the scratchpad if source matters).
 3. Search the repo for what already covers it: `grep -ril NAME .` and `SKILLS-INDEX.md`.
 4. Edit or add the skill / reference. A new `references/*.md` needs `python tools/gen-references-index.py` and the reference-doc count in `DESCRIPTION.md` bumped; a NEW SKILL also needs a line in its category `DESCRIPTION.md`, then run `gen-skills-index.py`, `gen-code-index.py`, `regen-dependency-map.py`, `gen-claude-plugin.py`, and bump the hand-kept counts in `README.md` (skills total, xrefs, category row, plugin-exposed) and `DESCRIPTION.md` — `verify-all.py` names each wrong number. If the router-coverage gate flags the new skill (in scope by tag, e.g. `code-review`), add it to a lane in `software-development/skill-flow-router/SKILL.md`. A skill's `description:` must be at most 59 characters (audit gate). In shell edits use Edit rather than `sed` when the text contains `#`. Then run `python tools/verify-all.py` (all gates must pass).
@@ -47,6 +48,13 @@ Statuses: `pending` · `done` (skill/reference changed) · `covered` (already we
 
 Round-258 note (2026-11-04): `gh api user/starred` now returns **213** stars. All 185 rows above stayed starred (none unstarred); the 28 new repos are appended below as rows 186-213, GIS cluster first because it was reviewed and mined first. Also banked from this round's probing: `software-development/python-craft/references/venv-isolation-and-pythonpath-windows.md` (ambient PYTHONPATH shadows fresh venvs; uv silently installs into a live Hermes agent env when `VIRTUAL_ENV` is an MSYS `/tmp` path).
 
+## Active watches (freshness-sweep targets, newest first)
+
+- **2026-11-17 - Chrome 158 stable / Playwright HTTPS-First patch deadline** (#43871): maintainer promised a fix release before this date. Sweep: if v1.65.x or v1.64.2 shipped, stamp the playwright RESOLVED line (its r300/r302 addenda hold what to check - HttpsUpgrades/HttpsFirstBalancedMode behavior for `http://` scraping + inert-dialog aria change).
+- **Playwright pin-vs-upgrade trade** is written down on that same ledger line: pinned 1.64.1 carries the un-backported Firefox CVE (#43518, mitigated by Playwright download handling); upgrading to 1.65 takes three breaking changes (r300). Revisit only if an upgrade decision arises or a patch lands.
+- **Movement past tested pins = re-review event**, each RESOLVED line records what was tested: prefect >3.9.1 (A/B measured both sides r301; nightlies-only as of Nov-6), next >16.4.5, playwright beyond 1.64.1 into stable 1.65.x.
+- **New-star detection**: `gh api user/starred` count vs this file's row verdicts (213 at last census r287-era; page-header checks since r300 found none). A new star = a NEW ledger row + normal one-repo review, not a sweep footnote.
+- **Sweep cadence discipline**: repeating yesterday's identical pin checks adds nothing - space them ~2-3 days or anchor to event dates (next: Nov-17); two consecutive genuinely-quiet sweeps is the declared threshold for calling the standing goal complete.
 | # | Repo | Lang | Pushed | Hits | Status | Outcome |
 |---|------|------|--------|------|--------|---------|
 | 1 | [agiwhitelist/auteur](https://github.com/agiwhitelist/auteur) | JavaScript | 2026-08-06 | 0 | done | round-67: new `creative/awwwards-gsap-motion/references/acceptance-gates.md` (linter rules, DPR2/headed/prod perf honesty, serve-over-HTTP, fallback payload); `transition: all` removed from design-taste-frontend |
