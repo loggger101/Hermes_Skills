@@ -46,6 +46,7 @@ Provides the full decision framework: the 4-step process for any design question
 | The 8 system-design case studies as reusable patterns with their key numbers and the non-obvious tricks (base62 capacity math, celebrity fan-out inversion, crawl signature dedup, bidirectional BFS, MapReduce top-k sort) | `system-design-interview-patterns` (`references/case-study-patterns.md`) |
 | OO design interviews: all 6 worked exercises (deck/Blackjack multi-ace scoring, call-center cascade dispatch + state machine, hash map chaining, LRU, chat graph-vs-conversation split, parking-lot fit-inversion), each with its clarifying-question list; plus verified source bugs in the primer's own stubbed code | `system-design-interview-patterns` (`references/oo-design-interview-patterns.md`) |
 | Powers of two, latency numbers every programmer should know, request-rate conversions, nines downtime tables | `references/latency-and-estimation.md` |
+| SLO error-budget & multi-window burn-rate math (verified derivations), SLI selection from history, SLO bug catalog, chaos abort criteria as fifth principle + blast-radius formula | `references/slo-burn-rate-and-chaos-abort-criteria.md` |
 | Feature flags and progressive delivery: flag types and lifespans, ring/linear/log/cohort rollout maths (run), kill-switch registry fields, stale-flag detection and the traps in common flag scripts | `devops/feature-flag-lifecycle` skill |
 
 ## Runnable scripts (stdlib-only, self-testing — run with `py`)
