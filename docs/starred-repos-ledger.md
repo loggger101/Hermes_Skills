@@ -50,6 +50,8 @@ Round-258 note (2026-11-04): `gh api user/starred` now returns **213** stars. Al
 
 ## Active watches (freshness-sweep targets, newest first)
 
+- **FINAL SWEEP r304, 2026-11-06 - goal declared complete.** Deterministic pass: `gh api user/starred` counted **213 == this file's row verdicts** (no new stars); playwright v1.65.0 on GitHub AND npm (#43871 patch not yet shipped, as expected pre-Nov-17); prefect stable 3.9.1; next@16.4.5 on npm == the exact r292-tested version - zero movement past any tested pin. Extraction work (all 213 rows -> skills/references/knowledge, rounds ~r249-r304) is finished and verified; this watch block stays valid for whoever picks up the Nov-17 item below.
+
 - **2026-11-17 - Chrome 158 stable / Playwright HTTPS-First patch deadline** (#43871): maintainer promised a fix release before this date. Sweep: if v1.65.x or v1.64.2 shipped, stamp the playwright RESOLVED line (its r300/r302 addenda hold what to check - HttpsUpgrades/HttpsFirstBalancedMode behavior for `http://` scraping + inert-dialog aria change).
 - **Playwright pin-vs-upgrade trade** is written down on that same ledger line: pinned 1.64.1 carries the un-backported Firefox CVE (#43518, mitigated by Playwright download handling); upgrading to 1.65 takes three breaking changes (r300). Revisit only if an upgrade decision arises or a patch lands.
 - **Movement past tested pins = re-review event**, each RESOLVED line records what was tested: prefect >3.9.1 (A/B measured both sides r301; nightlies-only as of Nov-6), next >16.4.5, playwright beyond 1.64.1 into stable 1.65.x.
