@@ -63,6 +63,7 @@ Checks a whole directory of `SKILL.md` files for consistency, instead of reading
 ## References
 
 - `references/audit-script-pattern.md` - repo-health audit script shape, header recognition, thresholds, cross-reference validation, cron delivery
+- `references/omh-catalog-review.md` - oh-my-hermes catalog-level review: usage-counts-not-health, empty-ledger-is-unknown, candidate-vs-live stores, zero-objections-roster-defect
 - `references/frontmatter-audit-pattern.md` - the frontmatter validation rules and the full-library audit script
 - `references/related-skills-audit.md` - broken-link patterns and the audit commands that find them
 - `references/section-header-standardization.md` - standard headers, capitalisation, detection and bulk fix

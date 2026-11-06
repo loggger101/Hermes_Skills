@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **549 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **550 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-loop-design
@@ -881,6 +881,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `software-development/skill-library-audits/references/audit-script-pattern.md` — Building Repo-Health Audit Scripts for Hermes Skill Repositories
 - `software-development/skill-library-audits/references/frontmatter-audit-pattern.md` — Frontmatter Audit Pattern
 - `software-development/skill-library-audits/references/harness-audit-dual-judge-traps.md` — Harness Audit Protocol: Dual-Judge + Planted Traps (verified from tech-leads-club/agent-skills @ 0ab82f6)
+- `software-development/skill-library-audits/references/omh-catalog-review.md` — oh-my-hermes (rlaope/oh-my-hermes) catalog-level review — sampled 2026-11-05, closes row 79's "~100 not individually reviewed"
 - `software-development/skill-library-audits/references/related-skills-audit.md` — Auditing and Fixing `related_skills` References
 - `software-development/skill-library-audits/references/section-header-standardization.md` — Section Header Standardization
 
