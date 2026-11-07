@@ -1,6 +1,6 @@
 # Starred-repo review ledger
 
-Working list for the review of the owner's GitHub stars (`gh api user/starred`: 166 repos on 2026-10-05, appended to 185 that day and re-reconciled against `user/starred` on 2026-11-05 — **213 starred repos now, rows 1-213, none missing in either direction**).
+Working list for the review of the owner's GitHub stars (`gh api user/starred`: 166 repos on 2026-10-05, appended to 185 that day and re-reconciled against `user/starred` on 2026-11-05 — **213 starred repos now, rows 1-213, none missing in either direction**; star-LIST membership reconciled too, see r305 below).
 Each repo is reviewed **one at a time**: read it (README, layout, source where it matters), decide what
 it teaches that no existing skill already holds, fold that into a skill or reference, then flip its
 row here and commit. Nothing batches across repos, so a session cut-off loses at most one repo.
@@ -50,6 +50,7 @@ Round-258 note (2026-11-04): `gh api user/starred` now returns **213** stars. Al
 
 ## Active watches (freshness-sweep targets, newest first)
 
+- **Star-list census r305, 2026-11-07 — coverage question closed.** The profile's three lists (`economicspace-repos` · `gis-stuff` · `for-econ-space-pipeline`, live counts 5 / 4 / 49) were enumerated LIVE (both pipeline pages walked; totals match headers exactly) and **every one of the 58 members is inside the starred set** — list membership hides no unreviewed material, so rows 1-213 remain the complete corpus. Method note for future censuses: anonymous fetches of `github.com/stars/<user>/lists/*` served a stale CDN revision (pipeline list rendered 17 repos with September dates vs live 49) — enumerate by live browser render + pagination walk, never via anonymous page fetch or @url attachment; anchoring on `/owner/repo/stargazers` links is the reliable name pattern. Re-census only if new lists are created.
 - **FINAL SWEEP r304, 2026-11-06 - goal declared complete.** Deterministic pass: `gh api user/starred` counted **213 == this file's row verdicts** (no new stars); playwright v1.65.0 on GitHub AND npm (#43871 patch not yet shipped, as expected pre-Nov-17); prefect stable 3.9.1; next@16.4.5 on npm == the exact r292-tested version - zero movement past any tested pin. Extraction work (all 213 rows -> skills/references/knowledge, rounds ~r249-r304) is finished and verified; this watch block stays valid for whoever picks up the Nov-17 item below.
 
 - **2026-11-17 - Chrome 158 stable / Playwright HTTPS-First patch deadline** (#43871): maintainer promised a fix release before this date. Sweep: if v1.65.x or v1.64.2 shipped, stamp the playwright RESOLVED line (its r300/r302 addenda hold what to check - HttpsUpgrades/HttpsFirstBalancedMode behavior for `http://` scraping + inert-dialog aria change).
