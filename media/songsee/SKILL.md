@@ -1,6 +1,6 @@
 ---
 name: songsee
-description: "Spectrogram / audio feature images via the songsee Go tool or ffmpeg showspectrumpic."
+description: "Spectrograms via the songsee Go tool or ffmpeg"
 version: 2.1.0
 author: "Hermes Agent (upstream: openclaw/songsee by steipete)"
 license: MIT
@@ -13,6 +13,8 @@ metadata:
 ---
 
 # Songsee — audio feature images (Go tool) + measured ffmpeg fallback
+
+## What This Skill Does
 
 Generates spectrograms and multi-panel audio feature images from local audio. Two working routes: the **`songsee` Go binary** (Peter Steinberger's project, now under openclaw; README verified against upstream 2026-11-08) or stock **ffmpeg `showspectrumpic`** (measured end-to-end on this Windows box).
 
