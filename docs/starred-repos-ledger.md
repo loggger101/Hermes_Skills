@@ -54,6 +54,25 @@ Round-308 note (2026-11-11): user-directed fresh pass over the star list ("do no
 
 ## Active watches (freshness-sweep targets, newest first)
 
+- **Freshness sweep r309, 2026-11-11 (registry-probed; two stale claims fixed).** Method note: the table's `Pushed` column
+   is each repo's push-date *at mining time*, so diffing it against current `pushed_at` gives candidates cheaply - here 156 of
+   217 repos had moved since mined. Days-moved alone means nothing (active repos just churn); only a registry/release delta
+   against OUR recorded pin is a signal, and because this corpus writes versions as dated `tested_version` provenance rather
+   than latest-claims, movement does not make those false. What was checked: every explicit present-tense "latest release"
+   claim in tracked non-archive markdown (6 found) plus the pins of the highest-delta repos.
+   FIXED - `python-toolchain-notes/references/modern-python-tooling.md` said uv's latest release **was** 0.12.23; PyPI current is
+   **0.13.7 (uploaded 2026-11-03)**, so the heading is now dated and carries a not-re-measured warning (measured behaviour stays
+   uv 0.12.17). `codebase-onboarding/references/gradle-agent-rules.md` named v9.8.0 as latest; current per
+   `services.gradle.org/versions/current` is **9.9.1 (buildTime 2026-11-10)** - added in-file, claims still source-read/unrun.
+   STILL TRUE (verified today) - open3d "Latest release v0.20.0 (2026-09-16)" = PyPI current; seaborn "latest release is 2024-01"
+   (PyPI latest still 0.13.2, 2024-01-25); pix2tex 0.1.4 (2025-01-18) = PyPI current; Orekit "Latest release 13.1.9 (2026-10-03)"
+   per `orekit.org/static/changes.html`. Route note for future liveness passes: **Orekit does not publish releases on GitHub and
+   PyPI has no `orekit` package** - both probes 404; use the changes page above, or Maven Central / gitlab.orekit.org.
+   BANKED pin-movement leads (upstream past our tested pin, claims still honest as dated measurements): astropy 8.0.1 -> **8.0.2**
+   (2026-10-15); hifitime 4.3.1 -> **4.3.2** (crates max_stable, 2026-11-03) - the astropy cross-check would need re-running; pygmo
+   2.19.8 -> **2.20.0** (2026-10-06); mesa 3.5.1 -> **3.5.2** (2026-10-28); pymc 6.3.2 -> **6.4.0** (2026-11-01), the most material
+   since our Windows-no-compiler run notes are pinned to 6.3.2 + pytensor 3.3.3.
+   CURRENT, no action: tqdm 4.70.1, seaborn 0.13.2, dearpygui 2.3.1, instructor 1.17.0, smallvec stable 1.16.5, open3d 0.20.0.
 - **Star-list census r305, 2026-11-07 — coverage question closed.** The profile's three lists (`economicspace-repos` · `gis-stuff` · `for-econ-space-pipeline`, live counts 5 / 4 / 49) were enumerated LIVE (both pipeline pages walked; totals match headers exactly) and **every one of the 58 members is inside the starred set** — list membership hides no unreviewed material, so rows 1-213 remain the complete corpus. Method note for future censuses: anonymous fetches of `github.com/stars/<user>/lists/*` served a stale CDN revision (pipeline list rendered 17 repos with September dates vs live 49) — enumerate by live browser render + pagination walk, never via anonymous page fetch or @url attachment; anchoring on `/owner/repo/stargazers` links is the reliable name pattern. Re-census only if new lists are created.
 - **FINAL SWEEP r304, 2026-11-06 - goal declared complete.** Deterministic pass: `gh api user/starred` counted **213 == this file's row verdicts** (no new stars); playwright v1.65.0 on GitHub AND npm (#43871 patch not yet shipped, as expected pre-Nov-17); prefect stable 3.9.1; next@16.4.5 on npm == the exact r292-tested version - zero movement past any tested pin. Extraction work (all 213 rows -> skills/references/knowledge, rounds ~r249-r304) is finished and verified; this watch block stays valid for whoever picks up the Nov-17 item below.
 

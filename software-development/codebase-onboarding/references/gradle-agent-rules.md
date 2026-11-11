@@ -12,6 +12,10 @@ and a `.agents/` folder with five topical files plus a Claude-format skill `/gra
 (`add-gradle-project` is the other one). The rules below are from those files. Policy on AI contributions is separate:
 see `github/agent-oss-contributions/references/ai-policies-of-starred-repos.md` (no AI co-author trailers; disclose in the PR).
 
+**Freshness re-check 2026-11-11:** Gradle's current release is **9.9.1** (buildTime 2026-11-10, measured from
+`https://services.gradle.org/versions/current`), so the `v9.8.0 (2026-09-24)` named in the source line above is no
+longer current. Nothing below was re-run: still source-read only, and this box has no Java or Gradle installed.
+
 ## Building
 
 - Use `./gradlew` (the wrapper). **Never a system `gradle`.**

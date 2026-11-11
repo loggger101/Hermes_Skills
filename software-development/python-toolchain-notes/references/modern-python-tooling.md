@@ -133,9 +133,12 @@ uv run --with httpx pytest    # project deps + temporary extra
 
 Commit `uv.lock`. Use `src/` layout for packages. Enforce coverage minimum (80%+).
 
-## uv 0.12.17: measured behaviour (run live on Windows; latest release is 0.12.23)
+## uv 0.12.17: measured behaviour (run live on Windows; upstream was at 0.12.23 when this was written)
 
 Scratch projects under a temp dir, about 45 commands, PyPI reachable. Exit codes and messages are quoted from the runs.
+
+**Freshness re-check 2026-11-11:** PyPI's latest `uv` is **0.13.7** (uploaded 2026-11-03), so the 0.12.x behaviour
+described below sits a minor series behind upstream and has not been re-measured against it.
 
 **`uv init` defaults changed.** A plain `uv init --name app1` (and `--app`) created `.git`, `.gitignore`, `.python-version` (`3.13`),
 `README.md`, `pyproject.toml` and `src/app1/__init__.py`, with `[project.scripts] app1 = "app1:main"` and
