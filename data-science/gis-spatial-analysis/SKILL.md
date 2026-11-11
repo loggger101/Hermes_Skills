@@ -147,8 +147,15 @@ intact. ESRI Shapefile write works too (`s.shp/.shx/.dbf/.prj/.cpg`).
 - `references/geospatial-stack-freshness.md` — PyPI wheel reality for this stack on Python 3.14/Windows
   (which packages ship cp314 win_amd64 wheels vs pure-python/sdist), from live PyPI JSON, 2026-11-04.
 - `references/arcgis-pro-project-and-arcpy-patterns.md` — the Esri-side layout read from a book-code repo:
-  what a real `.aprx` chapter carries (file-.gdb as multi-file binary composite + shapefile sidecar sets =
+  what a real `.aprx` chapter carries (file-.gdb multi-file composite + shapefile sidecar sets =
   cloud-sync hazards, keep canonical geodata single-file), TIGER/Line `tl_<yr>_<st>_<layer>` naming with
   FIPS layer codes, and the GEOID join-without-spatial-join idiom (hierarchy encoded in the identifier;
   cursor-side SQL filters; prefix-LIKE fragility when trailing code widths vary) plus arcpy's capability map
-  (AGOL item mgmt, print-layout automation, .tbx script tools). Source-read — arcpy needs an ArcGIS Pro install.
+  (AGOL item mgmt, print layouts, .tbx script tools). Source-read — arcpy needs an ArcGIS Pro install.
+- `references/arcgis-pro-embedding-binary-toolchains.md` — how to wrap a 500+ tool external binary INTO
+  ArcGIS Pro, from opengeos's shipped wrapper (MIT, source-read): 554 generated .pyt tool classes from the
+  machine-readable tool list with upstream categories preserved; the `__file__`-anchored exe-resolution
+  idiom that works because a .pyt runs at Pro's process CWD (same constraint in QGIS plugins / VS Code
+  bundles); named defects NOT to copy (os.popen drops stderr, no exit-code check, unquoted Windows paths —
+  hardened shape = subprocess.run + returncode gate + quoting); v1-vendored-exe vs pip whitebox-2.3.x name
+  surfaces differ — pick a generation deliberately.
