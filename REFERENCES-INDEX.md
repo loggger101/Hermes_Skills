@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **559 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **560 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-loop-design
@@ -35,6 +35,10 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## autonomous-ai-agents/cross-harness-skill-porting
 
 - `autonomous-ai-agents/cross-harness-skill-porting/references/cross-harness-skill-porting.md` — Cross-Harness Skill Porting — making one skill corpus auto-trigger on N agent runtimes
+
+## autonomous-ai-agents/dynamic-workflow
+
+- `autonomous-ai-agents/dynamic-workflow/references/arena-and-swarm-patterns.md` — Arena & swarm: pstack's multi-agent orchestration contracts (verified from backnotprop/pstack @ main, 2026-11-11)
 
 ## autonomous-ai-agents/hermes-agent
 

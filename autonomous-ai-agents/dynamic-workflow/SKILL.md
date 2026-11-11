@@ -190,3 +190,7 @@ The one-shot recipe does not scale to a whole-codebase pass. What did:
 - Campaign: every branch at 0 unmerged commits, full suite on the integrated
   tree with reds triaged against bare main, live QA report per surface, token
   cost reported on the scoped slice before the full run.
+
+## References
+
+- `references/arena-and-swarm-patterns.md` — pstack's two multi-agent contracts (MIT, source-read): **arena** = N parallel candidates with a rubric shown only to judge/picker, cross-FAMILY judge (never the parent's model family) with slug-rejection degradation ladders, base picked on extendability-without-breaking-invariants, then hand-GRAFT one-or-two parts per loser under one mental model — convergence means ship consensus, wild divergence means the FRAME was underspecified (reframe, never average); **swarm** = coverage/race fan-out where race semantics (`first pass`/`rank all`/`best-of`) are declared before spawning, measurement briefs name exact SHAs + method and results missing them are dropped→respawn-once→**gap that does not count as a pass**, workers report PASS/ISSUES/BLOCKED listing every provable issue, and harness params map across Cursor/Claude Code/OpenCode/Codex with drop-what-you-lack fallback to serial self-run.
