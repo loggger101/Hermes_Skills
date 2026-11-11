@@ -30,9 +30,10 @@ Measured end-to-end on a hand-written GeoJSON with a Point and a Polygon:
   `ImportError: rustgis.Map needs anywidget: pip install "rustgis[jupyter]"`. The message names the fix, but note
   it fires on *attribute access*, not import — so a script that only wants headless data can still die if it does
   `from rustgis import *`-style probing or checks for `Map`. Keep to Session/Layer when running unattended.
-- **Property vs method is inconsistent.** Some accessors are plain attributes returning lists (`layer_names`) and
-  calling them raises `TypeError: 'list' object is not callable`; others need the call. Probe with
-  `[n for n in dir(obj) if not n.startswith('_')]` plus one guarded read before writing a loop against this API.
+- **Property-vs-method discipline flips between the two classes.** Verified by reading class attributes: every
+  `Session` accessor is a *method* (`s.tools()`, `s.layer_names()`, `s.commands()` all call fine), but on `Layer` they are
+  *properties* — `layer.fields` returns a list, so `layer.fields()` raises `TypeError: 'list' object is not callable`.
+  Same for `count`, `bounds`, `name`, `type`, `visible`, `selected`. Write `layer.count` (no parens) or the call dies.
 - Extras declared by the wheel metadata: `[geopandas]`, `[jupyter]` (anywidget), `[qt]` (pyside6), `[test]`.
   There are **no console entry points** in the Python distribution — the CLI lives in the app, not the wheel. If
   you need `rustgis-cli`, that is a different install than `pip install rustgis`.
