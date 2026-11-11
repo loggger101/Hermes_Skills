@@ -18,9 +18,9 @@
 | Community catalog plugins | 14 |
 | Official catalog plugins | 2 |
 | Standalone desktop plugins | 0 |
-| Total toolsets | 30 |
+| Total toolsets | 29 |
 | Toolsets enabled | 21 |
-| Toolsets disabled | 9 |
+| Toolsets disabled | 8 |
 
 ## Plugin Catalog
 
@@ -45,7 +45,7 @@
 
 ## Tool Configuration
 
-> Auto-generated from `hermes tools list` — 21/30 toolsets enabled.
+> Auto-generated from `hermes tools list` — 21/29 toolsets enabled.
 
 ### Enabled toolsets
 
@@ -83,7 +83,6 @@
 | `stt` | Speech-to-Text | (not enabled) | built-in |
 | `kanban` | Kanban | (opt-in task board) | built-in |
 | `context_engine` | Context Engine | (no active context engine) | built-in |
-| `yuanbao` | Yuanbao | (not configured) | built-in |
 | `a2a` | A2A | Agent-to-Agent protocol | a2a |
 | `homeassistant` | Homeassistant | (no API key) | built-in |
 
