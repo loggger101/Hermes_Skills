@@ -147,3 +147,27 @@ python tools/analyze-skill-routing.py <other-tree> --warn .6 --budget 700      #
 Exit codes: `0` no hard finding, `1` C1 mismatch or any pair >= error threshold, `2` bad root. It writes nothing -
 deliberately not wired into `verify-all.py`, because its informational checks (C3/C4/C6) describe conventions this
 repo holds differently and a gate that fires on 254 skills is noise, not signal.
+
+## Whole-corpus reference-reachability sweep (method + traps, run over all 559 refs, 2026-11-11 r316)
+
+Question: for every `references/*.md`, does its OWNING skill rank top-5 when the probe is the reference's own
+filename phrase? Script shape: walk refs -> derive owner as a REPO-RELATIVE `<category>/<skill>` path -> batch
+`--probe` calls (40/process) -> parse PROBE blocks. Result on this corpus: 348/559 misses - and that number is an
+UPPER BOUND ON VOCABULARY MISMATCH, not a defect count. Interpretation discipline matters more than the sweep:
+
+- **Filename != task phrasing.** `activation-energy.md` or `benny-repro-automation-safety` are internal names; nobody
+  prompts with them, and rewriting one-line descriptions toward them would be keyword-stuffing (the ui-ux-pro-max
+  failure mode this tool itself exposes as top-ranked noise). Real gaps surface from SENTENCE probes a user would
+  actually type - that is how r313 caught gis-spatial-analysis missing "ArcGIS" despite owning ArcGIS content.
+- **No-signal fallback ordering.** When a probe shares no vocabulary with any description, rankings collapse to an
+  essentially fixed arbitrary order (in this corpus `web-perf-audit / static-site-patterns / react-library-notes`
+  recurred at 0.000 for dozens of out-of-vocabulary probes). A 0.000 top block means OUT-OF-VOCABULARY, not
+  competition - only trust probes that share real tokens with the corpus.
+- Two harness-use traps hit while building this: (1) `--quiet` suppresses PROBE ranking output entirely - parse the
+  unquiet stdout; (2) owner paths must be made repo-relative before comparing to harness skill names, else every
+  row false-matches as a miss (first run reported 559/559 that way).
+- Side win: conformance check C5 caught a stale EMPTY `references/` dir (`cli-tool-craft`, working-tree-only since
+  Oct-5 - git cannot track empty dirs, so it survives clean checkouts forever); removed with plain `rmdir`.
+
+Keep the sweep as an occasional instrument (its script lives in session scratch; rebuild cost is ~10 min): act on
+individual misses ONLY where a human-plausible task phrase fails, never en masse.

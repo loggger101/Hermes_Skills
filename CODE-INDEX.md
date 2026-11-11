@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **204 code files** (53,310 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **205 code files** (53,431 lines total) in this second brain — one line each, grep-friendly.
 Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -363,8 +363,9 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `tools/regen-dependency-map.py` (repo tooling, python, 140 lines) — Regenerate DEPENDENCY.md from live related_skills frontmatter (same format as repo convention).
 - `tools/run-self-tests.py` (repo tooling, python, 327 lines) — Discovery-based runner for the skill self-test harnesses (*_verify.py)
 - `tools/run-skill-tests.py` (repo tooling, python, 354 lines) — Discover and run every test suite that ships inside a skill, one command
+- `tools/sweep-reference-reachability.py` (repo tooling, python, 121 lines) — Occasional instrument: is every references/*.md reachable through its OWNING skill?
 - `tools/sync-hermes-skills.py` (repo tooling, python, 1290 lines)
 - `tools/verify-all.py` (repo tooling, python, 589 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*204 code files: 119 scripts, 8 shared helpers, 38 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*205 code files: 119 scripts, 8 shared helpers, 38 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
