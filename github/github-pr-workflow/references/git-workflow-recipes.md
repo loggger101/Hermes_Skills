@@ -89,6 +89,13 @@ git config --global alias.cleanup '!git branch --merged | grep -v "*" | xargs gi
 
 ## Windows-specific notes for this machine
 - `core.autocrlf=true` + `.gitattributes text=auto` is the standing config here — never commit CRLF-normalized diffs by hand; let git do it.
+- **Verifying endings: count bytes in Python, never grep piped git output** (measured 2026-11-11). With
+  autocrlf on, `git show :path` and `git cat-file blob :path` convert line endings whenever stdout is a pipe,
+  so they report phantom CRs for pure-LF blobs: one check claimed 302 CR lines on an LF-only ledger whose real
+  bytes were zero CRLF pairs. Capture git output as a bytes object (subprocess with capture_output) and count
+  there, or read the working file in binary.
+- Cheap proxy for edit size: `git diff --stat`. A one-sentence fix that churns every line means you changed
+  endings, not content.
 - OneDrive-backed repos (`%USERPROFILE%\OneDrive\Documents\GitHub`) can show phantom index churn: if `git status` shows mass deletions that aren't real, verify with `git ls-files -d | head` before acting — re-run after a short wait; the cloud placeholder sync usually settles.
 - Long paths are fine (core.longpaths default on modern git); avoid them in *tool* arguments anyway (MSYS path translation is disabled for native tools here).
 
