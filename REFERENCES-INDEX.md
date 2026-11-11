@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **551 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **553 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-loop-design
@@ -791,7 +791,9 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## software-development/hermes-agent-skill-authoring
 
+- `software-development/hermes-agent-skill-authoring/references/agent-skills-standard.md` — The Agent Skills Standard (upstream) vs Hermes Skill Gates
 - `software-development/hermes-agent-skill-authoring/references/behavioral-skill-testing.md` — Behavioral Skill Testing (RED-GREEN for Discipline Skills)
+- `software-development/hermes-agent-skill-authoring/references/eval-driven-skill-development.md` — Eval-Driven Skill Development (measured loop, from `anthropics/skills` skill-creator)
 - `software-development/hermes-agent-skill-authoring/references/multi-harness-distribution.md` — Shipping one guidance document across Claude Code, Cursor and Hermes surfaces - the file shapes observed in multica-ai/andrej-karpathy-skills (single-file CLAUDE.md, .cursor/rules/*.mdc with its two frontmatter keys, skills/<name>/SKILL.md, plugin.json + marketplace.json), the /plugin marketplace install flow, a provenance trap where the repo moved org but its own install URLs still name the old owner - plus a map of Karpathy's four coding principles onto skills this catalog already holds
 - `software-development/hermes-agent-skill-authoring/references/skill-invocation-conventions.md` — Skill invocation conventions: model-invoked vs user-invoked, and how skills call each other
 
@@ -913,7 +915,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## web-development/browser-automation
 
-- `web-development/browser-automation/references/e2e-agentic-testing.md` — e2e (tester-army/e2e): agent-step tests with a replay cache
+- `web-development/browser-automation/references/e2e-agentic-testing.md` — e2e (e2e-inc/e2e, formerly tester-army/e2e): agent-step tests with a replay cache
 - `web-development/browser-automation/references/playwright-visual-regression.md` — Playwright screenshot (visual regression) suites: per-platform baselines, first-run and update-snapshots behavior, one-assert-per-test, file-level sharding, patterns from Ionic's e2e suite
 
 ## web-development/frontend-library-picks

@@ -1,7 +1,7 @@
 ---
 name: hermes-agent-skill-authoring
 description: "Author in-repo SKILL.md files: frontmatter and structure."
-version: 2.1.0
+version: 2.2.0
 author: Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
@@ -231,3 +231,5 @@ A skill exists to make the agent's process more predictable — the agent reliab
 - `references/multi-harness-distribution.md` - shipping one guidance doc four ways (CLAUDE.md per-project incl. the append-install form, `.cursor/rules/*.mdc` with its two frontmatter keys `description` + `alwaysApply`, `skills/<name>/SKILL.md`, plugin.json + marketplace.json for cross-project `/plugin install`), a measured provenance trap where the repo moved to multica-ai while its own README install URLs still name forrestchang, and Karpathy's four coding principles mapped onto skills this catalog already holds with their imperative→verifiable rewrite table.
 - `software-development/skill-library-audits` - audit scripts, frontmatter and `related_skills` checks, header standardisation, dual-judge harness audits (moved out of this skill).
 - `software-development/skill-intake-and-release` - registry and installer security, Skill Seekers drafts, vendor-shipped skills, DSPy+GEPA evolution, repo release engineering (moved out of this skill).
+- `references/agent-skills-standard.md` - the upstream Agent Skills standard as a constraint table (`name` must equal the directory and is 1-64 lowercase chars; `description` 1-1024 saying what + when; `metadata` string→string only; optional `compatibility`, experimental `allowed-tools`), its three progressive-disclosure budgets (~100 tokens metadata, SKILL.md <500 lines / <5k token instructions, resources on demand), the export/import consequences where this repo's gates are stricter (descriptions <=59 chars here, list-valued `tags`/`related_skills` violate the string-map), and the measured fact that all 254 catalog skill dir names already satisfy the upstream name rule.
+- `references/eval-driven-skill-development.md` - measuring whether a skill helps instead of only whether it is shaped right: with-skill vs baseline arms spawned in one turn (snapshot the old version as the control when improving), capture-or-lose token/duration data written per completion notification, `grading.json` field names that tooling actually reads (`text`, `passed`, `evidence`), pass-rate ± stddev aggregation plus the analyst pass for non-discriminating and flaky assertions, trigger-eval design (~20 substantive near-miss queries; models skip skills for one-step tasks so trivial prompts prove nothing) with a 60/40 train-test split and selection on test score, and Hermes adaptations (`delegate_task` arms share tools, `verify-all` is structural not behavioural).
