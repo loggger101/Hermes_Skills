@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **553 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **555 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-loop-design
@@ -413,6 +413,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## data-science/gis-spatial-analysis
 
 - `data-science/gis-spatial-analysis/references/geospatial-stack-freshness.md` — PyPI distribution reality for the Python geospatial stack on Windows/Python 3.14+: which packages ship ABI-free vs per-minor-version wheels, free-threaded (cp314t) coverage, and the one whose analysis binary is not on PyPI at all
+- `data-science/gis-spatial-analysis/references/rustgis-headless-binding-notes.md` — RustGIS from Python — what `pip install rustgis` actually gives you
 - `data-science/gis-spatial-analysis/references/spatial-index-and-crs-measurements.md` — Measured cost/correctness behaviour of the Python vector-GIS stack on Windows/py3.14: R-tree build vs bulk sindex (8.07s vs 0.048s), numpy mask beating an index, rtree bounds/NaN error contract, save() removal, silent wrong answers from CRS axis order and read_file bbox, invalid-geometry area==0.0, WhiteboxTools API shape
 
 ## data-science/jupyter-notebook
@@ -866,6 +867,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `software-development/rust-crate-picks/references/gpui-kit-notes.md` — gpui-kit 0.7 (Rust desktop UI on GPUI): layering, features, headless UI testing, and its tested-recipe documentation pattern; source-read
 - `software-development/rust-crate-picks/references/num-enum-notes.md` — num_enum 0.7.6 (Rust): derive macros for enum <-> integer conversion (IntoPrimitive, TryFromPrimitive, FromPrimitive, UnsafeFromPrimitive), attributes, features; plus the Python IntEnum analogue run live on 3.14
 - `software-development/rust-crate-picks/references/rust-numeric-and-ui-testing-notes.md` — Registry-verified notes on four starred Rust crates - sprs (sparse matrices, with its LGPL opt-in Cholesky trap), statrs (statistics; nalgebra is optional-but-default, MSRV 1.89), num-traits (frozen since 2024 yet the de-facto numeric abstraction; Float/Real need the libm feature under no_std) and trybuild (compile-fail UI tests: wip/ directory, TRYBUILD=overwrite, 'fails to fail' semantics) - with Python equivalents for choosing between ecosystems
+- `software-development/rust-crate-picks/references/smallvec-v1-vs-v2-notes.md` — `smallvec` — inline storage, and the v1/v2 feature-name break
 - `software-development/rust-crate-picks/references/toolchain-absence-and-release-cadence.md` — Rust reality on this box measured again (cargo, rustc and rustup all absent — so every crate claim in this skill stays documentation-sourced until a toolchain is installed) plus release cadence derived from actual rust-lang/rust release dates rather than remembered ('.0' releases exactly 42 days apart across three consecutive intervals; patch releases interleaving irregularly), how to determine current stable without installing anything, and the MSRV-vs-channel check that matters more than tracking latest
 - `software-development/rust-crate-picks/references/uom-units-notes.md` — uom 0.38 (Rust type-safe units of measure): features, design, usage; plus the Python analogue pint 0.26.1 run live (dimension errors, temperature offset trap, AU and year definitions)
 

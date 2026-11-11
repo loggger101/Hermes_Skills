@@ -36,6 +36,7 @@ call out. Entries are added as each starred Rust repo is reviewed; each has a re
 | Native desktop GUI in Rust with ready components, headless UI tests, WASM | `gpui-kit` (over `gpui`) | Apache-2.0 | 0.7.1 (2026-10-05); gpui 0.2.2 | `references/gpui-kit-notes.md` |
 | Leap-second-aware time scales (UTC/TAI/TT/TDB/GPST), nanosecond Epoch and Duration; also `pip install hifitime` | `hifitime` | MPL-2.0 | 4.3.1 (2026-08-07) | `astro-library-notes/references/hifitime-time-scales.md` (live-tested, leap-second caveats) |
 | Bayesian optimisation (EGO) of expensive black-box objectives; also `pip install egobox` | `egobox-ego` / `egobox-gp` | Apache-2.0 | 0.40.2 / 0.36.4 (2026-09-22); Python pkg 0.38.0 | `astro-toolkit-selection/references/egobox-bayesian-optimization.md` (run live) |
+| Short-lived *vector* of a handful of items where one heap allocation is pure overhead (AST children, matrix rows, argument lists) | `smallvec` | MIT OR Apache-2.0 | 1.16.5 stable (2026-11-06); **v2 is only `2.0.0-beta.4` — pin `"1"`** | `references/smallvec-v1-vs-v2-notes.md` (feature-name break v1->v2, `max_version` prerelease trap) |
 | Convert `#[repr(u8)]` enums to and from integers (opcodes, register values, file formats) without `as` truncation or hand-written `match` | `num_enum` | BSD-3-Clause OR MIT OR Apache-2.0 | 0.7.6 (2026-03-15), MSRV 1.70.0, `no_std` | `references/num-enum-notes.md` (derive/attribute matrix, UB trap; Python `IntEnum` analogue run live) |
 
 Further entries are added as more Rust repos are reviewed.

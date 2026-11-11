@@ -1,8 +1,8 @@
 # Skill Dependency Map
 
-This document maps the relationship network between all **254 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+This document maps the relationship network between all **255 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
 
-**Network stats:** 821 `related_skills` cross-references across 254 skills (2 skills list no `related_skills` of their own).
+**Network stats:** 824 `related_skills` cross-references across 255 skills (2 skills list no `related_skills` of their own).
 
 ## Hub Skills (referenced by 2+ other skills)
 
@@ -32,14 +32,15 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `hermes-agent-skill-authoring` | 8 | cron-config-authoring, cross-harness-skill-porting, doc-coauthoring, hermes-extensions, mattpocock-code-review, mattpocock-writing-for-agents, skill-intake-and-release, skill-library-audits |
 | `mattpocock-code-review` | 8 | mattpocock-diagnosing-bugs, mattpocock-evidence-driven, mattpocock-security-review, mattpocock-spec-driven-development, mattpocock-subagent-driven-development, mattpocock-tdd, mattpocock-to-tickets, receiving-code-review |
 | `mattpocock-security-review` | 8 | application-threat-model, failure-signal-audit, mattpocock-code-review, mattpocock-evidence-driven, mattpocock-spec-driven-development, rest-api-client, security-audit, semgrep-rule-creator |
+| `bit-identity-float-pipelines` | 7 | astro-library-notes, one-authority-per-fact, physics-simulation, pinned-data-contracts, polars-pipelines, python-numerics-gotchas, z3-solver |
 | `github-auth` | 7 | github-code-review, github-issues, github-pr-workflow, github-repo-management, mattpocock-gh-fix-ci, mattpocock-yeet, wizard |
 | `mattpocock-domain-modeling` | 7 | issue-triage-state-machine, living-docs-governance, mattpocock-codebase-design, mattpocock-handoff, mattpocock-spec-driven-development, mattpocock-to-tickets, mattpocock-writing-for-agents |
 | `research-paper-writing` | 7 | ai-research-integrity, autoreason-refinement, conference-review-criteria, grounded-citations, human-evaluation-design, ml-experiment-patterns, paper-citation-workflow |
 | `sql-for-data` | 7 | duckdb-querying, gis-spatial-analysis, polars-pipelines, python-numerics-gotchas, sqlite-queries, system-design-interview-patterns, system-design-scaling |
 | `astro-toolkit-selection` | 6 | astro-library-notes, economicspace-pipeline, lunar-gis-projections, optimization-modeling-pyomo, rust-crate-picks, space-data-pipelines |
-| `bit-identity-float-pipelines` | 6 | astro-library-notes, one-authority-per-fact, pinned-data-contracts, polars-pipelines, python-numerics-gotchas, z3-solver |
 | `docx` | 6 | document-to-action-items, ocr-and-documents, pdf, powerpoint, website-audit, xlsx |
 | `economicspace-pipeline` | 6 | astro-library-notes, astro-toolkit-selection, open-data-catalog-sources, optimization-modeling-pyomo, pinned-data-contracts, space-data-pipelines |
+| `evolutionary-ml` | 6 | algorithms-python-catalog, experiment-design, ml-cv-library-notes, model-export-deploy, physics-simulation, test-infra-ml |
 | `failure-signal-audit` | 6 | ci-gate-design, feature-flag-lifecycle, one-authority-per-fact, python-toolchain-notes, secret-vault-pattern, systematic-debugging |
 | `github-code-review` | 6 | agent-oss-contributions, github-auth, github-pr-workflow, mattpocock-code-review, receiving-code-review, requesting-code-review |
 | `manim-video` | 6 | ascii-video, hyperframes-video, p5js, pygame, remotion-video, touchdesigner-mcp |
@@ -48,13 +49,13 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `ocr-and-documents` | 6 | arxiv, document-to-action-items, general-research-rounds, grounded-citations, nano-pdf, pdf |
 | `pdf` | 6 | document-to-action-items, docx, nano-pdf, ocr-and-documents, powerpoint, xlsx |
 | `popular-web-designs` | 6 | claude-design, design-md, frontend-design, redesign-existing-projects, sketch, ui-ux-pro-max |
+| `python-numerics-gotchas` | 6 | experiment-design, ml-cv-library-notes, physics-simulation, polars-pipelines, python-plotting, z3-solver |
 | `static-site-patterns` | 6 | ai-search-optimization, frontend-library-picks, js-tooling-notes, publish-site, react-ecosystem, web-perf-audit |
 | `system-design-scaling` | 6 | algorithms-python-catalog, application-threat-model, feature-flag-lifecycle, incident-response, modular-monolith-migration, system-design-interview-patterns |
 | `ai-research-integrity` | 5 | autoreason-refinement, conference-review-criteria, human-evaluation-design, paper-citation-workflow, research-paper-writing |
 | `ascii-video` | 5 | hyperframes-video, manim-video, p5js, pretext, touchdesigner-mcp |
 | `codebase-onboarding` | 5 | living-docs-governance, modular-monolith-migration, repo-agent-instructions, repo-atlas, repowise |
 | `design-md` | 5 | claude-design, popular-web-designs, react-ecosystem, stitch, ui-ux-pro-max |
-| `evolutionary-ml` | 5 | algorithms-python-catalog, experiment-design, ml-cv-library-notes, model-export-deploy, test-infra-ml |
 | `fastmcp` | 5 | hermes-extensions, hermes-integrations, mcporter, repowise, structured-llm-outputs |
 | `github-issues` | 5 | agent-oss-contributions, github-auth, github-issue-to-pr, github-repo-management, mattpocock-to-tickets |
 | `google-workspace` | 5 | box, email-inbox-triage, himalaya, meeting-action-items, weekly-review-planning |
@@ -66,7 +67,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `obsidian` | 5 | apple-notes, knowledge-ops, llm-wiki, qmd, weekly-review-planning |
 | `orbital-mechanics-data` | 5 | astro-library-notes, astro-toolkit-selection, lunar-gis-projections, open-data-catalog-sources, space-data-pipelines |
 | `publish-site` | 5 | ai-search-optimization, frontend-library-picks, js-tooling-notes, react-ecosystem, react-library-notes |
-| `python-numerics-gotchas` | 5 | experiment-design, ml-cv-library-notes, polars-pipelines, python-plotting, z3-solver |
 | `react-ecosystem` | 5 | browser-automation, frontend-library-picks, js-tooling-notes, react-library-notes, remotion-video |
 | `static-site-seo` | 5 | ai-search-optimization, frontend-library-picks, publish-site, static-site-patterns, web-perf-audit |
 | `youtube-content` | 5 | ascii-video, gif-search, manim-video, rss-feeds, songsee |
@@ -184,6 +184,6 @@ No skill is fully standalone: every skill either lists `related_skills` or is re
 
 ## Related Skills Validation
 
-All 821 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 254 unique skill names.
+All 824 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 255 unique skill names.
 
 ---

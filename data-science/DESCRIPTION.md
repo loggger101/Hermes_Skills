@@ -24,6 +24,7 @@ Data science workflows and tools.
 - [`open-data-catalog-sources`](./open-data-catalog-sources/SKILL.md) — Keyless data mirrors, data.gov API, licence checks
 - [`optimization-modeling-pyomo`](./optimization-modeling-pyomo/SKILL.md) — Model LP/MIP/NLP/GDP in Pyomo with live-verified patterns
 - [`orbital-mechanics-data`](./orbital-mechanics-data/SKILL.md) — Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC
+- [`physics-simulation`](./physics-simulation/SKILL.md) — MuJoCo physics sim: install split, determinism, API traps
 - [`pinned-data-contracts`](./pinned-data-contracts/SKILL.md) — Frozen releases, contract versions, checked pins
 - [`polars-pipelines`](./polars-pipelines/SKILL.md) — polars 2.0, big-data patterns, PyMC on Windows
 - [`python-data-science`](./python-data-science/SKILL.md) — Python DS: EDA, cleaning, modeling, eval, viz

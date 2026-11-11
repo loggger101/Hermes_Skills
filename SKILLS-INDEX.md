@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **254 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **255 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -91,6 +91,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `open-data-catalog-sources` — Keyless data mirrors, data.gov API, licence checks _(data-science)_
 - `optimization-modeling-pyomo` — Model LP/MIP/NLP/GDP in Pyomo with live-verified patterns _(data-science)_
 - `orbital-mechanics-data` — Orbital mechanics: delta-v, transfers, rendezvous, KSP/KRPC _(data-science)_
+- `physics-simulation` — MuJoCo physics sim: install split, determinism, API traps _(data-science)_
 - `pinned-data-contracts` — Frozen releases, contract versions, checked pins _(data-science)_
 - `polars-pipelines` — polars 2.0, big-data patterns, PyMC on Windows _(data-science)_
 - `python-data-science` — Python DS: EDA, cleaning, modeling, eval, viz _(data-science)_
@@ -327,4 +328,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `web-perf-audit` — Audit a built static site: perf script + UI checklist _(web-development)_
 
 ---
-*254 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*255 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*

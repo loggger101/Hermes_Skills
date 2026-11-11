@@ -118,6 +118,7 @@ each build what it needs.
 | file I/O, GeoPackage, bbox pushdown | pyogrio (GeoPandas default engine) | fast; but bbox axis order silently returns nothing (rule 5) |
 | terrain/hydro morphology at scale | WhiteboxTools via `WhiteboxTools()` instance | binary auto-downloads; plural tool names |
 | interactive map artifact, offline HTML | folium (`tiles=None` for airgapped) | 50 markers rendered to a self-contained 26.7 KB page |
+| headless PNG from vector data + named geoprocessing tools, **no GDAL/QGIS/Qt** | `rustgis` (Session/Layer) | measured: GeoJSON in, 31.7 KB PNG out with no display; 43-tool dict catalog by id — see reference |
 
 ## Esri formats without an ArcGIS license
 
@@ -140,5 +141,8 @@ intact. ESRI Shapefile write works too (`s.shp/.shx/.dbf/.prj/.cpg`).
 
 - `references/spatial-index-and-crs-measurements.md` — every number above with its probe recipe, plus the
   multiprocessing observation and how to re-run it.
+- `references/rustgis-headless-binding-notes.md` — RustGIS's Python binding run live: the headless Session/Layer
+  surface, PNG render without a GUI, machine-readable tool catalog, and its property-vs-method / optional-extras
+  traps (2026-11-11).
 - `references/geospatial-stack-freshness.md` — PyPI wheel reality for this stack on Python 3.14/Windows
   (which packages ship cp314 win_amd64 wheels vs pure-python/sdist), from live PyPI JSON, 2026-11-04.
