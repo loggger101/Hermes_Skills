@@ -72,3 +72,6 @@ pstack itself ships no planning skills by choice ("cursor already has a great pl
 in planning"), so nothing here competes with our `plan`/`brainstorming` lanes.
 Reverified 2026-11-05 against upstream: the maintainer's own sync-log commits (4a3f660, ecec42a) state no content change since our read, and the only
 functional commit after it (06572d2, 'statechart run on Windows #17') is tool signal-handling - not principle knowledge. The 24-principle set documented here stands.
+Follow-up (2026-11-11): pstack's `skills/statechart/` was since read as its own source — the verification-layer
+knowledge there (three-valued checker verdicts, rule peeling, TLC gotchas) is recorded in
+`statechart-model-checking-verdict-states.md`, not here.
