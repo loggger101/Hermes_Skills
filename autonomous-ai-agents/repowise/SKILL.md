@@ -59,6 +59,21 @@ Covers how to install, index, wire into Hermes as an MCP server, use the `distil
 Not re-probed at 0.55.0: the MCP tool count (10 default / 18 registered above), transports, the in-band release notice and `ask`
 (needs a model provider). Run `repowise whats-new` for the vendor's own changelog before relying on any flag listed here.
 
+**Re-probed 2026-11-11 at v0.60.1 (PyPI latest, uploaded Nov-2; five minors later).** Fresh `uv venv` + install on **Python 3.14.7 — clean**, so the Windows cp3.14 path works (prior probes were 3.13). Scratch repo of 6 files / 2 commits, `DO_NOT_TRACK=1`:
+
+| Check | Result at 0.60.1 |
+|---|---|
+| CLI surface | **59 top-level commands** (was 44 at 0.55.0) — the tool roughly grew a command every ~2 days of minor releases; anything remembered about its flags is stale within weeks, re-check `--help` or `whats-new` before quoting |
+| `init --no-prose -y` | keyless, **27 s** wall (16 s at 0.55). Writes `.repowise/`, `.claude/CLAUDE.md`, `.vscode/mcp.json` + `extensions.json`, **`.github/copilot-instructions.md` — its own output says "not gitignored"**, and installs a **post-commit hook** ("Auto-sync: on, the index updates after each commit"). Measured aftermath in an otherwise-clean repo: `git status` shows FOUR untracked paths (`.claude/ .github/ .vscode/ .repowise/`) + `.git/hooks/post-commit` — an agent's "tree clean?" check goes dirty from one command. Suppress with `--no-editor-setup`; decide hook policy before init in any repo you must keep pristine |
+| pre-init exit codes | trap **still live**: `status`, `health`, `next`, `doc-drift` all print "run init first" and **exit 0** — read output, never `$?` (same finding as earlier probes, so it is design not bug) |
+| `dead-code` (no index needed) | table with per-finding confidence + a `Ready?` column; reason names the graph fact (`File has no importers (in_degree=0)`); found 12 in a repo of six unreferenced modules — every file is "dead" when nothing imports it: treat as *unwired*, not removable |
+| `risk` | ranks against commit-history baseline; on 2 commits prints honest degradation ("unranked (no baseline to rank it against)") instead of a fake score |
+| `corrections` | mines recurring command fumbles from agent transcripts over a 30-day window; empty-repo message names both explanations ("isn't fumbling, or no transcripts cover this repo") — the self-improvement-loop idea our pstack 'Encode Lessons in Structure' note describes, productized |
+| `doc-drift --check` | works WITHOUT an index (reads tree directly); its closing candor is quotable gate design: "Covers only references this detector can resolve; uncheckable ones are neither counted nor reported. A finding ... is evidence to check rather than a proven defect" + explicit threshold ("Gate passed (fails at 0.70)") |
+| `doctor` | health table incl. CLI-vs-latest version check (reported "could not check latest, path not on PATH" honestly when run by absolute path) |
+
+Still not re-probed here: MCP tool count/transports and anything needing a model key (`ask`, `generate`) — same caveats as 0.55 stand.
+
 ## Quickstart (verified)
 
 ```bash
