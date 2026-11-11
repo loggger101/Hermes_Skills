@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **557 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **558 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-loop-design
@@ -412,6 +412,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 
 ## data-science/gis-spatial-analysis
 
+- `data-science/gis-spatial-analysis/references/arcgis-pro-project-and-arcpy-patterns.md` — ArcGIS Pro project layout + arcpy idioms (verified from PacktPublishing/Python-for-ArcGIS-Pro @ main, 2026-11-11)
 - `data-science/gis-spatial-analysis/references/geospatial-stack-freshness.md` — PyPI distribution reality for the Python geospatial stack on Windows/Python 3.14+: which packages ship ABI-free vs per-minor-version wheels, free-threaded (cp314t) coverage, and the one whose analysis binary is not on PyPI at all
 - `data-science/gis-spatial-analysis/references/rustgis-headless-binding-notes.md` — RustGIS from Python — what `pip install rustgis` actually gives you
 - `data-science/gis-spatial-analysis/references/spatial-index-and-crs-measurements.md` — Measured cost/correctness behaviour of the Python vector-GIS stack on Windows/py3.14: R-tree build vs bulk sindex (8.07s vs 0.048s), numpy mask beating an index, rtree bounds/NaN error contract, save() removal, silent wrong answers from CRS axis order and read_file bbox, invalid-geometry area==0.0, WhiteboxTools API shape

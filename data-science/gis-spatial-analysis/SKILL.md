@@ -146,3 +146,9 @@ intact. ESRI Shapefile write works too (`s.shp/.shx/.dbf/.prj/.cpg`).
   traps (2026-11-11).
 - `references/geospatial-stack-freshness.md` — PyPI wheel reality for this stack on Python 3.14/Windows
   (which packages ship cp314 win_amd64 wheels vs pure-python/sdist), from live PyPI JSON, 2026-11-04.
+- `references/arcgis-pro-project-and-arcpy-patterns.md` — the Esri-side layout read from a book-code repo:
+  what a real `.aprx` chapter carries (file-.gdb as multi-file binary composite + shapefile sidecar sets =
+  cloud-sync hazards, keep canonical geodata single-file), TIGER/Line `tl_<yr>_<st>_<layer>` naming with
+  FIPS layer codes, and the GEOID join-without-spatial-join idiom (hierarchy encoded in the identifier;
+  cursor-side SQL filters; prefix-LIKE fragility when trailing code widths vary) plus arcpy's capability map
+  (AGOL item mgmt, print-layout automation, .tbx script tools). Source-read — arcpy needs an ArcGIS Pro install.
