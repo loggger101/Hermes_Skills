@@ -95,3 +95,4 @@ The `no_agent=true` flag means the script's stdout is delivered verbatim — no 
 3. **Not skipping `.git/` and `.hermes/` in file discovery** causes false positives from internal files.
 4. **Regex too loose** for frontmatter extraction can capture content beyond the frontmatter block. Use `^---\n` as the anchor and `(.*?)` non-greedy with `\n---` terminator.
 5. **File path resolution for scripts** — scripts referenced in frontmatter `script:` field must be resolved relative to the skill directory, not repo root.
+6. **Registering a `tools/` script in an untested-script ledger** (r316): this repo's coverage gate defines "script" as code OUTSIDE `tools/` and `.github/` — tool scripts are governed by their own gates instead. A ledger line naming a tools-path fires the "names no tracked script" violation; delete it, don't fight the scope rule.
