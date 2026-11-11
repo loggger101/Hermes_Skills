@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **202 code files** (52,745 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **204 code files** (53,310 lines total) in this second brain — one line each, grep-friendly.
 Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -326,6 +326,7 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `.hermes/cron/templates/repo-automation.py` (template, python, 66 lines) — Repo Automation Cronjob Template (Two-Agent Split)
 - `.hermes/cron/templates/skill-watchdog.py` (template, python, 47 lines) — Skill Watchdog Cronjob Template
 - `tools/tests/conftest.py` (test, python, 27 lines) — Shared helpers for the tooling's own unit tests (run by verify-all's 'tool unit tests' gate)
+- `tools/tests/test_analyze_skill_routing.py` (test, python, 222 lines) — tools/analyze-skill-routing.py (round-308) on throwaway trees and pure functions
 - `tools/tests/test_index_output.py` (test, python, 63 lines) — _index_output.emit(): the write-guard and --check behind every index generator
 - `tools/tests/test_sync_git_steps.py` (test, python, 187 lines) — sync-hermes-skills.py: the git steps (round-257)
 - `tools/tests/test_sync_hermes_skills.py` (test, python, 176 lines) — sync-hermes-skills.py: the pre-push decision and error propagation
@@ -334,6 +335,7 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `tools/tests/test_verify_all.py` (test, python, 117 lines) — verify-all.py: gate verdicts (PASS / FAIL / SKIP) and the audit summariser
 - `.hermes/cron/validate-cronjobs.py` (repo tooling, python, 267 lines) — Validate cronjob JSON config files for structural correctness + cross-consistency
 - `.hermes/cron/validate-skill-refs.py` (repo tooling, python, 66 lines) — Lightweight JSON + skill-ref validator (no_agent-compatible).
+- `tools/analyze-skill-routing.py` (repo tooling, python, 343 lines) — Routing-quality and conformance analysis for this skill corpus
 - `tools/audit-skills.py` (repo tooling, python, 554 lines)
 - `tools/check-citations.py` (repo tooling, python, 221 lines) — Check that backticked in-repo path citations resolve to real files
 - `tools/check-links.py` (repo tooling, python, 207 lines) — Broken-link checker for this second brain (stdlib only)
@@ -365,4 +367,4 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `tools/verify-all.py` (repo tooling, python, 589 lines) — Run every health gate in this repo and report one verdict
 
 ---
-*202 code files: 119 scripts, 8 shared helpers, 37 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
+*204 code files: 119 scripts, 8 shared helpers, 38 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*

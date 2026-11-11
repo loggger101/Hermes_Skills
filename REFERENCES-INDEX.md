@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **555 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **556 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-loop-design
@@ -888,6 +888,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 - `software-development/skill-library-audits/references/harness-audit-dual-judge-traps.md` — Harness Audit Protocol: Dual-Judge + Planted Traps (verified from tech-leads-club/agent-skills @ 0ab82f6)
 - `software-development/skill-library-audits/references/omh-catalog-review.md` — oh-my-hermes (rlaope/oh-my-hermes) catalog-level review — sampled 2026-11-05, closes row 79's "~100 not individually reviewed"
 - `software-development/skill-library-audits/references/related-skills-audit.md` — Auditing and Fixing `related_skills` References
+- `software-development/skill-library-audits/references/routing-quality-harness.md` — Routing-quality and conformance harness ported from addyosmani/agent-skills, with this corpus's 2026-11-11 measurements
 - `software-development/skill-library-audits/references/section-header-standardization.md` — Section Header Standardization
 
 ## software-development/streamlit-dashboards

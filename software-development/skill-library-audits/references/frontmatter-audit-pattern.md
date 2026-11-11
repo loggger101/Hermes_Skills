@@ -100,3 +100,27 @@ for root, dirs, files in os.walk(base):
                 with open(path, 'w', encoding='utf-8', newline='\n') as f:
                     f.write(content)
 ```
+
+## Addendum 2026-11-11 - four rules this pattern did not check (added from upstream lint)
+
+The script above validates shape (parses, required fields, length, `name:` == directory). Reading
+`addyosmani/agent-skills/scripts/lib/skill-lint.js` showed four checks a shape-auditor misses; all four now
+run in `tools/analyze-skill-routing.py`, and the rules are written up in
+[routing-quality-harness.md](routing-quality-harness.md) with this corpus's measurements:
+
+1. **Top-level frontmatter allowlist** - only `name, description, license, compatibility, metadata,
+   allowed-tools`. Measured here 2026-11-11: `version`, `author` and `platforms` sit top-level on **all 255**
+   skills (spec-illegal), while every Hermes-specific field (`tags`, `related_skills`) is already correctly
+   nested under `metadata.hermes`. Portability work is therefore one mechanical key move, not a rewrite.
+2. **Positive trigger clause in the description**, with all negated clauses stripped first - measured:
+   **254/255** descriptions here state only what a skill does, never when to use it. See the harness note for
+   why this repo keeps that convention and adopts trigger wording on touch rather than by mass rewrite.
+3. **Supporting `.md` filenames kebab-case**, plus non-empty support directories - measured: 7 exceptions in
+   this tree (`README.md`, `DESCRIPTION.md`, `PORT_NOTES.md`), all intentional repo conventions, and one empty
+   `references/` dir worth a look when that skill is next touched.
+4. **Body line budget** (500) as an activation-cost warning - measured: 21 of 255 exceed it here; the remedy is
+   this repo's usual split into `references/*.md`.
+
+Note also, for anyone porting these rules to a JS validator: upstream documents that stripping negations needs
+a *separate* `/g` copy of the pattern, because a global regex carries `lastIndex` across `.test()` calls - reuse
+silently under-strips and lets two-negation descriptions pass. Irrelevant in Python's `re.sub`.

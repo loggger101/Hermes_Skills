@@ -34,6 +34,7 @@ Checks a whole directory of `SKILL.md` files for consistency, instead of reading
 | Fix `related_skills` | `references/related-skills-audit.md` | six breakage patterns: core-tool names listed as skills, shortened names, skills that do not exist, stale refs after a reorganisation, missing links, malformed YAML; duplicate `name:` across directories |
 | Header cleanup | `references/section-header-standardization.md` | standard section order, capitalisation rules, detection greps, a bulk-fix script, headers that are acceptable and false positives to ignore |
 | Trust an LLM-judged gate | `references/harness-audit-dual-judge-traps.md` | three tracks (script-checked correctness, redundancy, usefulness); two blind judges plus planted traps; disagreement means Hold, not a coin flip |
+| Are descriptions routable? | `references/routing-quality-harness.md` | TF-IDF cosine over name+description with upstream's 0.5/0.75 thresholds (`tools/analyze-skill-routing.py`, read-only); positive-trigger-clause rule and its negation-stripping trap; spec frontmatter allowlist; 2026-11-11 measurements of this corpus: 254/255 descriptions state no trigger, `version`/`author`/`platforms` top-level on all 255, ten collision pairs >=0.5 with `github-issue-to-pr <-> github-issues` at 0.749 |
 
 ## Procedure
 
@@ -68,3 +69,4 @@ Checks a whole directory of `SKILL.md` files for consistency, instead of reading
 - `references/related-skills-audit.md` - broken-link patterns and the audit commands that find them
 - `references/section-header-standardization.md` - standard headers, capitalisation, detection and bulk fix
 - `references/harness-audit-dual-judge-traps.md` - three-track harness audit with blind judges and planted traps (from tech-leads-club/agent-skills)
+- `references/routing-quality-harness.md` - description routing separability + trigger-clause/spec-key rules (from addyosmani/agent-skills), with this corpus measured 2026-11-11

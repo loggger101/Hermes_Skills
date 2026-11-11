@@ -2,7 +2,7 @@
 
 This document maps the relationship network between all **255 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
 
-**Network stats:** 824 `related_skills` cross-references across 255 skills (2 skills list no `related_skills` of their own).
+**Network stats:** 825 `related_skills` cross-references across 255 skills (2 skills list no `related_skills` of their own).
 
 ## Hub Skills (referenced by 2+ other skills)
 
@@ -137,6 +137,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `dynamic-workflow` | 2 | autonomous-loop-design, dispatching-parallel-agents |
 | `email-inbox-triage` | 2 | himalaya, weekly-review-planning |
 | `enricher-pipeline-architecture` | 2 | cross-harness-skill-porting, space-data-pipelines |
+| `github-issue-to-pr` | 2 | agent-oss-contributions, github-issues |
 | `har-derived-api-client` | 2 | browser-automation, static-site-patterns |
 | `hermes-extensions` | 2 | cross-harness-skill-porting, hermes-integrations |
 | `hermes-integrations` | 2 | context-budget-planning, hermes-agent |
@@ -184,6 +185,6 @@ No skill is fully standalone: every skill either lists `related_skills` or is re
 
 ## Related Skills Validation
 
-All 824 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 255 unique skill names.
+All 825 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 255 unique skill names.
 
 ---
