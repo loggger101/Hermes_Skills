@@ -83,7 +83,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `enricher-pipeline-architecture` — Layered enricher pipelines: types, tools, two phases _(data-science)_
 - `evolutionary-ml` — Evolutionary ML: GA, NEAT, tournaments, parallel eval _(data-science)_
 - `experiment-design` — A/B test design: metrics, sample size, duration _(data-science)_
-- `gis-spatial-analysis` — Vector GIS in Python: indexes, CRS traps, verified picks _(data-science)_
+- `gis-spatial-analysis` — Vector GIS + ArcGIS: indexes, CRS traps, verified picks _(data-science)_
 - `jupyter-notebook` — Iterative Python via live Jupyter kernel (hamelnb) _(data-science)_
 - `lunar-gis-projections` — Lunar polar GIS: LPS projection, cap grids, COG rules _(data-science)_
 - `ml-cv-library-notes` — Torch, CuPy, Open3D, gensim and CV libs: live-run traps _(data-science)_

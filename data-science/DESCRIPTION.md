@@ -16,7 +16,7 @@ Data science workflows and tools.
 - [`enricher-pipeline-architecture`](./enricher-pipeline-architecture/SKILL.md) — Layered enricher pipelines: types, tools, two phases
 - [`evolutionary-ml`](./evolutionary-ml/SKILL.md) — Evolutionary ML: GA, NEAT, tournaments, parallel eval
 - [`experiment-design`](./experiment-design/SKILL.md) — A/B test design: metrics, sample size, duration
-- [`gis-spatial-analysis`](./gis-spatial-analysis/SKILL.md) — Vector GIS in Python: indexes, CRS traps, verified picks
+- [`gis-spatial-analysis`](./gis-spatial-analysis/SKILL.md) — Vector GIS + ArcGIS: indexes, CRS traps, verified picks
 - [`jupyter-notebook`](./jupyter-notebook/SKILL.md) — Iterative Python via live Jupyter kernel (hamelnb)
 - [`lunar-gis-projections`](./lunar-gis-projections/SKILL.md) — Lunar polar GIS: LPS projection, cap grids, COG rules
 - [`ml-cv-library-notes`](./ml-cv-library-notes/SKILL.md) — Torch, CuPy, Open3D, gensim and CV libs: live-run traps

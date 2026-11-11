@@ -1,6 +1,6 @@
 ---
 name: gis-spatial-analysis
-description: "Vector GIS in Python: indexes, CRS traps, verified picks."
+description: "Vector GIS + ArcGIS: indexes, CRS traps, verified picks."
 version: 0.1.0
 author: Hermes Agent (mined from starred repos, 2026-11-04)
 license: MIT
