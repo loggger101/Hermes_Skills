@@ -19,4 +19,8 @@ software-development/code-quality-signal -> architecture-metrics
 software-development/mattpocock-multi-agent-code-review -> mattpocock-code-review
 software-development/mattpocock-improve-codebase-architecture -> mattpocock-codebase-design
 autonomous-ai-agents/autonomous-repo-cronjob -> cron-job-authoring
-data-science/space-mission-computation-paradigms -> astro-toolkit-selection
+# REVERSED 2026-11-11: data-science/space-mission-computation-paradigms is NOT a duplicate of astro-toolkit-selection.
+# It chooses the computation PARADIGM (closed-form patched conics / numerical propagation / successive convexification /
+# global multiobjective / 6DOF Monte Carlo / declarative MIP); that skill chooses the LIBRARY. The successor lists it as a
+# peer in related_skills, and optimization-modeling-pyomo + orbital-mechanics-data link to it - retiring would have broken
+# 7 inbound links for ~12% content overlap.
