@@ -1,8 +1,8 @@
 ---
 name: cross-harness-skill-porting
 description: "Port one skill corpus to many agent harnesses."
-version: 1.0.0
-author: Hermes Agent (promoted from hermes-agent references; obra/superpowers and no-ai-slop source reads)
+version: 1.1.0
+author: Hermes Agent (promoted from hermes-agent references; obra/superpowers, petergyang/no-ai-slop and NVIDIA/SkillEvaluator harness-profile source reads)
 license: MIT
 platforms: [linux, macos, windows]
 metadata:
@@ -36,6 +36,9 @@ Explains how to make one set of skills trigger automatically on several agent ru
 | Shape B | in-process plugin (OpenCode, pi); inject as a user-role message with a dedup guard, and re-inject after compaction |
 | Shape C | instructions file declared by the extension manifest (Gemini CLI, Antigravity); prove `@`-includes expand with a unique marker |
 | Windows | one polyglot dispatcher valid as both batch and shell for shell-hook harnesses |
+| Loader reach | each loader scans its own roots, cuts the listing at its own budget and silently truncates bodies differently — see `references/harness-loader-constraints.md` before blaming a bad description for a skill that never fires |
+| Strictest loader wins | Codex drops a skill on tab-indented frontmatter, a BOM, duplicate keys or a missing description; Hermes/Claude merely degrade. Author to Codex and nothing is lost elsewhere |
+| Reachable dirs | `references/`, `scripts/`, `assets/` reach the model in both Hermes and their schema; `templates/` is Hermes-only; `agents/`, `evals/`, `tests/`, `config/` are invisible to Hermes unless SKILL.md cites the path |
 
 ## Procedure
 
@@ -53,6 +56,9 @@ Explains how to make one set of skills trigger automatically on several agent ru
 - Forks that expose a parent's manifest fields but ignore them.
 - Plugin installers that silently strip undeclared files.
 - A tag bumped without the manifest version, so the release glob publishes the old archive.
+- Editing the wrong copy: loader precedence is project > user dir > `skills.create_dir` > external dirs, and in Hermes all project skills load only after the repo is trusted (`hermes skills trust`) — which admits every skill in that directory at once.
+- Treating a silent truncation as model misbehaviour. In Hermes a body over ~95K chars returns a 1,500-char preview instead of instructions; Codex keeps only head and tail past ~40K bytes when the model opens it through the shell (10K bytes for custom providers).
+- Trusting a harness checker blindly: `$ARGUMENTS` inside documentation *about* Claude Code substitution is instructional content, not an unfilled placeholder. Ask whether a token is used or documented before "fixing" it.
 
 ## Verification
 
@@ -64,3 +70,4 @@ Explains how to make one set of skills trigger automatically on several agent ru
 ## References
 
 - `references/cross-harness-skill-porting.md` - components, session-start requirement, the three shapes and their gotchas, Windows polyglot hooks, tmux verification, distribution channels, Codex plugin packaging, verification doctrine
+- `references/harness-loader-constraints.md` - per-harness loader rules measured by canary probes (Hermes roots/trust/precedence, ~57-60 char listing cut, nested and symlinked manifests, casing, ignored fields, `$ARGUMENTS`, the ~100K-char `skill_view` delivery budget), cross-harness limits table, strictness ladder, directory intersection for dual-target corpora, their Tier-1 gate taxonomy, and a dated audit of both skill trees on this machine
