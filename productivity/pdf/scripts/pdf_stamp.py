@@ -121,17 +121,18 @@ def main() -> int:
     writer = PdfWriter()
     overlay_cache: dict[tuple[float, float], object] = {}
     for idx, page in enumerate(reader.pages, start=1):
+        # Add to the writer BEFORE stamping. pypdf 7.0.0 removed merging into a page that
+        # is not attached to a writer (PageObject.replace_contents raises DeprecationError:
+        # "Attach the page to the writer first"), which silently broke every stamp here.
+        # add_page returns the writer's own copy; merging into that works on pypdf 4-7.
+        new_page = writer.add_page(page)
         if idx in pages:
-            size = (float(page.mediabox.width), float(page.mediabox.height))
+            size = (float(new_page.mediabox.width), float(new_page.mediabox.height))
             if size not in overlay_cache:
                 overlay_pdf = PdfReader(io.BytesIO(build_overlay(args, *size)))
                 overlay_cache[size] = overlay_pdf.pages[0]
             stamp = overlay_cache[size]
-            if args.under:
-                page.merge_page(stamp, over=False)
-            else:
-                page.merge_page(stamp)
-        writer.add_page(page)
+            new_page.merge_page(stamp, over=not args.under)
     with open(args.output, "wb") as fh:
         writer.write(fh)
     print(json.dumps({"output": args.output, "stamped_pages": sorted(pages),

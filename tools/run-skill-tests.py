@@ -208,7 +208,11 @@ def _command(suite):
         node = shutil.which("node")
         if not node:
             return None, "node not found on PATH — cannot run this suite"
-        return [node, "--test", *[f.name for f in suite.files]], None
+        # --test-reporter=tap is REQUIRED, not cosmetic: node's default reporter is
+        # version- and TTY-dependent (newer node emits the 'spec' format, 'i pass 53',
+        # with no '# pass N' line), and classify() reads the TAP counters. Without this
+        # the suite passes, exits 0, and is still reported FAIL on the newer runtime.
+        return [node, "--test", "--test-reporter=tap", *[f.name for f in suite.files]], None
     if suite.kind == "sh":
         bash = _bash()
         if not bash:
@@ -268,7 +272,13 @@ def classify(suite, rc, out):
             f"      {ln[:300]}" for ln in fail_lines[:25]
         )
     if summary is None:
-        return False, no_summary
+        # rc was 0, so the suite itself is fine and only the summary could not be parsed
+        # (a runner/reporter format change). Carry the output tail or this failure is
+        # unactionable in CI, which is how the node reporter change stayed a mystery.
+        tail = [ln.strip() for ln in out.splitlines() if ln.strip()][-5:]
+        if not tail:
+            return False, no_summary + " (no output at all)"
+        return False, no_summary + "\n" + "\n".join(f"      {ln[:300]}" for ln in tail)
     if passed == 0:
         return False, f"{note} — 0 tests passed, so this suite verified nothing"
     if skipped:

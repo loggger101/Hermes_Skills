@@ -132,6 +132,12 @@ def run(label, args, cwd=REPO, may_skip=False, timeout=300):
     note = ""
     if proc.returncode != 0:
         for ln in tail:
+            # Skip the mutation gates' own '[OK] ... is FATAL' receipts: they report a
+            # CAUGHT defect, so matching one shows a passing check as the failure note and
+            # hides the real cause. (This masked the node-reporter break in the skill-test
+            # gate as '[OK] E1 empty scan is FATAL' — a line from a check that passed.)
+            if ln.lstrip().startswith(("[OK]", "[PASS]")):
+                continue
             if any(k in ln for k in ("FATAL", "DRIFT", "BROKEN", "ERROR", "Errors:")):
                 note = ln.strip()
                 break

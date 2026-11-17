@@ -1,6 +1,6 @@
 # CODE-INDEX
 
-Flat index of all **205 code files** (53,431 lines total) in this second brain — one line each, grep-friendly.
+Flat index of all **205 code files** (53,448 lines total) in this second brain — one line each, grep-friendly.
 Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate with `python tools/gen-code-index.py`.
 
 ## autonomous-ai-agents/hermes-agent
@@ -206,7 +206,7 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `productivity/pdf/scripts/pdf_read.py` (script, python, 153 lines) — Read a PDF: per-page text, tables, metadata, or form fields. JSON to stdout.
 - `productivity/pdf/scripts/pdf_secure.py` (script, python, 71 lines) — Encrypt or decrypt a PDF with passwords (AES-256 via pypdf)
 - `productivity/pdf/scripts/pdf_split.py` (script, python, 84 lines) — Extract page ranges from a PDF, optionally rotating and/or compressing pages.
-- `productivity/pdf/scripts/pdf_stamp.py` (script, python, 143 lines) — Stamp text or an image at coordinates onto selected PDF pages
+- `productivity/pdf/scripts/pdf_stamp.py` (script, python, 144 lines) — Stamp text or an image at coordinates onto selected PDF pages
 - `productivity/pdf/scripts/pdf_watermark.py` (script, python, 51 lines) — Stamp/watermark every page of a PDF with page 1 of another PDF.
 - `productivity/pdf/scripts/_raster.py` (shared helper, python, 76 lines) — Shared page rasterizer with a fallback chain: pypdfium2 -> pdftoppm
 - `productivity/pdf/tests/test_pdf_skill.py` (test, python, 414 lines) — End-to-end tests for the pdf skill helper scripts. No network required.
@@ -362,10 +362,10 @@ Format: ``- `path` (kind, lang, N lines) — purpose _(owner)_``. Regenerate wit
 - `tools/mutation-test-skilltest-gate.py` (repo tooling, python, 233 lines) — Mutation self-test for run-skill-tests.py, the runner behind CI's skill-tests job
 - `tools/regen-dependency-map.py` (repo tooling, python, 140 lines) — Regenerate DEPENDENCY.md from live related_skills frontmatter (same format as repo convention).
 - `tools/run-self-tests.py` (repo tooling, python, 327 lines) — Discovery-based runner for the skill self-test harnesses (*_verify.py)
-- `tools/run-skill-tests.py` (repo tooling, python, 354 lines) — Discover and run every test suite that ships inside a skill, one command
+- `tools/run-skill-tests.py` (repo tooling, python, 364 lines) — Discover and run every test suite that ships inside a skill, one command
 - `tools/sweep-reference-reachability.py` (repo tooling, python, 121 lines) — Occasional instrument: is every references/*.md reachable through its OWNING skill?
 - `tools/sync-hermes-skills.py` (repo tooling, python, 1290 lines)
-- `tools/verify-all.py` (repo tooling, python, 589 lines) — Run every health gate in this repo and report one verdict
+- `tools/verify-all.py` (repo tooling, python, 595 lines) — Run every health gate in this repo and report one verdict
 
 ---
 *205 code files: 119 scripts, 8 shared helpers, 38 tests. Keep in sync when adding/removing/renaming code (conventions: README 'Verification' section + tools/audit-skills.py).*
