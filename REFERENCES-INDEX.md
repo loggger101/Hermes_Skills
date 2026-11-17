@@ -1,6 +1,6 @@
 # REFERENCES-INDEX
 
-Flat index of all **560 reference documents** in this second brain — one line each, grep-friendly.
+Flat index of all **561 reference documents** in this second brain — one line each, grep-friendly.
 Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/gen-references-index.py`.
 
 ## autonomous-ai-agents/autonomous-loop-design
@@ -35,6 +35,7 @@ Format: ``- `path` — purpose _(owner skill)_``. Regenerate with `python tools/
 ## autonomous-ai-agents/cross-harness-skill-porting
 
 - `autonomous-ai-agents/cross-harness-skill-porting/references/cross-harness-skill-porting.md` — Cross-Harness Skill Porting — making one skill corpus auto-trigger on N agent runtimes
+- `autonomous-ai-agents/cross-harness-skill-porting/references/harness-loader-constraints.md` — Per-harness SKILL.md loading rules (roots, listing truncation, drop-vs-degrade conditions, size budgets) measured by NVIDIA/SkillEvaluator harness profiles, plus a 2026-11-16 audit of this machine's two skill trees against them.
 
 ## autonomous-ai-agents/dynamic-workflow
 
