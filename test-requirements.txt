@@ -1,6 +1,6 @@
 # Test dependencies for the skill test suites that ship in this repo:
 #   productivity/docx/tests        (29 tests)  -> python-docx, pytest
-#   productivity/pdf/tests         (21 tests)  -> reportlab, pdfplumber, pypdf, Pillow, pypdfium2
+#   productivity/pdf/tests         (22 tests)  -> reportlab, pdfplumber, pypdf, Pillow, pypdfium2
 #   productivity/powerpoint/tests  (21 tests)  -> python-pptx (+ lxml via it), pytest
 #   productivity/xlsx/tests        (12 tests)  -> openpyxl, pytest
 #   creative/comfyui/tests         (117 tests) -> requests; everything else stdlib
@@ -16,13 +16,26 @@
 # comfyui 109 passed + 8 skipped. All pure wheels (no poppler binary needed;
 # pypdfium2 covers the rasterization tests). CI (.github/workflows/ci.yml)
 # installs exactly this file -- keep it in sync when adding test deps.
+#
+# FLOORS ARE A CLAIM, AND ONLY pypdf's HAS BEEN TESTED (2026-11-16).
+# `pypdf>=4.0` was never true: measured per release, the pdf suite fails on 4.3.1 (pypdf 4.x
+# hands back raw UTF-16 bytes instead of decoded metadata strings, and --clear-meta crashes)
+# and passes from 5.0.0 on -- there is no release between the two, so 5.0 is the exact floor.
+# Verified by running the suite against 4.3.1 (2 failed), 5.0.0, 5.9.0, 6.14.2 and 7.1.0
+# (22 passed each). The floor is now what was measured.
+#   Every OTHER floor in this file is still just the version that happened to be current on
+#   2026-09-09. Treat them as untested until someone runs the suite against each one.
+# No upper bounds on purpose: an open range is what caught pypdf 7.0.0 removing the API
+# pdf_stamp.py used (merging into a page not attached to a writer). CI went red the day it
+# shipped, which is the point. Pin only when a release flips a gate with no code change --
+# the reason ruff is pinned exactly in requirements.txt.
 
 pytest>=7.0
 python-docx>=1.0
 openpyxl>=3.1
 reportlab>=4.0
 pdfplumber>=0.11
-pypdf>=4.0
+pypdf>=5.0  # NOT >=4.0: see the floor note below
 Pillow>=10.0
 pypdfium2>=4.0
 python-pptx>=1.0
