@@ -25,7 +25,7 @@ worth copying as doctrine: *"Pin the commit: the displayed version string did no
 
 | Rule | Behaviour | Consequence for authoring |
 |---|---|---|
-| Roots scanned | `~/.hermes/skills`; project `.hermes/skills` and `.agents/skills`. **Not** `~/.agents/skills` | A user-level install under `~/.agents/skills` is invisible to Hermes even though Codex reads it |
+| Roots scanned | `~/.hermes/skills`; project `.hermes/skills` and `.agents/skills`. **Not** `~/.agents/skills` | A user-level install under `~/.agents/skills` is invisible to Hermes even though Codex reads it. These are the profile's paths, measured on **linux** — on this Windows box the user-level root is `%LOCALAPPDATA%\hermes\skills` and `~/.hermes` is empty, so resolve the root on the OS you are on before concluding a skill "is not installed" |
 | Project trust | Project skills are *invisible until the repo is trusted* (`hermes skills trust`, `skills.trusted_project_dirs`) | "Installed but never triggers" is usually trust, not a bad description. Trust admits **every** project skill in that dir — treat it as running their code as your own |
 | Precedence | project > `~/.hermes/skills` > `skills.create_dir` > `external_dirs` (project wins, 3/3) | A repo-local copy silently shadows a newer user-level one. Check which copy loaded before debugging content |
 | Listing budget (`HM-DESC-60`) | The skill list shows only the first ~60 chars of `description` — **57 + `...`** in 0.16, a word boundary near 59 on main — and the trigger is not in them | Put the trigger ("Use when …") inside the first 57 characters. This is why this repo's audit gate caps descriptions at ≤59 chars: it is load-bearing, not cosmetic |
@@ -111,7 +111,9 @@ Their own example skill scores 88.8/100 (B).
 
 ## Audit of this machine's two trees against these rules (measured 2026-11-16, Windows)
 
-Ran a stdlib scan of both skill roots — live `~/.hermes/skills` and the mirror repo's category dirs
+Ran a stdlib scan of both skill roots — the live Hermes tree at `%LOCALAPPDATA%\hermes\skills`
+(`C:\Users\Owner\AppData\Local\hermes\skills`; this section first named it `~/.hermes/skills`, the
+profile's linux path, which on this box is an **empty** directory) and the mirror repo's category dirs
 (`profiles-export/`, `profile/`, `memories/`, `docs/`, `tools/` excluded as non-loadable):
 
 | Check | Live tree (211 manifests) | Mirror categories (255 manifests) |
@@ -131,6 +133,16 @@ Interpretation, including where the checker is wrong for us:
   exactly 59 — `audit-skills.py` enforces it — and Hermes' listing cut lands at ~57–60. So the gate is
   aligned with a real delivery boundary; do not "relax for readability".
 - **No structural loader defects.** Casing, symlinks, nested manifests, duplicate keys: all clean in both trees.
+- **Independently re-audited, and the root path corrected (2026-11-16, second session).** A separate
+  stdlib scan of the 255 mirror manifests reproduced 0 findings across eight rules — oversized bodies vs
+  the ~95K `skill_view` cliff, nested/symlinked manifests, casing, BOM, tab-indented frontmatter, missing
+  and >59-char descriptions — so the clean verdict holds by two routes. Two corrections fell out of it:
+  the live root is `%LOCALAPPDATA%\hermes\skills`, not `~/.hermes/skills` (empty here), and its manifest
+  count read 212 then 213 minutes apart, so **211 is a timestamp, not a constant** — something writes
+  that tree live. Note also that the Hermes tree is a *copy*, not a link: repo edits never reach it,
+  while Claude Code loads the repo itself through `~/.claude/skills/hermes`, so the two can disagree
+  indefinitely. Largest mirror body measures 79,491 chars (`creative/design-taste-frontend`), below the
+  89,713 recorded for the live tree — another sign the copies have diverged.
 - **`$ARGUMENTS` false positive — triage rule worth keeping.** The only hit in either tree is
   `autonomous-ai-agents/claude-code/SKILL.md`, where `$ARGUMENTS` appears *as documentation about* Claude Code's
   slash-command substitution, inside a fenced example. A harness checker flags it as "not substituted"; the correct
