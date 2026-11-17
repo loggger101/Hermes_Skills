@@ -1,8 +1,8 @@
 # Skill Dependency Map
 
-This document maps the relationship network between all **255 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
+This document maps the relationship network between all **256 Hermes skills** in this repository. It is generated from the `related_skills` field in each skill's frontmatter.
 
-**Network stats:** 825 `related_skills` cross-references across 255 skills (2 skills list no `related_skills` of their own).
+**Network stats:** 827 `related_skills` cross-references across 256 skills (2 skills list no `related_skills` of their own).
 
 ## Hub Skills (referenced by 2+ other skills)
 
@@ -32,12 +32,12 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `hermes-agent-skill-authoring` | 8 | cron-config-authoring, cross-harness-skill-porting, doc-coauthoring, hermes-extensions, mattpocock-code-review, mattpocock-writing-for-agents, skill-intake-and-release, skill-library-audits |
 | `mattpocock-code-review` | 8 | mattpocock-diagnosing-bugs, mattpocock-evidence-driven, mattpocock-security-review, mattpocock-spec-driven-development, mattpocock-subagent-driven-development, mattpocock-tdd, mattpocock-to-tickets, receiving-code-review |
 | `mattpocock-security-review` | 8 | application-threat-model, failure-signal-audit, mattpocock-code-review, mattpocock-evidence-driven, mattpocock-spec-driven-development, rest-api-client, security-audit, semgrep-rule-creator |
+| `astro-toolkit-selection` | 7 | astro-library-notes, economicspace-pipeline, lunar-gis-projections, optimization-modeling-pyomo, rust-crate-picks, space-data-pipelines, space-mission-computation-paradigms |
 | `bit-identity-float-pipelines` | 7 | astro-library-notes, one-authority-per-fact, physics-simulation, pinned-data-contracts, polars-pipelines, python-numerics-gotchas, z3-solver |
 | `github-auth` | 7 | github-code-review, github-issues, github-pr-workflow, github-repo-management, mattpocock-gh-fix-ci, mattpocock-yeet, wizard |
 | `mattpocock-domain-modeling` | 7 | issue-triage-state-machine, living-docs-governance, mattpocock-codebase-design, mattpocock-handoff, mattpocock-spec-driven-development, mattpocock-to-tickets, mattpocock-writing-for-agents |
 | `research-paper-writing` | 7 | ai-research-integrity, autoreason-refinement, conference-review-criteria, grounded-citations, human-evaluation-design, ml-experiment-patterns, paper-citation-workflow |
 | `sql-for-data` | 7 | duckdb-querying, gis-spatial-analysis, polars-pipelines, python-numerics-gotchas, sqlite-queries, system-design-interview-patterns, system-design-scaling |
-| `astro-toolkit-selection` | 6 | astro-library-notes, economicspace-pipeline, lunar-gis-projections, optimization-modeling-pyomo, rust-crate-picks, space-data-pipelines |
 | `docx` | 6 | document-to-action-items, ocr-and-documents, pdf, powerpoint, website-audit, xlsx |
 | `economicspace-pipeline` | 6 | astro-library-notes, astro-toolkit-selection, open-data-catalog-sources, optimization-modeling-pyomo, pinned-data-contracts, space-data-pipelines |
 | `evolutionary-ml` | 6 | algorithms-python-catalog, experiment-design, ml-cv-library-notes, model-export-deploy, physics-simulation, test-infra-ml |
@@ -84,6 +84,7 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `living-docs-governance` | 4 | one-authority-per-fact, repo-agent-instructions, repo-atlas, skill-library-audits |
 | `mattpocock-using-git-worktrees` | 4 | executing-plans, mattpocock-evidence-driven, mattpocock-finishing-a-development-branch, mattpocock-subagent-driven-development |
 | `mcporter` | 4 | fastmcp, hermes-extensions, hermes-integrations, repowise |
+| `optimization-modeling-pyomo` | 4 | algorithms-python-catalog, astro-toolkit-selection, space-mission-computation-paradigms, z3-solver |
 | `p5js` | 4 | hyperframes-video, manim-video, pretext, pygame |
 | `parallel-cli` | 4 | blocked-page-recovery, blogwatcher, competitor-news-monitor, mattpocock-research |
 | `powerpoint` | 4 | docx, ocr-and-documents, pdf, xlsx |
@@ -116,7 +117,6 @@ These are the core skills that serve as building blocks, referenced by many othe
 | `mattpocock-yeet` | 3 | agent-oss-contributions, mattpocock-finishing-a-development-branch, mattpocock-using-git-worktrees |
 | `meeting-action-items` | 3 | decision-questionnaire, document-to-action-items, teams-meeting-pipeline |
 | `one-authority-per-fact` | 3 | ci-gate-design, pinned-data-contracts, repo-agent-instructions |
-| `optimization-modeling-pyomo` | 3 | algorithms-python-catalog, astro-toolkit-selection, z3-solver |
 | `repowise` | 3 | architecture-metrics, fastmcp, repo-atlas |
 | `scholar-evaluation` | 3 | ai-research-integrity, conference-review-criteria, human-evaluation-design |
 | `serving-llms-vllm` | 3 | llama-cpp, unsloth-gguf, weights-and-biases |
@@ -185,6 +185,6 @@ No skill is fully standalone: every skill either lists `related_skills` or is re
 
 ## Related Skills Validation
 
-All 825 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 255 unique skill names.
+All 827 `related_skills` references in the repository resolve to existing in-repo skills. Verified against 256 unique skill names.
 
 ---

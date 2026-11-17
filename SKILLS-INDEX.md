@@ -1,6 +1,6 @@
 # SKILLS-INDEX
 
-Flat index of all **255 skills** in this second brain — one line each, grep-friendly.
+Flat index of all **256 skills** in this second brain — one line each, grep-friendly.
 Format: `- \`skill-name\` — description _(category)_. Regenerate with `python tools/gen-skills-index.py`.
 
 ## apple
@@ -99,6 +99,7 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `python-plotting` — Headless matplotlib/seaborn/plotly: output and traps _(data-science)_
 - `regex-vs-llm-structured-text` — Regex-first parsing; LLM only for flagged edge cases _(data-science)_
 - `space-data-pipelines` — Build space/astro data pipelines with verified API gotchas _(data-science)_
+- `space-mission-computation-paradigms` — Choose trajectory method: closed-form vs propagation etc _(data-science)_
 - `sql-for-data` — SQL for data: queries, joins, windows, aggregation _(data-science)_
 - `z3-solver` — Z3 SMT from Python: sat/unsat handling, sorts, traps _(data-science)_
 
@@ -328,4 +329,4 @@ Format: `- \`skill-name\` — description _(category)_. Regenerate with `python 
 - `web-perf-audit` — Audit a built static site: perf script + UI checklist _(web-development)_
 
 ---
-*255 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*
+*256 skills across 23 categories. Keep in sync when adding/removing/renaming skills (conventions: README 'Verification' section + tools/audit-skills.py).*

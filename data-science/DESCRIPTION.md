@@ -32,6 +32,7 @@ Data science workflows and tools.
 - [`python-plotting`](./python-plotting/SKILL.md) — Headless matplotlib/seaborn/plotly: output and traps
 - [`regex-vs-llm-structured-text`](./regex-vs-llm-structured-text/SKILL.md) — Regex-first parsing; LLM only for flagged edge cases
 - [`space-data-pipelines`](./space-data-pipelines/SKILL.md) — Build space/astro data pipelines with verified API gotchas
+- [`space-mission-computation-paradigms`](./space-mission-computation-paradigms/SKILL.md) — Choose trajectory method: closed-form vs propagation etc
 - [`sql-for-data`](./sql-for-data/SKILL.md) — SQL for data: queries, joins, windows, aggregation
 - [`z3-solver`](./z3-solver/SKILL.md) — Z3 SMT from Python: sat/unsat handling, sorts, traps
 
