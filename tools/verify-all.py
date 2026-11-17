@@ -131,16 +131,22 @@ def run(label, args, cwd=REPO, may_skip=False, timeout=300):
     # defect, which the keyword search would otherwise show as a passing gate's note.
     note = ""
     if proc.returncode != 0:
+        # A line the gate itself marked as the failure beats any keyword match elsewhere.
         for ln in tail:
-            # Skip the mutation gates' own '[OK] ... is FATAL' receipts: they report a
-            # CAUGHT defect, so matching one shows a passing check as the failure note and
-            # hides the real cause. (This masked the node-reporter break in the skill-test
-            # gate as '[OK] E1 empty scan is FATAL' — a line from a check that passed.)
-            if ln.lstrip().startswith(("[OK]", "[PASS]")):
-                continue
-            if any(k in ln for k in ("FATAL", "DRIFT", "BROKEN", "ERROR", "Errors:")):
+            if ln.lstrip().startswith(("[FAIL]", "[FATAL]")):
                 note = ln.strip()
                 break
+        if not note:
+            for ln in tail:
+                # Skip the mutation gates' own '[OK] ... is FATAL' receipts: they report a
+                # CAUGHT defect, so matching one shows a passing check as the failure note
+                # and hides the real cause. (This masked the node-reporter break in the
+                # skill-test gate as '[OK] E1 empty scan is FATAL' — from a check that passed.)
+                if ln.lstrip().startswith(("[OK]", "[PASS]")):
+                    continue
+                if any(k in ln for k in ("FATAL", "DRIFT", "BROKEN", "ERROR", "Errors:")):
+                    note = ln.strip()
+                    break
     if not note and tail:
         note = tail[-1].strip()
     if not tail:

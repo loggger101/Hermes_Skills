@@ -377,6 +377,48 @@ def test_stamp_image(report_pdf: Path, sample_image: Path, workdir: Path):
     assert image_xobjects(after.pages[0]) == image_xobjects(before.pages[0])
 
 
+def test_stamp_preserves_page_order_and_other_pages(workdir: Path, sample_image: Path):
+    """A stamp on one page must not reorder, drop or alter any other page.
+
+    Guards the add_page-before-merge ordering in pdf_stamp.py: pages are now added to the
+    writer first and the writer's own copy is stamped. A regression that reorders those two
+    steps, or that stamps the wrong copy, can still land the stamp correctly while silently
+    dropping or reordering pages -- which no other stamp test would catch.
+    """
+    spec = {
+        "title": "Three Page Doc",
+        "elements": [
+            {"type": "paragraph", "text": "PAGEONEMARK"},
+            {"type": "pagebreak"},
+            {"type": "paragraph", "text": "PAGETWOMARK"},
+            {"type": "pagebreak"},
+            {"type": "paragraph", "text": "PAGETHREEMARK"},
+        ],
+    }
+    spec_path = workdir / "three.json"
+    spec_path.write_text(json.dumps(spec), encoding="utf-8")
+    src = workdir / "three.pdf"
+    run("pdf_create.py", str(spec_path), "-o", str(src))
+    before = json.loads(run("pdf_read.py", str(src), "--text").stdout)["pages"]
+    assert len(before) == 3
+
+    out = workdir / "three_stamped.pdf"
+    run("pdf_stamp.py", str(src), "-o", str(out),
+        "--text", "MIDDLESTAMP", "--x", "100", "--y", "300", "--pages", "2")
+    after = json.loads(run("pdf_read.py", str(out), "--text").stdout)["pages"]
+
+    assert len(after) == 3, "stamping must not add or drop pages"
+    assert "MIDDLESTAMP" in after[1], "the requested page must carry the stamp"
+    assert "MIDDLESTAMP" not in after[0]
+    assert "MIDDLESTAMP" not in after[2]
+    # Order survives, and the untouched pages are returned verbatim.
+    assert "PAGEONEMARK" in after[0]
+    assert "PAGETWOMARK" in after[1]
+    assert "PAGETHREEMARK" in after[2]
+    assert after[0] == before[0]
+    assert after[2] == before[2]
+
+
 # --------------------------------------------------------- metadata + attachments
 
 def test_meta_set_and_clear(report_pdf: Path, workdir: Path):
