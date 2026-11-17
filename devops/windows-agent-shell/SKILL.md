@@ -36,7 +36,7 @@ Collects the shell and text-encoding traps that agent sessions on the owner's Wi
 | Python-written files can end in CRLF, so a `while read` loop carries `\r` into URLs | pipe through `tr -d '\r'` |
 | A global or editable install shadows the repo (an old `spacecost` 0.1.1; a package installed from another clone) | run from the repo root or set `PYTHONPATH=.` / `PYTHONPATH=src`; check `module.__file__` |
 | A written Python version rots (wrong three ways in six days in one repo) | ask the machine: `py -VV` |
-| Interpreter resolution silently rots (Store-stub era vs Hermes-managed CPython) | ask the machine every time: `which python; py -VV`. Re-measured 2026-11-03 on this Owner box: `python`/`python3` = real Hermes-managed 3.14.9 (exit 0), `py` -> system launcher 3.13.9; the old Store-stub exit-49 behavior is gone but can return after Windows updates, and `| tail` hides any non-zero exit |
+| Interpreter resolution silently rots (Store-stub era vs Hermes-managed CPython) | ask the machine every time: `which python; py -VV`. Re-measured 2026-11-16 on this Owner box, in **both** Git Bash and PowerShell: `python`/`python3` resolve to the WindowsApps **Store stub** and fail (exit 49 under Bash, 9009 under PowerShell), `py` -> system launcher 3.13.9 (exit 0). Use `py`, and `sys.executable` from inside code. This row previously recorded the opposite (a 2026-11-03 measurement claiming a real 3.14.9 on `python`) — the stub came back, so the measurement rots in *both* directions: never trust this cell, re-measure. `\| tail` hides any non-zero exit |
 
 ## Verify, don't assume
 
